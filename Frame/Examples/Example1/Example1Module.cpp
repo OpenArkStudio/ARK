@@ -24,6 +24,7 @@
 #include "SDK/Core/AFTimer.hpp"
 #include "SDK/Core/AFCRC.hpp"
 #include "SDK/Core/Common/cronexpr.h"
+#include "SDK/Core/AFCConsistentHash.hpp"
 #include "Example1Module.h"
 
 namespace ark
@@ -40,6 +41,24 @@ namespace ark
         m_pScheduleModule = pPluginManager->FindModule<AFIScheduleModule>();
 
         return true;
+    }
+
+    void TestBasicData()
+    {
+        //Test basic data
+        AFGUID test_id = AFGUID(1);
+
+        //test GUID type
+        AFCData guid_data1(DT_INT64, AFGUID(1));
+        AFCData guid_data2(DT_INT64, AFGUID(0));
+        guid_data1 = guid_data2;
+        AFGUID guid = guid_data1.GetInt64();
+
+        //test string type
+        AFCData data1(DT_STRING, "test1");
+        AFCData data2(DT_STRING, "test2");
+        data1 = data2;
+        const char* str1 = data1.GetString();
     }
 
     void TestDateTime()
@@ -116,11 +135,26 @@ namespace ark
     {
         std::string s = "hello";
         uint16_t crc16 = AFCRC16::Sum(s);
-        std::cout << "CRC16 [" << s << "] -> [" << crc16 << "]" << std::endl;
+        auto log = ARK_FORMAT("CRC16 [{}] -> [{}]", s, crc16);
+        std::cout << log << std::endl;
 
         s = "world";
         uint32_t crc32 = AFCRC32::Sum(s);
-        std::cout << "CRC32 [" << s << "] -> [" << crc32 << "]" << std::endl;
+        log = ARK_FORMAT("CRC16 [{}] -> [{}]", s, crc32);
+        std::cout << log << std::endl;
+    }
+
+    void TestConsistentHashmap()
+    {
+        AFConsistentHashmapType my_hash_map;
+        my_hash_map.insert("hello");
+        my_hash_map.insert("world");
+
+        uint32_t crc32 = AFCRC32::Sum("hello");
+        auto iter = my_hash_map.find(crc32);
+
+        auto log = ARK_FORMAT("find [hello] through CRC32[{}], the result is [{}]", crc32, iter->second);
+        std::cout << log << std::endl;
     }
 
     bool Example1Module::PostInit()
@@ -128,34 +162,21 @@ namespace ark
         std::cout << typeid(Example1Module).name() << ", PostInit" << std::endl;
 
         TestCRC();
+        TestConsistentHashmap();
         //////////////////////////////////////////////////////////////////////////
         //Test guid
         AFGUID id = m_pGUIDModule->CreateGUID();
         std::cout << m_pGUIDModule->ParseUID(id) << std::endl;
 
         //////////////////////////////////////////////////////////////////////////
-        //Test basic data
-        AFGUID test_id = AFGUID(1);
-
-        //test GUID type
-        AFCData guid_data1(DT_INT64, AFGUID(1));
-        AFCData guid_data2(DT_INT64, AFGUID(0));
-        guid_data1 = guid_data2;
-        AFGUID guid = guid_data1.GetInt64();
-
-
-        //test string type
-        AFCData data1(DT_STRING, "test1");
-        AFCData data2(DT_STRING, "test2");
-        data1 = data2;
-        const char* str1 = data1.GetString();
+        TestBasicData();
 
         //////////////////////////////////////////////////////////////////////////
         //Test AFDateTime
-        //TestDateTime();
+        TestDateTime();
         //////////////////////////////////////////////////////////////////////////
         //Test Random
-        //TestRandom();
+        TestRandom();
         //////////////////////////////////////////////////////////////////////////
         //Test log
         //for (int i = 0; i < 1; ++i)
@@ -182,8 +203,7 @@ namespace ark
         //////////////////////////////////////////////////////////////////////////
 
         std::cout << AFDateTime::GetNowTime() << std::endl;
-
-        m_pTimerModule->AddSingleTimer("test", test_id, 2000/*ms*/, 10, this, &Example1Module::TestTimer);
+        m_pTimerModule->AddSingleTimer("test", AFGUID(1111), 2000/*ms*/, 10, this, &Example1Module::TestTimer);
 
         return true;
     }

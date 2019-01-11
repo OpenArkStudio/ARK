@@ -51,7 +51,7 @@ namespace ark
         data.server_bus_id_ = target_bus_id;
         data.endpoint_ = endpoint;
 
-        _tmp_nets.push_back(data);
+        tmp_nets_.push_back(data);
         return true;
     }
 
@@ -222,7 +222,7 @@ namespace ark
     bool AFCNetClientService::GetServerMachineData(const std::string& strServerID, AFCMachineNode& xMachineData)
     {
         uint32_t nCRC32 = AFCRC32::Sum(strServerID);
-        return mxConsistentHash.GetSuitNode(nCRC32, xMachineData);
+        return consistent_hashmap_.GetSuitNode(nCRC32, xMachineData);
     }
 
     void AFCNetClientService::AddServerWeightData(ARK_SHARE_PTR<AFConnectionData>& xInfo)
@@ -236,7 +236,7 @@ namespace ark
             vNode.strIP = xInfo->endpoint_.ip();
             vNode.nPort = xInfo->endpoint_.port();
             vNode.nWeight = EConstDefine_DefaultWeight;
-            mxConsistentHash.Insert(vNode);
+            consistent_hashmap_.Insert(vNode);
         }
     }
 
@@ -250,7 +250,7 @@ namespace ark
             vNode.strIP = xInfo->endpoint_.ip();
             vNode.nPort = xInfo->endpoint_.port();
             vNode.nWeight = EConstDefine_DefaultWeight;
-            mxConsistentHash.Erase(vNode);
+            consistent_hashmap_.Erase(vNode);
         }
     }
 
@@ -314,7 +314,7 @@ namespace ark
 
     void AFCNetClientService::ProcessAddNewNetClient()
     {
-        for (auto& iter : _tmp_nets)
+        for (auto& iter : tmp_nets_)
         {
             const AFConnectionData& connection_data = iter;
             ARK_SHARE_PTR<AFConnectionData> target_connection_data = target_servers_.GetElement(connection_data.server_bus_id_);
@@ -343,7 +343,7 @@ namespace ark
             }
         }
 
-        _tmp_nets.clear();
+        tmp_nets_.clear();
     }
 
     void AFCNetClientService::OnNetMsg(const AFNetMsg* msg, const int64_t session_id)

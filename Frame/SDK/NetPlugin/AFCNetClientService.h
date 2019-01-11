@@ -89,9 +89,9 @@ namespace ark
         AFILogModule* m_pLogModule;
 
         AFMapEx<int, AFConnectionData> target_servers_;
-        AFCConsistentHash mxConsistentHash;
+        AFCConsistentHash consistent_hashmap_;
 
-        std::list<AFConnectionData> _tmp_nets;
+        std::list<AFConnectionData> tmp_nets_;
 
         std::map<int, NET_MSG_FUNCTOR_PTR> net_msg_callbacks_;
         std::list<NET_EVENT_FUNCTOR_PTR> net_event_callbacks_;
