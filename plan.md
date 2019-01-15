@@ -45,9 +45,3 @@
 1. ClearRow的时候后面的行号会变化，所以要考虑要么行号不变，只是置空，要么就得客户端来根据DeleteRow消息同步修改后续的row变化
 2. 现在的ConfigPlugin数据加载有问题
 3. AFMapEx的First Next返回值有问题
-
-## New Direction for other fields
-
-- 修改插件可以执行在指定的线程
-- 修改插件中的模块可以动态注册和卸载
-- 模块的功能可以做同样的事，但是事情的内容/对象有变化(通过配置文件)，做到模块复用
