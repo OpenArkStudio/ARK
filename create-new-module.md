@@ -84,4 +84,23 @@ namespace ark
 
 Module execution flowchart:
 
-![module-flow](/_images/module-flow.png)
+```plantuml
+@startuml
+
+start
+  :Init;
+  :PostInit;
+  :CheckConfig;
+  :PreUpdate;
+
+while (Check exit?) is (no)
+  :Update;
+endwhile(yes)
+
+  :PreShut;
+  :Shut;
+
+stop
+
+@enduml
+```

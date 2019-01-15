@@ -1,6 +1,7 @@
 # Directory structure
 
-?> ARK directory sturcture
+> [!NOTE]
+> ARK directory sturcture
 
 ```
 |-- Bin                         #binary dir

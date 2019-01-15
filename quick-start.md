@@ -71,7 +71,8 @@ cmake -G "Visual Studio 15 Win64" ..
 5. Run `ARK\Bin\resource\tool\gen-config.bat` to generate configuration files
 6. Run the binary file by `Bin/rund.bat`
 
-!> If you are using VS2017, please change `%VS150COMNTOOLS%` in `Dep/build_dep.bat` to `YOUR-COMPILER-PATH`.</br>
+> [!NOTE]
+> If you are using VS2017, please change `%VS150COMNTOOLS%` in `Dep/build_dep.bat` to `YOUR-COMPILER-PATH`.</br>
 If you DO NOT install **Win10 SDK**, please use **CMake** to create new solution.
 
 ### linux
@@ -98,11 +99,13 @@ cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug ..
 make
 ```
 
-!> If you need build release version, please add `-DCMAKE_BUILD_TYPE=release` in cmake command.</br>
+> [!NOTE]
+> If you need build release version, please add `-DCMAKE_BUILD_TYPE=release` in cmake command.</br>
 To accelerate the building speed, you can use `make -j` to run multiple complication jobs simultaneously. However, that may exhaust the memory.
 
 3. Run `ARK\Bin\resource\tool\gen-config.sh` to generate configuration files
 
-!> *Cuz our Tools is written by C#, so please generate your configuration in Windows, then transfer to Linux. we plan to use .Net Core to create a new version in Linux.*
+> [!WARNING] 
+> *Cuz our Tools is written by C#, so please generate your configuration in Windows, then transfer them to Linux. we plan to use .Net Core to create a new version in Linux.*
 
 4. Run the binary file by `Bin/rund.sh`

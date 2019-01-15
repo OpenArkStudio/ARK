@@ -72,7 +72,8 @@ cmake -G "Visual Studio 15 Win64" ..
 5. 运行 `ARK\Bin\resource\tool\gen-config.bat` 生成配置文件
 6. 运行脚本 `Bin/rund.bat`
 
-!> 请提前在`Dep/build_dep.bat`中设置`%VS150COMNTOOLS%`变量为`YOUR-COMPILER-PATH` 或 增加系统环境变量.</br>
+> [!NOTE]
+> 请提前在`Dep/build_dep.bat`中设置`%VS150COMNTOOLS%`变量为`YOUR-COMPILER-PATH` 或 增加系统环境变量.</br>
 如果你没有安装 **Win10 SDK**, 请使用 **CMake** 创建解决方案文件.
 
 ### linux
@@ -99,11 +100,13 @@ cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug ..
 make
 ```
 
-!> 如果你想编译`release`版本, 请使用`-DCMAKE_BUILD_TYPE=release`参数.</br>
+> [!NOTE]
+> 如果你想编译`release`版本, 请使用`-DCMAKE_BUILD_TYPE=release`参数.</br>
 为了加速编译, 你可以使用 `make -j` 开启多核编译. 不过可能会消耗完你的系统内存.
 
 3. 运行 `ARK\Bin\resource\tool\gen-config.sh` 生成配置文件
 
-!> *因为我们的工具是使用C#开发的, 所以暂时请在Windows环境下生成后再放入Linux系统对应目录. 我们计划使用`.Net Core`开发一个跨平台的工具.*
+> [!WARNING]
+> *因为我们的工具是使用C#开发的, 所以暂时请在Windows环境下生成后再放入Linux系统对应目录. 我们计划使用`.Net Core`开发一个跨平台的工具.*
 
 4. 运行脚本 `Bin/rund.sh`

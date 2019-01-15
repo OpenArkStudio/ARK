@@ -80,4 +80,5 @@ The plug-in installs `Install`, and registers the modules in the plug-in one by 
 
 The plug-in uninstall, and the modules in the plug-in are de-registered from the plug-in one by one through the `DeregisterModule` function.
 
-!> Note: There are two class names in module registration and de-registration, the front is `interface class` and the `concrete class` after.
+> [!ATTENTION]
+> There are two class names in module registration and de-registration, the front is `interface class` and the `concrete class` after.

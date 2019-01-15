@@ -82,4 +82,23 @@ namespace ark
 
 模块执行流程图:
 
-![module-flow](../_images/module-flow.png)
+```plantuml
+@startuml
+
+start
+  :Init;
+  :PostInit;
+  :CheckConfig;
+  :PreUpdate;
+
+while (Check exit?) is (no)
+  :Update;
+endwhile(yes)
+
+  :PreShut;
+  :Shut;
+
+stop
+
+@enduml
+```

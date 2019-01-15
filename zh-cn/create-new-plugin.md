@@ -79,4 +79,5 @@ namespace ark
 插件安装`Install`, 将插件内的模块通过`RegisterModule`一个个注册到插件内.  
 插件卸载`Uninstall`, 将插件内的模块通过`DeregisterModule`一个个从插件内反注册.
 
-!> 注意: 这里模块`module`注册和反注册中的两个类名, 前面为Interface类, 后面为Concrete类.
+> [!ATTENTION]
+> 注意: 这里模块`module`注册和反注册中的两个类名, 前面为`Interface类`, 后面为`Concrete类`.
