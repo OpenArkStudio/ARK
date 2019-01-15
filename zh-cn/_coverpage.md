@@ -1,4 +1,4 @@
-![logo](../_images/logo.png ':size=339x100')
+![logo](../_images/logo.png ':size=233x108')
 
 # <small>0.9.2 pre-release</small>
 
