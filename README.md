@@ -1,4 +1,4 @@
-![logo](https://github.com/QuadHex/ARK/raw/gh-pages/_images/logo.png)
+![logo](https://raw.githubusercontent.com/QuadHex/ARK/gh-pages/_images/ark_logo.svg?sanitize=true)
 
 ![GitHub release](https://img.shields.io/github/release/QuadHex/ARK.svg?style=flat-square)
 [![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows-green.svg?style=flat-square)](https://github.com/QuadHex/ARK)
