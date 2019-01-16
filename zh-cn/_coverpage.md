@@ -1,4 +1,4 @@
-![logo](../_images/logo.png ':size=233x108')
+![logo](../_images/ark_logo.svg ':size=233x108')
 
 # <small>0.9.2 pre-release</small>
 
