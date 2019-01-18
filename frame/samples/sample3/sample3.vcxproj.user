@@ -4,7 +4,7 @@
     <LocalDebuggerCommand>$(SolutionDir)..\bin\bin\app_d.exe</LocalDebuggerCommand>
     <LocalDebuggerWorkingDirectory>$(SolutionDir)..\bin\bin\</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>--busid=1.1.103.1 --name=Example3 --plugin=..\plugin_conf\Example3.plugin --logpath=..\binlog</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>--busid=1.1.103.1 --name=sample3 --plugin=..\plugin_conf\sample3.plugin --logpath=..\binlog</LocalDebuggerCommandArguments>
     <LocalDebuggerEnvironment>PATH=$(SolutionDir)..\bin\lib\</LocalDebuggerEnvironment>
   </PropertyGroup>
 </Project>
