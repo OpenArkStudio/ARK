@@ -30,6 +30,7 @@ include_directories(
     ${ROOT_DIR}/dep/protobuf/src
     ${ROOT_DIR}/dep/brynet/src
     ${ROOT_DIR}/frame
+    ${ROOT_DIR}/frame/base
 )
 
 if(UNIX)

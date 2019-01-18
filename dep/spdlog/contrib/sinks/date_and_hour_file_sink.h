@@ -84,7 +84,7 @@ struct default_date_and_hour_file_name_calculator
         auto dir_path = fmt::format(SPDLOG_FILENAME_T("{}{}{:04d}{:02d}{:02d}{}"), pre_dir, spdlog::details::os::folder_sep, tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, spdlog::details::os::folder_sep);
 
         //CHECK if directory is already existed
-        char tmp_dir_path[MAX_PATH] = { 0 };
+        char tmp_dir_path[4096] = { 0 };
         for (size_t i = 0; i < dir_path.length(); ++i)
         {
             tmp_dir_path[i] = dir_path[i];
