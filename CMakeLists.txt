@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.0)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-project(ARK)
+project(ark)
 
 #3rd cmake modules
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
@@ -26,10 +26,10 @@ set(ROOT_DIR ${PROJECT_SOURCE_DIR})
 
 include_directories(
     ${ROOT_DIR}
-    ${ROOT_DIR}/Dep
-    ${ROOT_DIR}/Dep/protobuf/src
-    ${ROOT_DIR}/Dep/brynet/src
-    ${ROOT_DIR}/Frame
+    ${ROOT_DIR}/dep
+    ${ROOT_DIR}/dep/protobuf/src
+    ${ROOT_DIR}/dep/brynet/src
+    ${ROOT_DIR}/frame
 )
 
 if(UNIX)
@@ -44,9 +44,9 @@ if(UNIX)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DNDEBUG")
     endif()
     set(LDFLAGS "$ENV{LDFLAGS} -stdlib=libc++")
-    set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib/ ${ROOT_DIR}/Bin/lib/)
-    set(BIN_OUTPUT_DIR ${ROOT_DIR}/Bin/bin/)
-    set(LIB_OUTPUT_DIR ${ROOT_DIR}/Bin/lib)
+    set(DEP_LIB_DIR ${ROOT_DIR}/dep/lib/ ${ROOT_DIR}/bin/lib/)
+    set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/bin/)
+    set(LIB_OUTPUT_DIR ${ROOT_DIR}/bin/lib)
     add_definitions(-Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wno-strict-aliasing -Wno-pmf-conversions)
     
     if(ENABLE_COVERAGE)
@@ -57,9 +57,9 @@ else()
     #windows
     add_compile_options("/std:c++latest")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
-    set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib ${ROOT_DIR}/Bin/lib/)
-    set(BIN_OUTPUT_DIR ${ROOT_DIR}/Bin/bin/)
-    set(LIB_OUTPUT_DIR ${ROOT_DIR}/Bin/lib)
+    set(DEP_LIB_DIR ${ROOT_DIR}/dep/lib ${ROOT_DIR}/bin/lib/)
+    set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/bin/)
+    set(LIB_OUTPUT_DIR ${ROOT_DIR}/bin/lib)
     add_definitions(
         -DWIN
         -D_WINDOWS
@@ -90,8 +90,9 @@ message("CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
 find_package(codecov)
 ##################################################################
 message("Start to build all...")
-add_subdirectory(Frame/Launcher)
-add_subdirectory(Frame/SDK)
-add_subdirectory(Frame/Server)
-#add_subdirectory(Frame/Examples)
-#add_subdirectory(Frame/Tools)
+add_subdirectory(frame/app)
+add_subdirectory(frame/proto)
+add_subdirectory(frame/sdk)
+add_subdirectory(frame/server)
+#add_subdirectory(frame/samples)
+#add_subdirectory(frame/tools)

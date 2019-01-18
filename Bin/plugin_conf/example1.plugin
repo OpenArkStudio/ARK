@@ -1,7 +1,0 @@
-<xml>
-	<plugins path="../lib/">
-		<plugin name="AFUtilityPlugin" />
-		<plugin name="Example1Plugin" />
-	</plugins>
-	<res path="../resource" />
-</xml>

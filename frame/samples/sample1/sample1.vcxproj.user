@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)..\bin\bin\</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommand>$(SolutionDir)..\bin\bin\app_d.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>--busid=1.1.0.1 --name=sample1 --plugin=..\plugin_conf\sample1.plugin --logpath=..\binlog</LocalDebuggerCommandArguments>
+    <LocalDebuggerEnvironment>PATH=$(SolutionDir)..\bin\lib\</LocalDebuggerEnvironment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerCommand>$(SolutionDir)..\bin\bin\app.exe</LocalDebuggerCommand>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>--busid=1.1.0.1 --name=sample1 --plugin=..\plugin_conf\sample1.plugin --logpath=..\binlog"</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>PATH=$(SolutionDir)..\bin\lib\</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+</Project>
