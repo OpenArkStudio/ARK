@@ -29,7 +29,7 @@ addons:
 before_install:
   # run build_dep.sh
   - pwd
-  - cd Dep
+  - cd dep
   - chmod -R 755 build_dep.sh
   - ./build_dep.sh
   - cd ..
