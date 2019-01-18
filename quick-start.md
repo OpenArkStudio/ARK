@@ -47,10 +47,10 @@ cd Dep
 build_dep.bat
 ```
 
-3. Open the solution: `Frame/ARK.sln`
-4. Build the solution`ARK.sln`
-5. Run `ARK\Bin\resource\tool\gen-config.bat` to generate configuration files
-6. Run the binary file by `Bin/rund.bat`
+3. Open the solution: `frame/ark.sln`
+4. Build the solution`ark.sln`
+5. Run `ark\bin\resource\tool\gen-config.bat` to generate configuration files
+6. Run the binary file by `bin/rund.bat`
 
 Using CMake
 
@@ -59,7 +59,7 @@ Using CMake
 
 ```batch
 cd path/to/ARK
-cd Dep
+cd dep
 build_dep.bat
 cd ../
 md build
@@ -67,12 +67,12 @@ cd build
 cmake -G "Visual Studio 15 Win64" ..
 ```
 
-4. Start `ARK.sln`
-5. Run `ARK\Bin\resource\tool\gen-config.bat` to generate configuration files
-6. Run the binary file by `Bin/rund.bat`
+4. Start `ark.sln`
+5. Run `ARK\bin\resource\tool\gen-config.bat` to generate configuration files
+6. Run the binary file by `bin/rund.bat`
 
 > [!NOTE]
-> If you are using VS2017, please change `%VS150COMNTOOLS%` in `Dep/build_dep.bat` to `YOUR-COMPILER-PATH`.</br>
+> If you are using VS2017, please change `%VS150COMNTOOLS%` in `dep/build_dep.bat` to `YOUR-COMPILER-PATH`.</br>
 If you DO NOT install **Win10 SDK**, please use **CMake** to create new solution.
 
 ### linux
@@ -91,7 +91,7 @@ Using CMake
 2. Use bash
 
 ```shell
-cd Dep
+cd dep
 ./build_dep.sh
 cd ../
 mkdir build && cd build
@@ -103,9 +103,9 @@ make
 > If you need build release version, please add `-DCMAKE_BUILD_TYPE=release` in cmake command.</br>
 To accelerate the building speed, you can use `make -j` to run multiple complication jobs simultaneously. However, that may exhaust the memory.
 
-3. Run `ARK\Bin\resource\tool\gen-config.sh` to generate configuration files
+3. Run `ARK\bin\resource\tool\gen-config.sh` to generate configuration files
 
 > [!WARNING] 
 > *Cuz our Tools is written by C#, so please generate your configuration in Windows, then transfer them to Linux. we plan to use .Net Core to create a new version in Linux.*
 
-4. Run the binary file by `Bin/rund.sh`
+4. Run the binary file by `bin/rund.sh`
