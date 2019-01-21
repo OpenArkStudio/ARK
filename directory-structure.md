@@ -4,7 +4,7 @@
 > ARK directory sturcture
 
 ```
-|-- Bin                         #binary dir
+|-- bin                         #binary dir
 |   |-- bin                     #excutable files dir
 |   |-- binlog                  #log dir
 |   |-- bus_conf                #bus config dir
@@ -20,43 +20,34 @@
 |   |   |-- script              #lua script(for now, not used)
 |   |-- tools                   #transfer excels to xmls
 |-- cmake                       #3rd cmake dependencies
-|-- Dep                         #3rd libraries
+|-- dep                         #3rd libraries
 |   |-- args                    #parse command line arguments
 |   |-- common                  #some OS mini hpp files
 |   |-- rapidxml                #operate xml files
 |   |-- spdlog                  #log library
-|-- Frame                       #source code
-|   |-- Common                  #some common header files
-|   |-- Examples                #examples
-|   |-- Launcher                #the executor which launch plugins
-|   |-- SDK                     #general plugins and base libs
-|   |   |-- BusPlugin           #bus plugin
-|   |   |-- Core                #core library, supply some base structures
-|   |   |-- Interface           #SDK interfaces
-|   |   |-- KernelPlugin        #Kernel plugin, include Entity management and data management, very important
-|   |   |-- NetPlugin           #network plugin, supply TCP http websock server and client
-|   |   |-- Proto               #self protocol files
-|   |   |   |-- cpp
-|   |   |   |-- cs
-|   |   |   |-- js
-|   |   |   |-- proto
-|   |   |   |-- proto-gen
-|   |   |-- UtilityPlugin       #some useful module, like guid, log, etc.
-|   |-- Server                  #server plugins
-|   |   |-- DBPlugin            #database proxy plugin
-|   |   |-- DirPlugin           #directory plugin
-|   |   |-- GamePlugin          #game plugin, main game logic
-|   |   |-- Interface           #server interfaces
-|   |   |-- LoginPlugin         #login plugin
-|   |   |-- LogPlugin           #remote log plugin
-|   |   |-- MasterPlugin        #master plugin, manage all other processes
-|   |   |-- OSSPlugin           #operating support system plugin, just for game operators
-|   |   |-- ProxyPlugin         #net traffic bridge for client and server-side
-|   |   |-- RouterPlugin        #transfer net traffic to right processes
-|   |   |-- WorldPlugin         #world plugin, manage zone processes, like game, proxy, login, etc.
-|   |-- Tools                   #tools for this project
-|       |-- Conv2UTF8           #transfer files to UTF8
-|       |-- FileProcessor       #transfer excel files to xml
-|-- Plugins                     #3rd plugins, like mysql, redis, etc.
-`-- Test                        #some test files(for now, not used)
+|-- frame                       #source code
+|   |-- app                     #the executor which launch plugins
+|   |-- base                    #some common header files
+|   |-- interface               #interface files
+|   |-- proto                   #self protocol files
+|   |-- samples                 #samples
+|   |-- sdk                     #general plugins and base libs
+|   |   |-- bus                 #bus plugin
+|   |   |-- kernel              #Kernel plugin, include Entity management and data management, very important
+|   |   |-- net                 #Network plugin, supply TCP http websock server and client
+|   |   |-- utility             #some useful module, like guid, log, etc.
+|   |-- server                  #server plugins
+|   |   |-- db                  #database proxy plugin
+|   |   |-- dir                 #directory plugin
+|   |   |-- game                #game plugin, main game logic
+|   |   |-- login               #login plugin
+|   |   |-- log                 #remote log plugin
+|   |   |-- master              #master plugin, manage all other processes
+|   |   |-- oss                 #operating support system plugin, just for game operators
+|   |   |-- proxy               #net traffic bridge for client and server-side
+|   |   |-- router              #transfer net traffic to right processes
+|   |   |-- world               #world plugin, manage zone processes, like game, proxy, login, etc.
+|   |-- tools                   #tools for this project
+|       |-- excel2xml           #transfer excel files to xml
+|-- plugins                     #3rd plugins, like mysql, redis, etc.
 ```
