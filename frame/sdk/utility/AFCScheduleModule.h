@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "base/AFCronScheduler.hpp"
+//#include "base/AFCronScheduler.hpp"
 #include "interface/AFIScheduleModule.h"
 
 namespace ark
@@ -41,7 +41,7 @@ namespace ark
         bool AddSchedule(const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR_PTR cb) override;
 
     private:
-        std::shared_ptr<AFCronSheduler> mxCronSheduler{ nullptr };
+        //std::shared_ptr<AFCronSheduler> mxCronSheduler{ nullptr };
     };
 
 }

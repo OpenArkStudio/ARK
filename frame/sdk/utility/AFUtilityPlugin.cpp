@@ -22,7 +22,7 @@
 #include "AFCGUIDModule.h"
 #include "AFCLogModule.h"
 #include "AFCTimerModule.h"
-#include "AFCScheduleModule.h"
+//#include "AFCScheduleModule.h"
 
 namespace ark
 {
@@ -47,12 +47,12 @@ namespace ark
         RegisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
         RegisterModule<AFIGUIDModule, AFCGUIDModule>();
         RegisterModule<AFITimerModule, AFCTimerModule>();
-        RegisterModule<AFIScheduleModule, AFCScheduleModule>();
+        //RegisterModule<AFIScheduleModule, AFCScheduleModule>();
     }
 
     void AFUtilityPlugin::Uninstall()
     {
-        DeregisterModule<AFIScheduleModule, AFCScheduleModule>();
+        //DeregisterModule<AFIScheduleModule, AFCScheduleModule>();
         DeregisterModule<AFITimerModule, AFCGUIDModule>();
         DeregisterModule<AFIGUIDModule, AFCGUIDModule>();
         DeregisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
