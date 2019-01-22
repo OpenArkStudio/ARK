@@ -1,4 +1,4 @@
-﻿/*
+/*
 * This source file is part of Ark
 * For the latest info, see https://github.com/QuadHex
 *

@@ -658,7 +658,7 @@ namespace ark
         {
             if (args.Length != 1)
             {
-                Console.WriteLine("Usage: FileProcessor.exe resource_path, expected the path of resource folder");
+                Console.WriteLine("Usage: excel2xml resource_path, expected the path of resource folder");
                 Console.WriteLine("Press any key to quit");
                 Console.ReadKey();
                 return;

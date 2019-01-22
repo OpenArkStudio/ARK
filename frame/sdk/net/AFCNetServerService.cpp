@@ -1,4 +1,4 @@
-﻿#include "interface/AFIPluginManager.h"
+#include "interface/AFIPluginManager.h"
 #include "AFCTCPServer.h"
 #include "AFCNetServerService.h"
 
