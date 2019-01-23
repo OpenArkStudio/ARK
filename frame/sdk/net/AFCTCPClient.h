@@ -39,7 +39,7 @@ namespace ark
 
             brynet::net::base::InitSocket();
             tcp_service_ptr_ = brynet::net::TcpService::Create();
-            //虽然SyncConnectSocket可以自动创建connector,但是当多个client同时共用connector的时候，就用的上了
+            //this could let you use common connector when multi-client craeted
             connector_ptr_ = brynet::net::AsyncConnector::Create();
         }
 

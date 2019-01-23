@@ -55,7 +55,7 @@ namespace ark
     void AFCLogModule::CreateLogger()
     {
         std::vector<spdlog::sink_ptr> sinks_vec;
-        std::string log_name = ARK_FORMAT("{}{}{}.log", pPluginManager->GetLogPath(), ark_folder_sep, pPluginManager->AppName());
+        std::string log_name = ARK_FORMAT("{}{}{}.log", pPluginManager->GetLogPath(), ARK_FOLDER_SEP, pPluginManager->AppName(), AFMisc::Bus2Str(pPluginManager->BusID()));
         auto date_and_hour_sink = std::make_shared<spdlog::sinks::date_and_hour_file_sink_mt>(log_name);
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 #if ARK_PLATFORM == PLATFORM_WIN

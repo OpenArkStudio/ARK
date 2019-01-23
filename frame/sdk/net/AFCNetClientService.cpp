@@ -107,7 +107,7 @@ namespace ark
             {
             case AFConnectionData::DISCONNECT:
                 {
-                    //TODO:这里不应该释放_net_client_ptr
+                    //TO CHECK & TEST:do not need to release net_client_ptr_
                     connection_data->net_state_ = AFConnectionData::RECONNECT;
                     if (connection_data->net_client_ptr_ != nullptr)
                     {
@@ -136,7 +136,7 @@ namespace ark
                 break;
             case AFConnectionData::RECONNECT:
                 {
-                    //计算时间
+                    //RECONNECT 30s/times
                     if ((connection_data->last_active_time_ + 30 * AFTimespan::SECOND_MS) >= m_pPluginManager->GetNowTime())
                     {
                         break;
@@ -227,7 +227,7 @@ namespace ark
 
     void AFCNetClientService::AddServerWeightData(ARK_SHARE_PTR<AFConnectionData>& xInfo)
     {
-        //根据权重创建节点
+        //create virtual node by weight
         for (int i = 0; i < EConstDefine_DefaultWeight; ++i)
         {
             AFCMachineNode vNode(i);
@@ -320,7 +320,7 @@ namespace ark
             ARK_SHARE_PTR<AFConnectionData> target_connection_data = target_servers_.GetElement(connection_data.server_bus_id_);
             if (nullptr == target_connection_data)
             {
-                //正常，添加新服务器
+                //add new server
                 target_connection_data = std::make_shared<AFConnectionData>();
 
                 *target_connection_data = connection_data;
@@ -411,9 +411,9 @@ namespace ark
             //Create single cluster client with bus id and url
             m_pNetServiceManagerModule->CreateClusterClient(AFHeadLength::SS_HEAD_LENGTH, report.bus_id(), report.url());
 
-            //管理为三个数值，channel zone proc
+            //manage save zone by channel & zone & proc
             AFBusAddr bus_addr(report.bus_id());
-            bus_addr.inst_id = 0;//前三个数值相同表示同一个区
+            bus_addr.inst_id = 0;//same zone when three front number is same
 
             auto iter = reg_servers_.find(bus_addr.bus_id);
             if (iter != reg_servers_.end())

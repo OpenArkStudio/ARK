@@ -149,6 +149,8 @@ static size_t strlcpy(char* dst, const char* src, size_t siz)
 struct HINSTANCE__;
 typedef struct HINSTANCE__* hInstance;
 
+#define ARK_FOLDER_SEP '\\'
+
 #elif ARK_PLATFORM == PLATFORM_UNIX
 
 //Linux
@@ -170,6 +172,8 @@ typedef struct HINSTANCE__* hInstance;
 #define DYNLIB_LOAD(a) dlopen(a, RTLD_LAZY | RTLD_GLOBAL)
 #define DYNLIB_GETSYM(a, b) dlsym(a, b)
 #define DYNLIB_UNLOAD(a) dlclose(a)
+
+#define ARK_FOLDER_SEP '/'
 
 #elif ARK_PLATFORM == PLATFORM_APPLE
 
@@ -314,13 +318,6 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
 
 #define ARK_FORMAT(my_fmt, ...)             fmt::format(my_fmt, ##__VA_ARGS__);
 #define ARK_FORMAT_FUNCTION(my_fmt, ...)    fmt::format(std::string("[{}:{}]") + my_fmt, ARK_FUNCTION_LINE, ##__VA_ARGS__);
-
-// folder separator
-#if ARK_PLATFORM == PLATFORM_WIN
-ARK_CONSTEXPR static const char ark_folder_sep = '\\';
-#else
-ARK_CONSTEXPR static const char ark_folder_sep = '/';
-#endif
 
 //clear player data time
 #define CLEAR_HOUR 5

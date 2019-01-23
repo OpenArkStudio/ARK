@@ -210,20 +210,20 @@ namespace ark
 #if ARK_PLATFORM == PLATFORM_WIN
         static bool GetLocalIP(char* ip)
         {
-            //1.获取主机名
+            //1.get host name
             char hostname[256] = {0};
             int ret = gethostname(hostname, sizeof(hostname));
             if (ret == SOCKET_ERROR)
             {
                 return false;
             }
-            //2.获取主机ip
+            //2.get host ip
             HOSTENT* host = gethostbyname(hostname);
             if (host == nullptr)
             {
                 return false;
             }
-            //3.转化为char*并拷贝返回
+            //3.transfer to char pointer
             strcpy(ip, inet_ntoa(*(in_addr*)*host->h_addr_list));
             return true;
         }
