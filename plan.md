@@ -32,7 +32,7 @@
 
 ## Part finished
 
-- [x] spdlog增加按照文件夹/大小/小时滚动的sink(*已经修改了一部分，**还需要进一步修改成tlog的格式，binlog/1001/20180627/game1_hour.log***)
+- [x] spdlog增加按照文件夹/大小/小时滚动的sink(*已经修改了一部分，还需要进一步修改成tlog的格式，/data/binlog/1001/20180627/game1_hour.log*)
 - [x] 增加consistent_hash_map(**以增加, 还未启用**)
 
 ## Finished
