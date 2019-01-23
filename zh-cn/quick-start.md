@@ -16,6 +16,7 @@ svn checkout https://github.com/ArkGame/ARK
 | [google protobuf](https://github.com/google/protobuf) | 3.5.x | [Google License](https://github.com/protocolbuffers/protobuf/blob/master/LICENSE) |
 | [args](https://github.com/Taywee/args) | 6.2.0 | [MIT](https://github.com/Taywee/args/blob/master/LICENSE) |
 | [rapidxml](http://rapidxml.sourceforge.net) | 1.13 | [LICENSE](http://rapidxml.sourceforge.net/license.txt) |
+| [filesystem](https://github.com/wjakob/filesystem) | master | [self license](https://github.com/wjakob/filesystem/blob/master/LICENSE) |
 
 ## 支持的编译器
 
