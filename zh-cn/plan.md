@@ -2,6 +2,7 @@
 
 ## High priority
 
+- [ ] 调整代码风格统一
 - [ ] excel格式修改为一张excel里放所有的schema,其他配置表分开来写,兼容现在的格式
 - [ ] 修改进程启动优先链接logserver，如果logserver连不上，则直接不能启动，这样就可以从一开始就能打log了
 - [ ] spdlog升级
