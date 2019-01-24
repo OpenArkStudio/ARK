@@ -12,6 +12,7 @@
 - [ ] 服务中心注册(考虑etcd/zookeeper来做)
 - [ ] 定时log和心跳改为timer方式，不要再是用update和HeartBeat了
 - [ ] 修改配置打包工具(用Excel编辑，生成`csv`来给工程读取。为解决多人协作冲突, excel可以用名字后缀区分，类如Item.A.xlsx Item.B.xlsx)
+- [ ] 插件加载顺序(通过配置中的字段, 或者通过配置的顺序)
 
 ## Low priority
 
