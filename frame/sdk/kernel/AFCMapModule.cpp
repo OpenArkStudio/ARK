@@ -115,7 +115,7 @@ namespace ark
 
     bool AFCMapModule::CreateMap(const int map_id)
     {
-        ARK_SHARE_PTR<AFMapInfo>& pMapInfo = map_infos_.find_value(map_id);
+        ARK_SHARE_PTR<AFMapInfo> pMapInfo = map_infos_.find_value(map_id);
         if (pMapInfo != nullptr)
         {
             return false;
@@ -172,7 +172,7 @@ namespace ark
     int AFCMapModule::GetMapOnlineCount(const int map_id)
     {
         int online_count = 0;
-        ARK_SHARE_PTR<AFMapInfo>& pMapInfo = map_infos_.find_value(map_id);
+        ARK_SHARE_PTR<AFMapInfo> pMapInfo = map_infos_.find_value(map_id);
         if (pMapInfo == nullptr)
         {
             return online_count;

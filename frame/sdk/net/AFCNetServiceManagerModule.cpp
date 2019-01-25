@@ -196,7 +196,8 @@ namespace ark
         }
 
         int self_bus_id = m_pBusModule->GetSelfBusID();
-        return net_bus_relations_.erase(std::make_pair(self_bus_id, client_bus_id));
+        net_bus_relations_.erase(std::make_pair(self_bus_id, client_bus_id));
+        return true;
     }
 
     AFINet* AFCNetServiceManagerModule::GetNetConnectionBus(int src_bus, int target_bus)

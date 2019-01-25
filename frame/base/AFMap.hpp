@@ -50,7 +50,7 @@ namespace ark
     class AFMapBase
     {
     public:
-        using k_type = typename KEY;
+        using k_type = KEY;
         using v_type = typename AFMapValueType<VALUE, is_smart_ptr>::value_type;
         using map_type = std::map<k_type, v_type>;
         using value_type = typename map_type::value_type;
@@ -104,15 +104,15 @@ namespace ark
             return nodes_.end();
         }
 
-        const_iterator begin() const
-        {
-            return nodes_.cbegin();
-        }
+        //const_iterator begin() const
+        //{
+        //    return nodes_.cbegin();
+        //}
 
-        const_iterator end() const
-        {
-            return nodes_.cend();
-        }
+        //const_iterator end() const
+        //{
+        //    return nodes_.cend();
+        //}
 
         reverse_iterator rbegin()
         {
@@ -124,15 +124,15 @@ namespace ark
             return nodes_.rend();
         }
 
-        const_reverse_iterator rbegin() const
-        {
-            return nodes_.crbegin();
-        }
+        //const_reverse_iterator rbegin() const
+        //{
+        //    return nodes_.crbegin();
+        //}
 
-        const_reverse_iterator rend() const
-        {
-            return nodes_.crend();
-        }
+        //const_reverse_iterator rend() const
+        //{
+        //    return nodes_.crend();
+        //}
 
         void clear()
         {
@@ -146,10 +146,8 @@ namespace ark
             {
                 return iter->second;
             }
-            else
-            {
-                return nullptr;
-            }
+
+            return nullptr;
         }
 
     private:
