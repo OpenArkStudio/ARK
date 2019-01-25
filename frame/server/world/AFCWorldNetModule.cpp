@@ -608,7 +608,7 @@ namespace ark
 
     ARK_SHARE_PTR<AFServerData> AFCWorldNetModule::GetSuitProxyForEnter()
     {
-        return mProxyMap.First();
+        return mProxyMap.begin()->second;
     }
 
     AFINetServerService* AFCWorldNetModule::GetNetServer()

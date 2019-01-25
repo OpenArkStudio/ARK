@@ -46,7 +46,7 @@ namespace ark
         bool PreShut() override;
 
         ///////////////////////////////////////////////////////////////////////
-        ARK_SHARE_PTR<AFIEntity>& GetEntity(const AFGUID& self) override;
+        ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& self) override;
         ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg) override;
 
         bool DestroyAll() override;
@@ -119,7 +119,7 @@ namespace ark
         AFIConfigModule* m_pConfigModule = nullptr;
         AFIGUIDModule* m_pGUIDModule = nullptr;
 
-        AFArrayMap<std::string, int32_t> mInnerProperty;
+        AFArrayMap<std::string, int32_t> inner_nodes_;
         AFMapEx<AFGUID, AFIEntity> entities_;
     };
 

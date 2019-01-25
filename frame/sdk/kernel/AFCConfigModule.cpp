@@ -30,7 +30,7 @@ namespace ark
 
     bool AFCConfigModule::Init()
     {
-        m_pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
+        m_pMetaClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
         return Load();
     }
 
@@ -41,14 +41,16 @@ namespace ark
 
     bool AFCConfigModule::Load()
     {
-        if (mbLoaded)
+        if (loaded_)
         {
             return false;
         }
 
-        for (ARK_SHARE_PTR<AFIMetaClass> pLogicClass = m_pClassModule->First(); pLogicClass != nullptr; pLogicClass = m_pClassModule->Next())
+        auto all_metaclasses = m_pMetaClassModule->GetAllMetaClass();
+        for (auto iter : all_metaclasses)
         {
-            const std::string& res_path = pLogicClass->GetResPath();
+            auto pMetaClass = iter.second;
+            const std::string& res_path = pMetaClass->GetResPath();
 
             if (res_path.empty())
             {
@@ -64,58 +66,49 @@ namespace ark
             //support for unlimited layer class inherits
             rapidxml::xml_node<>* root = xDoc.first_node();
 
-            for (rapidxml::xml_node<>* attrNode = root->first_node(); attrNode != nullptr; attrNode = attrNode->next_sibling())
+            for (rapidxml::xml_node<>* attr_node = root->first_node(); attr_node != nullptr; attr_node = attr_node->next_sibling())
             {
-                if (!Load(attrNode, pLogicClass))
+                if (!Load(attr_node, pMetaClass))
                 {
                     return false;
                 }
             }
 
-            mbLoaded = true;
+            loaded_ = true;
         }
 
         return true;
     }
 
-    bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIMetaClass> pLogicClass)
+    bool AFCConfigModule::Load(rapidxml::xml_node<>* attr_node, ARK_SHARE_PTR<AFIMetaClass> pMetaClass)
     {
-        //attrNode is the node of a object
-        std::string strConfigID = attrNode->first_attribute("Id")->value();
+        ARK_ASSERT_RET_VAL(attr_node != nullptr, false);
 
-        if (strConfigID.empty())
-        {
-            ARK_ASSERT(0, strConfigID, __FILE__, __FUNCTION__);
-            return false;
-        }
+        std::string config_id = attr_node->first_attribute("Id")->value();
+        ARK_ASSERT_RET_VAL(!config_id.empty(), false);
+        ARK_ASSERT_RET_VAL(!ExistConfig(config_id), false);
 
-        if (ExistConfig(strConfigID))
-        {
-            ARK_ASSERT(0, strConfigID, __FILE__, __FUNCTION__);
-            return false;
-        }
-
-        ElementConfigInfo* pElementInfo = ARK_NEW(ElementConfigInfo);
-        mxElementConfigMap.AddElement(strConfigID, pElementInfo);
+        AFConfigInfo* pConfigInfo = ARK_NEW(AFConfigInfo);
+        all_configs_.AddElement(config_id, pConfigInfo);
 
         //can find all config id by class name
-        pLogicClass->AddConfigName(strConfigID);
+        pMetaClass->AddConfigName(config_id);
 
-        ARK_SHARE_PTR<AFIDataNodeManager> pElementNodeManager = pElementInfo->GetNodeManager();
-        ARK_SHARE_PTR<AFIDataTableManager> pElementTableManager = pElementInfo->GetTableManager();
+        ARK_SHARE_PTR<AFIDataNodeManager> pElementNodeManager = pConfigInfo->GetNodeManager();
+        ARK_SHARE_PTR<AFIDataTableManager> pElementTableManager = pConfigInfo->GetTableManager();
 
         //1.add DataNode
         //2.set the default value of them
-        ARK_SHARE_PTR<AFIDataNodeManager> pClassNodeManager = pLogicClass->GetNodeManager();
-        ARK_SHARE_PTR<AFIDataTableManager> pClassTableManager = pLogicClass->GetTableManager();
+        ARK_SHARE_PTR<AFIDataNodeManager> pClassNodeManager = pMetaClass->GetNodeManager();
+        ARK_SHARE_PTR<AFIDataTableManager> pClassTableManager = pMetaClass->GetTableManager();
 
         if (pClassNodeManager != nullptr && pClassTableManager != nullptr)
         {
-            auto pBaseClass = m_pClassModule->GetElement("IObject");
-            if (nullptr != pBaseClass)
+            auto pBaseClass = m_pMetaClassModule->GetMetaClass("IObject");
+            if (pBaseClass != nullptr)
             {
                 ARK_SHARE_PTR<AFIDataNodeManager> pBaseClassNodeManager = pBaseClass->GetNodeManager();
-                if (nullptr != pBaseClassNodeManager)
+                if (pBaseClassNodeManager != nullptr)
                 {
                     for (size_t i = 0; i < pBaseClassNodeManager->GetNodeCount(); ++i)
                     {
@@ -142,7 +135,7 @@ namespace ark
         }
 
         //3.set the config value to them
-        for (rapidxml::xml_attribute<>* pAttribute = attrNode->first_attribute(); pAttribute; pAttribute = pAttribute->next_attribute())
+        for (rapidxml::xml_attribute<>* pAttribute = attr_node->first_attribute(); pAttribute; pAttribute = pAttribute->next_attribute())
         {
             const char* pstrConfigName = pAttribute->name();
             const char* pstrConfigValue = pAttribute->value();
@@ -216,7 +209,7 @@ namespace ark
             }
         }
 
-        pElementNodeManager->SetNodeString("ClassName", pLogicClass->GetClassName().c_str());
+        pElementNodeManager->SetNodeString("ClassName", pMetaClass->GetClassName().c_str());
 
         return true;
     }
@@ -265,31 +258,31 @@ namespace ark
 
     AFDataNode* AFCConfigModule::GetNode(const std::string& config_id, const std::string& node_name)
     {
-        ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(config_id);
+        AFConfigInfo* pElementInfo = all_configs_.GetElement(config_id);
         return ((pElementInfo != nullptr) ? pElementInfo->GetNodeManager()->GetNode(node_name.c_str()) : nullptr);
     }
 
     ARK_SHARE_PTR<AFIDataNodeManager> AFCConfigModule::GetNodeManager(const std::string& config_id)
     {
-        ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(config_id);
+        AFConfigInfo* pElementInfo = all_configs_.GetElement(config_id);
         return ((pElementInfo != nullptr) ? pElementInfo->GetNodeManager() : nullptr); //warning
     }
 
     ARK_SHARE_PTR<AFIDataTableManager> AFCConfigModule::GetTableManager(const std::string& config_id)
     {
-        ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(config_id);
+        AFConfigInfo* pElementInfo = all_configs_.GetElement(config_id);
         return ((pElementInfo != nullptr) ? pElementInfo->GetTableManager() : nullptr); //warning
     }
 
     bool AFCConfigModule::ExistConfig(const std::string& config_id)
     {
-        ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(config_id);
+        AFConfigInfo* pElementInfo = all_configs_.GetElement(config_id);
         return (pElementInfo != nullptr);
     }
 
     bool AFCConfigModule::ExistConfig(const std::string& class_name, const std::string& config_id)
     {
-        ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(config_id);
+        AFConfigInfo* pElementInfo = all_configs_.GetElement(config_id);
 
         if (pElementInfo == nullptr)
         {
@@ -304,9 +297,9 @@ namespace ark
 
     bool AFCConfigModule::Clear()
     {
-        mxElementConfigMap.Clear();
+        all_configs_.Clear();
 
-        mbLoaded = false;
+        loaded_ = false;
         return true;
     }
 

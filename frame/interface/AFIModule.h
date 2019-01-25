@@ -71,18 +71,6 @@ namespace ark
             return true;
         }
 
-        virtual bool StartReLoadState()
-        {
-            mbReloading = true;
-            return true;
-        }
-
-        virtual bool EndReLoadState()
-        {
-            mbReloading = false;
-            return true;
-        }
-
         virtual AFIPluginManager* GetPluginManager() const final
         {
             return pPluginManager;
@@ -93,18 +81,10 @@ namespace ark
             pPluginManager = p;
         }
 
-        bool Loading() const
-        {
-            return mbReloading;
-        }
-
         std::string strName;
 
     protected:
         AFIPluginManager* pPluginManager{ nullptr };
-
-    private:
-        bool mbReloading{ false };
     };
 
 }

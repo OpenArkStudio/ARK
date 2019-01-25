@@ -77,15 +77,12 @@ namespace ark
         virtual bool InitDataTableManager(ARK_SHARE_PTR<AFIDataTableManager>& pTableManager) = 0;
     };
 
-    class AFIMetaClassModule
-        : public AFIModule,
-          public AFMapEx<std::string, AFIMetaClass>
+    class AFIMetaClassModule : public AFIModule
     {
     public:
         virtual ~AFIMetaClassModule() {}
 
         virtual bool Load() = 0;
-        virtual bool Clear() = 0;
 
         template<typename BaseType>
         bool AddClassCallBack(const std::string& class_name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&))
@@ -128,6 +125,9 @@ namespace ark
         virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& class_name) = 0;
         virtual bool InitDataNodeManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager) = 0;
         virtual bool InitDataTableManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataTableManager>& pTableManager) = 0;
+
+        virtual std::shared_ptr<AFIMetaClass> GetMetaClass(const std::string& class_name) = 0;
+        virtual AFMapEx<std::string, AFIMetaClass>& GetAllMetaClass() = 0;
     };
 
 }

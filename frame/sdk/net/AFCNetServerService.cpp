@@ -134,11 +134,11 @@ namespace ark
         //Add server_bus_id -> client_bus_id relationship with net
         m_pNetServiceManagerModule->AddNetConnectionBus(pb_msg.bus_id(), m_pNet);
         //////////////////////////////////////////////////////////////////////////
-        ARK_SHARE_PTR<AFServerData> server_data_ptr = reg_clients_.GetElement(pb_msg.bus_id());
+        ARK_SHARE_PTR<AFServerData> server_data_ptr = reg_clients_.find_value(pb_msg.bus_id());
         if (nullptr == server_data_ptr)
         {
             server_data_ptr = std::make_shared<AFServerData>();
-            reg_clients_.AddElement(pb_msg.bus_id(), server_data_ptr);
+            reg_clients_.insert(pb_msg.bus_id(), server_data_ptr);
         }
 
         server_data_ptr->Init(session_id, pb_msg);
@@ -151,12 +151,12 @@ namespace ark
     {
         AFMsg::msg_ss_server_notify msg;
 
-        reg_clients_.DoEveryElement([&](AFMapEx<int, AFServerData>::PTRTYPE & server_data)
+        for (auto iter : reg_clients_)
         {
+            auto server_data = iter.second;
             AFMsg::msg_ss_server_report* report = msg.add_server_list();
             *report = server_data->server_info_;
             m_pMsgModule->SendSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, msg, session_id);
-            return true;
-        });
+        }
     }
 }

@@ -40,23 +40,23 @@ namespace ark
         const int MONTH_DAY[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
         AFTimespan()
-            : _span(0)
+            : span_(0)
         {}
 
         explicit AFTimespan(TimeDiff milliseconds)
-            : _span(milliseconds)
+            : span_(milliseconds)
         {}
 
         AFTimespan(int seconds, int milliseconds)
-            : _span(TimeDiff(seconds) * SECOND_MS + milliseconds)
+            : span_(TimeDiff(seconds) * SECOND_MS + milliseconds)
         {}
 
         AFTimespan(int days, int hours, int seconds, int milliseconds)
-            : _span(TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS + TimeDiff(hours) * HOUR_MS + TimeDiff(days) * DAY_MS)
+            : span_(TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS + TimeDiff(hours) * HOUR_MS + TimeDiff(days) * DAY_MS)
         {}
 
         AFTimespan(const AFTimespan& timespan)
-            : _span(timespan._span)
+            : span_(timespan.span_)
         {}
 
         ~AFTimespan() {}
@@ -65,186 +65,186 @@ namespace ark
         {
             if (this != &timespan)
             {
-                this->_span = timespan._span;
+                this->span_ = timespan.span_;
             }
             return *this;
         }
 
         AFTimespan& operator=(TimeDiff microseconds)
         {
-            _span = microseconds;
+            span_ = microseconds;
             return *this;
         }
 
         AFTimespan& assign(int days, int hours, int minutes, int seconds, int milliseconds = 0)
         {
-            _span = TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS + TimeDiff(hours) * HOUR_MS + TimeDiff(days) * DAY_MS;
+            span_ = TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS + TimeDiff(hours) * HOUR_MS + TimeDiff(days) * DAY_MS;
             return *this;
         }
 
         AFTimespan& assign(int seconds, int milliseconds = 0)
         {
-            _span = TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS;
+            span_ = TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS;
             return *this;
         }
 
         void swap(AFTimespan& timespan)
         {
-            std::swap(_span, timespan._span);
+            std::swap(span_, timespan.span_);
         }
 
         inline bool operator == (const AFTimespan& ts) const
         {
-            return _span == ts._span;
+            return span_ == ts.span_;
         }
 
         inline bool operator != (const AFTimespan& ts) const
         {
-            return _span != ts._span;
+            return span_ != ts.span_;
         }
 
         inline bool operator > (const AFTimespan& ts) const
         {
-            return _span > ts._span;
+            return span_ > ts.span_;
         }
 
         inline bool operator >= (const AFTimespan& ts) const
         {
-            return _span >= ts._span;
+            return span_ >= ts.span_;
         }
 
         inline bool operator < (const AFTimespan& ts) const
         {
-            return _span < ts._span;
+            return span_ < ts.span_;
         }
 
         inline bool operator <= (const AFTimespan& ts) const
         {
-            return _span <= ts._span;
+            return span_ <= ts.span_;
         }
 
         inline bool operator == (TimeDiff milliseconds) const
         {
-            return _span == milliseconds;
+            return span_ == milliseconds;
         }
 
         inline bool operator != (TimeDiff milliseconds) const
         {
-            return _span != milliseconds;
+            return span_ != milliseconds;
         }
 
         inline bool operator > (TimeDiff milliseconds) const
         {
-            return _span > milliseconds;
+            return span_ > milliseconds;
         }
 
         inline bool operator >= (TimeDiff milliseconds) const
         {
-            return _span >= milliseconds;
+            return span_ >= milliseconds;
         }
 
         inline bool operator < (TimeDiff milliseconds) const
         {
-            return _span < milliseconds;
+            return span_ < milliseconds;
         }
 
         inline bool operator <= (TimeDiff milliseconds) const
         {
-            return _span <= milliseconds;
+            return span_ <= milliseconds;
         }
 
         inline AFTimespan operator + (const AFTimespan& d) const
         {
-            return AFTimespan(_span + d._span);
+            return AFTimespan(span_ + d.span_);
         }
 
         inline AFTimespan operator - (const AFTimespan& d) const
         {
-            return AFTimespan(_span - d._span);
+            return AFTimespan(span_ - d.span_);
         }
 
         inline AFTimespan& operator += (const AFTimespan& d)
         {
-            _span += d._span;
+            span_ += d.span_;
             return *this;
         }
 
         inline AFTimespan& operator -= (const AFTimespan& d)
         {
-            _span -= d._span;
+            span_ -= d.span_;
             return *this;
         }
 
         inline AFTimespan operator + (TimeDiff milliseconds) const
         {
-            return AFTimespan(_span + milliseconds);
+            return AFTimespan(span_ + milliseconds);
         }
 
         inline AFTimespan operator - (TimeDiff milliseconds) const
         {
-            return AFTimespan(_span - milliseconds);
+            return AFTimespan(span_ - milliseconds);
         }
 
         inline AFTimespan& operator += (TimeDiff milliseconds)
         {
-            _span += milliseconds;
+            span_ += milliseconds;
             return *this;
         }
 
         inline AFTimespan& operator -= (TimeDiff milliseconds)
         {
-            _span -= milliseconds;
+            span_ -= milliseconds;
             return *this;
         }
 
         inline int days() const
         {
-            return int(_span / DAY_MS);
+            return int(span_ / DAY_MS);
         }
 
         inline int hours() const
         {
-            return int((_span / HOUR_MS) % 24);
+            return int((span_ / HOUR_MS) % 24);
         }
 
         inline int totalHours() const
         {
-            return int((_span / HOUR_MS));
+            return int((span_ / HOUR_MS));
         }
 
         inline int minutes() const
         {
-            return int((_span / MINUTE_MS) % 60);
+            return int((span_ / MINUTE_MS) % 60);
         }
 
         inline int totalMinutes() const
         {
-            return int(_span / MINUTE_MS);
+            return int(span_ / MINUTE_MS);
         }
 
         inline int seconds() const
         {
-            return int((_span / SECOND_MS) % 60);
+            return int((span_ / SECOND_MS) % 60);
         }
 
         inline int totalSeconds() const
         {
-            return int(_span / SECOND_MS);
+            return int(span_ / SECOND_MS);
         }
 
         inline int milliseconds() const
         {
-            return int(_span % 1000);
+            return int(span_ % 1000);
         }
 
         inline TimeDiff totalMilliseconds() const
         {
-            return _span;
+            return span_;
         }
 
     private:
         //milliseconds
-        TimeDiff _span;
+        TimeDiff span_;
     };
 
     ////////////////////////////////////////////////////////////////////////
@@ -297,7 +297,7 @@ namespace ark
         //Creates a timestamp from the given time value
         //(milliseconds since midnight, January 1, 1970).
         explicit AFDateTime(TimeVal tv)
-            : _ts(tv)
+            : ts_(tv)
         {
         }
 
@@ -312,25 +312,22 @@ namespace ark
             tmp_tm.tm_sec = second;
             tmp_tm.tm_isdst = -1;
             time_t time = std::mktime(&tmp_tm);
-            _ts = TimeVal(time * Resolution()) + tzd * AFTimespan::HOUR_MS;
+            ts_ = TimeVal(time * Resolution()) + tzd * AFTimespan::HOUR_MS;
         }
 
         //Copy constructor
         AFDateTime(const AFDateTime& other)
         {
-            _ts = other._ts;
+            ts_ = other.ts_;
         }
         //Destroys the timestamp
-        ~AFDateTime()
-        {
-
-        }
+        ~AFDateTime() = default;
 
         AFDateTime& operator = (const AFDateTime& other)
         {
             if (this != &other)
             {
-                _ts = other._ts;
+                ts_ = other.ts_;
             }
 
             return *this;
@@ -338,13 +335,13 @@ namespace ark
 
         AFDateTime& operator = (TimeVal& tv)
         {
-            _ts = tv;
+            ts_ = tv;
             return *this;
         }
         /// Swaps the Timestamp with another one.
         void swap(AFDateTime& timestamp)
         {
-            std::swap(_ts, timestamp._ts);
+            std::swap(ts_, timestamp.ts_);
         }
         /// Updates the Timestamp with the current time.
         void update()
@@ -361,7 +358,7 @@ namespace ark
             ts.LowPart = ft.dwLowDateTime;
             ts.HighPart = ft.dwHighDateTime;
             ts.QuadPart -= epoch.QuadPart;
-            _ts = ts.QuadPart / (10 * Resolution());
+            ts_ = ts.QuadPart / (10 * Resolution());
 #else
             struct timeval tv;
 
@@ -370,59 +367,59 @@ namespace ark
                 throw std::invalid_argument("cannot get time of day");
             }
 
-            _ts = TimeVal(tv.tv_sec) * Resolution() + tv.tv_usec / Resolution();
+            ts_ = TimeVal(tv.tv_sec) * Resolution() + tv.tv_usec / Resolution();
 #endif
         }
 
         bool operator == (const AFDateTime& ts) const
         {
-            return _ts == ts._ts;
+            return ts_ == ts.ts_;
         }
 
         bool operator != (const AFDateTime& ts) const
         {
-            return _ts != ts._ts;
+            return ts_ != ts.ts_;
         }
 
         bool operator > (const AFDateTime& ts) const
         {
-            return _ts > ts._ts;
+            return ts_ > ts.ts_;
         }
 
         bool operator >= (const AFDateTime& ts) const
         {
-            return _ts >= ts._ts;
+            return ts_ >= ts.ts_;
         }
 
         bool operator < (const AFDateTime& ts) const
         {
-            return _ts < ts._ts;
+            return ts_ < ts.ts_;
         }
 
         bool operator <= (const AFDateTime& ts) const
         {
-            return _ts <= ts._ts;
+            return ts_ <= ts.ts_;
         }
 
         AFDateTime  operator + (TimeDiff d) const
         {
-            return AFDateTime(_ts + d);
+            return AFDateTime(ts_ + d);
         }
 
         AFDateTime  operator - (TimeDiff d) const
         {
-            return AFDateTime(_ts - d);
+            return AFDateTime(ts_ - d);
         }
 
         AFDateTime& operator += (TimeDiff d)
         {
-            _ts += d;
+            ts_ += d;
             return *this;
         }
 
         AFDateTime& operator -= (TimeDiff d)
         {
-            _ts -= d;
+            ts_ -= d;
             return *this;
         }
 
@@ -438,7 +435,7 @@ namespace ark
 
         TimeDiff operator - (const AFDateTime& ts) const
         {
-            return _ts - ts._ts;
+            return ts_ - ts.ts_;
         }
 
         AFDateTime& operator += (const AFTimespan& span)
@@ -456,14 +453,14 @@ namespace ark
         //Resolution is one second.
         std::time_t GetTime() const
         {
-            return std::time_t(_ts / Resolution());
+            return std::time_t(ts_ / Resolution());
         }
 
         //Returns the timestamp expressed in milliseconds
         //since the Unix epoch, midnight, January 1, 1970.
         TimeVal GetMilliseconds()
         {
-            return _ts;
+            return ts_;
         }
 
         //Returns the time elapsed since the time denoted by
@@ -487,7 +484,7 @@ namespace ark
         //Same as epochMicroseconds().
         TimeVal Raw() const
         {
-            return _ts;
+            return ts_;
         }
 
         //Returns utc tm data
@@ -772,7 +769,7 @@ namespace ark
             epoch.HighPart = 0x019DB1DE;
 
             ULARGE_INTEGER ts;
-            ts.QuadPart = _ts * 10 * Resolution();
+            ts.QuadPart = ts_ * 10 * Resolution();
             ts.QuadPart += epoch.QuadPart;
             fileTimeLow = ts.LowPart;
             fileTimeHigh = ts.HighPart;
@@ -781,7 +778,7 @@ namespace ark
 
     private:
         //milliseconds
-        TimeVal _ts;
+        TimeVal ts_;
     };
 
     inline void swap(AFDateTime& d1, AFDateTime& d2)

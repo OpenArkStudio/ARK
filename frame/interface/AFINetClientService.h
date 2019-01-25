@@ -82,7 +82,7 @@ namespace ark
         virtual void Update() = 0;
         virtual void Shutdown() = 0;
 
-        virtual const ARK_SHARE_PTR<AFConnectionData>& GetServerNetInfo(const int nServerID) = 0;
+        virtual ARK_SHARE_PTR<AFConnectionData> GetServerNetInfo(const int nServerID) = 0;
         virtual AFMapEx<int, AFConnectionData>& GetServerList() = 0;
 
         virtual bool RegMsgCallback(const int nMsgID, const NET_MSG_FUNCTOR_PTR& cb) = 0;

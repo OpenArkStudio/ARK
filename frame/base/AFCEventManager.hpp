@@ -35,7 +35,7 @@ namespace ark
         AFCEventManager() = delete;
 
         explicit AFCEventManager(AFGUID self) :
-            mSelf(self)
+            self_(self)
         {
         }
 
@@ -46,71 +46,72 @@ namespace ark
 
         void Update() override
         {
-            int nEvent = 0;
-            for (bool bRet = mRemoveEventListEx.First(nEvent); bRet; bRet = mRemoveEventListEx.Next(nEvent))
+            int event_id = 0;
+            for (bool bRet = need_remove_events_.First(event_id); bRet; bRet = need_remove_events_.Next(event_id))
             {
-                mObjectEventInfoMapEx.RemoveElement(nEvent);
+                event_callbacks_.erase(event_id);
             }
 
-            mRemoveEventListEx.ClearAll();
+            need_remove_events_.ClearAll();
         }
 
-        bool AddEventCallBack(const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb) override
+        bool AddEventCallBack(const int event_id, const EVENT_PROCESS_FUNCTOR_PTR& cb) override
         {
-            ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
+            auto pEventInfo = event_callbacks_.find_value(event_id);
             if (pEventInfo == nullptr)
             {
-                pEventInfo = std::make_shared<AFList<EVENT_PROCESS_FUNCTOR_PTR>>();
-                mObjectEventInfoMapEx.AddElement(nEventID, pEventInfo);
+                auto pEventInfo = std::make_shared<AFList<EVENT_PROCESS_FUNCTOR_PTR>>();
+                return event_callbacks_.insert(event_id, pEventInfo).second;
             }
-
-            return pEventInfo->Add(cb);
+            else
+            {
+                return pEventInfo->Add(cb);
+            }
         }
 
-        bool RemoveEventCallBack(const int nEventID) override
+        bool RemoveEventCallBack(const int event_id) override
         {
-            mRemoveEventListEx.Add(nEventID);
+            need_remove_events_.Add(event_id);
             return true;
         }
 
-        bool DoEvent(const int nEventID, const AFIDataList& valueList) override
+        bool DoEvent(const int event_id, const AFIDataList& args) override
         {
-            ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
-
-            if (pEventInfo == nullptr)
+            auto event_info = event_callbacks_.find_value(event_id);
+            if (event_info == nullptr)
             {
                 return false;
             }
 
             EVENT_PROCESS_FUNCTOR_PTR cb;
-            for (bool bRet = pEventInfo->First(cb); bRet; bRet = pEventInfo->Next(cb))
+            for (bool bRet = event_info->First(cb); bRet; bRet = event_info->Next(cb))
             {
-                (*cb)(mSelf, nEventID, valueList);
+                (*cb)(self_, event_id, args);
             }
 
             return true;
         }
 
     protected:
-        bool HasEventCallBack(const int nEventID) override
+        bool HasEventCallBack(const int event_id) override
         {
-            ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
-            return pEventInfo != nullptr;
+            auto event_info = event_callbacks_.find_value(event_id);
+            return (event_info != nullptr);
         }
 
         bool Shut()
         {
-            mRemoveEventListEx.ClearAll();
-            mObjectEventInfoMapEx.ClearAll();
+            need_remove_events_.ClearAll();
+            event_callbacks_.clear();
 
             return true;
         }
 
     private:
-        AFGUID mSelf;
+        AFGUID self_;
 
-        AFList<int> mRemoveEventListEx;
-        AFMapEx<int, AFList<EVENT_PROCESS_FUNCTOR_PTR>> mObjectEventInfoMapEx;
+        AFList<int> need_remove_events_;
+        AFMapEx<int, AFList<EVENT_PROCESS_FUNCTOR_PTR>> event_callbacks_;
     };
 
 }

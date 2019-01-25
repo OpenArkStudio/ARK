@@ -31,7 +31,7 @@ namespace ark
 
     AFCMetaClassModule::~AFCMetaClassModule()
     {
-        ClearAll();
+        metaclasses_.clear();
     }
 
     bool AFCMetaClassModule::Init()
@@ -43,14 +43,6 @@ namespace ark
         ARK_LOG_INFO("Using file [{}{}]", pPluginManager->GetResPath(), schema_file_);
 
         bool bRet = Load();
-        ARK_ASSERT_RET_VAL(bRet, false);
-
-        return true;
-    }
-
-    bool AFCMetaClassModule::Shut()
-    {
-        bool bRet = ClearAll();
         ARK_ASSERT_RET_VAL(bRet, false);
 
         return true;
@@ -270,87 +262,86 @@ namespace ark
         return true;
     }
 
-    bool AFCMetaClassModule::AddClass(const std::string& class_name, const std::string& strParentName)
+    bool AFCMetaClassModule::AddClass(const std::string& class_name, const std::string& parent_name)
     {
-        ARK_SHARE_PTR<AFIMetaClass>& pParentClass = GetElement(strParentName);
-        ARK_SHARE_PTR<AFIMetaClass>& pChildClass = GetElement(class_name);
-
-        if (nullptr == pChildClass)
+        auto parent = metaclasses_.find_value(parent_name);
+        auto child = metaclasses_.find_value(class_name);
+        if (child != nullptr)
         {
-            pChildClass = std::make_shared<AFCClass>(class_name);
-            AddElement(class_name, pChildClass);
+            return false;
+        }
+        else
+        {
+            std::shared_ptr<AFIMetaClass> pChildClass = std::make_shared<AFCMetaClass>(class_name);
+            metaclasses_.insert(class_name, pChildClass);
 
-            pChildClass->SetTypeName("");
-            pChildClass->SetResPath("");
+            pChildClass->SetTypeName(NULL_STR.c_str());
+            pChildClass->SetResPath(NULL_STR.c_str());
 
-            if (pParentClass)
+            if (parent != nullptr)
             {
-                pChildClass->SetParent(pParentClass);
+                pChildClass->SetParent(parent);
             }
         }
 
         return true;
     }
 
+    std::shared_ptr<ark::AFIMetaClass> AFCMetaClassModule::GetMetaClass(const std::string& class_name)
+    {
+        return metaclasses_.find_value(class_name);
+    }
+
+    ark::AFMapEx<std::string, ark::AFIMetaClass>& AFCMetaClassModule::GetAllMetaClass()
+    {
+        return metaclasses_;
+    }
+
     bool AFCMetaClassModule::AddNodeCallBack(const std::string& class_name, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
     {
-        ARK_SHARE_PTR<AFIMetaClass>& pClass = GetElement(class_name);
-        if (pClass == nullptr)
-        {
-            return false;
-        }
-        else
-        {
-            return pClass->AddNodeCallBack(name, cb);
-        }
+        auto pClass = metaclasses_.find_value(class_name);
+        return ((pClass != nullptr) ? pClass->AddNodeCallBack(name, cb) : false);
     }
 
-    bool AFCMetaClassModule::AddTableCallBack(const std::string& strClassName, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
+    bool AFCMetaClassModule::AddTableCallBack(const std::string& class_name, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
     {
-        ARK_SHARE_PTR<AFIMetaClass>& pClass = GetElement(strClassName);
-        if (pClass == nullptr)
-        {
-            return false;
-        }
-        else
-        {
-            return pClass->AddTableCallBack(name, cb);
-        }
+        auto pClass = metaclasses_.find_value(class_name);
+        return ((pClass != nullptr) ? pClass->AddTableCallBack(name, cb) : false);
     }
 
-    bool AFCMetaClassModule::AddCommonNodeCallback(const std::string& strClassName, const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
+    bool AFCMetaClassModule::AddCommonNodeCallback(const std::string& class_name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
     {
-        ARK_SHARE_PTR<AFIMetaClass> pClass = GetElement(strClassName);
-        if (pClass == nullptr)
-        {
-            return false;
-        }
-        else
+        auto pClass = metaclasses_.find_value(class_name);
+        if (pClass != nullptr)
         {
             return pClass->AddCommonNodeCallback(cb);
         }
+        else
+        {
+            return false;
+        }
     }
 
-    bool AFCMetaClassModule::AddCommonTableCallback(const std::string& strClassName, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
+    bool AFCMetaClassModule::AddCommonTableCallback(const std::string& class_name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
     {
-        ARK_SHARE_PTR<AFIMetaClass> pClass = GetElement(strClassName);
+        auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->AddCommonTableCallback(cb) : false);
     }
 
     bool AFCMetaClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIMetaClass> pParentClass)
     {
-        const char* pstrLogicClassName = attrNode->first_attribute("Id")->value();
-        const char* pstrType = attrNode->first_attribute("Type")->value();
-        const char* pstrSchemaPath = attrNode->first_attribute("Path")->value();
-        const char* pstrResPath = attrNode->first_attribute("ResPath")->value();
+        const char* metaclass_name = attrNode->first_attribute("Id")->value();
+        const char* type = attrNode->first_attribute("Type")->value();
+        const char* schema_path = attrNode->first_attribute("Path")->value();
+        const char* res_path = attrNode->first_attribute("ResPath")->value();
 
-        ARK_SHARE_PTR<AFIMetaClass> pClass = std::make_shared<AFCClass>(pstrLogicClassName);
-        AddElement(pstrLogicClassName, pClass);
+        ARK_SHARE_PTR<AFIMetaClass> pClass = std::make_shared<AFCMetaClass>(metaclass_name);
+        metaclasses_.insert(metaclass_name, pClass);
         pClass->SetParent(pParentClass);
-        pClass->SetTypeName(pstrType);
-        pClass->SetResPath(pstrResPath);
+        pClass->SetTypeName(type);
+        pClass->SetResPath(res_path);
 
-        if (!AddClass(pstrSchemaPath, pClass))
+        if (!AddClass(schema_path, pClass))
         {
             return false;
         }
@@ -390,42 +381,37 @@ namespace ark
 
     ARK_SHARE_PTR<AFIDataNodeManager> AFCMetaClassModule::GetNodeManager(const std::string& class_name)
     {
-        ARK_SHARE_PTR<AFIMetaClass> pClass = GetElement(class_name);
+        auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->GetNodeManager() : nullptr);
     }
 
     ARK_SHARE_PTR<AFIDataTableManager> AFCMetaClassModule::GetTableManager(const std::string& class_name)
     {
-        ARK_SHARE_PTR<AFIMetaClass> pClass = GetElement(class_name);
+        auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->GetTableManager() : nullptr);
     }
 
     bool AFCMetaClassModule::InitDataNodeManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager)
     {
-        ARK_SHARE_PTR<AFIMetaClass> pClass = GetElement(class_name);
+        auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->InitDataNodeManager(pNodeManager) : false);
     }
 
     bool AFCMetaClassModule::InitDataTableManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataTableManager>& pTableManager)
     {
-        ARK_SHARE_PTR<AFIMetaClass> pClass = GetElement(class_name);
+        auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->InitDataTableManager(pTableManager) : false);
-    }
-
-    bool AFCMetaClassModule::Clear()
-    {
-        return true;
     }
 
     bool AFCMetaClassModule::AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR& cb)
     {
-        ARK_SHARE_PTR<AFIMetaClass>& pClass = GetElement(class_name);
+        auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->AddClassCallBack(cb) : false);
     }
 
     bool AFCMetaClassModule::DoEvent(const AFGUID& id, const std::string& class_name, const ARK_ENTITY_EVENT class_event, const AFIDataList& args)
     {
-        ARK_SHARE_PTR<AFIMetaClass>& pClass = GetElement(class_name);
+        auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->DoEvent(id, class_event, args) : false);
     }
 

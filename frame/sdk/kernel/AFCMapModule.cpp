@@ -27,7 +27,7 @@ namespace ark
 
     AFCMapModule::~AFCMapModule()
     {
-        map_infos_.ClearAll();
+        map_infos_.clear();
     }
 
     bool AFCMapModule::Init()
@@ -38,14 +38,14 @@ namespace ark
         return true;
     }
 
-    ARK_SHARE_PTR<ark::AFMapInfo>& AFCMapModule::GetMapInfo(const int map_id)
+    ARK_SHARE_PTR<ark::AFMapInfo> AFCMapModule::GetMapInfo(const int map_id)
     {
-        return map_infos_.GetElement(map_id);
+        return map_infos_.find_value(map_id);
     }
 
     bool AFCMapModule::IsInMapInstance(const AFGUID& self)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = m_pKernelModule->GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
         if (pEntity != nullptr)
         {
             return (pEntity->GetNodeInt(IObject::InstanceID()) < 0);
@@ -59,13 +59,13 @@ namespace ark
 
     bool AFCMapModule::ExistMap(const int map_id)
     {
-        ARK_SHARE_PTR<AFMapInfo>& pMapInfo = map_infos_.GetElement(map_id);
+        ARK_SHARE_PTR<AFMapInfo> pMapInfo = map_infos_.find_value(map_id);
         return (pMapInfo != nullptr);
     }
 
     bool AFCMapModule::SwitchMap(const AFGUID& self, const int target_map, const int target_inst, const Point3D& pos, const float fOrient, const AFIDataList& args)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = m_pKernelModule->GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
         if (pEntity == nullptr)
         {
             ARK_LOG_ERROR("Cannot find entity, id = {}", self);
@@ -75,8 +75,8 @@ namespace ark
         int32_t old_map = pEntity->GetNodeInt(IObject::MapID());
         int32_t old_inst = pEntity->GetNodeInt(IObject::InstanceID());
 
-        ARK_SHARE_PTR<AFMapInfo>& pOldMapInfo = map_infos_.GetElement(old_map);
-        ARK_SHARE_PTR<AFMapInfo>& pNewMapInfo = map_infos_.GetElement(target_map);
+        ARK_SHARE_PTR<AFMapInfo> pOldMapInfo = map_infos_.find_value(old_map);
+        ARK_SHARE_PTR<AFMapInfo> pNewMapInfo = map_infos_.find_value(target_map);
 
         if (nullptr == pOldMapInfo)
         {
@@ -90,7 +90,7 @@ namespace ark
             return false;
         }
 
-        if (pNewMapInfo->GetElement(target_inst) == nullptr)
+        if (!pNewMapInfo->ExistInstance(target_inst))
         {
             ARK_LOG_ERROR("Cannot find this map instance, map={} inst={}", target_map, target_inst);
             return false;
@@ -115,7 +115,7 @@ namespace ark
 
     bool AFCMapModule::CreateMap(const int map_id)
     {
-        ARK_SHARE_PTR<AFMapInfo>& pMapInfo = map_infos_.GetElement(map_id);
+        ARK_SHARE_PTR<AFMapInfo>& pMapInfo = map_infos_.find_value(map_id);
         if (pMapInfo != nullptr)
         {
             return false;
@@ -127,33 +127,35 @@ namespace ark
             return false;
         }
 
-        map_infos_.AddElement(map_id, pMapInfo);
+        map_infos_.insert(map_id, pMapInfo);
 
         //create group 0
-        ARK_SHARE_PTR<AFMapInstance> pGroupInfo = std::make_shared<AFMapInstance>(0);
-        if (nullptr == pGroupInfo)
+        ARK_SHARE_PTR<AFMapInstance> pMapInst = std::make_shared<AFMapInstance>(0);
+        if (nullptr == pMapInst)
         {
             return false;
         }
 
-        pMapInfo->AddElement(0, pGroupInfo);
+        pMapInfo->AddInstance(0, pMapInst);
         ARK_LOG_INFO("Create scene success, map={} inst=0", map_id);
         return true;
     }
 
     bool AFCMapModule::DestroyMap(const int map_id)
     {
-        return map_infos_.RemoveElement(map_id);
+        return map_infos_.erase(map_id);
     }
 
     int AFCMapModule::GetOnlineCount()
     {
         int online_count = 0;
-        for (ARK_SHARE_PTR<AFMapInfo>& pMapInfo = map_infos_.First(); pMapInfo != nullptr; pMapInfo = map_infos_.Next())
+        for (auto iter : map_infos_)
         {
-            for (ARK_SHARE_PTR<AFMapInstance>& pMapInst = pMapInfo->First(); pMapInst != nullptr; pMapInst = pMapInfo->Next())
+            auto pMapInfo = iter.second;
+            auto& all_instances = pMapInfo->GetAllInstance();
+            for (auto it : all_instances)
             {
-                online_count += pMapInst->mxPlayerList.GetCount();
+                online_count += it.second->player_entities_.size();
             }
         }
 
@@ -170,15 +172,16 @@ namespace ark
     int AFCMapModule::GetMapOnlineCount(const int map_id)
     {
         int online_count = 0;
-        ARK_SHARE_PTR<AFMapInfo>& pMapInfo = map_infos_.GetElement(map_id);
+        ARK_SHARE_PTR<AFMapInfo>& pMapInfo = map_infos_.find_value(map_id);
         if (pMapInfo == nullptr)
         {
             return online_count;
         }
 
-        for (ARK_SHARE_PTR<AFMapInstance>& pGroupInfo = pMapInfo->First(); pGroupInfo != nullptr; pGroupInfo = pMapInfo->Next())
+        auto all_instances = pMapInfo->GetAllInstance();
+        for (auto iter : all_instances)
         {
-            online_count += pGroupInfo->mxPlayerList.GetCount();
+            online_count += iter.second->player_entities_.size();
         }
 
         return online_count;
@@ -188,37 +191,37 @@ namespace ark
     {
         int online_count = 0;
 
-        ARK_SHARE_PTR<AFMapInfo>& pMapInfo = map_infos_.GetElement(map_id);
+        ARK_SHARE_PTR<AFMapInfo> pMapInfo = map_infos_.find_value(map_id);
         if (pMapInfo == nullptr)
         {
             return online_count;
         }
 
-        ARK_SHARE_PTR<AFMapInstance>& pGroupInfo = pMapInfo->GetElement(map_instance_id);
-        if (pGroupInfo == nullptr)
+        ARK_SHARE_PTR<AFMapInstance> pMapInst = pMapInfo->GetInstance(map_instance_id);
+        if (pMapInst == nullptr)
         {
             return online_count;
         }
 
-        online_count = pGroupInfo->mxPlayerList.GetCount();
+        online_count = pMapInst->player_entities_.size();
         return online_count;
     }
 
     int AFCMapModule::GetMapOnlineList(const int map_id, AFIDataList& list)
     {
-        ARK_SHARE_PTR<AFMapInfo>& pMapInfo = map_infos_.GetElement(map_id);
+        ARK_SHARE_PTR<AFMapInfo> pMapInfo = map_infos_.find_value(map_id);
         if (pMapInfo == nullptr)
         {
             return 0;
         }
 
-        for (ARK_SHARE_PTR<AFMapInstance>& pMapInstance = pMapInfo->First(); pMapInstance != nullptr; pMapInstance = pMapInfo->Next())
+        auto all_instances = pMapInfo->GetAllInstance();
+        for (auto iter : all_instances)
         {
-            AFGUID entity_id;
-            for (pMapInstance->mxPlayerList.First(entity_id); entity_id != NULL_GUID; pMapInstance->mxPlayerList.Next(entity_id))
+            auto pMapInstance = iter.second;
+            for (auto it : pMapInstance->player_entities_)
             {
-                list.AddInt64(entity_id);
-                entity_id = NULL_GUID;
+                list.AddInt64(it.first);
             }
         }
 
@@ -227,7 +230,7 @@ namespace ark
 
     int AFCMapModule::CreateMapInstance(const int map_id)
     {
-        ARK_SHARE_PTR<AFMapInfo>& pMapInfo = map_infos_.GetElement(map_id);
+        ARK_SHARE_PTR<AFMapInfo> pMapInfo = map_infos_.find_value(map_id);
         if (pMapInfo == nullptr)
         {
             return -1;
@@ -235,7 +238,7 @@ namespace ark
 
         int new_inst_id = pMapInfo->CreateInstanceID();
 
-        if (nullptr != pMapInfo->GetElement(new_inst_id))
+        if (pMapInfo->ExistInstance(new_inst_id))
         {
             return -1;
         }
@@ -246,20 +249,19 @@ namespace ark
             return -1;
         }
 
-        pMapInfo->AddElement(new_inst_id, pMapInstance);
+        pMapInfo->AddInstance(new_inst_id, pMapInstance);
         return new_inst_id;
     }
 
     bool AFCMapModule::ReleaseMapInstance(const int map_id, const int inst_id)
     {
-        ARK_SHARE_PTR<AFMapInfo>& pMapInfo = map_infos_.GetElement(map_id);
-
+        ARK_SHARE_PTR<AFMapInfo> pMapInfo = map_infos_.find_value(map_id);
         if (nullptr == pMapInfo)
         {
             return false;
         }
 
-        if (nullptr == pMapInfo->GetElement(inst_id))
+        if (!pMapInfo->ExistInstance(inst_id))
         {
             return false;
         }
@@ -279,49 +281,45 @@ namespace ark
             }
         }
 
-        pMapInfo->RemoveElement(inst_id);
+        pMapInfo->RemoveInstance(inst_id);
 
         return true;
     }
 
     bool AFCMapModule::ExitMapInstance(const int map_id, const int inst_id)
     {
-        ARK_SHARE_PTR<AFMapInfo>& pMapInfo = map_infos_.GetElement(map_id);
+        ARK_SHARE_PTR<AFMapInfo> pMapInfo = map_infos_.find_value(map_id);
         if (pMapInfo == nullptr)
         {
             return false;
         }
 
-        ARK_SHARE_PTR<AFMapInstance>& pMapInstance = pMapInfo->GetElement(inst_id);
+        ARK_SHARE_PTR<AFMapInstance> pMapInstance = pMapInfo->GetInstance(inst_id);
         return (pMapInstance != nullptr);
     }
 
     bool AFCMapModule::GetInstEntityList(const int map_id, const int inst_id, AFIDataList& list)
     {
-        ARK_SHARE_PTR<AFMapInfo> pMapInfo = map_infos_.GetElement(map_id);
+        ARK_SHARE_PTR<AFMapInfo> pMapInfo = map_infos_.find_value(map_id);
         if (pMapInfo == nullptr)
         {
             return false;
         }
 
-        ARK_SHARE_PTR<AFMapInstance>& pMapInstance = pMapInfo->GetElement(inst_id);
+        ARK_SHARE_PTR<AFMapInstance> pMapInstance = pMapInfo->GetInstance(inst_id);
         if (pMapInstance == nullptr)
         {
             return false;
         }
 
-        AFGUID entity_id = NULL_GUID;
-        for (pMapInstance->mxPlayerList.First(entity_id); entity_id != NULL_GUID; pMapInstance->mxPlayerList.Next(entity_id))
+        for (auto iter : pMapInstance->player_entities_)
         {
-            list.AddInt64(entity_id);
-            entity_id = NULL_GUID;
+            list.AddInt64(iter.first);
         }
 
-        entity_id = NULL_GUID;
-        for (pMapInstance->mxOtherList.First(entity_id); entity_id != NULL_GUID; pMapInstance->mxOtherList.Next(entity_id))
+        for (auto iter : pMapInstance->other_entities_)
         {
-            list.AddInt64(entity_id);
-            entity_id = NULL_GUID;
+            list.AddInt64(iter.first);
         }
 
         return true;
@@ -335,7 +333,7 @@ namespace ark
         for (size_t i = 0; i < entity_count; ++i)
         {
             AFGUID ident = varObjectList.Int64(i);
-            ARK_SHARE_PTR<AFIEntity>& pEntity = m_pKernelModule->GetEntity(ident);
+            ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(ident);
             if (pEntity == nullptr)
             {
                 continue;

@@ -34,17 +34,17 @@
 namespace ark
 {
 
-    class AFCClass : public AFIMetaClass
+    class AFCMetaClass : public AFIMetaClass
     {
     public:
-        explicit AFCClass(const std::string& strClassName) :
+        explicit AFCMetaClass(const std::string& strClassName) :
             class_name_(strClassName)
         {
             m_pNodeManager = std::make_shared<AFCDataNodeManager>(NULL_GUID);
             m_pTableManager = std::make_shared<AFCDataTableManager>(NULL_GUID);
         }
 
-        virtual ~AFCClass()
+        virtual ~AFCMetaClass()
         {
             for (size_t i = 0; i < node_callbacks_.size(); ++i)
             {
@@ -183,7 +183,7 @@ namespace ark
                 }
             }
 
-            pNodeManager->RegisterCallback(this, &AFCClass::OnNodeCallback);
+            pNodeManager->RegisterCallback(this, &AFCMetaClass::OnNodeCallback);
             return true;
         }
 
@@ -216,7 +216,7 @@ namespace ark
                 pTableManager->AddTable(NULL_GUID, pStaticTable->GetName(), col_type_list, pStaticTable->GetFeature());
             }
 
-            pTableManager->RegisterCallback(this, &AFCClass::OnEventHandler);
+            pTableManager->RegisterCallback(this, &AFCMetaClass::OnEventHandler);
             return true;
         }
 
@@ -323,10 +323,7 @@ namespace ark
         ~AFCMetaClassModule() override;
 
         bool Init() override;
-        bool Shut() override;
-
         bool Load() override;
-        bool Clear() override;
 
         bool AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR& cb) override;
         bool DoEvent(const AFGUID& id, const std::string& class_name, const ARK_ENTITY_EVENT class_event, const AFIDataList& args) override;
@@ -340,6 +337,8 @@ namespace ark
         bool InitDataNodeManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager) override;
         bool InitDataTableManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataTableManager>& pTableManager) override;
         bool AddClass(const std::string& class_name, const std::string& parent_name);
+        std::shared_ptr<AFIMetaClass> GetMetaClass(const std::string& class_name) override;
+        AFMapEx<std::string, AFIMetaClass>& GetAllMetaClass() override;
 
     protected:
         int ComputerType(const char* type_name, AFIData& var);
@@ -355,6 +354,7 @@ namespace ark
         AFIConfigModule* m_pConfigModule;
         AFILogModule* m_pLogModule;
         std::string schema_file_{};
+        AFMapEx<std::string, AFIMetaClass> metaclasses_;
     };
 
 }

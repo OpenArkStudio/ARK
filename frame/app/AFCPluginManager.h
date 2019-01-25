@@ -47,13 +47,13 @@ namespace ark
         void Register(AFIPlugin* pPlugin) override;
         void Deregister(AFIPlugin* pPlugin) override;
 
-        bool StartReLoadState() override;
-        bool EndReLoadState() override;
+        //bool StartReLoadState() override;
+        //bool EndReLoadState() override;
         //////////////////////////////////////////////////////////////////////////
 
-        AFIPlugin* FindPlugin(const std::string& strPluginName) override;
+        AFIPlugin* FindPlugin(const std::string& plugin_name) override;
 
-        void AddModule(const std::string& strModuleName, AFIModule* pModule) override;
+        void AddModule(const std::string& module_name, AFIModule* pModule) override;
         void RemoveModule(const std::string& strModuleName) override;
         virtual AFIModule* FindModule(const std::string& strModuleName) override;
 
@@ -67,7 +67,7 @@ namespace ark
 
         const std::string& GetResPath() const override;
 
-        void SetPluginConf(const std::string& strFileName) override;
+        void SetPluginConf(const std::string& file_path) override;
 
         void SetLogPath(const std::string& log_path) override;
         const std::string& GetLogPath() const override;
@@ -80,29 +80,29 @@ namespace ark
 
     private:
         //Bus id
-        int mnBusID{ 0 };
+        int bus_id_{ 0 };
         //Current time(ms)
-        int64_t mnNowTime{ 0 };
+        int64_t timestamp_{ 0 };
         //plugin so/dll file path
-        std::string mstrPluginPath{};
+        std::string plugin_path_{};
         //Resource path
-        std::string mstrResPath{};
+        std::string res_path_{};
         //app.plugin file path
-        std::string mstrPluginConfPath{};
+        std::string plugin_conf_path_{};
         //app name
-        std::string mstrAppName{};
+        std::string app_name_{};
         //log output path
-        std::string mstrLogPath{};
+        std::string log_path_{};
 
-        typedef void(*DLL_ENTRY_PLUGIN_FUNC)(AFIPluginManager* pm);
-        typedef void(*DLL_EXIT_PLUGIN_FUNC)(AFIPluginManager* pm);
+        using DLL_ENTRY_PLUGIN_FUNC = void(*)(AFIPluginManager* p);
+        using DLL_EXIT_PLUGIN_FUNC = void(*)(AFIPluginManager* p);
 
-        std::map<std::string, bool> mxPluginNameMap;
-        std::vector<std::string> mxPluginNameVec; // order
-        AFMap<std::string, AFCDynLib> mxPluginLibMap;
-        AFMap<std::string, AFIPlugin> mxPluginInstanceMap;
-        AFMap<std::string, AFIModule> mxModuleInstanceMap;
-        std::vector<AFIModule*> mxModuleInstanceVec; // order
+        std::map<std::string, bool> plugin_names_;
+        std::vector<std::string> ordered_plugin_names_; // order
+        AFMap<std::string, AFCDynLib> plugin_libs_;
+        AFMap<std::string, AFIPlugin> plugin_instances_;
+        AFMap<std::string, AFIModule> module_instances_;
+        std::vector<AFIModule*> ordered_module_instances_; // order
     };
 
 }

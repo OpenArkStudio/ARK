@@ -59,8 +59,6 @@ namespace ark
         DataTableName strName;
     };
 
-    using HEART_BEAT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const int64_t, const int)>;
-    using MODULE_HEART_BEAT_FUNCTOR = std::function<void()>;
     using DATA_NODE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)>;
     using DATA_TABLE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
     using LITLE_DATA_TABLE_EVENT_FUNCTOR = std::function<int(const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
@@ -69,8 +67,6 @@ namespace ark
     using TIMER_FUNCTOR = std::function<void(const std::string&, const AFGUID&)>;
     using SCHEDULER_FUNCTOR = std::function<bool(const int, const int)>;
 
-    using HEART_BEAT_FUNCTOR_PTR = ARK_SHARE_PTR<HEART_BEAT_FUNCTOR>;
-    using MODULE_HEART_BEAT_FUNCTOR_PTR = ARK_SHARE_PTR<MODULE_HEART_BEAT_FUNCTOR>;
     using DATA_NODE_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<DATA_NODE_EVENT_FUNCTOR>;
     using DATA_TABLE_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<DATA_TABLE_EVENT_FUNCTOR>;
     using LITLE_DATA_TABLE_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<LITLE_DATA_TABLE_EVENT_FUNCTOR>;

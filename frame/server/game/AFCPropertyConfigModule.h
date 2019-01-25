@@ -45,7 +45,7 @@ namespace ark
     private:
         //
         //different job, different PropertyID[Level->EffectData]
-        AFMapEx<int, AFMapEx<int, std::string> > mhtCoefficienData;
+        AFMapEx<int, AFMapEx<int, std::string>> mhtCoefficienData;
 
         AFIMetaClassModule* m_pClassModule;
         AFIConfigModule* m_pConfigModule;

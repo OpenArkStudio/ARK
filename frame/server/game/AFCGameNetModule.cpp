@@ -756,9 +756,8 @@ namespace ark
         case ENTITY_EVT_PRE_LOAD_DATA:
             {
                 //id和fd,gateid绑定
-                ARK_SHARE_PTR<GateBaseInfo> pDataBase = mRoleBaseData.GetElement(self);
-
-                if (nullptr != pDataBase)
+                ARK_SHARE_PTR<GateBaseInfo> pDataBase = mRoleBaseData.find_value(self);
+                if (pDataBase != nullptr)
                 {
                     //回复客户端角色进入游戏世界成功了
                     AFMsg::AckEventResult xMsg;
@@ -1164,7 +1163,7 @@ namespace ark
 
     void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self)
     {
-        ARK_SHARE_PTR<GateBaseInfo> pData = mRoleBaseData.GetElement(self);
+        ARK_SHARE_PTR<GateBaseInfo> pData = mRoleBaseData.find_value(self);
 
         if (nullptr == pData)
         {
@@ -1181,7 +1180,7 @@ namespace ark
 
     void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self)
     {
-        ARK_SHARE_PTR<GateBaseInfo> pData = mRoleBaseData.GetElement(self);
+        ARK_SHARE_PTR<GateBaseInfo> pData = mRoleBaseData.find_value(self);
 
         if (nullptr == pData)
         {
@@ -1214,7 +1213,7 @@ namespace ark
             return false;
         }
 
-        ARK_SHARE_PTR<AFCGameNetModule::GateBaseInfo> pBaseData = mRoleBaseData.GetElement(nRoleID);
+        ARK_SHARE_PTR<AFCGameNetModule::GateBaseInfo> pBaseData = mRoleBaseData.find_value(nRoleID);
 
         if (nullptr != pBaseData)
         {
@@ -1223,7 +1222,7 @@ namespace ark
             return false;
         }
 
-        ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(nGateID);
+        ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.find_value(nGateID);
 
         if (nullptr == pServerData)
         {
@@ -1235,7 +1234,7 @@ namespace ark
             return false;
         }
 
-        if (!mRoleBaseData.AddElement(nRoleID, std::make_shared<GateBaseInfo>(nGateID, nClientID)))
+        if (!mRoleBaseData.insert(nRoleID, std::make_shared<GateBaseInfo>(nGateID, nClientID)).second)
         {
             pServerData->xRoleInfo.erase(nRoleID);
             return false;
@@ -1246,16 +1245,16 @@ namespace ark
 
     bool AFCGameNetModule::RemovePlayerGateInfo(const AFGUID& nRoleID)
     {
-        ARK_SHARE_PTR<GateBaseInfo> pBaseData = mRoleBaseData.GetElement(nRoleID);
+        ARK_SHARE_PTR<GateBaseInfo> pBaseData = mRoleBaseData.find_value(nRoleID);
 
         if (nullptr == pBaseData)
         {
             return false;
         }
 
-        mRoleBaseData.RemoveElement(nRoleID);
+        mRoleBaseData.erase(nRoleID);
 
-        ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(pBaseData->nGateID);
+        ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.find_value(pBaseData->nGateID);
 
         if (nullptr == pServerData)
         {
@@ -1268,36 +1267,31 @@ namespace ark
 
     ARK_SHARE_PTR<AFIGameNetModule::GateBaseInfo> AFCGameNetModule::GetPlayerGateInfo(const AFGUID& nRoleID)
     {
-        return mRoleBaseData.GetElement(nRoleID);
+        return mRoleBaseData.find_value(nRoleID);
     }
 
     ARK_SHARE_PTR<AFIGameNetModule::GateServerInfo> AFCGameNetModule::GetGateServerInfo(const int nGateID)
     {
-        return mProxyMap.GetElement(nGateID);
+        return mProxyMap.find_value(nGateID);
     }
 
     ARK_SHARE_PTR<AFIGameNetModule::GateServerInfo> AFCGameNetModule::GetGateServerInfoByClientID(const AFGUID& nClientID)
     {
         int nGateID = -1;
-        ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.First();
-
-        while (nullptr != pServerData)
+        for (auto iter : mProxyMap)
         {
+            auto pServerData = iter.second;
             if (nClientID == pServerData->xServerData.conn_id_)
             {
                 nGateID = pServerData->xServerData.server_info_.bus_id();
-                break;
+                if (nGateID != -1)
+                {
+                    return pServerData;
+                }
             }
-
-            pServerData = mProxyMap.Next();
         }
 
-        if (nGateID == -1)
-        {
-            return nullptr;
-        }
-
-        return pServerData;
+        return nullptr;
     }
 
     void AFCGameNetModule::OnTransWorld(const AFNetMsg* msg)

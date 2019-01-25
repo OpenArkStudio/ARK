@@ -51,7 +51,7 @@ namespace ark
         bool RegForwardMsgCallback(const NET_MSG_FUNCTOR_PTR& cb) override;
         bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) override;
 
-        const ARK_SHARE_PTR<AFConnectionData>& GetServerNetInfo(const int nServerID) override;
+        ARK_SHARE_PTR<AFConnectionData> GetServerNetInfo(const int nServerID) override;
         AFMapEx<int, AFConnectionData>& GetServerList() override;
 
     protected:

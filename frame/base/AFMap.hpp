@@ -25,204 +25,141 @@
 namespace ark
 {
 
-    template <typename TD, bool NEEDSMART>
-    struct MapSmartPtrType
+    template <typename VALUE, bool is_smart_ptr>
+    class AFMapValueType
     {
-        typedef TD* VALUE;
+    public:
+        using value_type = VALUE*;
     };
 
-    template <typename TD>
-    struct MapSmartPtrType<TD, true>
+    template <typename VALUE>
+    class AFMapValueType<VALUE, false>
     {
-        typedef ARK_SHARE_PTR<TD> VALUE;
+    public:
+        using value_type = VALUE*;
     };
 
-    template <typename TD>
-    struct MapSmartPtrType<TD, false>
+    template <typename VALUE>
+    class AFMapValueType<VALUE, true>
     {
-        typedef TD* VALUE;
+    public:
+        using value_type = std::shared_ptr<VALUE>;
     };
 
-    template <typename T, typename TD, bool NEEDSMART>
+    template <typename KEY, typename VALUE, bool is_smart_ptr>
     class AFMapBase
     {
     public:
-        typedef typename MapSmartPtrType<TD, NEEDSMART>::VALUE PTRTYPE;
-        typedef std::map<T, PTRTYPE > MAP_DATA;
-        typedef std::function<bool (PTRTYPE&) > MAP_CALLBACK;
-        AFMapBase()
+        using k_type = typename KEY;
+        using v_type = typename AFMapValueType<VALUE, is_smart_ptr>::value_type;
+        using map_type = std::map<k_type, v_type>;
+        using value_type = typename map_type::value_type;
+        using reference = value_type&;
+        using const_reference = const value_type&;
+        using iterator = typename map_type::iterator;
+        using const_iterator = typename map_type::const_iterator;
+        using reverse_iterator = typename map_type::reverse_iterator;
+        using const_reverse_iterator = typename map_type::const_reverse_iterator;
+
+        AFMapBase() = default;
+        ~AFMapBase() = default;
+
+        std::size_t size() const
         {
-            mNullPtr = nullptr;
+            return nodes_.size();
         }
 
-        virtual ~AFMapBase() = default;
-
-        virtual bool AddElement(const T& name, const PTRTYPE data)
+        bool empty() const
         {
-            typename MAP_DATA::iterator iter = mxObjectList.find(name);
-
-            if (iter == mxObjectList.end())
-            {
-                mxObjectList.insert(typename MAP_DATA::value_type(name, data));
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return nodes_.empty();
         }
 
-        virtual bool SetElement(const T& name, const PTRTYPE data)
+        std::pair<iterator, bool> insert(const k_type& key, const v_type& value)
         {
-            mxObjectList[name] = data;
-            return true;
+            return nodes_.insert(value_type(key, value));
         }
 
-        virtual bool RemoveElement(const T& name)
+        iterator erase(iterator it)
         {
-            typename MAP_DATA::iterator iter = mxObjectList.find(name);
-
-            if (iter != mxObjectList.end())
-            {
-                mxObjectList.erase(iter);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return nodes_.erase(it);
         }
 
-        virtual PTRTYPE& GetElement(const T& name)
+        std::size_t erase(const k_type& key)
         {
-            typename MAP_DATA::iterator iter = mxObjectList.find(name);
+            return nodes_.erase(key);
+        }
 
-            if (iter != mxObjectList.end())
+        iterator find(const k_type& key)
+        {
+            return nodes_.find(key);
+        }
+
+        iterator begin()
+        {
+            return nodes_.begin();
+        }
+
+        iterator end()
+        {
+            return nodes_.end();
+        }
+
+        const_iterator begin() const
+        {
+            return nodes_.cbegin();
+        }
+
+        const_iterator end() const
+        {
+            return nodes_.cend();
+        }
+
+        reverse_iterator rbegin()
+        {
+            return nodes_.rbegin();
+        }
+
+        reverse_iterator rend()
+        {
+            return nodes_.rend();
+        }
+
+        const_reverse_iterator rbegin() const
+        {
+            return nodes_.crbegin();
+        }
+
+        const_reverse_iterator rend() const
+        {
+            return nodes_.crend();
+        }
+
+        void clear()
+        {
+            nodes_.clear();
+        }
+
+        v_type find_value(const k_type& key)
+        {
+            auto iter = find(key);
+            if (iter != end())
             {
                 return iter->second;
             }
             else
             {
-                return mNullPtr;
+                return nullptr;
             }
-        }
-
-        virtual PTRTYPE& First()
-        {
-            if (mxObjectList.size() <= 0)
-            {
-                return mNullPtr;
-            }
-
-            mxObjectCurIter = mxObjectList.begin();
-
-            if (mxObjectCurIter != mxObjectList.end())
-            {
-                return mxObjectCurIter->second;
-            }
-            else
-            {
-                return mNullPtr;
-            }
-        }
-
-        virtual PTRTYPE& Next()
-        {
-            if (mxObjectCurIter == mxObjectList.end())
-            {
-                return mNullPtr;
-            }
-
-            ++mxObjectCurIter;
-
-            if (mxObjectCurIter != mxObjectList.end())
-            {
-                return mxObjectCurIter->second;
-            }
-            else
-            {
-                return mNullPtr;
-            }
-        }
-
-        virtual PTRTYPE& First(T& name)
-        {
-            if (mxObjectList.size() <= 0)
-            {
-                return mNullPtr;
-            }
-
-            mxObjectCurIter = mxObjectList.begin();
-
-            if (mxObjectCurIter != mxObjectList.end())
-            {
-                name = mxObjectCurIter->first;
-                return mxObjectCurIter->second;
-            }
-            else
-            {
-                return mNullPtr;
-            }
-        }
-        virtual PTRTYPE& Next(T& name)
-        {
-            if (mxObjectCurIter == mxObjectList.end())
-            {
-                return mNullPtr;
-            }
-
-            mxObjectCurIter++;
-
-            if (mxObjectCurIter != mxObjectList.end())
-            {
-                name = mxObjectCurIter->first;
-                return mxObjectCurIter->second;
-            }
-            else
-            {
-                return mNullPtr;
-            }
-        }
-
-        int GetCount()
-        {
-            return (int)mxObjectList.size();
-        }
-
-        bool ClearAll()
-        {
-            mxObjectList.clear();
-            return true;
-        }
-
-        bool DoEveryElement(const MAP_CALLBACK& callback)
-        {
-            for (auto iter = mxObjectList.begin();  iter != mxObjectList.end(); ++iter)
-            {
-                if (!callback(iter->second))
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
     private:
-        MAP_DATA mxObjectList;
-        typename MAP_DATA::iterator mxObjectCurIter;
-        PTRTYPE mNullPtr;
+        map_type nodes_;
     };
 
-    template <typename T, typename TD>
-    class AFMapEx : public AFMapBase<T, TD, true>
-    {
-    };
+    template <typename KEY, typename VALUE>
+    using AFMap = AFMapBase<KEY, VALUE, false>;
 
-    template <typename T, typename TD>
-    class AFMap : public AFMapBase<T, TD, false>
-    {
-    };
+    template <typename KEY, typename VALUE>
+    using AFMapEx = AFMapBase<KEY, VALUE, true>;
 
 }

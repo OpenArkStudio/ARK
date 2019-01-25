@@ -30,21 +30,21 @@ namespace ark
 
     AFCKernelModule::AFCKernelModule()
     {
-        mInnerProperty.AddElement(IObject::ConfigID(), ARK_NEW int32_t(0));
-        mInnerProperty.AddElement(IObject::ClassName(), ARK_NEW int32_t(0));
-        mInnerProperty.AddElement(IObject::MapID(), ARK_NEW int32_t(0));
-        mInnerProperty.AddElement(IObject::InstanceID(), ARK_NEW int32_t(0));
+        inner_nodes_.AddElement(IObject::ConfigID(), ARK_NEW int32_t(0));
+        inner_nodes_.AddElement(IObject::ClassName(), ARK_NEW int32_t(0));
+        inner_nodes_.AddElement(IObject::MapID(), ARK_NEW int32_t(0));
+        inner_nodes_.AddElement(IObject::InstanceID(), ARK_NEW int32_t(0));
     }
 
     AFCKernelModule::~AFCKernelModule()
     {
-        for (size_t i = 0; i < mInnerProperty.GetCount(); ++i)
+        for (size_t i = 0; i < inner_nodes_.GetCount(); ++i)
         {
-            int32_t* pInnerProperty = mInnerProperty[i];
+            int32_t* pInnerProperty = inner_nodes_[i];
             ARK_DELETE(pInnerProperty);
         }
 
-        entities_.ClearAll();
+        entities_.clear();
     }
 
     bool AFCKernelModule::Init()
@@ -74,11 +74,15 @@ namespace ark
             delete_list_.clear();
         }
 
-        for (ARK_SHARE_PTR<AFIEntity> pEntity = entities_.First(); pEntity != nullptr; pEntity = entities_.Next())
+        for (auto iter : entities_)
         {
-            cur_exec_entity_ = pEntity->Self();
+            auto pEntity = iter.second;
+            if (pEntity == nullptr)
+            {
+                continue;
+            }
+
             pEntity->Update();
-            cur_exec_entity_ = NULL_GUID;
         }
 
         return true;
@@ -93,14 +97,14 @@ namespace ark
     {
         AFGUID entity_id = self;
 
-        ARK_SHARE_PTR<AFMapInfo>& pMapInfo = m_pMapModule->GetMapInfo(map_id);
+        ARK_SHARE_PTR<AFMapInfo> pMapInfo = m_pMapModule->GetMapInfo(map_id);
         if (pMapInfo == nullptr)
         {
             ARK_LOG_ERROR("There is no scene, scene = {}", map_id);
             return nullptr;
         }
 
-        if (pMapInfo->GetElement(map_instance_id) == nullptr)
+        if (!pMapInfo->ExistInstance(map_instance_id))
         {
             ARK_LOG_ERROR("There is no group, scene = {} group = {}", map_id, map_instance_id);
             return nullptr;
@@ -119,7 +123,7 @@ namespace ark
         }
 
         ARK_SHARE_PTR<AFIEntity> pEntity = std::make_shared<AFCEntity>(entity_id);
-        entities_.AddElement(entity_id, pEntity);
+        entities_.insert(entity_id, pEntity);
         pMapInfo->AddEntityToInstance(map_instance_id, entity_id, ((class_name == Player::ThisName()) ? true : false));
 
         ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager = pEntity->GetNodeManager();
@@ -148,7 +152,7 @@ namespace ark
         for (size_t i = 0; (i + 1) < args.GetCount(); i += 2)
         {
             const std::string& strDataNodeName = args.String(i);
-            if (!mInnerProperty.ExistElement(strDataNodeName))
+            if (!inner_nodes_.ExistElement(strDataNodeName))
             {
                 AFDataNode* pArgNode = pNodeManager->GetNode(strDataNodeName.c_str());
                 if (pArgNode != nullptr)
@@ -172,16 +176,16 @@ namespace ark
         return pEntity;
     }
 
-    ARK_SHARE_PTR<AFIEntity>& AFCKernelModule::GetEntity(const AFGUID& self)
+    ARK_SHARE_PTR<AFIEntity> AFCKernelModule::GetEntity(const AFGUID& self)
     {
-        return entities_.GetElement(self);
+        return entities_.find_value(self);
     }
 
     bool AFCKernelModule::DestroyAll()
     {
-        for (ARK_SHARE_PTR<AFIEntity> pEntity = entities_.First(); pEntity != nullptr; pEntity = entities_.Next())
+        for (auto iter : entities_)
         {
-            delete_list_.push_back(pEntity->Self());
+            delete_list_.push_back(iter.second->Self());
         }
 
         //run another frame
@@ -204,7 +208,7 @@ namespace ark
         int32_t map_id = GetNodeInt(self, IObject::MapID());
         int32_t inst_id = GetNodeInt(self, IObject::InstanceID());
 
-        ARK_SHARE_PTR<AFMapInfo>& pMapInfo = m_pMapModule->GetMapInfo(map_id);
+        ARK_SHARE_PTR<AFMapInfo> pMapInfo = m_pMapModule->GetMapInfo(map_id);
         if (pMapInfo != nullptr)
         {
             const std::string& class_name = GetNodeString(self, IObject::ClassName());
@@ -214,7 +218,7 @@ namespace ark
             DoEvent(self, class_name, ENTITY_EVT_PRE_DESTROY, AFCDataList());
             DoEvent(self, class_name, ENTITY_EVT_DESTROY, AFCDataList());
 
-            return entities_.RemoveElement(self);
+            return entities_.erase(self);
         }
         else
         {
@@ -225,7 +229,7 @@ namespace ark
 
     bool AFCKernelModule::FindNode(const AFGUID& self, const std::string& name)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->CheckNodeExist(name);
@@ -239,7 +243,7 @@ namespace ark
 
     bool AFCKernelModule::SetNodeBool(const AFGUID& self, const std::string& name, const bool value)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->SetNodeBool(name, value);
@@ -253,7 +257,7 @@ namespace ark
 
     bool AFCKernelModule::SetNodeInt(const AFGUID& self, const std::string& name, const int32_t value)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->SetNodeInt(name, value);
@@ -267,7 +271,7 @@ namespace ark
 
     bool AFCKernelModule::SetNodeInt64(const AFGUID& self, const std::string& name, const int64_t value)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->SetNodeInt64(name, value);
@@ -281,7 +285,7 @@ namespace ark
 
     bool AFCKernelModule::SetNodeFloat(const AFGUID& self, const std::string& name, const float value)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->SetNodeFloat(name, value);
@@ -295,7 +299,7 @@ namespace ark
 
     bool AFCKernelModule::SetNodeDouble(const AFGUID& self, const std::string& name, const double value)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->SetNodeDouble(name, value);
@@ -309,7 +313,7 @@ namespace ark
 
     bool AFCKernelModule::SetNodeString(const AFGUID& self, const std::string& name, const std::string& value)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->SetNodeString(name, value);
@@ -323,7 +327,7 @@ namespace ark
 
     bool AFCKernelModule::GetNodeBool(const AFGUID& self, const std::string& name)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->GetNodeBool(name);
@@ -337,7 +341,7 @@ namespace ark
 
     int32_t AFCKernelModule::GetNodeInt(const AFGUID& self, const std::string& name)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->GetNodeInt(name);
@@ -351,7 +355,7 @@ namespace ark
 
     int64_t AFCKernelModule::GetNodeInt64(const AFGUID& self, const std::string& name)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->GetNodeInt64(name);
@@ -365,7 +369,7 @@ namespace ark
 
     float AFCKernelModule::GetNodeFloat(const AFGUID& self, const std::string& name)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->GetNodeFloat(name);
@@ -379,7 +383,7 @@ namespace ark
 
     double AFCKernelModule::GetNodeDouble(const AFGUID& self, const std::string& name)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->GetNodeDouble(name);
@@ -393,7 +397,7 @@ namespace ark
 
     const char* AFCKernelModule::GetNodeString(const AFGUID& self, const std::string& name)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->GetNodeString(name);
@@ -407,7 +411,7 @@ namespace ark
 
     AFDataTable* AFCKernelModule::FindTable(const AFGUID& self, const std::string& name)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->GetTableManager()->GetTable(name.c_str());
@@ -436,7 +440,7 @@ namespace ark
 
     bool AFCKernelModule::SetTableBool(const AFGUID& self, const std::string& name, const int row, const int col, const bool value)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             if (!pEntity->SetTableBool(name, row, col, value))
@@ -456,7 +460,7 @@ namespace ark
 
     bool AFCKernelModule::SetTableInt(const AFGUID& self, const std::string& name, const int row, const int col, const int32_t value)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             if (!pEntity->SetTableInt(name, row, col, value))
@@ -476,7 +480,7 @@ namespace ark
 
     bool AFCKernelModule::SetTableInt64(const AFGUID& self, const std::string& name, const int row, const int col, const int64_t value)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             if (!pEntity->SetTableInt64(name, row, col, value))
@@ -496,7 +500,7 @@ namespace ark
 
     bool AFCKernelModule::SetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col, const float value)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             if (!pEntity->SetTableFloat(name, row, col, value))
@@ -516,7 +520,7 @@ namespace ark
 
     bool AFCKernelModule::SetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col, const double value)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             if (!pEntity->SetTableDouble(name, row, col, value))
@@ -536,7 +540,7 @@ namespace ark
 
     bool AFCKernelModule::SetTableString(const AFGUID& self, const std::string& name, const int row, const int col, const std::string& value)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             if (!pEntity->SetTableString(name, row, col, value))
@@ -556,7 +560,7 @@ namespace ark
 
     bool AFCKernelModule::GetTableBool(const AFGUID& self, const std::string& name, const int row, const int col)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->GetTableBool(name, row, col);
@@ -570,7 +574,7 @@ namespace ark
 
     int32_t AFCKernelModule::GetTableInt(const AFGUID& self, const std::string& name, const int row, const int col)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->GetTableInt(name, row, col);
@@ -584,7 +588,7 @@ namespace ark
 
     int64_t AFCKernelModule::GetTableInt64(const AFGUID& self, const std::string& name, const int row, const int col)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->GetTableInt64(name, row, col);
@@ -598,7 +602,7 @@ namespace ark
 
     float AFCKernelModule::GetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->GetTableFloat(name, row, col);
@@ -612,7 +616,7 @@ namespace ark
 
     double AFCKernelModule::GetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->GetTableDouble(name, row, col);
@@ -626,7 +630,7 @@ namespace ark
 
     const char* AFCKernelModule::GetTableString(const AFGUID& self, const std::string& name, const int row, const int col)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         if (pEntity != nullptr)
         {
             return pEntity->GetTableString(name, row, col);
@@ -646,9 +650,10 @@ namespace ark
 
     bool AFCKernelModule::RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb)
     {
-        for (ARK_SHARE_PTR<AFIMetaClass>& pClass = m_pClassModule->First(); pClass != nullptr; pClass = m_pClassModule->Next())
+        auto all_classes = m_pClassModule->GetAllMetaClass();
+        for (auto iter : all_classes)
         {
-            AddClassCallBack(pClass->GetClassName(), cb);
+            AddClassCallBack(iter.second->GetClassName(), cb);
         }
 
         return true;
@@ -656,9 +661,10 @@ namespace ark
 
     bool AFCKernelModule::RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
     {
-        for (ARK_SHARE_PTR<AFIMetaClass> pClass = m_pClassModule->First(); pClass != nullptr; pClass = m_pClassModule->Next())
+        auto all_classes = m_pClassModule->GetAllMetaClass();
+        for (auto iter : all_classes)
         {
-            pClass->AddCommonNodeCallback(cb);
+            iter.second->AddCommonNodeCallback(cb);
         }
 
         return true;
@@ -666,9 +672,10 @@ namespace ark
 
     bool AFCKernelModule::RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
     {
-        for (ARK_SHARE_PTR<AFIMetaClass> pClass = m_pClassModule->First(); pClass != nullptr; pClass = m_pClassModule->Next())
+        auto all_classes = m_pClassModule->GetAllMetaClass();
+        for (auto iter : all_classes)
         {
-            pClass->AddCommonTableCallback(cb);
+            iter.second->AddCommonTableCallback(cb);
         }
 
         return true;
@@ -676,7 +683,7 @@ namespace ark
 
     bool AFCKernelModule::AddEventCallBack(const AFGUID& self, const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         return ((pEntity != nullptr) ? pEntity->GetEventManager()->AddEventCallBack(nEventID, cb) : false);
     }
 
@@ -692,7 +699,7 @@ namespace ark
 
     bool AFCKernelModule::DoEvent(const AFGUID& self, const int event_id, const AFIDataList& args)
     {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
         return ((pEntity != nullptr) ? pEntity->GetEventManager()->DoEvent(event_id, args) : false);
     }
 

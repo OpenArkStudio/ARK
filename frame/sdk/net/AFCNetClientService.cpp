@@ -65,8 +65,9 @@ namespace ark
     {
         int id = 0;
 
-        for (auto connection_data = target_servers_.First(id); connection_data != nullptr; connection_data = target_servers_.Next(id))
+        for (auto iter : target_servers_)
         {
+            auto connection_data = iter.second;
             if (connection_data->net_client_ptr_ != nullptr)
             {
                 ARK_DELETE(connection_data->net_client_ptr_); //shutdown in AFINet destructor function
@@ -101,8 +102,9 @@ namespace ark
 
     void AFCNetClientService::ProcessUpdate()
     {
-        target_servers_.DoEveryElement([this](AFMapEx<int, AFConnectionData>::PTRTYPE & connection_data)
+        for (auto iter : target_servers_)
         {
+            auto connection_data = iter.second;
             switch (connection_data->net_state_)
             {
             case AFConnectionData::DISCONNECT:
@@ -166,8 +168,7 @@ namespace ark
             default:
                 break;
             }
-            return true;
-        });
+        }
     }
 
     AFINet* AFCNetClientService::CreateNet(const proto_type proto)
@@ -193,15 +194,15 @@ namespace ark
     {
         LogServerInfo("This is a client, begin to print Server Info----------------------------------");
 
-        target_servers_.DoEveryElement([ = ](AFMapEx<int, AFConnectionData>::PTRTYPE & pServerData)
+        for (auto iter : target_servers_)
         {
-            if (pServerData)
+            auto connection_data = iter.second;
+            if (connection_data != nullptr)
             {
-                std::string info = ARK_FORMAT("TargetBusID={} State={} url={}", pServerData->server_bus_id_, pServerData->net_state_, pServerData->endpoint_.ToString());
+                std::string info = ARK_FORMAT("TargetBusID={} State={} url={}", connection_data->server_bus_id_, connection_data->net_state_, connection_data->endpoint_.ToString());
                 LogServerInfo(info);
             }
-            return true;
-        });
+        }
 
         LogServerInfo("This is a client, end to print Server Info----------------------------------");
     }
@@ -317,7 +318,7 @@ namespace ark
         for (auto& iter : tmp_nets_)
         {
             const AFConnectionData& connection_data = iter;
-            ARK_SHARE_PTR<AFConnectionData> target_connection_data = target_servers_.GetElement(connection_data.server_bus_id_);
+            ARK_SHARE_PTR<AFConnectionData> target_connection_data = target_servers_.find_value(connection_data.server_bus_id_);
             if (nullptr == target_connection_data)
             {
                 //add new server
@@ -338,7 +339,7 @@ namespace ark
                     target_connection_data->net_state_ = AFConnectionData::CONNECTING;
                 }
 
-                target_servers_.AddElement(target_connection_data->server_bus_id_, target_connection_data);
+                target_servers_.insert(target_connection_data->server_bus_id_, target_connection_data);
                 AFINetClientService::RegMsgCallback(AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, this, &AFCNetClientService::OnServerNotify);
             }
         }
@@ -386,9 +387,9 @@ namespace ark
         }
     }
 
-    const ARK_SHARE_PTR<AFConnectionData>& AFCNetClientService::GetServerNetInfo(const int nServerID)
+    ARK_SHARE_PTR<AFConnectionData> AFCNetClientService::GetServerNetInfo(const int nServerID)
     {
-        return target_servers_.GetElement(nServerID);
+        return target_servers_.find_value(nServerID);
     }
 
     AFMapEx<int, AFConnectionData>& AFCNetClientService::GetServerList()

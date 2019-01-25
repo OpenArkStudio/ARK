@@ -30,27 +30,25 @@
 namespace ark
 {
 
-    class AFCClass;
+    class AFCMetaClass;
 
-    class ElementConfigInfo
+    class AFConfigInfo
     {
     public:
-        ElementConfigInfo()
+        AFConfigInfo()
         {
             m_pNodeManager = std::make_shared<AFCDataNodeManager>(NULL_GUID);
             m_pTableManager = std::make_shared<AFCDataTableManager>(NULL_GUID);
         }
 
-        virtual ~ElementConfigInfo()
-        {
-        }
+        virtual ~AFConfigInfo() = default;
 
-        ARK_SHARE_PTR<AFIDataNodeManager>& GetNodeManager()
+        ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager()
         {
             return m_pNodeManager;
         }
 
-        ARK_SHARE_PTR<AFIDataTableManager>& GetTableManager()
+        ARK_SHARE_PTR<AFIDataTableManager> GetTableManager()
         {
             return m_pTableManager;
         }
@@ -87,12 +85,12 @@ namespace ark
 
     protected:
         AFDataNode* GetNode(const std::string& config_id, const std::string& node_name);
-        bool Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIMetaClass> pLogicClass);
+        bool Load(rapidxml::xml_node<>* attr_node, ARK_SHARE_PTR<AFIMetaClass> pMetaClass);
 
     private:
-        AFIMetaClassModule* m_pClassModule{ nullptr };
-        bool mbLoaded{ false };
-        AFArrayMap<std::string, ElementConfigInfo> mxElementConfigMap;
+        AFIMetaClassModule* m_pMetaClassModule{ nullptr };
+        bool loaded_{ false };
+        AFArrayMap<std::string, AFConfigInfo> all_configs_;
     };
 
 }

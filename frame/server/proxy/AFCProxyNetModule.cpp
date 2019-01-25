@@ -160,11 +160,10 @@ namespace ark
 
     bool AFCProxyNetModule::VerifyConnectData(const std::string& strAccount, const std::string& strKey)
     {
-        ARK_SHARE_PTR<ClientConnectData> pConnectData = mxWantToConnectMap.GetElement(strAccount);
-
+        ARK_SHARE_PTR<ClientConnectData> pConnectData = mxWantToConnectMap.find_value(strAccount);
         if (pConnectData != nullptr && strKey == pConnectData->strConnectKey)
         {
-            mxWantToConnectMap.RemoveElement(strAccount);
+            mxWantToConnectMap.erase(strAccount);
             return true;
         }
 
@@ -246,13 +245,12 @@ namespace ark
         ARK_SHARE_PTR<AFClientConnectionData> pSessionData = std::make_shared<AFClientConnectionData>();
 
         pSessionData->conn_id_ = conn_id;
-        client_connections_.AddElement(conn_id, pSessionData);
+        client_connections_.insert(conn_id, pSessionData);
     }
 
     void AFCProxyNetModule::OnClientDisconnect(const AFGUID& conn_id)
     {
-        ARK_SHARE_PTR<AFClientConnectionData> pSessionData = client_connections_.GetElement(conn_id);
-
+        ARK_SHARE_PTR<AFClientConnectionData> pSessionData = client_connections_.find_value(conn_id);
         if (pSessionData != nullptr)
         {
             if (pSessionData->game_id_ != 0 && pSessionData->actor_id_ != 0)
@@ -262,7 +260,7 @@ namespace ark
                 m_pMsgModule->SendParticularSSMsg(pSessionData->game_id_, AFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, xData, 0, pSessionData->actor_id_);
             }
 
-            client_connections_.RemoveElement(conn_id);
+            client_connections_.erase(conn_id);
         }
         else
         {
@@ -378,7 +376,7 @@ namespace ark
 
     int AFCProxyNetModule::EnterGameSuccessEvent(const AFGUID conn_id, const AFGUID actor_id)
     {
-        ARK_SHARE_PTR<AFClientConnectionData> pSessionData = client_connections_.GetElement(conn_id);
+        ARK_SHARE_PTR<AFClientConnectionData> pSessionData = client_connections_.find_value(conn_id);
 
         if (pSessionData != nullptr)
         {
@@ -399,9 +397,9 @@ namespace ark
         if (pServerData != nullptr && AFConnectionData::CONNECTED == pServerData->net_state_)
         {
             //数据匹配
-            ARK_SHARE_PTR<AFClientConnectionData> pSessionData = client_connections_.GetElement(xClientID);
+            ARK_SHARE_PTR<AFClientConnectionData> pSessionData = client_connections_.find_value(xClientID);
 
-            if (pSessionData
+            if (pSessionData != nullptr
                     && pSessionData->logic_state_ > 0
                     && pSessionData->game_id_ == nGameID
                     && pSessionData->account_ == strAccount)

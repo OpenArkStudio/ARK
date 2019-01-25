@@ -36,12 +36,12 @@ namespace ark
 
         bool Init() override;
 
-        ARK_SHARE_PTR<AFMapInfo>& GetMapInfo(const int map_id) override;
+        ARK_SHARE_PTR<AFMapInfo> GetMapInfo(const int map_id) override;
 
         bool IsInMapInstance(const AFGUID& self) override;
-        bool ExistMap(const int nSceneID) override;
+        bool ExistMap(const int map_id) override;
 
-        bool SwitchMap(const AFGUID& self, const int target_map, const int target_inst, const Point3D& pos, const float fOrient, const AFIDataList& args) override;
+        bool SwitchMap(const AFGUID& self, const int target_map, const int target_inst, const Point3D& pos, const float orient, const AFIDataList& args) override;
 
         bool CreateMap(const int map_id) override;
         bool DestroyMap(const int map_id) override;

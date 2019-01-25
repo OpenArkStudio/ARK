@@ -83,7 +83,7 @@ namespace ark
         };
 
         //SceneID,(SeedID,SeedData)
-        AFMapEx<int, AFMapEx<std::string, SceneSeedResource>> map_res;
+        AFMapEx<int, AFMapEx<std::string, SceneSeedResource>> map_res_;
     };
 
 }

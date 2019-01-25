@@ -44,7 +44,7 @@ namespace ark
     bool AFCSceneProcessModule::PostInit()
     {
         //Init scene container
-        ARK_SHARE_PTR<AFIMetaClass>& pLogicClass = m_pClassModule->GetElement("Scene");
+        ARK_SHARE_PTR<AFIMetaClass> pLogicClass = m_pClassModule->GetMetaClass("Scene");
         if (nullptr == pLogicClass)
         {
             return false;
@@ -69,14 +69,15 @@ namespace ark
 
     bool AFCSceneProcessModule::CreateMapEntities(const int map_id, const int inst_id)
     {
-        auto& pMapRes = map_res.GetElement(map_id);
-        if (nullptr == pMapRes)
+        auto pMapRes = map_res_.find_value(map_id);
+        if (pMapRes == nullptr)
         {
             return false;
         }
 
-        for (ARK_SHARE_PTR<SceneSeedResource> pResource = pMapRes->First(); nullptr != pResource; pResource = pMapRes->Next())
+        for (auto iter : *pMapRes)
         {
+            auto pResource = iter.second;
             const std::string class_name = m_pConfigModule->GetNodeString(pResource->strConfigID, ark::NPC::ClassName());
 
             AFCDataList arg;
@@ -265,12 +266,12 @@ namespace ark
         const std::string strSceneFilePath(m_pConfigModule->GetNodeString(sceneIDName, ark::Scene::FilePath()));
 
         //场景对应资源
-        ARK_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResourceMap = map_res.GetElement(nSceneID);
+        ARK_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResourceMap = map_res_.find_value(nSceneID);
 
-        if (nullptr == pSceneResourceMap)
+        if (pSceneResourceMap == nullptr)
         {
             pSceneResourceMap = std::make_shared<AFMapEx<std::string, SceneSeedResource>>();
-            map_res.AddElement(nSceneID, pSceneResourceMap);
+            map_res_.insert(nSceneID, pSceneResourceMap);
         }
 
         if (strSceneFilePath.empty())
@@ -299,12 +300,12 @@ namespace ark
                 ARK_ASSERT_NO_EFFECT(0);
             }
 
-            ARK_SHARE_PTR<SceneSeedResource> pSeedResource = pSceneResourceMap->GetElement(strSeedID);
+            ARK_SHARE_PTR<SceneSeedResource> pSeedResource = pSceneResourceMap->find_value(strSeedID);
 
             if (nullptr == pSeedResource)
             {
                 pSeedResource = std::make_shared<SceneSeedResource>();
-                pSceneResourceMap->AddElement(strSeedID, pSeedResource);
+                pSceneResourceMap->insert(strSeedID, pSeedResource);
             }
 
             pSeedResource->strSeedID = strSeedID;

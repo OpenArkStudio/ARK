@@ -68,7 +68,7 @@ namespace ark
             return RegCommonDataTableEvent(std::make_shared<DATA_TABLE_EVENT_FUNCTOR>(functor));
         }
         /////////////////////////////////////////////////////////////////
-        virtual ARK_SHARE_PTR<AFIEntity>& GetEntity(const AFGUID& self) = 0;
+        virtual ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& self) = 0;
         virtual ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int map_id, const int map_instance_id, const std::string& class_name, const std::string& config_index, const AFIDataList& args) = 0;
 
         virtual bool DestroyEntity(const AFGUID& self) = 0;

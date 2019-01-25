@@ -30,28 +30,21 @@ namespace ark
     class AFMapInstance
     {
     public:
-        explicit AFMapInstance(int nGroupID) :
-            mnGroupID(nGroupID)
+        explicit AFMapInstance(int inst_id) :
+            inst_id_(inst_id)
         {
 
         }
 
-        virtual ~AFMapInstance()
-        {
-        }
+        virtual ~AFMapInstance() = default;
 
-        bool Update()
-        {
-            return true;
-        }
-
-        AFMapEx<AFGUID, int> mxPlayerList;
-        AFMapEx<AFGUID, int> mxOtherList;
-        int mnGroupID;
+        AFMapEx<AFGUID, bool> player_entities_;
+        AFMapEx<AFGUID, bool> other_entities_;
+        int inst_id_;
     };
 
     //All instance in this map
-    class AFMapInfo : public AFMapEx<int, AFMapInstance>
+    class AFMapInfo
     {
     public:
         explicit AFMapInfo() :
@@ -68,7 +61,7 @@ namespace ark
 
         virtual ~AFMapInfo()
         {
-            ClearAll();
+            map_instances_.clear();
         }
 
         int CreateInstanceID()
@@ -81,57 +74,77 @@ namespace ark
             return width_;
         }
 
-        bool AddEntityToInstance(const int nGroupID, const AFGUID& ident, bool bPlayer)
+        std::shared_ptr<AFMapInstance> GetInstance(int inst_id)
         {
-            ARK_SHARE_PTR<AFMapInstance> pInfo = GetElement(nGroupID);
+            return map_instances_.find_value(inst_id);
+        }
 
+        bool ExistInstance(int inst_id)
+        {
+            return (map_instances_.find_value(inst_id) != nullptr);
+        }
+
+        AFMapEx<int, AFMapInstance>& GetAllInstance()
+        {
+            return map_instances_;
+        }
+
+        bool AddInstance(int inst_id, ARK_SHARE_PTR<AFMapInstance> inst)
+        {
+            return map_instances_.insert(inst_id, inst).second;
+        }
+
+        bool RemoveInstance(int inst_id)
+        {
+            map_instances_.erase(inst_id);
+            return true;
+        }
+
+        bool AddEntityToInstance(const int inst_id, const AFGUID& entity_id, bool is_player)
+        {
+            ARK_SHARE_PTR<AFMapInstance> pInfo = map_instances_.find_value(inst_id);
             if (pInfo == nullptr)
             {
                 return false;
             }
             else
             {
-                if (bPlayer)
+                if (is_player)
                 {
-                    return pInfo->mxPlayerList.AddElement(ident, ARK_SHARE_PTR<int>()); //TODO:Map.second mean nothing
+                    return pInfo->player_entities_.insert(entity_id, nullptr).second; //TODO:Map.second mean nothing
                 }
                 else
                 {
-                    return pInfo->mxOtherList.AddElement(ident, ARK_SHARE_PTR<int>()); //TODO:Map.second mean nothing
+                    return pInfo->other_entities_.insert(entity_id, nullptr).second; //TODO:Map.second mean nothing
                 }
             }
         }
 
-        bool RemoveEntityFromInstance(const int nGroupID, const AFGUID& ident, bool bPlayer)
+        bool RemoveEntityFromInstance(const int inst_id, const AFGUID& entity_id, bool is_player)
         {
-            ARK_SHARE_PTR<AFMapInstance> pInfo = GetElement(nGroupID);
-
+            ARK_SHARE_PTR<AFMapInstance> pInfo = map_instances_.find_value(inst_id);
             if (nullptr == pInfo)
             {
                 return false;
             }
             else
             {
-                if (bPlayer)
+                if (is_player)
                 {
-                    return pInfo->mxPlayerList.RemoveElement(ident);
+                    return pInfo->player_entities_.erase(entity_id);
                 }
                 else
                 {
-                    return pInfo->mxOtherList.RemoveElement(ident);
+                    return pInfo->other_entities_.erase(entity_id);
                 }
             }
-        }
-
-        bool Update()
-        {
-            return true;
         }
 
     private:
         int instance_id_;
         int map_id_;
         int width_; //will separate the grid
+        AFMapEx<int, AFMapInstance> map_instances_;
     };
 
     class AFIMapModule : public AFIModule
@@ -139,28 +152,28 @@ namespace ark
     public:
         virtual ~AFIMapModule() = default;
 
-        virtual ARK_SHARE_PTR<AFMapInfo>& GetMapInfo(const int map_id) = 0;
+        virtual ARK_SHARE_PTR<AFMapInfo> GetMapInfo(const int map_id) = 0;
 
         virtual bool IsInMapInstance(const AFGUID& self) = 0;
-        virtual bool ExistMap(const int nContainerIndex) = 0;
+        virtual bool ExistMap(const int map_id) = 0;
 
-        virtual bool SwitchMap(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const Point3D& pos, const float fOrient, const AFIDataList& arg) = 0;
+        virtual bool SwitchMap(const AFGUID& self, const int target_map, const int target_inst, const Point3D& pos, const float orient, const AFIDataList& args) = 0;
 
-        virtual bool CreateMap(const int nSceneID) = 0;
-        virtual bool DestroyMap(const int nSceneID) = 0;
+        virtual bool CreateMap(const int map_id) = 0;
+        virtual bool DestroyMap(const int map_id) = 0;
 
         virtual int GetOnlineCount() = 0;
         virtual int GetMaxOnlineCount() = 0;
-        virtual int GetMapOnlineCount(const int nSceneID) = 0;
-        virtual int GetMapOnlineCount(const int nSceneID, const int nGroupID) = 0;
-        virtual int GetMapOnlineList(const int nSceneID, AFIDataList& var) = 0;
+        virtual int GetMapOnlineCount(const int map_id) = 0;
+        virtual int GetMapOnlineCount(const int map_id, const int inst_id) = 0;
+        virtual int GetMapOnlineList(const int map_id, AFIDataList& args) = 0;
 
-        virtual int CreateMapInstance(const int nSceneID) = 0;
-        virtual bool ReleaseMapInstance(const int nSceneID, const int nGroupID) = 0;
-        virtual bool ExitMapInstance(const int nSceneID, const int nGroupID) = 0;
+        virtual int CreateMapInstance(const int map_id) = 0;
+        virtual bool ReleaseMapInstance(const int map_id, const int inst_id) = 0;
+        virtual bool ExitMapInstance(const int map_id, const int inst_id) = 0;
 
-        virtual bool GetInstEntityList(const int nSceneID, const int nGroupID, AFIDataList& list) = 0;
-        virtual int GetEntityByDataNode(const int nSceneID, const std::string& strPropertyName, const AFIDataList& valueArg, AFIDataList& list) = 0;
+        virtual bool GetInstEntityList(const int map_id, const int inst_id, AFIDataList& list) = 0;
+        virtual int GetEntityByDataNode(const int map_id, const std::string& data_node, const AFIDataList& args, AFIDataList& entities) = 0;
     };
 
 }

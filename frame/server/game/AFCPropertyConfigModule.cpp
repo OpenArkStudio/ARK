@@ -40,11 +40,11 @@ namespace ark
 
     int AFCPropertyConfigModule::CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty)
     {
-        ARK_SHARE_PTR <AFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
+        ARK_SHARE_PTR<AFMapEx<int, std::string>> xPropertyMap = mhtCoefficienData.find_value(nJob);
 
-        if (xPropertyMap)
+        if (xPropertyMap != nullptr)
         {
-            ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->GetElement(nLevel);
+            ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->find_value(nLevel);
 
             if (xRefPropertyIDName)
             {
@@ -57,8 +57,7 @@ namespace ark
 
     void AFCPropertyConfigModule::Load()
     {
-        ARK_SHARE_PTR<AFIMetaClass> pLogicClass = m_pClassModule->GetElement(ark::InitProperty::ThisName());
-
+        ARK_SHARE_PTR<AFIMetaClass> pLogicClass = m_pClassModule->GetMetaClass(ark::InitProperty::ThisName());
         if (nullptr != pLogicClass)
         {
             AFList<std::string>& xList = pLogicClass->GetConfigNameList();
@@ -75,19 +74,18 @@ namespace ark
                     int nLevel = m_pConfigModule->GetNodeInt(strData, ark::InitProperty::Level());
                     std::string strEffectData = m_pConfigModule->GetNodeString(strData, ark::InitProperty::EffectData());
 
-                    ARK_SHARE_PTR <AFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
+                    ARK_SHARE_PTR<AFMapEx<int, std::string>> xPropertyMap = mhtCoefficienData.find_value(nJob);
 
-                    if (!xPropertyMap)
+                    if (xPropertyMap == nullptr)
                     {
                         xPropertyMap = std::make_shared<AFMapEx<int, std::string>>();
-                        mhtCoefficienData.AddElement(nJob, xPropertyMap);
+                        mhtCoefficienData.insert(nJob, xPropertyMap);
 
-                        ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->GetElement(nLevel);
-
-                        if (!xRefPropertyIDName)
+                        ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->find_value(nLevel);
+                        if (xRefPropertyIDName == nullptr)
                         {
                             xRefPropertyIDName = std::make_shared<std::string>(strEffectData);
-                            xPropertyMap->AddElement(nLevel, xRefPropertyIDName);
+                            xPropertyMap->insert(nLevel, xRefPropertyIDName);
                         }
                     }
                 }
@@ -99,13 +97,12 @@ namespace ark
 
     bool AFCPropertyConfigModule::LegalLevel(const int nJob, const int nLevel)
     {
-        ARK_SHARE_PTR <AFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
-
-        if (xPropertyMap)
+        ARK_SHARE_PTR<AFMapEx<int, std::string>> xPropertyMap = mhtCoefficienData.find_value(nJob);
+        if (xPropertyMap != nullptr)
         {
-            ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->GetElement(nLevel);
+            ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->find_value(nLevel);
 
-            if (xRefPropertyIDName)
+            if (xRefPropertyIDName != nullptr)
             {
                 return true;
             }
