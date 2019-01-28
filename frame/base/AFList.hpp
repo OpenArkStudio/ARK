@@ -52,7 +52,7 @@ namespace ark
 
         iterator erase(const_iterator& it)
         {
-            return values_.erase(it)
+            return values_.erase(it);
         }
 
         iterator emplace(iterator it, const_reference value)
