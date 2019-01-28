@@ -47,12 +47,12 @@ namespace ark
         void Update() override
         {
             int event_id = 0;
-            for (bool bRet = need_remove_events_.First(event_id); bRet; bRet = need_remove_events_.Next(event_id))
+            for (auto iter : need_remove_events_)
             {
-                event_callbacks_.erase(event_id);
+                event_callbacks_.erase(iter);
             }
 
-            need_remove_events_.ClearAll();
+            need_remove_events_.clear();
         }
 
         bool AddEventCallBack(const int event_id, const EVENT_PROCESS_FUNCTOR_PTR& cb) override
@@ -65,13 +65,14 @@ namespace ark
             }
             else
             {
-                return pEventInfo->Add(cb);
+                pEventInfo->emplace_back(cb);
+                return true;
             }
         }
 
         bool RemoveEventCallBack(const int event_id) override
         {
-            need_remove_events_.Add(event_id);
+            need_remove_events_.emplace_back(event_id);
             return true;
         }
 
@@ -83,10 +84,9 @@ namespace ark
                 return false;
             }
 
-            EVENT_PROCESS_FUNCTOR_PTR cb;
-            for (bool bRet = event_info->First(cb); bRet; bRet = event_info->Next(cb))
+            for (auto iter : *event_info)
             {
-                (*cb)(self_, event_id, args);
+                (*iter)(self_, event_id, args);
             }
 
             return true;
@@ -101,7 +101,7 @@ namespace ark
 
         bool Shut()
         {
-            need_remove_events_.ClearAll();
+            need_remove_events_.clear();
             event_callbacks_.clear();
 
             return true;

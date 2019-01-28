@@ -29,16 +29,16 @@
 namespace ark
 {
 
-    class AFIMetaClass : public AFList<std::string>
+    class AFIMetaClass
     {
     public:
         virtual ~AFIMetaClass() {}
 
-        virtual ARK_SHARE_PTR<AFIDataNodeManager>& GetNodeManager() = 0;
-        virtual ARK_SHARE_PTR<AFIDataTableManager>& GetTableManager() = 0;
+        virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager() = 0;
+        virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager() = 0;
 
-        virtual void SetParent(ARK_SHARE_PTR<AFIMetaClass>& pClass) = 0;
-        virtual ARK_SHARE_PTR<AFIMetaClass>& GetParent() = 0;
+        virtual void SetParent(ARK_SHARE_PTR<AFIMetaClass> pClass) = 0;
+        virtual ARK_SHARE_PTR<AFIMetaClass> GetParent() = 0;
 
         virtual void SetTypeName(const char* type) = 0;
         virtual const std::string& GetTypeName() = 0;
@@ -50,7 +50,7 @@ namespace ark
         virtual void SetResPath(const std::string& path) = 0;
         virtual const std::string& GetResPath() = 0;
 
-        virtual bool AddClassCallBack(const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
+        virtual bool AddClassCallBack(const CLASS_EVENT_FUNCTOR_PTR cb) = 0;
         virtual bool DoEvent(const AFGUID& id, const ARK_ENTITY_EVENT class_event, const AFIDataList& args) = 0;
 
         template<typename BaseType>
@@ -60,8 +60,8 @@ namespace ark
             return AddNodeCallBack(class_name, std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
         }
 
-        virtual bool AddNodeCallBack(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
-        virtual bool AddCommonNodeCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
+        virtual bool AddNodeCallBack(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR cb) = 0;
+        virtual bool AddCommonNodeCallback(const DATA_NODE_EVENT_FUNCTOR_PTR cb) = 0;
 
         //template<typename BaseType>
         //bool AddTableCommonCallback(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
@@ -70,11 +70,15 @@ namespace ark
         //    return AddTableCommonCallback(std::make_shared<DATA_TABLE_EVENT_FUNCTOR>(functor));
         //}
 
-        virtual bool AddTableCallBack(const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
-        virtual bool AddCommonTableCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
+        virtual bool AddTableCallBack(const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb) = 0;
+        virtual bool AddCommonTableCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR cb) = 0;
 
-        virtual bool InitDataNodeManager(ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager) = 0;
-        virtual bool InitDataTableManager(ARK_SHARE_PTR<AFIDataTableManager>& pTableManager) = 0;
+        virtual bool InitDataNodeManager(ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager) = 0;
+        virtual bool InitDataTableManager(ARK_SHARE_PTR<AFIDataTableManager> pTableManager) = 0;
+
+        virtual bool ExistInclude(const std::string& include_file) = 0;
+        virtual bool AddInclude(const std::string& include_file) = 0;
+        virtual AFList<std::string>& GetIncludeFiles() = 0;
     };
 
     class AFIMetaClassModule : public AFIModule
@@ -115,16 +119,16 @@ namespace ark
         }
 
         virtual bool DoEvent(const AFGUID& entity_id, const std::string& class_name, const ARK_ENTITY_EVENT class_event, const AFIDataList& args) = 0;
-        virtual bool AddNodeCallBack(const std::string& class_name, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
-        virtual bool AddTableCallBack(const std::string& class_name, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
-        virtual bool AddCommonNodeCallback(const std::string& class_name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
-        virtual bool AddCommonTableCallback(const std::string& class_name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
+        virtual bool AddNodeCallBack(const std::string& class_name, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR cb) = 0;
+        virtual bool AddTableCallBack(const std::string& class_name, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb) = 0;
+        virtual bool AddCommonNodeCallback(const std::string& class_name, const DATA_NODE_EVENT_FUNCTOR_PTR cb) = 0;
+        virtual bool AddCommonTableCallback(const std::string& class_name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb) = 0;
 
-        virtual bool AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
+        virtual bool AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR cb) = 0;
         virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& class_name) = 0;
         virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& class_name) = 0;
-        virtual bool InitDataNodeManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager) = 0;
-        virtual bool InitDataTableManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataTableManager>& pTableManager) = 0;
+        virtual bool InitDataNodeManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager) = 0;
+        virtual bool InitDataTableManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataTableManager> pTableManager) = 0;
 
         virtual std::shared_ptr<AFIMetaClass> GetMetaClass(const std::string& class_name) = 0;
         virtual AFMapEx<std::string, AFIMetaClass>& GetAllMetaClass() = 0;

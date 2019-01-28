@@ -84,7 +84,7 @@ namespace ark
         return DT_UNKNOWN;
     }
 
-    bool AFCMetaClassModule::AddNodes(rapidxml::xml_node<>* pNodeRootNode, ARK_SHARE_PTR<AFIMetaClass>& pClass)
+    bool AFCMetaClassModule::AddNodes(rapidxml::xml_node<>* pNodeRootNode, ARK_SHARE_PTR<AFIMetaClass> pClass)
     {
         for (rapidxml::xml_node<>* pNode = pNodeRootNode->first_node(); pNode != nullptr; pNode = pNode->next_sibling())
         {
@@ -126,7 +126,7 @@ namespace ark
         return true;
     }
 
-    bool AFCMetaClassModule::AddTables(rapidxml::xml_node<>* pTableRootNode, ARK_SHARE_PTR<AFIMetaClass>& pClass)
+    bool AFCMetaClassModule::AddTables(rapidxml::xml_node<>* pTableRootNode, ARK_SHARE_PTR<AFIMetaClass> pClass)
     {
         for (rapidxml::xml_node<>* pTableNode = pTableRootNode->first_node(); pTableNode != nullptr; pTableNode = pTableNode->next_sibling())
         {
@@ -148,9 +148,9 @@ namespace ark
             for (rapidxml::xml_node<>* pTableColNode = pTableNode->first_node(); pTableColNode != nullptr; pTableColNode = pTableColNode->next_sibling())
             {
                 AFCData data;
-                const char* pstrColType = pTableColNode->first_attribute("Type")->value();
+                const char* col_type = pTableColNode->first_attribute("Type")->value();
 
-                if (DT_UNKNOWN == ComputerType(pstrColType, data))
+                if (DT_UNKNOWN == ComputerType(col_type, data))
                 {
                     ARK_ASSERT(0, pTableName, __FILE__, __FUNCTION__);
                 }
@@ -171,15 +171,15 @@ namespace ark
         return true;
     }
 
-    bool AFCMetaClassModule::AddComponents(rapidxml::xml_node<>* pComponentRootNode, ARK_SHARE_PTR<AFIMetaClass>& pClass)
+    bool AFCMetaClassModule::AddComponents(rapidxml::xml_node<>* pComponentRootNode, ARK_SHARE_PTR<AFIMetaClass> pClass)
     {
         //Components will be added in Ark-ECS
         return true;
     }
 
-    bool AFCMetaClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIMetaClass>& pClass)
+    bool AFCMetaClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIMetaClass> pClass)
     {
-        if (pClass->Find(pstrClassFilePath))
+        if (pClass->ExistInclude(pstrClassFilePath))
         {
             return false;
         }
@@ -223,7 +223,7 @@ namespace ark
 
                 if (AddClassInclude(pstrIncludeFile, pClass))
                 {
-                    pClass->Add(pstrIncludeFile);
+                    pClass->AddInclude(pstrIncludeFile);
                 }
             }
         }
@@ -231,24 +231,23 @@ namespace ark
         return true;
     }
 
-    bool AFCMetaClassModule::AddClass(const char* pstrSchemaFilePath, ARK_SHARE_PTR<AFIMetaClass>& pClass)
+    bool AFCMetaClassModule::AddClass(const char* pstrSchemaFilePath, ARK_SHARE_PTR<AFIMetaClass> pClass)
     {
         for (ARK_SHARE_PTR<AFIMetaClass> pParent = pClass->GetParent(); nullptr != pParent; pParent = pParent->GetParent())
         {
             //inherited some properties form class of parent
-            std::string strFileName;
-
-
-            for (bool ret = pParent->First(strFileName); ret && !strFileName.empty(); ret = pParent->Next(strFileName))
+            auto include_files = pParent->GetIncludeFiles();
+            for (auto iter : include_files)
             {
-                if (pClass->Find(strFileName))
+                const std::string& include_file = iter;
+                if (pClass->ExistInclude(include_file))
                 {
                     continue;
                 }
 
-                if (AddClassInclude(strFileName.c_str(), pClass))
+                if (AddClassInclude(include_file.c_str(), pClass))
                 {
-                    pClass->Add(strFileName);
+                    pClass->AddInclude(include_file);
                 }
             }
         }
@@ -256,7 +255,7 @@ namespace ark
         //////////////////////////////////////////////////////////////////////////
         if (AddClassInclude(pstrSchemaFilePath, pClass))
         {
-            pClass->Add(pstrSchemaFilePath);
+            pClass->AddInclude(pstrSchemaFilePath);
         }
 
         return true;
@@ -297,19 +296,19 @@ namespace ark
         return metaclasses_;
     }
 
-    bool AFCMetaClassModule::AddNodeCallBack(const std::string& class_name, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
+    bool AFCMetaClassModule::AddNodeCallBack(const std::string& class_name, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR cb)
     {
         auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->AddNodeCallBack(name, cb) : false);
     }
 
-    bool AFCMetaClassModule::AddTableCallBack(const std::string& class_name, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
+    bool AFCMetaClassModule::AddTableCallBack(const std::string& class_name, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb)
     {
         auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->AddTableCallBack(name, cb) : false);
     }
 
-    bool AFCMetaClassModule::AddCommonNodeCallback(const std::string& class_name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
+    bool AFCMetaClassModule::AddCommonNodeCallback(const std::string& class_name, const DATA_NODE_EVENT_FUNCTOR_PTR cb)
     {
         auto pClass = metaclasses_.find_value(class_name);
         if (pClass != nullptr)
@@ -322,7 +321,7 @@ namespace ark
         }
     }
 
-    bool AFCMetaClassModule::AddCommonTableCallback(const std::string& class_name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
+    bool AFCMetaClassModule::AddCommonTableCallback(const std::string& class_name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb)
     {
         auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->AddCommonTableCallback(cb) : false);
@@ -391,19 +390,19 @@ namespace ark
         return ((pClass != nullptr) ? pClass->GetTableManager() : nullptr);
     }
 
-    bool AFCMetaClassModule::InitDataNodeManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager)
+    bool AFCMetaClassModule::InitDataNodeManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager)
     {
         auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->InitDataNodeManager(pNodeManager) : false);
     }
 
-    bool AFCMetaClassModule::InitDataTableManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataTableManager>& pTableManager)
+    bool AFCMetaClassModule::InitDataTableManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataTableManager> pTableManager)
     {
         auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->InitDataTableManager(pTableManager) : false);
     }
 
-    bool AFCMetaClassModule::AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR& cb)
+    bool AFCMetaClassModule::AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR cb)
     {
         auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->AddClassCallBack(cb) : false);

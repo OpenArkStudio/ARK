@@ -28,30 +28,30 @@ namespace ark
     class AFRandom
     {
     public:
-        AFRandom() : _seed(0), _get_count(0)
+        AFRandom() : seed_(0), get_count_(0)
         {
         }
 
         ~AFRandom() {}
 
         //--------------------------------------------------------------------
-        // 设置随机数种子
+        //set random seed
         void SetSeed(uint32_t seed)
         {
-            _seed = seed;
-            _get_count = 0;
+            seed_ = seed;
+            get_count_ = 0;
         }
 
         uint32_t GetSeed()
         {
-            return _seed;
+            return seed_;
         }
 
         //--------------------------------------------------------------------
-        // 生成一个随机数
+        //generate a randon number
         inline uint32_t Random()
         {
-            unsigned int next = _seed;
+            unsigned int next = seed_;
             unsigned int result = 0;
 
             next *= 1103515245;
@@ -68,21 +68,21 @@ namespace ark
             result <<= 10;
             result ^= (unsigned int)(next >> 16) % 1024;
 
-            _seed = next;
+            seed_ = next;
 
-            _get_count++;
+            get_count_++;
 
             //reset
-            if (_get_count >= (std::numeric_limits<int>::max() - 1))
+            if (get_count_ >= (std::numeric_limits<int>::max() - 1))
             {
-                _get_count = 0;
+                get_count_ = 0;
             }
 
             return result;
         }
 
         //--------------------------------------------------------------------
-        //生成一个[0, max_range - 1]之间的随机数
+        //gernerate a random number which ranges in [0, max_range - 1]
         uint32_t Random(uint32_t max_range)
         {
             if (max_range == 0)
@@ -93,7 +93,7 @@ namespace ark
             return Random() % max_range;
         }
 
-        //生成一个[min_range, max_range - 1]之间的随机数
+        //gernerate a random number which ranges in [min_range, max_range - 1]
         unsigned int Random(uint32_t min_range, uint32_t max_range)
         {
             uint32_t min = 0;
@@ -118,7 +118,7 @@ namespace ark
             return Random(max - min) + min;
         }
 
-        // 生成一个[min_range, max_range - 1]之间的随机数
+        //gernerate a random number which ranges in [min_range, max_range - 1]
         int Random(int min_range, int max_range)
         {
             if (min_range == max_range)
@@ -141,12 +141,12 @@ namespace ark
 
         int GetRandomCount()
         {
-            return _get_count;
+            return get_count_;
         }
 
     private:
-        uint32_t _seed;
-        int _get_count;
+        uint32_t seed_;
+        int get_count_;
     };
 
 }

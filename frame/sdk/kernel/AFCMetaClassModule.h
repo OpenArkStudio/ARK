@@ -60,36 +60,36 @@ namespace ark
             }
 
             table_callbacks_.Clear();
-            ClearAll();
+            include_files_.clear();
         }
 
-        ARK_SHARE_PTR<AFIDataNodeManager>& GetNodeManager() override
+        ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager() override
         {
             return m_pNodeManager;
         }
 
-        ARK_SHARE_PTR<AFIDataTableManager>& GetTableManager() override
+        ARK_SHARE_PTR<AFIDataTableManager> GetTableManager() override
         {
             return m_pTableManager;
         }
 
-        bool AddClassCallBack(const CLASS_EVENT_FUNCTOR_PTR& cb) override
+        bool AddClassCallBack(const CLASS_EVENT_FUNCTOR_PTR cb) override
         {
-            return class_events_.Add(cb);
+            class_events_.emplace_back(cb);
+            return true;
         }
 
         bool DoEvent(const AFGUID& id, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& valueList) override
         {
-            CLASS_EVENT_FUNCTOR_PTR cb;
-            for (bool bRet = class_events_.First(cb); bRet; bRet = class_events_.Next(cb))
+            for (auto iter : class_events_)
             {
-                (*cb)(id, class_name_, eClassEvent, valueList);
+                (*iter)(id, class_name_, eClassEvent, valueList);
             }
 
             return true;
         }
 
-        bool AddNodeCallBack(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) override
+        bool AddNodeCallBack(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR cb) override
         {
             size_t index(0);
 
@@ -115,13 +115,13 @@ namespace ark
             return true;
         }
 
-        bool AddCommonNodeCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) override
+        bool AddCommonNodeCallback(const DATA_NODE_EVENT_FUNCTOR_PTR cb) override
         {
             common_node_callbacks_.push_back(cb);
             return true;
         }
 
-        bool AddTableCallBack(const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) override
+        bool AddTableCallBack(const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb) override
         {
             AFTableCallBack* pCallBackList = table_callbacks_.GetElement(name);
 
@@ -157,7 +157,7 @@ namespace ark
             return true;
         }
 
-        bool InitDataNodeManager(ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager) override
+        bool InitDataNodeManager(ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager) override
         {
             ARK_SHARE_PTR<AFIDataNodeManager>& pStaticClassNodeManager = GetNodeManager();
             if (!pStaticClassNodeManager)
@@ -187,13 +187,13 @@ namespace ark
             return true;
         }
 
-        bool AddCommonTableCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) override
+        bool AddCommonTableCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR cb) override
         {
             common_table_callbacks_.push_back(cb);
             return true;
         }
 
-        bool InitDataTableManager(ARK_SHARE_PTR<AFIDataTableManager>& pTableManager) override
+        bool InitDataTableManager(ARK_SHARE_PTR<AFIDataTableManager> pTableManager) override
         {
             ARK_SHARE_PTR<AFIDataTableManager>& pStaticClassTableManager = GetTableManager();
             if (pStaticClassTableManager == nullptr)
@@ -240,12 +240,12 @@ namespace ark
             return 0;
         }
 
-        void SetParent(ARK_SHARE_PTR<AFIMetaClass>& pClass) override
+        void SetParent(ARK_SHARE_PTR<AFIMetaClass> pClass) override
         {
             m_pParentClass = pClass;
         }
 
-        ARK_SHARE_PTR<AFIMetaClass>& GetParent() override
+        ARK_SHARE_PTR<AFIMetaClass> GetParent() override
         {
             return m_pParentClass;
         }
@@ -267,7 +267,8 @@ namespace ark
 
         bool AddConfigName(std::string& config_name) override
         {
-            return config_list_.Add(config_name);
+            config_list_.emplace_back(config_name);
+            return true;
         }
 
         AFList<std::string>& GetConfigNameList() override
@@ -283,6 +284,22 @@ namespace ark
         const std::string& GetResPath() override
         {
             return class_res_path_;
+        }
+
+        bool ExistInclude(const std::string& include_file) override
+        {
+            return include_files_.exist(include_file);
+        }
+
+        bool AddInclude(const std::string& include_file) override
+        {
+            include_files_.emplace_back(include_file);
+            return true;
+        }
+
+        AFList<std::string>& GetIncludeFiles() override
+        {
+            return include_files_;
         }
 
     private:
@@ -314,6 +331,8 @@ namespace ark
 
         AFArrayMap<std::string, AFTableCallBack> table_callbacks_;
         TableCallbacks common_table_callbacks_;
+
+        AFList<std::string> include_files_;
     };
 
     class AFCMetaClassModule : public AFIMetaClassModule
@@ -325,28 +344,28 @@ namespace ark
         bool Init() override;
         bool Load() override;
 
-        bool AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR& cb) override;
+        bool AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR cb) override;
         bool DoEvent(const AFGUID& id, const std::string& class_name, const ARK_ENTITY_EVENT class_event, const AFIDataList& args) override;
-        bool AddNodeCallBack(const std::string& class_name, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) override;
-        bool AddTableCallBack(const std::string& class_name, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) override;
-        bool AddCommonNodeCallback(const std::string& class_name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) override;
-        bool AddCommonTableCallback(const std::string& class_name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) override;
+        bool AddNodeCallBack(const std::string& class_name, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR cb) override;
+        bool AddTableCallBack(const std::string& class_name, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb) override;
+        bool AddCommonNodeCallback(const std::string& class_name, const DATA_NODE_EVENT_FUNCTOR_PTR cb) override;
+        bool AddCommonTableCallback(const std::string& class_name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb) override;
 
         ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& class_name) override;
         ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& class_name) override;
-        bool InitDataNodeManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager) override;
-        bool InitDataTableManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataTableManager>& pTableManager) override;
+        bool InitDataNodeManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager) override;
+        bool InitDataTableManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataTableManager> pTableManager) override;
         bool AddClass(const std::string& class_name, const std::string& parent_name);
         std::shared_ptr<AFIMetaClass> GetMetaClass(const std::string& class_name) override;
         AFMapEx<std::string, AFIMetaClass>& GetAllMetaClass() override;
 
     protected:
         int ComputerType(const char* type_name, AFIData& var);
-        bool AddNodes(rapidxml::xml_node<>* pNodeRootNode, ARK_SHARE_PTR<AFIMetaClass>& pClass);
-        bool AddTables(rapidxml::xml_node<>* pTableRootNode, ARK_SHARE_PTR<AFIMetaClass>& pClass);
-        bool AddComponents(rapidxml::xml_node<>* pComponentRootNode, ARK_SHARE_PTR<AFIMetaClass>& pClass);
-        bool AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIMetaClass>& pClass);
-        bool AddClass(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIMetaClass>& pClass);
+        bool AddNodes(rapidxml::xml_node<>* pNodeRootNode, ARK_SHARE_PTR<AFIMetaClass> pClass);
+        bool AddTables(rapidxml::xml_node<>* pTableRootNode, ARK_SHARE_PTR<AFIMetaClass> pClass);
+        bool AddComponents(rapidxml::xml_node<>* pComponentRootNode, ARK_SHARE_PTR<AFIMetaClass> pClass);
+        bool AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIMetaClass> pClass);
+        bool AddClass(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIMetaClass> pClass);
 
         bool Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIMetaClass> pParentClass);
 

@@ -58,39 +58,38 @@ namespace ark
     void AFCPropertyConfigModule::Load()
     {
         ARK_SHARE_PTR<AFIMetaClass> pLogicClass = m_pClassModule->GetMetaClass(ark::InitProperty::ThisName());
-        if (nullptr != pLogicClass)
+        if (nullptr == pLogicClass)
         {
-            AFList<std::string>& xList = pLogicClass->GetConfigNameList();
-            std::string strData;
-            bool bRet = xList.First(strData);
+            return;
+        }
 
-            while (bRet)
+        AFList<std::string>& xList = pLogicClass->GetConfigNameList();
+        for (auto iter : xList)
+        {
+            auto& config_id = iter;
+            ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = m_pConfigModule->GetNodeManager(config_id);
+
+            if (pNodeManager == nullptr)
             {
-                ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = m_pConfigModule->GetNodeManager(strData);
+                continue;
+            }
 
-                if (pNodeManager != nullptr)
+            int nJob = m_pConfigModule->GetNodeInt(config_id, ark::InitProperty::Job());
+            int nLevel = m_pConfigModule->GetNodeInt(config_id, ark::InitProperty::Level());
+            std::string strEffectData = m_pConfigModule->GetNodeString(config_id, ark::InitProperty::EffectData());
+
+            ARK_SHARE_PTR<AFMapEx<int, std::string>> xPropertyMap = mhtCoefficienData.find_value(nJob);
+            if (xPropertyMap == nullptr)
+            {
+                xPropertyMap = std::make_shared<AFMapEx<int, std::string>>();
+                mhtCoefficienData.insert(nJob, xPropertyMap);
+
+                ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->find_value(nLevel);
+                if (xRefPropertyIDName == nullptr)
                 {
-                    int nJob = m_pConfigModule->GetNodeInt(strData, ark::InitProperty::Job());
-                    int nLevel = m_pConfigModule->GetNodeInt(strData, ark::InitProperty::Level());
-                    std::string strEffectData = m_pConfigModule->GetNodeString(strData, ark::InitProperty::EffectData());
-
-                    ARK_SHARE_PTR<AFMapEx<int, std::string>> xPropertyMap = mhtCoefficienData.find_value(nJob);
-
-                    if (xPropertyMap == nullptr)
-                    {
-                        xPropertyMap = std::make_shared<AFMapEx<int, std::string>>();
-                        mhtCoefficienData.insert(nJob, xPropertyMap);
-
-                        ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->find_value(nLevel);
-                        if (xRefPropertyIDName == nullptr)
-                        {
-                            xRefPropertyIDName = std::make_shared<std::string>(strEffectData);
-                            xPropertyMap->insert(nLevel, xRefPropertyIDName);
-                        }
-                    }
+                    xRefPropertyIDName = std::make_shared<std::string>(strEffectData);
+                    xPropertyMap->insert(nLevel, xRefPropertyIDName);
                 }
-
-                bRet = xList.Next(strData);
             }
         }
     }
@@ -107,7 +106,6 @@ namespace ark
                 return true;
             }
         }
-
 
         return false;
     }

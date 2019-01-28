@@ -51,17 +51,15 @@ namespace ark
         }
 
         AFList<std::string>& list = pLogicClass->GetConfigNameList();
-        std::string strData;
-        for (bool bRet = list.First(strData); bRet; bRet = list.Next(strData))
+        for (auto iter : list)
         {
-            int nSceneID = ARK_LEXICAL_CAST<int>(strData);
-
-            if (!LoadSceneResource(nSceneID))
+            int map_id = ARK_LEXICAL_CAST<int>(iter);
+            if (!LoadSceneResource(map_id))
             {
                 return false;
             }
 
-            m_pMapModule->CreateMap(nSceneID);
+            m_pMapModule->CreateMap(map_id);
         }
 
         return true;
