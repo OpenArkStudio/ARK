@@ -159,8 +159,8 @@ namespace ark
 
         bool InitDataNodeManager(ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager) override
         {
-            ARK_SHARE_PTR<AFIDataNodeManager>& pStaticClassNodeManager = GetNodeManager();
-            if (!pStaticClassNodeManager)
+            ARK_SHARE_PTR<AFIDataNodeManager> pStaticClassNodeManager = GetNodeManager();
+            if (pStaticClassNodeManager == nullptr)
             {
                 return false;
             }
@@ -195,7 +195,7 @@ namespace ark
 
         bool InitDataTableManager(ARK_SHARE_PTR<AFIDataTableManager> pTableManager) override
         {
-            ARK_SHARE_PTR<AFIDataTableManager>& pStaticClassTableManager = GetTableManager();
+            ARK_SHARE_PTR<AFIDataTableManager> pStaticClassTableManager = GetTableManager();
             if (pStaticClassTableManager == nullptr)
             {
                 return false;
