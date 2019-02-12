@@ -48,7 +48,7 @@ namespace ark
         }
 
         //--------------------------------------------------------------------
-        //generate a randon number
+        //generate a random number
         inline uint32_t Random()
         {
             unsigned int next = seed_;
@@ -82,7 +82,7 @@ namespace ark
         }
 
         //--------------------------------------------------------------------
-        //gernerate a random number which ranges in [0, max_range - 1]
+        //generate a random number which ranges in [0, max_range - 1]
         uint32_t Random(uint32_t max_range)
         {
             if (max_range == 0)
@@ -93,7 +93,7 @@ namespace ark
             return Random() % max_range;
         }
 
-        //gernerate a random number which ranges in [min_range, max_range - 1]
+        //generate a random number which ranges in [min_range, max_range - 1]
         unsigned int Random(uint32_t min_range, uint32_t max_range)
         {
             uint32_t min = 0;
@@ -118,7 +118,7 @@ namespace ark
             return Random(max - min) + min;
         }
 
-        //gernerate a random number which ranges in [min_range, max_range - 1]
+        //generate a random number which ranges in [min_range, max_range - 1]
         int Random(int min_range, int max_range)
         {
             if (min_range == max_range)
