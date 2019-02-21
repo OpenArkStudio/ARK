@@ -2,8 +2,8 @@
 
 ## High priority
 
-- [ ] 调整代码风格统一
 - [ ] excel格式修改为一张excel里放所有的schema,其他配置表分开来写,兼容现在的格式
+- [ ] 调整代码风格统一
 - [ ] 修改进程启动优先链接logserver，如果logserver连不上，则直接不能启动，这样就可以从一开始就能打log了
 - [ ] spdlog升级
 - [ ] 增加dirty data layer, 当一个客户端请求处理完成后统一下发变化数据，不能有变有发，会导致小包太碎，并且浪费协议的head
@@ -35,7 +35,7 @@
 ## Part finished
 
 - [x] spdlog增加按照文件夹/大小/小时滚动的sink(*已经修改了一部分，还需要进一步修改成tlog的格式，/data/binlog/1001/20180627/game1_hour.log*)
-- [x] 增加consistent_hash_map(**以增加, 还未启用**)
+- [x] 增加consistent_hash_map(**已增加, 还未启用**)
 
 ## Finished
 
