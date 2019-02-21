@@ -42,43 +42,43 @@ namespace ark
         schema_file_ = "schema/LogicClass.xml";
         ARK_LOG_INFO("Using file [{}{}]", pPluginManager->GetResPath(), schema_file_);
 
-        bool bRet = Load();
-        ARK_ASSERT_RET_VAL(bRet, false);
+        bool ret = Load();
+        ARK_ASSERT_RET_VAL(ret, false);
 
         return true;
     }
 
-    int AFCMetaClassModule::ComputerType(const char* pstrTypeName, AFIData& var)
+    int AFCMetaClassModule::ComputerType(const char* type_name, AFIData& data)
     {
-        if (0 == ARK_STRICMP(pstrTypeName, "bool"))
+        if (0 == ARK_STRICMP(type_name, "bool"))
         {
-            var.SetBool(NULL_BOOLEAN);
-            return var.GetType();
+            data.SetBool(NULL_BOOLEAN);
+            return data.GetType();
         }
-        else if (0 == ARK_STRICMP(pstrTypeName, "int"))
+        else if (0 == ARK_STRICMP(type_name, "int"))
         {
-            var.SetInt(NULL_INT);
-            return var.GetType();
+            data.SetInt(NULL_INT);
+            return data.GetType();
         }
-        else if (0 == ARK_STRICMP(pstrTypeName, "int64"))
+        else if (0 == ARK_STRICMP(type_name, "int64"))
         {
-            var.SetInt64(NULL_INT64);
-            return var.GetType();
+            data.SetInt64(NULL_INT64);
+            return data.GetType();
         }
-        else if (0 == ARK_STRICMP(pstrTypeName, "float"))
+        else if (0 == ARK_STRICMP(type_name, "float"))
         {
-            var.SetFloat(NULL_FLOAT);
-            return var.GetType();
+            data.SetFloat(NULL_FLOAT);
+            return data.GetType();
         }
-        else if (0 == ARK_STRICMP(pstrTypeName, "double"))
+        else if (0 == ARK_STRICMP(type_name, "double"))
         {
-            var.SetDouble(NULL_DOUBLE);
-            return var.GetType();
+            data.SetDouble(NULL_DOUBLE);
+            return data.GetType();
         }
-        else if (0 == ARK_STRICMP(pstrTypeName, "string"))
+        else if (0 == ARK_STRICMP(type_name, "string"))
         {
-            var.SetString(NULL_STR.c_str());
-            return var.GetType();
+            data.SetString(NULL_STR.c_str());
+            return data.GetType();
         }
 
         return DT_UNKNOWN;

@@ -33,9 +33,9 @@ namespace ark
         return true;
     }
 
-    int Sample2Module::OnDataNodeCB(const AFGUID& self, const std::string& name, const AFIData& oldVar, const AFIData& newVar)
+    int Sample2Module::OnDataNodeCB(const AFGUID& self, const std::string& name, const AFIData& old_var, const AFIData& new_var)
     {
-        std::cout << "OnDataNodeCB DataNode: " << name << " Old value: " << oldVar.GetInt() << " New value: " << newVar.GetInt() << std::endl;
+        std::cout << "OnDataNodeCB DataNode: " << name << " Old value: " << old_var.GetInt() << " New value: " << new_var.GetInt() << std::endl;
         return 0;
     }
 
@@ -79,7 +79,6 @@ namespace ark
     bool Sample2Module::PreShut()
     {
         std::cout << typeid(Sample2Module).name() << ", PreShut" << std::endl;
-
         return true;
     }
 

@@ -83,7 +83,7 @@ namespace ark
         }
 
         template<typename T>
-        static bool ARK_FROM_STR(const std::string& strValue, T& nValue)
+        static bool FromString(const std::string& strValue, T& nValue)
         {
             try
             {

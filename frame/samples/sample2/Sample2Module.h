@@ -37,7 +37,7 @@ namespace ark
         bool Shut() override;
 
     protected:
-        int OnDataNodeCB(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
+        int OnDataNodeCB(const AFGUID& self, const std::string& node_name, const AFIData& old_var, const AFIData& new_var);
     };
 
 }

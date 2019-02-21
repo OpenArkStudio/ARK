@@ -360,7 +360,7 @@ namespace ark
         AFMapEx<std::string, AFIMetaClass>& GetAllMetaClass() override;
 
     protected:
-        int ComputerType(const char* type_name, AFIData& var);
+        int ComputerType(const char* type_name, AFIData& data);
         bool AddNodes(rapidxml::xml_node<>* pNodeRootNode, ARK_SHARE_PTR<AFIMetaClass> pClass);
         bool AddTables(rapidxml::xml_node<>* pTableRootNode, ARK_SHARE_PTR<AFIMetaClass> pClass);
         bool AddComponents(rapidxml::xml_node<>* pComponentRootNode, ARK_SHARE_PTR<AFIMetaClass> pClass);
