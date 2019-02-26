@@ -2,7 +2,7 @@
 * This source file is part of ARK
 * For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 QuadHex authors.
+* Copyright (c) 2013-2019 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -26,11 +26,11 @@
 namespace ark
 {
 
-    class ArrayPodAlloc
+    class AFArrayPodAlloc
     {
     public:
-        ArrayPodAlloc() = default;
-        ~ArrayPodAlloc() = default;
+        AFArrayPodAlloc() = default;
+        ~AFArrayPodAlloc() = default;
 
         void* Alloc(size_t size)
         {
@@ -42,30 +42,30 @@ namespace ark
             ARK_DELETE_ARRAY(char, ptr);
         }
 
-        void Swap(ArrayPodAlloc& src)
+        void Swap(AFArrayPodAlloc& src)
         {
             //do nothing
         }
     };
 
     //predeclared
-    template<typename TYPE, size_t SIZE, typename ALLOC = ArrayPodAlloc>
-    class ArrayPod;
+    template<typename TYPE, size_t SIZE, typename ALLOC = AFArrayPodAlloc>
+    class AFArrayPod;
 
     template<typename TYPE, size_t SIZE, typename ALLOC>
-    class ArrayPod
+    class AFArrayPod
     {
     public:
-        using self_t = ArrayPod<TYPE, SIZE, ALLOC>;
+        using self_t = AFArrayPod<TYPE, SIZE, ALLOC>;
 
-        ArrayPod() noexcept
+        AFArrayPod() noexcept
         {
             mpData = mxStack;
             mnCapacity = SIZE;
             mnSize = 0;
         }
 
-        ArrayPod(const self_t& src)
+        AFArrayPod(const self_t& src)
         {
             mnSize = src.mnSize;
 
@@ -83,7 +83,7 @@ namespace ark
             memcpy(mpData, src.mpData, mnSize * sizeof(TYPE));
         }
 
-        ~ArrayPod()
+        ~AFArrayPod()
         {
             if (mnCapacity > SIZE)
             {

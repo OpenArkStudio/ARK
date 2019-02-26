@@ -2,7 +2,7 @@
 * This source file is part of ARK
 * For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2017 QuadHex authors.
+* Copyright (c) 2013-2019 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -157,7 +157,7 @@ namespace ark
         virtual bool IsInMapInstance(const AFGUID& self) = 0;
         virtual bool ExistMap(const int map_id) = 0;
 
-        virtual bool SwitchMap(const AFGUID& self, const int target_map, const int target_inst, const Point3D& pos, const float orient, const AFIDataList& args) = 0;
+        virtual bool SwitchMap(const AFGUID& self, const int target_map, const int target_inst, const AFVector3D& pos, const float orient, const AFIDataList& args) = 0;
 
         virtual bool CreateMap(const int map_id) = 0;
         virtual bool DestroyMap(const int map_id) = 0;

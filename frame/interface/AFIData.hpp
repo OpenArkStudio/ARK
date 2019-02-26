@@ -2,7 +2,7 @@
 * This source file is part of ARK
 * For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 QuadHex authors.
+* Copyright (c) 2013-2019 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -21,33 +21,10 @@
 #pragma once
 
 #include "base/AFMacros.hpp"
+#include "base/AFEnum.hpp"
 
 namespace ark
 {
-
-    enum AF_DATA_TYPE
-    {
-        DT_UNKNOWN,     //unknown type
-        DT_BOOLEAN,     //bool
-        DT_INT,         //int32_t
-        DT_INT64,       //int64_t
-        DT_FLOAT,       //float
-        DT_DOUBLE,      //double
-        DT_STRING,      //string(char*)
-        DT_POINTER,     //pointer(void*)
-        DT_USERDATA,    //user data(char*)
-        DT_TABLE,       //table
-        DT_MAX,         //max
-    };
-
-    const static bool NULL_BOOLEAN = false;
-    const static int NULL_INT = 0U;
-    const static int64_t NULL_INT64 = 0L;
-    const static float NULL_FLOAT = 0.0F;
-    const static double NULL_DOUBLE = 0.0;
-    const static std::string NULL_STR = "";
-    const static AFGUID NULL_GUID = 0;//AFGUID();
-    const static nullptr_t NULL_POINT = nullptr;
 
     class AFIData
     {

@@ -2,7 +2,7 @@
 * This source file is part of ARK
 * For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2017 QuadHex authors.
+* Copyright (c) 2013-2019 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -64,16 +64,16 @@ namespace ark
             return true;
         }
 
-        static Point3D PBToVec(AFMsg::Point3D xPoint)
+        static AFVector3D PBToVec(AFMsg::Point3D xPoint)
         {
-            Point3D xID;
+            AFVector3D xID;
             xID.x = xPoint.x();
             xID.y = xPoint.y();
             xID.z = xPoint.z();
             return xID;
         }
 
-        static AFMsg::Point3D VecToPB(Point3D xID)
+        static AFMsg::Point3D VecToPB(AFVector3D xID)
         {
             AFMsg::Point3D xPoint;
             xPoint.set_x(xID.x);
