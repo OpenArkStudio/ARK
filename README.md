@@ -1,6 +1,6 @@
 # ARK
 
-> ARK is a lightweight, agility, elastic, distributed plugin framework written by C++，make it easier and faster to create your own game server, can be used to develop MMO RPG, Action RPG, Round play, chess games. Inspired by UnrealEngine and Ogre.
+> ARK is a lightweight, agility, elastic, distributed plugin framework written by C++，make it easier and faster to create your own application service. Inspired by UnrealEngine and Ogre.
 
 ## Features
 
