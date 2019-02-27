@@ -20,6 +20,9 @@
 
 #pragma once
 
+#include "interface/AFIDataEx.hpp"
+#include "AFMap.hpp"
+
 namespace ark
 {
 

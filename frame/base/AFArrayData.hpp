@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include "interface/AFIDataEx.hpp"
+
 namespace ark
 {
 

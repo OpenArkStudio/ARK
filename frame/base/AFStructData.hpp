@@ -220,7 +220,7 @@ namespace ark
 
     private:
         uint64_t key_{ 0 };
-        AFMapEx<std::string, AFIDataEx> datas_;
+        AFMap<std::string, AFIDataEx> datas_;
     };
 
 }
