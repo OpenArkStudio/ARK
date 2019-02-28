@@ -24,22 +24,22 @@
 
 namespace ark
 {
-	using AFDataMask = std::bitset<8>;
-	class AFDataSetting
-	{
-	public:
-		AFDataSetting() = default;
-		bool HaveMask(const uint8_t pos) const
-		{
-			return mask_.test(pos);
-		}
+    using AFDataMask = std::bitset<8>;
+    class AFDataSetting
+    {
+    public:
+        AFDataSetting() = default;
+        bool HaveMask(const uint8_t pos) const
+        {
+            return mask_.test(pos);
+        }
 
-		std::string name_{};
-		ArkDataType type_{DT_UNKNOWN};
-		std::string init_value_{};
-		std::string sub_meta_class_{};
-		uint32_t mask_{0};
-		std::string key_name_{};
-		//TODO:
-	};
+        std::string name_{};
+        ArkDataType type_{DT_UNKNOWN};
+        std::string init_value_{};
+        std::string sub_meta_class_{};
+        uint32_t mask_{0};
+        std::string key_name_{};
+        //To add more
+    };
 }

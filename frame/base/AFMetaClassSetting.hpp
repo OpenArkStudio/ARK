@@ -25,25 +25,25 @@
 namespace ark
 {
 
-	class AFMetaClassSetting
-	{
-	public:
-		AFMetaClassSetting() = default;
-		~AFMetaClassSetting() = default;
+    class AFMetaClassSetting
+    {
+    public:
+        AFMetaClassSetting() = default;
+        ~AFMetaClassSetting() = default;
 
-		const AFDataSetting* FindDataSetting(const std::string& name) const
-		{
-			return config_datas_.GetElement(name);
-		}
+        const AFDataSetting* FindDataSetting(const std::string& name) const
+        {
+            return static_config_datas_.find_value(name);
+        }
 
-		bool IsChildData(const std::string& name) const
-		{
-			return FindDataSetting(name) != nullptr;
-		}
+        bool IsChildData(const std::string& name) const
+        {
+            return FindDataSetting(name) != nullptr;
+        }
 
-	public:
-		std::string meta_class_name_{};
-		AFArrayMap<AFDataSetting> config_datas_;
-	};
+    public:
+        std::string meta_class_name_{};
+        AFMapEx<std::string, AFDataSetting> static_config_datas_;
+    };
 
 }
