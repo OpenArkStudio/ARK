@@ -38,7 +38,7 @@ namespace ark
         ArkDataType type_{DT_UNKNOWN};
         std::string init_value_{};
         std::string sub_meta_class_{};
-        uint32_t mask_{0};
+        AFDataMask mask_{0};
         std::string key_name_{};
         //To add more
     };

@@ -21,6 +21,7 @@
 #pragma once
 
 #include "AFSingleton.hpp"
+#include "AFXml.hpp"
 #include "AFDataSetting.hpp"
 #include "AFMetaClassSetting.hpp"
 
@@ -57,14 +58,23 @@ namespace ark
             for (auto xml_node = root_node.FindNode("setting"); xml_node.IsValid(); xml_node = xml_node.NextNode())
             {
                 auto class_name = xml_node.GetString("class");
-                auto meta_class_setting = std::make_shared<AFMetaClassSetting>();
+                auto meta_class_setting = class_settings_.find_value(class_name);
+                if (meta_class_setting == nullptr)
+                {
+                    auto meta_class_setting = std::make_shared<AFMetaClassSetting>();
+                    class_settings_.insert(class_name, meta_class_setting);
+                }
 
                 auto field_name = xml_node.GetString("filed_name");
                 auto data_setting = std::make_shared<AFDataSetting>();
-
-                //TODO
-
-                class_settings_.insert(class_name, meta_class_setting);
+                data_setting->type_ = xml_node.GetString("type");
+                data_setting->init_value_ = xml_node.GetString("init_value");
+                data_setting->sub_meta_class_ = xml_node.GetString("sub_class");
+                data_setting->key_name_ = xml_node.GetString("key_name");
+                if (xml_node.GetBool("save"))
+                {
+                    data_setting->mask_
+                }
             }
         }
 
