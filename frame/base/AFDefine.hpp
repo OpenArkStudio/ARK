@@ -20,9 +20,9 @@
 
 #pragma once
 
+#include "AFMacros.hpp"
 #include "AFEnum.hpp"
-#include "AFCData.hpp"
-#include "AFCDataList.hpp"
+#include "AFString.hpp"
 
 namespace ark
 {
