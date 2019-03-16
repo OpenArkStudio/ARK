@@ -7,6 +7,7 @@ English | [简体中文](./README_CN.md)
 ----------
 
 ![GitHub release](https://img.shields.io/github/release/QuadHex/ARK.svg?style=flat-square)
+![GitHub pre-release](https://img.shields.io/github/release-pre/QuadHex/ARK.svg?label=pre-release&style=flat-square)
 [![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows-green.svg?style=flat-square)](https://github.com/QuadHex/ARK)
 [![C++11](https://img.shields.io/badge/C++-11-4c7e9f.svg?style=flat-square)](https://github.com/QuadHex/ARK)
 [![License](https://img.shields.io/github/license/QuadHex/ARK.svg?colorB=f48041&style=flat-square)](https://opensource.org/licenses/Apache-2.0)
