@@ -33,14 +33,14 @@ namespace ark
     public:
         virtual ~AFIDataEx() = default;
 
-        virtual bool Init(const AFMetaClassSetting* meta_class, const AFDataSetting* data)
+        virtual bool Init(const AFMetaClassSetting* class_setting, const AFDataSetting* data_setting)
         {
-            ARK_ASSERT_RET_VAL(meta_class != nullptr && data != nullptr, false);
+            ARK_ASSERT_RET_VAL(class_setting != nullptr && data_setting != nullptr, false);
 
-            class_setting_ = meta_class;
-            data_setting_ = data;
+            class_setting_ = class_setting;
+            data_setting_ = data_setting;
 
-            FromString(data->init_value_);
+            FromString(data_setting->init_value_);
 
             return false;
         }

@@ -142,12 +142,21 @@ namespace ark
 
         void FindData(const std::string& data_name, uint64_t value, std::list<AFIDataEx*>& result_list) override
         {
-            //TODO
+            for (auto iter : datas_)
+            {
+                auto data_value = iter.second->GetValue(value);
+                if (data_value == value)
+                {
+                    result_list.push_back(iter.second);
+                }
+            }
         }
 
         bool CheckData(const std::string& data_name, uint64_t value, const std::string& check_name, uint64_t check_value) override
         {
             //TODO
+
+            return false;
         }
 
     private:
