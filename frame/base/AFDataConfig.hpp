@@ -73,8 +73,25 @@ namespace ark
                 data_setting->key_name_ = xml_node.GetString("key_name");
                 if (xml_node.GetBool("save"))
                 {
-                    data_setting->mask_
+                    data_setting->mask_[DMT_SAVE_DB] = true;
                 }
+
+                if (xml_node.GetBool("sync_self"))
+                {
+                    data_setting->mask_[DMT_SYNC_SELF] = true;
+                }
+
+                if (xml_node.GetBool("sync_view"))
+                {
+                    data_setting->mask_[DMT_SYNC_VIEW] = true;
+                }
+
+                if (xml_node.GetBool("log"))
+                {
+                    data_setting->mask_[DMT_LOG] = true;
+                }
+
+                //other mask
             }
         }
 

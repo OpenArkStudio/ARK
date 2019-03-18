@@ -64,6 +64,7 @@ namespace ark
         DMT_SYNC_TEAM,      //sync to team member
         DMT_SYNC_GUILD,     //sync to guild member
         DMT_SYNC_MAP,       //sync to all player in same map
+        DMT_LOG,            //log when changed
     };
 
     enum class ArkDataOpType : int

@@ -24,7 +24,7 @@
 
 namespace ark
 {
-    using AFDataMask = std::bitset<8>;
+    using AFDataMask = std::bitset<16>;
     class AFDataSetting
     {
     public:
