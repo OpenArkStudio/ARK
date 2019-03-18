@@ -39,9 +39,10 @@ namespace ark
         //get the host and port of a process
         virtual const std::string GetAppHost(const int bus_id) = 0;
 
-        //get bus relations of connecting directly
+        //get bus relations
         virtual bool GetDirectBusRelations(std::vector<AFServerConfig>& target_list) = 0;
         virtual bool IsUndirectBusRelation(const int bus_id) = 0;
+        virtual bool IsRecordBusRelation(const int bus_id) = 0;
 
         virtual const uint8_t GetSelfAppType() = 0;
         virtual const int GetSelfBusID() = 0;
