@@ -299,7 +299,35 @@ namespace ark
         {
             for (auto it : iter->second)
             {
-                if (it.first == target_bus.proc_id && !it.second)
+                if (it.first == target_bus.proc_id && it.second == CONNECT_TYPE_NOTFIY)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    bool AFCBusModule::IsRecordBusRelation(const int bus_id)
+    {
+        if (bus_id == GetSelfBusID())
+        {
+            return false;
+        }
+
+        AFBusAddr target_bus(bus_id);
+        const uint8_t& app_type = GetSelfAppType();
+        auto iter = mxBusRelations.find(app_type);
+        if (iter != mxBusRelations.end())
+        {
+            for (auto it : iter->second)
+            {
+                if (it.first == target_bus.proc_id && it.second == CONNECT_TYPE_RECORD)
                 {
                     return true;
                 }
