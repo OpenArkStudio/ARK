@@ -21,3 +21,8 @@ zone发往cluster的消息，可以直接发往router，由router根据包头中
 cluster的所有进程都需要连master和router
 
 zone内的部分进程链接router
+
+
+## log设计
+
+所有的进程都需要先链接log server后才能开始业务功能，这样可以保证所有的log都输出到远端去，log client插件需要有一个配置，表示远端log server ip-port，以及log格式
