@@ -21,6 +21,7 @@
 #include "rapidxml/rapidxml.hpp"
 #include "rapidxml/rapidxml_iterators.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
+#include "base/AFEnum.hpp"
 #include "interface/AFIPluginManager.h"
 #include "AFCBusModule.h"
 
@@ -144,7 +145,7 @@ namespace ark
         {
             std::string proc = pRelationNode->first_attribute("proc")->value();
             std::string target_proc = pRelationNode->first_attribute("target_proc")->value();
-            bool connection_type = ARK_LEXICAL_CAST<int>(pRelationNode->first_attribute("connect_type")->value());
+            ArkConnectType connection_type = ArkConnectType(ARK_LEXICAL_CAST<int>(pRelationNode->first_attribute("connect_type")->value()));
 
             const uint8_t& proc_type = GetAppType(proc);
             const uint8_t& target_proc_type = GetAppType(target_proc);
@@ -157,7 +158,7 @@ namespace ark
             }
             else
             {
-                std::map<uint8_t, bool> target_process;
+                std::map<uint8_t, ArkConnectType> target_process;
                 target_process.insert(std::make_pair(target_proc_type, connection_type));
 
                 mxBusRelations.insert(std::make_pair(proc_type, target_process));
@@ -266,7 +267,7 @@ namespace ark
         {
             for (auto it : iter->second)
             {
-                if (!it.second)
+                if (it.second != ArkConnectType::CONNECT_TYPE_DIRECT)
                 {
                     //undirected
                     continue;
@@ -285,11 +286,11 @@ namespace ark
         }
     }
 
-    bool AFCBusModule::IsUndirectBusRelation(const int bus_id)
+    ArkConnectType AFCBusModule::GetBusRelationConnectionType(const int bus_id)
     {
         if (bus_id == GetSelfBusID())
         {
-            return false;
+            return ArkConnectType::CONNECT_TYPE_UNKNOWN;
         }
 
         AFBusAddr target_bus(bus_id);
@@ -299,49 +300,19 @@ namespace ark
         {
             for (auto it : iter->second)
             {
-                if (it.first == target_bus.proc_id && it.second == CONNECT_TYPE_NOTFIY)
+                if (it.first == target_bus.proc_id)
                 {
-                    return true;
+                    return it.second;
                 }
             }
-
-            return false;
         }
         else
         {
-            return false;
+            return ArkConnectType::CONNECT_TYPE_UNKNOWN;
         }
     }
 
-    bool AFCBusModule::IsRecordBusRelation(const int bus_id)
-    {
-        if (bus_id == GetSelfBusID())
-        {
-            return false;
-        }
-
-        AFBusAddr target_bus(bus_id);
-        const uint8_t& app_type = GetSelfAppType();
-        auto iter = mxBusRelations.find(app_type);
-        if (iter != mxBusRelations.end())
-        {
-            for (auto it : iter->second)
-            {
-                if (it.first == target_bus.proc_id && it.second == CONNECT_TYPE_RECORD)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    const int AFCBusModule::CombineBusID(const uint8_t& app_type, const uint8_t& inst_id)
+    const int AFCBusModule::CombineBusID(const uint8_t app_type, const uint8_t inst_id)
     {
         ARK_ASSERT_RET_VAL(app_type > ARK_APP_DEFAULT && app_type < ARK_APP_MAX, 0);
 
