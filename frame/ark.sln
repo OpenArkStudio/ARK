@@ -1,4 +1,3 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
@@ -135,6 +134,116 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "proto", "proto", "{6FA904D8-5337-4796-B140-65550CCB3703}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFProto", "proto\proto.vcxproj", "{3D9DB426-BA46-450B-BBAC-DABB6B6D69DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base", "base", "{A26ADDB9-5F0C-46AC-8FCA-A944C36323B8}"
+	ProjectSection(SolutionItems) = preProject
+		base\AFApp.hpp = base\AFApp.hpp
+		base\AFArrayData.hpp = base\AFArrayData.hpp
+		base\AFArrayMap.hpp = base\AFArrayMap.hpp
+		base\AFArrayPod.hpp = base\AFArrayPod.hpp
+		base\AFBaseStruct.hpp = base\AFBaseStruct.hpp
+		base\AFBitValue.hpp = base\AFBitValue.hpp
+		base\AFBuffer.hpp = base\AFBuffer.hpp
+		base\AFBuildInData.hpp = base\AFBuildInData.hpp
+		base\AFCConsistentHash.hpp = base\AFCConsistentHash.hpp
+		base\AFCData.hpp = base\AFCData.hpp
+		base\AFCDataList.hpp = base\AFCDataList.hpp
+		base\AFCDataNodeManager.hpp = base\AFCDataNodeManager.hpp
+		base\AFCDataTableManager.hpp = base\AFCDataTableManager.hpp
+		base\AFCEntity.hpp = base\AFCEntity.hpp
+		base\AFCEventManager.hpp = base\AFCEventManager.hpp
+		base\AFCoreDef.hpp = base\AFCoreDef.hpp
+		base\AFCRC.hpp = base\AFCRC.hpp
+		base\AFCronScheduler.hpp = base\AFCronScheduler.hpp
+		base\AFDataConfig.hpp = base\AFDataConfig.hpp
+		base\AFDataDefine.hpp = base\AFDataDefine.hpp
+		base\AFDataFactory.hpp = base\AFDataFactory.hpp
+		base\AFDataNode.hpp = base\AFDataNode.hpp
+		base\AFDataSetting.hpp = base\AFDataSetting.hpp
+		base\AFDataTable.hpp = base\AFDataTable.hpp
+		base\AFDateTime.hpp = base\AFDateTime.hpp
+		base\AFDefine.hpp = base\AFDefine.hpp
+		base\AFDLLHeader.hpp = base\AFDLLHeader.hpp
+		base\AFEnum.hpp = base\AFEnum.hpp
+		base\AFError.hpp = base\AFError.hpp
+		base\AFErrorCode.hpp = base\AFErrorCode.hpp
+		base\AFEventDefine.hpp = base\AFEventDefine.hpp
+		base\AFGUID128.hpp = base\AFGUID128.hpp
+		base\AFHashmap.hpp = base\AFHashmap.hpp
+		base\AFList.hpp = base\AFList.hpp
+		base\AFLockFreeQueue.hpp = base\AFLockFreeQueue.hpp
+		base\AFMacros.hpp = base\AFMacros.hpp
+		base\AFMap.hpp = base\AFMap.hpp
+		base\AFMetaClassSetting.hpp = base\AFMetaClassSetting.hpp
+		base\AFMisc.hpp = base\AFMisc.hpp
+		base\AFNetEvent.hpp = base\AFNetEvent.hpp
+		base\AFNetMsg.hpp = base\AFNetMsg.hpp
+		base\AFNoncopyable.hpp = base\AFNoncopyable.hpp
+		base\AFPlatform.hpp = base\AFPlatform.hpp
+		base\AFProtoCPP.hpp = base\AFProtoCPP.hpp
+		base\AFQueue.hpp = base\AFQueue.hpp
+		base\AFRandom.hpp = base\AFRandom.hpp
+		base\AFRWLock.hpp = base\AFRWLock.hpp
+		base\AFSingleton.hpp = base\AFSingleton.hpp
+		base\AFSocketFunc.hpp = base\AFSocketFunc.hpp
+		base\AFSpinLock.hpp = base\AFSpinLock.hpp
+		base\AFString.hpp = base\AFString.hpp
+		base\AFStringPod.hpp = base\AFStringPod.hpp
+		base\AFStructData.hpp = base\AFStructData.hpp
+		base\AFTableData.hpp = base\AFTableData.hpp
+		base\AFTimer.hpp = base\AFTimer.hpp
+		base\AFTimeWheelTimer.hpp = base\AFTimeWheelTimer.hpp
+		base\AFUidGenerator.hpp = base\AFUidGenerator.hpp
+		base\AFVector3.hpp = base\AFVector3.hpp
+		base\AFXml.hpp = base\AFXml.hpp
+		base\atomicops.h = base\atomicops.h
+		base\cronexpr.cpp = base\cronexpr.cpp
+		base\cronexpr.h = base\cronexpr.h
+		base\lexical_cast.hpp = base\lexical_cast.hpp
+		base\readerwriterqueue.h = base\readerwriterqueue.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "interface", "interface", "{0E0334B7-B6A4-4E14-A446-30FD0606D2BD}"
+	ProjectSection(SolutionItems) = preProject
+		interface\AFIAccountModule.h = interface\AFIAccountModule.h
+		interface\AFIBusModule.h = interface\AFIBusModule.h
+		interface\AFIComponent.h = interface\AFIComponent.h
+		interface\AFIConfigModule.h = interface\AFIConfigModule.h
+		interface\AFIData.hpp = interface\AFIData.hpp
+		interface\AFIDataEx.hpp = interface\AFIDataEx.hpp
+		interface\AFIDataList.hpp = interface\AFIDataList.hpp
+		interface\AFIDataNodeManager.h = interface\AFIDataNodeManager.h
+		interface\AFIDataTableManager.h = interface\AFIDataTableManager.h
+		interface\AFIDirNetModule.h = interface\AFIDirNetModule.h
+		interface\AFIEntity.h = interface\AFIEntity.h
+		interface\AFIEventManager.h = interface\AFIEventManager.h
+		interface\AFIGameNetModule.h = interface\AFIGameNetModule.h
+		interface\AFIGUIDModule.h = interface\AFIGUIDModule.h
+		interface\AFIKernelModule.h = interface\AFIKernelModule.h
+		interface\AFILevelModule.h = interface\AFILevelModule.h
+		interface\AFILoginNetModule.h = interface\AFILoginNetModule.h
+		interface\AFILogModule.h = interface\AFILogModule.h
+		interface\AFIMapModule.h = interface\AFIMapModule.h
+		interface\AFIMasterNetModule.h = interface\AFIMasterNetModule.h
+		interface\AFIMetaClassModule.h = interface\AFIMetaClassModule.h
+		interface\AFIModule.h = interface\AFIModule.h
+		interface\AFIMsgModule.h = interface\AFIMsgModule.h
+		interface\AFINet.h = interface\AFINet.h
+		interface\AFINetClientService.h = interface\AFINetClientService.h
+		interface\AFINetServerService.h = interface\AFINetServerService.h
+		interface\AFINetServiceManagerModule.h = interface\AFINetServiceManagerModule.h
+		interface\AFIPlugin.h = interface\AFIPlugin.h
+		interface\AFIPluginManager.h = interface\AFIPluginManager.h
+		interface\AFIPropertyConfigModule.h = interface\AFIPropertyConfigModule.h
+		interface\AFIPropertyModule.h = interface\AFIPropertyModule.h
+		interface\AFIPropertyTrailModule.h = interface\AFIPropertyTrailModule.h
+		interface\AFIProxyNetModule.h = interface\AFIProxyNetModule.h
+		interface\AFIRouterNetModule.h = interface\AFIRouterNetModule.h
+		interface\AFISceneProcessModule.h = interface\AFISceneProcessModule.h
+		interface\AFIScheduleModule.h = interface\AFIScheduleModule.h
+		interface\AFITimerModule.h = interface\AFITimerModule.h
+		interface\AFIWorldNetModule.h = interface\AFIWorldNetModule.h
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

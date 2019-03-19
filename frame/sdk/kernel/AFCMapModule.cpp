@@ -2,7 +2,7 @@
 * This source file is part of ARK
 * For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 QuadHex authors.
+* Copyright (c) 2013-2019 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ namespace ark
         return (pMapInfo != nullptr);
     }
 
-    bool AFCMapModule::SwitchMap(const AFGUID& self, const int target_map, const int target_inst, const Point3D& pos, const float fOrient, const AFIDataList& args)
+    bool AFCMapModule::SwitchMap(const AFGUID& self, const int target_map, const int target_inst, const AFVector3D& pos, const float fOrient, const AFIDataList& args)
     {
         ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
         if (pEntity == nullptr)

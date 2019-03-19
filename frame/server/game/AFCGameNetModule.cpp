@@ -2,7 +2,7 @@
 * This source file is part of ARK
 * For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 QuadHex authors.
+* Copyright (c) 2013-2019 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -467,7 +467,7 @@ namespace ark
 
             AFMsg::EntityEnterInfo* pEnterInfo = xEntityEnterList.add_entity_list();
             pEnterInfo->set_object_guid(identOld);
-            Point3D xPoint;
+            AFVector3D xPoint;
             xPoint.x = m_pKernelModule->GetNodeFloat(identOld, "x");
             xPoint.y = m_pKernelModule->GetNodeFloat(identOld, "y");
             xPoint.z = m_pKernelModule->GetNodeFloat(identOld, "z");
@@ -1025,7 +1025,7 @@ namespace ark
 
         int nTargetScene = var.Int(2);
         int nTargetGroupID = var.Int(3);
-        Point3D xPos;
+        AFVector3D xPos;
         xPos.x = var.Float(4);
         xPos.y = var.Float(5);
         xPos.z = var.Float(6);

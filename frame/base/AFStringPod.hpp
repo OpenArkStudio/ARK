@@ -2,7 +2,7 @@
 * This source file is part of ARK
 * For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 QuadHex authors.
+* Copyright (c) 2013-2019 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -27,13 +27,13 @@ namespace ark
 {
 
     template<typename TYPE>
-    class StringTraits
+    class AFStringTraits
     {
 
     };
 
     template<>
-    class StringTraits<char>
+    class AFStringTraits<char>
     {
     public:
         static size_t Hash(const char* value)
@@ -58,13 +58,13 @@ namespace ark
     };
 
     template<typename TYPE>
-    class StringTraitsNoCase : public StringTraits<TYPE>
+    class AFStringTraitsNoCase : public AFStringTraits<TYPE>
     {
 
     };
 
     template<>
-    class StringTraitsNoCase<char> : public StringTraits<char>
+    class AFStringTraitsNoCase<char> : public AFStringTraits<char>
     {
     public:
         static size_t hash(const char* value)
@@ -78,11 +78,11 @@ namespace ark
         }
     };
     //////////////////////////////////////////////////////////////////////////
-    class StringPodAlloc
+    class AFStringPodAlloc
     {
     public:
-        StringPodAlloc() = default;
-        ~StringPodAlloc() = default;
+        AFStringPodAlloc() = default;
+        ~AFStringPodAlloc() = default;
 
         void* Alloc(size_t size)
         {
@@ -94,17 +94,17 @@ namespace ark
             ARK_DELETE_ARRAY(char, ptr);
         }
 
-        void Swap(StringPodAlloc& src)
+        void Swap(AFStringPodAlloc& src)
         {
             //Do nothing
         }
     };
 
     template<typename TYPE, typename DATA>
-    class StringPodNode
+    class AFStringPodNode
     {
     public:
-        StringPodNode* next;
+        AFStringPodNode* next;
         size_t hash;
         DATA data;
         TYPE name[1]; //like TYPE* name /  char* name
@@ -113,26 +113,26 @@ namespace ark
     //////////////////////////////////////////////////////////////////////////
 
     //predeclared
-    template<typename TYPE, typename DATA, typename TRAITS = StringTraits<TYPE>, typename ALLOC = StringPodAlloc>
-    class StringPod;
+    template<typename TYPE, typename DATA, typename TRAITS = AFStringTraits<TYPE>, typename ALLOC = AFStringPodAlloc>
+    class AFStringPod;
 
-    template<typename TYPE, typename DATA, typename TRAITS = StringTraits<TYPE>, typename ALLOC = StringPodAlloc>
-    class StringPodIter
+    template<typename TYPE, typename DATA, typename TRAITS = AFStringTraits<TYPE>, typename ALLOC = AFStringPodAlloc>
+    class AFStringPodIter
     {
     private:
-        using hash_t = StringPod<TYPE, DATA, TRAITS, ALLOC>;
-        using node_t = StringPodNode<TYPE, DATA>;
+        using hash_t = AFStringPod<TYPE, DATA, TRAITS, ALLOC>;
+        using node_t = AFStringPodNode<TYPE, DATA>;
 
     public:
-        StringPodIter() = delete;
+        AFStringPodIter() = delete;
 
-        StringPodIter(const hash_t* self, node_t* node) :
+        AFStringPodIter(const hash_t* self, node_t* node) :
             mpSelf(self),
             mpNode(node)
         {
         }
 
-        StringPodIter& operator++()
+        AFStringPodIter& operator++()
         {
             node_t* next = mpNode->next;
 
@@ -148,19 +148,19 @@ namespace ark
             return *this;
         }
 
-        StringPodIter& operator++(int)
+        AFStringPodIter& operator++(int)
         {
-            StringPodIter tmp(*this);
+            AFStringPodIter tmp(*this);
             ++(*this);
             return tmp;
         }
 
-        bool operator==(const StringPodIter& other) const
+        bool operator==(const AFStringPodIter& other) const
         {
             return (mpNode == other.mpNode);
         }
 
-        bool operator!=(const StringPodIter& other) const
+        bool operator!=(const AFStringPodIter& other) const
         {
             return (mpNode != other.mpNode);
         }
@@ -185,17 +185,17 @@ namespace ark
     };
 
     template<typename TYPE, typename DATA, typename TRAITS, typename ALLOC>
-    class StringPod
+    class AFStringPod
     {
     private:
-        using hash_t = StringPod<TYPE, DATA, TRAITS, ALLOC>;
-        using node_t = StringPodNode<TYPE, DATA>;
+        using hash_t = AFStringPod<TYPE, DATA, TRAITS, ALLOC>;
+        using node_t = AFStringPodNode<TYPE, DATA>;
 
-        using iterator = StringPodIter<TYPE, DATA, TRAITS, ALLOC>;
-        using const_iterator = StringPodIter<TYPE, DATA, TRAITS, ALLOC>;
+        using iterator = AFStringPodIter<TYPE, DATA, TRAITS, ALLOC>;
+        using const_iterator = AFStringPodIter<TYPE, DATA, TRAITS, ALLOC>;
 
     public:
-        explicit StringPod(size_t size = 0) :
+        explicit AFStringPod(size_t size = 0) :
             mnSize(size)
         {
             mnCount = 0;
@@ -211,7 +211,7 @@ namespace ark
             }
         }
 
-        StringPod(const hash_t& src)
+        AFStringPod(const hash_t& src)
         {
             const size_t size = src.mnSize;
             mnCount = 0;
@@ -243,7 +243,7 @@ namespace ark
             }
         }
 
-        ~StringPod()
+        ~AFStringPod()
         {
             Clear();
 
@@ -621,7 +621,7 @@ namespace ark
             return nullptr;
         }
     private:
-        friend class StringPodIter<TYPE, DATA, TRAITS, ALLOC>;
+        friend class AFStringPodIter<TYPE, DATA, TRAITS, ALLOC>;
         ALLOC mxAlloc;
         node_t** mpBuckets;
         size_t mnSize;

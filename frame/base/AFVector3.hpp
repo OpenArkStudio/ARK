@@ -2,7 +2,7 @@
 * This source file is part of ARK
 * For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 QuadHex authors.
+* Copyright (c) 2013-2019 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -21,43 +21,44 @@
 #pragma once
 
 #include "AFMisc.hpp"
+#include "AFDefine.hpp"
 
 namespace ark
 {
 
-    class Point3D
+    class AFVector3D
     {
     public:
         float x{ NULL_FLOAT };
         float y{ NULL_FLOAT };
         float z{ NULL_FLOAT };
 
-        Point3D()
+        AFVector3D()
         {
         }
 
-        explicit Point3D(float f3[])
+        explicit AFVector3D(float f3[])
         {
             x = f3[0];
             y = f3[1];
             z = f3[2];
         }
 
-        Point3D(float a, float b, float c)
+        AFVector3D(float a, float b, float c)
             : x(a),
               y(b),
               z(c)
         {
         }
 
-        Point3D(const Point3D& rhs)
+        AFVector3D(const AFVector3D& rhs)
         {
             x = rhs.x;
             y = rhs.y;
             z = rhs.z;
         }
 
-        const Point3D& operator=(const Point3D& rhs)
+        const AFVector3D& operator=(const AFVector3D& rhs)
         {
             if (this != &rhs)
             {
@@ -68,12 +69,12 @@ namespace ark
             return *this;
         }
 
-        inline bool operator==(const Point3D& rhs) const
+        inline bool operator==(const AFVector3D& rhs) const
         {
             return AFMisc::IsZeroFloat(Distance(*this, rhs));
         }
 
-        inline bool operator!=(const Point3D& rhs) const
+        inline bool operator!=(const AFVector3D& rhs) const
         {
             return !(*this == rhs);
         }
@@ -90,46 +91,46 @@ namespace ark
 
         std::string ToString() const
         {
-            std::stringstream ss;
-            ss << x << "," << y << "," << z;
-            return ss.str();
+            //(x,y,z)
+            return ARK_FORMAT("({:.2f},{:.2f},{:.2f})", x, y, z);
         }
 
-        bool FromString(const std::string& strValue)
+        bool FromString(const std::string& value)
         {
+            //TODO:split by new format
             //x,y,z
-            size_t nStrLength = strValue.length();
-            size_t nPos = strValue.find(',');
+            size_t len = value.length();
+            size_t pos = value.find(',');
 
-            if (nPos == std::string::npos)
+            if (pos == std::string::npos)
             {
                 return false;
             }
 
-            std::string strX = strValue.substr(0, nPos);
+            std::string str_x = value.substr(0, pos);
 
-            const std::string& strNewData = strValue.substr(nPos + 1, nStrLength - nPos);
-            nPos = strNewData.find(',');
+            const std::string new_value = value.substr(pos + 1, len - pos);
+            pos = new_value.find(',');
 
-            if (nPos == std::string::npos)
+            if (pos == std::string::npos)
             {
                 return false;
             }
 
-            std::string strY = strNewData.substr(0, nPos);
+            std::string str_y = new_value.substr(0, pos);
 
-            std::string strZ = "";
+            std::string str_z = NULL_STR;
 
-            if ((nPos + 1) < strNewData.length())
+            if ((pos + 1) < new_value.length())
             {
-                strZ = strNewData.substr(nPos + 1, strNewData.length() - nPos);
+                str_z = new_value.substr(pos + 1, new_value.length() - pos);
             }
 
             try
             {
-                x = ARK_LEXICAL_CAST<float>(strX);
-                y = ARK_LEXICAL_CAST<float>(strY);
-                z = ARK_LEXICAL_CAST<float>(strZ);
+                x = ARK_LEXICAL_CAST<float>(str_x);
+                y = ARK_LEXICAL_CAST<float>(str_y);
+                z = ARK_LEXICAL_CAST<float>(str_z);
                 return true;
             }
             catch (std::system_error& ex)
@@ -142,7 +143,7 @@ namespace ark
             return true;
         }
 
-        static float Distance(const Point3D& a, const Point3D& b)
+        static float Distance(const AFVector3D& a, const AFVector3D& b)
         {
             const float dx = a.x - b.x;
             const float dy = a.y - b.y;
@@ -151,4 +152,5 @@ namespace ark
         }
     };
 
+    const static AFVector3D NULL_VECTOR3D = AFVector3D(0.0f, 0.0f, 0.0f);
 }

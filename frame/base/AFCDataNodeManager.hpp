@@ -2,7 +2,7 @@
 * This source file is part of ARK
 * For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 QuadHex authors.
+* Copyright (c) 2013-2019 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -383,8 +383,8 @@ namespace ark
         }
 
     private:
-        ArrayPod<AFDataNode*, 1, CoreAlloc> data_nodes_;
-        StringPod<char, size_t, StringTraits<char>, CoreAlloc> node_indices_;
+        AFArrayPod<AFDataNode*, 1, CoreAlloc> data_nodes_;
+        AFStringPod<char, size_t, AFStringTraits<char>, CoreAlloc> node_indices_;
 
         AFGUID self_;
         std::vector<DATA_NODE_EVENT_FUNCTOR_PTR> node_callbacks_;

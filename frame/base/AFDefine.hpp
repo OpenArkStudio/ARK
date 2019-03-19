@@ -2,7 +2,7 @@
 * This source file is part of ARK
 * For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 QuadHex authors.
+* Copyright (c) 2013-2019 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,27 +20,25 @@
 
 #pragma once
 
-#include "AFCData.hpp"
-#include "AFCDataList.hpp"
-
-using  AFFeatureType = std::bitset<8>;
+#include "AFMacros.hpp"
+#include "AFEnum.hpp"
+#include "AFString.hpp"
 
 namespace ark
 {
+    class AFIData;
+    class AFIDataList;
 
-    enum ARK_ENTITY_EVENT
-    {
-        ENTITY_EVT_NONE = 0,
-        ENTITY_EVT_DESTROY,
-        ENTITY_EVT_PRE_DESTROY,
-        ENTITY_EVT_PRE_LOAD_DATA,
-        ENTITY_EVT_LOAD_DATA,
-        ENTITY_EVT_PRE_EFFECT_DATA,
-        ENTITY_EVT_EFFECT_DATA,
-        ENTITY_EVT_POST_EFFECT_DATA,
-        ENTITY_EVT_DATA_FINISHED,
-        ENTITY_EVT_ALL_FINISHED,        //Call it by yourself when create entity finished
-    };
+    const static bool NULL_BOOLEAN = false;
+    const static int NULL_INT = 0U;
+    const static int64_t NULL_INT64 = 0L;
+    const static float NULL_FLOAT = 0.0F;
+    const static double NULL_DOUBLE = 0.0;
+    const static std::string NULL_STR = "";
+    const static AFGUID NULL_GUID = 0;
+    const static nullptr_t NULL_POINT = nullptr;
+
+    using AFFeatureType = std::bitset<8>;
 
     class DATA_TABLE_EVENT_DATA
     {

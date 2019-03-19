@@ -2,7 +2,7 @@
 * This source file is part of ARK
 * For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 QuadHex authors.
+* Copyright (c) 2013-2019 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -83,21 +83,37 @@ namespace ark
         }
 
         template<typename T>
-        static bool FromString(const std::string& strValue, T& nValue)
+        static bool FromString(const std::string& str_value, T& result)
         {
             try
             {
-                nValue = ARK_LEXICAL_CAST<T>(strValue);
+                result = ARK_LEXICAL_CAST<T>(str_value);
                 return true;
             }
             catch (std::system_error& ex)
             {
-                CONSOLE_ERROR_LOG << "ARK_FROM_STR failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
+                CONSOLE_ERROR_LOG << "FromString failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
                 ARK_ASSERT_NO_EFFECT(0);
                 return false;
             }
 
             return false;
+        }
+
+        template<typename T>
+        static T FromString(const std::string& str_value)
+        {
+            try
+            {
+                T result = ARK_LEXICAL_CAST<T>(str_value);
+                return result;
+            }
+            catch (std::system_error& ex)
+            {
+                CONSOLE_ERROR_LOG << "FromString failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
+                ARK_ASSERT_NO_EFFECT(0);
+                return T();
+            }
         }
 
         static std::string ToLower(std::string s)
@@ -143,6 +159,38 @@ namespace ark
             AFBusAddr bus_addr(bus_id);
             return bus_addr.ToString();
         }
+
+        static ArkDataType CovertDataType(const std::string& type_name)
+        {
+            static char const* data_type[] =
+            {
+                "bool",
+                "int",
+                "uint",
+                "int64",
+                "uint64",
+                "float",
+                "double",
+                "string",
+                "vector3d",
+                "struct",
+                "table",
+                "array",
+                //if there's more type, please add type name in here
+            };
+
+            static int n = ARRAY_LENTGH(data_type);
+            for (int i = 0; i < n; ++i)
+            {
+                if (type_name == data_type[i])
+                {
+                    return ArkDataType(i);
+                }
+            }
+
+            return ArkDataType::DT_UNKNOWN;
+        }
+
     };
 
 }
