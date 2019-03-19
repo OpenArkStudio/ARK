@@ -404,15 +404,16 @@ namespace ark
         for (int i = 0; i < pb_msg.server_list_size(); ++i)
         {
             const AFMsg::msg_ss_server_report& report = pb_msg.server_list(i);
-            if (!m_pBusModule->IsUndirectBusRelation(report.bus_id()))
+            ArkConnectType connect_type = m_pBusModule->GetBusRelationConnectionType(report.bus_id());
+            if (connect_type != ArkConnectType::CONNECT_TYPE_WAIT_NOTIFY)
             {
                 continue;
             }
 
-            //Create single cluster client with bus id and url
+            //Create single cluster client with bus id and URL
             m_pNetServiceManagerModule->CreateClusterClient(AFHeadLength::SS_HEAD_LENGTH, report.bus_id(), report.url());
 
-            //manage save zone by channel & zone & proc
+            //manage save zone by channel & zone & process
             AFBusAddr bus_addr(report.bus_id());
             bus_addr.inst_id = 0;//same zone when three front number is same
 

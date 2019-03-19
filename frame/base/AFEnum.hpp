@@ -22,7 +22,7 @@
 
 namespace ark
 {
-
+    //TODO: delete
     enum AF_DATA_TYPE
     {
         DT_UNKNOWN,     //unknown type
@@ -73,6 +73,14 @@ namespace ark
         DOT_ADD,            //addition
         DOT_SUB,            //subtraction
         DOT_SET,            //set
+    };
+
+    enum class ArkConnectType : int
+    {
+        CONNECT_TYPE_UNKNOWN,       //unknown
+        CONNECT_TYPE_DIRECT,        //directly
+        CONNECT_TYPE_WAIT_NOTIFY,   //wait notify
+        CONNECT_TYPE_RECORD,        //do not connect, but need record info
     };
 
     enum ARK_ENTITY_EVENT

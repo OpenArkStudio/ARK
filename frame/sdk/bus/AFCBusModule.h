@@ -38,14 +38,13 @@ namespace ark
         const std::string GetAppHost(const int bus_id) override;
 
         bool GetDirectBusRelations(std::vector<AFServerConfig>& target_list) override;
-        bool IsUndirectBusRelation(const int bus_id) override;
-        bool IsRecordBusRelation(const int bus_id) override;
+        ArkConnectType GetBusRelationConnectionType(const int bus_id) override;
 
         const uint8_t GetSelfAppType() override;
         const int GetSelfBusID() override;
         const std::string GetSelfBusName() override;
 
-        const int CombineBusID(const uint8_t& app_type, const uint8_t& inst_id) override;
+        const int CombineBusID(const uint8_t app_type, const uint8_t inst_id) override;
 
     protected:
         bool LoadProcConfig();
@@ -57,7 +56,7 @@ namespace ark
 
     private:
         AFProcConfig mxProcConfig;
-        std::map<uint8_t, std::map<uint8_t, bool>> mxBusRelations;
+        std::map<uint8_t, std::map<uint8_t, ArkConnectType>> mxBusRelations;
     };
 
 }

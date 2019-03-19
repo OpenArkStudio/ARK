@@ -3,9 +3,10 @@
     <!-- all bus channels -->
     <!--
 	connect_type
-	0 connect directly
-	1 connect by master notify
-	2 wait by master notify, but not connect, just record
+	0 unknown
+    1 connect directly
+	2 connect by master-proc notify
+	3 wait by master notify, but not connect, just record
 	-->
     <bus_relations>
         <!-- zone begin -->
@@ -22,8 +23,8 @@
         <!-- db -->
         <relation proc="db" target_proc="world" connect_type="1" />
         <!-- world -->
-        <relation proc="world" target_proc="router" connect_type="1" />
         <relation proc="world" target_proc="master" connect_type="1" />
+        <relation proc="world" target_proc="router" connect_type="1" />
         <!-- zone end -->
         <!-- router begin-->
         <relation proc="router" target_proc="master" connect_type="1" />
