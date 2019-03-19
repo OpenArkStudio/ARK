@@ -145,7 +145,7 @@ namespace ark
         {
             std::string proc = pRelationNode->first_attribute("proc")->value();
             std::string target_proc = pRelationNode->first_attribute("target_proc")->value();
-            ArkConnectType connection_type = ArkConnectType(ARK_LEXICAL_CAST<int>(pRelationNode->first_attribute("connect_type")->value()));
+            ArkBusRelationType connection_type = ArkBusRelationType(ARK_LEXICAL_CAST<int>(pRelationNode->first_attribute("connect_type")->value()));
 
             const uint8_t& proc_type = GetAppType(proc);
             const uint8_t& target_proc_type = GetAppType(target_proc);
@@ -158,7 +158,7 @@ namespace ark
             }
             else
             {
-                std::map<uint8_t, ArkConnectType> target_process;
+                std::map<uint8_t, ArkBusRelationType> target_process;
                 target_process.insert(std::make_pair(target_proc_type, connection_type));
 
                 mxBusRelations.insert(std::make_pair(proc_type, target_process));
@@ -267,7 +267,7 @@ namespace ark
         {
             for (auto it : iter->second)
             {
-                if (it.second != ArkConnectType::CONNECT_TYPE_DIRECT)
+                if (it.second != ArkBusRelationType::BRT_DIRECT)
                 {
                     //undirected
                     continue;
@@ -286,11 +286,11 @@ namespace ark
         }
     }
 
-    ArkConnectType AFCBusModule::GetBusRelationConnectionType(const int bus_id)
+    ArkBusRelationType AFCBusModule::GetBusRelationType(const int bus_id)
     {
         if (bus_id == GetSelfBusID())
         {
-            return ArkConnectType::CONNECT_TYPE_UNKNOWN;
+            return ArkBusRelationType::BRT_UNKNOWN;
         }
 
         AFBusAddr target_bus(bus_id);
@@ -306,10 +306,8 @@ namespace ark
                 }
             }
         }
-        else
-        {
-            return ArkConnectType::CONNECT_TYPE_UNKNOWN;
-        }
+
+        return ArkBusRelationType::BRT_UNKNOWN;
     }
 
     const int AFCBusModule::CombineBusID(const uint8_t app_type, const uint8_t inst_id)

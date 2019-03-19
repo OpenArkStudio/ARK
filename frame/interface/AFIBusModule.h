@@ -41,7 +41,7 @@ namespace ark
 
         //get bus relations
         virtual bool GetDirectBusRelations(std::vector<AFServerConfig>& target_list) = 0;
-        virtual ArkConnectType GetBusRelationConnectionType(const int bus_id) = 0;
+        virtual ArkBusRelationType GetBusRelationType(const int bus_id) = 0;
 
         virtual const uint8_t GetSelfAppType() = 0;
         virtual const int GetSelfBusID() = 0;

@@ -404,8 +404,8 @@ namespace ark
         for (int i = 0; i < pb_msg.server_list_size(); ++i)
         {
             const AFMsg::msg_ss_server_report& report = pb_msg.server_list(i);
-            ArkConnectType connect_type = m_pBusModule->GetBusRelationConnectionType(report.bus_id());
-            if (connect_type != ArkConnectType::CONNECT_TYPE_WAIT_NOTIFY)
+            ArkBusRelationType relation_type = m_pBusModule->GetBusRelationType(report.bus_id());
+            if (relation_type != ArkBusRelationType::BRT_WAIT_NOTIFY)
             {
                 continue;
             }
