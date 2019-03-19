@@ -142,8 +142,8 @@ namespace ark
 
     int AFCNetServiceManagerModule::CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url)
     {
-        ArkConnectType connect_type = m_pBusModule->GetBusRelationConnectionType(bus_id);
-        if (connect_type != ArkConnectType::CONNECT_TYPE_DIRECT)
+        ArkBusRelationType relation_type = m_pBusModule->GetBusRelationType(bus_id);
+        if (relation_type != ArkBusRelationType::BRT_DIRECT)
         {
             return 0;
         }

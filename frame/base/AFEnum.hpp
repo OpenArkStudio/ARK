@@ -75,12 +75,12 @@ namespace ark
         DOT_SET,            //set
     };
 
-    enum class ArkConnectType : int
+    enum class ArkBusRelationType : int
     {
-        CONNECT_TYPE_UNKNOWN,       //unknown
-        CONNECT_TYPE_DIRECT,        //directly
-        CONNECT_TYPE_WAIT_NOTIFY,   //wait notify
-        CONNECT_TYPE_RECORD,        //do not connect, but need record info
+        BRT_UNKNOWN,       //unknown
+        BRT_DIRECT,        //directly
+        BRT_WAIT_NOTIFY,   //wait notify
+        BRT_RECORD,        //do not connect, but need record info
     };
 
     enum ARK_ENTITY_EVENT
