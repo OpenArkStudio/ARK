@@ -55,7 +55,7 @@ namespace ark
         {
             AFXml xml(file);
             auto root_node = xml.GetRootNode();
-            for (auto xml_node = root_node.FindNode("setting"); xml_node.IsValid(); xml_node = xml_node.NextNode())
+            for (auto xml_node = root_node.FindNode("data"); xml_node.IsValid(); xml_node = xml_node.NextNode())
             {
                 auto class_name = xml_node.GetString("class");
                 auto meta_class_setting = class_settings_.find_value(class_name);
