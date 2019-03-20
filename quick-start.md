@@ -37,22 +37,6 @@ svn checkout https://github.com/ArkGame/ARK
 
 ##### Step
 
-Using Visual Studio 2017
-
-1. Pull all source
-2. Run command line 
-
-```batch
-cd path/to/ARK
-cd Dep
-build_dep.bat
-```
-
-3. Open the solution: `frame/ark.sln`
-4. Build the solution`ark.sln`
-5. Run `ark\bin\resource\tool\gen-config.bat` to generate configuration files
-6. Run the binary file by `bin/rund.bat`
-
 Using CMake
 
 1. Pull all source
@@ -74,7 +58,6 @@ cmake -G "Visual Studio 15 Win64" ..
 
 > [!NOTE]
 > If you are using VS2017, please change `%VS150COMNTOOLS%` in `dep/build_dep.bat` to `YOUR-COMPILER-PATH`.</br>
-If you DO NOT install **Win10 SDK**, please use **CMake** to create new solution.
 
 ### linux
 

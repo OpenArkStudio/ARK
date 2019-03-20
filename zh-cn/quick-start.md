@@ -21,7 +21,7 @@ svn checkout https://github.com/ArkGame/ARK
 ## 支持的编译器
 
 - GCC 4.9+ (**<font color=red>Recommend</font>. Tested in Ubuntu 15.04**)
-- MSVC VS2015up3+ (**<font color=red>Recommend VS2017</font>. Tested in Win7/10**)
+- MSVC VS2017 (**<font color=red>Recommend VS2017</font>. Tested in Win7/10**)
 
 ## 编译和安装
 
@@ -29,30 +29,12 @@ svn checkout https://github.com/ArkGame/ARK
 
 ##### 前提条件
 
-- Windows 7 or later
+- Windows 7 以上
 - Visual Studio 2017
 - Git
 - CMake 3.0+
 
 ##### 步骤
-
-使用Visual Studio 2017
-
-1. 克隆源码
-2. 按步骤运行下面命令
-
-```batch
-cd path/to/ARK
-cd Dep
-build_dep.bat
-```
-
-3. 打开解决方案文件 `Frame/ark.sln`
-4. 编译 `ark.sln`
-5. 运行 `ARK\bin\resource\tool\gen-config.bat`生成配置文件
-6. 运行脚本 `bin/rund.bat`
-
-------
 
 使用cmake
 
@@ -75,7 +57,6 @@ cmake -G "Visual Studio 15 Win64" ..
 
 > [!NOTE]
 > 请提前在`dep/build_dep.bat`中设置`%VS150COMNTOOLS%`变量为`YOUR-COMPILER-PATH` 或 增加系统环境变量.</br>
-如果你没有安装 **Win10 SDK**, 请使用 **CMake** 创建解决方案文件.
 
 ### linux
 
