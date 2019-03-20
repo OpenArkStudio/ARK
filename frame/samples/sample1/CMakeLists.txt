@@ -1,0 +1,1 @@
+BUILD_PLUGIN_MACRO("Sample1Plugin")
