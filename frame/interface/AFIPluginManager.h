@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "base/AFMacros.hpp"
 #include "AFIModule.h"
 
 namespace ark

@@ -20,11 +20,7 @@
 
 #pragma once
 
-#include "base/AFList.hpp"
-#include "base/AFDefine.hpp"
-#include "base/AFCDataList.hpp"
-#include "base/AFVector3.hpp"
-#include "base/AFDataTable.hpp"
+#include "base/AFPlatform.hpp"
 
 namespace ark
 {
@@ -81,7 +77,7 @@ namespace ark
             pPluginManager = p;
         }
 
-        std::string strName;
+        std::string name_;
 
     protected:
         AFIPluginManager* pPluginManager{ nullptr };

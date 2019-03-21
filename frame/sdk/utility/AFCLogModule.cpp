@@ -18,7 +18,9 @@
 *
 */
 
-#include "spdlog/contrib/sinks/date_and_hour_file_sink.h"
+#include <spdlog/contrib/sinks/date_and_hour_file_sink.h>
+#include "base/AFMacros.hpp"
+#include "base/AFMisc.hpp"
 #include "interface/AFIPluginManager.h"
 #include "AFCLogModule.h"
 

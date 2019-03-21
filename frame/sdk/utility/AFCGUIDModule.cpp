@@ -18,7 +18,9 @@
 *
 */
 
+#include "base/AFDefine.hpp"
 #include "base/AFDateTime.hpp"
+#include "base/AFBaseStruct.hpp"
 #include "interface/AFIPluginManager.h"
 #include "AFCGUIDModule.h"
 

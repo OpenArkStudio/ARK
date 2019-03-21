@@ -22,6 +22,7 @@
 
 #include "interface/AFIPlugin.h"
 #include "interface/AFIPluginManager.h"
+#include "interface/AFIData.hpp"
 
 namespace ark
 {

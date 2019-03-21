@@ -22,6 +22,7 @@
 #include "rapidxml/rapidxml_iterators.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 #include "base/AFEnum.hpp"
+#include "base/AFDefine.hpp"
 #include "interface/AFIPluginManager.h"
 #include "AFCBusModule.h"
 

@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "base/AFVector3D.hpp"
 #include "base/AFProtoCPP.hpp"
 #include "base/AFDataNode.hpp"
 #include "base/AFDataTable.hpp"

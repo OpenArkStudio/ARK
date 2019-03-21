@@ -21,6 +21,7 @@
 #pragma once
 
 #include "AFMacros.hpp"
+#include "AFEnum.hpp"
 #include "AFBaseStruct.hpp"
 
 namespace ark

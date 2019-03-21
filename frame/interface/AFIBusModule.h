@@ -22,6 +22,7 @@
 
 #include "base/AFApp.hpp"
 #include "base/AFBaseStruct.hpp"
+#include "base/AFEnum.hpp"
 #include "AFIModule.h"
 
 namespace ark

@@ -20,8 +20,10 @@
 
 #pragma once
 
+#include "base/AFPlatform.hpp"
 #include "base/AFMacros.hpp"
 #include "base/AFMap.hpp"
+#include "base/AFList.hpp"
 #include "AFIDataNodeManager.h"
 #include "AFIDataTableManager.h"
 #include "AFIModule.h"

@@ -22,6 +22,8 @@
 
 #include "base/AFList.hpp"
 #include "base/AFMap.hpp"
+#include "base/AFVector3D.hpp"
+#include "AFIDataList.hpp"
 
 namespace ark
 {

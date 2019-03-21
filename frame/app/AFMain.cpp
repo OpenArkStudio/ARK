@@ -22,6 +22,8 @@
 #include "base/AFBaseStruct.hpp"
 #include "base/AFMacros.hpp"
 #include "base/AFDateTime.hpp"
+#include "base/AFMisc.hpp"
+#include "base/AFCDataList.hpp"
 #include "AFCPluginManager.h"
 
 using namespace ark;
