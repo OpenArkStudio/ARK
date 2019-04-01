@@ -1,4 +1,4 @@
-﻿using NPOI.HSSF.UserModel;
+using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
@@ -134,7 +134,7 @@ namespace ark
             // 提前把IObject跑一边
             CreateSchemaXML(strBasePath + strExcelPath + "IObject.xlsx", "IObject");
 
-            String[] xSchemaXLSXList = Directory.GetFiles(strBasePath + strExcelPath, "*", SearchOption.AllDirectories);
+            String[] xSchemaXLSXList = Directory.GetFiles(strBasePath + strExcelPath, "*", SearchOption.TopDirectoryOnly);
             foreach (string file in xSchemaXLSXList)
             {
                 //TODO:此处要考虑多个同名文件，但是归属不同人的表格
@@ -474,7 +474,7 @@ namespace ark
         {
             Console.WriteLine("Start to generate resource files");
             
-            String[] xIniXLSXList = Directory.GetFiles(strBasePath + strExcelPath, "*", SearchOption.AllDirectories);
+            String[] xIniXLSXList = Directory.GetFiles(strBasePath + strExcelPath, "*", SearchOption.TopDirectoryOnly);
             foreach (string file in xIniXLSXList)
             {
                 int nLastPoint = file.LastIndexOf(".") + 1;
