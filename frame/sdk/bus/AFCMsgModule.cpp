@@ -127,8 +127,6 @@ namespace ark
         }
 
 
-
-
         //if (src_bus.proc_id == ARK_APP_WORLD)
         //{
         //    //if the msg is in world, then the sending order is world -> router
