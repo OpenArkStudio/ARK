@@ -1,0 +1,39 @@
+#!/usr/bin/python
+# encoding=utf-8
+
+# resource path
+resource_path = "../../resource"
+
+# special file
+special_file_name = "entity_class"
+special_file = "entity_class.xlsx"
+
+# some extensions
+excel_ext = ".xls"
+excel_new_ext = ".xlsx"
+
+meta_ext = ".meta"
+config_ext = ".config"
+csv_ext = ".csv"
+
+# target for different staff
+target_all = "A"  # for all
+target_server = "S"  # for server side
+target_client = "C"  # for client
+target_design = "D"  # for design
+
+# some path
+excel_path = "excel/"
+meta_path = "meta/"
+server_res_path = "server/"
+client_res_path = "client/"
+config_class_file = "meta/config_class.config"
+cpp_meta_file = "proto/AFMetaDefine.hpp"
+cs_meta_file = "proto/AFMetaDefine.cs"
+
+# excel form header, after this row, the content is config data
+config_form_head_list = ['', 'field', 'type', 'target', 'refer', 'desc']
+config_form_head_row = 5
+
+# entity class form header
+entity_form_head_row = 2
