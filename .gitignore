@@ -40,3 +40,6 @@ dep/lib
 temp
 *.opendb
 *.user
+*.vscode
+.DS_Store
+*.pyc

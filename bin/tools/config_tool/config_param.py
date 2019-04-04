@@ -36,4 +36,5 @@ config_form_head_list = ['', 'field', 'type', 'target', 'refer', 'desc']
 config_form_head_row = 5
 
 # entity class form header
-entity_form_head_row = 2
+entity_form_head_row = 3
+entity_unused_flag = 'unused'

@@ -18,34 +18,14 @@ import shutil
 import commands
 import argparse
 from xml.dom.minidom import Document
-#from xml.dom import minidom
-
-
+from xml.dom import minidom
+# self module
 import config_param
 import config_xml
 import config_excel
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
-
-'''
-class _MinidomHooker(object):
-    def __enter__(self):
-        minidom.NamedNodeMap.keys_orig = minidom.NamedNodeMap.keys
-        minidom.NamedNodeMap.keys = self._NamedNodeMap_keys_hook
-        return self
-
-    def __exit__(self, *args):
-        minidom.NamedNodeMap.keys = minidom.NamedNodeMap.keys_orig
-        del minidom.NamedNodeMap.keys_orig
-
-    @staticmethod
-    def _NamedNodeMap_keys_hook(node_map):
-        class OrderPreservingList(list):
-            def sort(self):
-                pass
-        return OrderPreservingList(node_map.keys_orig())
-'''
 
 
 # parse command arguments
@@ -62,7 +42,6 @@ def generate_entity_meta(res_path):
     entity_filepath = os.path.join(
         res_path, config_param.excel_path, config_param.special_file)
     print "start to generate [%s]" % entity_filepath
-    print "---------------------------------------"
     excel = config_excel.my_excel(entity_filepath)
     excel.set_sheet_by_index(0)  # set default sheet
     min_row_no = excel.get_min_row_no()
@@ -78,6 +57,13 @@ def generate_entity_meta(res_path):
         data_node = meta_doc.createElement('meta')
         meta_root_node.appendChild(data_node)
         for col in range(min_col_no, max_col_no):
+            # if 2nd row cell value is 'unused', ignore
+            second_cell_value = excel.get_cell_content(min_row_no + 1, col)
+            if second_cell_value != None and str.lower(str(second_cell_value)) == config_param.entity_unused_flag:
+                continue
+            # ignore empty cell in first row
+            if excel.get_cell_content(min_row_no, col) == None:
+                continue
             if excel.get_cell_content(row, col) == None:
                 data_node.setAttribute(
                     str(excel.get_cell_content(min_row_no, col)), "")
@@ -85,9 +71,8 @@ def generate_entity_meta(res_path):
                 data_node.setAttribute(str(excel.get_cell_content(min_row_no, col)),
                                        str(excel.get_cell_content(row, col)))
     with open(os.path.join(res_path, config_param.meta_path, config_param.special_file_name + config_param.meta_ext), 'w') as f:
-        # with _MinidomHooker():
-        meta_doc.writexml(f, indent="\n", addindent="\t", encoding='utf-8')
-    print "---------------------------------------"
+        meta_doc.writexml(f, indent="\n",
+                          addindent="\t", encoding='utf-8')
     print "finish to generate [%s]" % entity_filepath
 
 
@@ -118,7 +103,6 @@ def genrate_single_config(res_path, filepath, filename):
         if data_node.hasAttributes():
             meta_root_node.appendChild(data_node)
     with open(os.path.join(res_path, config_param.meta_path, filename + config_param.meta_ext), 'w') as f:
-        # with _MinidomHooker():
         meta_doc.writexml(f, indent="\n", addindent="\t", encoding='utf-8')
 
     '''config data xml'''
@@ -129,12 +113,15 @@ def genrate_single_config(res_path, filepath, filename):
         data_node = config_doc.createElement('data')
         config_root_node.appendChild(data_node)
         for col in range(min_col_no, max_col_no):
+            # ignore empty cell in first row
+            if excel.get_cell_content(min_row_no, col) == None:
+                continue
             data_node.setAttribute(str(excel.get_cell_content(min_row_no, col)),
                                    str(excel.get_cell_content(row, col)))
 
     with open(os.path.join(res_path, config_param.server_res_path, filename + config_param.config_ext), 'w') as f:
-        # with _MinidomHooker():
-        config_doc.writexml(f, indent="\n", addindent="\t", encoding='utf-8')
+        config_doc.writexml(
+            f, indent="\n", addindent="\t", encoding='utf-8')
 
     return True
 
@@ -173,7 +160,6 @@ def generate_config(res_path):
             raise Exception("generate file = [%s] failed" % file_path)
 
     with open(os.path.join(res_path, config_param.config_class_file), 'w') as f:
-        # with _MinidomHooker():
         meta_doc.writexml(f, indent="\n", addindent="\t", encoding='utf-8')
     print "---------------------------------------"
     print "generate config finished"
