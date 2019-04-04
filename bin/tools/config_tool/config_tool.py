@@ -94,7 +94,7 @@ def generate_entity_meta(res_path):
                 entity_map[str(meta_class)].append("")
             else:
                 entity_map[str(meta_class)].append(str(cell_content))
-    print entity_map
+    # print entity_map
     for k in entity_map:
         cpp_file.write(u"\tclass AFEntityMeta" + k + "\n\t{\n\tpublic:\n")
         cpp_file.write(u'''\t\tstatic const std::string& self_name() { static const std:: string meta_%s_ = "%s"; return meta_%s_; }\n\n'''

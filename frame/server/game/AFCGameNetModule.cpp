@@ -20,7 +20,6 @@
 
 #include "base/AFEventDefine.hpp"
 #include "interface/AFIModule.h"
-#include "base/AFDataDefine.hpp"
 #include "base/AFDataNode.hpp"
 #include "AFCGameNetModule.h"
 
@@ -45,7 +44,7 @@ namespace ark
         m_pKernelModule->RegCommonDataNodeEvent(this, &AFCGameNetModule::OnCommonDataNodeEvent);
         m_pKernelModule->RegCommonDataTableEvent(this, &AFCGameNetModule::OnCommonDataTableEvent);
 
-        m_pKernelModule->AddClassCallBack(ark::Player::ThisName(), this, &AFCGameNetModule::OnEntityEvent);
+        m_pKernelModule->AddClassCallBack(AFEntityMetaPlayer::self_name(), this, &AFCGameNetModule::OnEntityEvent);
 
         return true;
     }
@@ -337,16 +336,16 @@ namespace ark
         return 0;
     }
 
-    bool AFCGameNetModule::ProcessLeaveGroup(const AFGUID& self, int nSceneID, int nOldGroupID)
+    bool AFCGameNetModule::ProcessLeaveGroup(const AFGUID& self, int map_id, int old_inst_id)
     {
-        if (nOldGroupID <= 0)
+        if (old_inst_id <= 0)
         {
             return false;
         }
 
         AFCDataList valueAllOldObjectList;
         AFCDataList valueAllOldPlayerList;
-        m_pMapModule->GetInstEntityList(nSceneID, nOldGroupID, valueAllOldObjectList);
+        m_pMapModule->GetInstEntityList(map_id, old_inst_id, valueAllOldObjectList);
 
         if (valueAllOldObjectList.GetCount() > 0)
         {
@@ -360,9 +359,8 @@ namespace ark
                     valueAllOldObjectList.SetInt64(i, 0);
                 }
 
-                const std::string strClassName(m_pKernelModule->GetNodeString(identBC, "ClassName"));
-
-                if (ark::Player::ThisName() == strClassName)
+                const std::string class_name(m_pKernelModule->GetNodeString(identBC, "ClassName"));
+                if (AFEntityMetaPlayer::self_name() == class_name)
                 {
                     valueAllOldPlayerList << identBC;
                 }
@@ -374,7 +372,7 @@ namespace ark
             OnEntityListLeave(AFCDataList() << self, valueAllOldObjectList);
         }
 
-        m_pKernelModule->DoEvent(self, AFED_ON_CLIENT_LEAVE_SCENE, AFCDataList() << nOldGroupID);
+        m_pKernelModule->DoEvent(self, AFED_ON_CLIENT_LEAVE_SCENE, AFCDataList() << old_inst_id);
 
         return true;
     }
@@ -398,9 +396,8 @@ namespace ark
         for (size_t i = 0; i < valueAllObjectList.GetCount(); i++)
         {
             AFGUID identBC = valueAllObjectList.Int64(i);
-            const std::string strClassName(m_pKernelModule->GetNodeString(identBC, "ClassName"));
-
-            if (ark::Player::ThisName() == strClassName)
+            const std::string class_name = m_pKernelModule->GetNodeString(identBC, "ClassName");
+            if (AFEntityMetaPlayer::self_name() == class_name)
             {
                 valuePlayerList << identBC;
 
@@ -423,9 +420,8 @@ namespace ark
             OnViewDataNodeEnter(valuePlayerListNoSelf, self);
             OnViewDataTableEnter(valuePlayerListNoSelf, self);
 
-            const std::string strSelfClassName(m_pKernelModule->GetNodeString(self, "ClassName"));
-
-            if (strSelfClassName == ark::Player::ThisName())
+            const std::string class_name = m_pKernelModule->GetNodeString(self, "ClassName");
+            if (class_name == AFEntityMetaPlayer::self_name())
             {
                 OnEntityListEnter(AFCDataList() << self, valueAllObjectListNoSelf);
 
@@ -547,7 +543,7 @@ namespace ark
             OnContainerEvent(self, name, oldVar, newVar);
         }
 
-        if (ark::Player::ThisName() == std::string(m_pKernelModule->GetNodeString(self, IObject::ClassName())) && (m_pKernelModule->GetNodeInt(self, Player::LoadDataFinish()) <= 0))
+        if (AFEntityMetaPlayer::self_name() == std::string(m_pKernelModule->GetNodeString(self, IObject::ClassName())) && (m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::load_data_finished()) <= 0))
         {
             return 0;
         }
@@ -671,7 +667,8 @@ namespace ark
             return 1;
         }
 
-        if (ark::Player::ThisName() == std::string(m_pKernelModule->GetNodeString(self, "ClassName")) && (m_pKernelModule->GetNodeInt(self, "LoadPropertyFinish") <= 0))
+        if (AFEntityMetaPlayer::self_name() == std::string(m_pKernelModule->GetNodeString(self, "ClassName")) &&
+                m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::load_data_finished()) <= 0)
         {
             return 1;
         }
@@ -710,26 +707,25 @@ namespace ark
 
     int AFCGameNetModule::CommonClassDestoryEvent(const AFGUID& self)
     {
-        int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
-        int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
+        int map_id = m_pKernelModule->GetNodeInt(self, "SceneID");
+        int map_inst_id = m_pKernelModule->GetNodeInt(self, "GroupID");
 
-        if (nObjectGroupID < 0)
+        if (map_inst_id < 0)
         {
-            //容器
             return 0;
         }
 
         AFCDataList valueAllObjectList;
         AFCDataList valueBroadCaseList;
         AFCDataList valueBroadListNoSelf;
-        m_pMapModule->GetInstEntityList(nObjectContainerID, nObjectGroupID, valueAllObjectList);
+        m_pMapModule->GetInstEntityList(map_id, map_inst_id, valueAllObjectList);
 
         for (size_t i = 0; i < valueAllObjectList.GetCount(); i++)
         {
             AFGUID identBC = valueAllObjectList.Int64(i);
-            const std::string strIdentClassName(m_pKernelModule->GetNodeString(identBC, "ClassName"));
+            const std::string class_name(m_pKernelModule->GetNodeString(identBC, "ClassName"));
 
-            if (ark::Player::ThisName() == strIdentClassName)
+            if (AFEntityMetaPlayer::self_name() == class_name)
             {
                 valueBroadCaseList << identBC;
 
@@ -777,7 +773,7 @@ namespace ark
         case ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED:
             {
                 //自己广播给自己就够了
-                if (strClassName == ark::Player::ThisName())
+                if (strClassName == AFEntityMetaPlayer::self_name())
                 {
                     OnEntityListEnter(AFCDataList() << self, AFCDataList() << self);
 
@@ -845,9 +841,9 @@ namespace ark
         for (size_t i = 0; i < valueNewAllObjectList.GetCount(); i++)
         {
             AFGUID identBC = valueNewAllObjectList.Int64(i);
-            const std::string strClassName(m_pKernelModule->GetNodeString(identBC, "ClassName"));
+            const std::string class_name(m_pKernelModule->GetNodeString(identBC, "ClassName"));
 
-            if (ark::Player::ThisName() == strClassName)
+            if (AFEntityMetaPlayer::self_name() == class_name)
             {
                 valuePlayerList << identBC;
 
@@ -906,8 +902,8 @@ namespace ark
         int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
 
         //普通场景容器，判断广播属性
-        std::string strClassName = m_pKernelModule->GetNodeString(self, "ClassName");
-        ARK_SHARE_PTR<AFIDataNodeManager> pClassDataNodeManager = m_pClassModule->GetNodeManager(strClassName);
+        std::string class_name = m_pKernelModule->GetNodeString(self, "ClassName");
+        ARK_SHARE_PTR<AFIDataNodeManager> pClassDataNodeManager = m_pClassModule->GetNodeManager(class_name);
 
         if (pClassDataNodeManager == nullptr)
         {
@@ -927,7 +923,7 @@ namespace ark
             GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
         }
 
-        if (ark::Player::ThisName() == strClassName && pDataNode->IsPrivate())
+        if (AFEntityMetaPlayer::self_name() == class_name && pDataNode->IsPrivate())
         {
             valueObject.AddInt64(self);
         }
@@ -937,13 +933,12 @@ namespace ark
 
     int AFCGameNetModule::GetTableBroadcastEntityList(const AFGUID& self, const std::string& name, AFIDataList& valueObject)
     {
-        int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
-        int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
+        int map_id = m_pKernelModule->GetNodeInt(self, "SceneID");
+        int map_inst_id = m_pKernelModule->GetNodeInt(self, "GroupID");
 
         //普通场景容器，判断广播属性
-        std::string strClassName = m_pKernelModule->GetNodeString(self, "ClassName");
-
-        ARK_SHARE_PTR<AFIDataTableManager> pClassDataTableManager = m_pClassModule->GetTableManager(strClassName);
+        std::string class_name = m_pKernelModule->GetNodeString(self, "ClassName");
+        ARK_SHARE_PTR<AFIDataTableManager> pClassDataTableManager = m_pClassModule->GetTableManager(class_name);
 
         if (pClassDataTableManager == nullptr)
         {
@@ -959,11 +954,11 @@ namespace ark
 
         if (pDataTable->IsPublic())
         {
-            //广播给客户端自己和周边人
-            GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
+            //broadcast to self and people around
+            GetBroadcastEntityList(map_id, map_inst_id, valueObject);
         }
 
-        if (ark::Player::ThisName() == strClassName && pDataTable->IsPrivate())
+        if (AFEntityMetaPlayer::self_name() == class_name && pDataTable->IsPrivate())
         {
             valueObject.AddInt64(self);
         }
@@ -979,7 +974,7 @@ namespace ark
         {
             const std::string& strObjClassName = m_pKernelModule->GetNodeString(map_inst_entity_list.Int64(i), "ClassName");
 
-            if (ark::Player::ThisName() == strObjClassName)
+            if (AFEntityMetaPlayer::self_name() == strObjClassName)
             {
                 valueObject.AddInt64(map_inst_entity_list.Int64(i));
             }

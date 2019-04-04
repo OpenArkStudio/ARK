@@ -18,7 +18,6 @@
 *
 */
 
-#include "base/AFDataDefine.hpp"
 #include "base/AFDateTime.hpp"
 #include "Sample3Module.h"
 
@@ -84,13 +83,13 @@ namespace ark
         m_pMapModule->CreateMap(1);
 
         //Add Class callback
-        m_pKernelModule->AddClassCallBack(ark::Player::ThisName(), this, &Sample3Module::OnClassCallBackEvent);
+        m_pKernelModule->AddClassCallBack(AFEntityMetaPlayer::self_name(), this, &Sample3Module::OnClassCallBackEvent);
         //Create Entity
         //Entity GUID is (0, 10)
         //SceneID = 1
         //GroupID = 0
         //Class Name = ark::Player::ThisName()
-        ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(1, 1, 0, ark::Player::ThisName(), "", AFCDataList());
+        ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(1, 1, 0, AFEntityMetaPlayer::self_name(), "", AFCDataList());
         if (pEntity == nullptr)
         {
             return false;
@@ -98,12 +97,12 @@ namespace ark
 
         //to do
         AFCData xData;
-        m_pClassModule->AddNodeCallBack(ark::Player::ThisName(), ark::Player::Gold(), this, &Sample3Module::OnIntDataNodeCB);
-        m_pClassModule->AddNodeCallBack(ark::Player::ThisName(), ark::Player::Name(), this, &Sample3Module::OnStrDataNodeCB);
-        m_pKernelModule->AddClassCallBack(ark::Player::ThisName(), this, &Sample3Module::OnClassCallBackEvent);
+        m_pClassModule->AddNodeCallBack(AFEntityMetaPlayer::self_name(), AFEntityMetaPlayer::gold(), this, &Sample3Module::OnIntDataNodeCB);
+        m_pClassModule->AddNodeCallBack(AFEntityMetaPlayer::self_name(), AFEntityMetaPlayer::name(), this, &Sample3Module::OnStrDataNodeCB);
+        m_pKernelModule->AddClassCallBack(AFEntityMetaPlayer::self_name(), this, &Sample3Module::OnClassCallBackEvent);
 
-        pEntity->SetNodeInt(ark::Player::Gold(), 1000);
-        pEntity->SetNodeString(ark::Player::Name(), "test");
+        pEntity->SetNodeInt(AFEntityMetaPlayer::gold(), 1000);
+        pEntity->SetNodeString(AFEntityMetaPlayer::name(), "test");
 
         m_pKernelModule->DoEvent(pEntity->Self(), 11111111, AFCDataList() << "another_test" << int(200));
         return true;

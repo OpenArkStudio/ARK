@@ -23,6 +23,7 @@
 #include "AFMacros.hpp"
 #include "AFEnum.hpp"
 #include "AFString.hpp"
+#include "AFMetaDefine.hpp"
 
 namespace ark
 {

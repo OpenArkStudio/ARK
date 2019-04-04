@@ -22,7 +22,6 @@
 
 #include "interface/AFIMetaClassModule.h"
 #include "interface/AFIConfigModule.h"
-#include "base/AFDataDefine.hpp"
 #include "interface/AFIPropertyConfigModule.h"
 
 namespace ark

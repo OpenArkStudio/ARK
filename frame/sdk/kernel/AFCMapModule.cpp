@@ -18,7 +18,6 @@
 *
 */
 
-#include "base/AFDataDefine.hpp"
 #include "base/AFDataNode.hpp"
 #include "AFCMapModule.h"
 

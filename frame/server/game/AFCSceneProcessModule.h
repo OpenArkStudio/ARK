@@ -24,7 +24,6 @@
 #include "rapidxml/rapidxml_iterators.hpp"
 #include "rapidxml/rapidxml_print.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
-#include "base/AFDataDefine.hpp"
 #include "base/AFList.hpp"
 #include "interface/AFIKernelModule.h"
 #include "interface/AFIConfigModule.h"
@@ -48,21 +47,21 @@ namespace ark
         bool Init() override;
         bool PostInit() override;
 
-        virtual E_SCENE_TYPE GetCloneSceneType(const int nSceneID);
-        virtual bool IsCloneScene(const int nSceneID);
-        virtual bool ApplyCloneGroup(const int nSceneID, int& nGroupID);
-        virtual bool ExitCloneGroup(const int nSceneID, const int& nGroupID);
+        virtual E_SCENE_TYPE GetMapInstanceType(const int nSceneID);
+        virtual bool IsInstanceMap(const int nSceneID);
+        virtual bool ApplyMapInstance(const int nSceneID, int& nGroupID);
+        virtual bool ExitMapInstance(const int nSceneID, const int& nGroupID);
 
     protected:
-        int CreateCloneScene(const int& nSceneID);
+        int CreateMapInstance(const int& nSceneID);
         bool CreateMapEntities(const int nSceneID, const int nGroupID);
-        bool LoadSceneResource(const int nSceneID);
+        bool LoadMapResource(const int nSceneID);
 
         int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
         int OnEnterSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
         int OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-        void OnClientSwapSceneProcess(const AFNetMsg* msg);
+        void OnClientSwapMapProcess(const AFNetMsg* msg);
 
     private:
         AFIConfigModule* m_pConfigModule;
@@ -73,7 +72,7 @@ namespace ark
         AFIGUIDModule* m_pGUIDModule;
         AFIGameNetModule* m_pGameNetModule;
         //////////////////////////////////////////////////////////////////////////
-        struct SceneSeedResource
+        struct MapSeedResource
         {
             std::string strSeedID;
             std::string strConfigID;
@@ -83,7 +82,7 @@ namespace ark
         };
 
         //SceneID,(SeedID,SeedData)
-        AFMapEx<int, AFMapEx<std::string, SceneSeedResource>> map_res_;
+        AFMapEx<int, AFMapEx<std::string, MapSeedResource>> map_res_;
     };
 
 }

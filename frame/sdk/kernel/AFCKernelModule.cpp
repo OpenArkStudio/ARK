@@ -22,7 +22,6 @@
 #include "base/AFCEntity.hpp"
 #include "base/AFDataNode.hpp"
 #include "base/AFDataTable.hpp"
-#include "base/AFDataDefine.hpp"
 #include "AFCKernelModule.h"
 
 namespace ark
@@ -124,7 +123,7 @@ namespace ark
 
         ARK_SHARE_PTR<AFIEntity> pEntity = std::make_shared<AFCEntity>(entity_id);
         entities_.insert(entity_id, pEntity);
-        pMapInfo->AddEntityToInstance(map_instance_id, entity_id, ((class_name == Player::ThisName()) ? true : false));
+        pMapInfo->AddEntityToInstance(map_instance_id, entity_id, ((class_name == AFEntityMetaPlayer::self_name()) ? true : false));
 
         ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager = pEntity->GetNodeManager();
         ARK_SHARE_PTR<AFIDataTableManager>& pTableManager = pEntity->GetTableManager();
@@ -213,7 +212,7 @@ namespace ark
         {
             const std::string& class_name = GetNodeString(self, IObject::ClassName());
 
-            pMapInfo->RemoveEntityFromInstance(inst_id, self, ((class_name == Player::ThisName()) ? true : false));
+            pMapInfo->RemoveEntityFromInstance(inst_id, self, ((class_name == AFEntityMetaPlayer::self_name()) ? true : false));
 
             DoEvent(self, class_name, ENTITY_EVT_PRE_DESTROY, AFCDataList());
             DoEvent(self, class_name, ENTITY_EVT_DESTROY, AFCDataList());

@@ -35,10 +35,10 @@ namespace ark
 
     int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
     {
-        int eJobType = m_pKernelModule->GetNodeInt(self, ark::Player::Career());
-        int nCurExp = m_pKernelModule->GetNodeInt(self, ark::Player::EXP());
-        int nLevel = m_pKernelModule->GetNodeInt(self, ark::Player::Level());
-        int nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ark::Player::EXP());//xx
+        int eJobType = m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::career());
+        int nCurExp = m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::exp());
+        int nLevel = m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::level());
+        int nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, AFEntityMetaPlayer::exp());//xx
 
         nCurExp += nExp;
 
@@ -49,11 +49,11 @@ namespace ark
             //升级
             nLevel++;
             //防止越级BUG
-            m_pKernelModule->SetNodeInt(self, ark::Player::Level(), nLevel);
+            m_pKernelModule->SetNodeInt(self, AFEntityMetaPlayer::level(), nLevel);
 
             nCurExp = nRemainExp;
 
-            nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ark::Player::EXP());//xx
+            nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, AFEntityMetaPlayer::exp());//xx
 
             if (nMaxExp <= 0)
             {
@@ -63,7 +63,7 @@ namespace ark
             nRemainExp -= nMaxExp;
         }
 
-        m_pKernelModule->SetNodeInt(self, ark::Player::EXP(), nCurExp);
+        m_pKernelModule->SetNodeInt(self, AFEntityMetaPlayer::exp(), nCurExp);
 
         return 0;
     }

@@ -23,7 +23,6 @@
 #include "interface/AFIKernelModule.h"
 #include "interface/AFILogModule.h"
 #include "interface/AFIPluginManager.h"
-#include "base/AFDataDefine.hpp"
 #include "interface/AFIConfigModule.h"
 #include "interface/AFILevelModule.h"
 #include "interface/AFIPropertyConfigModule.h"

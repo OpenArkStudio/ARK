@@ -24,7 +24,6 @@
 #include "interface/AFIConfigModule.h"
 #include "interface/AFIMetaClassModule.h"
 #include "interface/AFIPluginManager.h"
-#include "base/AFDataDefine.hpp"
 #include "interface/AFIPropertyConfigModule.h"
 #include "interface/AFIPropertyModule.h"
 #include "interface/AFILevelModule.h"
