@@ -28,8 +28,8 @@ meta_path = "meta/"
 server_res_path = "server/"
 client_res_path = "client/"
 config_class_file = "meta/config_class.config"
-cpp_meta_file = "proto/AFMetaDefine.hpp"
-cs_meta_file = "proto/AFMetaDefine.cs"
+cpp_meta_file = "code/AFMetaDefine.hpp"
+cs_meta_file = "code/AFMetaDefine.cs"
 
 # excel form header, after this row, the content is config data
 config_form_head_list = ['', 'field', 'type', 'target', 'refer', 'desc']
