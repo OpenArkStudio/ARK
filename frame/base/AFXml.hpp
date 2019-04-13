@@ -24,6 +24,7 @@
 #include "rapidxml/rapidxml_iterators.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 #include "AFPlatform.hpp"
+#include "AFMisc.hpp"
 
 namespace ark
 {
@@ -49,19 +50,24 @@ namespace ark
 
         void NextNode(const char* key = nullptr)
         {
-            xml_node_ = xml_node_->next_sibling(key);
+            rapidxml::xml_node<>* node = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
+            xml_node_ = node->next_sibling(key);
         }
 
         AFXmlNode FindNode(const char* key)
         {
+            auto xmlnode = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
+
             AFXmlNode node(xml_);
-            node.xml_node_ = xml_node_->first_node(key);
+            node.xml_node_ = xmlnode->first_node(key);
             return node;
         }
 
         bool GetBool(const char* key, bool optional = false, bool default_value = false)
         {
-            auto attr = xml_node_.first_attribute(key);
+            rapidxml::xml_node<>* xmlnode = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
+
+            auto attr = xmlnode->first_attribute(key);
             if (attr == nullptr)
             {
                 ARK_ASSERT_RET_VAL(optional == false, default_value);
@@ -74,7 +80,9 @@ namespace ark
 
         uint32_t GetUint32(const char* key, bool optional = false, uint32_t default_value = NULL_INT)
         {
-            auto attr = xml_node_.first_attribute(key);
+            rapidxml::xml_node<>* node = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
+
+            auto attr = node->first_attribute(key);
             if (attr == nullptr)
             {
                 ARK_ASSERT_RET_VAL(optional == false, default_value);
@@ -87,7 +95,9 @@ namespace ark
 
         float GetFloat(const char* key, bool optional = false, float default_value = NULL_FLOAT)
         {
-            auto attr = xml_node_.first_attribute(key);
+            rapidxml::xml_node<>* node = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
+
+            auto attr = node->first_attribute(key);
             if (attr == nullptr)
             {
                 ARK_ASSERT_RET_VAL(optional == false, default_value);
@@ -100,7 +110,9 @@ namespace ark
 
         std::string GetString(const char* key, bool optional = false, std::string default_value = NULL_STR)
         {
-            auto attr = xml_node_.first_attribute(key);
+            rapidxml::xml_node<>* node = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
+
+            auto attr = node->first_attribute(key);
             if (attr == nullptr)
             {
                 ARK_ASSERT_RET_VAL(optional == false, default_value);
@@ -114,14 +126,14 @@ namespace ark
     private:
         friend class AFXml;
         AFXml* xml_{ nullptr };
-        rapidxml::xml_node<>* xml_node_{ nullptr };
+        void* xml_node_{ nullptr };
     };
 
     class AFXml
     {
     public:
         AFXml(const std::string& file_path) :
-            file_path_(file_path),
+            file_path_(file_path)
         {
             xml_file_ = ARK_NEW rapidxml::file<>();
             xml_document_ = ARK_NEW rapidxml::xml_document<>();
@@ -145,7 +157,7 @@ namespace ark
         AFXmlNode FindNode(const char* key)
         {
             AFXmlNode node(this);
-            node.xml_node_ = xml_document->first_node(key);
+            node.xml_node_ = xml_document_->first_node(key);
             return node;
         }
 
@@ -168,6 +180,7 @@ namespace ark
         void ParseFile()
         {
             xml_file_->from(file_path_.c_str());
+            xml_document_->parse<0>(xml_file_->data());
         }
 
     private:

@@ -150,7 +150,7 @@ namespace ark
 
     AFIPlugin* AFCPluginManager::FindPlugin(const std::string& plugin_name)
     {
-        return plugin_instances_.find(plugin_name)->second;
+        return plugin_instances_.find_value(plugin_name);
     }
 
     inline int AFCPluginManager::BusID() const
@@ -347,13 +347,7 @@ namespace ark
     bool AFCPluginManager::LoadPluginLibrary(const std::string& plugin_name)
     {
         auto iter = plugin_libs_.find(plugin_name);
-        if (iter == plugin_libs_.end())
-        {
-            return false;
-        }
-
-        AFCDynLib* pDynLib = iter->second;
-        if (pDynLib != nullptr)
+        if (iter != plugin_libs_.end())
         {
             return false;
         }
