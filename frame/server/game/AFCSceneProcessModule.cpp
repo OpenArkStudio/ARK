@@ -90,17 +90,17 @@ namespace ark
         return true;
     }
 
-    int AFCSceneProcessModule::CreateMapInstance(const int& nSceneID)
+    int AFCSceneProcessModule::CreateMapInstance(const int& map_id)
     {
-        const E_SCENE_TYPE eType = GetMapInstanceType(nSceneID);
-        int nTargetGroupID = m_pMapModule->CreateMapInstance(nSceneID);
+        const E_SCENE_TYPE eType = GetMapInstanceType(map_id);
+        int target_inst_id = m_pMapModule->CreateMapInstance(map_id);
 
-        if (nTargetGroupID > 0 && eType == SCENE_TYPE_CLONE_SCENE && !CreateMapEntities(nSceneID, nTargetGroupID))
+        if (target_inst_id > 0 && eType == SCENE_TYPE_CLONE_SCENE && !CreateMapEntities(map_id, target_inst_id))
         {
             return -1;
         }
 
-        return nTargetGroupID;
+        return target_inst_id;
     }
 
     int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEventID, const AFIDataList& var)
@@ -126,7 +126,7 @@ namespace ark
 
         if (cur_map == target_map && target_inst == cur_inst)
         {
-            ARK_LOG_ERROR("In same scene and group but it not a clone scene, id = {} scene_id = {}", ident, target_map);
+            ARK_LOG_ERROR("In same map and map_instance but it not a clone scene, id = {} scene_id = {}", ident, target_map);
             return 1;
         }
 
@@ -242,16 +242,15 @@ namespace ark
         return GetMapInstanceType(map_id) == SCENE_TYPE_CLONE_SCENE;
     }
 
-    bool AFCSceneProcessModule::ApplyMapInstance(const int nSceneID, int& nGroupID)
+    bool AFCSceneProcessModule::ApplyMapInstance(const int map_id, int& map_inst_id)
     {
-        nGroupID = CreateMapInstance(nSceneID);
-
+        map_inst_id = CreateMapInstance(map_id);
         return true;
     }
 
-    bool AFCSceneProcessModule::ExitMapInstance(const int nSceneID, const int& nGroupID)
+    bool AFCSceneProcessModule::ExitMapInstance(const int map_id, const int& map_inst_id)
     {
-        return m_pMapModule->ExitMapInstance(nSceneID, nGroupID);
+        return m_pMapModule->ExitMapInstance(map_id, map_inst_id);
     }
 
     bool AFCSceneProcessModule::LoadMapResource(const int map_id)
@@ -306,7 +305,6 @@ namespace ark
             pSeedResource->fSeedX = fSeedX;
             pSeedResource->fSeedY = fSeedY;
             pSeedResource->fSeedZ = fSeedZ;
-
         }
 
         return true;
