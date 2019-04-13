@@ -15,207 +15,221 @@ using namespace std;
 
 namespace detail
 {
-static const char* strue = "true";
-static const char* sfalse = "false";
+    static const char* strue = "true";
+    static const char* sfalse = "false";
 
-template <typename To, typename From>
-struct Converter
-{
-};
-
-//to numeric
-template <typename From>
-struct Converter<int, From>
-{
-    static int convert(const string& from)
+    template <typename To, typename From>
+    struct Converter
     {
-        return std::atoi(from.c_str());
-    }
+    };
 
-    static int convert(const char* from)
+    //to numeric
+    template <typename From>
+    struct Converter<int, From>
     {
-        return std::atoi(from);
-    }
-};
-
-template <typename From>
-struct Converter<long, From>
-{
-    static long convert(const string& from)
-    {
-        return std::atol(from.c_str());
-    }
-
-    static long convert(const char* from)
-    {
-        return std::atol(from);
-    }
-};
-
-template <typename From>
-struct Converter<long long, From>
-{
-    static long long convert(const string& from)
-    {
-        return std::atoll(from.c_str());
-    }
-
-    static long long convert(const char* from)
-    {
-        return std::atoll(from);
-    }
-};
-
-template <typename From>
-struct Converter<uint64_t, From>
-{
-    static uint64_t convert(const string& from)
-    {
-        return std::atoll(from.c_str());
-    }
-
-    static uint64_t convert(const char* from)
-    {
-        return std::atoll(from);
-    }
-};
-
-template <typename From>
-struct Converter<double, From>
-{
-    static double convert(const string& from)
-    {
-        return std::atof(from.c_str());
-    }
-
-    static double convert(const char* from)
-    {
-        return std::atof(from);
-    }
-};
-
-template <typename From>
-struct Converter<float, From>
-{
-    static float convert(const string& from)
-    {
-        return (float)std::atof(from.c_str());
-    }
-
-    static float convert(const char* from)
-    {
-        return (float)std::atof(from);
-    }
-};
-
-//to bool
-template <typename From>
-struct Converter<bool, From>
-{
-    static typename std::enable_if<std::is_integral<From>::value, bool>::type convert(From from)
-    {
-        return !!from;
-    }
-};
-
-static bool checkbool(const char* from, const size_t len, const char* s)
-{
-    for(size_t i = 0; i < len; i++)
-    {
-        if(from[i] != s[i])
+        static uint32_t convert(const string& from)
         {
-            return false;
+            return std::atoi(from.c_str());
         }
-    }
 
-    return true;
-}
+        static uint32_t convert(const char* from)
+        {
+            return std::atoi(from);
+        }
+    };
 
-static bool convert(const char* from)
-{
-    size_t len = strlen(from);
-
-    bool r = true;
-    if(len == 4)
+    template <typename From>
+    struct Converter<uint32_t, From>
     {
-        //"true"
-        r = checkbool(from, len, strue);
+        static int convert(const string& from)
+        {
+            return std::atoi(from.c_str());
+        }
 
-        if(r)
-            return true;
-    }
-    else if(len == 5)
+        static int convert(const char* from)
+        {
+            return std::atoi(from);
+        }
+    };
+
+    template <typename From>
+    struct Converter<long, From>
     {
-        //"false"
-        r = checkbool(from, len, sfalse);
+        static long convert(const string& from)
+        {
+            return std::atol(from.c_str());
+        }
 
-        if(r)
-            return false;
-    }
-    else
+        static long convert(const char* from)
+        {
+            return std::atol(from);
+        }
+    };
+
+    template <typename From>
+    struct Converter<long long, From>
     {
-        // 数字转为bool
-        int value = Converter<int, const char*>::convert(from);
-        return (value > 0);
-    }
+        static long long convert(const string& from)
+        {
+            return std::atoll(from.c_str());
+        }
 
-    throw std::invalid_argument("argument is invalid");
-}
+        static long long convert(const char* from)
+        {
+            return std::atoll(from);
+        }
+    };
 
-template <>
-struct Converter<bool, string>
-{
-    static bool convert(const string& from)
+    template <typename From>
+    struct Converter<uint64_t, From>
     {
-        return detail::convert(from.c_str());
-    }
-};
+        static uint64_t convert(const string& from)
+        {
+            return std::atoll(from.c_str());
+        }
 
-template <>
-struct Converter<bool, const char*>
-{
+        static uint64_t convert(const char* from)
+        {
+            return std::atoll(from);
+        }
+    };
+
+    template <typename From>
+    struct Converter<double, From>
+    {
+        static double convert(const string& from)
+        {
+            return std::atof(from.c_str());
+        }
+
+        static double convert(const char* from)
+        {
+            return std::atof(from);
+        }
+    };
+
+    template <typename From>
+    struct Converter<float, From>
+    {
+        static float convert(const string& from)
+        {
+            return (float)std::atof(from.c_str());
+        }
+
+        static float convert(const char* from)
+        {
+            return (float)std::atof(from);
+        }
+    };
+
+    //to bool
+    template <typename From>
+    struct Converter<bool, From>
+    {
+        static typename std::enable_if<std::is_integral<From>::value, bool>::type convert(From from)
+        {
+            return !!from;
+        }
+    };
+
+    static bool checkbool(const char* from, const size_t len, const char* s)
+    {
+        for (size_t i = 0; i < len; i++)
+        {
+            if (from[i] != s[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     static bool convert(const char* from)
     {
-        return detail::convert(from);
-    }
-};
+        size_t len = strlen(from);
 
-template <>
-struct Converter<bool, char*>
-{
-    static bool convert(char* from)
-    {
-        return detail::convert(from);
-    }
-};
+        bool r = true;
+        if (len == 4)
+        {
+            //"true"
+            r = checkbool(from, len, strue);
 
-template <unsigned N>
-struct Converter<bool, const char[N]>
-{
-    static bool convert(const char(&from)[N])
-    {
-        return detail::convert(from);
-    }
-};
+            if (r)
+                return true;
+        }
+        else if (len == 5)
+        {
+            //"false"
+            r = checkbool(from, len, sfalse);
 
-template <unsigned N>
-struct Converter<bool, char[N]>
-{
-    static bool convert(const char(&from)[N])
-    {
-        return detail::convert(from);
-    }
-};
+            if (r)
+                return false;
+        }
+        else
+        {
+            // 数字转为bool
+            int value = Converter<int, const char*>::convert(from);
+            return (value > 0);
+        }
 
-//to string
-template <typename From>
-struct Converter<string, From>
-{
-    static string convert(const From& from)
-    {
-        return std::to_string(from);
+        throw std::invalid_argument("argument is invalid");
     }
-};
+
+    template <>
+    struct Converter<bool, string>
+    {
+        static bool convert(const string& from)
+        {
+            return detail::convert(from.c_str());
+        }
+    };
+
+    template <>
+    struct Converter<bool, const char*>
+    {
+        static bool convert(const char* from)
+        {
+            return detail::convert(from);
+        }
+    };
+
+    template <>
+    struct Converter<bool, char*>
+    {
+        static bool convert(char* from)
+        {
+            return detail::convert(from);
+        }
+    };
+
+    template <unsigned N>
+    struct Converter<bool, const char[N]>
+    {
+        static bool convert(const char(&from)[N])
+        {
+            return detail::convert(from);
+        }
+    };
+
+    template <unsigned N>
+    struct Converter<bool, char[N]>
+    {
+        static bool convert(const char(&from)[N])
+        {
+            return detail::convert(from);
+        }
+    };
+
+    //to string
+    template <typename From>
+    struct Converter<string, From>
+    {
+        static string convert(const From& from)
+        {
+            return std::to_string(from);
+        }
+    };
 }
 
 template <typename To, typename From>
@@ -238,7 +252,7 @@ bool ValueFromString(const std::string& strValue, ValueTYPE& nValue)
         nValue = lexical_cast<ValueTYPE>(strValue);
         return true;
     }
-    catch(...)
+    catch (...)
     {
         return false;
     }
@@ -254,7 +268,7 @@ bool ValueToString(const ValueTYPE& nValue, std::string& strData)
         strData = lexical_cast<std::string>(nValue);
         return true;
     }
-    catch(...)
+    catch (...)
     {
         return false;
     }

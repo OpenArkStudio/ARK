@@ -38,7 +38,7 @@ namespace ark
         m_pLogModule = pPluginManager->FindModule<AFILogModule>();
         m_pGUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
         m_pDynamicLogModule = pPluginManager->FindModule<AFIDynamicLogModule>();
-        m_pScheduleModule = pPluginManager->FindModule<AFIScheduleModule>();
+        //m_pScheduleModule = pPluginManager->FindModule<AFIScheduleModule>();
 
         return true;
     }
