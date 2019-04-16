@@ -38,3 +38,8 @@ config_form_head_row = 5
 # entity class form header
 entity_form_head_row = 3
 entity_unused_flag = 'unused'
+
+entity_field_name_col = 2
+entity_field_type_col = 3
+entity_parent_class_col = 6
+entity_field_sub_class_col = 8

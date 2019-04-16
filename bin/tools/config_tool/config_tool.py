@@ -80,30 +80,54 @@ def generate_entity_meta(res_path):
     cpp_file.write(u"\t//////////////////////////////////\n\t//Entity meta\n")
     cs_file.write(u"\t//////////////////////////////////\n\t//Entity meta\n")
     # class field_name type
-    entity_map = {}
+    entity_dict = {}
+    # entity parent class
+    entity_parent_dict = {}
     for row in range(min_row_no + config_param.entity_form_head_row, max_row_no):
         meta_class = excel.get_cell_content(row, min_col_no)
         if meta_class == None:
             continue
-        if not entity_map.has_key(str(meta_class)):
-            entity_map[str(meta_class)] = []
+        meta_class_name = str(meta_class)
+        if not entity_dict.has_key(meta_class_name):
+            entity_dict[meta_class_name] = []
         # filed type sub_class
-        for col in [min_col_no + 1, min_col_no + 2, min_col_no + 6]:
+        for col in [config_param.entity_field_name_col, config_param.entity_field_type_col, config_param.entity_field_sub_class_col]:
             cell_content = excel.get_cell_content(row, col)
             if cell_content == None:
-                entity_map[str(meta_class)].append("")
+                entity_dict[meta_class_name].append("")
             else:
-                entity_map[str(meta_class)].append(str(cell_content))
-    # print entity_map
-    for k in entity_map:
-        cpp_file.write(u"\tclass AFEntityMeta" + k + "\n\t{\n\tpublic:\n")
+                entity_dict[meta_class_name].append(str(cell_content))
+        # field type parent_class
+        parent_class_cell = excel.get_cell_content(
+            row, config_param.entity_parent_class_col)
+
+        if (parent_class_cell != None):
+            if (not entity_parent_dict.has_key(meta_class_name)):
+                entity_parent_dict[meta_class_name] = []
+            parent_class_name = str(parent_class_cell)
+            if parent_class_name not in entity_parent_dict[meta_class_name]:
+                entity_parent_dict[meta_class_name].append(parent_class_name)
+
+    print entity_dict
+    #print entity_parent_dict
+    for k in entity_dict:
+        cpp_file.write(u"\tclass AFEntityMeta" + k)
+        # parent class
+        parent_list = entity_parent_dict.get(k)
+        if parent_list != None:
+            for i in xrange(0, len(parent_list)):
+                if i == 0:
+                    cpp_file.write(u": public AFEntityMeta" + parent_list[i])
+                else:
+                    cpp_file.write(u", public AFEntityMeta" + parent_list[i])
+        cpp_file.write(u"\n\t{\n\tpublic:\n")
         cpp_file.write(u'''\t\tstatic const std::string& self_name() { static const std:: string meta_%s_ = "%s"; return meta_%s_; }\n\n'''
                        % (k, k, k))
 
         cs_file.write(u"\tpublic class AFEntityMeta" + k + "\n\t{\n")
         cs_file.write(
             u'''\t\tpublic static readonly String self_name = "%s";\n\n''' % (k))
-        member_list = entity_map[k]
+        member_list = entity_dict[k]
         for i in xrange(0, len(member_list), 3):
             filed_name = member_list[i]
             type_name = member_list[i + 1]
@@ -225,7 +249,8 @@ def generate_config(res_path):
         # file is entity_class or is not excel file
         if filename == config_param.special_file_name or (ext != config_param.excel_ext and ext != config_param.excel_new_ext):
             continue
-
+        if filename.startswith("~$"):
+            continue
         ret = genrate_single_config(res_path, file_path, filename)
         if ret == True:
             # insert into config_class.config
@@ -269,9 +294,9 @@ def write_meta_define_begin(res_path):
 *
 */
 
-#pragma once
+# pragma once
 
-#include <string>
+# include <string>
 
 namespace ark
 {\n''')

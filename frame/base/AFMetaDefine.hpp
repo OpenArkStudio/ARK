@@ -18,15 +18,15 @@
 *
 */
 
-#pragma once
+# pragma once
 
-#include <string>
+# include <string>
 
 namespace ark
 {
 	//////////////////////////////////
 	//Entity meta
-	class AFEntityMetaPlayer
+	class AFEntityMetaPlayer: public AFEntityMetaBaseEntity
 	{
 	public:
 		static const std::string& self_name() { static const std:: string meta_Player_ = "Player"; return meta_Player_; }
@@ -37,8 +37,6 @@ namespace ark
 		static const std::string& gender() { static const std::string gender_ = "gender"; return gender_; } // int
 		static const std::string& career() { static const std::string career_ = "career"; return career_; } // int
 		static const std::string& camp() { static const std::string camp_ = "camp"; return camp_; } // int
-		static const std::string& map_id() { static const std::string map_id_ = "map_id"; return map_id_; } // int
-		static const std::string& map_inst_id() { static const std::string map_inst_id_ = "map_inst_id"; return map_inst_id_; } // int
 		static const std::string& last_map_id() { static const std::string last_map_id_ = "last_map_id"; return last_map_id_; } // int
 		static const std::string& level() { static const std::string level_ = "level"; return level_; } // int
 		static const std::string& exp() { static const std::string exp_ = "exp"; return exp_; } // int64
@@ -68,6 +66,16 @@ namespace ark
 		static const std::string& bound() { static const std::string bound_ = "bound"; return bound_; } // bool
 		static const std::string& expired_type() { static const std::string expired_type_ = "expired_type"; return expired_type_; } // int
 		static const std::string& expired_time() { static const std::string expired_time_ = "expired_time"; return expired_time_; } // int
+	};
+
+	class AFEntityMetaBaseEntity
+	{
+	public:
+		static const std::string& self_name() { static const std:: string meta_BaseEntity_ = "BaseEntity"; return meta_BaseEntity_; }
+
+		static const std::string& map_id() { static const std::string map_id_ = "map_id"; return map_id_; } // int
+		static const std::string& map_inst_id() { static const std::string map_inst_id_ = "map_inst_id"; return map_inst_id_; } // int
+		static const std::string& class_name() { static const std::string class_name_ = "class_name"; return class_name_; } // string
 	};
 
 	class AFEntityMetaCurrentAttr

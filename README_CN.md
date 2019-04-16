@@ -26,9 +26,9 @@ Github: https://github.com/QuadHex/ARK
 码云: https://gitee.com/QuadHex/ARK  
 QQ群: [点击加群](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
 
-| CI | 分支 | 状态 |
-| - | - | - |
-| Travis CI | master | [![Build Status](https://travis-ci.org/QuadHex/ARK.svg?branch=master)](https://travis-ci.org/QuadHex/ARK) |
+| CI        | 分支    | 状态                                                                                                       |
+| --------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| Travis CI | master  | [![Build Status](https://travis-ci.org/QuadHex/ARK.svg?branch=master)](https://travis-ci.org/QuadHex/ARK)  |
 | Travis CI | develop | [![Build Status](https://travis-ci.org/QuadHex/ARK.svg?branch=develop)](https://travis-ci.org/QuadHex/ARK) |
 
 ##### 如果你想体验更多的特性，请切换至develop分支.
@@ -67,6 +67,9 @@ ARK项目当前使用[Apache License](https://github.com/QuadHex/ARK/blob/master
 ## 捐赠
 
 如有捐赠意向，欢迎入群讨论并捐赠该项目，非常感谢你的付出. 捐赠的收益将会用在网站服务器和部分资源的购买上.
+
+<img src="https://ww1.sinaimg.cn/large/68d69121gy1g24nbkglxqj20yi1au0xm.jpg" alt="donate by wechat" width="200px"/>
+<img src="https://ws1.sinaimg.cn/mw690/68d69121gy1g24ncojoabj20go0p0mzq.jpg" alt="donate by alipay" width="200px"/>
 
 ## 核心开发人员
 

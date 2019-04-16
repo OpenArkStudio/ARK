@@ -26,9 +26,9 @@ Github: https://github.com/QuadHex/ARK
 Gitee: https://gitee.com/QuadHex/ARK  
 QQ Group: [Join Us](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
 
-| CI | Branch | Build Status |
-| - | - | - |
-| Travis CI | master | [![Build Status](https://travis-ci.org/QuadHex/ARK.svg?branch=master)](https://travis-ci.org/QuadHex/ARK) |
+| CI        | Branch  | Build Status                                                                                               |
+| --------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| Travis CI | master  | [![Build Status](https://travis-ci.org/QuadHex/ARK.svg?branch=master)](https://travis-ci.org/QuadHex/ARK)  |
 | Travis CI | develop | [![Build Status](https://travis-ci.org/QuadHex/ARK.svg?branch=develop)](https://travis-ci.org/QuadHex/ARK) |
 
 ##### Wanna get the newest features? Please switch to the develop branch.
@@ -64,9 +64,13 @@ Please visit doc website: [Document](https://docs.quadhex.io/ARK)
 
 The ARK project is currently available under the [Apache License](https://github.com/QuadHex/ARK/blob/master/LICENSE).
 
-## Donate
+## Donation
 
-If you wanna donate us, please contact us first.
+Thank you for your donation, all income will be used as development and server fees.
+
+[![Donate by Paypal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/nickyang4self)
+
+[![Donate by Patron](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/bePatron?u=19279478)
 
 ## Core Developers
 
