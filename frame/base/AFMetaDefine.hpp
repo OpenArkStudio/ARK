@@ -26,11 +26,29 @@ namespace ark
 {
 	//////////////////////////////////
 	//Entity meta
-	class AFEntityMetaPlayer: public AFEntityMetaBaseEntity
+	class AFEntityMetaBaseEntity
 	{
 	public:
+		AFEntityMetaBaseEntity() = default;
+		static const std::string& self_name() { static const std:: string meta_BaseEntity_ = "BaseEntity"; return meta_BaseEntity_; }
+
+		static const std::string& map_id() { static const std::string map_id_ = "map_id"; return map_id_; } // int
+		static const std::string& map_inst_id() { static const std::string map_inst_id_ = "map_inst_id"; return map_inst_id_; } // int
+		static const std::string& class_name() { static const std::string class_name_ = "class_name"; return class_name_; } // string
+	};
+
+	class AFEntityMetaPlayer
+	{
+	public:
+		AFEntityMetaPlayer() = default;
 		static const std::string& self_name() { static const std:: string meta_Player_ = "Player"; return meta_Player_; }
 
+		//parent entity class
+		static const std::string& map_id() { static const std::string map_id_ = "map_id"; return map_id_; } // int
+		static const std::string& map_inst_id() { static const std::string map_inst_id_ = "map_inst_id"; return map_inst_id_; } // int
+		static const std::string& class_name() { static const std::string class_name_ = "class_name"; return class_name_; } // string
+
+		//self entity class
 		static const std::string& openid() { static const std::string openid_ = "openid"; return openid_; } // string
 		static const std::string& id() { static const std::string id_ = "id"; return id_; } // int64
 		static const std::string& name() { static const std::string name_ = "name"; return name_; } // string
@@ -58,8 +76,11 @@ namespace ark
 	class AFEntityMetaItemBag
 	{
 	public:
+		AFEntityMetaItemBag() = default;
 		static const std::string& self_name() { static const std:: string meta_ItemBag_ = "ItemBag"; return meta_ItemBag_; }
 
+
+		//self entity class
 		static const std::string& guid() { static const std::string guid_ = "guid"; return guid_; } // int64
 		static const std::string& config_id() { static const std::string config_id_ = "config_id"; return config_id_; } // uint32
 		static const std::string& count() { static const std::string count_ = "count"; return count_; } // int
@@ -68,21 +89,14 @@ namespace ark
 		static const std::string& expired_time() { static const std::string expired_time_ = "expired_time"; return expired_time_; } // int
 	};
 
-	class AFEntityMetaBaseEntity
-	{
-	public:
-		static const std::string& self_name() { static const std:: string meta_BaseEntity_ = "BaseEntity"; return meta_BaseEntity_; }
-
-		static const std::string& map_id() { static const std::string map_id_ = "map_id"; return map_id_; } // int
-		static const std::string& map_inst_id() { static const std::string map_inst_id_ = "map_inst_id"; return map_inst_id_; } // int
-		static const std::string& class_name() { static const std::string class_name_ = "class_name"; return class_name_; } // string
-	};
-
 	class AFEntityMetaCurrentAttr
 	{
 	public:
+		AFEntityMetaCurrentAttr() = default;
 		static const std::string& self_name() { static const std:: string meta_CurrentAttr_ = "CurrentAttr"; return meta_CurrentAttr_; }
 
+
+		//self entity class
 		static const std::string& hp() { static const std::string hp_ = "hp"; return hp_; } // uint64
 		static const std::string& mp() { static const std::string mp_ = "mp"; return mp_; } // uint64
 		static const std::string& hp_max() { static const std::string hp_max_ = "hp_max"; return hp_max_; } // uint64
@@ -91,8 +105,11 @@ namespace ark
 	class AFEntityMetaEquipBag
 	{
 	public:
+		AFEntityMetaEquipBag() = default;
 		static const std::string& self_name() { static const std:: string meta_EquipBag_ = "EquipBag"; return meta_EquipBag_; }
 
+
+		//self entity class
 		static const std::string& guid() { static const std::string guid_ = "guid"; return guid_; } // int64
 		static const std::string& config_id() { static const std::string config_id_ = "config_id"; return config_id_; } // uint32
 	};

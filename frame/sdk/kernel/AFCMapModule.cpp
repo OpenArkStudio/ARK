@@ -47,7 +47,7 @@ namespace ark
         ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
         if (pEntity != nullptr)
         {
-            return (pEntity->GetNodeInt(IObject::InstanceID()) < 0);
+            return (pEntity->GetNodeInt(AFEntityMetaBaseEntity::map_inst_id()) < 0);
         }
         else
         {
@@ -71,8 +71,8 @@ namespace ark
             return false;
         }
 
-        int32_t old_map = pEntity->GetNodeInt(IObject::MapID());
-        int32_t old_inst = pEntity->GetNodeInt(IObject::InstanceID());
+        int32_t old_map = pEntity->GetNodeInt(AFEntityMetaBaseEntity::map_id());
+        int32_t old_inst = pEntity->GetNodeInt(AFEntityMetaBaseEntity::map_inst_id());
 
         ARK_SHARE_PTR<AFMapInfo> pOldMapInfo = map_infos_.find_value(old_map);
         ARK_SHARE_PTR<AFMapInfo> pNewMapInfo = map_infos_.find_value(target_map);
@@ -99,11 +99,11 @@ namespace ark
 
         if (target_map != old_map)
         {
-            pEntity->SetNodeInt(IObject::MapID(), 0);
-            pEntity->SetNodeInt(IObject::InstanceID(), target_map);
+            pEntity->SetNodeInt(AFEntityMetaBaseEntity::map_id(), 0);
+            pEntity->SetNodeInt(AFEntityMetaBaseEntity::map_id(), target_map);
         }
 
-        pEntity->SetNodeInt(IObject::MapID(), target_inst);
+        pEntity->SetNodeInt(AFEntityMetaBaseEntity::map_inst_id(), target_inst);
 
         pEntity->SetNodeDouble("X", pos.x);
         pEntity->SetNodeDouble("Y", pos.y);

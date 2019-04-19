@@ -37,6 +37,92 @@ def parse_args():
     return vars(parser.parse_args())
 
 
+def write_entity_cpp_head(file, name):
+    file.write(u"\tclass AFEntityMeta" + name)
+    file.write(u"\n\t{\n\tpublic:\n")
+    file.write(u"\t\tAFEntityMeta" + name + "() = default;\n")
+    file.write(u'''\t\tstatic const std::string& self_name() { static const std:: string meta_%s_ = "%s"; return meta_%s_; }\n\n'''
+               % (name, name, name))
+
+
+def write_entity_cs_head(file, name):
+    file.write(u"\tpublic class AFEntityMeta" + name + "\n\t{\n")
+    file.write(
+        u'''\t\tpublic static readonly String self_name = "%s";\n\n''' % name)
+
+
+def write_entity_cpp_member(file, filed_name, type_name, sub_class_name=""):
+    if sub_class_name != "":
+        file.write(u'''\t\tstatic const std::string& %s() { static const std::string %s_ = "%s"; return %s_; } // %s - AFEntityMeta%s\n''' %
+                   (filed_name, filed_name, filed_name, filed_name, type_name, sub_class_name))
+    else:
+        file.write(u'''\t\tstatic const std::string& %s() { static const std::string %s_ = "%s"; return %s_; } // %s\n''' %
+                   (filed_name, filed_name, filed_name, filed_name, type_name))
+
+
+def write_entity_cs_member(file, filed_name, type_name, sub_class_name=""):
+    if sub_class_name != "":
+        file.write(u'''\t\tpublic static readonly String %s = %s; // %s - AFEntityMeta%s\n''' %
+                   (filed_name, filed_name, type_name, sub_class_name))
+    else:
+        file.write(u'''\t\tpublic static readonly String %s = %s; // %s\n''' %
+                   (filed_name, filed_name, type_name))
+
+
+def write_entity_cpp_end(file):
+    file.write(u"\t};\n\n")
+
+
+def write_entity_cs_end(file):
+    file.write(u"\t};\n\n")
+
+
+def write_entity_all_member(file, name, entity_dict, cpp_or_cs=True):
+    if cpp_or_cs:
+        # get fileds
+        member_list = entity_dict[name]
+        for k in xrange(0, len(member_list), 3):
+            filed_name = member_list[k]
+            type_name = member_list[k + 1]
+            sub_class_name = member_list[k + 2]
+            write_entity_cpp_member(
+                file, filed_name, type_name, sub_class_name)
+    else:
+        # get fileds
+        member_list = entity_dict[name]
+        for k in xrange(0, len(member_list), 3):
+            filed_name = member_list[k]
+            type_name = member_list[k + 1]
+            sub_class_name = member_list[k + 2]
+            write_entity_cs_member(
+                file, filed_name, type_name, sub_class_name)
+
+
+def write_entity(file, name, entity_dict, cpp_or_cs=True):
+    if cpp_or_cs:
+        write_entity_cpp_head(file, name)
+        # get fileds
+        member_list = entity_dict[name]
+        for k in xrange(0, len(member_list), 3):
+            filed_name = member_list[k]
+            type_name = member_list[k + 1]
+            sub_class_name = member_list[k + 2]
+            write_entity_cpp_member(
+                file, filed_name, type_name, sub_class_name)
+        write_entity_cpp_end(file)
+    else:
+        write_entity_cs_head(file, name)
+        # get parent fileds
+        member_list = entity_dict[name]
+        for k in xrange(0, len(member_list), 3):
+            filed_name = member_list[k]
+            type_name = member_list[k + 1]
+            sub_class_name = member_list[k + 2]
+            write_entity_cs_member(
+                file, filed_name, type_name, sub_class_name)
+        write_entity_cs_end(file)
+
+
 # generate entity class meta
 def generate_entity_meta(res_path):
     entity_filepath = os.path.join(
@@ -76,8 +162,8 @@ def generate_entity_meta(res_path):
 
     # open meta define file
     cpp_file = open(os.path.join(res_path, config_param.cpp_meta_file), 'a')
-    cs_file = open(os.path.join(res_path, config_param.cs_meta_file), 'a')
     cpp_file.write(u"\t//////////////////////////////////\n\t//Entity meta\n")
+    cs_file = open(os.path.join(res_path, config_param.cs_meta_file), 'a')
     cs_file.write(u"\t//////////////////////////////////\n\t//Entity meta\n")
     # class field_name type
     entity_dict = {}
@@ -108,43 +194,53 @@ def generate_entity_meta(res_path):
             if parent_class_name not in entity_parent_dict[meta_class_name]:
                 entity_parent_dict[meta_class_name].append(parent_class_name)
 
-    print entity_dict
-    #print entity_parent_dict
+    # print entity_dict
+    # print entity_parent_dict
+    # first of all, add parent entity classes
+    for i in entity_parent_dict:
+        parent_list = entity_parent_dict.get(i)
+        if parent_list == None:
+            continue
+        for j in xrange(0, len(parent_list)):
+            parent = parent_list[j]
+            if not entity_dict.has_key(parent):
+                continue
+
+            write_entity(cpp_file, parent, entity_dict, True)
+            write_entity(cs_file, parent, entity_dict, False)
+
+    # then other entity classes
     for k in entity_dict:
-        cpp_file.write(u"\tclass AFEntityMeta" + k)
-        # parent class
+        # jump over parent meta classes
+        find = False
+        for p in entity_parent_dict:
+            parent_list = entity_parent_dict.get(p)
+            if parent_list == None:
+                continue
+            if k in parent_list:
+                find = True
+                break
+        if find == True:
+            continue
+
+        write_entity_cpp_head(cpp_file, k)
+        write_entity_cs_head(cs_file, k)
+
+        # parent class members
         parent_list = entity_parent_dict.get(k)
         if parent_list != None:
-            for i in xrange(0, len(parent_list)):
-                if i == 0:
-                    cpp_file.write(u": public AFEntityMeta" + parent_list[i])
-                else:
-                    cpp_file.write(u", public AFEntityMeta" + parent_list[i])
-        cpp_file.write(u"\n\t{\n\tpublic:\n")
-        cpp_file.write(u'''\t\tstatic const std::string& self_name() { static const std:: string meta_%s_ = "%s"; return meta_%s_; }\n\n'''
-                       % (k, k, k))
+            cpp_file.write("\t\t//parent entity class\n")
+            for parent in parent_list:
+                write_entity_all_member(cpp_file, parent, entity_dict, True)
+                write_entity_all_member(cs_file, parent, entity_dict, False)
 
-        cs_file.write(u"\tpublic class AFEntityMeta" + k + "\n\t{\n")
-        cs_file.write(
-            u'''\t\tpublic static readonly String self_name = "%s";\n\n''' % (k))
-        member_list = entity_dict[k]
-        for i in xrange(0, len(member_list), 3):
-            filed_name = member_list[i]
-            type_name = member_list[i + 1]
-            sub_class_name = member_list[i + 2]
-            if sub_class_name != "":
-                cpp_file.write(u'''\t\tstatic const std::string& %s() { static const std::string %s_ = "%s"; return %s_; } // %s - AFEntityMeta%s\n''' %
-                               (filed_name, filed_name, filed_name, filed_name, type_name, sub_class_name))
-                cs_file.write(u'''\t\tpublic static readonly String %s = "%s"; // %s - %s\n''' %
-                              (filed_name, filed_name, type_name, sub_class_name))
-            else:
-                cpp_file.write(u'''\t\tstatic const std::string& %s() { static const std::string %s_ = "%s"; return %s_; } // %s\n''' %
-                               (filed_name, filed_name, filed_name, filed_name, type_name))
-                cs_file.write(u'''\t\tpublic static readonly String %s = "%s"; // %s\n''' %
-                              (filed_name, filed_name, type_name))
+        cpp_file.write("\n\t\t//self entity class\n")
+        write_entity_all_member(cpp_file, k, entity_dict, True)
+        write_entity_all_member(cs_file, k, entity_dict, False)
 
-        cpp_file.write(u"\t};\n\n")
-        cs_file.write(u"\t}\n\n")
+        write_entity_cpp_end(cpp_file)
+        write_entity_cs_end(cs_file)
+
     # sperate line
     cpp_file.write(u"\t//////////////////////////////////\n\t//Config meta\n")
     cs_file.write(u"\t//////////////////////////////////\n\t//Config meta\n")
@@ -339,6 +435,7 @@ def write_meta_define_end(res_path):
 
     with open(os.path.join(res_path, config_param.cs_meta_file), 'a') as cs_file:
         cs_file.write(u"}")
+
 
     # main
 if __name__ == "__main__":
