@@ -88,4 +88,4 @@ Our team has always specialized in the agile development and try to help differe
 [PSS](https://github.com/freeeyes/PSS)
 
 - Author: freeeyes
-- Description: 基于插件的跨平台网络服务器框架
+- Description: Cross platform network service frame
