@@ -29,10 +29,10 @@ namespace ark
 
     AFCKernelModule::AFCKernelModule()
     {
-        inner_nodes_.AddElement(IObject::ConfigID(), ARK_NEW int32_t(0));
-        inner_nodes_.AddElement(IObject::ClassName(), ARK_NEW int32_t(0));
-        inner_nodes_.AddElement(IObject::MapID(), ARK_NEW int32_t(0));
-        inner_nodes_.AddElement(IObject::InstanceID(), ARK_NEW int32_t(0));
+        inner_nodes_.AddElement(AFEntityMetaBaseEntity::config_id(), ARK_NEW int32_t(0));
+        inner_nodes_.AddElement(AFEntityMetaBaseEntity::class_name(), ARK_NEW int32_t(0));
+        inner_nodes_.AddElement(AFEntityMetaBaseEntity::map_id(), ARK_NEW int32_t(0));
+        inner_nodes_.AddElement(AFEntityMetaBaseEntity::map_inst_id(), ARK_NEW int32_t(0));
     }
 
     AFCKernelModule::~AFCKernelModule()
@@ -150,10 +150,10 @@ namespace ark
 
         for (size_t i = 0; (i + 1) < args.GetCount(); i += 2)
         {
-            const std::string& strDataNodeName = args.String(i);
-            if (!inner_nodes_.ExistElement(strDataNodeName))
+            const std::string& node_name = args.String(i);
+            if (!inner_nodes_.ExistElement(node_name))
             {
-                AFDataNode* pArgNode = pNodeManager->GetNode(strDataNodeName.c_str());
+                AFDataNode* pArgNode = pNodeManager->GetNode(node_name.c_str());
                 if (pArgNode != nullptr)
                 {
                     args.ToAFIData(i + 1, pArgNode->value);
@@ -161,10 +161,10 @@ namespace ark
             }
         }
 
-        pEntity->SetNodeString(IObject::ConfigID(), config_index);
-        pEntity->SetNodeString(IObject::ClassName(), class_name);
-        pEntity->SetNodeInt(IObject::MapID(), map_id);
-        pEntity->SetNodeInt(IObject::InstanceID(), map_instance_id);
+        pEntity->SetNodeString(AFEntityMetaBaseEntity::config_id(), config_index);
+        pEntity->SetNodeString(AFEntityMetaBaseEntity::class_name(), class_name);
+        pEntity->SetNodeInt(AFEntityMetaBaseEntity::map_id(), map_id);
+        pEntity->SetNodeInt(AFEntityMetaBaseEntity::map_inst_id(), map_instance_id);
 
         DoEvent(entity_id, class_name, ENTITY_EVT_LOAD_DATA, args);
         DoEvent(entity_id, class_name, ENTITY_EVT_PRE_EFFECT_DATA, args);
@@ -204,13 +204,13 @@ namespace ark
             return DestroySelf(self);
         }
 
-        int32_t map_id = GetNodeInt(self, IObject::MapID());
-        int32_t inst_id = GetNodeInt(self, IObject::InstanceID());
+        int32_t map_id = GetNodeInt(self, AFEntityMetaBaseEntity::map_id());
+        int32_t inst_id = GetNodeInt(self, AFEntityMetaBaseEntity::map_inst_id());
 
         ARK_SHARE_PTR<AFMapInfo> pMapInfo = m_pMapModule->GetMapInfo(map_id);
         if (pMapInfo != nullptr)
         {
-            const std::string& class_name = GetNodeString(self, IObject::ClassName());
+            const std::string& class_name = GetNodeString(self, AFEntityMetaBaseEntity::class_name());
 
             pMapInfo->RemoveEntityFromInstance(inst_id, self, ((class_name == AFEntityMetaPlayer::self_name()) ? true : false));
 
@@ -713,7 +713,7 @@ namespace ark
 
         if (m_pMapModule->IsInMapInstance(id))
         {
-            int map_id = GetNodeInt(id, IObject::MapID());
+            int map_id = GetNodeInt(id, AFEntityMetaBaseEntity::map_id());
 
             ARK_LOG_INFO("----------child object list-------- , id = {} mapid = {}", id, map_id);
             AFCDataList entity_list;

@@ -531,19 +531,19 @@ namespace ark
 
     int AFCGameNetModule::OnCommonDataNodeEvent(const AFGUID& self, const std::string& name, const AFIData& oldVar, const AFIData& newVar)
     {
-        if (IObject::InstanceID() == name)
+        if (AFEntityMetaBaseEntity::map_inst_id() == name)
         {
             //自己还是要知道自己的这个属性变化的,但是别人就不需要知道了
-            OnGroupEvent(self, name, oldVar, newVar);
+            OnMapInstanceEvent(self, name, oldVar, newVar);
         }
 
-        if (IObject::MapID() == name)
+        if (AFEntityMetaBaseEntity::map_id() == name)
         {
             //自己还是要知道自己的这个属性变化的,但是别人就不需要知道了
             OnContainerEvent(self, name, oldVar, newVar);
         }
 
-        if (AFEntityMetaPlayer::self_name() == std::string(m_pKernelModule->GetNodeString(self, IObject::ClassName())) && (m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::load_data_finished()) <= 0))
+        if (AFEntityMetaPlayer::self_name() == std::string(m_pKernelModule->GetNodeString(self, AFEntityMetaBaseEntity::class_name())) && (m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::load_data_finished()) <= 0))
         {
             return 0;
         }
@@ -660,14 +660,14 @@ namespace ark
         const int nRow = xEventData.nRow;
         const int nCol = xEventData.nCol;
 
-        int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
+        int nObjectGroupID = m_pKernelModule->GetNodeInt(self, AFEntityMetaBaseEntity::map_inst_id());
 
         if (nObjectGroupID < 0)
         {
             return 1;
         }
 
-        if (AFEntityMetaPlayer::self_name() == std::string(m_pKernelModule->GetNodeString(self, "ClassName")) &&
+        if (AFEntityMetaPlayer::self_name() == std::string(m_pKernelModule->GetNodeString(self, AFEntityMetaBaseEntity::class_name())) &&
                 m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::load_data_finished()) <= 0)
         {
             return 1;
@@ -707,8 +707,8 @@ namespace ark
 
     int AFCGameNetModule::CommonClassDestoryEvent(const AFGUID& self)
     {
-        int map_id = m_pKernelModule->GetNodeInt(self, "SceneID");
-        int map_inst_id = m_pKernelModule->GetNodeInt(self, "GroupID");
+        int map_id = m_pKernelModule->GetNodeInt(self, AFEntityMetaBaseEntity::map_id());
+        int map_inst_id = m_pKernelModule->GetNodeInt(self, AFEntityMetaBaseEntity::map_inst_id());
 
         if (map_inst_id < 0)
         {
@@ -723,7 +723,7 @@ namespace ark
         for (size_t i = 0; i < valueAllObjectList.GetCount(); i++)
         {
             AFGUID identBC = valueAllObjectList.Int64(i);
-            const std::string class_name(m_pKernelModule->GetNodeString(identBC, "ClassName"));
+            const std::string class_name(m_pKernelModule->GetNodeString(identBC, AFEntityMetaBaseEntity::class_name()));
 
             if (AFEntityMetaPlayer::self_name() == class_name)
             {
@@ -793,11 +793,11 @@ namespace ark
         return 0;
     }
 
-    int AFCGameNetModule::OnGroupEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
+    int AFCGameNetModule::OnMapInstanceEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
     {
         //容器发生变化，只可能从A容器的0层切换到B容器的0层
         //需要注意的是------------任何层改变的时候，此玩家其实还未进入层，因此，层改变的时候获取的玩家列表，目标层是不包含自己的
-        int nSceneID = m_pKernelModule->GetNodeInt(self, "SceneID");
+        int nSceneID = m_pKernelModule->GetNodeInt(self, AFEntityMetaBaseEntity::map_id());
 
         //广播给别人自己离去(层降或者跃层)
         int nOldGroupID = oldVar.GetInt();
@@ -841,7 +841,7 @@ namespace ark
         for (size_t i = 0; i < valueNewAllObjectList.GetCount(); i++)
         {
             AFGUID identBC = valueNewAllObjectList.Int64(i);
-            const std::string class_name(m_pKernelModule->GetNodeString(identBC, "ClassName"));
+            const std::string class_name(m_pKernelModule->GetNodeString(identBC, AFEntityMetaBaseEntity::class_name()));
 
             if (AFEntityMetaPlayer::self_name() == class_name)
             {
@@ -898,11 +898,11 @@ namespace ark
 
     int AFCGameNetModule::GetNodeBroadcastEntityList(const AFGUID& self, const std::string& name, AFIDataList& valueObject)
     {
-        int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
-        int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
+        int nObjectContainerID = m_pKernelModule->GetNodeInt(self, AFEntityMetaBaseEntity::map_id());
+        int nObjectGroupID = m_pKernelModule->GetNodeInt(self, AFEntityMetaBaseEntity::map_inst_id());
 
         //普通场景容器，判断广播属性
-        std::string class_name = m_pKernelModule->GetNodeString(self, "ClassName");
+        std::string class_name = m_pKernelModule->GetNodeString(self, AFEntityMetaBaseEntity::class_name());
         ARK_SHARE_PTR<AFIDataNodeManager> pClassDataNodeManager = m_pClassModule->GetNodeManager(class_name);
 
         if (pClassDataNodeManager == nullptr)
@@ -933,11 +933,11 @@ namespace ark
 
     int AFCGameNetModule::GetTableBroadcastEntityList(const AFGUID& self, const std::string& name, AFIDataList& valueObject)
     {
-        int map_id = m_pKernelModule->GetNodeInt(self, "SceneID");
-        int map_inst_id = m_pKernelModule->GetNodeInt(self, "GroupID");
+        int map_id = m_pKernelModule->GetNodeInt(self, AFEntityMetaBaseEntity::map_id());
+        int map_inst_id = m_pKernelModule->GetNodeInt(self, AFEntityMetaBaseEntity::map_inst_id());
 
         //普通场景容器，判断广播属性
-        std::string class_name = m_pKernelModule->GetNodeString(self, "ClassName");
+        std::string class_name = m_pKernelModule->GetNodeString(self, AFEntityMetaBaseEntity::class_name());
         ARK_SHARE_PTR<AFIDataTableManager> pClassDataTableManager = m_pClassModule->GetTableManager(class_name);
 
         if (pClassDataTableManager == nullptr)
@@ -972,7 +972,7 @@ namespace ark
 
         for (size_t i = 0; i < map_inst_entity_list.GetCount(); i++)
         {
-            const std::string& strObjClassName = m_pKernelModule->GetNodeString(map_inst_entity_list.Int64(i), "ClassName");
+            const std::string& strObjClassName = m_pKernelModule->GetNodeString(map_inst_entity_list.Int64(i), AFEntityMetaBaseEntity::class_name());
 
             if (AFEntityMetaPlayer::self_name() == strObjClassName)
             {

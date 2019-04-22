@@ -35,6 +35,7 @@ namespace ark
 		static const std::string& map_id() { static const std::string map_id_ = "map_id"; return map_id_; } // int
 		static const std::string& map_inst_id() { static const std::string map_inst_id_ = "map_inst_id"; return map_inst_id_; } // int
 		static const std::string& class_name() { static const std::string class_name_ = "class_name"; return class_name_; } // string
+		static const std::string& config_id() { static const std::string config_id_ = "config_id"; return config_id_; } // uint32
 	};
 
 	class AFEntityMetaPlayer
@@ -47,6 +48,7 @@ namespace ark
 		static const std::string& map_id() { static const std::string map_id_ = "map_id"; return map_id_; } // int
 		static const std::string& map_inst_id() { static const std::string map_inst_id_ = "map_inst_id"; return map_inst_id_; } // int
 		static const std::string& class_name() { static const std::string class_name_ = "class_name"; return class_name_; } // string
+		static const std::string& config_id() { static const std::string config_id_ = "config_id"; return config_id_; } // uint32
 
 		//self entity class
 		static const std::string& openid() { static const std::string openid_ = "openid"; return openid_; } // string
