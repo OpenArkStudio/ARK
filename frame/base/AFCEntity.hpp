@@ -35,11 +35,11 @@ namespace ark
 
         explicit AFCEntity(const AFGUID& self) :
             AFIEntity(self),
-            mSelf(self)
+            self_(self)
         {
-            m_pNodeManager = std::make_shared<AFCDataNodeManager>(mSelf);
-            m_pTableManager = std::make_shared<AFCDataTableManager>(mSelf);
-            m_pEventManager = std::make_shared<AFCEventManager>(mSelf);
+            m_pNodeManager = std::make_shared<AFCDataNodeManager>(self_);
+            m_pTableManager = std::make_shared<AFCDataTableManager>(self_);
+            m_pEventManager = std::make_shared<AFCEventManager>(self_);
         }
 
         void Update() override
@@ -50,7 +50,7 @@ namespace ark
         ///////////////////////////////////////////////////////////////////////
         const AFGUID& Self() override
         {
-            return mSelf;
+            return self_;
         }
 
         bool CheckNodeExist(const std::string& name) override
@@ -204,7 +204,7 @@ namespace ark
         }
 
     private:
-        AFGUID mSelf;
+        AFGUID self_;
 
         ARK_SHARE_PTR<AFIDataNodeManager> m_pNodeManager;
         ARK_SHARE_PTR<AFIDataTableManager> m_pTableManager;
