@@ -146,7 +146,7 @@ namespace ark
             }
         }
 
-        DoEvent(entity_id, class_name, ENTITY_EVT_PRE_LOAD_DATA, args);
+        DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_PRE_LOAD_DATA, args);
 
         for (size_t i = 0; (i + 1) < args.GetCount(); i += 2)
         {
@@ -166,11 +166,11 @@ namespace ark
         pEntity->SetNodeInt(AFEntityMetaBaseEntity::map_id(), map_id);
         pEntity->SetNodeInt(AFEntityMetaBaseEntity::map_inst_id(), map_instance_id);
 
-        DoEvent(entity_id, class_name, ENTITY_EVT_LOAD_DATA, args);
-        DoEvent(entity_id, class_name, ENTITY_EVT_PRE_EFFECT_DATA, args);
-        DoEvent(entity_id, class_name, ENTITY_EVT_EFFECT_DATA, args);
-        DoEvent(entity_id, class_name, ENTITY_EVT_POST_EFFECT_DATA, args);
-        DoEvent(entity_id, class_name, ENTITY_EVT_DATA_FINISHED, args);
+        DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_LOAD_DATA, args);
+        DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_PRE_EFFECT_DATA, args);
+        DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_EFFECT_DATA, args);
+        DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_POST_EFFECT_DATA, args);
+        DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_DATA_FINISHED, args);
 
         return pEntity;
     }
@@ -214,8 +214,8 @@ namespace ark
 
             pMapInfo->RemoveEntityFromInstance(inst_id, self, ((class_name == AFEntityMetaPlayer::self_name()) ? true : false));
 
-            DoEvent(self, class_name, ENTITY_EVT_PRE_DESTROY, AFCDataList());
-            DoEvent(self, class_name, ENTITY_EVT_DESTROY, AFCDataList());
+            DoEvent(self, class_name, ArkEntityEvent::ENTITY_EVT_PRE_DESTROY, AFCDataList());
+            DoEvent(self, class_name, ArkEntityEvent::ENTITY_EVT_DESTROY, AFCDataList());
 
             return entities_.erase(self);
         }
@@ -691,7 +691,7 @@ namespace ark
         return m_pClassModule->AddClassCallBack(class_name, cb);
     }
 
-    bool AFCKernelModule::DoEvent(const AFGUID& self, const std::string& class_name, ARK_ENTITY_EVENT class_event, const AFIDataList& args)
+    bool AFCKernelModule::DoEvent(const AFGUID& self, const std::string& class_name, ArkEntityEvent class_event, const AFIDataList& args)
     {
         return m_pClassModule->DoEvent(self, class_name, class_event, args);
     }

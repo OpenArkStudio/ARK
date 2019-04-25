@@ -83,7 +83,7 @@ namespace ark
         BRT_RECORD,        //do not connect, but need record info
     };
 
-    enum ARK_ENTITY_EVENT
+    enum class ArkEntityEvent : int
     {
         ENTITY_EVT_NONE = 0,
         ENTITY_EVT_DESTROY,
@@ -97,4 +97,15 @@ namespace ark
         ENTITY_EVT_ALL_FINISHED,        //Call it by yourself when create entity finished
     };
 
+    enum class ArkDataOp : uint8_t
+    {
+        DO_UNKNOWN = 0,
+        DO_INC,     // +
+        DO_DEC,     // -
+        DO_MUL,     // *
+        DO_DIV,     // /
+        DO_SET,     // =
+        DO_AND,     // &
+        DO_OR,      // |
+    };
 }

@@ -53,7 +53,7 @@ namespace ark
         virtual const std::string& GetResPath() = 0;
 
         virtual bool AddClassCallBack(const CLASS_EVENT_FUNCTOR_PTR cb) = 0;
-        virtual bool DoEvent(const AFGUID& id, const ARK_ENTITY_EVENT class_event, const AFIDataList& args) = 0;
+        virtual bool DoEvent(const AFGUID& id, const ArkEntityEvent class_event, const AFIDataList& args) = 0;
 
         template<typename BaseType>
         bool AddNodeCallBack(const std::string& class_name, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
@@ -91,7 +91,7 @@ namespace ark
         virtual bool Load() = 0;
 
         template<typename BaseType>
-        bool AddClassCallBack(const std::string& class_name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&))
+        bool AddClassCallBack(const std::string& class_name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
         {
             return AddClassCallBack(class_name, std::make_shared<CLASS_EVENT_FUNCTOR>(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4)));
         }
@@ -120,7 +120,7 @@ namespace ark
             return AddCommonTableCallback(class_name, std::make_shared<DATA_TABLE_EVENT_FUNCTOR>(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4)));
         }
 
-        virtual bool DoEvent(const AFGUID& entity_id, const std::string& class_name, const ARK_ENTITY_EVENT class_event, const AFIDataList& args) = 0;
+        virtual bool DoEvent(const AFGUID& entity_id, const std::string& class_name, const ArkEntityEvent class_event, const AFIDataList& args) = 0;
         virtual bool AddNodeCallBack(const std::string& class_name, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR cb) = 0;
         virtual bool AddTableCallBack(const std::string& class_name, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb) = 0;
         virtual bool AddCommonNodeCallback(const std::string& class_name, const DATA_NODE_EVENT_FUNCTOR_PTR cb) = 0;

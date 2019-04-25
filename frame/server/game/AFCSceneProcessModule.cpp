@@ -203,9 +203,9 @@ namespace ark
         return 0;
     }
 
-    int AFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
+    int AFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var)
     {
-        if (ARK_ENTITY_EVENT::ENTITY_EVT_DESTROY == eClassEvent)
+        if (ArkEntityEvent::ENTITY_EVT_DESTROY == eClassEvent)
         {
             //如果在副本中,则删除他的那个副本
             int map_id = m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::map_id());
@@ -217,7 +217,7 @@ namespace ark
                 ARK_LOG_INFO("DestroyCloneSceneGroup, id  = {} scene_id  = {} group_id = {}", self, map_id, nGroupID);
             }
         }
-        else if (ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED == eClassEvent)
+        else if (ArkEntityEvent::ENTITY_EVT_DATA_FINISHED == eClassEvent)
         {
             m_pKernelModule->AddEventCallBack(self, AFED_ON_CLIENT_ENTER_SCENE, this, &AFCSceneProcessModule::OnEnterSceneEvent);
             m_pKernelModule->AddEventCallBack(self, AFED_ON_CLIENT_LEAVE_SCENE, this, &AFCSceneProcessModule::OnLeaveSceneEvent);

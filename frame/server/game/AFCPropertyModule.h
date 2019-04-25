@@ -64,7 +64,7 @@ namespace ark
         virtual bool EnoughDiamond(const AFGUID& self, const int32_t& nValue);
 
     protected:
-        int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
+        int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var);
 
         int OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
 

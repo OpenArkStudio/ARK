@@ -79,7 +79,7 @@ namespace ark
             return true;
         }
 
-        bool DoEvent(const AFGUID& id, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& valueList) override
+        bool DoEvent(const AFGUID& id, const ArkEntityEvent eClassEvent, const AFIDataList& valueList) override
         {
             for (auto iter : class_events_)
             {
@@ -345,7 +345,7 @@ namespace ark
         bool Load() override;
 
         bool AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR cb) override;
-        bool DoEvent(const AFGUID& id, const std::string& class_name, const ARK_ENTITY_EVENT class_event, const AFIDataList& args) override;
+        bool DoEvent(const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event, const AFIDataList& args) override;
         bool AddNodeCallBack(const std::string& class_name, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR cb) override;
         bool AddTableCallBack(const std::string& class_name, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb) override;
         bool AddCommonNodeCallback(const std::string& class_name, const DATA_NODE_EVENT_FUNCTOR_PTR cb) override;

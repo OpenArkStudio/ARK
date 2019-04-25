@@ -40,11 +40,11 @@ namespace ark
         return 0;
     }
 
-    int Sample3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT event, const AFIDataList& arg)
+    int Sample3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const ArkEntityEvent event, const AFIDataList& arg)
     {
-        std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self << " Event: " << event << std::endl;
+        std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self << " Event: " << (int)event << std::endl;
 
-        if (event == ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED)
+        if (event == ArkEntityEvent::ENTITY_EVT_DATA_FINISHED)
         {
             m_pKernelModule->AddEventCallBack(self, 11111111, this, &Sample3Module::OnEvent);
         }

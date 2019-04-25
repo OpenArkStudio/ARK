@@ -37,18 +37,18 @@ namespace ark
         }
 
         template<typename BaseType>
-        bool AddClassCallBack(const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&))
+        bool AddClassCallBack(const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
         {
             CLASS_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
             return AddClassCallBack(name, std::make_shared<CLASS_EVENT_FUNCTOR>(functor));
         }
 
-        virtual bool DoEvent(const AFGUID& self, const std::string& name, ARK_ENTITY_EVENT eEvent, const AFIDataList& valueList) = 0;
+        virtual bool DoEvent(const AFGUID& self, const std::string& name, ArkEntityEvent eEvent, const AFIDataList& valueList) = 0;
         virtual bool DoEvent(const AFGUID& self, const int nEventID, const AFIDataList& valueList) = 0;
 
         //////////////////////////////////////////////////////////////////////////
         template<typename BaseType>
-        bool RegCommonClassEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&))
+        bool RegCommonClassEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
         {
             CLASS_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
             return RegCommonClassEvent(std::make_shared<CLASS_EVENT_FUNCTOR>(functor));

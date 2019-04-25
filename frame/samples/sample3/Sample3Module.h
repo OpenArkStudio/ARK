@@ -42,7 +42,7 @@ namespace ark
 
     protected:
         int OnEvent(const AFGUID& self, const int event, const AFIDataList& arg);
-        int OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT event, const AFIDataList& arg);
+        int OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const ArkEntityEvent event, const AFIDataList& arg);
         int OnIntDataNodeCB(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
         int OnStrDataNodeCB(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
 

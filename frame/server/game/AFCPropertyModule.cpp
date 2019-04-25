@@ -168,9 +168,9 @@ namespace ark
         return -1;
     }
 
-    int AFCPropertyModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
+    int AFCPropertyModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var)
     {
-        //if (ARK_ENTITY_EVENT::ENTITY_EVT_PRE_LOAD_DATA == eClassEvent)
+        //if (ArkEntityEvent::ENTITY_EVT_PRE_LOAD_DATA == eClassEvent)
         //{
         //    AFDataTable* pTable = m_pKernelModule->FindTable(self, ark::Player::R_CommPropertyValue());
 
@@ -183,7 +183,7 @@ namespace ark
         //    }
 
         //}
-        //else if (ARK_ENTITY_EVENT::ENTITY_EVT_EFFECT_DATA == eClassEvent)
+        //else if (ArkEntityEvent::ENTITY_EVT_EFFECT_DATA == eClassEvent)
         //{
         //    int nOnlineCount = m_pKernelModule->GetNodeInt(self, ark::Player::OnlineCount());
 
@@ -193,7 +193,7 @@ namespace ark
         //        m_pKernelModule->SetNodeInt(self, ark::Player::Level(), 1);
         //    }
         //}
-        //else if (ARK_ENTITY_EVENT::ENTITY_EVT_ALL_FINISHED == eClassEvent)
+        //else if (ArkEntityEvent::ENTITY_EVT_ALL_FINISHED == eClassEvent)
         //{
         //    int nOnlineCount = m_pKernelModule->GetNodeInt(self, ark::Player::OnlineCount());
         //    m_pKernelModule->SetNodeInt(self, ark::Player::OnlineCount(), (nOnlineCount + 1));

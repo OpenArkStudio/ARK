@@ -91,7 +91,7 @@ namespace ark
         bool LogSelfInfo(const AFGUID& id);
         //////////////////////////////////////////////////////////////////////////
 
-        bool DoEvent(const AFGUID& self, const std::string& class_name, ARK_ENTITY_EVENT class_event, const AFIDataList& args) override;
+        bool DoEvent(const AFGUID& self, const std::string& class_name, ArkEntityEvent class_event, const AFIDataList& args) override;
         bool DoEvent(const AFGUID& self, const int event_id, const AFIDataList& args) override;
 
     protected:

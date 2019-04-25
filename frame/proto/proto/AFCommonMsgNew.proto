@@ -1,0 +1,27 @@
+syntax = "proto3";
+package AFMsg;
+
+message PBArray
+{
+    map<uint32, uint64> pb_uint64 = 1;
+}
+
+message PBDataEx
+{
+    map<string, bool> pb_bool       = 1; // bool
+    map<string, sint32> pb_int32    = 2; // int32
+    map<string, uint32> pb_uint32   = 3; // uint32
+    map<string, sint64> pb_int64    = 4; // int64
+    map<string, uint64> pb_uint64   = 5; // uint64
+    map<string, float> pb_float     = 6; // float
+    map<string, double> pb_double   = 7; // double
+    map<string, bytes> pb_string    = 8; // string
+    map<string, PBArray> pb_array   = 9; // array
+    map<string, PBTable> pb_table   = 10; // table
+    map<string, PBDataEx> pb_data     = 11; // multi-data
+}
+
+message PBTable
+{
+    map<uint64, PBDataEx> pb_datas = 1;
+}

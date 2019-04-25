@@ -190,7 +190,7 @@ namespace ark
         //pEntity->SetNodeInt("GateID", nGateID);
         //pEntity->SetNodeInt("GameID", pPluginManager->BusID());
 
-        //m_pKernelModule->DoEvent(pEntity->Self(), ark::Player::ThisName(), ENTITY_EVT_ALL_FINISHED, AFCDataList());
+        //m_pKernelModule->DoEvent(pEntity->Self(), ark::Player::ThisName(), ArkEntityEvent::ENTITY_EVT_ALL_FINISHED, AFCDataList());
 
         //AFCDataList varEntry;
         //varEntry << pEntity->Self();
@@ -741,15 +741,15 @@ namespace ark
         return 0;
     }
 
-    int AFCGameNetModule::OnCommonClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
+    int AFCGameNetModule::OnCommonClassEvent(const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var)
     {
         switch (eClassEvent)
         {
-        case ENTITY_EVT_DESTROY:
+        case ArkEntityEvent::ENTITY_EVT_DESTROY:
             CommonClassDestoryEvent(self);
             break;
 
-        case ENTITY_EVT_PRE_LOAD_DATA:
+        case ArkEntityEvent::ENTITY_EVT_PRE_LOAD_DATA:
             {
                 //id和fd,gateid绑定
                 ARK_SHARE_PTR<GateBaseInfo> pDataBase = mRoleBaseData.find_value(self);
@@ -767,10 +767,10 @@ namespace ark
             }
             break;
 
-        case ARK_ENTITY_EVENT::ENTITY_EVT_LOAD_DATA:
+        case ArkEntityEvent::ENTITY_EVT_LOAD_DATA:
             break;
 
-        case ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED:
+        case ArkEntityEvent::ENTITY_EVT_DATA_FINISHED:
             {
                 //自己广播给自己就够了
                 if (strClassName == AFEntityMetaPlayer::self_name())
@@ -783,7 +783,7 @@ namespace ark
             }
             break;
 
-        case ARK_ENTITY_EVENT::ENTITY_EVT_ALL_FINISHED:
+        case ArkEntityEvent::ENTITY_EVT_ALL_FINISHED:
             break;
 
         default:
@@ -983,21 +983,21 @@ namespace ark
         return valueObject.GetCount();
     }
 
-    int AFCGameNetModule::OnEntityEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
+    int AFCGameNetModule::OnEntityEvent(const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var)
     {
         switch (eClassEvent)
         {
-        case ENTITY_EVT_DESTROY:
+        case ArkEntityEvent::ENTITY_EVT_DESTROY:
             //save data to db by yourself logic
             ARK_LOG_INFO("Player Offline, player_id = {}", self);
             break;
 
-        case ENTITY_EVT_LOAD_DATA:
+        case ArkEntityEvent::ENTITY_EVT_LOAD_DATA:
             //load data from db by yourself logic
             ARK_LOG_INFO("Player online, player_id = {}", self);
             break;
 
-        case ENTITY_EVT_ALL_FINISHED:
+        case ArkEntityEvent::ENTITY_EVT_ALL_FINISHED:
             m_pKernelModule->AddEventCallBack(self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, this, &AFCGameNetModule::OnSwapSceneResultEvent);
             break;
 

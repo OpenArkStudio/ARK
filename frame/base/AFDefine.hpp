@@ -44,24 +44,18 @@ namespace ark
     class DATA_TABLE_EVENT_DATA
     {
     public:
-        DATA_TABLE_EVENT_DATA() :
-            nOpType(ENTITY_EVT_NONE),
-            nRow(-1),
-            nCol(-1),
-            strName(NULL_STR.c_str())
-        {
-        }
+        DATA_TABLE_EVENT_DATA() = default;
 
-        uint8_t nOpType;
-        int16_t nRow;
-        int16_t nCol;
-        DataTableName strName;
+        uint8_t nOpType{0};
+        int16_t nRow{-1};
+        int16_t nCol{-1};
+        DataTableName strName{""};
     };
 
     using DATA_NODE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)>;
     using DATA_TABLE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
     using LITLE_DATA_TABLE_EVENT_FUNCTOR = std::function<int(const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
-    using CLASS_EVENT_FUNCTOR = std::function<bool(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&)>;
+    using CLASS_EVENT_FUNCTOR = std::function<bool(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&)>;
     using EVENT_PROCESS_FUNCTOR = std::function<int(const AFGUID&, const int, const AFIDataList&)>;
     using TIMER_FUNCTOR = std::function<void(const std::string&, const AFGUID&)>;
     using SCHEDULER_FUNCTOR = std::function<bool(const int, const int)>;

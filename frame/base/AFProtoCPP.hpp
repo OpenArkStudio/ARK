@@ -25,3 +25,5 @@
 #include "proto/cpp/AFSSMsg.pb.h"
 #include "proto/cpp/AFMsgURl.pb.h"
 #include "proto/cpp/AFMsgMysql.pb.h"
+
+#include "proto/cpp/AFCommonMsgNew.pb.h"

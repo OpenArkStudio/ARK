@@ -408,7 +408,7 @@ namespace ark
         return ((pClass != nullptr) ? pClass->AddClassCallBack(cb) : false);
     }
 
-    bool AFCMetaClassModule::DoEvent(const AFGUID& id, const std::string& class_name, const ARK_ENTITY_EVENT class_event, const AFIDataList& args)
+    bool AFCMetaClassModule::DoEvent(const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event, const AFIDataList& args)
     {
         auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->DoEvent(id, class_event, args) : false);
