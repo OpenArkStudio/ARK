@@ -26,10 +26,13 @@ Github: https://github.com/QuadHex/ARK
 码云: https://gitee.com/QuadHex/ARK  
 QQ群: [点击加群](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
 
-| CI        | 分支    | 状态                                                                                                       |
-| --------- | ------- | ---------------------------------------------------------------------------------------------------------- |
-| Travis CI | master  | [![Build Status](https://travis-ci.org/QuadHex/ARK.svg?branch=master)](https://travis-ci.org/QuadHex/ARK)  |
-| Travis CI | develop | [![Build Status](https://travis-ci.org/QuadHex/ARK.svg?branch=develop)](https://travis-ci.org/QuadHex/ARK) |
+| CI        | 分支    | 状态                                                                                                                            |
+| --------- | ------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Travis CI | master  | [![Build Status](https://travis-ci.org/QuadHex/ARK.svg?branch=master)](https://travis-ci.org/QuadHex/ARK)                       |
+| Travis CI | develop | [![Build Status](https://travis-ci.org/QuadHex/ARK.svg?branch=develop)](https://travis-ci.org/QuadHex/ARK)                      |
+| -         | -       | -                                                                                                                               |
+| Cricle CI | master  | [![CircleCI](https://circleci.com/gh/QuadHex/ARK/tree/master.svg?style=svg)](https://circleci.com/gh/QuadHex/ARK/tree/master)   |
+| Cricle CI | develop | [![CircleCI](https://circleci.com/gh/QuadHex/ARK/tree/develop.svg?style=svg)](https://circleci.com/gh/QuadHex/ARK/tree/develop) |
 
 ##### 如果你想体验更多的特性，请切换至develop分支.
 
