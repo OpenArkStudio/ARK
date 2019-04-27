@@ -25,11 +25,11 @@
 #include "base/AFCDataList.hpp"
 #include "base/AFCDataNodeManager.hpp"
 #include "base/AFCDataTableManager.hpp"
+#include "base/AFDataNode.hpp"
 #include "interface/AFIMetaClassModule.h"
 #include "interface/AFIConfigModule.h"
 #include "interface/AFIPluginManager.h"
 #include "interface/AFILogModule.h"
-#include "base/AFDataNode.hpp"
 
 namespace ark
 {
@@ -372,8 +372,86 @@ namespace ark
     private:
         AFIConfigModule* m_pConfigModule;
         AFILogModule* m_pLogModule;
-        std::string schema_file_{};
+
         AFMapEx<std::string, AFIMetaClass> metaclasses_;
     };
+    //////////////////////////////////////////////////////////////////////////
+    //class AFCMetaConfigInfo : public AFIMetaConfigInfo
+    //{
+    //public:
+    //    explicit AFCMetaConfigInfo(const std::string& name) :
+    //        meta_name_(name)
+    //    {
+    //        data_ = AFDataFactory::Create()
+    //    }
 
+    //    const std::string& GetMetaName() override
+    //    {
+    //        return meta_name_;
+    //    }
+
+    //    void SetMetaName(const std::string& name) override
+    //    {
+    //        meta_name_ = name;
+    //    }
+
+    //    void SetResPath(const std::string& path) override
+    //    {
+    //        res_path_ = path;
+    //    }
+
+    //    const std::string& GetResPath() override
+    //    {
+    //        return res_path_;
+    //    }
+
+    //    void SetMetaPath(const std::string& path) override
+    //    {
+    //        meta_path_ = path;
+    //    }
+
+    //    const std::string& GetMetaPath() override
+    //    {
+    //        return meta_path_;
+    //    }
+
+    //    void AddConfigID(uint32_t config_id) override
+    //    {
+    //        config_id_list_.emplace_back(config_id);
+    //    }
+
+    //    AFList<uint32_t>& GetAllConfigID() override
+    //    {
+    //        return config_id_list_;
+    //    }
+
+    //private:
+    //    std::string meta_name_{};
+    //    std::string res_path_{};
+    //    std::string meta_path_{};
+
+    //    AFList<uint32_t> config_id_list_;
+
+    //    AFIDataEx* data_{ nullptr };
+    //};
+
+    //class AFCNewMetaConfigModule : public AFINewMetaConfigModule
+    //{
+    //public:
+    //    explicit AFCNewMetaConfigModule() = default;
+
+    //    bool Init() override;
+    //    bool Load() override;
+
+    //    std::shared_ptr<AFIMetaConfigInfo> GetMetaClass(const std::string& class_name) override;
+    //    AFNewSmartPtrMap<std::string, AFIMetaConfigInfo>& GetAllMetaConfigInfo() override;
+
+    //protected:
+    //    bool LoadConfigMeta(const std::string& config_meta_file, std::shared_ptr<AFIMetaConfigInfo> meta_config_info);
+
+    //private:
+    //    AFILogModule* m_pLogModule;
+
+    //    AFNewSmartPtrMap<std::string, AFIMetaConfigInfo> meta_config_classes_;
+    //};
 }

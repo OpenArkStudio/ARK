@@ -25,6 +25,7 @@
 #include "interface/AFIData.hpp"
 #include "base/AFDataNode.hpp"
 #include "AFCMetaClassModule.h"
+#include "base/AFXml.hpp"
 
 namespace ark
 {
@@ -39,12 +40,7 @@ namespace ark
         m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
         m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
-        schema_file_ = "schema/LogicClass.xml";
-        ARK_LOG_INFO("Using file [{}{}]", pPluginManager->GetResPath(), schema_file_);
-
-        bool ret = Load();
-        ARK_ASSERT_RET_VAL(ret, false);
-
+        ARK_ASSERT_RET_VAL(Load(), false);
         return true;
     }
 
@@ -359,7 +355,10 @@ namespace ark
 
     bool AFCMetaClassModule::Load()
     {
-        std::string file_path = pPluginManager->GetResPath() + schema_file_;
+        std::string file_path = pPluginManager->GetResPath() + config_class_file;
+
+        ARK_LOG_INFO("Load config files: {}", file_path);
+
         rapidxml::file<> fdoc(file_path.c_str());
 
         rapidxml::xml_document<> xDoc;
@@ -413,5 +412,57 @@ namespace ark
         auto pClass = metaclasses_.find_value(class_name);
         return ((pClass != nullptr) ? pClass->DoEvent(id, class_event, args) : false);
     }
+
+    //////////////////////////////////////////////////////////////////////////
+    //bool AFCNewMetaConfigModule::Init()
+    //{
+    //    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+
+    //    ARK_ASSERT_RET_VAL(Load(), false);
+    //    return true;
+    //}
+
+    //bool AFCNewMetaConfigModule::Load()
+    //{
+    //    std::string file_path = pPluginManager->GetResPath() + config_class_file;
+
+    //    ARK_LOG_INFO("Load config files: {}", file_path);
+
+    //    AFXml xml_file(file_path);
+    //    auto root_node = xml_file.GetRootNode();
+    //    for (auto config_node = root_node.FindNode("config"); config_node.IsValid(); config_node.NextNode())
+    //    {
+    //        std::string id = config_node.GetString("id");
+    //        std::string meta_file = config_node.GetString("meta");
+    //        std::string res_file = config_node.GetString("res");
+
+    //        std::shared_ptr<AFIMetaConfigInfo> meta_config_info = std::make_shared<AFCMetaConfigInfo>(id);
+    //        if (!LoadConfigMeta(meta_file, meta_config_info))
+    //        {
+    //            ARK_LOG_ERROR("Load config meta failed, file = {}", meta_file);
+    //            ARK_ASSERT_RET_VAL(0, false);
+    //        }
+
+    //        meta_config_classes_.insert(id, meta_config_info);
+    //    }
+
+    //    return true;
+    //}
+
+    //std::shared_ptr<AFIMetaConfigInfo> AFCNewMetaConfigModule::GetMetaClass(const std::string& class_name)
+    //{
+    //    return meta_config_classes_.find_value(class_name);
+    //}
+
+    //AFNewSmartPtrMap<std::string, AFIMetaConfigInfo>& AFCNewMetaConfigModule::GetAllMetaConfigInfo()
+    //{
+    //    return meta_config_classes_;
+    //}
+
+    //bool AFCNewMetaConfigModule::LoadConfigMeta(const std::string& config_meta_file, std::shared_ptr<AFIMetaConfigInfo> meta_config_info)
+    //{
+    //    //TODO
+    //    return true;
+    //}
 
 }

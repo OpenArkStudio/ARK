@@ -21,9 +21,10 @@
 #pragma once
 
 #include "base/AFMacros.hpp"
-#include "base/AFVector3.hpp"
+#include "base/AFVector3D.hpp"
 #include "base/AFDataSetting.hpp"
 #include "base/AFMetaClassSetting.hpp"
+#include "base/AFDataSetting.hpp"
 
 namespace ark
 {
@@ -33,7 +34,7 @@ namespace ark
     public:
         virtual ~AFIDataEx() = default;
 
-        virtual bool Init(const AFMetaClassSetting* class_setting, const AFDataSetting* data_setting)
+        virtual bool Init(const AFMetaClassSetting* class_setting, const AFEntityMetaData* data_setting)
         {
             ARK_ASSERT_RET_VAL(class_setting != nullptr && data_setting != nullptr, false);
 
@@ -70,12 +71,12 @@ namespace ark
 
         virtual void SetKey(uint64_t id) {}
 
-        const AFMetaClassSetting* GetClassSetting() const
+        const AFMetaClassSetting* GetClassSetting()
         {
             return class_setting_;
         }
 
-        const AFDataSetting* GetDataSetting() const
+        const AFEntityMetaData* GetDataSetting()
         {
             return data_setting_;
         }
@@ -464,7 +465,7 @@ namespace ark
             return NULL_INT;
         }
 
-        virtual uint32_t GetUInt32() const = 0;
+        virtual uint32_t GetUInt32() const
         {
             return NULL_INT;
         }
@@ -496,7 +497,7 @@ namespace ark
 
         virtual const AFVector3D& GetVector3D() const
         {
-            return AFVector3D::x_axis;
+            return NULL_VECTOR3D;
         }
 
         virtual void SetBool(const bool&) const {}
@@ -510,7 +511,7 @@ namespace ark
         virtual void SetVector3D(const AFVector3D&) const {}
 
     public:
-        const AFDataSetting* data_setting_{ nullptr };
+        const AFEntityMetaData* data_setting_{ nullptr };
         const AFMetaClassSetting* class_setting_{ nullptr };
 
     private:

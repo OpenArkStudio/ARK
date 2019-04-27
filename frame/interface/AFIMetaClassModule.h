@@ -136,4 +136,30 @@ namespace ark
         virtual AFMapEx<std::string, AFIMetaClass>& GetAllMetaClass() = 0;
     };
 
+    //////////////////////////////////////////////////////////////////////////
+    //class AFIMetaConfigInfo
+    //{
+    //public:
+    //    virtual const std::string& GetMetaName() = 0;
+    //    virtual void SetMetaName(const std::string& name) = 0;
+
+    //    virtual void SetResPath(const std::string& path) = 0;
+    //    virtual const std::string& GetResPath() = 0;
+
+    //    virtual void SetMetaPath(const std::string& path) = 0;
+    //    virtual const std::string& GetMetaPath() = 0;
+
+    //    virtual void AddConfigID(uint32_t config_id) = 0;
+    //    virtual AFList<uint32_t>& GetAllConfigID() = 0;
+    //};
+
+    //class AFINewMetaConfigModule : public AFIModule
+    //{
+    //    virtual bool Load() = 0;
+
+    //    virtual bool AddMetaConfigInfo(const std::string& class_name, const std::string& parent_name) = 0;
+    //    virtual std::shared_ptr<AFIMetaConfigInfo> GetMetaClass(const std::string& class_name) = 0;
+    //    virtual AFNewSmartPtrMap<std::string, AFIMetaConfigInfo>& GetAllMetaConfigInfo() = 0;
+    //};
+
 }

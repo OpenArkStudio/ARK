@@ -39,6 +39,8 @@ namespace ark
     const static AFGUID NULL_GUID = 0;
     const static nullptr_t NULL_POINT = nullptr;
 
+    static const std::string config_class_file = "meta/config_class.config";
+
     using AFFeatureType = std::bitset<8>;
 
     class DATA_TABLE_EVENT_DATA
@@ -67,5 +69,4 @@ namespace ark
     using EVENT_PROCESS_FUNCTOR_PTR = ARK_SHARE_PTR<EVENT_PROCESS_FUNCTOR>;
     using TIMER_FUNCTOR_PTR = ARK_SHARE_PTR<TIMER_FUNCTOR>;
     using SCHEDULER_FUNCTOR_PTR = ARK_SHARE_PTR<SCHEDULER_FUNCTOR>;
-
 }

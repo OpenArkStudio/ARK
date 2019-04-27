@@ -114,7 +114,7 @@ namespace ark
             return GetInt() == value;
         }
 
-        bool equal(const  int64_t value)
+        bool equal(const int64_t value)
         {
             if (this->GetType() != DT_INT64)
             {
@@ -134,7 +134,7 @@ namespace ark
             return GetFloat() == value;
         }
 
-        bool equal(const double  value)
+        bool equal(const double value)
         {
             if (this->GetType() != DT_DOUBLE)
             {
@@ -144,7 +144,7 @@ namespace ark
             return GetDouble() == value;
         }
 
-        bool equal(const char*  value)
+        bool equal(const char* value)
         {
             if (this->GetType() != DT_STRING)
             {
