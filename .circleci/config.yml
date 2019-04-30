@@ -3,7 +3,8 @@ jobs:
   build:
     docker:
       - image: rikorose/gcc-cmake
-
+    ignore:
+      - gh-pages
     steps:
       - checkout
       - run:
