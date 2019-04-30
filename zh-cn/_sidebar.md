@@ -28,3 +28,4 @@
 - [常见问题](/zh-cn/faq.md)
 - [更新记录](/zh-cn/changelog.md)
 - [计划](/zh-cn/plan.md)
+- [新设计](/zh-cn/new-desgin.md)

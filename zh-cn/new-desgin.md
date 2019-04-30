@@ -2,6 +2,7 @@
 
 ## 数据管理
 
+```plain text
                                         |- MetaEntityClassSetting
         |--- MetaClassSettingBase*  ----|
         |           ||                  |- MetaConfigClassSetting
@@ -20,6 +21,7 @@ AFData -|--- MetaDataSettingBase*   ----|
                                         |- struct(Map<std::string, AFData*>)
                                         |- array(vector<AFData*>)
                                         |- table(map<uint64_t, AFData*>)
+```
 
 ## 数据说明
 
