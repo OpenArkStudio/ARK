@@ -184,21 +184,6 @@ typedef struct HINSTANCE__* hInstance;
 
 #endif
 
-template<bool> struct ARK_STATIC_ASSERTION_FAILURE;
-template<> struct ARK_STATIC_ASSERTION_FAILURE<true>
-{
-    enum
-    {
-        value = 1
-    };
-};
-
-template<int x> struct ark_static_assert_test {};
-
-#define ARK_STATIC_ASSERT(x) \
-    typedef ark_static_assert_test<sizeof(ARK_STATIC_ASSERTION_FAILURE<(bool)(x)>)> \
-        __FUNCTION__##__LINE__ ARK_UNUSED
-
 #define ARK_ASSERT_RET_VAL(exp_, val)   \
     do                                  \
     {                                   \
@@ -318,6 +303,8 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
 
 #define ARK_FORMAT(my_fmt, ...)             fmt::format(my_fmt, ##__VA_ARGS__);
 #define ARK_FORMAT_FUNCTION(my_fmt, ...)    fmt::format(std::string("[{}:{}]") + my_fmt, ARK_FUNCTION_LINE, ##__VA_ARGS__);
+
+#define ARK_SRATIC_ASSERT static_assert
 
 //clear player data time
 #define CLEAR_HOUR 5
