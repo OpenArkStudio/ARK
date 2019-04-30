@@ -2,7 +2,7 @@
 
 ## 数据管理
 
-```plain text
+```text
                                         |- MetaEntityClassSetting
         |--- MetaClassSettingBase*  ----|
         |           ||                  |- MetaConfigClassSetting
