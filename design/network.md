@@ -8,7 +8,6 @@
 - router  zone <-> cluster的中间层，主要做协议转发
 - zone    小区进程
 
-
 ## 网络拓扑设计
 
 zone 内的网络拓扑均由world来管理
@@ -21,7 +20,6 @@ zone发往cluster的消息，可以直接发往router，由router根据包头中
 cluster的所有进程都需要连master和router
 
 zone内的部分进程链接router
-
 
 ## log设计
 
