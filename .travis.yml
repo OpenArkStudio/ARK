@@ -34,24 +34,17 @@ before_install:
   - ./build_dep.sh
   - cd ..
 
-install:
-  - sudo pip install --upgrade pip
-  - sudo pip install codecov
-
-before_script:
+script:
   # cmake
   - if [-d "build" ]; then rm -rf build; fi
   - mkdir build && cd build
   - cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=ON ..
-
-script:
   # make
   - build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
   - cd $TRAVIS_BUILD_DIR/frame
   #If you need debug log, plase add -X parameters
   - sonar-scanner
-
-after_success:
+  - ctest -j2
   - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-5
 
 cache:

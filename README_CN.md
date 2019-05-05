@@ -15,6 +15,7 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/QuadHex/ARK.svg?style=flat-square)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/QuadHex/ARK.svg?style=flat-square)  
 [![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=ark&metric=alert_status)](https://sonarcloud.io/dashboard/index/ark)
+[![codecov](https://codecov.io/gh/QuadHex/ARK/branch/master/graph/badge.svg)](https://codecov.io/gh/QuadHex/ARK)
 [![QQ Group](https://img.shields.io/badge/Chat%20on-QQ%20Group-orange.svg?longCache=true&style=flat-square)](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
 [![Slack](https://img.shields.io/badge/slack-QuadHex-%23de335e.svg)](https://join.slack.com/t/quadhex/shared_invite/enQtNTk2NDQ0MDcyMjEyLWNhYWQ5MDRmYTg5Njg5ZjFlMjU5NjU3M2Q3MGUyZDFkMDYxMjA5MGFiYmZlZTYzNGYyM2Q1NzRkMjc2NjkzMGE)
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
