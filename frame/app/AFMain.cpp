@@ -396,10 +396,8 @@ int main(int argc, char* argv[])
 
     while (!g_exit_loop)
     {
-        while (true)
+        for (;; std::this_thread::sleep_for(std::chrono::milliseconds(1)))
         {
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
-
             if (g_exit_loop)
             {
                 break;
