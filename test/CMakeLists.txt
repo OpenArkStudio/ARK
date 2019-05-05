@@ -5,7 +5,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
 
-file(GLOB_RECURSE app_SRC *.h *.hpp *.cpp *.cc *.c)
+file(GLOB_RECURSE TEST_SRC *.h *.hpp *.cpp *.cc *.c)
     
 if(UNIX)
     #Set rpath
@@ -13,17 +13,17 @@ if(UNIX)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
-add_executable(app ${app_SRC})
+add_executable(test ${TEST_SRC})
 
 if(UNIX)
-    target_link_libraries(app pthread dl --coverage)
+    target_link_libraries(test pthread dl --coverage)
 else(UNIX)
-    target_link_libraries(app)
+    target_link_libraries(test)
 endif(UNIX)
 
-set_target_properties(app PROPERTIES OUTPUT_NAME_DEBUG "app_d")
-set_target_properties(app PROPERTIES
-    FOLDER "app"
+set_target_properties(test PROPERTIES OUTPUT_NAME_DEBUG "test_d")
+set_target_properties(test PROPERTIES
+    FOLDER "test"
     ARCHIVE_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
     RUNTIME_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
     LIBRARY_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR})

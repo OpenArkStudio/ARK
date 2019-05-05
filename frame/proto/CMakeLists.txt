@@ -5,7 +5,7 @@ if(UNIX)
 endif()
 
 set(project_name AFProto)
-file(GLOB SDK_SRC *.h *.hpp *.cpp *.cc *.c cpp/*.h cpp/*.hpp cpp/*.cpp cpp/*.cc)
+file(GLOB_RECURSE SDK_SRC *.h *.hpp *.cpp *.cc *.c)
 add_library(${project_name} STATIC ${SDK_SRC})
 set_target_properties(${project_name} PROPERTIES PREFIX "")
 set_target_properties(${project_name} PROPERTIES OUTPUT_NAME_DEBUG "${project_name}_d")
