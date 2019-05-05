@@ -41,7 +41,7 @@ multi-MetaConfigDataSetting
 
 ### MetaConfigDataSetting
 
-只有类型和refer, 没有mask, 没有其他函数等
+只有类型和refer, 没有mask/其他函数等
 
 ## 参考
 
