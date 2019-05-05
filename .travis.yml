@@ -36,7 +36,7 @@ before_install:
 
 script:
   # cmake
-  - if [-d "build" ]; then rm -rf build; fi
+  - if [ -d "build" ]; then rm -rf build; fi
   - mkdir build && cd build
   - cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=ON ..
   # make

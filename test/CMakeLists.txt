@@ -13,16 +13,16 @@ if(UNIX)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
-add_executable(test ${TEST_SRC})
+add_executable(ark_test ${TEST_SRC})
 
 if(UNIX)
-    target_link_libraries(test pthread dl --coverage)
+    target_link_libraries(ark_test pthread dl --coverage)
 else(UNIX)
-    target_link_libraries(test)
+    target_link_libraries(ark_test)
 endif(UNIX)
 
-set_target_properties(test PROPERTIES OUTPUT_NAME_DEBUG "test_d")
-set_target_properties(test PROPERTIES
+set_target_properties(ark_test PROPERTIES OUTPUT_NAME_DEBUG "test_d")
+set_target_properties(ark_test PROPERTIES
     FOLDER "test"
     ARCHIVE_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
     RUNTIME_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
