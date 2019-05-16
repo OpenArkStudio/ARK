@@ -24,6 +24,7 @@
 #include "AFEnum.hpp"
 #include "AFString.hpp"
 #include "AFMetaDefine.hpp"
+#include "AFVector3D.hpp"
 
 namespace ark
 {
@@ -38,6 +39,7 @@ namespace ark
     const static std::string NULL_STR = "";
     const static AFGUID NULL_GUID = 0;
     const static nullptr_t NULL_POINT = nullptr;
+    const static AFVector3D NULL_VECTOR3D = AFVector3D(0.0f, 0.0f, 0.0f);
 
     static const std::string config_class_file = "meta/config_class.config";
 

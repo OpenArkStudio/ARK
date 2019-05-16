@@ -21,7 +21,6 @@
 #pragma once
 
 #include "AFMisc.hpp"
-#include "AFDefine.hpp"
 
 namespace ark
 {
@@ -29,9 +28,9 @@ namespace ark
     class AFVector3D
     {
     public:
-        float x{ NULL_FLOAT };
-        float y{ NULL_FLOAT };
-        float z{ NULL_FLOAT };
+        float x{ 0.0f };
+        float y{ 0.0f };
+        float z{ 0.0f };
 
         AFVector3D()
         {
@@ -119,7 +118,7 @@ namespace ark
 
             std::string str_y = new_value.substr(0, pos);
 
-            std::string str_z = NULL_STR;
+            std::string str_z;
 
             if ((pos + 1) < new_value.length())
             {
@@ -151,6 +150,4 @@ namespace ark
             return sqrt(dx * dx + dy * dy + dz * dz);
         }
     };
-
-    const static AFVector3D NULL_VECTOR3D = AFVector3D(0.0f, 0.0f, 0.0f);
 }

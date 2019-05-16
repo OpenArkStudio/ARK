@@ -189,7 +189,7 @@ namespace ark
                 }
             }
 
-            return ArkDataType::DT_UNKNOWN;
+            return ArkDataType::DT_EMPTY;
         }
 
     };

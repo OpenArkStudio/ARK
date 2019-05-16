@@ -38,9 +38,9 @@ namespace ark
         DT_MAX,         //max
     };
 
-    enum class ArkDataType : int
+    enum class ArkDataType : int32_t
     {
-        DT_UNKNOWN,         //unknown
+        DT_EMPTY,           //unknown
         DT_BOOLEAN,         //bool
         DT_INT32,           //int32
         DT_UINT32,          //uint32
