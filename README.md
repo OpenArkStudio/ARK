@@ -4,7 +4,7 @@ English | [简体中文](./README_CN.md)
 <p align="center"><img src="https://raw.githubusercontent.com/QuadHex/ARK/gh-pages/_images/ark_logo.svg?sanitize=true" alt="ark" width="300"/></p>
 <center>ARK is a lightweight, agility, elastic, distributed plugin framework written by C++，make it easier and faster to create your own application service. Inspired by UnrealEngine and Ogre.
 
-----------
+---
 
 ![GitHub release](https://img.shields.io/github/release/QuadHex/ARK.svg?style=flat-square)
 ![GitHub pre-release](https://img.shields.io/github/release-pre/QuadHex/ARK.svg?label=pre-release&style=flat-square)
@@ -17,15 +17,17 @@ English | [简体中文](./README_CN.md)
 [![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=ark&metric=alert_status)](https://sonarcloud.io/dashboard/index/ark)
 [![codecov](https://codecov.io/gh/QuadHex/ARK/branch/master/graph/badge.svg)](https://codecov.io/gh/QuadHex/ARK)
 [![QQ Group](https://img.shields.io/badge/Chat%20on-QQ%20Group-orange.svg?longCache=true&style=flat-square)](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
-[![Slack](https://img.shields.io/badge/slack-QuadHex-%23de335e.svg)](https://join.slack.com/t/quadhex/shared_invite/enQtNTk2NDQ0MDcyMjEyLWNhYWQ5MDRmYTg5Njg5ZjFlMjU5NjU3M2Q3MGUyZDFkMDYxMjA5MGFiYmZlZTYzNGYyM2Q1NzRkMjc2NjkzMGE)
+[![Discord](https://img.shields.io/badge/Chat%20on-Discord-%23de335e.svg)](https://discord.gg/GmyBbcv)
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
+
 </center>
 
 **Copyright © [QuadHex](https://quadhex.io "QuadHex")**  
 Website: https://quadhex.io  
 Github: https://github.com/QuadHex/ARK  
 Gitee: https://gitee.com/QuadHex/ARK  
-QQ Group: [Join Us](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
+QQ Group: [Join Us](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)  
+Discord: [Join Us](https://discord.gg/GmyBbcv)
 
 | CI        | Branch  | Build Status                                                                                               | -   | CI        | Branch  | Build Status                                                                                                                    |
 | --------- | ------- | ---------------------------------------------------------------------------------------------------------- | --- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------------- |
@@ -78,11 +80,11 @@ Thank you for your donation, all income will be used as development and server f
 - [Nick Yang](https://github.com/NickYang1988)
 - [flyicegood](https://github.com/flyicegood)
 
-----------
+---
 
 Our team has always specialized in the agile development and try to help different teams to develop game project quickly and easily. After years of development, we create this frame. We are still improving it.
 
-----------
+---
 
 #### Some Awesome projects
 
