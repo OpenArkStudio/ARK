@@ -27,7 +27,7 @@ Website: https://arknx.com
 Github: https://github.com/ArkNX/ARK  
 Gitee: https://gitee.com/ArkNX/ARK  
 QQ Group: [Join Us](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)  
-Discord: [Join Us](https://discord.gg/GmyBbcv)
+Gitter: [Join Us](https://gitter.im/ArkNX/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 | CI        | Branch  | Build Status                                                                                           | -   | CI        | Branch  | Build Status                                                                                                                |
 | --------- | ------- | ------------------------------------------------------------------------------------------------------ | --- | --------- | ------- | --------------------------------------------------------------------------------------------------------------------------- |

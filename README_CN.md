@@ -27,7 +27,7 @@
 Github: https://github.com/ArkNX/ARK  
 码云: https://gitee.com/ArkNX/ARK  
 QQ 群: [点击加群](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)  
-Discord: [Join Us](https://discord.gg/GmyBbcv)
+Gitter: [Join Us](https://gitter.im/ArkNX/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 | CI        | 分支    | 状态                                                                                                   | -   | CI        | 分支    | 状态                                                                                                                        |
 | --------- | ------- | ------------------------------------------------------------------------------------------------------ | --- | --------- | ------- | --------------------------------------------------------------------------------------------------------------------------- |
