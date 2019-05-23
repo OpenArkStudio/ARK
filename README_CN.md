@@ -17,7 +17,7 @@
 [![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=ark&metric=alert_status)](https://sonarcloud.io/dashboard/index/ark)
 [![codecov](https://codecov.io/gh/ArkNX/ARK/branch/master/graph/badge.svg)](https://codecov.io/gh/ArkNX/ARK)
 [![QQ Group](https://img.shields.io/badge/Chat%20on-QQ%20Group-orange.svg?longCache=true&style=flat-square)](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
-[![Discord](https://img.shields.io/badge/Chat%20on-Discord-%23de335e.svg)](https://discord.gg/GmyBbcv)
+[![Gitter](https://badges.gitter.im/ArkNX/community.svg)](https://gitter.im/ArkNX/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 
 </center>

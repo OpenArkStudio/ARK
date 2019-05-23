@@ -23,6 +23,8 @@
 #include "base/AFPlatform.hpp"
 #include "base/AFEnum.hpp"
 #include "base/AFDefine.hpp"
+#include "AFIClassMeta.h"
+#include "AFIDataMeta.h"
 
 namespace ark
 {

@@ -67,14 +67,6 @@ namespace ark
         DMT_LOG,            //log when changed
     };
 
-    enum class ArkDataOpType : int
-    {
-        DOT_UNKNOWN,        //unknown
-        DOT_ADD,            //addition
-        DOT_SUB,            //subtraction
-        DOT_SET,            //set
-    };
-
     enum class ArkBusRelationType : int
     {
         BRT_UNKNOWN,       //unknown
@@ -97,15 +89,15 @@ namespace ark
         ENTITY_EVT_ALL_FINISHED,        //Call it by yourself when create entity finished
     };
 
-    enum class ArkDataOp : uint8_t
+    enum class ArkDataOpType : uint16_t
     {
-        DO_UNKNOWN = 0,
-        DO_INC,     // +
-        DO_DEC,     // -
-        DO_MUL,     // *
-        DO_DIV,     // /
-        DO_SET,     // =
-        DO_AND,     // &
-        DO_OR,      // |
+        DOT_UNKNOWN = 0,
+        DOT_INC,     // +
+        DOT_DEC,     // -
+        DOT_MUL,     // *
+        DOT_DIV,     // /
+        DOT_SET,     // =
+        DOT_AND,     // &
+        DOT_OR,      // |
     };
 }

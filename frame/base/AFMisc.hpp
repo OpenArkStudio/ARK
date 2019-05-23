@@ -84,6 +84,12 @@ namespace ark
         }
 
         template<typename T>
+        static std::string ToString(T& value)
+        {
+            return ARK_LEXICAL_CAST<std::string>(value);
+        }
+
+        template<typename T>
         static bool FromString(const std::string& str_value, T& result)
         {
             try
@@ -190,6 +196,41 @@ namespace ark
             }
 
             return ArkDataType::DT_EMPTY;
+        }
+
+        template<typename T>
+        static T Operate(ArkDataOpType op, const T& base, const T& delta)
+        {
+            switch (op)
+            {
+            case ArkDataOpType::DOT_INC:
+                base += delta;
+                break;
+            case ArkDataOpType::DOT_DEC:
+                base -= std::min(base, delta);
+                break;
+            case ArkDataOpType::DOT_MUL:
+                base *= delta;
+                break;
+            case ArkDataOpType::DOT_DIV:
+                ARK_ASSERT_RET_VAL(delta != 0, base);
+                base /= delta;
+                break;
+            case ArkDataOpType::DOT_SET:
+                base = delta;
+                break;
+            case ArkDataOpType::DOT_AND:
+                base &= delta;
+                break;
+            case ArkDataOpType::DOT_OR:
+                base |= delta;
+                break;
+            default:
+                ARK_ASSERT_NO_EFFECT(0);
+                break;
+            }
+
+            return base;
         }
 
     };
