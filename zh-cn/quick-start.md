@@ -56,7 +56,7 @@ cmake -G "Visual Studio 15 Win64" ..
 6. 运行脚本 `bin/rund.bat`
 
 > [!NOTE]
-> 如果你使用其他Visual Studio版本, 请将 `dep/build_dep.bat`中的`%VS150COMNTOOLS%`变量 和 CMake命令行 替换为正确的Visual Studio版本和路径.</br>
+> 如果你使用其他Visual Studio版本, 请将 `dep/build_dep.bat`中的`%VS150COMNTOOLS%`变量 和 `CMake命令行` 替换为正确的Visual Studio版本和路径.</br>
 
 ### linux
 
@@ -84,7 +84,7 @@ make
 
 > [!NOTE]
 > 如果你想编译`release`版本, 请使用`-DCMAKE_BUILD_TYPE=release`参数.</br>
-为了加速编译, 你可以使用 `make -j` 开启多核编译. 不过可能会消耗完你的系统内存.
+为了加速编译, 你可以使用 `make -j [num]` 开启多核编译. 不过可能会消耗完你的系统内存.
 
 1. 运行 `ARK/bin/tools/gen-config.sh` 生成配置文件
 

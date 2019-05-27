@@ -4,7 +4,7 @@
 
 > 一个轻量级、敏捷的、弹性的、分布式的插件开发框架.
 
-[GitHub](https://github.com/ArkGame/ARK)
+[GitHub](https://github.com/ArkNX/ARK)
 [开始使用](#ARK)
 
 <!-- background image -->

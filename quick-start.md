@@ -85,7 +85,7 @@ make
 
 > [!NOTE]
 > If you need build release version, please add `-DCMAKE_BUILD_TYPE=release` in cmake command.</br>
-To accelerate the building speed, you can use `make -j` to run multiple complication jobs simultaneously. However, that may exhaust the memory.
+To accelerate the building speed, you can use `make -j [num]` to run multiple complication jobs simultaneously. However, that may exhaust the memory.
 
 3. Run `ARK/bin/tools/gen-config.sh` to generate configuration files
 

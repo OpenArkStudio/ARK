@@ -4,7 +4,7 @@
 
 > A lightweight, agility, elastic, distributed plugin framework.
 
-[GitHub](https://github.com/ArkGame/ARK)
+[GitHub](https://github.com/ArkNX/ARK)
 [Getting Started](#ARK)
 
 <!-- background image -->
