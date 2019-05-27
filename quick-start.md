@@ -24,7 +24,7 @@ svn checkout https://github.com/ArkGame/ARK
 - GCC 4.9+ (**<font color=red>Recommend</font>. Tested in Ubuntu 15.04**)
 - MSVC VS2015up3+ (**<font color=red>Recommend VS2017</font>. Tested in Win7/10**)
 
-## Build and Install
+## Build and Launch
 
 ### Windows
 
@@ -57,7 +57,7 @@ cmake -G "Visual Studio 15 Win64" ..
 5. Run the binary file by `bin/rund.bat`
 
 > [!NOTE]
-> If you are using VS2017, please change `%VS150COMNTOOLS%` in `dep/build_dep.bat` to `YOUR-COMPILER-PATH`.</br>
+> If you are using other Visual Studio version, please replace `%VS150COMNTOOLS%` in `dep/build_dep.bat` and `cmake -G "Visual Studio 15 Win64" ..` with the right Visual Studio version and path. </br>
 
 ### linux
 

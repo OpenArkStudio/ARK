@@ -23,7 +23,7 @@ svn checkout https://github.com/ArkGame/ARK
 - GCC 4.9+ (**<font color=red>Recommend</font>. Tested in Ubuntu 15.04**)
 - MSVC VS2017 (**<font color=red>Recommend VS2017</font>. Tested in Win7/10**)
 
-## 编译和安装
+## 编译和运行
 
 ### Windows
 
@@ -56,7 +56,7 @@ cmake -G "Visual Studio 15 Win64" ..
 6. 运行脚本 `bin/rund.bat`
 
 > [!NOTE]
-> 请提前在`dep/build_dep.bat`中设置`%VS150COMNTOOLS%`变量为`YOUR-COMPILER-PATH` 或 增加系统环境变量.</br>
+> 如果你使用其他Visual Studio版本, 请将 `dep/build_dep.bat`中的`%VS150COMNTOOLS%`变量 和 CMake命令行 替换为正确的Visual Studio版本和路径.</br>
 
 ### linux
 
