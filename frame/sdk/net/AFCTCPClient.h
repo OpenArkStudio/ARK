@@ -29,7 +29,7 @@ namespace ark
     class AFCTCPClient : public AFINet
     {
     public:
-        AFCTCPClient(const brynet::net::TcpService::PTR& service = nullptr, const brynet::net::AsyncConnector::PTR& connector = nullptr);
+        AFCTCPClient(const brynet::net::TcpService::Ptr& service = nullptr, const brynet::net::AsyncConnector::Ptr& connector = nullptr);
 
         template<typename BaseType>
         AFCTCPClient(BaseType* pBaseType, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t), void (BaseType::*handleEvent)(const AFNetEvent*))
@@ -39,7 +39,7 @@ namespace ark
 
             brynet::net::base::InitSocket();
             tcp_service_ptr_ = brynet::net::TcpService::Create();
-            //this could let you use common connector when multi-client craeted
+            //this could let you use common connector when multi-client created
             connector_ptr_ = brynet::net::AsyncConnector::Create();
         }
 
@@ -72,8 +72,8 @@ namespace ark
         NET_EVENT_FUNCTOR net_event_cb_;
         AFCReaderWriterLock rw_lock_;
 
-        brynet::net::TcpService::PTR tcp_service_ptr_{ nullptr };
-        brynet::net::AsyncConnector::PTR connector_ptr_{ nullptr };
+        brynet::net::TcpService::Ptr tcp_service_ptr_{ nullptr };
+        brynet::net::AsyncConnector::Ptr connector_ptr_{ nullptr };
     };
 
 }

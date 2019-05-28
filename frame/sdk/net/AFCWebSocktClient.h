@@ -31,7 +31,7 @@ namespace ark
     class AFCWebSocktClient : public AFINet
     {
     public:
-        AFCWebSocktClient(brynet::net::TcpService::PTR server = nullptr, brynet::net::AsyncConnector::PTR connector = nullptr);
+        AFCWebSocktClient(brynet::net::TcpService::Ptr server = nullptr, brynet::net::AsyncConnector::Ptr connector = nullptr);
 
         template<typename BaseType>
         AFCWebSocktClient(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFNetMsg*, const int64_t), void (BaseType::*handleEvent)(const AFNetEvent*))
@@ -69,7 +69,7 @@ namespace ark
         NET_EVENT_FUNCTOR net_event_cb_;
 
         AFCReaderWriterLock rw_lock_;
-        brynet::net::TcpService::PTR tcp_service_ptr_{ nullptr };
+        brynet::net::TcpService::Ptr tcp_service_ptr_{ nullptr };
         int64_t trust_session_id_{ 1 };
     };
 

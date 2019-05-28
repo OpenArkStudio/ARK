@@ -216,10 +216,10 @@ namespace ark
         volatile bool need_remove_{ false };
     };
 
-    using AFTCPSession = AFNetSession<brynet::net::DataSocket::PTR>;
+    using AFTCPSession = AFNetSession<brynet::net::TcpConnectionPtr>;
     using AFTCPSessionPtr = AFTCPSession * ;
 
-    using AFHttpSession = AFNetSession<brynet::net::http::HttpSession::PTR>;
+    using AFHttpSession = AFNetSession<brynet::net::http::HttpSession::Ptr>;
     using AFHttpSessionPtr = AFHttpSession * ;
 
 }
