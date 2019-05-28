@@ -18,7 +18,7 @@ set_target_properties(${project_name} PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${LIB_OUTPUT_DIR})
 
 if(UNIX)
-    target_link_libraries(${project_name} AFProto brynet.a protobuf)
+    target_link_libraries(${project_name} AFProto brynet protobuf)
 else(UNIX)
     target_link_libraries(${project_name} AFProto 
     debug brynetd.lib
