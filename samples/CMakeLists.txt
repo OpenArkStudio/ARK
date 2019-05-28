@@ -16,23 +16,19 @@ macro(BUILD_PLUGIN_MACRO project_name)
         target_link_libraries(${project_name} 
             debug :AFProto_d.a
             debug protobuf
-            debug brynet.a
             debug pthread
             debug dl
             
             optimized :AFProto.a
             optimized protobuf
-            optimized brynet.a
             optimized pthread
             optimized dl)
     else(UNIX)
         add_definitions(-D_USRDLL)
 
         target_link_libraries(${project_name} 
-            debug brynetd.lib
             debug AFProto_d.lib
             
-            optimized brynet.lib
             optimized AFProto.lib)
     endif(UNIX)
 
