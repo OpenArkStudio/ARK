@@ -33,13 +33,13 @@ if [ -d "brynet" ]; then
     rm -rf brynet
 fi
 
-git clone -b master https://github.com/QuadHex/brynet.git --depth 1
+git clone -b master https://github.com/ArkNX/brynet.git --depth 1
 cd brynet
 chmod -R 755 *
 mkdir build && cd build
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=release ..
 make -j 4
-cp -R -f lib/*.a ../../lib
+cp -R -f lib/*.so ../../lib
 cd ../../
 
 ##################################################################
