@@ -26,8 +26,6 @@ namespace ark
     AFCWebSocktServer::AFCWebSocktServer()
     {
         brynet::net::base::InitSocket();
-        tcp_service_ptr_ = brynet::net::TcpService::Create();
-        listen_thread_ptr_ = brynet::net::ListenThread::Create();
     }
 
     AFCWebSocktServer::~AFCWebSocktServer()
@@ -44,16 +42,16 @@ namespace ark
 
     bool AFCWebSocktServer::StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6/* = false*/)
     {
-        bus_id_ = busid;
+        this->bus_id_ = busid;
 
-        tcp_service_ptr_->startWorkerThread(thread_num);
-        listen_thread_ptr_->startListen(ip_v6, ip, port, [&](brynet::net::TcpSocket::PTR socket)
+        tcp_service_ptr_ = brynet::net::TcpService::Create();
+        listen_thread_ptr_ = brynet::net::ListenThread::Create(ip_v6, ip, port, [&](brynet::net::TcpSocket::Ptr socket)
         {
-            std::string session_ip = socket->GetIP();
+            std::string session_ip = socket->getRemoteIP();
             AFCWebSocktServer* this_ptr = this;
-            auto OnEnterCallback = [this_ptr, &head_len, &session_ip](const brynet::net::DataSocket::PTR & session)
+            auto OnEnterCallback = [this_ptr, &head_len, &session_ip](const brynet::net::TcpConnectionPtr & session)
             {
-                brynet::net::http::HttpService::setup(session, [this_ptr, &head_len, &session_ip](const brynet::net::http::HttpSession::PTR & httpSession)
+                brynet::net::http::HttpService::setup(session, [this_ptr, &head_len, &session_ip](const brynet::net::http::HttpSession::Ptr & httpSession)
                 {
                     int64_t cur_session_id = this_ptr->trusted_session_id_++;
                     AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
@@ -72,7 +70,7 @@ namespace ark
                         }
                     } while (false);
 
-                    httpSession->setWSCallback([this_ptr](const brynet::net::http::HttpSession::PTR & httpSession,
+                    httpSession->setWSCallback([this_ptr](const brynet::net::http::HttpSession::Ptr & httpSession,
                                                           brynet::net::http::WebSocketFormat::WebSocketFrameType opcode,
                                                           const std::string & payload)
                     {
@@ -124,7 +122,7 @@ namespace ark
                         } while (false);
                     });
 
-                    httpSession->setHttpCallback([](const brynet::net::http::HTTPParser & httpParser, const brynet::net::http::HttpSession::PTR & session)
+                    httpSession->setHttpCallback([](const brynet::net::http::HTTPParser & httpParser, const brynet::net::http::HttpSession::Ptr & session)
                     {
                         brynet::net::http::HttpResponse response;
                         response.setBody("<html>Hello QuadHex.ARK</html>");
@@ -135,7 +133,7 @@ namespace ark
                         });
                     });
 
-                    httpSession->setCloseCallback([this_ptr, &session_ip](const brynet::net::http::HttpSession::PTR & httpSession)
+                    httpSession->setClosedCallback([this_ptr, &session_ip](const brynet::net::http::HttpSession::Ptr & httpSession)
                     {
                         const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
                         int64_t session_id = *ud;
@@ -159,11 +157,13 @@ namespace ark
                 });
             };
 
-            tcp_service_ptr_->addDataSocket(std::move(socket),
-                                            brynet::net::TcpService::AddSocketOption::WithEnterCallback(OnEnterCallback),
-                                            brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE));
+            tcp_service_ptr_->addTcpConnection(std::move(socket),
+                                               brynet::net::TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback),
+                                               brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE));
         });
 
+        listen_thread_ptr_->startListen();
+        tcp_service_ptr_->startWorkerThread(thread_num);
         return true;
     }
 
