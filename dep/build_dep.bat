@@ -1,5 +1,16 @@
 @echo off
 
+REM If your path is different with below, please change to your install path
+REM ========================================================================
+REM Visual Sutido 2019 professional
+set VS_DEVENV="C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\Tools\..\IDE\Devenv"
+set CMAKE_CMD=cmake -G "Visual Studio 16" -A x64
+REM ========================================================================
+echo %VS_DEVENV%
+echo %CMAKE_CMD%
+
+REM ######################################################################################################
+
 echo "Building dependencies..."
 
 if exist lib (rd lib /q /s)
@@ -7,11 +18,6 @@ md lib
 cd lib
 cd ../
 
-REM If your path is different with below, please change to your install path
-set VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\Tools\
-echo "%VS150COMNTOOLS%..\IDE\Devenv"
-
-REM ######################################################################################################
 echo "Building protobuf..."
 
 if exist protobuf (rd protobuf /q /s)
@@ -20,12 +26,12 @@ git clone https://github.com/protocolbuffers/protobuf.git --depth 1
 cd protobuf/cmake
 md build
 cd build
-cmake -G "Visual Studio 15 Win64" -Dprotobuf_BUILD_SHARED_LIBS=OFF -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_MSVC_STATIC_RUNTIME=OFF ..
-"%VS150COMNTOOLS%..\IDE\Devenv" protobuf.sln /build "Debug|x64"
-"%VS150COMNTOOLS%..\IDE\Devenv" protobuf.sln /build "Release|x64"
-copy Debug\*.dll ..\..\..\lib /Y
+%CMAKE_CMD% -Dprotobuf_BUILD_SHARED_LIBS=OFF -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_MSVC_STATIC_RUNTIME=OFF ..
+%VS_DEVENV% protobuf.sln /build "Debug|x64"
+%VS_DEVENV% protobuf.sln /build "Release|x64"
+REM copy Debug\*.dll ..\..\..\lib /Y
+REM copy Release\*.dll ..\..\..\lib /Y
 copy Debug\*.lib ..\..\..\lib /Y
-copy Release\*.dll ..\..\..\lib /Y
 copy Release\*.lib ..\..\..\lib /Y
 
 copy Debug\libprotobufd.dll ..\..\..\..\bin\lib /Y
@@ -44,9 +50,9 @@ git clone -b master https://github.com/ArkNX/brynet.git --depth 1
 cd brynet
 md build
 cd build
-cmake -G "Visual Studio 15 Win64" ..
-"%VS150COMNTOOLS%..\IDE\Devenv" brynet.sln /build "Debug|x64" /project brynet.vcxproj
-"%VS150COMNTOOLS%..\IDE\Devenv" brynet.sln /build "Release|x64" /project brynet.vcxproj
+%CMAKE_CMD% ..
+%VS_DEVENV% brynet.sln /build "Debug|x64" /project brynet.vcxproj
+%VS_DEVENV% brynet.sln /build "Release|x64" /project brynet.vcxproj
 copy lib\Debug\*.lib ..\..\lib\ /Y
 copy lib\Release\*.lib ..\..\lib /Y
 

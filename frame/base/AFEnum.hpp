@@ -50,9 +50,9 @@ namespace ark
         DT_DOUBLE,          //double
         DT_STRING,          //string
         DT_VECTOR3D,        //vector3d
-        DT_STRUCT,          //struct(sub class)
-        DT_TABLE,           //DataTable
-        DT_ARRAY,           //array
+		DT_ARRAY,           //array
+		DT_TABLE,           //DataTable
+		DT_OBJECT,          //object(complex data container)
     };
 
     enum class ArkDataMaskType : int
