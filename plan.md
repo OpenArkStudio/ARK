@@ -17,7 +17,7 @@
 
 ## Low priority
 
-- [ ] Map, Layer,对应修改协议和Client的处理(**概念已经修改, 还未对接客户端**)
+- [ ] Map, MapInstance,对应修改协议和Client的处理(**概念已经修改, 还未对接客户端**)
 - [ ] 关于背包类的table，整理或者交换，需要改成别的方式
 - [ ] 优化数据同步的流量,减小属性同步的体积(去掉`NodeName`和`TableName`类似的string同步, 上线先同步index和name的映射，后续全部用index下发，入库用name)
 - [ ] 拓展DataTable的组成，例如道具包含了宝石(带经验，附魔等)、武器(带随机属性)等东西，DataTable现有的二维结构是特定的，不方便做扩展
