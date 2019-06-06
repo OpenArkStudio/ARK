@@ -397,31 +397,31 @@ namespace ark
         }
         //////////////////////////////////////////////////////////////////////////
         //Table/Record
-        virtual AFINewData* AddData(uint64_t key)
+        virtual AFINewData* GetData(uint64_t key)
         {
             //Implement in the derived class.
             return nullptr;
         }
 
-        virtual AFINewData* AddData(uint64_t key, const std::string& data_name)
+        virtual AFINewData* GetData(uint64_t key, const std::string& data_name)
         {
             //Implement in the derived class.
             return nullptr;
         }
 
-        virtual AFINewData* AddData(uint64_t parent_key, uint64_t child_key)
+        virtual AFINewData* GetData(uint64_t parent_key, uint64_t child_key)
         {
             //Implement in the derived class.
             return nullptr;
         }
 
-        virtual AFINewData* AddData(uint64_t parent_key, uint64_t child_key, const std::string& data_name)
+        virtual AFINewData* GetData(uint64_t parent_key, uint64_t child_key, const std::string& data_name)
         {
             //Implement in the derived class.
             return nullptr;
         }
 
-        virtual AFINewData* AddData(uint64_t parent_key, const std::string& data_name, uint64_t child_key)
+        virtual AFINewData* GetData(uint64_t parent_key, const std::string& data_name, uint64_t child_key)
         {
             //Implement in the derived class.
             return nullptr;
@@ -457,7 +457,7 @@ namespace ark
             return false;
         }
 
-        virtual void FindData(const std::string& data_name, uint64_t value, std::list < AFINewData*^& find_list)
+        virtual void FindData(const std::string& data_name, uint64_t value, std::list<AFINewData*>& find_list)
         {
             //Implement in the derived class.
         }

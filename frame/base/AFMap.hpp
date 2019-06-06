@@ -234,25 +234,42 @@ namespace ark
             return nodes_.rend();
         }
 
-		const_iterator cbegin() const noexcept
-		{
-			return nodes_.cbegin();
-		}
+        const_iterator cbegin() const noexcept
+        {
+            return nodes_.cbegin();
+        }
 
-		const_iterator cend() const noexcept
-		{
-			return nodes_.cbegin();
-		}
+        const_iterator cend() const noexcept
+        {
+            return nodes_.cbegin();
+        }
 
-		const_reverse_iterator crbegin() const noexcept
-		{
-			return datas_.crbegin();
-		}
+        const_reverse_iterator crbegin() const noexcept
+        {
+            return datas_.crbegin();
+        }
 
-		const_reverse_iterator crend() const noexcept
-		{
-			return datas_.crbegin();
-		}
+        const_reverse_iterator crend() const noexcept
+        {
+            return datas_.crbegin();
+        }
+
+        bool erase(const k_type& key, bool need_delete = true)
+        {
+            auto iter = nodes_.find(key);
+            if (iter == nodes_.end())
+            {
+                return false;
+            }
+
+            if (need_delete && !is_smart_ptr)
+            {
+                ARK_DELETE(iter->second);
+            }
+
+            erase(iter);
+            return true;
+        }
 
         void clear(bool need_delete = true)
         {
