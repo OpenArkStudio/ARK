@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 jobs:
   build:
     branches:
@@ -8,12 +8,6 @@ jobs:
       - image: rikorose/gcc-cmake
     steps:
       - checkout
-      - run:
-          name: Install sonarqube
-          command: |
-            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
-            unzip sonar-scanner-cli-3.2.0.1227-linux.zip
-
       - run:
           name: build
           command: |
@@ -25,7 +19,12 @@ jobs:
             mkdir build && cd build
             cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF ..
             make -j 4
-
+            cd ..
+      - run:
+          name: Install sonarqube
+          command: |
+            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
+            unzip sonar-scanner-cli-3.2.0.1227-linux.zip
       - run:
           name: Run Sonarqube scanner
           command: |
