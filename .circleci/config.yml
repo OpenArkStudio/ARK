@@ -36,4 +36,5 @@ jobs:
             -Dsonar.exclusions=**proto** \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.projectVersion=0.9.4 \
-            -Dsonar.login=${SONARQUBE_TOKEN} $SONAR_SCANNER_OPTS_CUSTOM
+            -Dsonar.login=${SONARQUBE_TOKEN} \
+            -Dsonar.password="" $SONAR_SCANNER_OPTS_CUSTOM
