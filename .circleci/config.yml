@@ -19,13 +19,12 @@ jobs:
             mkdir build && cd build
             cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF ..
             make -j 4
-            cd ..
       - run:
           name: Install sonarqube
           command: |
-            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
-            unzip sonar-scanner-cli-3.2.0.1227-linux.zip
+            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+            unzip sonar-scanner-cli-3.3.0.1492-linux.zip
       - run:
           name: Run Sonarqube scanner
           command: |
-            ./sonar-scanner-3.2.0.1227-linux/bin/sonar-scanner
+            ./sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dproject.settings=../frame/sonar-project.properties
