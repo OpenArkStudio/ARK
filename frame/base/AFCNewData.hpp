@@ -29,6 +29,8 @@ namespace ark
     //bool
     class AFBoolData : public AFINewData
     {
+        int32_t data_{ NULL_INT };
+
     public:
         AFBoolData()
         {
@@ -133,14 +135,13 @@ namespace ark
         {
             data_ = value;
         }
-
-    private:
-        int32_t data_{ NULL_INT };
     };
 
     //uint32_t
     class AFUIntData : public AFINewData
     {
+        uint32_t data_{ NULL_INT };
+
     public:
         AFUIntData()
         {
@@ -189,14 +190,13 @@ namespace ark
         {
             data_ = value;
         }
-
-    private:
-        uint32_t data_{ NULL_INT };
     };
 
     //int64_t
     class AFInt64Data : public AFINewData
     {
+        int64_t data_{ NULL_INT64 };
+
     public:
         AFInt64Data()
         {
@@ -245,14 +245,13 @@ namespace ark
         {
             data_ = value;
         }
-
-    private:
-        int64_t data_{ NULL_INT64 };
     };
 
     //uint64_t
     class AFUInt64Data : public AFINewData
     {
+        uint64_t data_{ NULL_INT64 };
+
     public:
         AFUIntData()
         {
@@ -301,14 +300,13 @@ namespace ark
         {
             data_ = value;
         }
-
-    private:
-        uint64_t data_{ NULL_INT64 };
     };
 
     //float
     class AFFloatData : public AFINewData
     {
+        float data_{ NULL_FLOAT };
+
     public:
         AFFloatData()
         {
@@ -357,14 +355,13 @@ namespace ark
         {
             data_ = value;
         }
-
-    private:
-        float data_{ NULL_FLOAT };
     };
 
     //double
     class AFDoubleData : public AFINewData
     {
+        double data_{ NULL_DOUBLE };
+
     public:
         AFDoubleData()
         {
@@ -413,14 +410,13 @@ namespace ark
         {
             data_ = value;
         }
-
-    private:
-        double data_{ NULL_DOUBLE };
     };
 
     //std::string
     class AFStringData : public AFINewData
     {
+        std::string data_{ NULL_STR };
+
     public:
         AFStringData()
         {
@@ -469,14 +465,13 @@ namespace ark
         {
             data_ = value;
         }
-
-    private:
-        std::string data_{ NULL_STR };
     };
 
     //AFVector3D
     class AFVec3DData : public AFINewData
     {
+        AFVector3D data_{ NULL_VECTOR3D };
+
     public:
         AFVec3DData()
         {
@@ -525,14 +520,13 @@ namespace ark
         {
             data_ = value;
         }
-
-    private:
-        AFVector3D data_{ NULL_VECTOR3D };
     };
 
     //array of AFINewData
     class AFArrayData : public AFINewData
     {
+        AFPtrVector<AFINewData> vec_data_;
+
     public:
         AFArrayData()
         {
@@ -662,14 +656,13 @@ namespace ark
         {
             //TODO: do not need for now
         }
-
-    private:
-        AFPtrVector<AFINewData> vec_data_;
     };
 
     //Table of AFINewData
-    class AFTableData : public AFINewData
+    class AFTableData final : public AFINewData
     {
+        AFNewHashmap<uint64_t, AFINewData> map_datas_;
+
     public:
         AFTableData()
         {
@@ -810,12 +803,19 @@ namespace ark
 
         void FindData(const std::string& data_name, uint64_t value, std::list<AFINewData*>& find_list) override
         {
-            //Implement in the derived class.
+            for (auto data : map_datas_)
+            {
+                auto data_value = data.second->GetValue(data_name);
+                if (data_value == value)
+                {
+                    find_list.emplace_back(data);
+                }
+            }
         }
 
         bool CheckData(const std::string& data_name, uint64_t value, const std::string& check_name, uint64_t chenck_value) override
         {
-            //Implement in the derived class.
+            //TODO: do not need for now.
         }
 
         std::string ToString() override
@@ -828,8 +828,141 @@ namespace ark
         {
             //TODO: do not need for now
         }
-    private:
-        AFNewHashmap<uint64_t, AFINewData> map_datas_;
+    };
+
+    //Object
+    class AFObjectData : public AFINewData
+    {
+        uint64_t key_;
+        AFNewHashmap<std::string, AFINewData> map_datas_;
+
+    public:
+        AFObjectData()
+        {
+            type_ = ArkDataType::DT_OBJECT;
+        }
+
+        ~AFObjectData() override = default;
+
+        void Reset() override
+        {
+            key_ = NULL_INT64;
+            for (auto data : map_datas_)
+            {
+                data.second->Reset();
+            }
+        }
+
+        bool Valid() override
+        {
+            return true;
+        }
+
+        uint32_t Size() override
+        {
+            return map_datas_.size();
+        }
+
+        uint64_t GetKeyID() override
+        {
+            return key_;
+        }
+
+        uint64_t SetKeyID(uint64_t id) override
+        {
+            key_ = id;
+            SetValue<uint64_t>(data_meta_->GetKey(), id);
+        }
+
+        AFINewData* GetData(const std::string& data_name) override
+        {
+            //
+        }
+
+        AFINewData* GetData(const std::string& data_name, uint64_t key) override
+        {
+            //
+        }
+
+        AFINewData* GetData(const std::string& parent_data_name, const std::string& child_data_name) override
+        {
+            //
+        }
+
+        AFINewData* GetData(const std::string& parent_data_name, uint64_t key, const std::string& child_data_name) override
+        {
+            //
+        }
+
+        AFINewData* GetData(const std::string& parent_data_name, const std::string& child_data_name, uint64_t key) override
+        {
+
+        }
+
+        AFINewData* GetData(const std::string& parent_data_name, const std::string& child_data_name, const std::string& data_name) override
+        {
+            //
+        }
+
+        bool AddData(const std::string& data_name, AFINewData* data) override
+        {
+            //
+        }
+
+        bool AddData(const std::string& data_name, uint64_t key, AFINewData* data) override
+        {
+            //
+        }
+
+        bool AddData(const std::string& parent_data_name, const std::string& child_data_name, AFINewData* data) override
+        {
+            //
+        }
+
+        bool RemoveData(const std::stirng& data_name) override
+        {
+            //
+        }
+
+        bool RemoveData(const std::stirng& data_name, uint64_t key) override
+        {
+            //
+        }
+
+        bool RemoveData(const std::stirng& data_name, const std::string& child_data_name) override
+        {
+            //
+        }
+
+        void CopyFrom(AFINewData* other) override
+        {
+            //
+        }
+
+        void SaveTo(AFINewData* other)
+        {
+            //
+        }
+
+        std::string ToString() override
+        {
+            //
+        }
+
+        void FromString(const std::string& value) override
+        {
+            //
+        }
+
+        void ToMap(StringMap& value) override
+        {
+            //
+        }
+
+        void FromMap(const StringMap& value) override
+        {
+            //
+        }
     };
 
 }

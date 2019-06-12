@@ -100,9 +100,6 @@ namespace ark
             parent_ = data;
         }
 
-        //loop all data
-        //TODO:
-
         //Copy and save
         virtual void CopyFrom(AFINewData* other) = 0;
         virtual void SaveTo(AFINewData* other) = 0;
