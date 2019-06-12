@@ -9,6 +9,16 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install C++ build wrapper
+          command: |
+            wget https://binaries.sonarsource.com/CommercialDistribution/sonar-cpp-plugin/build-wrapper-3.11.zip
+            unzip build-wrapper-3.11.zip
+      - run:
+          name: Install sonarqube
+          command: |
+            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+            unzip sonar-scanner-cli-3.3.0.1492-linux.zip
+      - run:
           name: build
           command: |
             cd dep
@@ -18,21 +28,19 @@ jobs:
             if [ -d "build" ]; then rm -rf build; fi
             mkdir build && cd build
             cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF ..
-            make -j 4
-      - run:
-          name: Install sonarqube
-          command: |
-            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-            unzip sonar-scanner-cli-3.3.0.1492-linux.zip
+            ../build-wrapper-3.11/linux-x86-64/build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
+            #Jump to src dir
+            cd ../frame/
       - run:
           name: Run Sonarqube scanner
           command: |
             eval ./sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=ark \
             -Dsonar.organization=ark-game \
             -Dsonar.projectName=ARK \
-            -Dsonar.sources=frame/ \
-            -Dsonar.sourceEncoding=UTF-8 \
-            -Dsonar.exclusions=frame/proto/** \
             -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.sourceEncoding=UTF-8 \
             -Dsonar.projectVersion=0.9.4 \
-            -Dsonar.login=${SONAR_TOKEN} -X
+            -Dsonar.login=${SONAR_TOKEN}
+            -Dsonar.sources=. \
+            -Dsonar.exclusions=**proto** \
+            -Dsonar.cfamily.build-wrapper-output=../build/bw-output -X
