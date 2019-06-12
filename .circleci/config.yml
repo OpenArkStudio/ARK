@@ -14,11 +14,6 @@ jobs:
             wget https://binaries.sonarsource.com/CommercialDistribution/sonar-cpp-plugin/build-wrapper-3.11.zip
             unzip build-wrapper-3.11.zip
       - run:
-          name: Install sonarqube
-          command: |
-            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-            unzip sonar-scanner-cli-3.3.0.1492-linux.zip
-      - run:
           name: build
           command: |
             cd dep
@@ -30,6 +25,11 @@ jobs:
             cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF ..
             ../build-wrapper-3.11/linux-x86-64/build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
       - run:
+          name: Install sonarqube
+          command: |
+            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+            unzip sonar-scanner-cli-3.3.0.1492-linux.zip
+      - run:
           name: Run Sonarqube scanner
           command: |
             eval ./sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=ark \
@@ -39,6 +39,6 @@ jobs:
             -Dsonar.sourceEncoding=UTF-8 \
             -Dsonar.projectVersion=0.9.4 \
             -Dsonar.login=${SONAR_TOKEN}
-            -Dsonar.sources=frame \
-            -Dsonar.exclusions=frame/proto** \
-            -Dsonar.cfamily.build-wrapper-output=build/bw-output -X
+            -Dsonar.sources=../frame \
+            -Dsonar.exclusions=../frame/proto** \
+            -Dsonar.cfamily.build-wrapper-output=bw-output -X
