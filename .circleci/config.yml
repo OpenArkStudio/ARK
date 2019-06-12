@@ -8,6 +8,8 @@ jobs:
       - image: rikorose/gcc-cmake
     steps:
       - checkout
+      - run: git submodule sync
+      - run: git submodule update --init
       - run:
           name: build
           command: |

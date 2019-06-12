@@ -1,27 +1,37 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.1)
 
+#---------------------------------------------------------------------------------------
+# Start ARK project
+#---------------------------------------------------------------------------------------
+include(cmake/utils.cmake)
+ark_extract_version()
+
+project(ark VERSION ${ARK_VERSION} LANGUAGES CXX)
+message(STATUS "Build ark: ${ARK_VERSION}")
+
+#---------------------------------------------------------------------------------------
+# Set default build to release
+#---------------------------------------------------------------------------------------
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose Release or Debug" FORCE)
+endif()
+
+#---------------------------------------------------------------------------------------
+# Compiler config
+#---------------------------------------------------------------------------------------
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-project(ark)
 
-#3rd cmake modules
+#---------------------------------------------------------------------------------------
+# 3rd cmake modules
+#---------------------------------------------------------------------------------------
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-#check cxx flag in linux system
-if(UNIX)
-	#linux
-	include(CheckCXXCompilerFlag)
-	CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-	if(COMPILER_SUPPORTS_CXX11)
-	    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-	else()
-		message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
-	endif()
-endif()
-
 ########################################################################
-
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
 
 include_directories(
@@ -29,6 +39,7 @@ include_directories(
     ${ROOT_DIR}/dep
     ${ROOT_DIR}/dep/protobuf/src
     ${ROOT_DIR}/dep/brynet/src
+    ${ROOT_DIR}/dep/spdlog/include
     ${ROOT_DIR}/frame
     ${ROOT_DIR}/frame/base
 )

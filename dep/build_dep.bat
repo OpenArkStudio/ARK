@@ -20,8 +20,8 @@ cd ../
 
 echo "Building protobuf..."
 
-if exist protobuf (rd protobuf /q /s)
-git clone https://github.com/protocolbuffers/protobuf.git --depth 1
+REM if exist protobuf (rd protobuf /q /s)
+REM git clone https://github.com/protocolbuffers/protobuf.git --depth 1
 
 cd protobuf/cmake
 md build
@@ -34,18 +34,14 @@ REM copy Release\*.dll ..\..\..\lib /Y
 copy Debug\*.lib ..\..\..\lib /Y
 copy Release\*.lib ..\..\..\lib /Y
 
-copy Debug\libprotobufd.dll ..\..\..\..\bin\lib /Y
-copy Release\libprotobuf.dll ..\..\..\..\bin\lib /Y
-copy Release\libprotobuf.dll ..\..\..\..\frame\proto\proto-gen /Y
-copy Release\libprotoc.dll ..\..\..\..\frame\proto\proto-gen /Y
 copy Release\protoc.exe ..\..\..\..\frame\proto\proto-gen /Y
 
 cd ..\..\..\
 
 REM ####################################################################################################
 echo "Building brynet..."
-if exist brynet (rd brynet /q /s)
-git clone -b master https://github.com/ArkNX/brynet.git --depth 1
+REM if exist brynet (rd brynet /q /s)
+REM git clone -b master https://github.com/ArkNX/brynet.git --depth 1
 
 cd brynet
 md build

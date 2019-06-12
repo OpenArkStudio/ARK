@@ -18,11 +18,11 @@
 *
 */
 
-#include <spdlog/contrib/sinks/date_and_hour_file_sink.h>
 #include "base/AFMacros.hpp"
 #include "base/AFMisc.hpp"
 #include "interface/AFIPluginManager.h"
 #include "AFCLogModule.h"
+#include "spdlog/sinks/daily_file_sink.h"
 
 namespace ark
 {
@@ -58,19 +58,19 @@ namespace ark
     {
         std::vector<spdlog::sink_ptr> sinks_vec;
         std::string log_name = ARK_FORMAT("{}{}{}.log", pPluginManager->GetLogPath(), ARK_FOLDER_SEP, pPluginManager->AppName(), AFMisc::Bus2Str(pPluginManager->BusID()));
-        auto date_and_hour_sink = std::make_shared<spdlog::sinks::date_and_hour_file_sink_mt>(log_name);
+        auto date_and_hour_sink = std::make_shared<spdlog::sinks::daily_file_sink_mt>(log_name, 0, 0);
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 #if ARK_PLATFORM == PLATFORM_WIN
         auto color_sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
 #else
         auto color_sink = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
 #endif
-
         sinks_vec.push_back(color_sink);
 #endif
         sinks_vec.push_back(date_and_hour_sink);
 
-        logger_ = std::make_shared<spdlog::async_logger>(pPluginManager->AppName(), std::begin(sinks_vec), std::end(sinks_vec), 1024);
+        auto thread_pool_ = std::make_shared<spdlog::details::thread_pool>(1024, 1);
+        logger_ = std::make_shared<spdlog::async_logger>(pPluginManager->AppName(), std::begin(sinks_vec), std::end(sinks_vec), thread_pool_);
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
         logger_->set_level(spdlog::level::level_enum::trace);
@@ -137,19 +137,19 @@ namespace ark
         log_name = fmt::format("../binlog/{}/{}.log", id, name);
 #endif
 
-        auto date_and_hour_sink = std::make_shared<spdlog::sinks::date_and_hour_file_sink_mt>(log_name);
+        auto date_and_hour_sink = std::make_shared<spdlog::sinks::daily_file_sink_mt>(log_name, 0, 0);
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 #if ARK_PLATFORM == PLATFORM_WIN
         auto color_sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
 #else
         auto color_sink = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
 #endif
-
         sinks_vec.push_back(color_sink);
 #endif
         sinks_vec.push_back(date_and_hour_sink);
 
-        auto dynamic_logger = std::make_shared<spdlog::async_logger>(name, std::begin(sinks_vec), std::end(sinks_vec), 1024);
+        auto thread_pool_ = std::make_shared<spdlog::details::thread_pool>(1024, 1);
+        auto dynamic_logger = std::make_shared<spdlog::async_logger>(name, std::begin(sinks_vec), std::end(sinks_vec), thread_pool_);
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
         dynamic_logger->set_level(spdlog::level::level_enum::trace);
