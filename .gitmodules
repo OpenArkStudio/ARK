@@ -1,0 +1,3 @@
+[submodule "dep/rapidxml"]
+	path = dep/rapidxml
+	url = https://github.com/ArkNX/rapidxml.git
