@@ -16,8 +16,7 @@ svn checkout https://github.com/ArkGame/ARK
 | [spdlog](https://github.com/gabime/spdlog)            | 0.17.0  | [MIT](https://github.com/gabime/spdlog/blob/v1.x/LICENSE)                         |
 | [google protobuf](https://github.com/google/protobuf) | 3.5.x   | [Google License](https://github.com/protocolbuffers/protobuf/blob/master/LICENSE) |
 | [args](https://github.com/Taywee/args)                | 6.2.0   | [MIT](https://github.com/Taywee/args/blob/master/LICENSE)                         |
-| [rapidxml](http://rapidxml.sourceforge.net)           | 1.13    | [LICENSE](http://rapidxml.sourceforge.net/license.txt)                            |
-| [filesystem](https://github.com/wjakob/filesystem)    | master  | [self license](https://github.com/wjakob/filesystem/blob/master/LICENSE)          |
+| [rapidxml](https://github.com/ArkNX/rapidxml)         | 1.13    | [LICENSE](http://rapidxml.sourceforge.net/license.txt)                            |
 
 ## Supported Compilers
 
@@ -44,12 +43,13 @@ Using CMake
 
 ```batch
 cd path/to/ARK
+git submodule update --init
 cd dep
 build_dep.bat
 cd ../
 md build
 cd build
-cmake -G "Visual Studio 15 Win64" ..
+cmake -G "Visual Studio 16" -A x64 ..
 ```
 
 3. Start `ark.sln`
@@ -57,7 +57,7 @@ cmake -G "Visual Studio 15 Win64" ..
 5. Run the binary file by `bin/rund.bat`
 
 > [!NOTE]
-> If you are using other Visual Studio version, please replace `%VS150COMNTOOLS%` in `dep/build_dep.bat` and `cmake -G "Visual Studio 15 Win64" ..` with the right Visual Studio version and path. </br>
+> If you are using other Visual Studio version, please replace `%VS160COMNTOOLS%` in `dep/build_dep.bat` and `cmake -G "Visual Studio 15 Win64" ..` with the right Visual Studio version and path. </br>
 
 ### linux
 
@@ -75,6 +75,8 @@ Using CMake
 2. Use bash
 
 ```shell
+cd path/to/ARK
+git submodule update --init
 cd dep
 ./build_dep.sh
 cd ../

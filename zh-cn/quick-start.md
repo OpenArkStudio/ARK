@@ -43,12 +43,13 @@ svn checkout https://github.com/ArkGame/ARK
 
 ```batch
 cd path/to/ARK
+git submodule update --init
 cd dep
 build_dep.bat
 cd ../
 md build
 cd build
-cmake -G "Visual Studio 15 Win64" ..
+cmake -G "Visual Studio 16" -A x64 ..
 ```
 
 4. 编译 `build\ark.sln`
@@ -56,7 +57,7 @@ cmake -G "Visual Studio 15 Win64" ..
 6. 运行脚本 `bin/rund.bat`
 
 > [!NOTE]
-> 如果你使用其他Visual Studio版本, 请将 `dep/build_dep.bat`中的`%VS150COMNTOOLS%`变量 和 `CMake命令行` 替换为正确的Visual Studio版本和路径.</br>
+> 如果你使用其他Visual Studio版本, 请将 `dep/build_dep.bat`中的`%VS160COMNTOOLS%`变量 和 `CMake命令行` 替换为正确的Visual Studio版本和路径.</br>
 
 ### linux
 
@@ -74,6 +75,8 @@ cmake -G "Visual Studio 15 Win64" ..
 2. 按步骤在终端运行下面命令
 
 ```shell
+cd path/to/ARK
+git submodule update --init
 cd dep
 ./build_dep.sh
 cd ../
