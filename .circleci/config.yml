@@ -27,7 +27,6 @@ jobs:
       - run:
           name: Run Sonarqube scanner
           command: |
-            export SONARQUBE_TOKEN="2ebf5079c3986356540638f2618cea5aeff345f2"
             eval ./sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=ark \
             -Dsonar.organization=ark-game \
             -Dsonar.projectName=ARK \
@@ -36,5 +35,4 @@ jobs:
             -Dsonar.exclusions=**proto** \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.projectVersion=0.9.4 \
-            -Dsonar.login=${SONARQUBE_TOKEN} \
-            -Dsonar.password= -X
+            -Dsonar.login=${SONAR_TOKEN} -X
