@@ -34,6 +34,7 @@ jobs:
       - run:
           name: Run Sonarqube scanner
           command: |
+            pwd
             eval ./sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=ark \
             -Dsonar.organization=ark-game \
             -Dsonar.projectName=ARK \
