@@ -30,9 +30,9 @@ jobs:
             eval ./sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=ark \
             -Dsonar.organization=ark-game \
             -Dsonar.projectName=ARK \
-            -Dsonar.sources=../frame/ \
+            -Dsonar.sources=frame/ \
             -Dsonar.sourceEncoding=UTF-8 \
-            -Dsonar.exclusions=**proto** \
+            -Dsonar.exclusions=frame/proto/** \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.projectVersion=0.9.4 \
             -Dsonar.login=${SONAR_TOKEN} -X
