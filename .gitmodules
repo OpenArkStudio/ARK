@@ -6,12 +6,11 @@
 	path = dep/args
 	url = https://github.com/Taywee/args.git
 	branch = master
-[submodule "dep/brynet"]
-	path = dep/brynet
-	url = https://github.com/IronsDu/brynet.git
-	branch = master
-[submodule "dep/protobuf"]
+[submodule "protobuf"]
 	path = dep/protobuf
 	url = https://github.com/protocolbuffers/protobuf.git
 	branch = 3.8.x
-	depth = 1
+[submodule "spdlog"]
+	path = dep/spdlog
+	url = https://github.com/gabime/spdlog.git
+	branch = v1.x
