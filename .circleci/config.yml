@@ -8,15 +8,20 @@ jobs:
       - image: rikorose/gcc-cmake
     steps:
       - checkout
-      - run: git submodule sync
-      - run: git submodule update --init
       - run:
-          name: build
+          name: Update submodule
+          command: |
+            git submodule sync
+            git submodule update --init
+      - run:
+          name: Building dependencies
           command: |
             cd dep
-            chmod -R 755 build_dep.sh 
-            ./build_dep.sh
+            eval ./build_dep.sh
             cd ..
+      - run:
+          name: Building ARK
+          command: |
             if [ -d "build" ]; then rm -rf build; fi
             mkdir build && cd build
             cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF ..

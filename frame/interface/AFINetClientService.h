@@ -72,7 +72,7 @@ namespace ark
         }
 
         template<typename BaseType>
-        bool RegNetEventCallback(BaseType* pBase, void (BaseType::*handler)(const AFNetEvent&))
+        bool RegNetEventCallback(BaseType* pBase, void (BaseType::*handler)(const AFNetEvent*))
         {
             NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1);
             return RegNetEventCallback(std::make_shared<NET_EVENT_FUNCTOR>(functor));
