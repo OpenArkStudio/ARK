@@ -38,7 +38,7 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.sourceEncoding=UTF-8 \
             -Dsonar.projectVersion=0.9.4 \
-            -Dsonar.login=${SONAR_TOKEN}
+            -Dsonar.login=${SONAR_TOKEN} \
             -Dsonar.sources=frame \
             -Dsonar.exclusions=frame/proto/** \
             -Dsonar.cfamily.build-wrapper-output=build/bw-output -X
