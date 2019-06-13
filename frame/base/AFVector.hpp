@@ -1,8 +1,8 @@
 /*
 * This source file is part of ARK
-* For the latest info, see https://github.com/QuadHex
+* For the latest info, see https://github.com/ArkNX
 *
-* Copyright (c) 2013-2019 QuadHex authors.
+* Copyright (c) 2013-2019 ArkNX authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -25,189 +25,189 @@
 namespace ark
 {
 
-	template<typename VALUE, bool is_smart_ptr>
-	class AFVectorValueType
-	{
-	public:
-		using value_type = VALUE *;
-	};
+    template<typename VALUE, bool is_smart_ptr>
+    class AFVectorValueType
+    {
+    public:
+        using value_type = VALUE *;
+    };
 
-	template<typename VALUE>
-	class AFVectorValueType<VALUE, false>
-	{
-	public:
-		using value_type = VALUE *;
-	};
+    template<typename VALUE>
+    class AFVectorValueType<VALUE, false>
+    {
+    public:
+        using value_type = VALUE *;
+    };
 
-	template<typename VALUE>
-	class AFVectorValueType<VALUE, true>
-	{
-	public:
-		using value_type = std::shared_ptr<VALUE>;
-	};
+    template<typename VALUE>
+    class AFVectorValueType<VALUE, true>
+    {
+    public:
+        using value_type = std::shared_ptr<VALUE>;
+    };
 
-	template<typename VALUE, bool is_smart_ptr>
-	class AFVectorBase
-	{
-	public:
-		using vector_type = typename std::vector<VALUE>;
-		using value_type = typename AFVectorValueType<VALUE, is_smart_ptr>::value_type;
-		using reference = value_type &;
-		using const_reference = const value_type &;
-		using iterator = typename vector_type::iterator;
-		using const_iterator = typename vector_type::const_iterator;
-		using reverse_iterator = typename vector_type::reverse_iterator;
-		using const_reverse_iterator = typename vector_type::const_reverse_iterator;
+    template<typename VALUE, bool is_smart_ptr>
+    class AFVectorBase
+    {
+    public:
+        using vector_type = typename std::vector<VALUE>;
+        using value_type = typename AFVectorValueType<VALUE, is_smart_ptr>::value_type;
+        using reference = value_type &;
+        using const_reference = const value_type &;
+        using iterator = typename vector_type::iterator;
+        using const_iterator = typename vector_type::const_iterator;
+        using reverse_iterator = typename vector_type::reverse_iterator;
+        using const_reverse_iterator = typename vector_type::const_reverse_iterator;
 
-		AFVectorBase() = default;
-		~AFVectorBase()
-		{
-			clear();
-		}
+        AFVectorBase() = default;
+        ~AFVectorBase()
+        {
+            clear();
+        }
 
-		std::size_t size() const
-		{
-			return datas_.size();
-		}
+        std::size_t size() const
+        {
+            return datas_.size();
+        }
 
-		bool empty() const
-		{
-			return datas_.empty();
-		}
+        bool empty() const
+        {
+            return datas_.empty();
+        }
 
-		void clear()
-		{
-			if (!is_smart_ptr)
-			{
-				for (auto data : datas_)
-				{
-					ARK_DELETE(data);
-				}
-			}
+        void clear()
+        {
+            if (!is_smart_ptr)
+            {
+                for (auto data : datas_)
+                {
+                    ARK_DELETE(data);
+                }
+            }
 
-			datas_.clear();
-		}
+            datas_.clear();
+        }
 
-		value_type at(std::size_t index)
-		{
-			if (index >= size())
-			{
-				return nullptr;
-			}
+        value_type at(std::size_t index)
+        {
+            if (index >= size())
+            {
+                return nullptr;
+            }
 
-			return datas_[index];
-		}
+            return datas_[index];
+        }
 
-		value_type operator[](std::size_t index)
-		{
-			ARK_ASSERT_RET_VAL(index < size())
-		}
+        value_type operator[](std::size_t index)
+        {
+            ARK_ASSERT_RET_VAL(index < size())
+        }
 
-		void resize(std::size_t new_size)
-		{
-			if (new_size <= size())
-			{
-				return;
-			}
+        void resize(std::size_t new_size)
+        {
+            if (new_size <= size())
+            {
+                return;
+            }
 
-			datas_.resize(new_size, nullptr);
-		}
+            datas_.resize(new_size, nullptr);
+        }
 
-		std::size_t first_empty()
-		{
-			std::size_t index = 0;
-			for_each(begin(), end(), [](value_type value)
-				{
-					if (value == nullptr)
-					{
-						return index;
-					}
-					else
-					{
-						index++;
-					}
-				});
+        std::size_t first_empty()
+        {
+            std::size_t index = 0;
+            for_each(begin(), end(), [](value_type value)
+            {
+                if (value == nullptr)
+                {
+                    return index;
+                }
+                else
+                {
+                    index++;
+                }
+            });
 
-			return index;
-		}
+            return index;
+        }
 
-		void erase(std::size_t index)
-		{
-			ARK_ASSERT_RET_NONE(index < size());
-			auto data = datas_[index];
-			ARK_DELETE(data);
-			datas_[index] = nullptr;
-		}
+        void erase(std::size_t index)
+        {
+            ARK_ASSERT_RET_NONE(index < size());
+            auto data = datas_[index];
+            ARK_DELETE(data);
+            datas_[index] = nullptr;
+        }
 
-		void push_back(value_type value)
-		{
-			std::size_t index = first_empty();
-			push_back(index, value);
-		}
+        void push_back(value_type value)
+        {
+            std::size_t index = first_empty();
+            push_back(index, value);
+        }
 
-		void push_back(std::size_t index, value_type value)
-		{
-			if (index < size())
-			{
-				datas_[index] = value;
-			}
-			else
-			{
-				datas_.emplace_back(value);
-			}
-		}
+        void push_back(std::size_t index, value_type value)
+        {
+            if (index < size())
+            {
+                datas_[index] = value;
+            }
+            else
+            {
+                datas_.emplace_back(value);
+            }
+        }
 
-		iterator begin() noexcept
-		{
-			return datas_.begin();
-		}
+        iterator begin() noexcept
+        {
+            return datas_.begin();
+        }
 
-		iterator end() noexcept
-		{
-			return datas_.end();
-		}
+        iterator end() noexcept
+        {
+            return datas_.end();
+        }
 
-		const_iterator cbegin() const noexcept
-		{
-			return datas_.cbegin();
-		}
+        const_iterator cbegin() const noexcept
+        {
+            return datas_.cbegin();
+        }
 
-		const_iterator cend() const noexcept
-		{
-			return datas_.cbegin();
-		}
+        const_iterator cend() const noexcept
+        {
+            return datas_.cbegin();
+        }
 
-		reverse_iterator rbegin() noexcept
-		{
-			return datas_.rbegin();
-		}
+        reverse_iterator rbegin() noexcept
+        {
+            return datas_.rbegin();
+        }
 
-		reverse_iterator rend() noexcept
-		{
-			return datas_.rend();
-		}
+        reverse_iterator rend() noexcept
+        {
+            return datas_.rend();
+        }
 
-		const_reverse_iterator crbegin() const noexcept
-		{
-			return datas_.crbegin();
-		}
+        const_reverse_iterator crbegin() const noexcept
+        {
+            return datas_.crbegin();
+        }
 
-		const_reverse_iterator crend() const noexcept
-		{
-			return datas_.crbegin();
-		}
+        const_reverse_iterator crend() const noexcept
+        {
+            return datas_.crbegin();
+        }
 
-	private:
-		vector_type datas_;
-	};
+    private:
+        vector_type datas_;
+    };
 
-	template<typename VALUE>
-	using AFVector = std::vector<VALUE>;
+    template<typename VALUE>
+    using AFVector = std::vector<VALUE>;
 
-	template<typename VALUE>
-	using AFPtrVector = AFVectorBase<VALUE, false>;
+    template<typename VALUE>
+    using AFPtrVector = AFVectorBase<VALUE, false>;
 
-	template<typename VALUE>
-	using AFSmartPtrVector = AFVectorBase<VALUE, true>;
+    template<typename VALUE>
+    using AFSmartPtrVector = AFVectorBase<VALUE, true>;
 
 }

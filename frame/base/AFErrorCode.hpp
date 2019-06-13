@@ -1,8 +1,8 @@
 /*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ArkNX
+* For the latest info, see https://github.com/ArkNX
 *
-* Copyright (c) 2013-2019 ArkGame authors.
+* Copyright (c) 2013-2019 ArkNX authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.

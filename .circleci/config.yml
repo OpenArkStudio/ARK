@@ -24,21 +24,21 @@ jobs:
             mkdir build && cd build
             cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF ..
             ../build-wrapper-3.11/linux-x86-64/build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
-      - run:
-          name: Install sonarqube
-          command: |
-            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-            unzip sonar-scanner-cli-3.3.0.1492-linux.zip
-      - run:
-          name: Run Sonarqube scanner
-          command: |
-            eval ./sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=ark \
-            -Dsonar.organization=ark-game \
-            -Dsonar.projectName=ARK \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.sourceEncoding=UTF-8 \
-            -Dsonar.projectVersion=0.9.4 \
-            -Dsonar.login=${SONAR_TOKEN} \
-            -Dsonar.sources=frame \
-            -Dsonar.exclusions=frame/proto/** \
-            -Dsonar.cfamily.build-wrapper-output=build/bw-output -X
+      #- run:
+      #    name: Install sonarqube
+      #    command: |
+      #      wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+      #      unzip sonar-scanner-cli-3.3.0.1492-linux.zip
+      #- run:
+      #    name: Run Sonarqube scanner
+      #    command: |
+      #      eval ./sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=ark \
+      #      -Dsonar.organization=ark-game \
+      #      -Dsonar.projectName=ARK \
+      #      -Dsonar.host.url=https://sonarcloud.io \
+      #      -Dsonar.sourceEncoding=UTF-8 \
+      #      -Dsonar.projectVersion=0.9.4 \
+      #      -Dsonar.login=${SONAR_TOKEN} \
+      #      -Dsonar.sources=frame \
+      #      -Dsonar.exclusions=frame/proto/** \
+      #      -Dsonar.cfamily.build-wrapper-output=build/bw-output -X

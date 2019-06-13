@@ -1,6 +1,6 @@
 /*
 * This source file is part of ARK
-* For the latest info, see https://github.com/QuadHex
+* For the latest info, see https://github.com/ArkNX
 *
 * Copyright (c) 2013-2019 QuadHex and authors.
 *
