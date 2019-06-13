@@ -18,7 +18,6 @@
 *
 */
 
-#include <brynet/net/SyncConnector.h>
 #include <brynet/net/http/HttpFormat.h>
 #include "AFCWebSocktClient.h"
 

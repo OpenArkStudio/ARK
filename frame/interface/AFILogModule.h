@@ -22,6 +22,7 @@
 
 #include "AFIModule.h"
 #include "spdlog/spdlog.h"
+#include "spdlog/async_logger.h"
 #include "spdlog/fmt/fmt.h"
 
 namespace ark

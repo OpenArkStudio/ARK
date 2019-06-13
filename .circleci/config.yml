@@ -9,17 +9,23 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Update submodule
+          command: |
+            git submodule sync
+            git submodule update --init
+      - run:
+          name: Building dependencies
+          command: |
+            cd dep
+            eval ./build_dep.sh
+      - run:
           name: Install C++ build wrapper
           command: |
             wget https://binaries.sonarsource.com/CommercialDistribution/sonar-cpp-plugin/build-wrapper-3.11.zip
             unzip build-wrapper-3.11.zip
       - run:
-          name: build
+          name: Building src
           command: |
-            cd dep
-            chmod -R 755 build_dep.sh 
-            ./build_dep.sh
-            cd ..
             if [ -d "build" ]; then rm -rf build; fi
             mkdir build && cd build
             cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF ..

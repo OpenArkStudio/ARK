@@ -1,0 +1,20 @@
+[submodule "dep/rapidxml"]
+	path = dep/rapidxml
+	url = https://github.com/ArkNX/rapidxml.git
+	branch = master
+[submodule "dep/args"]
+	path = dep/args
+	url = https://github.com/Taywee/args.git
+	branch = master
+[submodule "protobuf"]
+	path = dep/protobuf
+	url = https://github.com/protocolbuffers/protobuf.git
+	branch = 3.8.x
+[submodule "spdlog"]
+	path = dep/spdlog
+	url = https://github.com/gabime/spdlog.git
+	branch = v1.x
+[submodule "brynet"]
+	path = dep/brynet
+	url = https://github.com/IronsDu/brynet.git
+	branch = master
