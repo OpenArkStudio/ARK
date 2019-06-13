@@ -18,3 +18,7 @@
 	path = dep/brynet
 	url = https://github.com/IronsDu/brynet.git
 	branch = master
+[submodule "dep/spdlog"]
+	path = dep/spdlog
+	url = https://github.com/gabime/spdlog.git
+	branch = master
