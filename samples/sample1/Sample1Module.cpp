@@ -41,6 +41,8 @@ namespace ark
         m_pDynamicLogModule = pPluginManager->FindModule<AFIDynamicLogModule>();
         //m_pScheduleModule = pPluginManager->FindModule<AFIScheduleModule>();
 
+        ARK_LOG_INFO("xxxxxxxxx");
+
         return true;
     }
 

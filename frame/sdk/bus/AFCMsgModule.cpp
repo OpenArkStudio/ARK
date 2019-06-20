@@ -18,6 +18,7 @@
 *
 */
 
+#include "base/AFMisc.hpp"
 #include "interface/AFIPluginManager.h"
 #include "AFCMsgModule.h"
 

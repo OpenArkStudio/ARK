@@ -69,8 +69,8 @@ namespace ark
 #endif
         sinks_vec.push_back(date_and_hour_sink);
 
-        auto thread_pool_ = std::make_shared<spdlog::details::thread_pool>(1024, 1);
-        logger_ = std::make_shared<spdlog::async_logger>(pPluginManager->AppName(), std::begin(sinks_vec), std::end(sinks_vec), thread_pool_);
+        tp_ = std::make_shared<spdlog::details::thread_pool>(1024, 1);
+        logger_ = std::make_shared<spdlog::async_logger>(pPluginManager->AppName(), std::begin(sinks_vec), std::end(sinks_vec), tp_);
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
         logger_->set_level(spdlog::level::level_enum::trace);
@@ -148,8 +148,8 @@ namespace ark
 #endif
         sinks_vec.push_back(date_and_hour_sink);
 
-        auto thread_pool_ = std::make_shared<spdlog::details::thread_pool>(1024, 1);
-        auto dynamic_logger = std::make_shared<spdlog::async_logger>(name, std::begin(sinks_vec), std::end(sinks_vec), thread_pool_);
+        tp_ = std::make_shared<spdlog::details::thread_pool>(1024, 1);
+        auto dynamic_logger = std::make_shared<spdlog::async_logger>(name, std::begin(sinks_vec), std::end(sinks_vec), tp_);
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
         dynamic_logger->set_level(spdlog::level::level_enum::trace);

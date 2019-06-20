@@ -40,6 +40,7 @@ namespace ark
 
     private:
         std::shared_ptr<spdlog::async_logger> logger_{ nullptr };
+        std::shared_ptr<spdlog::details::thread_pool> tp_{ nullptr };
     };
 
     class AFCDynamicLogModule : public AFIDynamicLogModule
@@ -59,6 +60,8 @@ namespace ark
         using dynamic_log_container = std::map<dynamic_log_key, std::shared_ptr<spdlog::async_logger>>;
 
         dynamic_log_container _dynamic_loggers;
+        std::shared_ptr<spdlog::details::thread_pool> tp_{ nullptr };
+
         const std::shared_ptr<spdlog::async_logger>& _null_logger = nullptr;
     };
 
