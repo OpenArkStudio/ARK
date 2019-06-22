@@ -53,79 +53,92 @@ namespace ark
         this->bus_id_ = busid;
 
         tcp_service_ptr_ = brynet::net::TcpService::Create();
-        listen_thread_ptr_ = brynet::net::ListenThread::Create(ip_v6, ip, port, [&, head_len](brynet::net::TcpSocket::Ptr socket)
-        {
-            AFCTCPServer* this_ptr = this;
-            socket->setNodelay();
-            auto OnEnterCallback = [this_ptr, head_len](const brynet::net::TcpConnectionPtr & session)
-            {
-                int64_t cur_session_id = this_ptr->trusted_session_id_++;
-
-                session->setUD(cur_session_id);
-
-                AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
-                net_connect_event->id_ = cur_session_id;
-                net_connect_event->type_ = AFNetEventType::CONNECTED;
-                net_connect_event->bus_id_ = this_ptr->bus_id_;
-                net_connect_event->ip_ = session->getIP();
-
-                do
-                {
-                    AFScopeWLock guard(this_ptr->rw_lock_);
-                    AFTCPSessionPtr session_ptr = ARK_NEW AFTCPSession(head_len, cur_session_id, session);
-                    if (this_ptr->AddNetSession(session_ptr))
-                    {
-                        session_ptr->AddNetEvent(net_connect_event);
-                    }
-                } while (false);
-
-                session->setDataCallback([this_ptr, session](const char* buffer, size_t len)
-                {
-                    auto pUD = brynet::net::cast<int64_t>(session->getUD());
-                    if (pUD != nullptr)
-                    {
-                        const AFTCPSessionPtr session_ptr = this_ptr->GetNetSession(*pUD);
-                        session_ptr->AddBuffer(buffer, len);
-                        session_ptr->ParseBufferToMsg();
-                    }
-
-                    return len;
-                });
-
-                session->setDisConnectCallback([this_ptr](const brynet::net::TcpConnectionPtr & session)
-                {
-                    auto pUD = brynet::net::cast<int64_t>(session->getUD());
-                    if (pUD == nullptr)
-                    {
-                        return;
-                    }
-
-                    int64_t session_id = *pUD;
-
-                    AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
-                    net_disconnect_event->id_ = session_id;
-                    net_disconnect_event->type_ = AFNetEventType::DISCONNECTED;
-                    net_disconnect_event->bus_id_ = this_ptr->bus_id_;
-                    net_disconnect_event->ip_ = session->getIP();
-
-                    const AFTCPSessionPtr session_ptr = this_ptr->GetNetSession(session_id);
-                    if (session_ptr == nullptr)
-                    {
-                        return;
-                    }
-
-                    session_ptr->AddNetEvent(net_disconnect_event);
-                    session_ptr->SetNeedRemove(true);
-                });
-            };
-
-            tcp_service_ptr_->addTcpConnection(std::move(socket),
-                                               brynet::net::TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback),
-                                               brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE));
-        });
-
-        listen_thread_ptr_->startListen();
         tcp_service_ptr_->startWorkerThread(thread_num);
+
+        auto OnEnterCallback = [this, head_len](const brynet::net::TcpConnectionPtr & session)
+        {
+            int64_t cur_session_id = this->trusted_session_id_++;
+
+            session->setUD(cur_session_id);
+
+            AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
+            net_connect_event->id_ = cur_session_id;
+            net_connect_event->type_ = AFNetEventType::CONNECTED;
+            net_connect_event->bus_id_ = this->bus_id_;
+            net_connect_event->ip_ = session->getIP();
+
+            do
+            {
+                AFScopeWLock guard(this->rw_lock_);
+                AFTCPSessionPtr session_ptr = ARK_NEW AFTCPSession(head_len, cur_session_id, session);
+                if (this->AddNetSession(session_ptr))
+                {
+                    session_ptr->AddNetEvent(net_connect_event);
+                }
+            } while (false);
+
+            session->setDataCallback([this, session](const char* buffer, size_t len)
+            {
+                auto pUD = brynet::net::cast<int64_t>(session->getUD());
+                if (pUD != nullptr)
+                {
+                    const AFTCPSessionPtr session_ptr = this->GetNetSession(*pUD);
+                    session_ptr->AddBuffer(buffer, len);
+                    session_ptr->ParseBufferToMsg();
+                }
+
+                return len;
+            });
+
+            session->setDisConnectCallback([this](const brynet::net::TcpConnectionPtr & session)
+            {
+                auto pUD = brynet::net::cast<int64_t>(session->getUD());
+                if (pUD == nullptr)
+                {
+                    return;
+                }
+
+                int64_t session_id = *pUD;
+
+                AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
+                net_disconnect_event->id_ = session_id;
+                net_disconnect_event->type_ = AFNetEventType::DISCONNECTED;
+                net_disconnect_event->bus_id_ = this->bus_id_;
+                net_disconnect_event->ip_ = session->getIP();
+
+                const AFTCPSessionPtr session_ptr = this->GetNetSession(session_id);
+                if (session_ptr == nullptr)
+                {
+                    return;
+                }
+
+                session_ptr->AddNetEvent(net_disconnect_event);
+                session_ptr->SetNeedRemove(true);
+            });
+        };
+
+        //Chain expression
+        brynet::net::wrapper::ListenerBuilder listener;
+        listener.configureService(tcp_service_ptr_)
+        .configureSocketOptions(
+        {
+            [](brynet::net::TcpSocket & socket)
+            {
+                socket.setNodelay();
+            }
+        })
+        .configureConnectionOptions(
+        {
+            brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE),
+            brynet::net::TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback)
+        })
+        .configureListen([ = ](brynet::net::wrapper::BuildListenConfig config)
+        {
+            config.setAddr(ip_v6, ip, port);
+        })
+        .asyncRun();
+
+
         SetWorking(true);
         return true;
     }

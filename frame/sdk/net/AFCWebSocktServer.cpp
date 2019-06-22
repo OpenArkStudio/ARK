@@ -77,15 +77,10 @@ namespace ark
                         switch (opcode)
                         {
                         case brynet::net::http::WebSocketFormat::WebSocketFrameType::ERROR_FRAME:
-                            break;
                         case brynet::net::http::WebSocketFormat::WebSocketFrameType::CONTINUATION_FRAME:
-                            break;
                         case brynet::net::http::WebSocketFormat::WebSocketFrameType::TEXT_FRAME:
-                            break;
                         case brynet::net::http::WebSocketFormat::WebSocketFrameType::BINARY_FRAME:
-                            break;
                         case brynet::net::http::WebSocketFormat::WebSocketFrameType::CLOSE_FRAME:
-                            break;
                         case brynet::net::http::WebSocketFormat::WebSocketFrameType::PING_FRAME:
                             {
                                 auto frame = std::make_shared<std::string>();
@@ -125,7 +120,7 @@ namespace ark
                     httpSession->setHttpCallback([](const brynet::net::http::HTTPParser & httpParser, const brynet::net::http::HttpSession::Ptr & session)
                     {
                         brynet::net::http::HttpResponse response;
-                        response.setBody("<html>Hello QuadHex.ARK</html>");
+                        response.setBody("<html>Hello ARK.</html>");
                         std::string result = response.getResult();
                         session->send(result.c_str(), result.size(), [session]()
                         {
