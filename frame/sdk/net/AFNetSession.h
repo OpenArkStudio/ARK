@@ -59,7 +59,7 @@ namespace ark
             {
                 while (event != nullptr)
                 {
-                    ARK_DELETE(event);
+                    AFNetEvent::Release(event);
                     PopNetEvent(event);
                 }
             }
@@ -69,7 +69,7 @@ namespace ark
             {
                 while (msg != nullptr)
                 {
-                    ARK_DELETE(msg);
+                    AFNetMsg::Release(msg);
                     PopNetMsg(msg);
                 }
             }
