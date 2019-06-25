@@ -33,6 +33,10 @@ namespace ark
     {
         using StringMap = std::map<std::string, std::string>;
 
+        const AFIClassMeta* class_meta_{ nullptr };
+        const AFIDataMeta* data_meta_{ nullptr };
+        AFINewData* parent_{ nullptr };
+
     public:
         AFINewData() = default;
         virtual ~AFINewData() = default;
@@ -69,7 +73,7 @@ namespace ark
 
         virtual ArkDataType GetType() const
         {
-            return type_;
+            return data_meta_->GetType();
         }
 
         //Get/Set key id(in table, key means GUID, in Object, key means objectID)
@@ -130,7 +134,7 @@ namespace ark
         template<typename T = uint64_t>
         const T & GetValue()
         {
-            switch (type_)
+            switch (GetType())
             {
             case ArkDataType::DT_BOOLEAN:
                 return static_cast<T>(GetBool());
@@ -554,12 +558,6 @@ namespace ark
         {
             //Do nothing.
         }
-
-    private:
-        const AFIClassMeta* class_meta_{ nullptr };
-        const AFIDataMeta* data_meta_{ nullptr };
-        AFINewData* parent_{ nullptr };
-        ArkDataType type_{ ArkDataType::DT_EMPTY };
     };
 
     //template specialization for complex structure

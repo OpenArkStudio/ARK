@@ -325,15 +325,16 @@ namespace ark
 
     bool AFCMetaClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIMetaClass> pParentClass)
     {
-        const char* metaclass_name = attrNode->first_attribute("Id")->value();
-        const char* type = attrNode->first_attribute("Type")->value();
-        const char* schema_path = attrNode->first_attribute("Path")->value();
-        const char* res_path = attrNode->first_attribute("ResPath")->value();
+        //to modify
+        const char* metaclass_name = attrNode->first_attribute("id")->value();
+        //const char* type = attrNode->first_attribute("Type")->value();
+        const char* schema_path = attrNode->first_attribute("meta")->value();
+        const char* res_path = attrNode->first_attribute("res")->value();
 
         ARK_SHARE_PTR<AFIMetaClass> pClass = std::make_shared<AFCMetaClass>(metaclass_name);
         metaclasses_.insert(metaclass_name, pClass);
         pClass->SetParent(pParentClass);
-        pClass->SetTypeName(type);
+        pClass->SetTypeName("");
         pClass->SetResPath(res_path);
 
         if (!AddClass(schema_path, pClass))

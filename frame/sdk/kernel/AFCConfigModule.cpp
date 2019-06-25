@@ -31,7 +31,11 @@ namespace ark
     bool AFCConfigModule::Init()
     {
         m_pMetaClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
-        return Load();
+
+        //TODO:will use the new data config, please wait for a while.
+        //return Load();
+
+        return true;
     }
 
     bool AFCConfigModule::Shut()
@@ -84,7 +88,7 @@ namespace ark
     {
         ARK_ASSERT_RET_VAL(attr_node != nullptr, false);
 
-        std::string config_id = attr_node->first_attribute("Id")->value();
+        std::string config_id = attr_node->first_attribute("id")->value();
         ARK_ASSERT_RET_VAL(!config_id.empty(), false);
         ARK_ASSERT_RET_VAL(!ExistConfig(config_id), false);
 

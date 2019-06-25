@@ -93,7 +93,7 @@ namespace ark
 
         bool AddNode(const char* name, const AFIData& value, const AFFeatureType feature) override
         {
-            AFDataNode* pNode = new AFDataNode();
+            AFDataNode* pNode = ARK_NEW AFDataNode();
             pNode->name = name;
             pNode->value = value;
             pNode->feature = feature;
