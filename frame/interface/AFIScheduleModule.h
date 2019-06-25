@@ -33,28 +33,28 @@ namespace ark
         bool AddSchedule(const int id, const int user_arg, const char* cron_expression, BaseType* pBase, bool (BaseType::*handler)(const int, const int))
         {
             SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
-            return AddSchedule(id, user_arg, cron_expression, std::make_shared<SCHEDULER_FUNCTOR>(functor));
+            return AddSchedule(id, user_arg, cron_expression, std::move(functor));
         }
 
         template<typename BaseType>
         bool AddDailySchedule(const int id, const int user_arg, BaseType* pBase, bool (BaseType::*handler)(const int, const int))
         {
             SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
-            return AddSchedule(id, user_arg, "0 0 * * * *", std::make_shared<SCHEDULER_FUNCTOR>(functor));
+            return AddSchedule(id, user_arg, "0 0 * * * *", std::move(functor));
         }
 
         template<typename BaseType>
         bool AddWeeklySchedule(const int id, const int user_arg, BaseType* pBase, bool (BaseType::*handler)(const int, const int))
         {
             SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
-            return AddSchedule(id, user_arg, "0 0 * * 1 *", std::make_shared<SCHEDULER_FUNCTOR>(functor));
+            return AddSchedule(id, user_arg, "0 0 * * 1 *", std::move(functor));
         }
 
         template<typename BaseType>
         bool AddMonthlySchedule(const int id, const int user_arg, BaseType* pBase, bool (BaseType::*handler)(const int, const int))
         {
             SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
-            return AddSchedule(id, user_arg, "0 0 1 * * *", std::make_shared<SCHEDULER_FUNCTOR>(functor));
+            return AddSchedule(id, user_arg, "0 0 1 * * *", std::move(functor));
         }
 
         virtual bool RemoveSchedule(const int id) = 0;
