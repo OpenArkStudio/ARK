@@ -60,12 +60,10 @@ namespace ark
             return self_;
         }
 
-        bool RegisterCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) override
+        bool RegisterCallback(DATA_NODE_EVENT_FUNCTOR&& cb) override
         {
-            {
-                node_callbacks_.push_back(cb);
-                return true;
-            }
+            node_callbacks_.push_back(std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
+            return true;
         }
 
         size_t GetNodeCount() override
@@ -93,7 +91,7 @@ namespace ark
 
         bool AddNode(const char* name, const AFIData& value, const AFFeatureType feature) override
         {
-            AFDataNode* pNode = ARK_NEW AFDataNode();
+            AFDataNode* pNode = ARK_NEW AFDataNode;
             pNode->name = name;
             pNode->value = value;
             pNode->feature = feature;
@@ -374,9 +372,9 @@ namespace ark
 
         bool OnNodeCallback(const char* name, const AFIData& oldData, const AFIData& newData)
         {
-            for (auto& iter : node_callbacks_)
+            for (auto& cb : node_callbacks_)
             {
-                (*iter)(self_, name, oldData, newData);
+                cb(self_, name, oldData, newData);
             }
 
             return true;
@@ -387,7 +385,7 @@ namespace ark
         AFStringPod<char, size_t, AFStringTraits<char>, CoreAlloc> node_indices_;
 
         AFGUID self_;
-        std::vector<DATA_NODE_EVENT_FUNCTOR_PTR> node_callbacks_;
+        std::vector<DATA_NODE_EVENT_FUNCTOR> node_callbacks_;
     };
 
 }

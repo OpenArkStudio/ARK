@@ -97,19 +97,19 @@ namespace ark
     protected:
         bool DestroySelf(const AFGUID& self);
 
-        bool RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb) override;
-        bool RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) override;
-        bool RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) override;
+        bool RegCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb) override;
+        bool RegCommonDataNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb) override;
+        bool RegCommonDataTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb) override;
 
-        bool AddEventCallBack(const AFGUID& self, const int event_id, const EVENT_PROCESS_FUNCTOR_PTR& cb) override;
-        bool AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR& cb) override;
+        bool AddEventCallBack(const AFGUID& self, const int event_id, EVENT_PROCESS_FUNCTOR&& cb) override;
+        bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb) override;
 
     private:
         std::list<AFGUID> delete_list_;
         //////////////////////////////////////////////////////////////////////////
-        std::list<CLASS_EVENT_FUNCTOR_PTR> common_class_callbacks_;
-        std::list<DATA_NODE_EVENT_FUNCTOR_PTR> common_data_node_callbacks_;
-        std::list<DATA_TABLE_EVENT_FUNCTOR_PTR> common_data_table_callbacks_;
+        std::list<CLASS_EVENT_FUNCTOR> common_class_callbacks_;
+        std::list<DATA_NODE_EVENT_FUNCTOR> common_data_node_callbacks_;
+        std::list<DATA_TABLE_EVENT_FUNCTOR> common_data_table_callbacks_;
 
         AFGUID cur_exec_entity_;
 

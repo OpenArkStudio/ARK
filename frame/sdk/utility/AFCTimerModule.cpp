@@ -54,14 +54,14 @@ namespace ark
         return mxTimerManager->RemoveTimer(name, entity_id);
     }
 
-    bool AFCTimerModule::AddSingleTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, const uint32_t count, TIMER_FUNCTOR_PTR cb)
+    bool AFCTimerModule::AddSingleTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, const uint32_t count, TIMER_FUNCTOR&& cb)
     {
-        return mxTimerManager->AddSingleTimer(name, entity_id, interval_time, count, cb);
+        return mxTimerManager->AddSingleTimer(name, entity_id, interval_time, count, std::forward<TIMER_FUNCTOR>(cb));
     }
 
-    bool AFCTimerModule::AddForeverTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, TIMER_FUNCTOR_PTR cb)
+    bool AFCTimerModule::AddForeverTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, TIMER_FUNCTOR&& cb)
     {
-        return mxTimerManager->AddForverTimer(name, entity_id, interval_time, cb);
+        return mxTimerManager->AddForverTimer(name, entity_id, interval_time, std::forward<TIMER_FUNCTOR>(cb));
     }
 
 }

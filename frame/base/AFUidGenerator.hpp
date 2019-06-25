@@ -109,6 +109,8 @@ namespace ark
     | 1bit |     29bits    |     24bits     |  10bits  |
     */
 
+    //TODO:remove sign and use uint64_t
+    //then seq_bits is 12 bits, mean 2048/s
     class AFUidGenerator
     {
     public:
@@ -119,13 +121,15 @@ namespace ark
 
         AFUidGenerator()
         {
-            bits_alloc_ = ARK_NEW AFBitsAllocator(time_bits, worker_bit, seq_bits);
+#ifdef ARK_HAVE_LANG_CXX14
+            bits_alloc_ = std::make_unique<AFBitsAllocator>(time_bits, worker_bit, seq_bits);
+#else
+            bits_alloc_.reset(ARK_NEW AFBitsAllocator(time_bits, worker_bit, seq_bits));
+#endif
+
         }
 
-        virtual ~AFUidGenerator()
-        {
-            ARK_DELETE(bits_alloc_);
-        }
+        virtual ~AFUidGenerator() = default;
 
         virtual int64_t GetUID(const int64_t worker_id)
         {
@@ -197,7 +201,7 @@ namespace ark
         int64_t sequence_{ 0L };
         int64_t last_second_{ -1L };
 
-        AFBitsAllocator* bits_alloc_;
+        std::unique_ptr<AFBitsAllocator> bits_alloc_{ nullptr };
     };
 
     class AFUidGeneratorThreadSafe : public AFUidGenerator

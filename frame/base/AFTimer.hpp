@@ -52,7 +52,7 @@ namespace ark
         uint32_t interval = 0;
         uint32_t rotation = 0;
         uint32_t slot = 0;
-        TIMER_FUNCTOR_PTR callback;
+        TIMER_FUNCTOR callback;
 
         //callback data
         AFGUID entity_id = 0;
@@ -102,20 +102,20 @@ namespace ark
             memset(mxSlots, 0x0, sizeof(mxSlots));
         }
 
-        bool AddForverTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, TIMER_FUNCTOR_PTR callback)
+        bool AddForverTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, TIMER_FUNCTOR&& callback)
         {
             AFTimerData* data = ARK_NEW AFTimerData();
             memset(data, 0, sizeof(AFTimerData));
             ARK_STRNCPY(data->name, name.c_str(), (name.length() > 16) ? 16 : name.length());
             data->type = TIMER_TYPE_FOREVER;
             data->interval = interval_time;
-            data->callback = callback;
+            data->callback = std::forward<TIMER_FUNCTOR>(callback);
             data->entity_id = entity_id;
             mxRegTimers.push_back(data);
             return true;
         }
 
-        bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, uint32_t count, TIMER_FUNCTOR_PTR callback)
+        bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, uint32_t count, TIMER_FUNCTOR&& callback)
         {
             AFTimerData* data = ARK_NEW AFTimerData();
             memset(data, 0, sizeof(AFTimerData));
@@ -123,7 +123,7 @@ namespace ark
             data->type = TIMER_TYPE_COUNT_LIMIT;
             data->count = std::max((uint32_t)1, count);
             data->interval = interval_time;
-            data->callback = callback;
+            data->callback = std::forward<TIMER_FUNCTOR>(callback);
             data->entity_id = entity_id;
             mxRegTimers.push_back(data);
             return true;
@@ -351,7 +351,7 @@ namespace ark
             {
                 RemoveSlotTimer(data);
 
-                (*(data->callback))(data->name, data->entity_id);
+                (data->callback)(data->name, data->entity_id);
 
                 switch (data->type)
                 {

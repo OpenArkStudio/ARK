@@ -292,24 +292,24 @@ namespace ark
         return metaclasses_;
     }
 
-    bool AFCMetaClassModule::AddNodeCallBack(const std::string& class_name, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR cb)
+    bool AFCMetaClassModule::AddNodeCallBack(const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb)
     {
         auto pClass = metaclasses_.find_value(class_name);
-        return ((pClass != nullptr) ? pClass->AddNodeCallBack(name, cb) : false);
+        return ((pClass != nullptr) ? pClass->AddNodeCallBack(name, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb)) : false);
     }
 
-    bool AFCMetaClassModule::AddTableCallBack(const std::string& class_name, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb)
+    bool AFCMetaClassModule::AddTableCallBack(const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb)
     {
         auto pClass = metaclasses_.find_value(class_name);
-        return ((pClass != nullptr) ? pClass->AddTableCallBack(name, cb) : false);
+        return ((pClass != nullptr) ? pClass->AddTableCallBack(name, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb)) : false);
     }
 
-    bool AFCMetaClassModule::AddCommonNodeCallback(const std::string& class_name, const DATA_NODE_EVENT_FUNCTOR_PTR cb)
+    bool AFCMetaClassModule::AddCommonNodeCallback(const std::string& class_name, DATA_NODE_EVENT_FUNCTOR&& cb)
     {
         auto pClass = metaclasses_.find_value(class_name);
         if (pClass != nullptr)
         {
-            return pClass->AddCommonNodeCallback(cb);
+            return pClass->AddCommonNodeCallback(std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
         }
         else
         {
@@ -317,15 +317,15 @@ namespace ark
         }
     }
 
-    bool AFCMetaClassModule::AddCommonTableCallback(const std::string& class_name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb)
+    bool AFCMetaClassModule::AddCommonTableCallback(const std::string& class_name, DATA_TABLE_EVENT_FUNCTOR&& cb)
     {
         auto pClass = metaclasses_.find_value(class_name);
-        return ((pClass != nullptr) ? pClass->AddCommonTableCallback(cb) : false);
+        return ((pClass != nullptr) ? pClass->AddCommonTableCallback(std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb)) : false);
     }
 
     bool AFCMetaClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIMetaClass> pParentClass)
     {
-        //to modify
+        //TODO
         const char* metaclass_name = attrNode->first_attribute("id")->value();
         //const char* type = attrNode->first_attribute("Type")->value();
         const char* schema_path = attrNode->first_attribute("meta")->value();
@@ -402,10 +402,10 @@ namespace ark
         return ((pClass != nullptr) ? pClass->InitDataTableManager(pTableManager) : false);
     }
 
-    bool AFCMetaClassModule::AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR cb)
+    bool AFCMetaClassModule::AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb)
     {
         auto pClass = metaclasses_.find_value(class_name);
-        return ((pClass != nullptr) ? pClass->AddClassCallBack(cb) : false);
+        return ((pClass != nullptr) ? pClass->AddClassCallBack(std::forward<CLASS_EVENT_FUNCTOR>(cb)) : false);
     }
 
     bool AFCMetaClassModule::DoEvent(const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event, const AFIDataList& args)

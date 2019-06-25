@@ -55,12 +55,13 @@ namespace ark
             need_remove_events_.clear();
         }
 
-        bool AddEventCallBack(const int event_id, const EVENT_PROCESS_FUNCTOR_PTR& cb) override
+        bool AddEventCallBack(const int event_id, EVENT_PROCESS_FUNCTOR&& cb) override
         {
             auto pEventInfo = event_callbacks_.find_value(event_id);
             if (pEventInfo == nullptr)
             {
-                auto pEventInfo = std::make_shared<AFList<EVENT_PROCESS_FUNCTOR_PTR>>();
+                auto pEventInfo = std::make_shared<AFList<EVENT_PROCESS_FUNCTOR>>();
+                pEventInfo->emplace_back(cb);
                 return event_callbacks_.insert(event_id, pEventInfo).second;
             }
             else
@@ -86,7 +87,7 @@ namespace ark
 
             for (auto iter : *event_info)
             {
-                (*iter)(self_, event_id, args);
+                iter(self_, event_id, args);
             }
 
             return true;
@@ -111,7 +112,7 @@ namespace ark
         AFGUID self_;
 
         AFList<int> need_remove_events_;
-        AFMapEx<int, AFList<EVENT_PROCESS_FUNCTOR_PTR>> event_callbacks_;
+        AFMapEx<int, AFList<EVENT_PROCESS_FUNCTOR>> event_callbacks_;
     };
 
 }
