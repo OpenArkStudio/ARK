@@ -40,7 +40,7 @@ namespace ark
         bool AddForeverTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, BaseType* pBase, void (BaseType::*handler)(const std::string&, const AFGUID&))
         {
             TIMER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
-            return AddForeverTimer(name, entity_id, interval_time, std::move<TIMER_FUNCTOR>(functor));
+            return AddForeverTimer(name, entity_id, interval_time, std::move(functor));
         }
 
         virtual bool RemoveTimer(const std::string& name) = 0;
