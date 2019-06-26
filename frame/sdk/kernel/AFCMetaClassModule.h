@@ -48,7 +48,7 @@ namespace ark
         {
             for (size_t i = 0; i < node_callbacks_.size(); ++i)
             {
-                delete node_callbacks_[i];
+                ARK_DELETE(node_callbacks_[i]);
             }
 
             node_callbacks_.clear();
@@ -73,9 +73,9 @@ namespace ark
             return m_pTableManager;
         }
 
-        bool AddClassCallBack(const CLASS_EVENT_FUNCTOR_PTR cb) override
+        bool AddClassCallBack(CLASS_EVENT_FUNCTOR&& cb) override
         {
-            class_events_.emplace_back(cb);
+            class_events_.emplace_back(std::forward<CLASS_EVENT_FUNCTOR>(cb));
             return true;
         }
 
@@ -83,13 +83,13 @@ namespace ark
         {
             for (auto iter : class_events_)
             {
-                (*iter)(id, class_name_, eClassEvent, valueList);
+                iter(id, class_name_, eClassEvent, valueList);
             }
 
             return true;
         }
 
-        bool AddNodeCallBack(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR cb) override
+        bool AddNodeCallBack(const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb) override
         {
             size_t index(0);
 
@@ -107,7 +107,7 @@ namespace ark
             else
             {
                 AFNodeCallBack* pNodeCB = ARK_NEW AFNodeCallBack();
-                pNodeCB->callbacks_.push_back(cb);
+                pNodeCB->callbacks_.push_back(std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
                 callback_indices_.Add(name.c_str(), node_callbacks_.size());
                 node_callbacks_.push_back(pNodeCB);
             }
@@ -115,23 +115,23 @@ namespace ark
             return true;
         }
 
-        bool AddCommonNodeCallback(const DATA_NODE_EVENT_FUNCTOR_PTR cb) override
+        bool AddCommonNodeCallback(DATA_NODE_EVENT_FUNCTOR&& cb) override
         {
-            common_node_callbacks_.push_back(cb);
+            common_node_callbacks_.push_back(std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
             return true;
         }
 
-        bool AddTableCallBack(const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb) override
+        bool AddTableCallBack(const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb) override
         {
             AFTableCallBack* pCallBackList = table_callbacks_.GetElement(name);
 
             if (!pCallBackList)
             {
-                pCallBackList = new AFTableCallBack();
+                pCallBackList = ARK_NEW AFTableCallBack();
                 table_callbacks_.AddElement(name, pCallBackList);
             }
 
-            pCallBackList->callbacks_.push_back(cb);
+            pCallBackList->callbacks_.push_back(std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
 
             return true;
         }
@@ -144,14 +144,14 @@ namespace ark
                 return false;
             }
 
-            for (auto& iter : common_node_callbacks_)
+            for (auto& cb : common_node_callbacks_)
             {
-                (*iter)(self, name, old_data, new_data);
+                cb(self, name, old_data, new_data);
             }
 
-            for (auto& iter : node_callbacks_[indexCallBack]->callbacks_)
+            for (auto& cb : node_callbacks_[indexCallBack]->callbacks_)
             {
-                (*iter)(self, name, old_data, new_data);
+                cb(self, name, old_data, new_data);
             }
 
             return true;
@@ -187,9 +187,9 @@ namespace ark
             return true;
         }
 
-        bool AddCommonTableCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR cb) override
+        bool AddCommonTableCallback(DATA_TABLE_EVENT_FUNCTOR&& cb) override
         {
-            common_table_callbacks_.push_back(cb);
+            common_table_callbacks_.push_back(std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
             return true;
         }
 
@@ -222,18 +222,18 @@ namespace ark
 
         int OnEventHandler(const AFGUID& id, const DATA_TABLE_EVENT_DATA& event_data, const AFIData& old_data, const AFIData& new_data)
         {
-            for (auto& iter : common_table_callbacks_)
+            for (auto& cb : common_table_callbacks_)
             {
-                (*iter)(id, event_data, old_data, new_data);
+                cb(id, event_data, old_data, new_data);
             }
 
             AFTableCallBack* pTableCallBack = table_callbacks_.GetElement(event_data.strName.c_str());
 
             if (nullptr != pTableCallBack)
             {
-                for (auto& iter : pTableCallBack->callbacks_)
+                for (auto& cb : pTableCallBack->callbacks_)
                 {
-                    (*iter)(id, event_data, old_data, new_data);
+                    cb(id, event_data, old_data, new_data);
                 }
             }
 
@@ -303,13 +303,13 @@ namespace ark
         }
 
     private:
-        using NodeCallbacks = std::vector<DATA_NODE_EVENT_FUNCTOR_PTR>;
+        using NodeCallbacks = std::vector<DATA_NODE_EVENT_FUNCTOR>;
         struct  AFNodeCallBack
         {
             NodeCallbacks callbacks_;
         };
 
-        using TableCallbacks = std::vector<DATA_TABLE_EVENT_FUNCTOR_PTR>;
+        using TableCallbacks = std::vector<DATA_TABLE_EVENT_FUNCTOR>;
         struct  AFTableCallBack
         {
             TableCallbacks callbacks_;
@@ -324,7 +324,7 @@ namespace ark
         std::string class_res_path_{};
 
         AFList<std::string> config_list_;
-        AFList<CLASS_EVENT_FUNCTOR_PTR> class_events_;
+        AFList<CLASS_EVENT_FUNCTOR> class_events_;
         AFArrayPod<AFNodeCallBack*, 1, CoreAlloc> node_callbacks_;
         AFStringPod<char, size_t, AFStringTraits<char>, CoreAlloc> callback_indices_;
         NodeCallbacks common_node_callbacks_;
@@ -344,12 +344,12 @@ namespace ark
         bool Init() override;
         bool Load() override;
 
-        bool AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR cb) override;
+        bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb) override;
         bool DoEvent(const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event, const AFIDataList& args) override;
-        bool AddNodeCallBack(const std::string& class_name, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR cb) override;
-        bool AddTableCallBack(const std::string& class_name, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb) override;
-        bool AddCommonNodeCallback(const std::string& class_name, const DATA_NODE_EVENT_FUNCTOR_PTR cb) override;
-        bool AddCommonTableCallback(const std::string& class_name, const DATA_TABLE_EVENT_FUNCTOR_PTR cb) override;
+        bool AddNodeCallBack(const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb) override;
+        bool AddTableCallBack(const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb) override;
+        bool AddCommonNodeCallback(const std::string& class_name, DATA_NODE_EVENT_FUNCTOR&& cb) override;
+        bool AddCommonTableCallback(const std::string& class_name, DATA_TABLE_EVENT_FUNCTOR&& cb) override;
 
         ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& class_name) override;
         ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& class_name) override;

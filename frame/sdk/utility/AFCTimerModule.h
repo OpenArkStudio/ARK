@@ -39,8 +39,8 @@ namespace ark
         bool RemoveTimer(const std::string& name, const AFGUID& entity_id) override;
 
     protected:
-        bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, const uint32_t count, TIMER_FUNCTOR_PTR cb) override;
-        bool AddForeverTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, TIMER_FUNCTOR_PTR cb) override;
+        bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, const uint32_t count, TIMER_FUNCTOR&& cb) override;
+        bool AddForeverTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, TIMER_FUNCTOR&& cb) override;
 
     private:
         std::shared_ptr<AFTimerManager> mxTimerManager{ nullptr };

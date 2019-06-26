@@ -42,35 +42,37 @@ namespace ark
 
     bool AFCSceneProcessModule::PostInit()
     {
-        //Init scene container
-        ARK_SHARE_PTR<AFIMetaClass> pLogicClass = m_pClassModule->GetMetaClass("Scene");
-        if (nullptr == pLogicClass)
-        {
-            return false;
-        }
+        //TOOD:Will use the new design
 
-        AFList<std::string>& list = pLogicClass->GetConfigNameList();
-        for (auto iter : list)
-        {
-            int map_id = ARK_LEXICAL_CAST<int>(iter);
-            if (!LoadMapResource(map_id))
-            {
-                return false;
-            }
+        ////Init scene container
+        //ARK_SHARE_PTR<AFIMetaClass> pLogicClass = m_pClassModule->GetMetaClass("Scene");
+        //if (nullptr == pLogicClass)
+        //{
+        //    return false;
+        //}
 
-            m_pMapModule->CreateMap(map_id);
-        }
+        //AFList<std::string>& list = pLogicClass->GetConfigNameList();
+        //for (auto iter : list)
+        //{
+        //    int map_id = ARK_LEXICAL_CAST<int>(iter);
+        //    if (!LoadMapResource(map_id))
+        //    {
+        //        return false;
+        //    }
+
+        //    m_pMapModule->CreateMap(map_id);
+        //}
 
         return true;
     }
 
     bool AFCSceneProcessModule::CreateMapEntities(const int map_id, const int inst_id)
     {
-        auto pMapRes = map_res_.find_value(map_id);
-        if (pMapRes == nullptr)
-        {
-            return false;
-        }
+        //auto pMapRes = map_res_.find_value(map_id);
+        //if (pMapRes == nullptr)
+        //{
+        //    return false;
+        //}
 
         //for (auto iter : *pMapRes)
         //{
@@ -255,57 +257,57 @@ namespace ark
 
     bool AFCSceneProcessModule::LoadMapResource(const int map_id)
     {
-        const std::string strSceneFilePath(m_pConfigModule->GetNodeString(ARK_LEXICAL_CAST<std::string>(map_id), AFConfigMetaMap::map_info()));
+        //const std::string strSceneFilePath(m_pConfigModule->GetNodeString(ARK_LEXICAL_CAST<std::string>(map_id), AFConfigMetaMap::map_info()));
 
-        //场景对应资源
-        ARK_SHARE_PTR<AFMapEx<std::string, MapSeedResource>> pSceneResourceMap = map_res_.find_value(map_id);
+        ////场景对应资源
+        //ARK_SHARE_PTR<AFMapEx<std::string, MapSeedResource>> pSceneResourceMap = map_res_.find_value(map_id);
 
-        if (pSceneResourceMap == nullptr)
-        {
-            pSceneResourceMap = std::make_shared<AFMapEx<std::string, MapSeedResource>>();
-            map_res_.insert(map_id, pSceneResourceMap);
-        }
+        //if (pSceneResourceMap == nullptr)
+        //{
+        //    pSceneResourceMap = std::make_shared<AFMapEx<std::string, MapSeedResource>>();
+        //    map_res_.insert(map_id, pSceneResourceMap);
+        //}
 
-        if (strSceneFilePath.empty())
-        {
-            return false;
-        }
+        //if (strSceneFilePath.empty())
+        //{
+        //    return false;
+        //}
 
-        rapidxml::file<> xFileSource(strSceneFilePath.c_str());
-        rapidxml::xml_document<> xFileDoc;
-        xFileDoc.parse<0>(xFileSource.data());
+        //rapidxml::file<> xFileSource(strSceneFilePath.c_str());
+        //rapidxml::xml_document<> xFileDoc;
+        //xFileDoc.parse<0>(xFileSource.data());
 
-        //资源文件列表
-        rapidxml::xml_node<>* pSeedFileRoot = xFileDoc.first_node();
+        ////资源文件列表
+        //rapidxml::xml_node<>* pSeedFileRoot = xFileDoc.first_node();
 
-        for (rapidxml::xml_node<>* pSeedFileNode = pSeedFileRoot->first_node(); pSeedFileNode; pSeedFileNode = pSeedFileNode->next_sibling())
-        {
-            //种子具体信息
-            std::string strSeedID = pSeedFileNode->first_attribute("ID")->value();
-            std::string strConfigID = pSeedFileNode->first_attribute("NPCConfigID")->value();
-            float fSeedX = ARK_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedX")->value());
-            float fSeedY = ARK_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedY")->value());
-            float fSeedZ = ARK_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedZ")->value());
+        //for (rapidxml::xml_node<>* pSeedFileNode = pSeedFileRoot->first_node(); pSeedFileNode; pSeedFileNode = pSeedFileNode->next_sibling())
+        //{
+        //    //种子具体信息
+        //    std::string strSeedID = pSeedFileNode->first_attribute("ID")->value();
+        //    std::string strConfigID = pSeedFileNode->first_attribute("NPCConfigID")->value();
+        //    float fSeedX = ARK_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedX")->value());
+        //    float fSeedY = ARK_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedY")->value());
+        //    float fSeedZ = ARK_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedZ")->value());
 
-            if (!m_pConfigModule->ExistConfig(strConfigID))
-            {
-                ARK_ASSERT_NO_EFFECT(0);
-            }
+        //    if (!m_pConfigModule->ExistConfig(strConfigID))
+        //    {
+        //        ARK_ASSERT_NO_EFFECT(0);
+        //    }
 
-            ARK_SHARE_PTR<MapSeedResource> pSeedResource = pSceneResourceMap->find_value(strSeedID);
+        //    ARK_SHARE_PTR<MapSeedResource> pSeedResource = pSceneResourceMap->find_value(strSeedID);
 
-            if (nullptr == pSeedResource)
-            {
-                pSeedResource = std::make_shared<MapSeedResource>();
-                pSceneResourceMap->insert(strSeedID, pSeedResource);
-            }
+        //    if (nullptr == pSeedResource)
+        //    {
+        //        pSeedResource = std::make_shared<MapSeedResource>();
+        //        pSceneResourceMap->insert(strSeedID, pSeedResource);
+        //    }
 
-            pSeedResource->strSeedID = strSeedID;
-            pSeedResource->strConfigID = strConfigID;
-            pSeedResource->fSeedX = fSeedX;
-            pSeedResource->fSeedY = fSeedY;
-            pSeedResource->fSeedZ = fSeedZ;
-        }
+        //    pSeedResource->strSeedID = strSeedID;
+        //    pSeedResource->strConfigID = strConfigID;
+        //    pSeedResource->fSeedX = fSeedX;
+        //    pSeedResource->fSeedY = fSeedY;
+        //    pSeedResource->fSeedZ = fSeedZ;
+        //}
 
         return true;
     }

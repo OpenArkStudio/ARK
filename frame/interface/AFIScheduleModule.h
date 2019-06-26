@@ -60,7 +60,7 @@ namespace ark
         virtual bool RemoveSchedule(const int id) = 0;
 
     protected:
-        virtual bool AddSchedule(const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR_PTR cb) = 0;
+        virtual bool AddSchedule(const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR&& cb) = 0;
     };
 
 }

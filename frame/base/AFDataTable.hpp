@@ -116,7 +116,7 @@ namespace ark
         {
             //default insert row
             size_t col_num = GetColCount();
-            RowData* row_data = new RowData[col_num];
+            RowData* row_data = ARK_NEW_ARRAY(RowData, col_num);
 
             size_t nIndex = FindEmptyRow();
             mxRowDatas[nIndex] = row_data;
@@ -135,7 +135,7 @@ namespace ark
         bool AddRow(size_t row)
         {
             size_t col_num = GetColCount();
-            RowData* row_data = new RowData[col_num];
+            RowData* row_data = ARK_NEW_ARRAY(RowData, col_num);
 
             while (GetRowCount() <= row)
             {
@@ -171,7 +171,7 @@ namespace ark
                 return false;
             }
 
-            RowData* row_data = new RowData[col_num];
+            RowData* row_data = ARK_NEW_ARRAY(RowData, col_num);
             for (size_t i = 0; i < data.GetCount(); ++i)
             {
                 int type = GetColType(i);
@@ -852,9 +852,9 @@ namespace ark
             return true;
         }
 
-        bool RegisterCallback(const LITLE_DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
+        bool RegisterCallback(LITLE_DATA_TABLE_EVENT_FUNCTOR&& cb)
         {
-            mxTablecallbacks = cb;
+            mxTablecallbacks = std::forward<LITLE_DATA_TABLE_EVENT_FUNCTOR>(cb);
             return true;
         }
 
@@ -865,6 +865,8 @@ namespace ark
             {
                 row_data[i].Release();
             }
+
+            ARK_DELETE_ARRAY(RowData, row_data);
         }
 
         void ReleaseAll()
@@ -884,9 +886,9 @@ namespace ark
 
         void OnEventHandler(const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldData, const AFIData& newData)
         {
-            if (nullptr != mxTablecallbacks)
+            if (mxTablecallbacks)
             {
-                (*mxTablecallbacks)(xEventData, oldData, newData);
+                mxTablecallbacks(xEventData, oldData, newData);
             }
         }
 
@@ -895,7 +897,7 @@ namespace ark
         AFFeatureType feature;                          //DataTable feature
         AFArrayPod<int, 1, CoreAlloc> mxColTypes;       //DataTable column type array
         AFArrayPod<RowData*, 1, CoreAlloc> mxRowDatas;  //DataTable data array
-        LITLE_DATA_TABLE_EVENT_FUNCTOR_PTR mxTablecallbacks = nullptr;// callback
+        LITLE_DATA_TABLE_EVENT_FUNCTOR mxTablecallbacks;//callback
     };
 
 }

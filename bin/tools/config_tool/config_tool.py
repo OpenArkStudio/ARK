@@ -372,9 +372,9 @@ def write_meta_define_begin(res_path):
     with open(os.path.join(res_path, config_param.cpp_meta_file), 'w') as cpp_file:
         cpp_file.write(u'''/*
 * This source file is part of ARK
-* For the latest info, see https://github.com/QuadHex
+* For the latest info, see https://github.com/ArkNX
 *
-* Copyright (c) 2013-2019 QuadHex authors.
+* Copyright (c) 2013-2019 ArkNX authors.
 *
 * Licensed under the Apache License, Version 2.0 (the 'License');
 * you may not use this file except in compliance with the License.
@@ -400,9 +400,9 @@ namespace ark
     with open(os.path.join(res_path, config_param.cs_meta_file), 'w') as cs_file:
         cs_file.write(u'''/*
 * This source file is part of ARK
-* For the latest info, see https://github.com/QuadHex
+* For the latest info, see https://github.com/ArkNX
 *
-* Copyright (c) 2013-2019 QuadHex authors.
+* Copyright (c) 2013-2019 ArkNX authors.
 *
 * Licensed under the Apache License, Version 2.0 (the 'License');
 * you may not use this file except in compliance with the License.

@@ -32,11 +32,6 @@ namespace ark
         int32_t data_{ NULL_INT };
 
     public:
-        AFBoolData()
-        {
-            type_ = ArkDataType::DT_BOOLEAN;
-        }
-
         void Reset() override
         {
             data_ = NULL_BOOLEAN;
@@ -88,11 +83,6 @@ namespace ark
     class AFIntData : public AFINewData
     {
     public:
-        AFIntData()
-        {
-            type_ = ArkDataType::DT_INT32;
-        }
-
         void Reset() override
         {
             data_ = NULL_INT;
@@ -143,11 +133,6 @@ namespace ark
         uint32_t data_{ NULL_INT };
 
     public:
-        AFUIntData()
-        {
-            type_ = ArkDataType::DT_UINT32;
-        }
-
         void Reset() override
         {
             data_ = NULL_INT;
@@ -198,11 +183,6 @@ namespace ark
         int64_t data_{ NULL_INT64 };
 
     public:
-        AFInt64Data()
-        {
-            type_ = ArkDataType::DT_INT64;
-        }
-
         void Reset() override
         {
             data_ = NULL_INT64;
@@ -253,11 +233,6 @@ namespace ark
         uint64_t data_{ NULL_INT64 };
 
     public:
-        AFUIntData()
-        {
-            type_ = ArkDataType::DT_UINT64;
-        }
-
         void Reset() override
         {
             data_ = NULL_INT64;
@@ -308,11 +283,6 @@ namespace ark
         float data_{ NULL_FLOAT };
 
     public:
-        AFFloatData()
-        {
-            type_ = ArkDataType::DT_FLOAT;
-        }
-
         void Reset() override
         {
             data_ = NULL_FLOAT;
@@ -363,11 +333,6 @@ namespace ark
         double data_{ NULL_DOUBLE };
 
     public:
-        AFDoubleData()
-        {
-            type_ = ArkDataType::DT_DOUBLE;
-        }
-
         void Reset() override
         {
             data_ = NULL_DOUBLE;
@@ -418,11 +383,6 @@ namespace ark
         std::string data_{ NULL_STR };
 
     public:
-        AFStringData()
-        {
-            type_ = ArkDataType::DT_STRING;
-        }
-
         void Reset() override
         {
             data_ = NULL_STR;
@@ -473,11 +433,6 @@ namespace ark
         AFVector3D data_{ NULL_VECTOR3D };
 
     public:
-        AFVec3DData()
-        {
-            type_ = ArkDataType::DT_VECTOR3D;
-        }
-
         void Reset() override
         {
             data_ = NULL_VECTOR3D;
@@ -528,13 +483,6 @@ namespace ark
         AFPtrVector<AFINewData> vec_data_;
 
     public:
-        AFArrayData()
-        {
-            type_ = ArkDataType::DT_ARRAY;
-        }
-
-        ~AFArrayData() override = default;
-
         void Init(const AFIClassMeta* class_meta, const AFIDataMeta* data_meta) override
         {
             AFINewData::Init(class_meta, data_meta);
@@ -664,13 +612,6 @@ namespace ark
         AFNewHashmap<uint64_t, AFINewData> map_datas_;
 
     public:
-        AFTableData()
-        {
-            type_ = ArkDataType::DT_TABLE;
-        }
-
-        ~AFTableData() override = default;
-
         void Reset() override
         {
             map_datas_.clear();
@@ -837,13 +778,6 @@ namespace ark
         AFNewHashmap<std::string, AFINewData> map_datas_;
 
     public:
-        AFObjectData()
-        {
-            type_ = ArkDataType::DT_OBJECT;
-        }
-
-        ~AFObjectData() override = default;
-
         void Reset() override
         {
             key_ = NULL_INT64;
@@ -876,92 +810,165 @@ namespace ark
 
         AFINewData* GetData(const std::string& data_name) override
         {
-            //
+            return map_datas_.find_value(data_name);
         }
 
         AFINewData* GetData(const std::string& data_name, uint64_t key) override
         {
-            //
+            auto data = GetData(data_name);
+            if (data == nullptr)
+            {
+                return nullptr;
+            }
+
+            return data->GetData(key);
         }
 
         AFINewData* GetData(const std::string& parent_data_name, const std::string& child_data_name) override
         {
-            //
+            if (parent_data_name.empty())
+            {
+                return GetData(child_data_name);
+            }
+
+            auto data = GetData(parent_data_name);
+            if (data == nullptr)
+            {
+                return nullptr;
+            }
+
+            return data->GetData(child_data_name);
         }
 
         AFINewData* GetData(const std::string& parent_data_name, uint64_t key, const std::string& child_data_name) override
         {
-            //
+            auto data = GetData(parent_data_name);
+            if (data == nullptr)
+            {
+                return nullptr;
+            }
+
+            return data->GetData(key, child_data_name);
         }
 
         AFINewData* GetData(const std::string& parent_data_name, const std::string& child_data_name, uint64_t key) override
         {
+            auto data = GetData(parent_data_name);
+            if (data == nullptr)
+            {
+                return nullptr;
+            }
 
+            return data->GetData(child_data_name, key);
         }
 
         AFINewData* GetData(const std::string& parent_data_name, const std::string& child_data_name, const std::string& data_name) override
         {
-            //
+            auto data = GetData(parent_data_name);
+            if (data == nullptr)
+            {
+                return nullptr;
+            }
+
+            return data->GetData(child_data_name, data_name);
         }
 
         bool AddData(const std::string& data_name, AFINewData* data) override
         {
-            //
+            data->SetParent(this);
+            return map_datas_.insert(data_name, data).second;
         }
 
         bool AddData(const std::string& data_name, uint64_t key, AFINewData* data) override
         {
-            //
+            auto data = GetData(data_name);
+            if (data == nullptr)
+            {
+                return false;
+            }
+
+            return AddData(key, data);
         }
 
         bool AddData(const std::string& parent_data_name, const std::string& child_data_name, AFINewData* data) override
         {
-            //
+            auto data = GetData(data_name);
+            if (data == nullptr)
+            {
+                return false;
+            }
+
+            return AddData(child_data_name, data);
         }
 
         bool RemoveData(const std::stirng& data_name) override
         {
-            //
+            return map_datas_.erase(data_name);
         }
 
         bool RemoveData(const std::stirng& data_name, uint64_t key) override
         {
-            //
+            auto data = GetData(data_name);
+            if (data == nullptr)
+            {
+                return false;
+            }
+
+            return data->RemoveData(key);
         }
 
         bool RemoveData(const std::stirng& data_name, const std::string& child_data_name) override
         {
-            //
+            auto data = GetData(data_name);
+            if (data == nullptr)
+            {
+                return false;
+            }
+
+            return data->RemoveData(child_data_name);
         }
 
         void CopyFrom(AFINewData* other) override
         {
-            //
+            SetKeyID(other->GetKeyID());
+
+
+            for (auto iter : map_datas_)
+            {
+                auto& key = iter.first;
+                auto data = iter.second;
+                auto find_data = other->GetData(key);
+                if (find_data != nullptr)
+                {
+                    data->CopyFrom(find_data);
+                }
+            }
         }
 
         void SaveTo(AFINewData* other)
         {
-            //
+            other->CopyFrom(this);
         }
 
         std::string ToString() override
         {
-            //
+            //Unused right now
+            return NULL_STR;
         }
 
         void FromString(const std::string& value) override
         {
-            //
+            //Unused right now
         }
 
         void ToMap(StringMap& value) override
         {
-            //
+            //Unused right now
         }
 
         void FromMap(const StringMap& value) override
         {
-            //
+            //Unused right now
         }
     };
 

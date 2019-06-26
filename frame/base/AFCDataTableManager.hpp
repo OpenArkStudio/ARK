@@ -69,7 +69,7 @@ namespace ark
             pTable->SetColCount(col_type_list.GetCount());
 
             LITLE_DATA_TABLE_EVENT_FUNCTOR functor = std::bind(&AFCDataTableManager::OnEventHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-            pTable->RegisterCallback(std::make_shared<LITLE_DATA_TABLE_EVENT_FUNCTOR>(functor));
+            pTable->RegisterCallback(std::move(functor));
             for (size_t i = 0; i < col_type_list.GetCount(); ++i)
             {
                 pTable->SetColType(i, col_type_list.GetType(i));
@@ -79,9 +79,9 @@ namespace ark
             return AddTableInternal(pTable);
         }
 
-        bool RegisterCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) override
+        bool RegisterCallback(DATA_TABLE_EVENT_FUNCTOR&& cb) override
         {
-            mxTablecallbacks.push_back(cb);
+            mxTablecallbacks.push_back(std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
             return true;
         }
 
@@ -188,9 +188,9 @@ namespace ark
 
         int OnEventHandler(const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldData, const AFIData& newData)
         {
-            for (auto& iter : mxTablecallbacks)
+            for (auto& cb : mxTablecallbacks)
             {
-                (*iter)(self, xEventData, oldData, newData);
+                cb(self, xEventData, oldData, newData);
             }
 
             return 0;
@@ -201,7 +201,7 @@ namespace ark
             assert(pTable != nullptr);
 
             LITLE_DATA_TABLE_EVENT_FUNCTOR functor = std::bind(&AFCDataTableManager::OnEventHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-            pTable->RegisterCallback(std::make_shared<LITLE_DATA_TABLE_EVENT_FUNCTOR>(functor));
+            pTable->RegisterCallback(std::move(functor));
 
             return mxTables.AddElement(pTable->GetName(), pTable);
         }
@@ -221,7 +221,7 @@ namespace ark
         AFGUID self;
 
         AFArrayMap<std::string, AFDataTable> mxTables;
-        std::vector<DATA_TABLE_EVENT_FUNCTOR_PTR> mxTablecallbacks;
+        std::vector<DATA_TABLE_EVENT_FUNCTOR> mxTablecallbacks;
 
     };
 

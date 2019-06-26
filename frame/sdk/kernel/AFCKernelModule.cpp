@@ -647,48 +647,48 @@ namespace ark
         return true;
     }
 
-    bool AFCKernelModule::RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb)
+    bool AFCKernelModule::RegCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb)
     {
         auto all_classes = m_pClassModule->GetAllMetaClass();
         for (auto iter : all_classes)
         {
-            AddClassCallBack(iter.second->GetClassName(), cb);
+            AddClassCallBack(iter.second->GetClassName(), std::forward<CLASS_EVENT_FUNCTOR>(cb));
         }
 
         return true;
     }
 
-    bool AFCKernelModule::RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
+    bool AFCKernelModule::RegCommonDataNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb)
     {
         auto all_classes = m_pClassModule->GetAllMetaClass();
         for (auto iter : all_classes)
         {
-            iter.second->AddCommonNodeCallback(cb);
+            iter.second->AddCommonNodeCallback(std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
         }
 
         return true;
     }
 
-    bool AFCKernelModule::RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
+    bool AFCKernelModule::RegCommonDataTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb)
     {
         auto all_classes = m_pClassModule->GetAllMetaClass();
         for (auto iter : all_classes)
         {
-            iter.second->AddCommonTableCallback(cb);
+            iter.second->AddCommonTableCallback(std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
         }
 
         return true;
     }
 
-    bool AFCKernelModule::AddEventCallBack(const AFGUID& self, const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb)
+    bool AFCKernelModule::AddEventCallBack(const AFGUID& self, const int nEventID, EVENT_PROCESS_FUNCTOR&& cb)
     {
         ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-        return ((pEntity != nullptr) ? pEntity->GetEventManager()->AddEventCallBack(nEventID, cb) : false);
+        return ((pEntity != nullptr) ? pEntity->GetEventManager()->AddEventCallBack(nEventID, std::forward<EVENT_PROCESS_FUNCTOR>(cb)) : false);
     }
 
-    bool AFCKernelModule::AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR& cb)
+    bool AFCKernelModule::AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb)
     {
-        return m_pClassModule->AddClassCallBack(class_name, cb);
+        return m_pClassModule->AddClassCallBack(class_name, std::forward<CLASS_EVENT_FUNCTOR>(cb));
     }
 
     bool AFCKernelModule::DoEvent(const AFGUID& self, const std::string& class_name, ArkEntityEvent class_event, const AFIDataList& args)

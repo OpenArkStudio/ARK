@@ -33,14 +33,14 @@ namespace ark
         bool AddEventCallBack(const AFGUID& self, const int nEventID, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const int, const AFIDataList&))
         {
             EVENT_PROCESS_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-            return AddEventCallBack(self, nEventID, std::make_shared<EVENT_PROCESS_FUNCTOR>(functor));
+            return AddEventCallBack(self, nEventID, std::move(functor));
         }
 
         template<typename BaseType>
         bool AddClassCallBack(const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
         {
             CLASS_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-            return AddClassCallBack(name, std::make_shared<CLASS_EVENT_FUNCTOR>(functor));
+            return AddClassCallBack(name, std::move(functor));
         }
 
         virtual bool DoEvent(const AFGUID& self, const std::string& name, ArkEntityEvent eEvent, const AFIDataList& valueList) = 0;
@@ -51,21 +51,21 @@ namespace ark
         bool RegCommonClassEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
         {
             CLASS_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-            return RegCommonClassEvent(std::make_shared<CLASS_EVENT_FUNCTOR>(functor));
+            return RegCommonClassEvent(std::move(functor));
         }
 
         template<typename BaseType>
         bool RegCommonDataNodeEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
         {
             DATA_NODE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-            return RegCommonDataNodeEvent(std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
+            return RegCommonDataNodeEvent(std::move(functor));
         }
 
         template<typename BaseType>
         bool RegCommonDataTableEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
         {
             DATA_TABLE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-            return RegCommonDataTableEvent(std::make_shared<DATA_TABLE_EVENT_FUNCTOR>(functor));
+            return RegCommonDataTableEvent(std::move(functor));
         }
         /////////////////////////////////////////////////////////////////
         virtual ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& self) = 0;
@@ -111,12 +111,12 @@ namespace ark
         virtual bool LogInfo(const AFGUID& ident) = 0;
 
     protected:
-        virtual bool AddEventCallBack(const AFGUID& self, const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb) = 0;
-        virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
+        virtual bool AddEventCallBack(const AFGUID& self, const int nEventID, EVENT_PROCESS_FUNCTOR&& cb) = 0;
+        virtual bool AddClassCallBack(const std::string& strClassName, CLASS_EVENT_FUNCTOR&& cb) = 0;
 
-        virtual bool RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
-        virtual bool RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
-        virtual bool RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
+        virtual bool RegCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb) = 0;
+        virtual bool RegCommonDataNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb) = 0;
+        virtual bool RegCommonDataTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb) = 0;
     };
 
 }
