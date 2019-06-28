@@ -46,9 +46,6 @@ namespace ark
 
         void Register(AFIPlugin* pPlugin) override;
         void Deregister(AFIPlugin* pPlugin) override;
-
-        //bool StartReLoadState() override;
-        //bool EndReLoadState() override;
         //////////////////////////////////////////////////////////////////////////
 
         AFIPlugin* FindPlugin(const std::string& plugin_name) override;

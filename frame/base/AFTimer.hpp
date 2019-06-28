@@ -46,19 +46,19 @@ namespace ark
             memset(name, 0x0, sizeof(name));
         }
 
-        char name[16];
-        uint32_t type = 0;
-        uint32_t count = 0;
-        uint32_t interval = 0;
-        uint32_t rotation = 0;
-        uint32_t slot = 0;
+        char name[16] { 0 };
+        uint32_t type{ 0 };
+        uint32_t count{ 0 };
+        uint32_t interval{ 0 };
+        uint32_t rotation{ 0 };
+        uint32_t slot{ 0 };
         TIMER_FUNCTOR callback;
 
         //callback data
-        AFGUID entity_id = 0;
+        AFGUID entity_id{ 0 };
 
-        AFTimerData* prev = nullptr;
-        AFTimerData* next = nullptr;
+        AFTimerData* prev{ nullptr };
+        AFTimerData* next{ nullptr };
     };
 
     class AFTimerManager : public AFSingleton<AFTimerManager>
@@ -105,7 +105,11 @@ namespace ark
         bool AddForverTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, TIMER_FUNCTOR&& callback)
         {
             AFTimerData* data = ARK_NEW AFTimerData();
-            memset(data, 0, sizeof(AFTimerData));
+            if (data == nullptr)
+            {
+                return false;
+            }
+
             ARK_STRNCPY(data->name, name.c_str(), (name.length() > 16) ? 16 : name.length());
             data->type = TIMER_TYPE_FOREVER;
             data->interval = interval_time;
@@ -118,7 +122,11 @@ namespace ark
         bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, uint32_t count, TIMER_FUNCTOR&& callback)
         {
             AFTimerData* data = ARK_NEW AFTimerData();
-            memset(data, 0, sizeof(AFTimerData));
+            if (data == nullptr)
+            {
+                return false;
+            }
+
             ARK_STRNCPY(data->name, name.c_str(), (name.length() > 16) ? 16 : name.length());
             data->type = TIMER_TYPE_COUNT_LIMIT;
             data->count = std::max((uint32_t)1, count);

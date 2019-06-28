@@ -55,24 +55,11 @@ namespace ark
     MAKE_BUILDIN_TYPE(int16_t)
     MAKE_BUILDIN_TYPE(int32_t)
     MAKE_BUILDIN_TYPE(int64_t)
-    //MAKE_BUILDIN_TYPE(AFGUID)
 
     //////////////////////////////////////////////////////////////////////////
 
     template<typename T, typename NODE>
     class AFArrayMap {};
-
-    //partial template specialization for T=BUILD-IN types
-    //build-in type is defined above
-    //template<typename T, typename NODE>
-    //class AFArrayMap<T, NODE>
-    //{
-    //public:
-    //protected:
-    //private:
-    //    ArrayPod<NODE*, 1, CoreAlloc> mxNodes;
-    //    //StringPod<char, size_t, StringTraits<char>> mxIndices;
-    //};
 
     //partial template specialization for KEY=std::string
     template<typename NODE>
