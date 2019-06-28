@@ -76,15 +76,14 @@ namespace ark
                 //set session ud
                 httpSession->setUD(cur_session_id);
 
-                //create session and operate data
-                do
+                //create session and net event
                 {
                     AFScopeWLock guard(this->rw_lock_);
 
                     AFHttpSessionPtr session_ptr = ARK_NEW AFHttpSession(len, cur_session_id, httpSession);
                     this->client_session_ptr_.reset(session_ptr);
                     session_ptr->AddNetEvent(net_event_ptr);
-                } while (false);
+                }
             });
 
             httpSession->setWSCallback([this](const brynet::net::http::HttpSession::Ptr & httpSession,
@@ -94,12 +93,12 @@ namespace ark
                 const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
                 int64_t session_id = *ud;
 
-                do
+                //Scope lock
                 {
                     AFScopeRLock xGuard(this->rw_lock_);
                     this->client_session_ptr_->AddBuffer(payload.c_str(), payload.size());
                     this->client_session_ptr_->ParseBufferToMsg();
-                } while (false);
+                }
             });
 
             httpSession->setClosedCallback([this, &ip](const brynet::net::http::HttpSession::Ptr & httpSession)
@@ -114,12 +113,12 @@ namespace ark
                 net_event_ptr->bus_id_ = this->dst_bus_id_;
                 net_event_ptr->ip_ = ip;
 
-                do
+                //Scope lock
                 {
                     AFScopeWLock xGuard(this->rw_lock_);
                     this->client_session_ptr_->AddNetEvent(net_event_ptr);
                     this->client_session_ptr_->SetNeedRemove(true);
-                } while (false);
+                }
 
             });
         };

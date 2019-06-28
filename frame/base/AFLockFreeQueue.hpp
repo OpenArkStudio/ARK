@@ -21,7 +21,7 @@
 #pragma once
 
 #include "AFPlatform.hpp"
-#include "readerwriterqueue.h"
+#include "common/readerwriterqueue.h"
 
 namespace ark
 {
