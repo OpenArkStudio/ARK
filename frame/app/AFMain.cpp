@@ -176,7 +176,6 @@ int realloc_environ()
     int var_count = 0;
     int env_size = 0;
 
-    do
     {
         char** ep = environ;
 
@@ -186,14 +185,13 @@ int realloc_environ()
             ++var_count;
             ++ep;
         }
-    } while (false);
+    }
 
     char* new_env_buf = new char[env_size];
     std::memcpy((void*)new_env_buf, (void*)*environ, env_size);
 
     char** new_env = new char* [var_count + 1];
 
-    do
     {
         int var = 0;
         int offset = 0;
@@ -205,7 +203,7 @@ int realloc_environ()
             offset += std::strlen(*ep) + 1;
             ++ep;
         }
-    } while (false);
+    }
 
     new_env[var_count] = 0;
 
@@ -327,7 +325,7 @@ bool ParseArgs(int argc, char* argv[])
 #if ARK_PLATFORM == PLATFORM_WIN
         SetConsoleTitle(process_name.c_str());
 #elif ARK_PLATFORM == PLATFORM_UNIX
-        //setproctitle(process_name.c_str(), argc, argv);
+        //Do not need change the process name
 #endif
     }
     else

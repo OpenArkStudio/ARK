@@ -177,7 +177,7 @@ namespace ark
     void AFCWebSocktServer::UpdateNetSession()
     {
         std::list<AFGUID> remove_sessions;
-        do
+
         {
             AFScopeRLock guard(rw_lock_);
             for (auto& iter : sessions_)
@@ -198,7 +198,7 @@ namespace ark
 
                 remove_sessions.push_back(session->GetSessionId());
             }
-        } while (false);
+        }
 
         for (auto iter : remove_sessions)
         {

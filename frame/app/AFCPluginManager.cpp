@@ -409,26 +409,4 @@ namespace ark
         plugin_libs_.erase(plugin_name);
         return true;
     }
-
-    //bool AFCPluginManager::StartReLoadState()
-    //{
-    //    AFIModule::StartReLoadState();
-
-    //    for (AFIPlugin* pPlugin = plugin_instances_.First(); pPlugin != nullptr; pPlugin = plugin_instances_.Next())
-    //    {
-    //        pPlugin->StartReLoadState();
-    //    }
-
-    //    return true;
-    //}
-
-    //bool AFCPluginManager::EndReLoadState()
-    //{
-    //    for (AFIPlugin* pPlugin = plugin_instances_.First(); pPlugin != nullptr; pPlugin = plugin_instances_.Next())
-    //    {
-    //        pPlugin->EndReLoadState();
-    //    }
-
-    //    return AFIModule::EndReLoadState();
-    //}
 }

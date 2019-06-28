@@ -147,7 +147,6 @@ namespace ark
     {
         std::list<int64_t> remove_sessions;
 
-        do
         {
             AFScopeRLock guard(rw_lock_);
             for (auto& iter : sessions_)
@@ -168,7 +167,7 @@ namespace ark
 
                 remove_sessions.emplace_back(session->GetSessionId());
             }
-        } while (false);
+        }
 
         for (auto& iter : remove_sessions)
         {

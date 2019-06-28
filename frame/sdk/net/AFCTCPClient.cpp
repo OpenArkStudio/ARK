@@ -185,12 +185,11 @@ namespace ark
 
     void AFCTCPClient::UpdateNetSession()
     {
-        do
         {
             AFScopeRLock guard(rw_lock_);
             UpdateNetEvent(client_session_ptr_.get());
             UpdateNetMsg(client_session_ptr_.get());
-        } while (false);
+        }
 
         if (client_session_ptr_ != nullptr && client_session_ptr_->NeedRemove())
         {
