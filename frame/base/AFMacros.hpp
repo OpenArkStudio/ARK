@@ -237,7 +237,7 @@ typedef struct HINSTANCE__* hInstance;
 template< typename TD>
 using ARK_SHARE_PTR = boost::shared_ptr<TD>;
 #else
-#  include "base/lexical_cast.hpp"
+#  include "common/lexical_cast.hpp"
 #  define ARK_LEXICAL_CAST lexical_cast
 template< typename TD>
 using ARK_SHARE_PTR = std::shared_ptr<TD>;

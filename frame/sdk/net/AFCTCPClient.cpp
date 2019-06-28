@@ -67,14 +67,14 @@ namespace ark
             net_connect_event->ip_ = session->getIP();
 
             //create session and operate data
-            do
+            //scope lock
             {
                 AFScopeWLock guard(this->rw_lock_);
 
                 AFTCPSessionPtr session_ptr = ARK_NEW AFTCPSession(head_len, cur_session_id, session);
                 this->client_session_ptr_.reset(session_ptr);
                 session_ptr->AddNetEvent(net_connect_event);
-            } while (false);
+            }
 
             //data cb
             session->setDataCallback([this, session](const char* buffer, size_t len)
@@ -82,12 +82,12 @@ namespace ark
                 const auto ud = brynet::net::cast<int64_t>(session->getUD());
                 int64_t session_id = *ud;
 
-                do
+                //scope lock
                 {
                     AFScopeRLock guard(this->rw_lock_);
                     this->client_session_ptr_->AddBuffer(buffer, len);
                     this->client_session_ptr_->ParseBufferToMsg();
-                } while (false);
+                }
 
                 return len;
             });
@@ -105,12 +105,12 @@ namespace ark
                 net_disconnect_event->bus_id_ = this->dst_bus_id_;
                 net_disconnect_event->ip_ = session->getIP();
 
-                do
+                //scope lock
                 {
                     AFScopeWLock guard(this->rw_lock_);
                     this->client_session_ptr_->AddNetEvent(net_disconnect_event);
                     this->client_session_ptr_->SetNeedRemove(true);
-                } while (false);
+                }
             });
         };
 

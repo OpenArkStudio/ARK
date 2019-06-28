@@ -28,6 +28,7 @@
 #include <brynet/net/Wrapper.h>
 
 #include "base/AFMacros.hpp"
+#include "base/AFNoncopyable.hpp"
 #include "base/AFBuffer.hpp"
 #include "base/AFRWLock.hpp"
 #include "base/AFLockFreeQueue.hpp"
@@ -37,7 +38,7 @@ namespace ark
 {
 
     template <typename SessionPTR>
-    class AFNetSession
+    class AFNetSession : public AFNoncopyable
     {
     public:
         AFNetSession(AFHeadLength head_len, int64_t session_id, const SessionPTR session) :

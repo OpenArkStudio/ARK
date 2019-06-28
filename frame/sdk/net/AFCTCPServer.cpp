@@ -67,7 +67,7 @@ namespace ark
             net_connect_event->bus_id_ = this->bus_id_;
             net_connect_event->ip_ = session->getIP();
 
-            do
+            //scope lock
             {
                 AFScopeWLock guard(this->rw_lock_);
                 AFTCPSessionPtr session_ptr = ARK_NEW AFTCPSession(head_len, cur_session_id, session);
@@ -75,7 +75,7 @@ namespace ark
                 {
                     session_ptr->AddNetEvent(net_connect_event);
                 }
-            } while (false);
+            }
 
             session->setDataCallback([this, session](const char* buffer, size_t len)
             {
@@ -276,7 +276,7 @@ namespace ark
         }
         else
         {
-            return true;
+            return false;
         }
     }
 

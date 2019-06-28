@@ -22,6 +22,7 @@
 
 #include "AFPlatform.hpp"
 #include "AFMacros.hpp"
+#include "AFNoncopyable.hpp"
 
 #pragma pack(push, 1)
 
@@ -68,14 +69,9 @@ namespace ark
         int32_t dst_bus_{ 0 };  //Destination bus id
     };
 
-    class AFNetMsg : public AFSSMsgHead
+    class AFNetMsg : public AFSSMsgHead, public AFNoncopyable
     {
     public:
-        AFNetMsg() = default;
-        ~AFNetMsg()
-        {
-        }
-
         static AFNetMsg* AllocMsg(uint32_t len)
         {
             AFNetMsg* msg = ARK_NEW AFNetMsg();
