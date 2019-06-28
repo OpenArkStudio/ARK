@@ -46,7 +46,6 @@ namespace ark
 
         void Register(AFIPlugin* pPlugin) override;
         void Deregister(AFIPlugin* pPlugin) override;
-
         //////////////////////////////////////////////////////////////////////////
 
         AFIPlugin* FindPlugin(const std::string& plugin_name) override;

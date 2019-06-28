@@ -100,11 +100,7 @@ namespace ark
 
     bool AFCMsgModule::SendSSMsgByRouter(const AFSSMsgHead& head)
     {
-        AFBusAddr src_bus(head.src_bus_);
-        AFBusAddr dst_bus(head.dst_bus_);
-
-        //TODO:分发给router
-
+        //TODO: will add later
         return true;
     }
 
