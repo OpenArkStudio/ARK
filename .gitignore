@@ -43,3 +43,9 @@ temp
 *.vscode
 .DS_Store
 *.pyc
+*.pb.cc
+*.pb.h
+*.cs
+*.js
+*.exp
+build

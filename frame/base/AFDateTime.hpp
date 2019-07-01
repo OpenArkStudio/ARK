@@ -4,7 +4,7 @@
 *
 * Copyright (c) 2013-2019 ArkNX authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License");
+* Licensed under the Apache License, Version 2.0 (the "License").
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -488,31 +488,43 @@ namespace ark
         }
 
         //Returns utc tm data
-        struct tm* GetUTCTime() const
+        std::tm GetUTCTime() const
         {
+            std::tm tm;
             time_t time = GetTime();
-            return std::gmtime(&time);
+#if ARK_PLATFORM == PLATFORM_WIN
+            gmtime_s(&tm, &time);
+#else
+            gmtime_r(&time, &tm);
+#endif
+            return tm;
         }
 
         //Return local tm data
-        struct tm* GetLocalTime() const
+        std::tm GetLocalTime() const
         {
             time_t time = GetTime();
-            return std::localtime(&time);
+            std::tm tm;
+#if ARK_PLATFORM == PLATFORM_WIN
+            localtime_s(&tm, &time);
+#else
+            localtime_r(&time, &tm);
+#endif
+            return tm;
         }
 
         //Returns the year.
         int GetYear() const
         {
-            struct tm* ptm = GetUTCTime();
-            return ptm->tm_year + 1900;
+            std::tm tm = GetUTCTime();
+            return tm.tm_year + 1900;
         }
 
         //Returns the month (1 to 12).
         int GetMonth() const
         {
-            struct tm* ptm = GetUTCTime();
-            return ptm->tm_mon + 1;
+            std::tm tm = GetUTCTime();
+            return tm.tm_mon + 1;
         }
 
         int GetWeekOfYear(int firstDayOfWeek = MONDAY) const
@@ -542,23 +554,22 @@ namespace ark
         //Returns the day within the month (1 to 31).
         int GetDay(bool is_monday_first_day = true) const
         {
-            struct tm* ptm = GetUTCTime();
-            return ptm->tm_mday;
+            std::tm tm = GetUTCTime();
+            return tm.tm_mday;
         }
 
         //Returns the weekday (0 to 6, where
         //0 = Sunday, 1 = Monday, ..., 6 = Saturday).
         int GetDayOfWeek(int firstDayOfWeek = MONDAY) const
         {
-            struct tm* ptm = GetUTCTime();
-
+            std::tm tm = GetUTCTime();
             if (firstDayOfWeek == MONDAY)
             {
-                return ((ptm->tm_wday == 0) ? 7 : ptm->tm_wday);
+                return ((tm.tm_wday == 0) ? 7 : tm.tm_wday);
             }
             else
             {
-                return ptm->tm_wday;
+                return tm.tm_wday;
             }
         }
 
@@ -566,15 +577,15 @@ namespace ark
         //January 1 is 1, February 1 is 32, etc.
         int GetDayOfYear() const
         {
-            struct tm* ptm = GetUTCTime();
-            return ptm->tm_yday;
+            std::tm tm = GetUTCTime();
+            return tm.tm_yday;
         }
 
         //Returns the hour (0 to 23).
         int GetHour() const
         {
-            struct tm* ptm = GetUTCTime();
-            return ptm->tm_hour;
+            std::tm tm = GetUTCTime();
+            return tm.tm_hour;
         }
 
         //Returns the hour (0 to 12).
@@ -583,11 +594,17 @@ namespace ark
             int hour = GetHour();
 
             if (hour < 1)
+            {
                 return 12;
+            }
             else if (hour > 12)
+            {
                 return hour - 12;
+            }
             else
+            {
                 return hour;
+            }
         }
 
         //Returns true if hour < 12;
@@ -605,15 +622,15 @@ namespace ark
         /// Returns the minute (0 to 59).
         int GetMinute() const
         {
-            struct tm* ptm = GetUTCTime();
-            return ptm->tm_min;
+            std::tm tm = GetUTCTime();
+            return tm.tm_min;
         }
 
         //Returns the second (0 to 59).
         int GetSecond() const
         {
-            struct tm* ptm = GetUTCTime();
-            return ptm->tm_sec;
+            std::tm tm = GetUTCTime();
+            return tm.tm_sec;
         }
 
         bool IsLeapYear() const
@@ -680,9 +697,9 @@ namespace ark
 
         std::string ToString()
         {
-            struct tm* ptm = GetLocalTime(); //local time
+            std::tm tm = GetLocalTime(); //local time
             static char timeBuff[30] = { 0 };
-            std::strftime(timeBuff, sizeof(timeBuff), "%Y/%m/%d %H:%M:%S", ptm);
+            std::strftime(timeBuff, sizeof(timeBuff), "%Y/%m/%d %H:%M:%S", &tm);
             return std::string(timeBuff);
         }
 

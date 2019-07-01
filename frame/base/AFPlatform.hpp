@@ -4,7 +4,7 @@
 *
 * Copyright (c) 2013-2019 ArkNX authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License");
+* Licensed under the Apache License, Version 2.0 (the "License").
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -59,12 +59,12 @@
 #include <ctime>
 #include <bitset>
 #include <regex>
+#include <time.h>
 
 #define NOMINMAX
 #if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64)
 // only windows include
 #include <io.h>
-#include <time.h>
 #ifndef WIN32_LEAN_AND_MEAN
 #include <WinSock2.h>
 #include <MSWSock.h>
