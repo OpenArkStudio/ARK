@@ -69,7 +69,7 @@ namespace ark
 #endif
         sinks_vec.push_back(date_and_hour_sink);
 
-        tp_ = std::make_shared<spdlog::details::thread_pool>(1024, 1);
+        tp_ = std::make_shared<spdlog::details::thread_pool>(8192, 1);
         logger_ = std::make_shared<spdlog::async_logger>(pPluginManager->AppName(), std::begin(sinks_vec), std::end(sinks_vec), tp_);
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
@@ -77,6 +77,7 @@ namespace ark
         logger_->set_pattern("%^[%Y%m%d %H:%M:%S.%e][%l]%v%$");
 #else
         logger_->set_pattern("[%Y%m%d %H:%M:%S.%e][%l]%v");
+        //logger_->set_pattern("%v");
 #endif
         //flush when level >= trace
         logger_->flush_on(spdlog::level::trace);

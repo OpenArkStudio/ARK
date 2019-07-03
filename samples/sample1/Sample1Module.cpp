@@ -33,15 +33,13 @@ namespace ark
 
     bool Sample1Module::Init()
     {
-        std::cout << typeid(Sample1Module).name() << ", Init" << std::endl;
-
         m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
         m_pLogModule = pPluginManager->FindModule<AFILogModule>();
         m_pGUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
         m_pDynamicLogModule = pPluginManager->FindModule<AFIDynamicLogModule>();
         //m_pScheduleModule = pPluginManager->FindModule<AFIScheduleModule>();
 
-        ARK_LOG_INFO("xxxxxxxxx");
+        ARK_LOG_INFO("{}, init", typeid(Sample1Module).name());
 
         return true;
     }
@@ -162,7 +160,7 @@ namespace ark
 
     bool Sample1Module::PostInit()
     {
-        std::cout << typeid(Sample1Module).name() << ", PostInit" << std::endl;
+        ARK_LOG_INFO("{}, PostInit", typeid(Sample1Module).name());
 
         TestCRC();
         TestConsistentHashmap();
@@ -213,33 +211,31 @@ namespace ark
 
     bool Sample1Module::Update()
     {
-        //m_pTimerModule->Update();
         return true;
     }
 
     bool Sample1Module::PreShut()
     {
-        std::cout << typeid(Sample1Module).name() << ", PreShut" << std::endl;
+        ARK_LOG_INFO("{}, PreShut", typeid(Sample1Module).name());
         return true;
     }
 
     bool Sample1Module::Shut()
     {
-        std::cout << typeid(Sample1Module).name() << ", Shut" << std::endl;
+        ARK_LOG_INFO("{}, Shut", typeid(Sample1Module).name());
         return true;
     }
 
     void Sample1Module::TestTimer(const std::string& name, const AFGUID& entity_id)
     {
-        std::cout << AFDateTime::GetNowTime() << std::endl;
-        std::cout << "Test Timer: " << name << " id = " << entity_id << std::endl;
+        ARK_LOG_INFO("NowTime={} Test Timer: {} id={}", AFDateTime::GetNowTime(), name, entity_id);
     }
 
-    bool Sample1Module::TestSchduler(const int id, const int arg)
-    {
-        std::cout << pPluginManager->GetNowTime() << std::endl;
-        std::cout << "Test Scheduler: id = " << id << ", arg = " << arg << std::endl;
-        return true;
-    }
+    //bool Sample1Module::TestSchduler(const int id, const int arg)
+    //{
+    //    std::cout << pPluginManager->GetNowTime() << std::endl;
+    //    std::cout << "Test Scheduler: id = " << id << ", arg = " << arg << std::endl;
+    //    return true;
+    //}
 
 }

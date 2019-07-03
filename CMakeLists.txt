@@ -1,13 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
 
-#---------------------------------------------------------------------------------------
-# Start ARK project
-#---------------------------------------------------------------------------------------
-include(cmake/utils.cmake)
-ark_extract_version()
-
-project(ark VERSION ${ARK_VERSION} LANGUAGES CXX)
-message(STATUS "Build ark: ${ARK_VERSION}")
 
 #---------------------------------------------------------------------------------------
 # Set default build to release
@@ -31,7 +23,20 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 #---------------------------------------------------------------------------------------
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-########################################################################
+#---------------------------------------------------------------------------------------
+# Self defined postfix
+#---------------------------------------------------------------------------------------
+set(CMAKE_DEBUG_POSTFIX "_d" CACHE STRING "Set debug library postfix")
+
+#---------------------------------------------------------------------------------------
+# ARK project
+#---------------------------------------------------------------------------------------
+include(cmake/utils.cmake)
+ark_extract_version()
+
+project(ark VERSION ${ARK_VERSION} LANGUAGES CXX)
+message(STATUS "Build ark: ${ARK_VERSION}")
+
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
 
 include_directories(
@@ -40,9 +45,7 @@ include_directories(
     ${ROOT_DIR}/dep/protobuf/src
     ${ROOT_DIR}/dep/brynet/src
     ${ROOT_DIR}/dep/spdlog/include
-    ${ROOT_DIR}/frame
-    ${ROOT_DIR}/frame/base
-)
+    ${ROOT_DIR}/src)
 
 if(UNIX)
     #linux
@@ -56,8 +59,8 @@ if(UNIX)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DNDEBUG")
     endif()
     set(LDFLAGS "$ENV{LDFLAGS} -stdlib=libc++")
-    set(DEP_LIB_DIR ${ROOT_DIR}/dep/lib/ ${ROOT_DIR}/bin/lib/)
-    set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/bin/)
+    set(DEP_LIB_DIR ${ROOT_DIR}/dep/lib/ ${ROOT_DIR}/bin/lib)
+    set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/bin)
     set(LIB_OUTPUT_DIR ${ROOT_DIR}/bin/lib)
     add_definitions(-Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wno-strict-aliasing -Wno-pmf-conversions)
     
@@ -68,12 +71,12 @@ if(UNIX)
         add_compile_options(--coverage -O0)
     endif()
     
-else()
+else(WIN32)
     #windows
     add_compile_options("/std:c++latest")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
-    set(DEP_LIB_DIR ${ROOT_DIR}/dep/lib ${ROOT_DIR}/bin/lib/)
-    set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/bin/)
+    set(DEP_LIB_DIR ${ROOT_DIR}/dep/lib ${ROOT_DIR}/bin/lib)
+    set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/bin)
     set(LIB_OUTPUT_DIR ${ROOT_DIR}/bin/lib)
     add_definitions(
         -DWIN
@@ -94,20 +97,30 @@ endif()
 
 link_directories(${DEP_LIB_DIR})
 
-#log
+#---------------------------------------------------------------------------------------
+# log
+#---------------------------------------------------------------------------------------
 message("ROOT dir=${ROOT_DIR}")
 message("Bin Output dir=${BIN_OUTPUT_DIR}")
-message("DEP lib dir=${DEP_LIB_DIR}")
+message("Dep lib dir=${DEP_LIB_DIR}")
 message("Plugin Output=${LIB_OUTPUT_DIR}")
 message("CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
 
-#codecov
+#---------------------------------------------------------------------------------------
+# codecov
+#---------------------------------------------------------------------------------------
 find_package(codecov)
-##################################################################
+
+#---------------------------------------------------------------------------------------
+# sub projects
+#---------------------------------------------------------------------------------------
 message("Start to build all...")
-add_subdirectory(frame/app)
-add_subdirectory(frame/proto)
-add_subdirectory(frame/sdk)
-add_subdirectory(frame/server)
+
+add_subdirectory(src/app)
+add_subdirectory(src/proto)
+
+add_subdirectory(src/plugins)
+
 add_subdirectory(samples)
+
 add_subdirectory(test)

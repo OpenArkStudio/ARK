@@ -104,6 +104,7 @@ namespace ark
     int AFCGameNetModule::StartClient()
     {
         //创建所有与对端链接的client
+        //Create all target endpoint clients
         int ret = m_pNetServiceManagerModule->CreateClusterClients();
         if (ret != 0)
         {

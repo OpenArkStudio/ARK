@@ -1,6 +1,6 @@
-# Get ARK version from frame/version.h and put it in ARK_VERSION
+# Get ARK version from VERSION and put it in ARK_VERSION
 function(ark_extract_version)
-	file(READ "${CMAKE_CURRENT_LIST_DIR}/frame/version.h" file_contents)
+	file(READ "${CMAKE_CURRENT_LIST_DIR}/VERSION" file_contents)
 	string(REGEX MATCH "ARK_VER_MAJOR ([0-9]+)" _  "${file_contents}")
 	if(NOT CMAKE_MATCH_COUNT EQUAL 1)
         message(FATAL_ERROR "Could not extract major version number from ARK/frame/version.h")

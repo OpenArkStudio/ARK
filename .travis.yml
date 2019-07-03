@@ -29,8 +29,6 @@ addons:
 before_install:
   - git submodule sync
   - git submodule update --init
-  # run build_dep.sh
-  - pwd
   - cd dep
   - chmod -R 755 build_dep.sh
   - ./build_dep.sh
@@ -43,7 +41,7 @@ script:
   - cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=ON ..
   # make
   - build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
-  - cd $TRAVIS_BUILD_DIR/frame
+  - cd $TRAVIS_BUILD_DIR/src
   #If you need debug log, plase add -X parameters
   - sonar-scanner
   - ctest -j2

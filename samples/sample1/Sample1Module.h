@@ -43,7 +43,7 @@ namespace ark
 
     protected:
         void TestTimer(const std::string& name, const AFGUID& entity_id);
-        bool TestSchduler(const int id, const int arg);
+        //bool TestSchduler(const int id, const int arg);
 
     protected:
         AFITimerModule* m_pTimerModule;
