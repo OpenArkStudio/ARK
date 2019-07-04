@@ -33,7 +33,7 @@ namespace ark
     {
     public:
         explicit AFCNetServerService(AFIPluginManager* p);
-        virtual ~AFCNetServerService();
+        ~AFCNetServerService() override;
 
         bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) override;
         bool Update() override;

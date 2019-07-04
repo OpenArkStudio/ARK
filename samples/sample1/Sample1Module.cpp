@@ -125,7 +125,7 @@ namespace ark
             }
         }
 
-        for (int i = 0; i < ARRAY_LENTGH(rand_array); ++i)
+        for (size_t i = 0; i < ARRAY_LENTGH(rand_array); ++i)
         {
             std::cout << rand_array[i] << " int range [" << i * 10000 << ", " << (i + 1) * 10000 << "]" << std::endl;
         }

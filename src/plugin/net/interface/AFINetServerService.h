@@ -53,6 +53,8 @@ namespace ark
     class AFINetServerService
     {
     public:
+        virtual ~AFINetServerService() = default;
+
         template<typename BaseType>
         bool RegMsgCallback(const int msg_id, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t))
         {

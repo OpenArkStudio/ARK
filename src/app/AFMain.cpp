@@ -175,29 +175,27 @@ bool ParseArgs(int argc, char* argv[])
     {
         parser.ParseCLI(argc, argv);
     }
-    catch (args::Help)
+    catch (args::Help& help)
     {
-        CONSOLE_ERROR_LOG << parser;
+        CONSOLE_ERROR_LOG << parser << ", error = " << help.what() << std::endl;
         return false;
     }
     catch (args::ParseError& e)
     {
-        CONSOLE_ERROR_LOG << e.what() << std::endl;
-        CONSOLE_ERROR_LOG << parser;
+        CONSOLE_ERROR_LOG << parser << ", error = " << e.what() << std::endl;
         return false;
     }
     catch (args::ValidationError& e)
     {
-        CONSOLE_ERROR_LOG << e.what() << std::endl;
-        CONSOLE_ERROR_LOG << parser;
+        CONSOLE_ERROR_LOG << parser << ", error = " << e.what() << std::endl;
         return false;
     }
 
     //Set bus id
     if (busid)
-{
-    AFCDataList temp_bus_id;
-    if (!temp_bus_id.Split(busid.Get(), "."))
+    {
+        AFCDataList temp_bus_id;
+        if (!temp_bus_id.Split(busid.Get(), "."))
         {
             CONSOLE_ERROR_LOG << "bus id is invalid, it likes 8.8.8.8" << std::endl;
             return false;
@@ -218,8 +216,8 @@ bool ParseArgs(int argc, char* argv[])
 
     //Set app name
     if (name)
-{
-    AFCPluginManager::get()->SetAppName(name.Get());
+    {
+        AFCPluginManager::get()->SetAppName(name.Get());
 
         std::string process_name = ARK_FORMAT("{}-{}-{}", name.Get(), busid.Get(), AFCPluginManager::get()->BusID());
         //Set process name
@@ -236,8 +234,8 @@ bool ParseArgs(int argc, char* argv[])
 
     //Set plugin file
     if (plugin_cfg)
-{
-    AFCPluginManager::get()->SetPluginConf(plugin_cfg.Get());
+    {
+        AFCPluginManager::get()->SetPluginConf(plugin_cfg.Get());
     }
     else
     {
@@ -245,8 +243,8 @@ bool ParseArgs(int argc, char* argv[])
     }
 
     if (logpath)
-{
-    AFCPluginManager::get()->SetLogPath(logpath.Get());
+    {
+        AFCPluginManager::get()->SetLogPath(logpath.Get());
     }
     else
     {

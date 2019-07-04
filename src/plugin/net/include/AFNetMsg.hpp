@@ -72,6 +72,8 @@ namespace ark
     class AFNetMsg : public AFSSMsgHead, public AFNoncopyable
     {
     public:
+        virtual ~AFNetMsg() = default;
+
         static AFNetMsg* AllocMsg(uint32_t len)
         {
             AFNetMsg* msg = ARK_NEW AFNetMsg();
