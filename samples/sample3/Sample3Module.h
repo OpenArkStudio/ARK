@@ -4,7 +4,7 @@
 *
 * Copyright (c) 2013-2019 ArkNX authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License").
+* Licensed under the Apache License, Version 2.0 (the "License"),
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -20,12 +20,11 @@
 
 #pragma once
 
-#include "interface/AFIKernelModule.h"
-#include "interface/AFIConfigModule.h"
-#include "interface/AFIPluginManager.h"
-#include "interface/AFILogModule.h"
-#include "interface/AFIMetaClassModule.h"
-#include "interface/AFIMapModule.h"
+#include "kernel/interface/AFIKernelModule.h"
+#include "kernel/interface/AFIConfigModule.h"
+#include "kernel/interface/AFIMetaClassModule.h"
+#include "kernel/interface/AFIMapModule.h"
+#include "utility/interface/AFILogModule.h"
 
 namespace ark
 {

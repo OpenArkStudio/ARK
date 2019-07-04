@@ -4,7 +4,7 @@
 *
 * Copyright (c) 2013-2019 ArkNX authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License").
+* Licensed under the Apache License, Version 2.0 (the "License"),
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -23,9 +23,8 @@
 #include "base/AFRandom.hpp"
 #include "base/AFTimer.hpp"
 #include "base/AFCRC.hpp"
-#include "base/AFCData.hpp"
-//#include "base/cronexpr.h"
 #include "base/AFCConsistentHash.hpp"
+#include "kernel/include/AFCData.hpp"
 #include "Sample1Module.h"
 
 namespace ark

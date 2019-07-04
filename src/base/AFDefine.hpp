@@ -4,7 +4,7 @@
 *
 * Copyright (c) 2013-2019 ArkNX authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License").
+* Licensed under the Apache License, Version 2.0 (the "License"),
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include "AFMacros.hpp"
-#include "AFEnum.hpp"
-#include "AFString.hpp"
-#include "AFMetaDefine.hpp"
-#include "AFVector3D.hpp"
+#include "base/AFMacros.hpp"
+#include "base/AFEnum.hpp"
+#include "base/AFString.hpp"
+#include "base/AFMetaDefine.hpp"
+#include "base/AFVector3D.hpp"
 
 namespace ark
 {
@@ -63,12 +63,4 @@ namespace ark
     using EVENT_PROCESS_FUNCTOR = std::function<int(const AFGUID&, const int, const AFIDataList&)>;
     using TIMER_FUNCTOR = std::function<void(const std::string&, const AFGUID&)>;
     using SCHEDULER_FUNCTOR = std::function<bool(const int, const int)>;
-
-    //using DATA_NODE_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<DATA_NODE_EVENT_FUNCTOR>;
-    //using DATA_TABLE_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<DATA_TABLE_EVENT_FUNCTOR>;
-    //using LITLE_DATA_TABLE_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<LITLE_DATA_TABLE_EVENT_FUNCTOR>;
-    //using CLASS_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<CLASS_EVENT_FUNCTOR>;
-    //using EVENT_PROCESS_FUNCTOR_PTR = ARK_SHARE_PTR<EVENT_PROCESS_FUNCTOR>;
-    //using TIMER_FUNCTOR_PTR = ARK_SHARE_PTR<TIMER_FUNCTOR>;
-    //using SCHEDULER_FUNCTOR_PTR = ARK_SHARE_PTR<SCHEDULER_FUNCTOR>;
 }

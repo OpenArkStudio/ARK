@@ -1,0 +1,1 @@
+BUILD_SERVER_MACRO(AFRouterPlugin)

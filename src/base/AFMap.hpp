@@ -4,7 +4,7 @@
 *
 * Copyright (c) 2013-2019 ArkNX authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License").
+* Licensed under the Apache License, Version 2.0 (the "License"),
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "AFMacros.hpp"
+#include "base/AFMacros.hpp"
 
 namespace ark
 {
@@ -60,9 +60,6 @@ namespace ark
         using const_iterator = typename map_type::const_iterator;
         using reverse_iterator = typename map_type::reverse_iterator;
         using const_reverse_iterator = typename map_type::const_reverse_iterator;
-
-        AFMapBase() = default;
-        ~AFMapBase() = default;
 
         std::size_t size() const
         {

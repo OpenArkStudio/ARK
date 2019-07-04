@@ -45,7 +45,9 @@ include_directories(
     ${ROOT_DIR}/dep/protobuf/src
     ${ROOT_DIR}/dep/brynet/src
     ${ROOT_DIR}/dep/spdlog/include
-    ${ROOT_DIR}/src)
+    ${ROOT_DIR}/src
+    ${ROOT_DIR}/src/plugin
+    ${ROOT_DIR}/src/server)
 
 if(UNIX)
     #linux
@@ -119,7 +121,8 @@ message("Start to build all...")
 add_subdirectory(src/app)
 add_subdirectory(src/proto)
 
-add_subdirectory(src/plugins)
+add_subdirectory(src/plugin)
+add_subdirectory(src/server)
 
 add_subdirectory(samples)
 

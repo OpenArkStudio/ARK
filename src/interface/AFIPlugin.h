@@ -4,7 +4,7 @@
 *
 * Copyright (c) 2013-2019 ArkNX authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License").
+* Licensed under the Apache License, Version 2.0 (the "License"),
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -23,7 +23,7 @@
 #include "base/AFPlatform.hpp"
 #include "base/AFMap.hpp"
 #include "base/AFArrayMap.hpp"
-#include "AFIModule.h"
+#include "interface/AFIModule.h"
 #include "AFIPluginManager.h"
 
 namespace ark

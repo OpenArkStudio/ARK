@@ -4,7 +4,7 @@
 *
 * Copyright (c) 2013-2019 ArkNX authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License").
+* Licensed under the Apache License, Version 2.0 (the "License"),
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -23,8 +23,9 @@
 #include "rapidxml/rapidxml.hpp"
 #include "rapidxml/rapidxml_iterators.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
-#include "AFPlatform.hpp"
-#include "AFMisc.hpp"
+#include "base/AFPlatform.hpp"
+#include "base/AFMisc.hpp"
+#include "base/AFDefine.hpp"
 
 namespace ark
 {

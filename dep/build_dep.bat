@@ -34,7 +34,7 @@ REM copy Release\*.dll ..\..\..\lib /Y
 copy Debug\*.lib ..\..\..\lib /Y
 copy Release\*.lib ..\..\..\lib /Y
 
-copy Release\protoc.exe ..\..\..\..\frame\proto\proto-gen /Y
+copy Release\protoc.exe ..\..\..\..\src\proto\proto-gen /Y
 
 cd ..\..\..\
 
@@ -56,7 +56,7 @@ cd ..\..\
 REM ####################################################################################################
 REM generate pb files
 echo "generate proto files..."
-cd ..\frame\proto\
+cd ..\src\proto\
 call gen-proto.bat
 cd ..\..\
 

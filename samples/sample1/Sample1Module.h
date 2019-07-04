@@ -4,7 +4,7 @@
 *
 * Copyright (c) 2013-2019 ArkNX authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License").
+* Licensed under the Apache License, Version 2.0 (the "License"),
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -22,10 +22,10 @@
 
 #include "interface/AFIPlugin.h"
 #include "interface/AFIPluginManager.h"
-#include "interface/AFITimerModule.h"
-#include "interface/AFILogModule.h"
-#include "interface/AFIScheduleModule.h"
-#include "interface/AFIGUIDModule.h"
+#include "utility/interface/AFITimerModule.h"
+#include "utility/interface/AFILogModule.h"
+#include "utility/interface/AFIScheduleModule.h"
+#include "utility/interface/AFIGUIDModule.h"
 
 namespace ark
 {

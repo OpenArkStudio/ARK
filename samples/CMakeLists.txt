@@ -33,7 +33,6 @@ macro(BUILD_PLUGIN_MACRO project_name)
     endif(UNIX)
 
     set_target_properties(${project_name} PROPERTIES PREFIX "")
-    set_target_properties(${project_name} PROPERTIES OUTPUT_NAME_DEBUG "${project_name}_d")
     set_target_properties(${project_name} PROPERTIES
         FOLDER "samples"
         ARCHIVE_OUTPUT_DIRECTORY ${LIB_OUTPUT_DIR}

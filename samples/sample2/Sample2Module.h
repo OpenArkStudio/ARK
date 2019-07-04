@@ -4,7 +4,7 @@
 *
 * Copyright (c) 2013-2019 ArkNX authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License").
+* Licensed under the Apache License, Version 2.0 (the "License"),
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -22,7 +22,7 @@
 
 #include "interface/AFIPlugin.h"
 #include "interface/AFIPluginManager.h"
-#include "interface/AFIData.hpp"
+#include "kernel/interface/AFIData.hpp"
 
 namespace ark
 {

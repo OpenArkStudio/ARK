@@ -21,8 +21,8 @@ make -j 4
 cp -a *.so* ../../../lib
 
 cp -a *.so* ../../../../bin/lib
-cp -a *.so* ../../../../frame/proto/proto-gen
-cp -a protoc* ../../../../frame/proto/proto-gen
+cp -a *.so* ../../../../src/proto/proto-gen
+cp -a protoc* ../../../../src/proto/proto-gen
 
 cd ../../../
 
@@ -44,6 +44,6 @@ cd ../../
 
 ##################################################################
 echo "General proto files..."
-cd ../frame/proto/
+cd ../src/proto/
 bash gen-proto.sh
 cd ../../
