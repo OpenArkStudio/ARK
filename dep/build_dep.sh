@@ -39,7 +39,8 @@ chmod -R 755 *
 mkdir build && cd build
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=release ..
 make -j 4
-cp -R -f lib/*.so ../../lib
+cp -a lib/*.so ../../lib
+cp -a lib/*.so* ../../../bin/lib
 cd ../../
 
 ##################################################################
