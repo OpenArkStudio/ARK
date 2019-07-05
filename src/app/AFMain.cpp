@@ -24,7 +24,6 @@
 #include "base/AFMacros.hpp"
 #include "base/AFDateTime.hpp"
 #include "base/AFMisc.hpp"
-#include "plugin/kernel/include/AFCDataList.hpp"
 #include "AFCPluginManager.h"
 
 using namespace ark;
@@ -104,7 +103,7 @@ void PrintLogo()
 #endif
 
     std::string logo = R"(
-**********************************************************************
+*************************************************
        _         _    
       / \   _ __| | __
      / _ \ | '__| |/ /
@@ -114,7 +113,7 @@ void PrintLogo()
 Copyright 2018 (c) ArkNX. All Rights Reserved.
 Website: https://arknx.com
 Github:  https://github.com/ArkNX
-**********************************************************************
+*************************************************
 )";
 
     CONSOLE_INFO_LOG << logo << std::endl;
@@ -132,7 +131,7 @@ void ThreadFunc()
 
         std::string s;
         std::cin >> s;
-        s = AFMisc::ToLower(s);
+        AFStringUtils::ToLower(s);
         if (s == "exit")
         {
             g_exit_loop = true;
@@ -147,22 +146,23 @@ void CreateBackThread()
 
 bool ParseArgs(int argc, char* argv[])
 {
+	auto close_x_button = []() {
+#if ARK_PLATFORM == PLATFORM_WIN
+		SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ApplicationCrashHandler);
+		CloseXButton();
+#endif
+	};
+
+	auto use_daemon = []() {
+#if ARK_PLATFORM == PLATFORM_UNIX
+		InitDaemon();
+#endif
+	};
+
     args::ArgumentParser parser("Here is ark plugin loader argument tools", "If you have any questions, please report an issue in GitHub.");
     args::HelpFlag help(parser, "help", "Display the help menu", {'h', "help"});
-    args::ActionFlag xbutton(parser, "close", "Close [x] button in Windows", { 'x' }, []()
-    {
-#if ARK_PLATFORM == PLATFORM_WIN
-        SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ApplicationCrashHandler);
-        CloseXButton();
-#endif
-    });
-
-    args::ActionFlag daemon(parser, "daemon", "Run application as daemon", { 'd' }, []()
-    {
-#if ARK_PLATFORM == PLATFORM_UNIX
-        InitDaemon();
-#endif
-    });
+    args::ActionFlag xbutton(parser, "close", "Close [x] button in Windows", { 'x' }, close_x_button);
+    args::ActionFlag daemon(parser, "daemon", "Run application as daemon", { 'd' }, use_daemon);
 
     args::ValueFlag<std::string> busid(parser, "busid", "Set application id(like IP address: 8.8.8.8)", { 'b', "busid" }, "8.8.8.8", args::Options::Required | args::Options::Single);
     args::ValueFlag<std::string> name(parser, "name", "Set application name", { 'n', "name" }, "my-server", args::Options::Required | args::Options::Single);
@@ -193,19 +193,21 @@ bool ParseArgs(int argc, char* argv[])
 
     //Set bus id
     if (busid)
-    {
-        AFCDataList temp_bus_id;
-        if (!temp_bus_id.Split(busid.Get(), "."))
+{
+    //AFCDataList temp_bus_id;
+    std::vector<AFSlice> slices;
+    AFStringUtils::Split(slices, busid.Get(), ".");
+        if (slices.size() != 4)
         {
             CONSOLE_ERROR_LOG << "bus id is invalid, it likes 8.8.8.8" << std::endl;
             return false;
         }
 
         AFBusAddr busaddr;
-        busaddr.channel_id = ARK_LEXICAL_CAST<int>(temp_bus_id.String(0));
-        busaddr.zone_id = ARK_LEXICAL_CAST<int>(temp_bus_id.String(1));
-        busaddr.proc_id = ARK_LEXICAL_CAST<int>(temp_bus_id.String(2));
-        busaddr.inst_id = ARK_LEXICAL_CAST<int>(temp_bus_id.String(3));
+        busaddr.channel_id = ARK_LEXICAL_CAST<int>(slices[0].data());
+        busaddr.zone_id = ARK_LEXICAL_CAST<int>(slices[1].data());
+        busaddr.proc_id = ARK_LEXICAL_CAST<int>(slices[2].data());
+        busaddr.inst_id = ARK_LEXICAL_CAST<int>(slices[3].data());
 
         AFCPluginManager::get()->SetBusID(busaddr.bus_id);
     }
@@ -216,8 +218,8 @@ bool ParseArgs(int argc, char* argv[])
 
     //Set app name
     if (name)
-    {
-        AFCPluginManager::get()->SetAppName(name.Get());
+{
+    AFCPluginManager::get()->SetAppName(name.Get());
 
         std::string process_name = ARK_FORMAT("{}-{}-{}", name.Get(), busid.Get(), AFCPluginManager::get()->BusID());
         //Set process name
@@ -234,8 +236,8 @@ bool ParseArgs(int argc, char* argv[])
 
     //Set plugin file
     if (plugin_cfg)
-    {
-        AFCPluginManager::get()->SetPluginConf(plugin_cfg.Get());
+{
+    AFCPluginManager::get()->SetPluginConf(plugin_cfg.Get());
     }
     else
     {
@@ -243,8 +245,8 @@ bool ParseArgs(int argc, char* argv[])
     }
 
     if (logpath)
-    {
-        AFCPluginManager::get()->SetLogPath(logpath.Get());
+{
+    AFCPluginManager::get()->SetLogPath(logpath.Get());
     }
     else
     {

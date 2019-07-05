@@ -54,6 +54,8 @@ namespace ark
     class AFINetClientService : public AFNoncopyable
     {
     public:
+        virtual ~AFINetClientService() = default;
+
         template<typename BaseType>
         bool RegMsgCallback(const int msg_id, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t))
         {

@@ -161,7 +161,7 @@ namespace ark
                 break;
             case DT_INT:
                 {
-                    if (!AFMisc::IsDigit(pstrConfigValue))
+                    if (!AFStringUtils::IsDigit(pstrConfigValue))
                     {
                         ARK_ASSERT(0, tmp_node.name.c_str(), __FILE__, __FUNCTION__);
                     }
@@ -171,7 +171,7 @@ namespace ark
                 break;
             case DT_INT64:
                 {
-                    if (!AFMisc::IsDigit(pstrConfigValue))
+                    if (!AFStringUtils::IsDigit(pstrConfigValue))
                     {
                         ARK_ASSERT(0, tmp_node.name.c_str(), __FILE__, __FUNCTION__);
                     }

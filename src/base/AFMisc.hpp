@@ -23,6 +23,7 @@
 #include "base/AFMacros.hpp"
 #include "base/AFEnum.hpp"
 #include "base/AFBaseStruct.hpp"
+#include "base/AFStringUtils.hpp"
 
 namespace ark
 {
@@ -121,44 +122,6 @@ namespace ark
                 ARK_ASSERT_NO_EFFECT(0);
                 return T();
             }
-        }
-
-        static std::string ToLower(std::string s)
-        {
-            std::transform(s.begin(), s.end(), s.begin(),
-                           [](unsigned char c)
-            {
-                return std::tolower(c);
-            });
-
-            return s;
-        }
-        static std::string ToUpper(std::string s)
-        {
-            std::transform(s.begin(), s.end(), s.begin(),
-                           [](unsigned char c)
-            {
-                return std::toupper(c);
-            });
-
-            return s;
-        }
-
-        static bool IsDigit(const std::string& str)
-        {
-            if (str.empty())
-            {
-                return false;
-            }
-
-            string::const_iterator start = str.begin();
-            if (*start == '-')
-                ++start;
-
-            return (std::all_of(start, str.end(), [](unsigned char c)
-            {
-                return isdigit(c);
-            }));
         }
 
         static std::string Bus2Str(int bus_id)
