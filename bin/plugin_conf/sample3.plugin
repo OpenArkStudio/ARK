@@ -2,6 +2,7 @@
 	<plugins path="../lib/">
 		<plugin name="AFKernelPlugin" />
 		<plugin name="AFUtilityPlugin" />
+		<plugin name="AFLogPlugin" />
 		<plugin name="Sample3Plugin" />
 	</plugins>
 	<res path="../resource/" />

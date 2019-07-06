@@ -1,197 +1,196 @@
 /*
-* This source file is part of ARK
-* For the latest info, see https://github.com/ArkNX
-*
-* Copyright (c) 2013-2019 ArkNX authors.
-*
-* Licensed under the Apache License, Version 2.0 (the "License"),
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*
-*/
+ * This source file is part of ARK
+ * For the latest info, see https://github.com/ArkNX
+ *
+ * Copyright (c) 2013-2019 ArkNX authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"),
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 #pragma once
 
-namespace ark
+namespace ark {
+
+class AFBuffer
 {
-
-    class AFBuffer
+public:
+    ~AFBuffer()
     {
-    public:
-        ~AFBuffer()
+        if (data_ != nullptr)
         {
-            if (data_ != nullptr)
-            {
-                free(data_);
-                data_ = nullptr;
-            }
+            free(data_);
+            data_ = nullptr;
         }
+    }
 
-        explicit AFBuffer(size_t buffer_size = 1024 * 512)
+    explicit AFBuffer(size_t buffer_size = 1024 * 512)
+    {
+        if ((data_ = (char *)malloc(sizeof(char) * buffer_size)) != NULL)
         {
-            if ((data_ = (char*)malloc(sizeof(char) * buffer_size)) != NULL)
-            {
-                data_size_ = buffer_size;
-            }
+            data_size_ = buffer_size;
         }
+    }
 
-        bool write(const char* data, size_t len)
+    bool write(const char *data, size_t len)
+    {
+        bool write_ret = true;
+
+        if (get_write_valid_count() >= len)
         {
-            bool write_ret = true;
+            memcpy(get_write_ptr(), data, len);
+            add_write_pos(len);
+        }
+        else
+        {
+            size_t left_len = data_size_ - get_length();
 
-            if (get_write_valid_count() >= len)
+            if (left_len >= len)
             {
-                memcpy(get_write_ptr(), data, len);
-                add_write_pos(len);
+                adjust_to_head();
+                write(data, len);
             }
             else
             {
-                size_t left_len = data_size_ - get_length();
+                size_t needLen = len - left_len;
 
-                if (left_len >= len)
+                if (needLen > 0)
                 {
-                    adjust_to_head();
+                    grow(needLen);
                     write(data, len);
                 }
                 else
                 {
-                    size_t needLen = len - left_len;
-
-                    if (needLen > 0)
-                    {
-                        grow(needLen);
-                        write(data, len);
-                    }
-                    else
-                    {
-                        write_ret = false;
-                    }
+                    write_ret = false;
                 }
             }
-
-            return write_ret;
         }
 
-        size_t get_length()
+        return write_ret;
+    }
+
+    size_t get_length()
+    {
+        return write_pos_ - read_pos_;
+    }
+
+    char *get_data()
+    {
+        if (read_pos_ < data_size_)
         {
-            return write_pos_ - read_pos_;
+            return data_ + read_pos_;
         }
-
-        char* get_data()
+        else
         {
-            if (read_pos_ < data_size_)
-            {
-                return data_ + read_pos_;
-            }
-            else
-            {
-                return nullptr;
-            }
+            return nullptr;
         }
+    }
 
-        void remove_data(size_t value)
+    void remove_data(size_t value)
+    {
+        size_t temp = read_pos_ + value;
+
+        if (temp <= data_size_)
         {
-            size_t temp = read_pos_ + value;
-
-            if (temp <= data_size_)
-            {
-                read_pos_ = temp;
-            }
+            read_pos_ = temp;
         }
+    }
 
-    private:
-        void adjust_to_head()
+private:
+    void adjust_to_head()
+    {
+        size_t len = 0;
+
+        if (read_pos_ <= 0)
         {
-            size_t len = 0;
-
-            if (read_pos_ <= 0)
-            {
-                return;
-            }
-
-            len = get_length();
-
-            if (len > 0)
-            {
-                memmove(data_, data_ + read_pos_, len);
-            }
-
-            read_pos_ = 0;
-            write_pos_ = len;
+            return;
         }
 
-        void init()
+        len = get_length();
+
+        if (len > 0)
         {
-            read_pos_ = 0;
-            write_pos_ = 0;
+            memmove(data_, data_ + read_pos_, len);
         }
 
-        size_t get_write_pos()
+        read_pos_ = 0;
+        write_pos_ = len;
+    }
+
+    void init()
+    {
+        read_pos_ = 0;
+        write_pos_ = 0;
+    }
+
+    size_t get_write_pos()
+    {
+        return write_pos_;
+    }
+
+    size_t get_read_pos()
+    {
+        return read_pos_;
+    }
+
+    void add_write_pos(size_t value)
+    {
+        size_t temp = write_pos_ + value;
+
+        if (temp <= data_size_)
         {
-            return write_pos_;
+            write_pos_ = temp;
         }
+    }
 
-        size_t get_read_pos()
+    size_t get_write_valid_count()
+    {
+        return data_size_ - write_pos_;
+    }
+
+    size_t get_size()
+    {
+        return data_size_;
+    }
+
+    char *get_write_ptr()
+    {
+        if (write_pos_ < data_size_)
         {
-            return read_pos_;
+            return data_ + write_pos_;
         }
-
-        void add_write_pos(size_t value)
+        else
         {
-            size_t temp = write_pos_ + value;
-
-            if (temp <= data_size_)
-            {
-                write_pos_ = temp;
-            }
+            return nullptr;
         }
+    }
 
-        size_t get_write_valid_count()
-        {
-            return data_size_ - write_pos_;
-        }
+    void grow(size_t len)
+    {
+        size_t n = data_size_ + len;
+        char *d = new char[n];
 
-        size_t get_size()
-        {
-            return data_size_;
-        }
+        memcpy(d, data_, get_write_pos());
+        data_size_ = n;
+        delete[] data_;
+        data_ = d;
+    }
 
-        char* get_write_ptr()
-        {
-            if (write_pos_ < data_size_)
-            {
-                return data_ + write_pos_;
-            }
-            else
-            {
-                return nullptr;
-            }
-        }
+    char *data_{nullptr};
+    size_t data_size_{0};
 
-        void grow(size_t len)
-        {
-            size_t n = data_size_ + len;
-            char* d = new char[n];
+    size_t write_pos_{0};
+    size_t read_pos_{0};
+};
 
-            memcpy(d, data_, get_write_pos());
-            data_size_ = n;
-            delete[] data_;
-            data_ = d;
-        }
-
-        char* data_{ nullptr };
-        size_t data_size_{ 0 };
-
-        size_t write_pos_{ 0 };
-        size_t read_pos_{ 0 };
-    };
-
-}
+} // namespace ark

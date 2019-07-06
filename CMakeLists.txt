@@ -35,13 +35,14 @@ include(cmake/utils.cmake)
 ark_extract_version()
 
 project(ark VERSION ${ARK_VERSION} LANGUAGES CXX)
-message(STATUS "Build ark: ${ARK_VERSION}")
+message(STATUS "Build ark: v${ARK_VERSION}")
 
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
 
 include_directories(
     ${ROOT_DIR}
     ${ROOT_DIR}/dep
+    ${ROOT_DIR}/dep/common
     ${ROOT_DIR}/dep/protobuf/src
     ${ROOT_DIR}/dep/brynet/src
     ${ROOT_DIR}/dep/spdlog/include
