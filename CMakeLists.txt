@@ -35,7 +35,7 @@ include(cmake/utils.cmake)
 ark_extract_version()
 
 project(ark VERSION ${ARK_VERSION} LANGUAGES CXX)
-message(STATUS "Build ark: ${ARK_VERSION}")
+message(STATUS "Build ark: v${ARK_VERSION}")
 
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
 
