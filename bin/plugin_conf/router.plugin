@@ -1,6 +1,7 @@
 <xml>
 	<plugins path="../lib/">
 		<plugin name="AFUtilityPlugin" />
+		<plugin name="AFLogPlugin" />
 	</plugins>
 	<res path="../resource/" />
 </xml>

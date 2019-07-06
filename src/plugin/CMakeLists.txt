@@ -25,7 +25,7 @@ macro(BUILD_PLUGIN_MACRO_EX project_name extra_lib)
         SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
     endif(UNIX)
     
-    aux_source_directory(. PLUGIN_SRC)
+    file(GLOB_RECURSE PLUGIN_SRC *.h *.hpp *.cpp *.cc *.c)
     add_library(${project_name} SHARED ${PLUGIN_SRC})
     set_target_properties(${project_name} PROPERTIES PREFIX "")
     set_target_properties(${project_name} PROPERTIES
@@ -49,3 +49,6 @@ option(ADD_EXTRA_PLUGINS OFF)
 if(ADD_EXTRA_PLUGINS)
     add_subdirectory(service_discovery)
 endif()
+
+
+add_subdirectory(log)

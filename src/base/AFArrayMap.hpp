@@ -1,22 +1,22 @@
 /*
-* This source file is part of ARK
-* For the latest info, see https://github.com/ArkNX
-*
-* Copyright (c) 2013-2019 ArkNX authors.
-*
-* Licensed under the Apache License, Version 2.0 (the "License"),
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*
-*/
+ * This source file is part of ARK
+ * For the latest info, see https://github.com/ArkNX
+ *
+ * Copyright (c) 2013-2019 ArkNX authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"),
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 #pragma once
 
@@ -26,141 +26,148 @@
 #include "base/AFStringPod.hpp"
 //#include "AFGUID.hpp"
 
-namespace ark
+namespace ark {
+
+template<typename T>
+class IsBuildinType
 {
-
-    template<typename T>
-    class IsBuildinType
+public:
+    enum
     {
-    public:
-        enum { YES = false, NO = true };
+        YES = false,
+        NO = true
+    };
+};
+
+#define MAKE_BUILDIN_TYPE(T)                                                                                                               \
+    template<>                                                                                                                             \
+    class IsBuildinType<T>                                                                                                                 \
+    {                                                                                                                                      \
+    public:                                                                                                                                \
+        enum                                                                                                                               \
+        {                                                                                                                                  \
+            YES = true,                                                                                                                    \
+            NO = false                                                                                                                     \
+        };                                                                                                                                 \
     };
 
-#define MAKE_BUILDIN_TYPE(T)                \
-    template<> class IsBuildinType<T>       \
-    {                                       \
-    public:                                 \
-        enum { YES = true, NO = false };    \
-    };
+template<typename T>
+bool CheckBuildinType(const T &t)
+{
+    return IsBuildinType<T>::YES ? true : false;
+}
 
-    template <typename T>
-    bool CheckBuildinType(const T& t)
+MAKE_BUILDIN_TYPE(uint16_t)
+MAKE_BUILDIN_TYPE(uint32_t)
+MAKE_BUILDIN_TYPE(uint64_t)
+MAKE_BUILDIN_TYPE(int16_t)
+MAKE_BUILDIN_TYPE(int32_t)
+MAKE_BUILDIN_TYPE(int64_t)
+
+//////////////////////////////////////////////////////////////////////////
+
+template<typename T, typename NODE>
+class AFArrayMap
+{
+};
+
+// partial template specialization for KEY=std::string
+template<typename NODE>
+class AFArrayMap<std::string, NODE>
+{
+public:
+    AFArrayMap() noexcept {}
+
+    ~AFArrayMap()
     {
-        return IsBuildinType<T>::YES ? true : false;
+        ReleaseAll();
+        mxIndices.Clear();
     }
 
-    MAKE_BUILDIN_TYPE(uint16_t)
-    MAKE_BUILDIN_TYPE(uint32_t)
-    MAKE_BUILDIN_TYPE(uint64_t)
-    MAKE_BUILDIN_TYPE(int16_t)
-    MAKE_BUILDIN_TYPE(int32_t)
-    MAKE_BUILDIN_TYPE(int64_t)
-
-    //////////////////////////////////////////////////////////////////////////
-
-    template<typename T, typename NODE>
-    class AFArrayMap {};
-
-    //partial template specialization for KEY=std::string
-    template<typename NODE>
-    class AFArrayMap<std::string, NODE>
+    void Clear()
     {
-    public:
-        AFArrayMap() noexcept
-        {
+        ReleaseAll();
+        mxIndices.Clear();
+    }
 
+    bool AddElement(const std::string &name, NODE *data)
+    {
+        mxIndices.Add(name.c_str(), mxNodes.size());
+        mxNodes.push_back(data);
+        return true;
+    }
+
+    NODE *GetElement(const std::string &name)
+    {
+        size_t index;
+
+        if (!mxIndices.GetData(name.c_str(), index))
+        {
+            return nullptr;
         }
 
-        ~AFArrayMap()
+        return mxNodes[index];
+    }
+
+    NODE *operator[](size_t index)
+    {
+        ARK_ASSERT_RET_VAL(index < GetCount(), nullptr);
+
+        return mxNodes[index];
+    }
+
+    // TODO:swap array data between index and last,
+    // then index will be new last, so we can delete last
+    // bool RemoveElement(const std::string& name)
+    //{
+    //    size_t index;
+    //    if (!mxIndices.GetData(name.c_str(), index))
+    //    {
+    //        return false;
+    //    }
+    //
+    //    //remove from name container
+    //    mxIndices.Remove(name.c_str());
+
+    //    if (mxNodes[index] != nullptr)
+    //    {
+    //        //delete mxNodes[index];
+    //        mxNodes[index] = nullptr;
+    //    }
+    //    mxNodes.remove(index);
+    //    return true;
+    //}
+
+    bool ExistElement(const std::string &name) const
+    {
+        return mxIndices.exists(name.c_str());
+    }
+
+    bool ExistElement(const std::string &name, size_t &index) const
+    {
+        return mxIndices.GetData(name.c_str(), index);
+    }
+
+    size_t GetCount() const
+    {
+        return mxNodes.size();
+    }
+
+protected:
+    void ReleaseAll()
+    {
+        for (size_t i = 0; i < GetCount(); ++i)
         {
-            ReleaseAll();
-            mxIndices.Clear();
+            mxNodes[i] = nullptr;
         }
 
-        void Clear()
-        {
-            ReleaseAll();
-            mxIndices.Clear();
-        }
+        mxNodes.clear();
+        mxIndices.Clear();
+    }
 
-        bool AddElement(const std::string& name, NODE* data)
-        {
-            mxIndices.Add(name.c_str(), mxNodes.size());
-            mxNodes.push_back(data);
-            return true;
-        }
+private:
+    AFArrayPod<NODE *, 1, AFArrayPodAlloc> mxNodes;
+    AFStringPod<char, size_t, AFStringTraits<char>> mxIndices;
+};
 
-        NODE* GetElement(const std::string& name)
-        {
-            size_t index;
-
-            if (!mxIndices.GetData(name.c_str(), index))
-            {
-                return nullptr;
-            }
-
-            return mxNodes[index];
-        }
-
-        NODE* operator[](size_t index)
-        {
-            ARK_ASSERT_RET_VAL(index < GetCount(), nullptr);
-
-            return mxNodes[index];
-        }
-
-        //TODO:swap array data between index and last,
-        //then index will be new last, so we can delete last
-        //bool RemoveElement(const std::string& name)
-        //{
-        //    size_t index;
-        //    if (!mxIndices.GetData(name.c_str(), index))
-        //    {
-        //        return false;
-        //    }
-        //
-        //    //remove from name container
-        //    mxIndices.Remove(name.c_str());
-
-        //    if (mxNodes[index] != nullptr)
-        //    {
-        //        //delete mxNodes[index];
-        //        mxNodes[index] = nullptr;
-        //    }
-        //    mxNodes.remove(index);
-        //    return true;
-        //}
-
-        bool ExistElement(const std::string& name) const
-        {
-            return mxIndices.exists(name.c_str());
-        }
-
-        bool ExistElement(const std::string& name, size_t& index) const
-        {
-            return mxIndices.GetData(name.c_str(), index);
-        }
-
-        size_t GetCount() const
-        {
-            return mxNodes.size();
-        }
-
-    protected:
-        void ReleaseAll()
-        {
-            for (size_t i = 0; i < GetCount(); ++i)
-            {
-                mxNodes[i] = nullptr;
-            }
-
-            mxNodes.clear();
-            mxIndices.Clear();
-        }
-
-    private:
-        AFArrayPod<NODE*, 1, AFArrayPodAlloc> mxNodes;
-        AFStringPod<char, size_t, AFStringTraits<char>> mxIndices;
-    };
-
-}
+} // namespace ark
