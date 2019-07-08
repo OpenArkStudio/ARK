@@ -24,8 +24,7 @@
 #include "kernel/interface/AFIDataList.hpp"
 #include "base/AFMisc.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFDataListAlloc
 {
@@ -55,7 +54,8 @@ private:
     struct dynamic_data_t
     {
         int nType;
-        union {
+        union
+        {
             bool mbValue;
             int mnValue;
             int64_t mn64Value;

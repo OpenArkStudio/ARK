@@ -20,8 +20,7 @@
 
 #pragma once
 
-namespace ark
-{
+namespace ark {
 
 // T just can be build-in type, like int uint16_t uint64_t
 template<class T>

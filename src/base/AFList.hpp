@@ -22,8 +22,7 @@
 
 #include "base/AFPlatform.hpp"
 
-namespace ark
-{
+namespace ark {
 
 template<typename T>
 class AFList

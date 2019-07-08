@@ -22,8 +22,7 @@
 
 #include "AFPlatform.hpp"
 
-namespace ark
-{
+namespace ark {
 
 template<typename VALUE, bool is_smart_ptr>
 class AFVectorValueType

@@ -36,8 +36,7 @@
 #include "game/interface/AFIPropertyModule.h"
 #include "game/interface/AFIGameNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCSceneProcessModule : public AFISceneProcessModule
 {

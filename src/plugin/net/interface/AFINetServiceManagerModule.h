@@ -24,8 +24,7 @@
 #include "net/interface/AFINetServerService.h"
 #include "net/interface/AFINetClientService.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFINetServiceManagerModule : public AFIModule
 {

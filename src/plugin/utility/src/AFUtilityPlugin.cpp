@@ -24,8 +24,7 @@
 #include "utility/include/AFCTimerModule.h"
 //#include "utility/include/AFCScheduleModule.h"
 
-namespace ark
-{
+namespace ark {
 
 ARK_DLL_PLUGIN_ENTRY(AFUtilityPlugin)
 ARK_DLL_PLUGIN_EXIT(AFUtilityPlugin)

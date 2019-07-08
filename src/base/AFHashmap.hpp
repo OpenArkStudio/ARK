@@ -22,8 +22,7 @@
 
 #include "AFPlatform.hpp"
 
-namespace ark
-{
+namespace ark {
 
 template<typename T, typename TD>
 class AFHashmap

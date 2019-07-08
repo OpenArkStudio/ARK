@@ -20,8 +20,7 @@
 
 #pragma once
 
-namespace ark
-{
+namespace ark {
 
 class AFNoncopyable
 {

@@ -20,8 +20,7 @@
 
 #include "net/include/AFCWebSocktServer.h"
 
-namespace ark
-{
+namespace ark {
 
 AFCWebSocktServer::AFCWebSocktServer()
 {

@@ -27,8 +27,7 @@
 #include "game/interface/AFIPropertyModule.h"
 #include "game/interface/AFILevelModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCPropertyModule : public AFIPropertyModule
 {

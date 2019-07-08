@@ -22,8 +22,7 @@
 
 #include "interface/AFIModule.h"
 
-namespace ark
-{
+namespace ark {
 
 enum E_SCENE_TYPE
 {

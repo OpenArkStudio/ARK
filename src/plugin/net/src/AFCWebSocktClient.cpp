@@ -21,8 +21,7 @@
 #include <brynet/net/http/HttpFormat.h>
 #include "net/include/AFCWebSocktClient.h"
 
-namespace ark
-{
+namespace ark {
 
 AFCWebSocktClient::AFCWebSocktClient(
     brynet::net::TcpService::Ptr service /*= nullptr*/, brynet::net::AsyncConnector::Ptr connector /*= nullptr*/)

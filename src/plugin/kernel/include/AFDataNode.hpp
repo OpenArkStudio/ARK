@@ -27,8 +27,7 @@
 #include "AFCData.hpp"
 #include "AFCDataList.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFDataNode
 {

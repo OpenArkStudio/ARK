@@ -22,8 +22,7 @@
 
 #include <string>
 
-namespace ark
-{
+namespace ark {
 //////////////////////////////////
 // Entity meta
 class AFEntityMetaBaseEntity

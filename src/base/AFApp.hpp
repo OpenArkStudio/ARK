@@ -20,8 +20,7 @@
 
 #pragma once
 
-namespace ark
-{
+namespace ark {
 // will modify to enum class with C++ mordern standard
 enum ARK_APP_TYPE
 {

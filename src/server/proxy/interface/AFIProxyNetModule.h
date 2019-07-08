@@ -22,8 +22,7 @@
 
 #include "interface/AFIModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFIProxyNetModule : public AFIModule
 {

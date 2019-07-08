@@ -28,8 +28,7 @@
 #include "net/interface/AFINetServiceManagerModule.h"
 #include "proxy/interface/AFIProxyNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCProxyNetModule : public AFIProxyNetModule
 {

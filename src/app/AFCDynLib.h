@@ -22,8 +22,7 @@
 
 #include "base/AFMacros.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFCDynLib
 {

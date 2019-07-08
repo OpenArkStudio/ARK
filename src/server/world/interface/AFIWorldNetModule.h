@@ -23,8 +23,7 @@
 #include "proto/AFProtoCPP.hpp"
 #include "interface/AFIModule.h"
 
-namespace ark
-{
+namespace ark {
 class AFINetServerService;
 
 class AFIWorldNetModule : public AFIModule

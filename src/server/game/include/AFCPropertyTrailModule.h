@@ -29,8 +29,7 @@
 #include "game/interface/AFIPropertyConfigModule.h"
 #include "game/interface/AFIPropertyTrailModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCPropertyTrailModule : public AFIPropertyTrailModule
 {

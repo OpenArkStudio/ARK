@@ -24,8 +24,7 @@
 #include "interface/AFIPluginManager.h"
 #include "utility/include/AFCLogModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCLogModule::Init()
 {

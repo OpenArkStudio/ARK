@@ -23,8 +23,7 @@
 #include "base/AFPlatform.hpp"
 #include "AFSpinLock.hpp"
 
-namespace ark
-{
+namespace ark {
 
 template<typename T>
 class AFSingleton

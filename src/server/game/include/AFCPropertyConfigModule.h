@@ -24,8 +24,7 @@
 #include "kernel/interface/AFIConfigModule.h"
 #include "game/interface/AFIPropertyConfigModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCPropertyConfigModule : public AFIPropertyConfigModule
 {

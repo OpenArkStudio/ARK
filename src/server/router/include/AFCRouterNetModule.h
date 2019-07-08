@@ -27,8 +27,7 @@
 #include "net/interface/AFINetServiceManagerModule.h"
 #include "router/interface/AFIRouterNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCRouterNetModule : public AFIRouterNetModule
 {

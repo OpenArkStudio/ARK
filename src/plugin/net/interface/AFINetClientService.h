@@ -27,8 +27,7 @@
 #include "proto/AFProtoCPP.hpp"
 #include "net/interface/AFINet.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFConnectionData
 {

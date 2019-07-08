@@ -24,8 +24,7 @@
 #include "kernel/include/AFDataTable.hpp"
 #include "game/include/AFCPropertyTrailModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCPropertyTrailModule::Init()
 {

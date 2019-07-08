@@ -25,8 +25,7 @@
 #include "kernel/interface/AFIMapModule.h"
 #include "kernel/interface/AFIKernelModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCMapModule : public AFIMapModule
 {

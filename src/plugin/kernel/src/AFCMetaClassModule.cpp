@@ -27,8 +27,7 @@
 #include "kernel/include/AFDataNode.hpp"
 #include "kernel/include/AFCMetaClassModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCMetaClassModule::Init()
 {

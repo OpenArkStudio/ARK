@@ -26,8 +26,7 @@
 #include "interface/AFIPluginManager.h"
 #include "AFCDynLib.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCPluginManager : public AFIPluginManager, public AFSingleton<AFCPluginManager>
 {

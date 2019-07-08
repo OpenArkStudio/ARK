@@ -30,8 +30,7 @@
 #include "net/interface/AFINetServiceManagerModule.h"
 #include "world/interface/AFIWorldNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCWorldNetModule : public AFIWorldNetModule
 {

@@ -23,8 +23,7 @@
 #include "base/AFCoreDef.hpp"
 #include "base/AFMacros.hpp"
 
-namespace ark
-{
+namespace ark {
 
 template<typename TYPE>
 class AFStringTraits

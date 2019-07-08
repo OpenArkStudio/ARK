@@ -21,8 +21,7 @@
 #include "base/AFBaseStruct.hpp"
 #include "net/include/AFCTCPClient.h"
 
-namespace ark
-{
+namespace ark {
 
 AFCTCPClient::AFCTCPClient(
     const brynet::net::TcpService::Ptr &service /* = nullptr*/, const brynet::net::AsyncConnector::Ptr &connector /* = nullptr*/)

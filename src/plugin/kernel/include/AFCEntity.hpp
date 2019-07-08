@@ -25,8 +25,7 @@
 #include "kernel/include/AFCDataNodeManager.hpp"
 #include "kernel/include/AFCEventManager.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFCEntity : public AFIEntity
 {

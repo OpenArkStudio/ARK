@@ -23,8 +23,7 @@
 #include "kernel/include/AFDataNode.hpp"
 #include "world/include/AFCWorldNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCWorldNetModule::Init()
 {

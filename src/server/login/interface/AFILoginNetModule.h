@@ -24,8 +24,7 @@
 #include "proto/AFProtoCPP.hpp"
 #include "interface/AFIModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFILoginNetModule : public AFIModule
 {

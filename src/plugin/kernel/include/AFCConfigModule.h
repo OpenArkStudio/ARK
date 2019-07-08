@@ -28,8 +28,7 @@
 #include "kernel/include/AFCDataTableManager.hpp"
 #include "kernel/include/AFCMetaClassModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCMetaClass;
 

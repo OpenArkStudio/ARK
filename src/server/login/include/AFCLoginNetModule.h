@@ -27,8 +27,7 @@
 #include "net/interface/AFINetServiceManagerModule.h"
 #include "login/interface/AFILoginNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCLoginNetModule : public AFILoginNetModule
 {
@@ -65,7 +64,7 @@ protected:
     // void OnHeartBeat(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     // void OnLogOut(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     ////void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID&
-    ///xClientID);
+    /// xClientID);
 
     // void SynWorldToClient(const AFGUID& xClientID);
 

@@ -23,8 +23,7 @@
 #include "interface/AFIModule.h"
 #include "kernel/interface/AFIEntity.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFIKernelModule : public AFIModule
 {

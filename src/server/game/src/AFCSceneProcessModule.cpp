@@ -22,8 +22,7 @@
 #include "base/AFDateTime.hpp"
 #include "game/include/AFCSceneProcessModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCSceneProcessModule::Init()
 {

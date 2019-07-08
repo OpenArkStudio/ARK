@@ -25,8 +25,7 @@
 #include "AFSingleton.hpp"
 #include "AFDateTime.hpp"
 
-namespace ark
-{
+namespace ark {
 const uint32_t FREE_TIMER_SIZE = 1000;
 const uint32_t TIMER_PRECISION = 10; // 10 ms per step
 const uint32_t TV_BITS = 8;

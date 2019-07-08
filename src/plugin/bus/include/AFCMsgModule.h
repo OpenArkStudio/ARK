@@ -25,8 +25,7 @@
 #include "bus/interface/AFIBusModule.h"
 #include "bus/interface/AFIMsgModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCMsgModule : public AFIMsgModule
 {

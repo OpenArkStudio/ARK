@@ -25,8 +25,7 @@
 #include "kernel/interface/AFIDataNodeManager.h"
 #include "kernel/interface/AFIDataTableManager.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFIConfigModule : public AFIModule
 {

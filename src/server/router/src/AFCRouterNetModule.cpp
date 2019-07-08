@@ -21,8 +21,7 @@
 #include "interface/AFIPluginManager.h"
 #include "router/include/AFCRouterNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCRouterNetModule::Init()
 {

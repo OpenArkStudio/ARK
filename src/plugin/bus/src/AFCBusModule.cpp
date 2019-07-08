@@ -26,8 +26,7 @@
 #include "interface/AFIPluginManager.h"
 #include "bus/include/AFCBusModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCBusModule::Init()
 {

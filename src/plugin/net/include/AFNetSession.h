@@ -34,8 +34,7 @@
 #include "base/AFLockFreeQueue.hpp"
 #include "net/include/AFNetMsg.hpp"
 
-namespace ark
-{
+namespace ark {
 
 template<typename SessionPTR>
 class AFNetSession : public AFNoncopyable

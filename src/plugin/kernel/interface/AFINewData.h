@@ -26,8 +26,7 @@
 #include "AFIClassMeta.h"
 #include "AFIDataMeta.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFINewData
 {

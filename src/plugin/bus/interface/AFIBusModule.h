@@ -25,8 +25,7 @@
 #include "base/AFEnum.hpp"
 #include "interface/AFIModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFIBusModule : public AFIModule
 {

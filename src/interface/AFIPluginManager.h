@@ -23,8 +23,7 @@
 #include "base/AFMacros.hpp"
 #include "interface/AFIModule.h"
 
-namespace ark
-{
+namespace ark {
 
 #define ARK_DLL_PLUGIN_ENTRY(plugin_name)                                                                                                  \
     ARK_EXPORT void DllEntryPlugin(AFIPluginManager *pPluginManager)                                                                       \

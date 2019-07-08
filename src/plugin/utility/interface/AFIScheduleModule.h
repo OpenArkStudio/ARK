@@ -23,8 +23,7 @@
 #include "base/AFDefine.hpp"
 #include "interface/AFIModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFIScheduleModule : public AFIModule
 {

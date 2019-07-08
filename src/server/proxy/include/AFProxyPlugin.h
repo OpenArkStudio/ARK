@@ -22,8 +22,7 @@
 
 #include "interface/AFIPlugin.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFProxyPlugin : public AFIPlugin
 {

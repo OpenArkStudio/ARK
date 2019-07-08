@@ -25,8 +25,7 @@
 
 #pragma pack(push, 1)
 
-namespace ark
-{
+namespace ark {
 
 class AFCWebSocktClient : public AFINet
 {

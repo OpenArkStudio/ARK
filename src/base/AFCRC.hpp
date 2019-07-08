@@ -22,8 +22,7 @@
 
 #include "base/AFPlatform.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFCRC16
 {

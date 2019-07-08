@@ -21,8 +21,7 @@
 #include "interface/AFIPluginManager.h"
 #include "utility/include/AFCTimerModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCTimerModule::Init()
 {

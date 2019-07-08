@@ -23,8 +23,7 @@
 #include "AFCRC.hpp"
 #include "base/AFMacros.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFIVirtualNode
 {

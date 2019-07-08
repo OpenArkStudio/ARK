@@ -27,8 +27,7 @@
 #include "utility/interface/AFIGUIDModule.h"
 #include "game/interface/AFIAccountModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCAccountModule : public AFIAccountModule
 {

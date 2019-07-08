@@ -26,8 +26,7 @@
 #include "kernel/interface/AFIDataList.hpp"
 #include "interface/AFIModule.h"
 
-namespace ark
-{
+namespace ark {
 
 // Map instance
 class AFMapInstance

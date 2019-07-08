@@ -23,8 +23,7 @@
 #include "net/include/AFCTCPClient.h"
 #include "net/include/AFCNetClientService.h"
 
-namespace ark
-{
+namespace ark {
 
 AFCNetClientService::AFCNetClientService(AFIPluginManager *p)
     : m_pPluginManager(p)

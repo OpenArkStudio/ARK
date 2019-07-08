@@ -25,8 +25,7 @@
 #include "AFDataTable.hpp"
 #include "kernel/interface/AFIDataTableManager.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCDataTableManager : public AFIDataTableManager
 {

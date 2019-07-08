@@ -28,8 +28,7 @@
 #include "net/include/AFNetMsg.hpp"
 #include "net/include/AFNetEvent.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFINet;
 

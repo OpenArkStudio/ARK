@@ -25,8 +25,7 @@
 #include "kernel/include/AFDataNode.hpp"
 #include "kernel/include/AFCConfigModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCConfigModule::Init()
 {

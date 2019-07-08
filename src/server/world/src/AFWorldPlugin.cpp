@@ -21,8 +21,7 @@
 #include "world/include/AFWorldPlugin.h"
 #include "world/include/AFCWorldNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 ARK_DLL_PLUGIN_ENTRY(AFWorldPlugin)
 ARK_DLL_PLUGIN_EXIT(AFWorldPlugin)

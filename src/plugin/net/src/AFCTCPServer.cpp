@@ -28,8 +28,7 @@
 #include <arpa/inet.h>
 #endif
 
-namespace ark
-{
+namespace ark {
 
 AFCTCPServer::AFCTCPServer()
 {

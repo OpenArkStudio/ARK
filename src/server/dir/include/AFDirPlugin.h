@@ -24,8 +24,7 @@
 #include "interface/AFIPlugin.h"
 #include "interface/AFIPluginManager.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFDirPlugin : public AFIPlugin
 {

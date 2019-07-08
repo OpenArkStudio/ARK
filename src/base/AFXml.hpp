@@ -27,8 +27,7 @@
 #include "base/AFMisc.hpp"
 #include "base/AFDefine.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFXml;
 class AFXmlNode

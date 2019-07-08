@@ -22,8 +22,7 @@
 #include "master/include/AFMasterPlugin.h"
 #include "master/include/AFCMasterNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 ARK_DLL_PLUGIN_ENTRY(AFMasterPlugin)
 ARK_DLL_PLUGIN_EXIT(AFMasterPlugin)

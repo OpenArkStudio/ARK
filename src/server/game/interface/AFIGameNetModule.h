@@ -23,8 +23,7 @@
 #include "interface/AFIModule.h"
 #include "net/interface/AFINetServerService.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFIGameNetModule : public AFIModule
 {

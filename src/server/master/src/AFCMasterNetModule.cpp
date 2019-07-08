@@ -21,8 +21,7 @@
 #include "interface/AFIPluginManager.h"
 #include "master/include/AFCMasterNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCMasterNetModule::Init()
 {

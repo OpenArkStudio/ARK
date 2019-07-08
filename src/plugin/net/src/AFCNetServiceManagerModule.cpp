@@ -23,8 +23,7 @@
 #include "net/include/AFCNetClientService.h"
 #include "net/include/AFCNetServiceManagerModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCNetServiceManagerModule::Init()
 {

@@ -23,8 +23,7 @@
 #include "kernel/include/AFDataNode.hpp"
 #include "game/include/AFCGameNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCGameNetModule::Init()
 {

@@ -21,8 +21,7 @@
 #include "login/include/AFLoginPlugin.h"
 #include "login/include/AFCLoginNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 ARK_DLL_PLUGIN_ENTRY(AFLoginPlugin)
 ARK_DLL_PLUGIN_EXIT(AFLoginPlugin)

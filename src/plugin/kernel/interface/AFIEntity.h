@@ -26,8 +26,7 @@
 #include "kernel/interface/AFIDataNodeManager.h"
 #include "kernel/interface/AFIEventManager.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFIEntity
 {

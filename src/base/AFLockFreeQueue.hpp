@@ -23,8 +23,7 @@
 #include "base/AFPlatform.hpp"
 #include "common/readerwriterqueue.h"
 
-namespace ark
-{
+namespace ark {
 
 template<typename T>
 class AFLockFreeQueue

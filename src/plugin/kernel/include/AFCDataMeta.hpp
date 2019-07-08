@@ -22,8 +22,7 @@
 
 #include "interface/AFIDataMeta.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCEntityDataMeta : public AFIDataMeta
 {

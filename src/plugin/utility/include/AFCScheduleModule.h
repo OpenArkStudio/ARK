@@ -23,8 +23,7 @@
 //#include "base/AFCronScheduler.hpp"
 #include "utility/interface/AFIScheduleModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCScheduleModule : public AFIScheduleModule
 {

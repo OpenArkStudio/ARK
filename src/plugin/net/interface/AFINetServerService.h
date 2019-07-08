@@ -24,8 +24,7 @@
 #include "base/AFBaseStruct.hpp"
 #include "AFINet.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFServerData
 {
@@ -83,8 +82,8 @@ public:
     // virtual bool SendBroadcastMsg(const int nMsgID, const std::string& msg, const AFGUID& player_id) = 0;
     // virtual bool SendBroadcastPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& player_id) = 0;
     // virtual bool SendPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& connect_id, const AFGUID&
-    // player_id, const std::vector<AFGUID>* target_list = nullptr) = 0; virtual bool SendMsg(const uint16_t msg_id, const std::string& data,
-    // const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) = 0;
+    // player_id, const std::vector<AFGUID>* target_list = nullptr) = 0; virtual bool SendMsg(const uint16_t msg_id, const std::string&
+    // data, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) = 0;
     virtual AFINet *GetNet() = 0;
 
     virtual bool RegMsgCallback(const int nMsgID, const NET_MSG_FUNCTOR_PTR &cb) = 0;

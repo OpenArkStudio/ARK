@@ -25,8 +25,7 @@
 #include "base/AFDefine.hpp"
 #include "AFIData.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFIDataList
 {

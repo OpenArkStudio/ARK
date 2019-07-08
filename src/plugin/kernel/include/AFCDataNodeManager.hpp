@@ -25,8 +25,7 @@
 #include "kernel/interface/AFIDataNodeManager.h"
 #include "AFDataNode.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFIClass;
 class AFCDataNodeManager : public AFIDataNodeManager, public AFNoncopyable

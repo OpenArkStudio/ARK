@@ -25,8 +25,7 @@
 #include "kernel/include/AFDataTable.hpp"
 #include "kernel/include/AFCKernelModule.h"
 
-namespace ark
-{
+namespace ark {
 
 AFCKernelModule::AFCKernelModule()
 {

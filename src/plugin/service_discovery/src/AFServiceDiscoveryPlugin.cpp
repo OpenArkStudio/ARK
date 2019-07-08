@@ -1,8 +1,7 @@
 #include "AFServiceDiscoveryPlugin.h"
 #include "AFCServiceDiscoveryModule.h"
 
-namespace ark
-{
+namespace ark {
 // Dll entrance and exit function
 ARK_DLL_PLUGIN_ENTRY(AFServiceDiscoveryPlugin)
 ARK_DLL_PLUGIN_EXIT(AFServiceDiscoveryPlugin)

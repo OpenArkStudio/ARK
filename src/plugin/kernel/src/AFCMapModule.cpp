@@ -22,8 +22,7 @@
 #include "kernel/include/AFDataNode.hpp"
 #include "kernel/include/AFCMapModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCMapModule::Init()
 {

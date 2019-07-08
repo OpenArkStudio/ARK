@@ -202,7 +202,6 @@
 #pragma warning(disable:)
 #endif
 
-namespace ark
-{
+namespace ark {
 using AFGUID = int64_t;
 }

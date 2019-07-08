@@ -23,8 +23,7 @@
 #include "base/AFDefine.hpp"
 #include "AFIDataList.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFDataTable;
 

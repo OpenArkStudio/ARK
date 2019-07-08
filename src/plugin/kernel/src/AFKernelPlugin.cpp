@@ -24,8 +24,7 @@
 #include "kernel/include/AFCConfigModule.h"
 #include "kernel/include/AFCMapModule.h"
 
-namespace ark
-{
+namespace ark {
 
 ARK_DLL_PLUGIN_ENTRY(AFKernelPlugin)
 ARK_DLL_PLUGIN_EXIT(AFKernelPlugin)

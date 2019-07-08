@@ -27,8 +27,7 @@
 #include "net/interface/AFINetServiceManagerModule.h"
 #include "dir/interface/AFIDirNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCDirNetModule : public AFIDirNetModule
 {

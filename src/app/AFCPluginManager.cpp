@@ -27,8 +27,7 @@
 #include "interface/AFIPlugin.h"
 #include "AFCPluginManager.h"
 
-namespace ark
-{
+namespace ark {
 
 AFCPluginManager::AFCPluginManager()
     : AFIPluginManager()

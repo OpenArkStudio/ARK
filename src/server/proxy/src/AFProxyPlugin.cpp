@@ -21,8 +21,7 @@
 #include "proxy/include/AFProxyPlugin.h"
 #include "proxy/include/AFCProxyNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 ARK_DLL_PLUGIN_ENTRY(AFProxyPlugin)
 ARK_DLL_PLUGIN_EXIT(AFProxyPlugin)

@@ -21,8 +21,7 @@
 #include "interface/AFIPluginManager.h"
 #include "dir/include/AFCDirNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCDirNetModule::Init()
 {

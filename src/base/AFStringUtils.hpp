@@ -23,8 +23,7 @@
 #include "AFPlatform.hpp"
 #include "AFSlice.hpp"
 
-namespace
-{
+namespace {
 // internal functions
 struct NoCaseCompareChar
 {
@@ -473,8 +472,7 @@ inline int php_htoi(const char *s)
 
 } // namespace
 
-namespace ark
-{
+namespace ark {
 
 // Copy from Qihoo360/simcc project
 // @see https://github.com/Qihoo360/simcc/blob/master/simcc/string_util.h

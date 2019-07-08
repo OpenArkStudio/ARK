@@ -22,8 +22,7 @@
 
 #include "AFMacros.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFGUID128
 {

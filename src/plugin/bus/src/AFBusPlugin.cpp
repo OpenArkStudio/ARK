@@ -22,8 +22,7 @@
 #include "bus/include/AFCBusModule.h"
 #include "bus/include/AFCMsgModule.h"
 
-namespace ark
-{
+namespace ark {
 ARK_DLL_PLUGIN_ENTRY(AFBusPlugin)
 ARK_DLL_PLUGIN_EXIT(AFBusPlugin)
 

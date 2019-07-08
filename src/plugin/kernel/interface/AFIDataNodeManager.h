@@ -26,8 +26,7 @@
 #include "base/AFStringPod.hpp"
 #include "kernel/interface/AFIData.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFDataNode;
 

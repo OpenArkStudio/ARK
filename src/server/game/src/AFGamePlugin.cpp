@@ -26,8 +26,7 @@
 #include "game/include/AFCAccountModule.h"
 #include "game/include/AFCGameNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 ARK_DLL_PLUGIN_ENTRY(AFGamePlugin)
 ARK_DLL_PLUGIN_EXIT(AFGamePlugin)

@@ -20,8 +20,7 @@
 
 #pragma once
 
-namespace ark
-{
+namespace ark {
 // TODO: delete
 enum AF_DATA_TYPE
 {

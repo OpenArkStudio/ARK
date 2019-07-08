@@ -21,8 +21,7 @@
 #include "interface/AFIPluginManager.h"
 #include "game/include/AFCLevelModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCLevelModule::Init()
 {

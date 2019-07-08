@@ -24,8 +24,7 @@
 #include "base/AFEnum.hpp"
 #include "base/AFDefine.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFIData
 {

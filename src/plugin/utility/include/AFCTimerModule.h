@@ -23,8 +23,7 @@
 #include "base/AFTimer.hpp"
 #include "utility/interface/AFITimerModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCTimerModule : public AFITimerModule
 {

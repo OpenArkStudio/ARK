@@ -22,8 +22,7 @@
 #include "interface/AFIPluginManager.h"
 #include "bus/include/AFCMsgModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCMsgModule::Init()
 {

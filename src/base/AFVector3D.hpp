@@ -22,8 +22,7 @@
 
 #include "base/AFMisc.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFVector3D
 {

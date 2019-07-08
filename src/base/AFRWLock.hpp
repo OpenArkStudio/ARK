@@ -23,8 +23,7 @@
 #include "base/AFPlatform.hpp"
 #include "base/AFNoncopyable.hpp"
 
-namespace ark
-{
+namespace ark {
 
 #if ARK_PLATFORM == PLATFORM_WIN
 

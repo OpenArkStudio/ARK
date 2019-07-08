@@ -22,8 +22,7 @@
 
 #include "bus/interface/AFIBusModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCBusModule final : public AFIBusModule
 {

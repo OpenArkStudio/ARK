@@ -21,8 +21,7 @@
 #include "router/include/AFRouterPlugin.h"
 #include "router/include/AFCRouterNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 ARK_DLL_PLUGIN_ENTRY(AFRouterPlugin)
 ARK_DLL_PLUGIN_EXIT(AFRouterPlugin)

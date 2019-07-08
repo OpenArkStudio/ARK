@@ -21,8 +21,7 @@
 #include "bus/interface/AFIMsgModule.h"
 #include "game/include/AFCAccountModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCAccountModule::Init()
 {

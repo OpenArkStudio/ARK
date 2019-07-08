@@ -28,8 +28,7 @@
 #include "bus/interface/AFIMsgModule.h"
 #include "utility/interface/AFILogModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCNetClientService : public AFINetClientService
 {

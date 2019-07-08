@@ -24,8 +24,7 @@
 #include "base/AFDefine.hpp"
 #include "kernel/interface/AFIDataList.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFIEventManager
 {

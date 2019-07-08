@@ -24,8 +24,7 @@
 #include "interface/AFIPluginManager.h"
 #include "utility/include/AFCGUIDModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCGUIDModule::Init()
 {

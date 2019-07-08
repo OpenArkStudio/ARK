@@ -23,8 +23,7 @@
 #include "base/AFPlatform.hpp"
 #include "AFSingleton.hpp"
 
-namespace ark
-{
+namespace ark {
 
 // will be used for internal errors
 class AFErrorCategory : public std::error_category, public AFSingleton<AFErrorCategory>

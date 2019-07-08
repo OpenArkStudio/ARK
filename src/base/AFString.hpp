@@ -22,8 +22,7 @@
 
 #include "base/AFCoreDef.hpp"
 
-namespace ark
-{
+namespace ark {
 
 template<typename TYPE>
 class CharTraits

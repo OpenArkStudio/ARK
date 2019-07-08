@@ -24,8 +24,7 @@
 #include "AFMap.hpp"
 #include "AFCDataMeta.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFCEntityClassMeta : public AFIClassMeta
 {

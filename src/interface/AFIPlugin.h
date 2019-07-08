@@ -26,8 +26,7 @@
 #include "interface/AFIModule.h"
 #include "AFIPluginManager.h"
 
-namespace ark
-{
+namespace ark {
 
 #define GET_CLASS_NAME(className) (typeid(className).name());
 

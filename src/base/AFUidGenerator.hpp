@@ -23,8 +23,7 @@
 #include "base/AFMacros.hpp"
 #include "AFDateTime.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFBitsAllocator
 {

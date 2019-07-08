@@ -31,8 +31,7 @@
 #include "kernel/interface/AFIConfigModule.h"
 #include "utility/interface/AFILogModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCMetaClass : public AFIMetaClass
 {

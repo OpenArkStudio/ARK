@@ -25,8 +25,7 @@
 #include "base/AFMisc.hpp"
 #include "kernel/interface/AFIData.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFDataAlloc
 {
@@ -584,7 +583,8 @@ private:
     int mnType;
 
     // This union size is 8 bytes
-    union {
+    union
+    {
         bool mbValue;
         int mnValue;
         int64_t mn64Value;
@@ -596,7 +596,8 @@ private:
     };
 
     // buffer
-    union {
+    union
+    {
         uint32_t mnAllocLen;
         char mBuffer[BUFFER_SIZE];
     };

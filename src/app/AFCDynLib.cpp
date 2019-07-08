@@ -20,8 +20,7 @@
 
 #include "AFCDynLib.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCDynLib::Load(std::string const &path)
 {

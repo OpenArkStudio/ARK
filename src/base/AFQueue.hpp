@@ -23,8 +23,7 @@
 #include "AFPlatform.hpp"
 #include "AFNoncopyable.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFLock : public AFNoncopyable
 {

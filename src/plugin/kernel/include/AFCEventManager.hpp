@@ -26,8 +26,7 @@
 #include "kernel/interface/AFIEventManager.h"
 #include "kernel/include/AFCDataList.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFCEventManager : public AFIEventManager
 {

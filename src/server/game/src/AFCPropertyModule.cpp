@@ -22,8 +22,7 @@
 #include "interface/AFIPluginManager.h"
 #include "game/include/AFCPropertyModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCPropertyModule::Init()
 {

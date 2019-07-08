@@ -22,8 +22,7 @@
 
 #include "utility/interface/AFILogModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCLogModule : public AFILogModule
 {

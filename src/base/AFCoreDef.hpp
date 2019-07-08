@@ -23,8 +23,7 @@
 #include "base/AFPlatform.hpp"
 #include "base/AFMacros.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class CoreAlloc
 {

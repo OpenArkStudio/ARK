@@ -21,8 +21,7 @@
 #include "net/include/AFNetPlugin.h"
 #include "net/include/AFCNetServiceManagerModule.h"
 
-namespace ark
-{
+namespace ark {
 
 ARK_DLL_PLUGIN_ENTRY(AFNetPlugin)
 ARK_DLL_PLUGIN_EXIT(AFNetPlugin)

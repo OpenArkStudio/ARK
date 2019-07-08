@@ -22,8 +22,7 @@
 #include "net/include/AFCTCPServer.h"
 #include "net/include/AFCNetServerService.h"
 
-namespace ark
-{
+namespace ark {
 
 AFCNetServerService::AFCNetServerService(AFIPluginManager *p)
     : m_pPluginManager(p)

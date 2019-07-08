@@ -1,7 +1,6 @@
 #include "AFCServiceDiscoveryModule.h"
 
-namespace ark
-{
+namespace ark {
 
 void AFCServiceDiscoveryModule::SetRegisterCenter(const std::string &center_ip, const uint16_t center_port)
 {

@@ -28,8 +28,7 @@
 #include "AFIDataTableManager.h"
 #include "interface/AFIModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFIMetaClass
 {

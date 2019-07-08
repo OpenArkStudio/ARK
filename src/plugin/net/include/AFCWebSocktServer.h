@@ -25,8 +25,7 @@
 #include "net/interface/AFINet.h"
 #include "net/include/AFNetSession.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCWebSocktServer : public AFINet
 {

@@ -23,8 +23,7 @@
 #include "base/AFGUID128.hpp"
 #include "interface/AFIModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFIComponent : public AFIModule
 {

@@ -23,8 +23,7 @@
 #include "base/AFUidGenerator.hpp"
 #include "utility/interface/AFIGUIDModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCGUIDModule : public AFIGUIDModule
 {

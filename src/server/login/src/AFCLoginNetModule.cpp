@@ -21,8 +21,7 @@
 #include "interface/AFIPluginManager.h"
 #include "login/include/AFCLoginNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCLoginNetModule::Init()
 {
@@ -277,7 +276,7 @@ int AFCLoginNetModule::StartClient()
 //}
 
 ////void AFCLoginNetServerModule::InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen,
-///const AFGUID& xClientID)
+/// const AFGUID& xClientID)
 ////{
 ////    ARK_LOG_ERROR("Invalid msg id = {}", nMsgID);
 ////}

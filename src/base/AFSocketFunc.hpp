@@ -36,8 +36,7 @@
 #include <netdb.h>
 #endif
 
-namespace ark
-{
+namespace ark {
 #if ARK_PLATFORM == PLATFORM_WIN
 static std::atomic_bool g_WinSockIsInit = false;
 #endif

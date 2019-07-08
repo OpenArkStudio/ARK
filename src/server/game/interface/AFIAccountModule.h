@@ -23,8 +23,7 @@
 #include "proto/AFProtoCPP.hpp"
 #include "interface/AFIModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFIAccountModule : public AFIModule
 {

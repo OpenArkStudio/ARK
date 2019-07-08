@@ -21,8 +21,7 @@
 #include "dir/include/AFDirPlugin.h"
 #include "dir/include/AFCDirNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 ARK_DLL_PLUGIN_ENTRY(AFDirPlugin)
 ARK_DLL_PLUGIN_EXIT(AFDirPlugin)

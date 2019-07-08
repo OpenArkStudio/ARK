@@ -30,8 +30,7 @@
 #include "utility/interface/AFITimerModule.h"
 #include "master/interface/AFIMasterNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCMasterNetModule : public AFIMasterNetModule
 {

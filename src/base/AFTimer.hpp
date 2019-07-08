@@ -25,8 +25,7 @@
 #include "AFSingleton.hpp"
 #include "AFDateTime.hpp"
 
-namespace ark
-{
+namespace ark {
 
 enum AFTimerEnum
 {

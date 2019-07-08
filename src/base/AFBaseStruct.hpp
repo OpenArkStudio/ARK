@@ -25,11 +25,11 @@
 #include "base/AFMacros.hpp"
 #include "AFSocketFunc.hpp"
 
-namespace ark
-{
+namespace ark {
 
 // bus address, like IP address, 8.8.8.8
-union AFBusAddr {
+union AFBusAddr
+{
     AFBusAddr() = default;
 
     explicit AFBusAddr(const int id)

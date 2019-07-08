@@ -27,8 +27,7 @@
 #include "AFCData.hpp"
 #include "base/AFDefine.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFDataTable
 {

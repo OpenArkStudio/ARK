@@ -15,8 +15,7 @@
 
 #include "AFPlatform.hpp"
 
-namespace ark
-{
+namespace ark {
 
 // Copy from leveldb project
 // @see https://github.com/google/leveldb/blob/master/include/leveldb/slice.h

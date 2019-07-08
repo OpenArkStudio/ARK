@@ -34,8 +34,7 @@
 #include "game/interface/AFIAccountModule.h"
 #include "game/interface/AFIGameNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCGameNetModule : public AFIGameNetModule
 {

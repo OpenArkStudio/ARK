@@ -24,8 +24,7 @@
 #include "base/AFDefine.hpp"
 #include "base/cronexpr.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCronSheduler;
 

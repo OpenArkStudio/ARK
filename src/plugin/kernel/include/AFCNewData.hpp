@@ -24,8 +24,7 @@
 #include "AFVector.hpp"
 #include "AFMap.hpp"
 
-namespace ark
-{
+namespace ark {
 // bool
 class AFBoolData : public AFINewData
 {

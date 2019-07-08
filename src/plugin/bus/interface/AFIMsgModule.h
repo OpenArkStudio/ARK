@@ -29,8 +29,7 @@
 #include "kernel/include/AFDataNode.hpp"
 #include "kernel/include/AFDataTable.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFIMsgModule : public AFIModule
 {

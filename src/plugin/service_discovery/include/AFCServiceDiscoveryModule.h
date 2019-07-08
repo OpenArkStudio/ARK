@@ -2,8 +2,7 @@
 
 #include "interface/AFIServiceDiscoveryModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCServiceDiscoveryModule : public AFIServiceDiscoveryModule
 {

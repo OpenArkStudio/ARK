@@ -25,8 +25,7 @@
 #include "spdlog/fmt/fmt.h"
 #include "interface/AFIModule.h"
 
-namespace ark
-{
+namespace ark {
 
 #define ARK_LOG_TRACE(my_fmt, ...) m_pLogModule->Log(spdlog::level::trace, ARK_FUNCTION_LINE, my_fmt, ##__VA_ARGS__);
 #define ARK_LOG_DEBUG(my_fmt, ...) m_pLogModule->Log(spdlog::level::debug, ARK_FUNCTION_LINE, my_fmt, ##__VA_ARGS__);

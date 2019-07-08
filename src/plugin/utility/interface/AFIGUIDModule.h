@@ -22,8 +22,7 @@
 
 #include "interface/AFIModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFIGUIDModule : public AFIModule
 {

@@ -21,8 +21,7 @@
 #include "interface/AFIPluginManager.h"
 #include "proxy/include/AFCProxyNetModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCProxyNetModule::Init()
 {

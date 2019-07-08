@@ -25,8 +25,7 @@
 #include "base/AFBaseStruct.hpp"
 #include "base/AFStringUtils.hpp"
 
-namespace ark
-{
+namespace ark {
 
 class AFMisc
 {

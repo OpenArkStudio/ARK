@@ -32,8 +32,7 @@
 #include "kernel/interface/AFIConfigModule.h"
 #include "kernel/interface/AFIMapModule.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCKernelModule : public AFIKernelModule
 {

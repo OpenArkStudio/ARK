@@ -21,8 +21,7 @@
 #include "interface/AFIPluginManager.h"
 #include "utility/include/AFCScheduleModule.h"
 
-namespace ark
-{
+namespace ark {
 
 bool AFCScheduleModule::Init()
 {

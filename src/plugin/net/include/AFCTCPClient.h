@@ -23,8 +23,7 @@
 #include "net/interface/AFINet.h"
 #include "net/include/AFNetSession.h"
 
-namespace ark
-{
+namespace ark {
 
 class AFCTCPClient : public AFINet
 {
