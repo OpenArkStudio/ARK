@@ -18,28 +18,8 @@
  *
  */
 
-#pragma once
+#include "base/AFPlatform.hpp"
 
-#include "kernel/interface/AFIKernelModule.h"
-#include "log/interface/AFILogModule.h"
-#include "kernel/interface/AFIConfigModule.h"
-#include "game/interface/AFILevelModule.h"
-#include "game/interface/AFIPropertyConfigModule.h"
-
-namespace ark {
-
-class AFCLevelModule : public AFILevelModule
-{
-public:
-    bool Init() override;
-
-    int AddExp(const AFGUID &self, const int nExp) override;
-
-private:
-    AFIPropertyConfigModule *m_pPropertyConfigModule;
-    AFIKernelModule *m_pKernelModule;
-    AFILogModule *m_pLogModule;
-    AFIConfigModule *m_pConfigModule;
-};
-
-} // namespace ark
+#if ARK_PLATFORM == PLATFORM_WIN
+#pragma comment(lib, "Dbghelp.lib")
+#endif

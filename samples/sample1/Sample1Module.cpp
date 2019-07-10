@@ -26,6 +26,7 @@
 #include "base/AFCConsistentHash.hpp"
 #include "kernel/include/AFCData.hpp"
 #include "Sample1Module.h"
+#include "proto/cpp/AFOss.pb.h"
 
 namespace ark {
 
@@ -34,8 +35,6 @@ bool Sample1Module::Init()
     m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pGUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
-    m_pDynamicLogModule = pPluginManager->FindModule<AFIDynamicLogModule>();
-    // m_pScheduleModule = pPluginManager->FindModule<AFIScheduleModule>();
 
     ARK_LOG_INFO("{}, init", typeid(Sample1Module).name());
 
@@ -157,12 +156,39 @@ void TestConsistentHashmap()
     std::cout << log << std::endl;
 }
 
+void Sample1Module::TestOssLog()
+{
+    auto func = [&]() {
+        osslog::create_account msg;
+        msg.set_cid(1);
+        msg.set_sid(1);
+        msg.set_account("xxxxx");
+        AFDateTime time(pPluginManager->GetNowTime());
+        msg.set_time(time.GetTime());
+        msg.set_ms(time.Raw());
+        msg.set_ts(time.ToISO8601String());
+        msg.set_ip("127.0.0.1");
+        msg.set_adv("aaa");
+        msg.set_ad("bbb");
+        msg.set_guest(0);
+        msg.set_device("iPhone");
+
+        ARK_OSS_LOG(msg);
+    };
+
+    for (int i = 0; i < 100000; ++i)
+    {
+        func();
+    }
+}
+
 bool Sample1Module::PostInit()
 {
     ARK_LOG_INFO("{}, PostInit", typeid(Sample1Module).name());
 
     TestCRC();
     TestConsistentHashmap();
+    TestOssLog();
     //////////////////////////////////////////////////////////////////////////
     // Test guid
     AFGUID id = m_pGUIDModule->CreateGUID();

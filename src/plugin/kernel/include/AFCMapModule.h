@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "utility/interface/AFILogModule.h"
+#include "log/interface/AFILogModule.h"
 #include "kernel/interface/AFIEntity.h"
 #include "kernel/interface/AFIMapModule.h"
 #include "kernel/interface/AFIKernelModule.h"

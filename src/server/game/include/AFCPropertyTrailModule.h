@@ -24,7 +24,7 @@
 #include "kernel/interface/AFIConfigModule.h"
 #include "kernel/interface/AFIMetaClassModule.h"
 #include "interface/AFIPluginManager.h"
-#include "utility/interface/AFILogModule.h"
+#include "log/interface/AFILogModule.h"
 #include "game/interface/AFIPropertyModule.h"
 #include "game/interface/AFIPropertyConfigModule.h"
 #include "game/interface/AFIPropertyTrailModule.h"

@@ -20,34 +20,20 @@
 
 #pragma once
 
-#include "proto/AFProtoCPP.hpp"
-#include "log/interface/AFILogModule.h"
-#include "bus/interface/AFIMsgModule.h"
-#include "bus/interface/AFIBusModule.h"
-#include "net/interface/AFINetServiceManagerModule.h"
-#include "router/interface/AFIRouterNetModule.h"
+#include "interface/AFIPlugin.h"
+#include "interface/AFIPluginManager.h"
 
 namespace ark {
 
-class AFCRouterNetModule : public AFIRouterNetModule
+class AFLogPlugin : public AFIPlugin
 {
 public:
-    bool Init() override;
-    bool PostInit() override;
-    bool PreUpdate() override;
+    int GetPluginVersion() override;
 
-    virtual AFINetServerService *GetNetServer();
+    const std::string GetPluginName() override;
 
-protected:
-    int StartServer();
-    int StartClient();
-
-private:
-    AFILogModule *m_pLogModule;
-    AFIBusModule *m_pBusModule;
-    AFINetServiceManagerModule *m_pNetServiceManagerModule;
-
-    AFINetServerService *m_pNetServer;
+    void Install() override;
+    void Uninstall() override;
 };
 
 } // namespace ark

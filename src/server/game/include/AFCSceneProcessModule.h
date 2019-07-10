@@ -29,7 +29,7 @@
 #include "kernel/interface/AFIConfigModule.h"
 #include "kernel/interface/AFIMetaClassModule.h"
 #include "kernel/interface/AFIMapModule.h"
-#include "utility/interface/AFILogModule.h"
+#include "log/interface/AFILogModule.h"
 #include "utility/interface/AFIGUIDModule.h"
 #include "interface/AFIPluginManager.h"
 #include "game/interface/AFISceneProcessModule.h"

@@ -18,36 +18,33 @@
  *
  */
 
-#pragma once
-
-#include "proto/AFProtoCPP.hpp"
-#include "log/interface/AFILogModule.h"
-#include "bus/interface/AFIMsgModule.h"
-#include "bus/interface/AFIBusModule.h"
-#include "net/interface/AFINetServiceManagerModule.h"
-#include "router/interface/AFIRouterNetModule.h"
+#include "log/include/AFLogPlugin.h"
+#include "log/include/AFCLogModule.h"
 
 namespace ark {
 
-class AFCRouterNetModule : public AFIRouterNetModule
+ARK_DLL_PLUGIN_ENTRY(AFLogPlugin)
+ARK_DLL_PLUGIN_EXIT(AFLogPlugin)
+
+//////////////////////////////////////////////////////////////////////////
+int AFLogPlugin::GetPluginVersion()
 {
-public:
-    bool Init() override;
-    bool PostInit() override;
-    bool PreUpdate() override;
+    return 0;
+}
 
-    virtual AFINetServerService *GetNetServer();
+const std::string AFLogPlugin::GetPluginName()
+{
+    return GET_CLASS_NAME(AFLogPlugin)
+}
 
-protected:
-    int StartServer();
-    int StartClient();
+void AFLogPlugin::Install()
+{
+    RegisterModule<AFILogModule, AFCLogModule>();
+}
 
-private:
-    AFILogModule *m_pLogModule;
-    AFIBusModule *m_pBusModule;
-    AFINetServiceManagerModule *m_pNetServiceManagerModule;
-
-    AFINetServerService *m_pNetServer;
-};
+void AFLogPlugin::Uninstall()
+{
+    DeregisterModule<AFILogModule, AFCLogModule>();
+}
 
 } // namespace ark

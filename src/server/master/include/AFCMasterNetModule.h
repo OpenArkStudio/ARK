@@ -26,7 +26,7 @@
 #include "bus/interface/AFIBusModule.h"
 #include "bus/interface/AFIMsgModule.h"
 #include "net/interface/AFINetServiceManagerModule.h"
-#include "utility/interface/AFILogModule.h"
+#include "log/interface/AFILogModule.h"
 #include "utility/interface/AFITimerModule.h"
 #include "master/interface/AFIMasterNetModule.h"
 

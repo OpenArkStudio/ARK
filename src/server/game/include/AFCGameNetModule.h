@@ -21,7 +21,7 @@
 #pragma once
 
 #include "proto/AFProtoCPP.hpp"
-#include "utility/interface/AFILogModule.h"
+#include "log/interface/AFILogModule.h"
 #include "utility/interface/AFIGUIDModule.h"
 #include "kernel/interface/AFIKernelModule.h"
 #include "kernel/interface/AFIMetaClassModule.h"

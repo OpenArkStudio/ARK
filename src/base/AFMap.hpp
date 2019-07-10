@@ -171,8 +171,6 @@ public:
     using const_reference = const value_type &;
     using iterator = typename map_type::iterator;
     using const_iterator = typename map_type::const_iterator;
-    using reverse_iterator = typename map_type::reverse_iterator;
-    using const_reverse_iterator = typename map_type::const_reverse_iterator;
 
     AFNewMapBase() = default;
     ~AFNewMapBase()
@@ -220,16 +218,6 @@ public:
         return nodes_.end();
     }
 
-    reverse_iterator rbegin() noexcept
-    {
-        return nodes_.rbegin();
-    }
-
-    reverse_iterator rend() noexcept
-    {
-        return nodes_.rend();
-    }
-
     const_iterator cbegin() const noexcept
     {
         return nodes_.cbegin();
@@ -238,16 +226,6 @@ public:
     const_iterator cend() const noexcept
     {
         return nodes_.cbegin();
-    }
-
-    const_reverse_iterator crbegin() const noexcept
-    {
-        return nodes_.crbegin();
-    }
-
-    const_reverse_iterator crend() const noexcept
-    {
-        return nodes_.crbegin();
     }
 
     bool erase(const k_type &key, bool need_delete = true)
@@ -306,4 +284,5 @@ using AFNewHashmap = AFNewMapBase<KEY, VALUE, std::unordered_map<KEY, VALUE *>, 
 
 template<typename KEY, typename VALUE>
 using AFNewSmartPtrHashmap = AFNewMapBase<KEY, VALUE, std::unordered_map<KEY, std::shared_ptr<VALUE>>, true>;
+
 } // namespace ark

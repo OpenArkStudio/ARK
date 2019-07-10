@@ -21,7 +21,7 @@
 #pragma once
 
 #include "net/interface/AFINetServiceManagerModule.h"
-#include "utility/interface/AFILogModule.h"
+#include "log/interface/AFILogModule.h"
 #include "bus/interface/AFIBusModule.h"
 #include "bus/interface/AFIMsgModule.h"
 

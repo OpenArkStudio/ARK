@@ -22,7 +22,7 @@
 
 #include "proto/AFProtoCPP.hpp"
 #include "base/AFCConsistentHash.hpp"
-#include "utility/interface/AFILogModule.h"
+#include "log/interface/AFILogModule.h"
 #include "bus/interface/AFIMsgModule.h"
 #include "bus/interface/AFIBusModule.h"
 #include "net/interface/AFINetServiceManagerModule.h"

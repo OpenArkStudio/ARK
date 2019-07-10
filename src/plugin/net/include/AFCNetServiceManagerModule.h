@@ -22,7 +22,7 @@
 
 #include "base/AFMap.hpp"
 #include "bus/interface/AFIBusModule.h"
-#include "utility/interface/AFILogModule.h"
+#include "log/interface/AFILogModule.h"
 #include "net/interface/AFINetServiceManagerModule.h"
 #include "net/interface/AFINetServerService.h"
 

@@ -695,11 +695,18 @@ public:
     std::string ToString()
     {
         std::tm tm = GetLocalTime(); // local time
-        static char timeBuff[30] = {0};
+        static char timeBuff[32] = {0};
         std::strftime(timeBuff, sizeof(timeBuff), "%Y/%m/%d %H:%M:%S", &tm);
         return std::string(timeBuff);
     }
 
+    std::string ToISO8601String()
+    {
+        std::tm tm = GetUTCTime(); // local time
+        static char timeBuff[64] = {0};
+        std::strftime(timeBuff, sizeof(timeBuff), "%FT%TZ", &tm);
+        return std::string(timeBuff);
+    }
     static bool IsLeapYear(int year)
     {
         return (year % 4) == 0 && ((year % 100) != 0 || (year % 400) == 0);

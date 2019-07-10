@@ -23,7 +23,7 @@
 #include "interface/AFIPlugin.h"
 #include "interface/AFIPluginManager.h"
 #include "utility/interface/AFITimerModule.h"
-#include "utility/interface/AFILogModule.h"
+#include "log/interface/AFILogModule.h"
 #include "utility/interface/AFIScheduleModule.h"
 #include "utility/interface/AFIGUIDModule.h"
 
@@ -42,13 +42,13 @@ public:
 
 protected:
     void TestTimer(const std::string &name, const AFGUID &entity_id);
+    void TestOssLog();
     // bool TestSchduler(const int id, const int arg);
 
 protected:
     AFITimerModule *m_pTimerModule;
     AFILogModule *m_pLogModule;
     AFIGUIDModule *m_pGUIDModule;
-    AFIDynamicLogModule *m_pDynamicLogModule;
     AFIScheduleModule *m_pScheduleModule;
 };
 

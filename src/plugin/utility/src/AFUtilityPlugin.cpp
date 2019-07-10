@@ -20,7 +20,7 @@
 
 #include "utility/include/AFUtilityPlugin.h"
 #include "utility/include/AFCGUIDModule.h"
-#include "utility/include/AFCLogModule.h"
+//#include "utility/include/AFCLogModule.h"
 #include "utility/include/AFCTimerModule.h"
 //#include "utility/include/AFCScheduleModule.h"
 
@@ -42,8 +42,8 @@ const std::string AFUtilityPlugin::GetPluginName()
 
 void AFUtilityPlugin::Install()
 {
-    RegisterModule<AFILogModule, AFCLogModule>();
-    RegisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
+    // RegisterModule<AFILogModule, AFCLogModule>();
+    // RegisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
     RegisterModule<AFIGUIDModule, AFCGUIDModule>();
     RegisterModule<AFITimerModule, AFCTimerModule>();
     // RegisterModule<AFIScheduleModule, AFCScheduleModule>();
@@ -54,8 +54,8 @@ void AFUtilityPlugin::Uninstall()
     // DeregisterModule<AFIScheduleModule, AFCScheduleModule>();
     DeregisterModule<AFITimerModule, AFCGUIDModule>();
     DeregisterModule<AFIGUIDModule, AFCGUIDModule>();
-    DeregisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
-    DeregisterModule<AFILogModule, AFCLogModule>();
+    // DeregisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
+    // DeregisterModule<AFILogModule, AFCLogModule>();
 }
 
 } // namespace ark

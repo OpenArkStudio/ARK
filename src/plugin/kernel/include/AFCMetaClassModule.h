@@ -23,13 +23,13 @@
 #include "rapidxml/rapidxml.hpp"
 #include "base/AFList.hpp"
 #include "interface/AFIPluginManager.h"
+#include "log/interface/AFILogModule.h"
 #include "kernel/include/AFCDataList.hpp"
 #include "kernel/include/AFCDataNodeManager.hpp"
 #include "kernel/include/AFCDataTableManager.hpp"
 #include "kernel/include/AFDataNode.hpp"
 #include "kernel/interface/AFIMetaClassModule.h"
 #include "kernel/interface/AFIConfigModule.h"
-#include "utility/interface/AFILogModule.h"
 
 namespace ark {
 

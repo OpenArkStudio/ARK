@@ -23,7 +23,7 @@
 #include "base/AFMap.hpp"
 #include "base/AFArrayMap.hpp"
 #include "utility/interface/AFIGUIDModule.h"
-#include "utility/interface/AFILogModule.h"
+#include "log/interface/AFILogModule.h"
 #include "kernel/include/AFCDataList.hpp"
 #include "kernel/include/AFDataTable.hpp"
 #include "kernel/interface/AFIEntity.h"

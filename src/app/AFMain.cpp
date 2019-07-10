@@ -108,7 +108,7 @@ void PrintLogo()
     / ___ \| |  |   < 
    /_/   \_\_|  |_|\_\
 
-Copyright 2018 (c) ArkNX. All Rights Reserved.
+Copyright 2019 (c) ArkNX. All Rights Reserved.
 Website: https://arknx.com
 Github:  https://github.com/ArkNX
 *************************************************
@@ -121,25 +121,24 @@ Github:  https://github.com/ArkNX
 #endif
 }
 
-void ThreadFunc()
-{
-    while (!g_exit_loop)
-    {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-
-        std::string s;
-        std::cin >> s;
-        AFStringUtils::ToLower(s);
-        if (s == "exit")
-        {
-            g_exit_loop = true;
-        }
-    }
-}
-
 void CreateBackThread()
 {
-    g_cmd_thread = std::thread(std::bind(&ThreadFunc));
+    auto thread_func = []() {
+        while (!g_exit_loop)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+            std::string s;
+            std::cin >> s;
+            AFStringUtils::ToLower(s);
+            if (s == "exit")
+            {
+                g_exit_loop = true;
+            }
+        }
+    };
+
+    g_cmd_thread = std::thread(thread_func);
 }
 
 bool ParseArgs(int argc, char *argv[])

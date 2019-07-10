@@ -22,7 +22,7 @@
 
 #include "proto/AFProtoCPP.hpp"
 #include "kernel/interface/AFIKernelModule.h"
-#include "utility/interface/AFILogModule.h"
+#include "log/interface/AFILogModule.h"
 #include "utility/interface/AFITimerModule.h"
 #include "bus/interface/AFIMsgModule.h"
 #include "bus/interface/AFIBusModule.h"
