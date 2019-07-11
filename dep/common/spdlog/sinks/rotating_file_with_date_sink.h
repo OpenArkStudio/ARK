@@ -1,3 +1,6 @@
+// Copyright(c) 2019 ARK
+// Based on rotating_file_sink
+// Distributed under the MIT License (http://opensource.org/licenses/MIT)
 //
 // Copyright(c) 2015 Gabi Melman.
 // Distributed under the MIT License (http://opensource.org/licenses/MIT)
@@ -24,6 +27,21 @@
 namespace spdlog {
 namespace sinks {
 
+#ifdef _WIN32
+#include <direct.h>
+#include <io.h>
+#elif _LINUX
+#include <stdarg.h>
+#include <sys/stat.h>
+#endif
+
+#ifdef _WIN32
+#define ACCESS _access
+#define MKDIR(a) _mkdir((a))
+#else
+#define ACCESS access
+#define MKDIR(a) mkdir((a), 0755)
+#endif
 //
 // Rotating file sink based on size
 //
@@ -86,7 +104,11 @@ public:
             tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, spdlog::details::os::folder_sep);
 
         // CHECK if directory is already existed
+#if _WIN32
         char tmp_dir_path[MAX_PATH] = {0};
+#else
+        char tmp_dir_path[PATH_MAX] = {0};
+#endif
         for (size_t i = 0; i < dir_path.length(); ++i)
         {
             tmp_dir_path[i] = dir_path[i];

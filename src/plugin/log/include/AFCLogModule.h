@@ -33,7 +33,7 @@ public:
 
     bool Shut() override;
 
-    const spdlogger &GetDevLogger() override;
+    spdlogger GetDevLogger() override;
 
     void OssLog(const google::protobuf::Message &msg) override;
 
@@ -49,25 +49,5 @@ private:
     std::map<std::string, spdlogger> oss_loggers_;
     spd_threadpool oss_tp_{nullptr};
 };
-
-// class AFCDynamicLogModule : public AFIDynamicLogModule
-//{
-// public:
-//    bool Shut() override;
-//
-//    const std::shared_ptr<spdlog::async_logger> &GetLogger(const int id, const char *name) override;
-//
-// protected:
-//    void CreateLogger(const int id, const char *name);
-//
-// private:
-//    using dynamic_log_key = std::pair<int, const char *>;
-//    using dynamic_log_container = std::map<dynamic_log_key, std::shared_ptr<spdlog::async_logger>>;
-//
-//    dynamic_log_container _dynamic_loggers;
-//    std::shared_ptr<spdlog::details::thread_pool> tp_{nullptr};
-//
-//    const std::shared_ptr<spdlog::async_logger> &_null_logger = nullptr;
-//};
 
 } // namespace ark

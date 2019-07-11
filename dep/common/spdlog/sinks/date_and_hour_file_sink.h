@@ -1,9 +1,13 @@
 ﻿#pragma once
 
-#include "spdlog/sinks/base_sink.h"
-#include "spdlog/fmt/fmt.h"
+#ifndef SPDLOG_H
+#include "spdlog/spdlog.h"
+#endif
+
 #include "spdlog/details/file_helper.h"
 #include "spdlog/details/null_mutex.h"
+#include "spdlog/fmt/fmt.h"
+#include "spdlog/sinks/base_sink.h"
 
 #include <algorithm>
 #include <cerrno>
@@ -83,7 +87,11 @@ struct default_date_and_hour_file_name_calculator
             tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, spdlog::details::os::folder_sep);
 
         // CHECK if directory is already existed
+#if _WIN32
         char tmp_dir_path[MAX_PATH] = {0};
+#else
+        char tmp_dir_path[PATH_MAX] = {0};
+#endif
         for (size_t i = 0; i < dir_path.length(); ++i)
         {
             tmp_dir_path[i] = dir_path[i];
@@ -159,4 +167,21 @@ using date_and_hour_file_sink_mt = date_and_hour_file_sink<std::mutex>;
 using date_and_hour_file_sink_st = date_and_hour_file_sink<details::null_mutex>;
 
 } // namespace sinks
+
+//
+// factory functions
+//
+
+template<typename Factory = default_factory>
+inline std::shared_ptr<logger> date_and_hour_file_sink_mt(const std::string &logger_name, const filename_t &filename)
+{
+    return Factory::template create<sinks::date_and_hour_file_sink_mt>(logger_name);
+}
+
+template<typename Factory = default_factory>
+inline std::shared_ptr<logger> date_and_hour_file_sink_st(const std::string &logger_name, const filename_t &filename)
+{
+    return Factory::template create<sinks::date_and_hour_file_sink_st>(logger_name);
+}
+
 } // namespace spdlog
