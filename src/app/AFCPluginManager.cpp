@@ -70,10 +70,10 @@ inline bool AFCPluginManager::Init()
 bool AFCPluginManager::LoadPluginConf()
 {
     rapidxml::file<> fdoc(plugin_conf_path_.c_str());
-    rapidxml::xml_document<> doc;
-    doc.parse<0>(fdoc.data());
+    rapidxml::xml_document<> *doc = new rapidxml::xml_document<>();
+    doc->parse<0>(fdoc.data());
 
-    rapidxml::xml_node<> *pRoot = doc.first_node();
+    rapidxml::xml_node<> *pRoot = doc->first_node();
     rapidxml::xml_node<> *pPluginsNode = pRoot->first_node("plugins");
     if (pPluginsNode == nullptr)
     {
@@ -114,9 +114,10 @@ bool AFCPluginManager::LoadPluginConf()
 
     res_path_ = pResNode->first_attribute("path")->value();
 
+    delete doc;
     return true;
 }
-
+    
 void AFCPluginManager::Register(AFIPlugin *plugin)
 {
     std::string strPluginName = plugin->GetPluginName();
