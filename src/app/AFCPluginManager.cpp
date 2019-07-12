@@ -114,7 +114,7 @@ bool AFCPluginManager::LoadPluginConf()
 
     res_path_ = pResNode->first_attribute("path")->value();
 
-	delete doc;
+    delete doc;
     return true;
 }
 
