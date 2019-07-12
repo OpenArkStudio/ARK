@@ -161,7 +161,7 @@ public:
             return;
         }
 
-        while (GetBufferLen() >= pos + GetHeadLen() + msg_head->length_)
+        while (GetBufferLen() >= static_cast<size_t>(pos + GetHeadLen() + msg_head->length_))
         {
             AFNetMsg *msg = AFNetMsg::AllocMsg(msg_head->length_);
             memcpy(msg, msg_head, GetHeadLen());

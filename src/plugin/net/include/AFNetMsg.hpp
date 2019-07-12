@@ -27,6 +27,7 @@
 #pragma pack(push, 1)
 
 namespace ark {
+
 ARK_CONSTEXPR static const int ARK_TCP_RECV_BUFFER_SIZE = 10 * 1024 * 1024;                    // 10M
 ARK_CONSTEXPR static const int ARK_HTTP_RECV_BUFFER_SIZE = 1024 * 1024;                        // 1M
 ARK_CONSTEXPR static const std::chrono::seconds ARK_CONNECT_TIMEOUT = std::chrono::seconds(5); // 5s
@@ -45,7 +46,6 @@ class AFMsgHead
 public:
     uint16_t id_{0};     // Msg id
     uint32_t length_{0}; // Msg length(without header length)
-    // uint8_t children_{ 0 }; //The number of the children msg(include self)
 };
 
 /*
@@ -54,6 +54,7 @@ public:
 */
 class AFCSMsgHead : public AFMsgHead
 {
+    // same with base msg header
 };
 
 /*
@@ -99,7 +100,6 @@ public:
     void CopyFrom(AFNetMsg *msg)
     {
         this->id_ = msg->id_;
-        // this->children_ = msg->children_;
         this->actor_id_ = msg->actor_id_;
         this->src_bus_ = msg->src_bus_;
         this->dst_bus_ = msg->dst_bus_;
@@ -112,7 +112,6 @@ public:
     void CopyFrom(const int64_t actor_id, const uint16_t msg_id, const char *data, const uint32_t len, int src_bus, int dst_bus)
     {
         this->id_ = msg_id;
-        // this->children_ = 0;
         this->actor_id_ = actor_id;
         this->src_bus_ = src_bus;
         this->dst_bus_ = dst_bus;
