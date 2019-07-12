@@ -117,8 +117,9 @@ AFCLogModule::spdlogger AFCLogModule::CreateOssLogger(const std::string &name)
     catch (std::system_error &error)
     {
         CONSOLE_INFO_LOG << "Create OSS logger failed, error = " << error.what() << std::endl;
-        ARK_ASSERT_RET_VAL(0, nullptr);
     }
+
+    ARK_ASSERT_RET_VAL(0, nullptr);
 }
 
 void AFCLogModule::OssLog(const google::protobuf::Message &msg)

@@ -1,6 +1,6 @@
 简体中文 | [English](./README.md)
 
-<p align="right">当前版本: <strong>v0.9.3</strong></p>
+<p align="right">当前版本: <strong>v0.9.5</strong></p>
 <p align="center"><img src="https://raw.githubusercontent.com/ArkNX/ARK/gh-pages/_images/ark_logo.svg?sanitize=true" alt="ark" width="300"/></p>
 <center>ARK 是一个使用C++开发的轻量级,敏捷型,弹性的,分布式的插件开发框架, 让你更快更简单的开发服务端应用. 部分思路来自UE4和Ogre.(当前主要用在游戏领域)
 
@@ -17,7 +17,7 @@
 [![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=ark&metric=alert_status)](https://sonarcloud.io/dashboard/index/ark)
 [![codecov](https://codecov.io/gh/ArkNX/ARK/branch/master/graph/badge.svg)](https://codecov.io/gh/ArkNX/ARK)
 [![QQ Group](https://img.shields.io/badge/Chat%20on-QQ%20Group-orange.svg?longCache=true&style=flat-square)](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
-[![Gitter](https://badges.gitter.im/ArkNX/community.svg)](https://gitter.im/ArkNX/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Discord](https://img.shields.io/discord/471890201124536320.svg?label=Discord&style=flat-square)](https://discord.gg/GmyBbcv)
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 
 </center>
@@ -27,7 +27,7 @@
 Github: https://github.com/ArkNX/ARK  
 码云: https://gitee.com/ArkNX/ARK  
 QQ 群: [点击加群](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)  
-Gitter: [Join Us](https://gitter.im/ArkNX/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+Discord: [Join Us](https://discord.gg/GmyBbcv)
 
 | CI        | 分支    | 状态                                                                                                   | -   | CI        | 分支    | 状态                                                                                                                        |
 | --------- | ------- | ------------------------------------------------------------------------------------------------------ | --- | --------- | ------- | --------------------------------------------------------------------------------------------------------------------------- |
