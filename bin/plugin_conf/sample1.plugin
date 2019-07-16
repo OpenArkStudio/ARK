@@ -2,7 +2,8 @@
 	<plugins path="../lib/">
 		<plugin name="AFUtilityPlugin" />
 		<plugin name="AFLogPlugin" />
+		<!--<plugin name="AFNetPlugin" />-->
 		<plugin name="Sample1Plugin" />
 	</plugins>
-	<res path="../resource" />
+	<res path="../resource/" />
 </xml>

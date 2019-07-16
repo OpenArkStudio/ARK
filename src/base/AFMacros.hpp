@@ -88,10 +88,10 @@
  * will be copied.  Always NUL terminates (unless siz == 0).
  * Returns strlen(src); if retval >= siz, truncation occurred.
  */
-static size_t strlcpy(char *dst, const char *src, size_t siz)
+static size_t strlcpy(char* dst, const char* src, size_t siz)
 {
-    char *d = dst;
-    const char *s = src;
+    char* d = dst;
+    const char* s = src;
     size_t n = siz;
 
     /* Copy as many bytes as will fit */
@@ -148,7 +148,7 @@ static size_t strlcpy(char *dst, const char *src, size_t siz)
 #define DYNLIB_UNLOAD(a) FreeLibrary(a)
 
 struct HINSTANCE__;
-typedef struct HINSTANCE__ *hInstance;
+typedef struct HINSTANCE__* hInstance;
 
 #define ARK_FOLDER_SEP '\\'
 
@@ -170,7 +170,7 @@ typedef struct HINSTANCE__ *hInstance;
 #define ARK_EXPORT extern "C" __attribute((visibility("default")))
 #define ARK_UNUSED __attribute__((unused))
 
-#define DYNLIB_HANDLE void *
+#define DYNLIB_HANDLE void*
 #define DYNLIB_LOAD(a) dlopen(a, RTLD_LAZY | RTLD_GLOBAL)
 #define DYNLIB_GETSYM(a, b) dlsym(a, b)
 #define DYNLIB_UNLOAD(a) dlclose(a)
@@ -179,7 +179,7 @@ typedef struct HINSTANCE__ *hInstance;
 
 #elif ARK_PLATFORM == PLATFORM_APPLE
 
-#define DYNLIB_HANDLE void *
+#define DYNLIB_HANDLE void*
 #define DYNLIB_LOAD(a) mac_loadDylib(a)
 #define DYNLIB_GETSYM(a, b) dlsym(a, b)
 #define DYNLIB_UNLOAD(a) dlclose(a)
@@ -317,7 +317,7 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
     {                                                                                                                                      \
         if (p != nullptr)                                                                                                                  \
         {                                                                                                                                  \
-            T *t_ptr = static_cast<T *>(p);                                                                                                \
+            T* t_ptr = static_cast<T*>(p);                                                                                                 \
             delete[] t_ptr;                                                                                                                \
             t_ptr = nullptr;                                                                                                               \
         }                                                                                                                                  \

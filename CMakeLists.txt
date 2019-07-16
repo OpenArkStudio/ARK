@@ -59,7 +59,7 @@ if(UNIX)
     else()
         set(CMAKE_BUILD_TYPE "Release")
         set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -fPIC")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DNDEBUG")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DNDEBUG") #Todo: 修改使用CMAKE_CXX_FLAGS_DEBUG
     endif()
     set(LDFLAGS "$ENV{LDFLAGS} -stdlib=libc++")
     set(DEP_LIB_DIR ${ROOT_DIR}/dep/lib/ ${ROOT_DIR}/bin/lib)

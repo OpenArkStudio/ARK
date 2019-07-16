@@ -29,6 +29,8 @@
 
 namespace ark {
 
+class AFCHttpClient;
+
 class Sample1Module : public AFIModule
 {
 public:
@@ -41,15 +43,17 @@ public:
     bool Shut() override;
 
 protected:
-    void TestTimer(const std::string &name, const AFGUID &entity_id);
+    void TestTimer(const std::string& name, const AFGUID& entity_id);
     void TestOssLog();
     // bool TestSchduler(const int id, const int arg);
 
 protected:
-    AFITimerModule *m_pTimerModule;
-    AFILogModule *m_pLogModule;
-    AFIGUIDModule *m_pGUIDModule;
-    AFIScheduleModule *m_pScheduleModule;
+    AFITimerModule* m_pTimerModule;
+    AFILogModule* m_pLogModule;
+    AFIGUIDModule* m_pGUIDModule;
+    AFIScheduleModule* m_pScheduleModule;
+
+    AFCHttpClient* http_client{nullptr};
 };
 
 } // namespace ark

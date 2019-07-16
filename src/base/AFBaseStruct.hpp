@@ -60,10 +60,10 @@ union AFBusAddr
     int bus_id{0};
     struct
     {
-        uint8_t channel_id; //渠道id
-        uint8_t zone_id;    //小区id
-        uint8_t proc_id;    //进程id
-        uint8_t inst_id;    //进程实例id
+        uint8_t channel_id; // channel id
+        uint8_t zone_id;    // zone id
+        uint8_t proc_id;    // process id
+        uint8_t inst_id;    // instance id
     };
 };
 

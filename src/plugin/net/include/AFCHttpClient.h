@@ -20,6 +20,10 @@
 
 #pragma once
 
+#include "brynet/net/http/HttpFormat.h"
+#include "net/interface/AFINet.h"
+#include "net/include/AFNetSession.h"
+
 namespace ark {
 
-}
+} // namespace ark
