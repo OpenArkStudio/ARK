@@ -16,9 +16,9 @@ endif()
 add_executable(ark_test ${TEST_SRC})
 
 if(UNIX)
-    target_link_libraries(ark_test pthread dl --coverage)
+    target_link_libraries(ark_test brynet ssl pthread dl --coverage)
 else(UNIX)
-    target_link_libraries(ark_test)
+    target_link_libraries(ark_test brynet.lib)
 endif(UNIX)
 
 set_target_properties(ark_test PROPERTIES OUTPUT_NAME_DEBUG "test_d")
