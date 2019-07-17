@@ -52,7 +52,7 @@ void AFUtilityPlugin::Install()
 void AFUtilityPlugin::Uninstall()
 {
     // DeregisterModule<AFIScheduleModule, AFCScheduleModule>();
-    DeregisterModule<AFITimerModule, AFCGUIDModule>();
+    DeregisterModule<AFITimerModule, AFCTimerModule>();
     DeregisterModule<AFIGUIDModule, AFCGUIDModule>();
     // DeregisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
     // DeregisterModule<AFILogModule, AFCLogModule>();
