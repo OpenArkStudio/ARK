@@ -47,10 +47,10 @@ bool AFCBusModule::LoadProcConfig()
 {
     std::string proc_file = "../bus_conf/proc.xml";
     rapidxml::file<> xFileSource(proc_file.c_str());
-    rapidxml::xml_document<> xFileDoc;
-    xFileDoc.parse<0>(xFileSource.data());
+    rapidxml::xml_document<> *xFileDoc = new rapidxml::xml_document<>();
+    xFileDoc->parse<0>(xFileSource.data());
 
-    rapidxml::xml_node<> *pRoot = xFileDoc.first_node();
+    rapidxml::xml_node<> *pRoot = xFileDoc->first_node();
     if (pRoot == nullptr)
     {
         ARK_ASSERT_NO_EFFECT(0);
@@ -121,6 +121,7 @@ bool AFCBusModule::LoadProcConfig()
         mxProcConfig.proc_names.insert(std::make_pair(proc_id, name));
     }
 
+	delete xFileDoc;
     return true;
 }
 
@@ -130,10 +131,10 @@ bool AFCBusModule::LoadBusRelation()
     std::string bus_file = "../bus_conf/bus_relation.xml";
 
     rapidxml::file<> xFileSource(bus_file.c_str());
-    rapidxml::xml_document<> xFileDoc;
-    xFileDoc.parse<0>(xFileSource.data());
+    rapidxml::xml_document<> *xFileDoc = new rapidxml::xml_document<>();
+    xFileDoc->parse<0>(xFileSource.data());
 
-    rapidxml::xml_node<> *pRoot = xFileDoc.first_node();
+    rapidxml::xml_node<> *pRoot = xFileDoc->first_node();
     if (pRoot == nullptr)
     {
         ARK_ASSERT_NO_EFFECT(0);
@@ -167,6 +168,7 @@ bool AFCBusModule::LoadBusRelation()
         }
     }
 
+	delete xFileDoc;
     return true;
 }
 
