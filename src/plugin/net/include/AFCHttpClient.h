@@ -26,4 +26,7 @@
 
 namespace ark {
 
+// Todo: add http client later, now use cpprestsdk in consul plugin.
+// !Because we need json, http encode/decode and other components in http client.
+
 } // namespace ark

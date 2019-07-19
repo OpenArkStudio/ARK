@@ -23,10 +23,8 @@
 
 namespace ark {
 
-ARK_DLL_PLUGIN_ENTRY(AFRouterPlugin)
-ARK_DLL_PLUGIN_EXIT(AFRouterPlugin)
+ARK_PLUGIN_DECLARE(AFRouterPlugin)
 
-//////////////////////////////////////////////////////////////////////////
 int AFRouterPlugin::GetPluginVersion()
 {
     return 0;

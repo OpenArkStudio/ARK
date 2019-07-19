@@ -1,5 +1,5 @@
 <xml>
-	<plugins path="../lib/">
+	<plugins path="./">
 		<plugin name="AFUtilityPlugin" />
 		<plugin name="AFLogPlugin" />
 		<!--<plugin name="AFNetPlugin" />-->

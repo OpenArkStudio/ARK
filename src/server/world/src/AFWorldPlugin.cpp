@@ -23,10 +23,8 @@
 
 namespace ark {
 
-ARK_DLL_PLUGIN_ENTRY(AFWorldPlugin)
-ARK_DLL_PLUGIN_EXIT(AFWorldPlugin)
+ARK_PLUGIN_DECLARE(AFWorldPlugin)
 
-//////////////////////////////////////////////////////////////////////////
 int AFWorldPlugin::GetPluginVersion()
 {
     return 0;

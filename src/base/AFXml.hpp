@@ -33,7 +33,7 @@ class AFXml;
 class AFXmlNode
 {
 public:
-    AFXmlNode(AFXml *xml)
+    AFXmlNode(AFXml* xml)
     {
         xml_ = xml;
     }
@@ -48,24 +48,24 @@ public:
         return xml_node_ != nullptr;
     }
 
-    void NextNode(const char *key = nullptr)
+    void NextNode(const char* key = nullptr)
     {
-        rapidxml::xml_node<> *node = reinterpret_cast<rapidxml::xml_node<> *>(xml_node_);
+        rapidxml::xml_node<>* node = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
         xml_node_ = node->next_sibling(key);
     }
 
-    AFXmlNode FindNode(const char *key)
+    AFXmlNode FindNode(const char* key)
     {
-        auto xmlnode = reinterpret_cast<rapidxml::xml_node<> *>(xml_node_);
+        auto xmlnode = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
 
         AFXmlNode node(xml_);
         node.xml_node_ = xmlnode->first_node(key);
         return node;
     }
 
-    bool GetBool(const char *key, bool optional = false, bool default_value = false)
+    bool GetBool(const char* key, bool optional = false, bool default_value = false)
     {
-        rapidxml::xml_node<> *xmlnode = reinterpret_cast<rapidxml::xml_node<> *>(xml_node_);
+        rapidxml::xml_node<>* xmlnode = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
 
         auto attr = xmlnode->first_attribute(key);
         if (attr == nullptr)
@@ -78,9 +78,9 @@ public:
         }
     }
 
-    uint32_t GetUint32(const char *key, bool optional = false, uint32_t default_value = NULL_INT)
+    uint32_t GetUint32(const char* key, bool optional = false, uint32_t default_value = NULL_INT)
     {
-        rapidxml::xml_node<> *node = reinterpret_cast<rapidxml::xml_node<> *>(xml_node_);
+        rapidxml::xml_node<>* node = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
 
         auto attr = node->first_attribute(key);
         if (attr == nullptr)
@@ -93,9 +93,9 @@ public:
         }
     }
 
-    float GetFloat(const char *key, bool optional = false, float default_value = NULL_FLOAT)
+    float GetFloat(const char* key, bool optional = false, float default_value = NULL_FLOAT)
     {
-        rapidxml::xml_node<> *node = reinterpret_cast<rapidxml::xml_node<> *>(xml_node_);
+        rapidxml::xml_node<>* node = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
 
         auto attr = node->first_attribute(key);
         if (attr == nullptr)
@@ -108,9 +108,9 @@ public:
         }
     }
 
-    std::string GetString(const char *key, bool optional = false, std::string default_value = NULL_STR)
+    std::string GetString(const char* key, bool optional = false, std::string default_value = NULL_STR)
     {
-        rapidxml::xml_node<> *node = reinterpret_cast<rapidxml::xml_node<> *>(xml_node_);
+        rapidxml::xml_node<>* node = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
 
         auto attr = node->first_attribute(key);
         if (attr == nullptr)
@@ -125,14 +125,14 @@ public:
 
 private:
     friend class AFXml;
-    AFXml *xml_{nullptr};
-    void *xml_node_{nullptr};
+    AFXml* xml_{nullptr};
+    void* xml_node_{nullptr};
 };
 
 class AFXml
 {
 public:
-    AFXml(const std::string &file_path)
+    AFXml(const std::string& file_path)
         : file_path_(file_path)
     {
         xml_file_ = ARK_NEW rapidxml::file<>();
@@ -154,19 +154,19 @@ public:
         return node;
     }
 
-    AFXmlNode FindNode(const char *key)
+    AFXmlNode FindNode(const char* key)
     {
         AFXmlNode node(this);
         node.xml_node_ = xml_document_->first_node(key);
         return node;
     }
 
-    const char *GetFile() const
+    const char* GetFile() const
     {
         return file_path_.c_str();
     }
 
-    const char *GetData()
+    const char* GetData()
     {
         return xml_file_->data();
     }
@@ -184,8 +184,8 @@ protected:
     }
 
 private:
-    rapidxml::xml_document<> *xml_document_;
-    rapidxml::file<> *xml_file_;
+    rapidxml::xml_document<>* xml_document_;
+    rapidxml::file<>* xml_file_;
     std::string file_path_;
 };
 

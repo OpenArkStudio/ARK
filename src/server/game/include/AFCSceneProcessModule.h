@@ -20,10 +20,6 @@
 
 #pragma once
 
-#include "rapidxml/rapidxml.hpp"
-#include "rapidxml/rapidxml_iterators.hpp"
-#include "rapidxml/rapidxml_print.hpp"
-#include "rapidxml/rapidxml_utils.hpp"
 #include "base/AFList.hpp"
 #include "kernel/interface/AFIKernelModule.h"
 #include "kernel/interface/AFIConfigModule.h"
@@ -46,28 +42,28 @@ public:
 
     virtual E_SCENE_TYPE GetMapInstanceType(const int nSceneID);
     virtual bool IsInstanceMap(const int nSceneID);
-    virtual bool ApplyMapInstance(const int nSceneID, int &nGroupID);
-    virtual bool ExitMapInstance(const int nSceneID, const int &nGroupID);
+    virtual bool ApplyMapInstance(const int nSceneID, int& nGroupID);
+    virtual bool ExitMapInstance(const int nSceneID, const int& nGroupID);
 
 protected:
-    int CreateMapInstance(const int &nSceneID);
+    int CreateMapInstance(const int& nSceneID);
     bool CreateMapEntities(const int nSceneID, const int nGroupID);
     bool LoadMapResource(const int nSceneID);
 
-    int OnObjectClassEvent(const AFGUID &self, const std::string &strClassName, const ArkEntityEvent eClassEvent, const AFIDataList &var);
-    int OnEnterSceneEvent(const AFGUID &object, const int nEventID, const AFIDataList &var);
-    int OnLeaveSceneEvent(const AFGUID &object, const int nEventID, const AFIDataList &var);
+    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var);
+    int OnEnterSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
+    int OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-    void OnClientSwapMapProcess(const AFNetMsg *msg);
+    void OnClientSwapMapProcess(const AFNetMsg* msg);
 
 private:
-    AFIConfigModule *m_pConfigModule;
-    AFIMetaClassModule *m_pClassModule;
-    AFIKernelModule *m_pKernelModule;
-    AFIMapModule *m_pMapModule;
-    AFILogModule *m_pLogModule;
-    AFIGUIDModule *m_pGUIDModule;
-    AFIGameNetModule *m_pGameNetModule;
+    AFIConfigModule* m_pConfigModule;
+    AFIMetaClassModule* m_pClassModule;
+    AFIKernelModule* m_pKernelModule;
+    AFIMapModule* m_pMapModule;
+    AFILogModule* m_pLogModule;
+    AFIGUIDModule* m_pGUIDModule;
+    AFIGameNetModule* m_pGameNetModule;
     //////////////////////////////////////////////////////////////////////////
     struct MapSeedResource
     {

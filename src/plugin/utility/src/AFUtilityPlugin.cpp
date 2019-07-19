@@ -20,16 +20,14 @@
 
 #include "utility/include/AFUtilityPlugin.h"
 #include "utility/include/AFCGUIDModule.h"
-//#include "utility/include/AFCLogModule.h"
 #include "utility/include/AFCTimerModule.h"
+//#include "utility/include/AFCLogModule.h"
 //#include "utility/include/AFCScheduleModule.h"
 
 namespace ark {
 
-ARK_DLL_PLUGIN_ENTRY(AFUtilityPlugin)
-ARK_DLL_PLUGIN_EXIT(AFUtilityPlugin)
+ARK_PLUGIN_DECLARE(AFUtilityPlugin)
 
-//////////////////////////////////////////////////////////////////////////
 int AFUtilityPlugin::GetPluginVersion()
 {
     return 0;
@@ -42,20 +40,20 @@ const std::string AFUtilityPlugin::GetPluginName()
 
 void AFUtilityPlugin::Install()
 {
-    // RegisterModule<AFILogModule, AFCLogModule>();
-    // RegisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
     RegisterModule<AFIGUIDModule, AFCGUIDModule>();
     RegisterModule<AFITimerModule, AFCTimerModule>();
+    // RegisterModule<AFILogModule, AFCLogModule>();
+    // RegisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
     // RegisterModule<AFIScheduleModule, AFCScheduleModule>();
 }
 
 void AFUtilityPlugin::Uninstall()
 {
     // DeregisterModule<AFIScheduleModule, AFCScheduleModule>();
-    DeregisterModule<AFITimerModule, AFCTimerModule>();
-    DeregisterModule<AFIGUIDModule, AFCGUIDModule>();
     // DeregisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
     // DeregisterModule<AFILogModule, AFCLogModule>();
+    DeregisterModule<AFITimerModule, AFCTimerModule>();
+    DeregisterModule<AFIGUIDModule, AFCGUIDModule>();
 }
 
 } // namespace ark

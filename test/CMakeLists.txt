@@ -17,9 +17,11 @@ add_executable(ark_test ${TEST_SRC})
 
 if(UNIX)
     target_link_libraries(ark_test brynet ssl pthread dl --coverage)
-else(UNIX)
-    target_link_libraries(ark_test brynet.lib)
-endif(UNIX)
+else(WIN32)
+    target_link_libraries(ark_test ws2_32.lib 
+        debug brynetd.lib
+        optimized brynet.lib)
+endif()
 
 set_target_properties(ark_test PROPERTIES OUTPUT_NAME_DEBUG "test_d")
 set_target_properties(ark_test PROPERTIES

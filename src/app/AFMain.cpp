@@ -34,7 +34,7 @@ std::thread g_cmd_thread;
 #if ARK_PLATFORM == PLATFORM_WIN
 
 // mini-dump
-void CreateDumpFile(const std::string &strDumpFilePathName, EXCEPTION_POINTERS *pException)
+void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* pException)
 {
     HANDLE hDumpFile = CreateFile(strDumpFilePathName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -48,7 +48,7 @@ void CreateDumpFile(const std::string &strDumpFilePathName, EXCEPTION_POINTERS *
     CloseHandle(hDumpFile);
 }
 
-long ApplicationCrashHandler(EXCEPTION_POINTERS *pException)
+long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 {
     AFDateTime now;
     std::string dump_name = ARK_FORMAT("{}-{:04d}{:02d}{:02d}_{:02d}_{:02d}_{:02d}.dmp", AFCPluginManager::get()->AppName(), now.GetYear(),
@@ -141,7 +141,7 @@ void CreateBackThread()
     g_cmd_thread = std::thread(thread_func);
 }
 
-bool ParseArgs(int argc, char *argv[])
+bool ParseArgs(int argc, char* argv[])
 {
     auto close_x_button = []() {
 #if ARK_PLATFORM == PLATFORM_WIN
@@ -176,17 +176,17 @@ bool ParseArgs(int argc, char *argv[])
     {
         parser.ParseCLI(argc, argv);
     }
-    catch (args::Help &help)
+    catch (args::Help& help)
     {
         CONSOLE_ERROR_LOG << parser << ", error = " << help.what() << std::endl;
         return false;
     }
-    catch (args::ParseError &e)
+    catch (args::ParseError& e)
     {
         CONSOLE_ERROR_LOG << parser << ", error = " << e.what() << std::endl;
         return false;
     }
-    catch (args::ValidationError &e)
+    catch (args::ValidationError& e)
     {
         CONSOLE_ERROR_LOG << parser << ", error = " << e.what() << std::endl;
         return false;
@@ -195,19 +195,18 @@ bool ParseArgs(int argc, char *argv[])
     // Set bus id
     if (busid)
     {
-        // AFCDataList temp_bus_id;
         std::vector<AFSlice> slices;
         AFStringUtils::Split(slices, busid.Get(), ".");
         if (slices.size() != 4)
         {
-            CONSOLE_ERROR_LOG << "bus id is invalid, it likes 8.8.8.8" << std::endl;
+            CONSOLE_ERROR_LOG << "Bus id is invalid, it likes 8.8.8.8" << std::endl;
             return false;
         }
 
         AFBusAddr busaddr;
         busaddr.channel_id = ARK_LEXICAL_CAST<int>(slices[0].data());
         busaddr.zone_id = ARK_LEXICAL_CAST<int>(slices[1].data());
-        busaddr.proc_id = ARK_LEXICAL_CAST<int>(slices[2].data());
+        busaddr.app_type = ARK_LEXICAL_CAST<int>(slices[2].data());
         busaddr.inst_id = ARK_LEXICAL_CAST<int>(slices[3].data());
 
         AFCPluginManager::get()->SetBusID(busaddr.bus_id);
@@ -263,36 +262,29 @@ bool ParseArgs(int argc, char *argv[])
 void MainLoop()
 {
 #if ARK_PLATFORM == PLATFORM_WIN
-
     __try
     {
+#endif
         AFCPluginManager::get()->Update();
+#if ARK_PLATFORM == PLATFORM_WIN
     }
     __except (ApplicationCrashHandler(GetExceptionInformation()))
     {
         // Do nothing for now.
     }
-
-#else
-    AFCPluginManager::get()->Update();
 #endif
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
+    PrintLogo();
     if (!ParseArgs(argc, argv))
     {
         CONSOLE_INFO_LOG << "Application parameter is invalid, please check it..." << std::endl;
         return 0;
     }
 
-    PrintLogo();
-
-    ARK_ASSERT_RET_VAL(AFCPluginManager::get()->Init(), -1);
-    ARK_ASSERT_RET_VAL(AFCPluginManager::get()->PostInit(), -1);
-    ARK_ASSERT_RET_VAL(AFCPluginManager::get()->CheckConfig(), -1);
-    ARK_ASSERT_RET_VAL(AFCPluginManager::get()->PreUpdate(), -1);
-
+    AFCPluginManager::get()->Start();
     while (!g_exit_loop)
     {
         for (;; std::this_thread::sleep_for(std::chrono::milliseconds(1)))
@@ -305,9 +297,7 @@ int main(int argc, char *argv[])
             MainLoop();
         }
     }
-
-    AFCPluginManager::get()->PreShut();
-    AFCPluginManager::get()->Shut();
+    AFCPluginManager::get()->Stop();
 
     g_cmd_thread.join();
 

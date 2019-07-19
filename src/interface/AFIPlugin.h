@@ -44,19 +44,21 @@ public:
     {
         assert((std::is_base_of<AFIModule, classBaseName>::value));
         assert((std::is_base_of<classBaseName, className>::value));
-        AFIModule *pRegModuleName = ARK_NEW className();
+        AFIModule* pRegModuleName = ARK_NEW className();
         pRegModuleName->SetPluginManager(pPluginManager);
         pRegModuleName->name_ = typeid(classBaseName).name();
         pPluginManager->AddModule(pRegModuleName->name_, pRegModuleName);
         modules_.insert(pRegModuleName->name_, pRegModuleName);
 #if ARK_PLATFORM == PLATFORM_WIN
-        if ((&className::Update != &AFIModule::Update))
+        std::string base_name = typeid(&AFIModule::Update).name();
+        std::string child_name = typeid(&className::Update).name();
+        if (base_name != child_name)
 #else
         AFIModule base;
         bool (AFIModule::*mfp)() = &AFIModule::Update;
         bool (className::*child_mfp)() = &className::Update;
-        void *base_update_mfp = (void *)(base.*mfp);
-        void *derived_update_mfp = (void *)(static_cast<className *>(pRegModuleName)->*child_mfp);
+        void* base_update_mfp = (void*)(base.*mfp);
+        void* derived_update_mfp = (void*)(static_cast<className*>(pRegModuleName)->*child_mfp);
         if (base_update_mfp == derived_update_mfp)
 #endif
         {
@@ -68,7 +70,7 @@ public:
     void DeregisterModule()
     {
         std::string name = typeid(classBaseName).name();
-        AFIModule *pDeregModuleName = dynamic_cast<AFIModule *>(pPluginManager->FindModule(name));
+        AFIModule* pDeregModuleName = dynamic_cast<AFIModule*>(pPluginManager->FindModule(name));
         pPluginManager->RemoveModule(name);
         modules_.erase(typeid(classBaseName).name());
         module_updates_.erase(name);

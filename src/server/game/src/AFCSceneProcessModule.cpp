@@ -18,6 +18,10 @@
  *
  */
 
+#include "rapidxml/rapidxml.hpp"
+#include "rapidxml/rapidxml_iterators.hpp"
+#include "rapidxml/rapidxml_print.hpp"
+#include "rapidxml/rapidxml_utils.hpp"
 #include "base/AFEventDefine.hpp"
 #include "base/AFDateTime.hpp"
 #include "game/include/AFCSceneProcessModule.h"
@@ -91,7 +95,7 @@ bool AFCSceneProcessModule::CreateMapEntities(const int map_id, const int inst_i
     return true;
 }
 
-int AFCSceneProcessModule::CreateMapInstance(const int &map_id)
+int AFCSceneProcessModule::CreateMapInstance(const int& map_id)
 {
     const E_SCENE_TYPE eType = GetMapInstanceType(map_id);
     int target_inst_id = m_pMapModule->CreateMapInstance(map_id);
@@ -104,7 +108,7 @@ int AFCSceneProcessModule::CreateMapInstance(const int &map_id)
     return target_inst_id;
 }
 
-int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID &self, const int nEventID, const AFIDataList &var)
+int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEventID, const AFIDataList& var)
 {
     if (var.GetCount() != 4 ||
         !var.TypeEx(AF_DATA_TYPE::DT_INT64, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_UNKNOWN))
@@ -148,10 +152,10 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID &self, const int nEven
         return 0;
     }
 
-    //得到坐标
+    // get the position.
     AFVector3D xRelivePos;
     const std::string strSceneID = ARK_LEXICAL_CAST<std::string>(target_map);
-    const std::string &strRelivePosList = m_pConfigModule->GetNodeString(strSceneID, AFConfigMetaMap::RelivePos());
+    const std::string& strRelivePosList = m_pConfigModule->GetNodeString(strSceneID, AFConfigMetaMap::RelivePos());
 
     AFCDataList valueRelivePosList(strRelivePosList.c_str(), strRelivePosList.length(), ';');
 
@@ -179,7 +183,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID &self, const int nEven
     return 0;
 }
 
-int AFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID &object, const int nEventID, const AFIDataList &var)
+int AFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
     if (1 != var.GetCount() || !var.TypeEx(AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_UNKNOWN))
     {
@@ -203,7 +207,7 @@ int AFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID &object, const int nEv
 }
 
 int AFCSceneProcessModule::OnObjectClassEvent(
-    const AFGUID &self, const std::string &strClassName, const ArkEntityEvent eClassEvent, const AFIDataList &var)
+    const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var)
 {
     if (ArkEntityEvent::ENTITY_EVT_DESTROY == eClassEvent)
     {
@@ -242,13 +246,13 @@ bool AFCSceneProcessModule::IsInstanceMap(const int map_id)
     return GetMapInstanceType(map_id) == SCENE_TYPE_CLONE_SCENE;
 }
 
-bool AFCSceneProcessModule::ApplyMapInstance(const int map_id, int &map_inst_id)
+bool AFCSceneProcessModule::ApplyMapInstance(const int map_id, int& map_inst_id)
 {
     map_inst_id = CreateMapInstance(map_id);
     return true;
 }
 
-bool AFCSceneProcessModule::ExitMapInstance(const int map_id, const int &map_inst_id)
+bool AFCSceneProcessModule::ExitMapInstance(const int map_id, const int& map_inst_id)
 {
     return m_pMapModule->ExitMapInstance(map_id, map_inst_id);
 }
@@ -311,7 +315,7 @@ bool AFCSceneProcessModule::LoadMapResource(const int map_id)
     return true;
 }
 
-void AFCSceneProcessModule::OnClientSwapMapProcess(const AFNetMsg *msg)
+void AFCSceneProcessModule::OnClientSwapMapProcess(const AFNetMsg* msg)
 {
     // Will add by yourself
 }

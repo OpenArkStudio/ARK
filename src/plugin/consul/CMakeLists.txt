@@ -1,0 +1,5 @@
+if(WIN32)
+    BUILD_PLUGIN_MACRO_EX(AFConsulPlugin cpprest_2_10.lib)
+else(UNIX)
+    BUILD_PLUGIN_MACRO_EX(AFConsulPlugin cpprest)
+endif()

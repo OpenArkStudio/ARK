@@ -86,6 +86,10 @@ Our team has always specialized in the agile development and try to help differe
 
 ---
 
+## Star trends
+
+[![Sparkline](https://stars.medv.io/ArkNX/ARK.svg)](https://github.com/ArkNX/ARK)
+
 #### Some Awesome projects
 
 [PSS](https://github.com/freeeyes/PSS)

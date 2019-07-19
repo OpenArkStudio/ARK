@@ -29,7 +29,7 @@
 
 namespace ark {
 
-class AFCHttpClient;
+// class AFCHttpClient;
 
 class Sample1Module : public AFIModule
 {
@@ -53,7 +53,7 @@ protected:
     AFIGUIDModule* m_pGUIDModule;
     AFIScheduleModule* m_pScheduleModule;
 
-    AFCHttpClient* http_client{nullptr};
+    // AFCHttpClient* http_client{nullptr};
 };
 
 } // namespace ark

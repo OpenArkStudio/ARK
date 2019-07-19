@@ -23,10 +23,8 @@
 
 namespace ark {
 
-ARK_DLL_PLUGIN_ENTRY(AFProxyPlugin)
-ARK_DLL_PLUGIN_EXIT(AFProxyPlugin)
+ARK_PLUGIN_DECLARE(AFProxyPlugin)
 
-//////////////////////////////////////////////////////////////////////////
 int AFProxyPlugin::GetPluginVersion()
 {
     return 0;

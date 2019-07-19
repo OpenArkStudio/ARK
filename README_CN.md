@@ -80,6 +80,10 @@ ARK 项目当前使用[Apache License](https://github.com/ArkNX/ARK/blob/master/
 
 ---
 
+## Star 趋势图
+
+[![Sparkline](https://stars.medv.io/ArkNX/ARK.svg)](https://github.com/ArkNX/ARK)
+
 我们开源团队长期致力于敏捷开发, 并且一直帮助不同的团队降低开发后台应用的难度. 经过多年的积累和开发, 我们开放了该框架并将会持续维护改进该项目.
 
 ---

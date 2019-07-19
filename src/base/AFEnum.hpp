@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include "base/AFPlatform.hpp"
+
 namespace ark {
 // TODO: delete
 enum AF_DATA_TYPE
@@ -37,7 +39,7 @@ enum AF_DATA_TYPE
     DT_MAX,      // max
 };
 
-enum class ArkDataType : int32_t
+enum class ArkDataType : uint32_t
 {
     DT_EMPTY,    // unknown
     DT_BOOLEAN,  // bool
@@ -54,7 +56,7 @@ enum class ArkDataType : int32_t
     DT_OBJECT,   // object(complex data container)
 };
 
-enum class ArkDataMaskType : int
+enum class ArkDataMaskType : uint32_t
 {
     DMT_UNKNOWN,    // unknown
     DMT_SAVE_DB,    // save to database
@@ -66,7 +68,7 @@ enum class ArkDataMaskType : int
     DMT_LOG,        // log when changed
 };
 
-enum class ArkBusRelationType : int
+enum class ArkBusRelationType : uint32_t
 {
     BRT_UNKNOWN,     // unknown
     BRT_DIRECT,      // directly
@@ -74,7 +76,7 @@ enum class ArkBusRelationType : int
     BRT_RECORD,      // do not connect, but need record info
 };
 
-enum class ArkEntityEvent : int
+enum class ArkEntityEvent : uint32_t
 {
     ENTITY_EVT_NONE = 0,
     ENTITY_EVT_DESTROY,
@@ -99,4 +101,5 @@ enum class ArkDataOpType : uint16_t
     DOT_AND, // &
     DOT_OR,  // |
 };
+
 } // namespace ark

@@ -139,7 +139,9 @@ static size_t strlcpy(char* dst, const char* src, size_t siz)
         assert(exp_);                                                                                                                      \
     } while (false);
 
-#define ARK_EXPORT extern "C" __declspec(dllexport)
+#define ARK_EXPORT_FUNC extern "C" __declspec(dllexport)
+#define ARK_EXPORT __declspec(dllexport)
+#define ARK_IMPORT __declspec(dllimport)
 #define ARK_UNUSED
 
 #define DYNLIB_HANDLE hInstance
@@ -167,7 +169,9 @@ typedef struct HINSTANCE__* hInstance;
         assert(exp_);                                                                                                                      \
     } while (0);
 
-#define ARK_EXPORT extern "C" __attribute((visibility("default")))
+#define ARK_EXPORT_FUNC extern "C" __attribute((visibility("default")))
+#define ARK_EXPORT __attribute((visibility("default")))
+#define ARK_IMPORT __attribute((visibility("default")))
 #define ARK_UNUSED __attribute__((unused))
 
 #define DYNLIB_HANDLE void*
@@ -284,11 +288,11 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
 #endif
 
 #ifndef ARK_NEW
-#define ARK_NEW new (nothrow) // when new failed, return NULL
+#define ARK_NEW new // new (nothrow) when new failed, return NULL
 #endif
 
 #ifndef ARK_NEW_ARRAY
-#define ARK_NEW_ARRAY(T, size) new (nothrow) T[size];
+#define ARK_NEW_ARRAY(T, size) new T[size];
 #endif
 
 #ifndef ARK_NEW_ARRAY_RET

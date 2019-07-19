@@ -28,51 +28,54 @@
 
 namespace ark {
 
-class AFCPluginManager : public AFIPluginManager, public AFSingleton<AFCPluginManager>
+class ARK_EXPORT AFCPluginManager : public AFIPluginManager, public AFSingleton<AFCPluginManager>
 {
 public:
     AFCPluginManager();
 
-    bool Init() override;
-    bool PostInit() override;
-    bool CheckConfig() override;
-    bool PreUpdate() override;
+    bool Start() override;
+    bool Stop() override;
     bool Update() override;
-    bool PreShut() override;
-    bool Shut() override;
 
     //////////////////////////////////////////////////////////////////////////
 
-    void Register(AFIPlugin *pPlugin) override;
-    void Deregister(AFIPlugin *pPlugin) override;
+    void Register(AFIPlugin* pPlugin) override;
+    void Deregister(AFIPlugin* pPlugin) override;
     //////////////////////////////////////////////////////////////////////////
 
-    AFIPlugin *FindPlugin(const std::string &plugin_name) override;
+    AFIPlugin* FindPlugin(const std::string& plugin_name) override;
 
-    void AddModule(const std::string &module_name, AFIModule *pModule) override;
-    void RemoveModule(const std::string &strModuleName) override;
-    virtual AFIModule *FindModule(const std::string &strModuleName) override;
+    void AddModule(const std::string& module_name, AFIModule* pModule) override;
+    void RemoveModule(const std::string& strModuleName) override;
+    virtual AFIModule* FindModule(const std::string& strModuleName) override;
 
     int BusID() const override;
     void SetBusID(const int app_id) override;
 
-    const std::string &AppName() const override;
-    void SetAppName(const std::string &app_name) override;
+    const std::string& AppName() const override;
+    void SetAppName(const std::string& app_name) override;
 
     int64_t GetNowTime() const override;
 
-    const std::string &GetResPath() const override;
+    const std::string& GetResPath() const override;
 
-    void SetPluginConf(const std::string &file_path) override;
+    void SetPluginConf(const std::string& file_path) override;
 
-    void SetLogPath(const std::string &log_path) override;
-    const std::string &GetLogPath() const override;
+    void SetLogPath(const std::string& log_path) override;
+    const std::string& GetLogPath() const override;
 
 protected:
+    bool Init();
+    bool PostInit();
+    bool CheckConfig();
+    bool PreUpdate();
+    bool PreShut();
+    bool Shut();
+
     bool LoadPluginConf();
 
-    bool LoadPluginLibrary(const std::string &strPluginDLLName);
-    bool UnloadPluginLibrary(const std::string &plugin_name);
+    bool LoadPluginLibrary(const std::string& strPluginDLLName);
+    bool UnloadPluginLibrary(const std::string& plugin_name);
 
 private:
     // Bus id
@@ -90,15 +93,15 @@ private:
     // log output path
     std::string log_path_{};
 
-    using DLL_ENTRY_PLUGIN_FUNC = void (*)(AFIPluginManager *p);
-    using DLL_EXIT_PLUGIN_FUNC = void (*)(AFIPluginManager *p);
+    using DLL_ENTRY_PLUGIN_FUNC = void (*)(AFIPluginManager* p);
+    using DLL_EXIT_PLUGIN_FUNC = void (*)(AFIPluginManager* p);
 
     std::map<std::string, bool> plugin_names_;
     std::vector<std::string> ordered_plugin_names_; // order
     AFMap<std::string, AFCDynLib> plugin_libs_;
     AFMap<std::string, AFIPlugin> plugin_instances_;
     AFMap<std::string, AFIModule> module_instances_;
-    std::vector<AFIModule *> ordered_module_instances_; // order
+    std::vector<AFIModule*> ordered_module_instances_; // order
 };
 
 } // namespace ark

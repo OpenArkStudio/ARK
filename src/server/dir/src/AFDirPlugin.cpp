@@ -23,8 +23,7 @@
 
 namespace ark {
 
-ARK_DLL_PLUGIN_ENTRY(AFDirPlugin)
-ARK_DLL_PLUGIN_EXIT(AFDirPlugin)
+ARK_PLUGIN_DECLARE(AFDirPlugin)
 
 //////////////////////////////////////////////////////////////////////////
 int AFDirPlugin::GetPluginVersion()

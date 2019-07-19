@@ -23,10 +23,9 @@
 #include "bus/include/AFCMsgModule.h"
 
 namespace ark {
-ARK_DLL_PLUGIN_ENTRY(AFBusPlugin)
-ARK_DLL_PLUGIN_EXIT(AFBusPlugin)
 
-//////////////////////////////////////////////////////////////////////////
+ARK_PLUGIN_DECLARE(AFBusPlugin)
+
 int AFBusPlugin::GetPluginVersion()
 {
     return 0;

@@ -23,10 +23,7 @@
 
 namespace ark {
 
-ARK_DLL_PLUGIN_ENTRY(AFNetPlugin)
-ARK_DLL_PLUGIN_EXIT(AFNetPlugin)
-
-//////////////////////////////////////////////////////////////////////////
+ARK_PLUGIN_DECLARE(AFNetPlugin)
 
 int AFNetPlugin::GetPluginVersion()
 {
