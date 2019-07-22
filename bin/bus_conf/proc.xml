@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xml>
 	<hosts>
-		<host name="test1_x64" private_ip="127.0.0.1" desc="machine1" />
-		<host name="test2_x64" private_ip="127.0.0.1" desc="machine2" />
+		<host name="test1_x64" intranet_ip="127.0.0.1" desc="machine1" />
+		<host name="test2_x64" intranet_ip="127.0.0.1" desc="machine2" />
 	</hosts>
 	<!-- all server processes -->
 	<!--

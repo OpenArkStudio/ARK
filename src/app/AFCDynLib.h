@@ -34,7 +34,7 @@ public:
         name_.append("_d");
 #endif
 
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         name_.append(".dll");
 #elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == AF_PLATFORM_ANDROID
         name_.append(".so");

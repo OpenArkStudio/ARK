@@ -119,7 +119,7 @@ static size_t strlcpy(char* dst, const char* src, size_t siz)
 #endif
 //////////////////////////////////////////////////////////////////////////
 
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
 
 // Windows
 #define ARK_SPRINTF sprintf_s

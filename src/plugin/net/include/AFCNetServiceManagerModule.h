@@ -42,7 +42,7 @@ public:
     int CreateClusterClients(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
     int CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url) override;
 
-    AFINetClientService* GetNetClientService(const uint8_t& app_type) override;
+    AFINetClientService* GetNetClientService(const ARK_APP_TYPE& app_type) override;
     AFINetClientService* GetNetClientServiceByBusID(const int bus_id) override;
 
     bool AddNetConnectionBus(int client_bus_id, AFINet* net_server_ptr) override;
@@ -55,7 +55,7 @@ public:
 
 private:
     AFMap<int, AFINetServerService> net_servers_;
-    AFMap<uint8_t, AFINetClientService> net_clients_;
+    AFMap<ARK_APP_TYPE, AFINetClientService> net_clients_; // app_type -> net_client_service
 
     AFMap<std::pair<int, int>, AFINet> net_bus_relations_;
 

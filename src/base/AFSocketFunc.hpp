@@ -24,7 +24,7 @@
 #include "base/AFMacros.hpp"
 #include "AFError.hpp"
 
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
 #include <WS2tcpip.h>
 #include <winsock2.h>
 #pragma comment(lib, "Ws2_32.lib")
@@ -37,7 +37,7 @@
 #endif
 
 namespace ark {
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
 static std::atomic_bool g_WinSockIsInit = false;
 #endif
 
@@ -59,7 +59,7 @@ public:
     static bool InitSocket()
     {
         bool ret = true;
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         static WSADATA g_WSAData;
         if (g_WinSockIsInit)
         {
@@ -83,18 +83,18 @@ public:
 
     static void ShutSocket()
     {
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         g_WinSockIsInit = false;
         WSACleanup();
 #endif
     }
 
-    static bool IsDomain(const std::string &host)
+    static bool IsDomain(const std::string& host)
     {
         return (inet_addr(host.c_str()) != INADDR_NONE);
     }
 
-    static std::string MakeUrl(const std::string &protocol, const std::string &hostname, const uint16_t &port)
+    static std::string MakeUrl(const std::string& protocol, const std::string& hostname, const uint16_t& port)
     {
         std::string domain = protocol + "://" + hostname + ":" + ARK_TO_STRING(port);
         return domain;
@@ -103,7 +103,7 @@ public:
     // hton ntoh functions
     static int64_t HTONLL(const int64_t data)
     {
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         return htonll(data);
 #else
         return htobe64(data);
@@ -112,7 +112,7 @@ public:
 
     static int64_t NTOHLL(const int64_t data)
     {
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         return ntohll(data);
 #else
         return be64toh(data);
@@ -121,7 +121,7 @@ public:
 
     static int32_t HTONL(const int32_t data)
     {
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         return htonl(data);
 #else
         return htobe32(data);
@@ -130,7 +130,7 @@ public:
 
     static int32_t NTOHL(const int32_t data)
     {
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         return ntohl(data);
 #else
         return be32toh(data);
@@ -139,7 +139,7 @@ public:
 
     static int16_t HTONS(const int16_t data)
     {
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         return htons(data);
 #else
         return htobe16(data);
@@ -148,16 +148,16 @@ public:
 
     static int16_t NTOHS(const int16_t data)
     {
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         return ntohs(data);
 #else
         return be16toh(data);
 #endif
     }
 
-    static proto_type str2proto(std::string const &s)
+    static proto_type str2proto(std::string const& s)
     {
-        static char const *proto_type_s[] = {
+        static char const* proto_type_s[] = {
             "unkown",
             "tcp",
             "udp",
@@ -182,7 +182,7 @@ public:
 
     static std::string proto2str(proto_type proto)
     {
-        static char const *proto_type_s[] = {
+        static char const* proto_type_s[] = {
             "unkown",
             "tcp",
             "udp",
@@ -202,8 +202,8 @@ public:
         return proto_type_s[(int)proto];
     }
 
-#if ARK_PLATFORM == PLATFORM_WIN
-    static bool GetLocalIP(char *ip)
+#ifdef ARK_PLATFORM_WIN
+    static bool GetIntranetIP(char* ip)
     {
         // 1.get host name
         char hostname[256] = {0};
@@ -213,30 +213,30 @@ public:
             return false;
         }
         // 2.get host ip
-        HOSTENT *host = gethostbyname(hostname);
+        HOSTENT* host = gethostbyname(hostname);
         if (host == nullptr)
         {
             return false;
         }
         // 3.transfer to char pointer
-        strcpy(ip, inet_ntoa(*(in_addr *)*host->h_addr_list));
+        strcpy(ip, inet_ntoa(*(in_addr*)*host->h_addr_list));
         return true;
     }
 #endif
 
-    static bool IsIPV4Address(const string &ip)
+    static bool IsIPV4Address(const string& ip)
     {
         struct sockaddr_in sa;
         return inet_pton(AF_INET, ip.c_str(), &(sa.sin_addr)) != 0;
     }
 
-    static bool IsIPV6Address(const string &ip)
+    static bool IsIPV6Address(const string& ip)
     {
         struct sockaddr_in6 sa;
         return inet_pton(AF_INET6, ip.c_str(), &(sa.sin6_addr)) != 0;
     }
 
-    static bool GetHost(const std::string &host, bool &is_ip_v6, std::string &ip)
+    static bool GetHost(bool need_intranet_ip, const std::string& host, bool& is_ip_v6, std::string& ip)
     {
         bool ret = InitSocket();
         if (!ret)
@@ -244,13 +244,29 @@ public:
             return false;
         }
 
-#if ARK_PLATFORM == PLATFORM_WIN
-        static char local_ip[256] = {0};
-        memset(local_ip, 0x00, sizeof(local_ip));
-        ret = GetLocalIP(local_ip);
-        if (ret)
+#ifdef ARK_PLATFORM_WIN
+
+        if (need_intranet_ip)
         {
-            ip = local_ip;
+            static char intranet_ip[256] = {0};
+            memset(intranet_ip, 0x00, sizeof(intranet_ip));
+            ret = GetIntranetIP(intranet_ip);
+            if (ret)
+            {
+                ip = intranet_ip;
+                if (IsIPV4Address(ip))
+                {
+                    is_ip_v6 = false;
+                }
+                else
+                {
+                    is_ip_v6 = true;
+                }
+            }
+        }
+        else
+        {
+            ip = host;
             if (IsIPV4Address(ip))
             {
                 is_ip_v6 = false;
@@ -262,8 +278,8 @@ public:
         }
 #else
         struct addrinfo hints;
-        struct addrinfo *answer;
-        struct addrinfo *curr;
+        struct addrinfo* answer;
+        struct addrinfo* curr;
 
         memset(&hints, 0, sizeof(struct addrinfo));
         hints.ai_family = AF_UNSPEC;
@@ -287,14 +303,14 @@ public:
             case PF_INET:
             {
                 is_ip_v6 = false;
-                inet_ntop(AF_INET, &(((struct sockaddr_in *)(curr->ai_addr))->sin_addr), ip_v4, sizeof(ip_v4));
+                inet_ntop(AF_INET, &(((struct sockaddr_in*)(curr->ai_addr))->sin_addr), ip_v4, sizeof(ip_v4));
                 ip = ip_v4;
             }
             break;
             case PF_INET6:
             {
                 is_ip_v6 = true;
-                inet_ntop(AF_INET6, &(((struct sockaddr_in6 *)(curr->ai_addr))->sin6_addr), ip_v6, sizeof(ip_v6));
+                inet_ntop(AF_INET6, &(((struct sockaddr_in6*)(curr->ai_addr))->sin6_addr), ip_v6, sizeof(ip_v6));
                 ip = ip_v6;
             }
             break;
@@ -334,22 +350,22 @@ public:
         ext_.proto_ = proto;
     }
 
-    std::string const &GetIP() const
+    std::string const& GetIP() const
     {
         return ext_.ip_;
     }
 
-    void SetIP(std::string const &ip)
+    void SetIP(std::string const& ip)
     {
         ext_.ip_ = ip;
     }
 
-    std::string const &GetPath() const
+    std::string const& GetPath() const
     {
         return ext_.path_;
     }
 
-    void SetPath(std::string const &path)
+    void SetPath(std::string const& path)
     {
         ext_.path_ = path;
     }
@@ -359,7 +375,7 @@ public:
         return ext_.port_;
     }
 
-    void SetPort(uint16_t const &port)
+    void SetPort(uint16_t const& port)
     {
         ext_.port_ = port;
     }
@@ -374,7 +390,7 @@ public:
         is_ipv6_ = v6;
     }
 
-    static AFEndpoint FromString(std::string const &url, std::error_code &ec)
+    static AFEndpoint FromString(std::string const& url, std::error_code& ec)
     {
         if (url.empty())
         {
@@ -392,9 +408,11 @@ public:
         }
 
         std::string host(result[3].str());
+        bool need_intranet_ip = (host == "0.0.0.0" || host == "[::]") ? false : true; // check if we need intranet ip
+
         bool is_ipv6{false};
         std::string ip{};
-        if (!AFSocket::GetHost(host, is_ipv6, ip))
+        if (!AFSocket::GetHost(need_intranet_ip, host, is_ipv6, ip))
         {
             ec = AFErrorCategory::MakeErrorCode(-3);
             return AFEndpoint();

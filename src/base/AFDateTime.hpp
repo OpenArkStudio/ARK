@@ -350,7 +350,7 @@ public:
     /// Updates the Timestamp with the current time.
     void update()
     {
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         FILETIME ft;
         GetSystemTimeAsFileTime(&ft);
 
@@ -496,7 +496,7 @@ public:
     {
         std::tm tm;
         time_t time = GetTime();
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         gmtime_s(&tm, &time);
 #else
         gmtime_r(&time, &tm);
@@ -509,7 +509,7 @@ public:
     {
         time_t time = GetTime();
         std::tm tm;
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         localtime_s(&tm, &time);
 #else
         localtime_r(&time, &tm);
@@ -763,7 +763,7 @@ public:
         return 1000; // 1s = 1000 milliseconds
     }
 
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
     static AFDateTime fromFileTimeNP(uint32_t fileTimeLow, uint32_t fileTimeHigh)
     {
         ULARGE_INTEGER epoch; // UNIX epoch (1970-01-01 00:00:00) expressed in Windows NT FILETIME

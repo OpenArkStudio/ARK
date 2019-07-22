@@ -109,21 +109,17 @@
 #endif
 #endif // !defined(ARK_ENDIAN)
 
-#define PLATFORM_WIN 0
-#define PLATFORM_UNIX 1
-#define PLATFORM_APPLE 2
-
 #define UNIX_FLAVOUR_LINUX 1
 #define UNIX_FLAVOUR_BSD 2
 #define UNIX_FLAVOUR_OTHER 3
 #define UNIX_FLAVOUR_OSX 4
 
 #if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64)
-#define ARK_PLATFORM PLATFORM_WIN
+#define ARK_PLATFORM_WIN
 #elif defined(__APPLE_CC__)
-#define ARK_PLATFORM PLATFORM_APPLE
+#define ARK_PLATFORM_DARWIN
 #else
-#define ARK_PLATFORM PLATFORM_UNIX
+#define ARK_PLATFORM_LINUX
 #endif
 
 #define COMPILER_MICROSOFT 0
@@ -146,7 +142,7 @@
 #pragma error "FATAL ERROR: Unknown compiler."
 #endif
 
-#if ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == PLATFORM_APPLE
+#if defined(ARK_PLATFORM_LINUX) || defined(ARK_PLATFORM_DARWIN)
 #if defined(HAVE_DARWIN)
 #define ARK_PLATFORM_NAME "MacOSX"
 #define UNIX_FLAVOUR UNIX_FLAVOUR_OSX
@@ -160,7 +156,7 @@
 #define ARK_PLATFORM_NAME "Linux"
 #define UNIX_FLAVOUR UNIX_FLAVOUR_LINUX
 #endif
-#elif ARK_PLATFORM == PLATFORM_WIN
+#elif defined(ARK_PLATFORM_WIN)
 #define ARK_PLATFORM_NAME "Windows"
 #else
 #pragma error "FATAL ERROR: Unknown platform."
@@ -186,20 +182,19 @@
 #endif
 
 #ifdef X64
-#define ARK_ARCH_NAME "X64"
+#define ARK_ARCH_NAME "x64"
 #else
-#define ARK_ARCH_NAME "X86"
+#define ARK_ARCH_NAME "x86"
 #endif // X64
 
 #define ARK_LITTLE_ENDIAN
 
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
 #pragma warning(disable : 4251)
 #pragma warning(disable : 4267)
 #pragma warning(disable : 4305)
 #pragma warning(disable : 4800)
 #pragma warning(disable : 4996)
-#pragma warning(disable:)
 #endif
 
 namespace ark {

@@ -345,7 +345,7 @@ inline void _stringUtilSplitSliceToSlice(const ark::AFSlice &str, const char &de
     do
     {
         // fix strchr compile warning
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         p = (const char *)memchr(start + const_cast<char *>(str.data()), delim, str.size() - start);
 #else
         p = (const char *)memchr(start + str.data(), delim, str.size() - start);
@@ -384,7 +384,7 @@ inline void _stringUtilSplitSliceToSlice(const ark::AFSlice &str, const char &de
     do
     {
         // fix strchr compile warning
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         p = (const char *)memchr(start + const_cast<char *>(str.data()), delim, str.size() - start);
 #else
         p = (const char *)memchr(start + str.data(), delim, str.size() - start);
