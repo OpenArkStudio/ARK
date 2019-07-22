@@ -67,25 +67,24 @@ union AFBusAddr
     };
 };
 
-// bus relation, proc connect other proc with direct way or waiting sync msg
+// bus relation, app connect other app with direct way or waiting sync message
 class AFBusRelation
 {
 public:
     AFBusRelation() = default;
 
-    uint8_t app_type{ARK_APP_DEFAULT};
-    uint8_t target_app_type{ARK_APP_DEFAULT};
+    uint8_t app_type{std::underlying_type<ARK_APP_TYPE>::type(ARK_APP_TYPE::ARK_APP_DEFAULT)};
+    uint8_t target_app_type{std::underlying_type<ARK_APP_TYPE>::type(ARK_APP_TYPE::ARK_APP_DEFAULT)};
     bool connection_type{false};
 };
 
-//
 class AFServerConfig
 {
 public:
     int self_id{0};
     uint32_t max_connection{0};
     uint8_t thread_num{0};
-    AFEndpoint local_ep_;
+    AFEndpoint intranet_ep_;
     AFEndpoint public_ep_;
     // to add other fields
 };
@@ -93,10 +92,10 @@ public:
 class AFProcConfig
 {
 public:
-    std::map<std::string, std::string> hosts;                 // name -> private_ip
-    std::map<std::string, uint8_t> proc_types;                // proc_name -> proc_id
-    std::map<uint8_t, std::string> proc_names;                // proc_id -> proc_name
-    std::map<uint8_t, std::vector<AFServerConfig>> instances; // proc_id -> proc_instances
+    std::map<std::string, std::string> hosts;                      // name -> intranet_ip
+    std::map<std::string, ARK_APP_TYPE> app_name_types;            // app_name -> app_type
+    std::map<ARK_APP_TYPE, std::string> app_type_names;            // app_type -> app_name
+    std::map<ARK_APP_TYPE, std::vector<AFServerConfig>> instances; // app_type -> app_instances
 };
 
 } // namespace ark

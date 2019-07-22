@@ -20,7 +20,7 @@
 
 #include "net/include/AFCTCPServer.h"
 
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
 #include <WS2tcpip.h>
 #include <winsock2.h>
 #pragma comment(lib, "Ws2_32.lib")

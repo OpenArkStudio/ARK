@@ -25,7 +25,7 @@
 
 namespace ark {
 
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
 
 class AFCReaderWriterLock : public AFNoncopyable
 {

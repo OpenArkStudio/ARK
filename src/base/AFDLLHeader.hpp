@@ -20,7 +20,7 @@
 
 #include "base/AFPlatform.hpp"
 
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
 
 #pragma comment(lib, "Dbghelp.lib")
 #pragma comment(lib, "ws2_32")

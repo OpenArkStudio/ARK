@@ -49,7 +49,7 @@ public:
         pRegModuleName->name_ = typeid(classBaseName).name();
         pPluginManager->AddModule(pRegModuleName->name_, pRegModuleName);
         modules_.insert(pRegModuleName->name_, pRegModuleName);
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         std::string base_name = typeid(&AFIModule::Update).name();
         std::string child_name = typeid(&className::Update).name();
         if (base_name != child_name)

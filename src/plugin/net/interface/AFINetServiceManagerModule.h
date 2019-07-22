@@ -31,18 +31,18 @@ class AFINetServiceManagerModule : public AFIModule
 public:
     // server-side net service
     virtual int CreateServer(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) = 0;
-    virtual AFINetServerService *GetSelfNetServer() = 0;
+    virtual AFINetServerService* GetSelfNetServer() = 0;
 
     // client
     virtual int CreateClusterClients(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) = 0;
-    virtual int CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string &url) = 0;
+    virtual int CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url) = 0;
 
-    virtual AFINetClientService *GetNetClientService(const uint8_t &app_type) = 0;
-    virtual AFINetClientService *GetNetClientServiceByBusID(const int bus_id) = 0;
+    virtual AFINetClientService* GetNetClientService(const ARK_APP_TYPE& app_type) = 0;
+    virtual AFINetClientService* GetNetClientServiceByBusID(const int bus_id) = 0;
 
-    virtual bool AddNetConnectionBus(int client_bus_id, AFINet *net_server_ptr) = 0;
+    virtual bool AddNetConnectionBus(int client_bus_id, AFINet* net_server_ptr) = 0;
     virtual bool RemoveNetConnectionBus(int client_bus_id) = 0;
-    virtual AFINet *GetNetConnectionBus(int src_bus, int target_bus) = 0;
+    virtual AFINet* GetNetConnectionBus(int src_bus, int target_bus) = 0;
 };
 
 } // namespace ark

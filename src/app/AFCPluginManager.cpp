@@ -364,7 +364,12 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& plugin_name)
     }
     else
     {
-#if ARK_PLATFORM == PLATFORM_UNIX
+#ifdef ARK_PLATFORM_WIN
+        CONSOLE_LOG << "Load dynamic library[" << pLib->GetName() << "] failed, ErrorNo=[" << GetLastError() << "]" << std::endl;
+        CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
+        assert(0);
+        return false;
+#else
         char* error = dlerror();
         if (error)
         {
@@ -373,12 +378,7 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& plugin_name)
             assert(0);
             return false;
         }
-#elif ARK_PLATFORM == PLATFORM_WIN
-        CONSOLE_LOG << "Load dynamic library[" << pLib->GetName() << "] failed, ErrorNo=[" << GetLastError() << "]" << std::endl;
-        CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
-        assert(0);
-        return false;
-#endif // ARK_PLATFORM
+#endif
     }
 
     return true;

@@ -20,9 +20,11 @@
 
 #pragma once
 
+#include "base/AFPlatform.hpp"
+
 namespace ark {
-// will modify to enum class with C++ mordern standard
-enum ARK_APP_TYPE
+
+enum class ARK_APP_TYPE : uint8_t
 {
     ARK_APP_DEFAULT = 0, // none
     // cluster level
@@ -41,7 +43,7 @@ enum ARK_APP_TYPE
     ARK_APP_GAME = 101,  // game
     ARK_APP_LOGIN = 102, // login
     ARK_APP_PROXY = 103, // proxy
-    ARK_APP_DB = 104,    // dbproxy
+    ARK_APP_DB = 104,    // db-proxy
     // ARK_APP_RANK           = 105,  //rank
     // ARK_APP_PUB            = 106,  //public
     // ARK_APP_CS_PROXY       = 107,  //cs_proxy, produce cross-server things
@@ -49,8 +51,8 @@ enum ARK_APP_TYPE
     ARK_APP_WORLD_MAX = 199, // max of world
 
     // db
-    ARK_APP_REDIS = 200, // redis server
-    ARK_APP_MYSQL = 201, // mysql server
+    ARK_APP_REDIS = 200, // Redis server
+    ARK_APP_MYSQL = 201, // MySQL server
 
     ARK_APP_MAX = 255, // max of all processes
 };

@@ -31,7 +31,7 @@ using namespace ark;
 bool g_exit_loop = false;
 std::thread g_cmd_thread;
 
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
 
 // mini-dump
 void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* pException)
@@ -63,7 +63,7 @@ long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 
 void CloseXButton()
 {
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
     HWND hWnd = GetConsoleWindow();
 
     if (hWnd)
@@ -79,7 +79,7 @@ void CloseXButton()
 
 void InitDaemon()
 {
-#if ARK_PLATFORM == PLATFORM_UNIX
+#ifdef ARK_PLATFORM_LINUX
     int ret = daemon(1, 0);
     ARK_ASSERT_NO_EFFECT(ret == 0);
 
@@ -96,7 +96,7 @@ void InitDaemon()
 
 void PrintLogo()
 {
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
 
@@ -116,7 +116,7 @@ Github:  https://github.com/ArkNX
 
     CONSOLE_INFO_LOG << logo << std::endl;
 
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
 }
@@ -144,7 +144,7 @@ void CreateBackThread()
 bool ParseArgs(int argc, char* argv[])
 {
     auto close_x_button = []() {
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ApplicationCrashHandler);
         CloseXButton();
 #endif
@@ -223,7 +223,7 @@ bool ParseArgs(int argc, char* argv[])
 
         std::string process_name = ARK_FORMAT("{}-{}-{}", name.Get(), busid.Get(), AFCPluginManager::get()->BusID());
         // Set process name
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
         SetConsoleTitle(process_name.c_str());
 #elif ARK_PLATFORM == PLATFORM_UNIX
         // Do not need to change process name
@@ -261,12 +261,12 @@ bool ParseArgs(int argc, char* argv[])
 
 void MainLoop()
 {
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
     __try
     {
 #endif
         AFCPluginManager::get()->Update();
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
     }
     __except (ApplicationCrashHandler(GetExceptionInformation()))
     {

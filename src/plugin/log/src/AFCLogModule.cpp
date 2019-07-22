@@ -58,7 +58,7 @@ void AFCLogModule::CreateDevLogger()
         pPluginManager->AppName(), AFMisc::Bus2Str(pPluginManager->BusID()));
     auto date_and_hour_sink = std::make_shared<spdlog::sinks::date_and_hour_file_sink_mt>(log_name);
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
-#if ARK_PLATFORM == PLATFORM_WIN
+#ifdef ARK_PLATFORM_WIN
     auto color_sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
 #else
     auto color_sink = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
