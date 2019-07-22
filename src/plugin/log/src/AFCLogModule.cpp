@@ -41,7 +41,7 @@ std::shared_ptr<spdlog::async_logger> AFCLogModule::GetDevLogger()
         {
             CreateDevLogger();
         }
-        catch (std::system_error &error)
+        catch (std::system_error& error)
         {
             CONSOLE_INFO_LOG << "Create logger failed, error = " << error.what() << std::endl;
             ARK_ASSERT_RET_VAL(0, nullptr);
@@ -57,7 +57,7 @@ void AFCLogModule::CreateDevLogger()
     std::string log_name = ARK_FORMAT("{}{}{}.{}.log", pPluginManager->GetLogPath(), spdlog::details::os::folder_sep,
         pPluginManager->AppName(), AFMisc::Bus2Str(pPluginManager->BusID()));
     auto date_and_hour_sink = std::make_shared<spdlog::sinks::date_and_hour_file_sink_mt>(log_name);
-#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
+#ifdef ARK_RUN_MODE_DEBUG
 #ifdef ARK_PLATFORM_WIN
     auto color_sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
 #else
@@ -68,9 +68,10 @@ void AFCLogModule::CreateDevLogger()
     sinks_vec.push_back(date_and_hour_sink);
 
     dev_tp_ = std::make_shared<spdlog::details::thread_pool>(spdlog::details::default_async_q_size, 1);
-    dev_logger_ = std::make_shared<spdlog::async_logger>(pPluginManager->AppName(), std::begin(sinks_vec), std::end(sinks_vec), dev_tp_);
+    dev_logger_ = std::make_shared<spdlog::async_logger>(
+        pPluginManager->AppName(), std::begin(sinks_vec), std::end(sinks_vec), dev_tp_);
 
-#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
+#ifdef ARK_RUN_MODE_DEBUG
     dev_logger_->set_level(spdlog::level::level_enum::trace);
     dev_logger_->set_pattern("%^[%Y%m%d %H:%M:%S.%e][%-8l][%@]%v%$");
 #else
@@ -84,7 +85,7 @@ void AFCLogModule::CreateDevLogger()
 
 //////////////////////////////////////////////////////////////////////////
 
-AFCLogModule::spdlogger AFCLogModule::CreateOssLogger(const std::string &name)
+AFCLogModule::spdlogger AFCLogModule::CreateOssLogger(const std::string& name)
 {
     if (name.empty())
     {
@@ -95,9 +96,10 @@ AFCLogModule::spdlogger AFCLogModule::CreateOssLogger(const std::string &name)
     {
         // log/oss/login.log
         std::vector<spdlog::sink_ptr> sinks_vec;
-        std::string log_name = ARK_FORMAT(
-            "{}{}oss{}{}.log", pPluginManager->GetLogPath(), spdlog::details::os::folder_sep, spdlog::details::os::folder_sep, name);
-        auto rorate_file_sink = std::make_shared<spdlog::sinks::rotating_file_with_date_sink_mt>(log_name, 20 * 1024 * 1024, 100000);
+        std::string log_name = ARK_FORMAT("{}{}oss{}{}.log", pPluginManager->GetLogPath(),
+            spdlog::details::os::folder_sep, spdlog::details::os::folder_sep, name);
+        auto rorate_file_sink =
+            std::make_shared<spdlog::sinks::rotating_file_with_date_sink_mt>(log_name, 20 * 1024 * 1024, 100000);
         sinks_vec.push_back(rorate_file_sink);
 
         if (oss_tp_ == nullptr)
@@ -114,7 +116,7 @@ AFCLogModule::spdlogger AFCLogModule::CreateOssLogger(const std::string &name)
         oss_loggers_.insert(std::make_pair(name, logger));
         return logger;
     }
-    catch (std::system_error &error)
+    catch (std::system_error& error)
     {
         CONSOLE_INFO_LOG << "Create OSS logger failed, error = " << error.what() << std::endl;
     }
@@ -122,9 +124,9 @@ AFCLogModule::spdlogger AFCLogModule::CreateOssLogger(const std::string &name)
     ARK_ASSERT_RET_VAL(0, nullptr);
 }
 
-void AFCLogModule::OssLog(const google::protobuf::Message &msg)
+void AFCLogModule::OssLog(const google::protobuf::Message& msg)
 {
-    const std::string &logger_name = msg.GetDescriptor()->name();
+    const std::string& logger_name = msg.GetDescriptor()->name();
     auto iter = oss_loggers_.find(logger_name);
     spdlogger logger;
     if (iter == oss_loggers_.end())

@@ -36,7 +36,8 @@ std::thread g_cmd_thread;
 // mini-dump
 void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* pException)
 {
-    HANDLE hDumpFile = CreateFile(strDumpFilePathName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    HANDLE hDumpFile =
+        CreateFile(strDumpFilePathName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
     MINIDUMP_EXCEPTION_INFORMATION dumpInfo;
     dumpInfo.ExceptionPointers = pException;
@@ -51,8 +52,9 @@ void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* 
 long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 {
     AFDateTime now;
-    std::string dump_name = ARK_FORMAT("{}-{:04d}{:02d}{:02d}_{:02d}_{:02d}_{:02d}.dmp", AFCPluginManager::get()->AppName(), now.GetYear(),
-        now.GetMonth(), now.GetDay(), now.GetHour(), now.GetMinute(), now.GetSecond());
+    std::string dump_name =
+        ARK_FORMAT("{}-{:04d}{:02d}{:02d}_{:02d}_{:02d}_{:02d}.dmp", AFCPluginManager::get()->AppName(), now.GetYear(),
+            now.GetMonth(), now.GetDay(), now.GetHour(), now.GetMinute(), now.GetSecond());
 
     CreateDumpFile(dump_name.c_str(), pException);
 
@@ -97,7 +99,8 @@ void InitDaemon()
 void PrintLogo()
 {
 #ifdef ARK_PLATFORM_WIN
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    SetConsoleTextAttribute(
+        GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
 
     std::string logo = R"(
@@ -117,7 +120,8 @@ Github:  https://github.com/ArkNX
     CONSOLE_INFO_LOG << logo << std::endl;
 
 #ifdef ARK_PLATFORM_WIN
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    SetConsoleTextAttribute(
+        GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
 }
 
@@ -151,25 +155,26 @@ bool ParseArgs(int argc, char* argv[])
     };
 
     auto use_daemon = []() {
-#if ARK_PLATFORM == PLATFORM_UNIX
+#ifdef ARK_PLATFORM_LINUX
         InitDaemon();
 #endif
     };
 
-    args::ArgumentParser parser("Here is ark plugin loader argument tools", "If you have any questions, please report an issue in GitHub.");
+    args::ArgumentParser parser(
+        "Here is ark plugin loader argument tools", "If you have any questions, please report an issue in GitHub.");
     args::HelpFlag help(parser, "help", "Display the help menu", {'h', "help"});
     args::ActionFlag xbutton(parser, "close", "Close [x] button in Windows", {'x'}, close_x_button);
     args::ActionFlag daemon(parser, "daemon", "Run application as daemon", {'d'}, use_daemon);
 
-    args::ValueFlag<std::string> busid(parser, "busid", "Set application id(like IP address: 8.8.8.8)", {'b', "busid"}, "8.8.8.8",
+    args::ValueFlag<std::string> busid(parser, "busid", "Set application id(like IP address: 8.8.8.8)", {'b', "busid"},
+        "8.8.8.8", args::Options::Required | args::Options::Single);
+    args::ValueFlag<std::string> name(parser, "name", "Set application name", {'n', "name"}, "my-server",
         args::Options::Required | args::Options::Single);
-    args::ValueFlag<std::string> name(
-        parser, "name", "Set application name", {'n', "name"}, "my-server", args::Options::Required | args::Options::Single);
-    args::ValueFlag<std::string> plugin_cfg(parser, "plugin config path", "Set application plugin config", {'p', "plugin"}, "plugin.xml",
-        args::Options::Required | args::Options::Single);
+    args::ValueFlag<std::string> plugin_cfg(parser, "plugin config path", "Set application plugin config",
+        {'p', "plugin"}, "plugin.xml", args::Options::Required | args::Options::Single);
     std::string default_log_path = ARK_FORMAT("..{}binlog", ARK_FOLDER_SEP);
-    args::ValueFlag<std::string> logpath(parser, "logpath", "Set application log output path", {'l', "logpath"}, default_log_path,
-        args::Options::Required | args::Options::Single);
+    args::ValueFlag<std::string> logpath(parser, "logpath", "Set application log output path", {'l', "logpath"},
+        default_log_path, args::Options::Required | args::Options::Single);
 
     // start parse argument list
     try
@@ -225,7 +230,7 @@ bool ParseArgs(int argc, char* argv[])
         // Set process name
 #ifdef ARK_PLATFORM_WIN
         SetConsoleTitle(process_name.c_str());
-#elif ARK_PLATFORM == PLATFORM_UNIX
+#elif defined(ARK_PLATFORM_LINUX)
         // Do not need to change process name
 #endif
     }

@@ -162,15 +162,12 @@
 #pragma error "FATAL ERROR: Unknown platform."
 #endif
 
-#define ARK_RUN_MODE_DEBUG 0
-#define ARK_RUN_MODE_RELEASE 1
-
 #ifndef ARK_RUN_MODE
 #if defined(DEBUG) || defined(_DEBUG)
-#define ARK_RUN_MODE ARK_RUN_MODE_DEBUG
+#define ARK_RUN_MODE_DEBUG
 #define ARK_RUN_MODE_NAME "Debug"
 #else
-#define ARK_RUN_MODE ARK_RUN_MODE_RELEASE
+#define ARK_RUN_MODE_RELEASE
 #define ARK_RUN_MODE_NAME "Release"
 #endif // DEBUG
 #endif

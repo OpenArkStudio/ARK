@@ -25,7 +25,7 @@
 #pragma comment(lib, "Dbghelp.lib")
 #pragma comment(lib, "ws2_32")
 
-#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
+#ifdef ARK_RUN_MODE_DEBUG
 
 #pragma comment(lib, "brynetd.lib")
 #pragma comment(lib, "libprotobuf-lited.lib")

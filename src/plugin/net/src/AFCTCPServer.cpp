@@ -24,7 +24,7 @@
 #include <WS2tcpip.h>
 #include <winsock2.h>
 #pragma comment(lib, "Ws2_32.lib")
-#elif ARK_PLATFORM == PLATFORM_APPLE
+#else
 #include <arpa/inet.h>
 #endif
 
@@ -46,8 +46,8 @@ void AFCTCPServer::Update()
     UpdateNetSession();
 }
 
-bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port, const int thread_num,
-    const unsigned int max_client, bool ip_v6 /* = false*/)
+bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port,
+    const int thread_num, const unsigned int max_client, bool ip_v6 /* = false*/)
 {
     this->bus_id_ = busid;
 
@@ -116,8 +116,9 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
     // Chain expression
     listen_builder.configureService(tcp_service_ptr_)
         .configureSocketOptions({[](brynet::net::TcpSocket& socket) { socket.setNodelay(); }})
-        .configureConnectionOptions({brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE),
-            brynet::net::TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback)})
+        .configureConnectionOptions(
+            {brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE),
+                brynet::net::TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback)})
         .configureListen([=](brynet::net::wrapper::BuildListenConfig config) { config.setAddr(ip_v6, ip, port); })
         .asyncRun();
 
@@ -282,8 +283,8 @@ AFTCPSessionPtr AFCTCPServer::GetNetSession(const int64_t& session_id)
     return (iter != sessions_.end() ? iter->second : nullptr);
 }
 
-// bool AFCTCPServer::SendMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& session_id, const AFGUID&
-// actor_id)
+// bool AFCTCPServer::SendMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& session_id,
+// const AFGUID& actor_id)
 //{
 //    //AFTCPMsg msg;
 

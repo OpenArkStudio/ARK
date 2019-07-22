@@ -126,17 +126,17 @@ static size_t strlcpy(char* dst, const char* src, size_t siz)
 #define ARK_STRICMP _stricmp
 #define ARK_SLEEP(s) Sleep(s)
 #define ARK_STRNCPY strlcpy
-#define ARK_ASSERT(exp_, msg_, file_, func_)                                                                                               \
-    do                                                                                                                                     \
-    {                                                                                                                                      \
-        if (!(exp_))                                                                                                                       \
-        {                                                                                                                                  \
-            std::string strInfo("Message:");                                                                                               \
-            strInfo += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") + std::string(file_) +                \
-                       std::string("\n Function:") + func_;                                                                                \
-            MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_" #exp_), MB_RETRYCANCEL | MB_ICONERROR);                                     \
-        }                                                                                                                                  \
-        assert(exp_);                                                                                                                      \
+#define ARK_ASSERT(exp_, msg_, file_, func_)                                                                           \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if (!(exp_))                                                                                                   \
+        {                                                                                                              \
+            std::string strInfo("Message:");                                                                           \
+            strInfo += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") +                 \
+                       std::string(file_) + std::string("\n Function:") + func_;                                       \
+            MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_" #exp_), MB_RETRYCANCEL | MB_ICONERROR);                 \
+        }                                                                                                              \
+        assert(exp_);                                                                                                  \
     } while (false);
 
 #define ARK_EXPORT_FUNC extern "C" __declspec(dllexport)
@@ -154,19 +154,19 @@ typedef struct HINSTANCE__* hInstance;
 
 #define ARK_FOLDER_SEP '\\'
 
-#elif ARK_PLATFORM == PLATFORM_UNIX
+#elif defined(ARK_PLATFORM_LINUX)
 
 // Linux
 #define ARK_SPRINTF snprintf
 #define ARK_STRICMP strcasecmp
 #define ARK_SLEEP(s) usleep(s * 1000)
 #define ARK_STRNCPY strlcpy
-#define ARK_ASSERT(exp_, msg_, file_, func_)                                                                                               \
-    do                                                                                                                                     \
-    {                                                                                                                                      \
-        if ((exp_))                                                                                                                        \
-            break;                                                                                                                         \
-        assert(exp_);                                                                                                                      \
+#define ARK_ASSERT(exp_, msg_, file_, func_)                                                                           \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if ((exp_))                                                                                                    \
+            break;                                                                                                     \
+        assert(exp_);                                                                                                  \
     } while (0);
 
 #define ARK_EXPORT_FUNC extern "C" __attribute((visibility("default")))
@@ -181,7 +181,7 @@ typedef struct HINSTANCE__* hInstance;
 
 #define ARK_FOLDER_SEP '/'
 
-#elif ARK_PLATFORM == PLATFORM_APPLE
+#elif defined(ARK_PLATFORM_DARWIN)
 
 #define DYNLIB_HANDLE void*
 #define DYNLIB_LOAD(a) mac_loadDylib(a)
@@ -190,58 +190,58 @@ typedef struct HINSTANCE__* hInstance;
 
 #endif
 
-#define ARK_ASSERT_RET_VAL(exp_, val)                                                                                                      \
-    do                                                                                                                                     \
-    {                                                                                                                                      \
-        if ((exp_))                                                                                                                        \
-            break;                                                                                                                         \
-        assert(exp_);                                                                                                                      \
-        return val;                                                                                                                        \
+#define ARK_ASSERT_RET_VAL(exp_, val)                                                                                  \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if ((exp_))                                                                                                    \
+            break;                                                                                                     \
+        assert(exp_);                                                                                                  \
+        return val;                                                                                                    \
     } while (false);
 
-#define ARK_ASSERT_RET_VAL_NO_EFFECT(exp_, val)                                                                                            \
-    do                                                                                                                                     \
-    {                                                                                                                                      \
-        if ((exp_))                                                                                                                        \
-            break;                                                                                                                         \
-        return val;                                                                                                                        \
+#define ARK_ASSERT_RET_VAL_NO_EFFECT(exp_, val)                                                                        \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if ((exp_))                                                                                                    \
+            break;                                                                                                     \
+        return val;                                                                                                    \
     } while (false);
 
-#define ARK_ASSERT_BREAK(exp_)                                                                                                             \
-    if (!(exp_))                                                                                                                           \
-    {                                                                                                                                      \
-        assert(exp_);                                                                                                                      \
-        break;                                                                                                                             \
-    }                                                                                                                                      \
-    else                                                                                                                                   \
-    {                                                                                                                                      \
+#define ARK_ASSERT_BREAK(exp_)                                                                                         \
+    if (!(exp_))                                                                                                       \
+    {                                                                                                                  \
+        assert(exp_);                                                                                                  \
+        break;                                                                                                         \
+    }                                                                                                                  \
+    else                                                                                                               \
+    {                                                                                                                  \
     }
 
-#define ARK_ASSERT_CONTINUE(exp_)                                                                                                          \
-    if (!(exp_))                                                                                                                           \
-    {                                                                                                                                      \
-        assert(exp_);                                                                                                                      \
-        continue;                                                                                                                          \
-    }                                                                                                                                      \
-    else                                                                                                                                   \
-    {                                                                                                                                      \
+#define ARK_ASSERT_CONTINUE(exp_)                                                                                      \
+    if (!(exp_))                                                                                                       \
+    {                                                                                                                  \
+        assert(exp_);                                                                                                  \
+        continue;                                                                                                      \
+    }                                                                                                                  \
+    else                                                                                                               \
+    {                                                                                                                  \
     }
 
-#define ARK_ASSERT_RET_NONE(exp_)                                                                                                          \
-    do                                                                                                                                     \
-    {                                                                                                                                      \
-        if ((exp_))                                                                                                                        \
-            break;                                                                                                                         \
-        assert(exp_);                                                                                                                      \
-        return;                                                                                                                            \
+#define ARK_ASSERT_RET_NONE(exp_)                                                                                      \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if ((exp_))                                                                                                    \
+            break;                                                                                                     \
+        assert(exp_);                                                                                                  \
+        return;                                                                                                        \
     } while (false);
 
-#define ARK_ASSERT_NO_EFFECT(exp_)                                                                                                         \
-    do                                                                                                                                     \
-    {                                                                                                                                      \
-        if (exp_)                                                                                                                          \
-            break;                                                                                                                         \
-        assert(exp_);                                                                                                                      \
+#define ARK_ASSERT_NO_EFFECT(exp_)                                                                                     \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if (exp_)                                                                                                      \
+            break;                                                                                                     \
+        assert(exp_);                                                                                                  \
     } while (false)
 
 #if defined(USE_BOOST)
@@ -296,35 +296,35 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
 #endif
 
 #ifndef ARK_NEW_ARRAY_RET
-#define ARK_NEW_ARRAY_RET(T, size)                                                                                                         \
-    do                                                                                                                                     \
-    {                                                                                                                                      \
-        return new (nothrow) T[size];                                                                                                      \
+#define ARK_NEW_ARRAY_RET(T, size)                                                                                     \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        return new (nothrow) T[size];                                                                                  \
     } while (false);
 #endif //! ARK_NEW_ARRAY_RET
 
 #ifndef ARK_DELETE
-#define ARK_DELETE(p)                                                                                                                      \
-    do                                                                                                                                     \
-    {                                                                                                                                      \
-        if (p != nullptr)                                                                                                                  \
-        {                                                                                                                                  \
-            delete p;                                                                                                                      \
-            p = nullptr;                                                                                                                   \
-        }                                                                                                                                  \
+#define ARK_DELETE(p)                                                                                                  \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if (p != nullptr)                                                                                              \
+        {                                                                                                              \
+            delete p;                                                                                                  \
+            p = nullptr;                                                                                               \
+        }                                                                                                              \
     } while (false);
 #endif
 
 #ifndef ARK_DELETE_ARRAY
-#define ARK_DELETE_ARRAY(T, p)                                                                                                             \
-    do                                                                                                                                     \
-    {                                                                                                                                      \
-        if (p != nullptr)                                                                                                                  \
-        {                                                                                                                                  \
-            T* t_ptr = static_cast<T*>(p);                                                                                                 \
-            delete[] t_ptr;                                                                                                                \
-            t_ptr = nullptr;                                                                                                               \
-        }                                                                                                                                  \
+#define ARK_DELETE_ARRAY(T, p)                                                                                         \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if (p != nullptr)                                                                                              \
+        {                                                                                                              \
+            T* t_ptr = static_cast<T*>(p);                                                                             \
+            delete[] t_ptr;                                                                                            \
+            t_ptr = nullptr;                                                                                           \
+        }                                                                                                              \
     } while (false);
 #endif
 
