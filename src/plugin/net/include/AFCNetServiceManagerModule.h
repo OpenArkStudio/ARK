@@ -49,8 +49,9 @@ public:
     bool RemoveNetConnectionBus(int client_bus_id) override;
     AFINet* GetNetConnectionBus(int src_bus, int target_bus) override;
 
-protected:
-    // int RegisterToConsul(const AFServerConfig* config);
+    // protected:
+    //    int RegisterToConsul(const AFServerConfig* config);
+    //    int DeregisterFromConsul(const int bus_id);
 
 private:
     AFMap<int, AFINetServerService> net_servers_;

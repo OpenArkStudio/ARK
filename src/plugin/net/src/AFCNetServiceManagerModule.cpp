@@ -32,7 +32,7 @@ bool AFCNetServiceManagerModule::Init()
     // m_pConsulModule = pPluginManager->FindModule<AFIConsulModule>();
 
     //// Todo: test address, will add configuration
-    // m_pConsulModule->SetRegisterCenter("172.26.24.163", 8500);
+    // m_pConsulModule->SetRegisterCenter("172.26.230.87", 8500);
 
     return true;
 }
@@ -57,6 +57,9 @@ bool AFCNetServiceManagerModule::Update()
         }
     }
 
+    // Todo: health checks
+    // create a timer to check health from consul; 20s once
+
     return true;
 }
 
@@ -65,6 +68,9 @@ bool AFCNetServiceManagerModule::Shut()
     for (auto iter : net_servers_)
     {
         auto pServerData = iter.second;
+        //// unregister from consul
+        // DeregisterFromConsul(iter.first);
+
         ARK_DELETE(pServerData);
     }
 
@@ -245,6 +251,18 @@ AFINet* AFCNetServiceManagerModule::GetNetConnectionBus(int src_bus, int target_
 //    service.SetCheck(check);
 //
 //    return m_pConsulModule->RegisterService(service) ? 0 : -2;
+//}
+//
+// int AFCNetServiceManagerModule::DeregisterFromConsul(const int bus_id)
+//{
+//    if (bus_id == 0)
+//    {
+//        return 0;
+//    }
+//
+//    AFBusAddr bus(bus_id);
+//    const std::string& app_name = m_pBusModule->GetAppName(bus.app_type);
+//    return m_pConsulModule->DeregisterService(app_name + "-" + bus.ToString());
 //}
 
 } // namespace ark

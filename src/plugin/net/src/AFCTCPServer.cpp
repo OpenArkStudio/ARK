@@ -37,7 +37,6 @@ AFCTCPServer::AFCTCPServer()
 
 AFCTCPServer::~AFCTCPServer()
 {
-    CloseAllSession();
     Shutdown();
     brynet::net::base::DestroySocket();
 }
@@ -47,7 +46,7 @@ void AFCTCPServer::Update()
     UpdateNetSession();
 }
 
-bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std::string &ip, const int port, const int thread_num,
+bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port, const int thread_num,
     const unsigned int max_client, bool ip_v6 /* = false*/)
 {
     this->bus_id_ = busid;
@@ -55,12 +54,12 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
     tcp_service_ptr_ = brynet::net::TcpService::Create();
     tcp_service_ptr_->startWorkerThread(thread_num);
 
-    auto OnEnterCallback = [this, head_len](const brynet::net::TcpConnectionPtr &session) {
+    auto OnEnterCallback = [this, head_len](const brynet::net::TcpConnectionPtr& session) {
         int64_t cur_session_id = this->trusted_session_id_++;
 
         session->setUD(cur_session_id);
 
-        AFNetEvent *net_connect_event = AFNetEvent::AllocEvent();
+        AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
         net_connect_event->id_ = cur_session_id;
         net_connect_event->type_ = AFNetEventType::CONNECTED;
         net_connect_event->bus_id_ = this->bus_id_;
@@ -76,7 +75,7 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
             }
         }
 
-        session->setDataCallback([this, session](const char *buffer, size_t len) {
+        session->setDataCallback([this, session](const char* buffer, size_t len) {
             auto pUD = brynet::net::cast<int64_t>(session->getUD());
             if (pUD != nullptr)
             {
@@ -88,7 +87,7 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
             return len;
         });
 
-        session->setDisConnectCallback([this](const brynet::net::TcpConnectionPtr &session) {
+        session->setDisConnectCallback([this](const brynet::net::TcpConnectionPtr& session) {
             auto pUD = brynet::net::cast<int64_t>(session->getUD());
             if (pUD == nullptr)
             {
@@ -97,7 +96,7 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
 
             int64_t session_id = *pUD;
 
-            AFNetEvent *net_disconnect_event = AFNetEvent::AllocEvent();
+            AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
             net_disconnect_event->id_ = session_id;
             net_disconnect_event->type_ = AFNetEventType::DISCONNECTED;
             net_disconnect_event->bus_id_ = this->bus_id_;
@@ -117,7 +116,7 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
     // Chain expression
     brynet::net::wrapper::ListenerBuilder listener;
     listener.configureService(tcp_service_ptr_)
-        .configureSocketOptions({[](brynet::net::TcpSocket &socket) { socket.setNodelay(); }})
+        .configureSocketOptions({[](brynet::net::TcpSocket& socket) { socket.setNodelay(); }})
         .configureConnectionOptions({brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE),
             brynet::net::TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback)})
         .configureListen([=](brynet::net::wrapper::BuildListenConfig config) { config.setAddr(ip_v6, ip, port); })
@@ -133,9 +132,9 @@ void AFCTCPServer::UpdateNetSession()
 
     {
         AFScopeRLock guard(rw_lock_);
-        for (auto &iter : sessions_)
+        for (auto& iter : sessions_)
         {
-            auto &session = iter.second;
+            auto& session = iter.second;
             if (session == nullptr)
             {
                 continue;
@@ -153,9 +152,9 @@ void AFCTCPServer::UpdateNetSession()
         }
     }
 
-    for (auto &iter : remove_sessions)
+    for (auto& iter : remove_sessions)
     {
-        auto &session_id = iter;
+        auto& session_id = iter;
         AFScopeWLock guard(rw_lock_);
         CloseSession(session_id);
     }
@@ -163,7 +162,7 @@ void AFCTCPServer::UpdateNetSession()
 
 void AFCTCPServer::UpdateNetEvent(AFTCPSessionPtr session)
 {
-    AFNetEvent *event(nullptr);
+    AFNetEvent* event(nullptr);
     if (!session->PopNetEvent(event))
     {
         return;
@@ -180,7 +179,7 @@ void AFCTCPServer::UpdateNetEvent(AFTCPSessionPtr session)
 
 void AFCTCPServer::UpdateNetMsg(AFTCPSessionPtr session)
 {
-    AFNetMsg *msg(nullptr);
+    AFNetMsg* msg(nullptr);
     if (!session->PopNetMsg(msg))
     {
         return;
@@ -205,19 +204,15 @@ void AFCTCPServer::UpdateNetMsg(AFTCPSessionPtr session)
 bool AFCTCPServer::Shutdown()
 {
     CloseAllSession();
-
-    listen_thread_ptr_->stopListen();
-    tcp_service_ptr_->stopWorkerThread();
-
     SetWorking(false);
     return true;
 }
 
-bool AFCTCPServer::SendMsgToAllClient(const char *msg, const size_t msg_len)
+bool AFCTCPServer::SendMsgToAllClient(const char* msg, const size_t msg_len)
 {
     for (auto it : sessions_)
     {
-        auto &session = it.second;
+        auto& session = it.second;
         if (session != nullptr && !session->NeedRemove())
         {
             session->GetSession()->send(msg, msg_len);
@@ -227,7 +222,7 @@ bool AFCTCPServer::SendMsgToAllClient(const char *msg, const size_t msg_len)
     return true;
 }
 
-bool AFCTCPServer::SendMsg(const char *msg, const size_t msg_len, const int64_t &session_id)
+bool AFCTCPServer::SendMsg(const char* msg, const size_t msg_len, const int64_t& session_id)
 {
     AFScopeRLock xGuard(rw_lock_);
     auto session = GetNetSession(session_id);
@@ -247,7 +242,7 @@ bool AFCTCPServer::AddNetSession(AFTCPSessionPtr session)
     return sessions_.insert(std::make_pair(session->GetSessionId(), session)).second;
 }
 
-bool AFCTCPServer::CloseSession(AFTCPSessionPtr &session)
+bool AFCTCPServer::CloseSession(AFTCPSessionPtr& session)
 {
     if (session != nullptr)
     {
@@ -263,7 +258,7 @@ bool AFCTCPServer::CloseSession(AFTCPSessionPtr &session)
     }
 }
 
-bool AFCTCPServer::CloseSession(const int64_t &session_id)
+bool AFCTCPServer::CloseSession(const int64_t& session_id)
 {
     AFTCPSessionPtr session = GetNetSession(session_id);
     return CloseSession(session);
@@ -271,9 +266,9 @@ bool AFCTCPServer::CloseSession(const int64_t &session_id)
 
 bool AFCTCPServer::CloseAllSession()
 {
-    for (auto &iter : sessions_)
+    for (auto& iter : sessions_)
     {
-        auto &session = iter.second;
+        auto& session = iter.second;
         session->GetSession()->postShutdown();
         ARK_DELETE(session);
     }
@@ -282,7 +277,7 @@ bool AFCTCPServer::CloseAllSession()
     return true;
 }
 
-AFTCPSessionPtr AFCTCPServer::GetNetSession(const int64_t &session_id)
+AFTCPSessionPtr AFCTCPServer::GetNetSession(const int64_t& session_id)
 {
     auto iter = sessions_.find(session_id);
     return (iter != sessions_.end() ? iter->second : nullptr);
@@ -312,7 +307,7 @@ AFTCPSessionPtr AFCTCPServer::GetNetSession(const int64_t &session_id)
 //    return true;
 //}
 
-bool AFCTCPServer::SendMsg(AFMsgHead *head, const char *msg_data, const int64_t session_id)
+bool AFCTCPServer::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id)
 {
     if (head == nullptr || msg_data == nullptr || session_id <= 0)
     {
@@ -329,10 +324,10 @@ bool AFCTCPServer::SendMsg(AFMsgHead *head, const char *msg_data, const int64_t 
     switch (session->GetHeadLen())
     {
     case AFHeadLength::CS_HEAD_LENGTH:
-        buffer.append(reinterpret_cast<char *>(head), AFHeadLength::CS_HEAD_LENGTH);
+        buffer.append(reinterpret_cast<char*>(head), AFHeadLength::CS_HEAD_LENGTH);
         break;
     case AFHeadLength::SS_HEAD_LENGTH:
-        buffer.append(reinterpret_cast<char *>(head), AFHeadLength::SS_HEAD_LENGTH);
+        buffer.append(reinterpret_cast<char*>(head), AFHeadLength::SS_HEAD_LENGTH);
         break;
     default:
         return false;
@@ -349,7 +344,7 @@ bool AFCTCPServer::SendMsg(AFMsgHead *head, const char *msg_data, const int64_t 
     return true;
 }
 
-bool AFCTCPServer::BroadcastMsg(AFMsgHead *head, const char *msg_data)
+bool AFCTCPServer::BroadcastMsg(AFMsgHead* head, const char* msg_data)
 {
     if (head == nullptr || msg_data == nullptr)
     {
@@ -368,12 +363,12 @@ bool AFCTCPServer::BroadcastMsg(AFMsgHead *head, const char *msg_data)
         return false;
     }
 
-    char *new_buffer = reinterpret_cast<char *>(head);
+    char* new_buffer = reinterpret_cast<char*>(head);
 
     uint32_t new_buffer_len = first_session->GetHeadLen() + head->length_;
     memcpy(new_buffer + first_session->GetHeadLen(), msg_data, head->length_);
 
-    for (auto &session : sessions_)
+    for (auto& session : sessions_)
     {
         session.second->GetSession()->send(new_buffer, new_buffer_len);
     }
