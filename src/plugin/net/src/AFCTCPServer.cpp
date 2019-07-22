@@ -114,8 +114,7 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
     };
 
     // Chain expression
-    brynet::net::wrapper::ListenerBuilder listener;
-    listener.configureService(tcp_service_ptr_)
+    listen_builder.configureService(tcp_service_ptr_)
         .configureSocketOptions({[](brynet::net::TcpSocket& socket) { socket.setNodelay(); }})
         .configureConnectionOptions({brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE),
             brynet::net::TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback)})

@@ -139,8 +139,7 @@ bool AFCWebSocktServer::StartServer(AFHeadLength head_len, const int busid, cons
             });
     };
 
-    brynet::net::wrapper::HttpListenerBuilder listener;
-    listener.configureService(tcp_service_ptr_)
+    listen_builder_.configureService(tcp_service_ptr_)
         .configureSocketOptions({[](brynet::net::TcpSocket& socket) { socket.setNodelay(); }})
         .configureConnectionOptions({brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE),
             brynet::net::TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback)})

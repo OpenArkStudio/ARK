@@ -110,15 +110,12 @@ bool AFCTCPClient::StartClient(AFHeadLength head_len, const int dst_busid, const
         });
     };
 
-    brynet::net::wrapper::ConnectionBuilder connectionBuilder;
-    connectionBuilder.configureService(tcp_service_ptr_)
-        .configureConnector(connector_ptr_)
-        .configureConnectionOptions({brynet::net::TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback),
-            brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE)});
-
     auto failedCallback = []() { CONSOLE_ERROR_LOG << "connect failed" << std::endl; };
 
-    connectionBuilder
+    connection_builder_.configureService(tcp_service_ptr_)
+        .configureConnector(connector_ptr_)
+        .configureConnectionOptions({brynet::net::TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback),
+            brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE)})
         .configureConnectOptions({brynet::net::AsyncConnector::ConnectOptions::WithAddr(ip, port),
             brynet::net::AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
             brynet::net::AsyncConnector::ConnectOptions::WithFailedCallback(failedCallback),

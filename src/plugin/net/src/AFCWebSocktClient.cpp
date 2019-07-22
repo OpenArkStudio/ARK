@@ -28,6 +28,7 @@ AFCWebSocktClient::AFCWebSocktClient(
 {
     brynet::net::base::InitSocket();
     tcp_service_ptr_ = (service != nullptr ? service : brynet::net::TcpService::Create());
+    connector_ptr_ = (connector != nullptr ? connector : brynet::net::AsyncConnector::Create());
 }
 
 AFCWebSocktClient::~AFCWebSocktClient()
@@ -118,16 +119,11 @@ bool AFCWebSocktClient::StartClient(AFHeadLength len, const int target_busid, co
     };
 
     tcp_service_ptr_->startWorkerThread(1);
+    connector_ptr_->startWorkerThread();
 
-    auto connector = brynet::net::AsyncConnector::Create();
-    connector->startWorkerThread();
-
-    brynet::net::wrapper::HttpConnectionBuilder connectionBuilder;
-    connectionBuilder.configureService(tcp_service_ptr_)
-        .configureConnector(connector)
-        .configureConnectionOptions({brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE)});
-
-    connectionBuilder
+    connection_builder.configureService(tcp_service_ptr_)
+        .configureConnector(connector_ptr_)
+        .configureConnectionOptions({brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE)})
         .configureConnectOptions({brynet::net::AsyncConnector::ConnectOptions::WithAddr(ip, port),
             brynet::net::AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
             brynet::net::AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback(
