@@ -18,12 +18,9 @@
  *
  */
 
-#include "rapidxml/rapidxml.hpp"
-#include "rapidxml/rapidxml_iterators.hpp"
-#include "rapidxml/rapidxml_print.hpp"
-#include "rapidxml/rapidxml_utils.hpp"
 #include "base/AFPlatform.hpp"
 #include "base/AFDateTime.hpp"
+#include "base/AFXml.hpp"
 #include "interface/AFIPlugin.h"
 #include "AFCPluginManager.h"
 
@@ -35,6 +32,24 @@ AFCPluginManager::AFCPluginManager()
     timestamp_ = AFDateTime::GetNowTime();
 }
 
+bool AFCPluginManager::Start()
+{
+    ARK_ASSERT_RET_VAL(Init(), false);
+    ARK_ASSERT_RET_VAL(PostInit(), false);
+    ARK_ASSERT_RET_VAL(CheckConfig(), false);
+    ARK_ASSERT_RET_VAL(PreUpdate(), false);
+
+    return true;
+}
+
+bool AFCPluginManager::Stop()
+{
+    AFCPluginManager::get()->PreShut();
+    AFCPluginManager::get()->Shut();
+
+    return true;
+}
+
 inline bool AFCPluginManager::Init()
 {
     // load plugin configuration
@@ -44,7 +59,7 @@ inline bool AFCPluginManager::Init()
     }
 
     // load plugin dynamic libraries
-    for (const auto &iter : ordered_plugin_names_)
+    for (const auto& iter : ordered_plugin_names_)
     {
         bool bRet = LoadPluginLibrary(iter);
 
@@ -55,9 +70,9 @@ inline bool AFCPluginManager::Init()
     }
 
     // initialize all modules
-    for (const auto &iter : ordered_module_instances_)
+    for (const auto& iter : ordered_module_instances_)
     {
-        AFIModule *pModule = iter;
+        AFIModule* pModule = iter;
         if (pModule)
         {
             pModule->Init();
@@ -69,55 +84,34 @@ inline bool AFCPluginManager::Init()
 
 bool AFCPluginManager::LoadPluginConf()
 {
-    rapidxml::file<> fdoc(plugin_conf_path_.c_str());
-    rapidxml::xml_document<> doc;
-    doc.parse<0>(fdoc.data());
+    AFXml xml_doc(plugin_conf_path_);
 
-    rapidxml::xml_node<> *pRoot = doc.first_node();
-    rapidxml::xml_node<> *pPluginsNode = pRoot->first_node("plugins");
-    if (pPluginsNode == nullptr)
+    auto root_node = xml_doc.GetRootNode();
+    ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
+
+    auto plugins_node = root_node.FindNode("plugins");
+    ARK_ASSERT_RET_VAL(plugins_node.IsValid(), false);
+    plugin_path_ = plugins_node.GetString("path");
+    ARK_ASSERT_RET_VAL(!plugin_path_.empty(), false);
+
+    for (auto plugin_node = plugins_node.FindNode("plugin"); plugin_node.IsValid(); plugin_node.NextNode())
     {
-        return false;
-    }
-
-    if (pPluginsNode->first_attribute("path") == nullptr)
-    {
-        ARK_ASSERT(0, "There are no ConfigPath.Name", __FILE__, __FUNCTION__);
-        return false;
-    }
-
-    plugin_path_ = pPluginsNode->first_attribute("path")->value();
-
-    for (rapidxml::xml_node<> *pPluginNode = pPluginsNode->first_node("plugin"); pPluginNode != nullptr;
-         pPluginNode = pPluginNode->next_sibling("plugin"))
-    {
-        const char *strPluginName = pPluginNode->first_attribute("name")->value();
-        if (plugin_names_.insert(std::make_pair(strPluginName, true)).second)
+        std::string plugin_name = plugin_node.GetString("name");
+        if (plugin_names_.insert(std::make_pair(plugin_name, true)).second)
         {
-            ordered_plugin_names_.emplace_back(strPluginName);
+            ordered_plugin_names_.emplace_back(plugin_name);
         }
     }
 
-    rapidxml::xml_node<> *pResNode = pRoot->first_node("res");
-
-    if (!pResNode)
-    {
-        ARK_ASSERT(0, "There is no res node", __FILE__, __FUNCTION__);
-        return false;
-    }
-
-    if (pResNode->first_attribute("path") == nullptr)
-    {
-        ARK_ASSERT(0, "There is no res.path", __FILE__, __FUNCTION__);
-        return false;
-    }
-
-    res_path_ = pResNode->first_attribute("path")->value();
+    auto res_node = root_node.FindNode("res");
+    ARK_ASSERT_RET_VAL(res_node.IsValid(), false);
+    res_path_ = res_node.GetString("path");
+    ARK_ASSERT_RET_VAL(!res_path_.empty(), false);
 
     return true;
 }
 
-void AFCPluginManager::Register(AFIPlugin *plugin)
+void AFCPluginManager::Register(AFIPlugin* plugin)
 {
     std::string strPluginName = plugin->GetPluginName();
 
@@ -133,7 +127,7 @@ void AFCPluginManager::Register(AFIPlugin *plugin)
     }
 }
 
-void AFCPluginManager::Deregister(AFIPlugin *plugin)
+void AFCPluginManager::Deregister(AFIPlugin* plugin)
 {
     ARK_ASSERT_RET_NONE(plugin != nullptr);
 
@@ -148,7 +142,7 @@ void AFCPluginManager::Deregister(AFIPlugin *plugin)
     ARK_DELETE(plugin);
 }
 
-AFIPlugin *AFCPluginManager::FindPlugin(const std::string &plugin_name)
+AFIPlugin* AFCPluginManager::FindPlugin(const std::string& plugin_name)
 {
     return plugin_instances_.find_value(plugin_name);
 }
@@ -158,7 +152,7 @@ inline int AFCPluginManager::BusID() const
     return bus_id_;
 }
 
-const std::string &AFCPluginManager::AppName() const
+const std::string& AFCPluginManager::AppName() const
 {
     return app_name_;
 }
@@ -168,12 +162,12 @@ inline int64_t AFCPluginManager::GetNowTime() const
     return timestamp_;
 }
 
-inline const std::string &AFCPluginManager::GetResPath() const
+inline const std::string& AFCPluginManager::GetResPath() const
 {
     return res_path_;
 }
 
-void AFCPluginManager::SetPluginConf(const std::string &file_path)
+void AFCPluginManager::SetPluginConf(const std::string& file_path)
 {
     if (file_path.empty())
     {
@@ -188,12 +182,12 @@ void AFCPluginManager::SetPluginConf(const std::string &file_path)
     plugin_conf_path_ = file_path;
 }
 
-void AFCPluginManager::SetLogPath(const std::string &log_path)
+void AFCPluginManager::SetLogPath(const std::string& log_path)
 {
     log_path_ = log_path;
 }
 
-const std::string &AFCPluginManager::GetLogPath() const
+const std::string& AFCPluginManager::GetLogPath() const
 {
     return log_path_;
 }
@@ -203,12 +197,12 @@ void AFCPluginManager::SetBusID(const int app_id)
     bus_id_ = app_id;
 }
 
-void AFCPluginManager::SetAppName(const std::string &app_name)
+void AFCPluginManager::SetAppName(const std::string& app_name)
 {
     app_name_ = app_name;
 }
 
-void AFCPluginManager::AddModule(const std::string &module_name, AFIModule *module_ptr)
+void AFCPluginManager::AddModule(const std::string& module_name, AFIModule* module_ptr)
 {
     ARK_ASSERT_RET_NONE(FindModule(module_name) == nullptr);
 
@@ -218,7 +212,7 @@ void AFCPluginManager::AddModule(const std::string &module_name, AFIModule *modu
     }
 }
 
-void AFCPluginManager::RemoveModule(const std::string &module_name)
+void AFCPluginManager::RemoveModule(const std::string& module_name)
 {
     auto iter = module_instances_.find(module_name);
     if (iter == module_instances_.end())
@@ -236,7 +230,7 @@ void AFCPluginManager::RemoveModule(const std::string &module_name)
     }
 }
 
-AFIModule *AFCPluginManager::FindModule(const std::string &module_name)
+AFIModule* AFCPluginManager::FindModule(const std::string& module_name)
 {
     auto iter = module_instances_.find(module_name);
     if (iter != module_instances_.end())
@@ -251,9 +245,9 @@ AFIModule *AFCPluginManager::FindModule(const std::string &module_name)
 
 bool AFCPluginManager::PostInit()
 {
-    for (const auto &iter : ordered_module_instances_)
+    for (const auto& iter : ordered_module_instances_)
     {
-        AFIModule *pModule = iter;
+        AFIModule* pModule = iter;
         if (pModule)
         {
             pModule->PostInit();
@@ -265,9 +259,9 @@ bool AFCPluginManager::PostInit()
 
 bool AFCPluginManager::CheckConfig()
 {
-    for (const auto &iter : ordered_module_instances_)
+    for (const auto& iter : ordered_module_instances_)
     {
-        AFIModule *pModule = iter;
+        AFIModule* pModule = iter;
         if (pModule)
         {
             pModule->CheckConfig();
@@ -279,9 +273,9 @@ bool AFCPluginManager::CheckConfig()
 
 bool AFCPluginManager::PreUpdate()
 {
-    for (const auto &iter : ordered_module_instances_)
+    for (const auto& iter : ordered_module_instances_)
     {
-        AFIModule *pModule = iter;
+        AFIModule* pModule = iter;
         if (pModule)
         {
             pModule->PreUpdate();
@@ -295,9 +289,9 @@ bool AFCPluginManager::Update()
 {
     timestamp_ = AFDateTime::GetNowTime();
 
-    for (const auto &iter : ordered_module_instances_)
+    for (const auto& iter : ordered_module_instances_)
     {
-        AFIModule *pModule = iter;
+        AFIModule* pModule = iter;
         if (pModule)
         {
             pModule->Update();
@@ -311,9 +305,9 @@ bool AFCPluginManager::PreShut()
 {
     timestamp_ = AFDateTime::GetNowTime();
 
-    for (const auto &iter : ordered_module_instances_)
+    for (const auto& iter : ordered_module_instances_)
     {
-        AFIModule *pModule = iter;
+        AFIModule* pModule = iter;
         if (pModule)
         {
             pModule->PreShut();
@@ -325,9 +319,9 @@ bool AFCPluginManager::PreShut()
 
 bool AFCPluginManager::Shut()
 {
-    for (const auto &iter : ordered_module_instances_)
+    for (const auto& iter : ordered_module_instances_)
     {
-        AFIModule *pModule = iter;
+        AFIModule* pModule = iter;
         if (pModule)
         {
             pModule->Shut();
@@ -344,7 +338,7 @@ bool AFCPluginManager::Shut()
     return true;
 }
 
-bool AFCPluginManager::LoadPluginLibrary(const std::string &plugin_name)
+bool AFCPluginManager::LoadPluginLibrary(const std::string& plugin_name)
 {
     auto iter = plugin_libs_.find(plugin_name);
     if (iter != plugin_libs_.end())
@@ -352,7 +346,12 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string &plugin_name)
         return false;
     }
 
-    AFCDynLib *pLib = ARK_NEW AFCDynLib(plugin_name);
+    AFCDynLib* pLib = ARK_NEW AFCDynLib(plugin_name);
+    if (pLib == nullptr)
+    {
+        return false;
+    }
+
     bool load_ret = pLib->Load(plugin_path_);
     if (load_ret)
     {
@@ -366,16 +365,16 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string &plugin_name)
     else
     {
 #if ARK_PLATFORM == PLATFORM_UNIX
-        char *error = dlerror();
+        char* error = dlerror();
         if (error)
         {
-            CONSOLE_LOG << stderr << " Load shared library[" << pLib->GetName() << "] failed, ErrorNo. = [" << error << "]" << std::endl;
+            CONSOLE_LOG << stderr << " Load shared library[" << pLib->GetName() << "] failed, ErrorNo=[" << error << "]" << std::endl;
             CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
             assert(0);
             return false;
         }
 #elif ARK_PLATFORM == PLATFORM_WIN
-        CONSOLE_LOG << "Load dynamic library[" << pLib->GetName() << "] failed, ErrorNo. = [" << GetLastError() << "]" << std::endl;
+        CONSOLE_LOG << "Load dynamic library[" << pLib->GetName() << "] failed, ErrorNo=[" << GetLastError() << "]" << std::endl;
         CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
         assert(0);
         return false;
@@ -385,7 +384,7 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string &plugin_name)
     return true;
 }
 
-bool AFCPluginManager::UnloadPluginLibrary(const std::string &plugin_name)
+bool AFCPluginManager::UnloadPluginLibrary(const std::string& plugin_name)
 {
     auto iter = plugin_libs_.find(plugin_name);
     if (iter == plugin_libs_.end())
@@ -393,7 +392,7 @@ bool AFCPluginManager::UnloadPluginLibrary(const std::string &plugin_name)
         return false;
     }
 
-    AFCDynLib *pDynLib = iter->second;
+    AFCDynLib* pDynLib = iter->second;
     if (pDynLib == nullptr)
     {
         return false;

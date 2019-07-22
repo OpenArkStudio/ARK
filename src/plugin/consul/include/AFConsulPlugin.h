@@ -3,10 +3,10 @@
 
 namespace ark {
 
-class AFServiceDiscoveryPlugin : public AFIPlugin
+class AFConsulPlugin : public AFIPlugin
 {
 public:
-    explicit AFServiceDiscoveryPlugin() = default;
+    explicit AFConsulPlugin() = default;
 
     int GetPluginVersion() override;
     const std::string GetPluginName() override;

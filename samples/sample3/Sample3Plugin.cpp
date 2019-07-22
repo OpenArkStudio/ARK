@@ -23,10 +23,7 @@
 
 namespace ark {
 
-ARK_DLL_PLUGIN_ENTRY(Sample3Plugin)
-ARK_DLL_PLUGIN_EXIT(Sample3Plugin)
-
-//////////////////////////////////////////////////////////////////////////
+ARK_PLUGIN_DECLARE(Sample3Plugin)
 
 int Sample3Plugin::GetPluginVersion()
 {

@@ -18,34 +18,15 @@
  *
  */
 
-#include "bus/include/AFBusPlugin.h"
-#include "bus/include/AFCBusModule.h"
-#include "bus/include/AFCMsgModule.h"
+#pragma once
+
+#include "brynet/net/http/HttpFormat.h"
+#include "net/interface/AFINet.h"
+#include "net/include/AFNetSession.h"
 
 namespace ark {
 
-ARK_PLUGIN_DECLARE(AFBusPlugin)
-
-int AFBusPlugin::GetPluginVersion()
-{
-    return 0;
-}
-
-const std::string AFBusPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFBusPlugin)
-}
-
-void AFBusPlugin::Install()
-{
-    RegisterModule<AFIBusModule, AFCBusModule>();
-    RegisterModule<AFIMsgModule, AFCMsgModule>();
-}
-
-void AFBusPlugin::Uninstall()
-{
-    DeregisterModule<AFIMsgModule, AFCMsgModule>();
-    DeregisterModule<AFIBusModule, AFCBusModule>();
-}
+// Todo: add http client later, now use cpprestsdk in consul plugin.
+// !Because we need json, http encode/decode and other components in http client.
 
 } // namespace ark

@@ -1,29 +1,29 @@
-#include "AFCServiceDiscoveryModule.h"
+#include "consul/include/AFCConsulModule.h"
 
 namespace ark {
 
-void AFCServiceDiscoveryModule::SetRegisterCenter(const std::string &center_ip, const uint16_t center_port)
+void AFCConsulModule::SetRegisterCenter(const std::string& center_ip, const uint16_t center_port)
 {
     ctx_ = std::make_shared<consulpp::Consulpp>(center_ip, center_port);
 }
 
-bool AFCServiceDiscoveryModule::RegisterService(const consulpp::ConsulService &service)
+bool AFCConsulModule::RegisterService(const consulpp::ConsulService& service)
 {
     return ctx_->RegisterService(service);
 }
 
-bool AFCServiceDiscoveryModule::DeregisterService(const std::string &service_id)
+bool AFCConsulModule::DeregisterService(const std::string& service_id)
 {
     return ctx_->Deregister(service_id);
 }
 
-bool AFCServiceDiscoveryModule::GetHealthServices(
-    const std::string &service_name, const std::string &tag_filter, consulpp::ConsulServiceSet &services)
+bool AFCConsulModule::GetHealthServices(
+    const std::string& service_name, const std::string& tag_filter, consulpp::ConsulServiceSet& services)
 {
     return ctx_->HealthCheck(service_name, tag_filter, services);
 }
 
-const std::string AFCServiceDiscoveryModule::GetKeyValue(const std::string &key)
+const std::string AFCConsulModule::GetKeyValue(const std::string& key)
 {
     if (key.empty())
     {
@@ -35,7 +35,7 @@ const std::string AFCServiceDiscoveryModule::GetKeyValue(const std::string &key)
     }
 }
 
-void AFCServiceDiscoveryModule::SetKeyValue(const std::string &key, const std::string &value)
+void AFCConsulModule::SetKeyValue(const std::string& key, const std::string& value)
 {
     if (key.empty() || value.empty())
     {

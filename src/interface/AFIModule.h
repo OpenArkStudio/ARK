@@ -66,12 +66,12 @@ public:
         return true;
     }
 
-    virtual AFIPluginManager *GetPluginManager() const final
+    virtual AFIPluginManager* GetPluginManager() const final
     {
         return pPluginManager;
     }
 
-    void SetPluginManager(AFIPluginManager *p)
+    void SetPluginManager(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -79,7 +79,7 @@ public:
     std::string name_;
 
 protected:
-    AFIPluginManager *pPluginManager{nullptr};
+    AFIPluginManager* pPluginManager{nullptr};
 };
 
 } // namespace ark

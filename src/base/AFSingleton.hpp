@@ -29,7 +29,7 @@ template<typename T>
 class AFSingleton
 {
 public:
-    static T *get()
+    static T* get()
     {
         std::call_once(once_, &AFSingleton<T>::Init);
         return instance_;
@@ -37,24 +37,23 @@ public:
 
     static void ShutDown()
     {
-        delete instance_;
-        instance_ = nullptr;
+        ARK_DELETE(instance_);
     }
 
 private:
     static void Init()
     {
-        instance_ = new T();
+        instance_ = ARK_NEW T();
     }
 
     static std::once_flag once_;
-    static T *instance_;
+    static T* instance_;
 };
 
 template<typename T>
 std::once_flag AFSingleton<T>::once_;
 
 template<typename T>
-T *AFSingleton<T>::instance_ = nullptr;
+T* AFSingleton<T>::instance_ = nullptr;
 
 } // namespace ark

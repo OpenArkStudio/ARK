@@ -33,8 +33,8 @@ public:
     AFCWebSocktClient(brynet::net::TcpService::Ptr server = nullptr, brynet::net::AsyncConnector::Ptr connector = nullptr);
 
     template<typename BaseType>
-    AFCWebSocktClient(BaseType *pBaseType, void (BaseType::*handleRecieve)(const AFNetMsg *, const int64_t),
-        void (BaseType::*handleEvent)(const AFNetEvent *))
+    AFCWebSocktClient(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFNetMsg*, const int64_t),
+        void (BaseType::*handleEvent)(const AFNetEvent*))
     {
         net_msg_cb_ = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2);
         net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
@@ -46,14 +46,14 @@ public:
     ~AFCWebSocktClient() override;
 
     void Update() override;
-    bool StartClient(AFHeadLength len, const int dst_busid, const std::string &ip, const int port, bool ip_v6 = false) override;
+    bool StartClient(AFHeadLength len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 = false) override;
 
     bool Shutdown() override final;
-    bool SendMsg(AFMsgHead *head, const char *msg_data, const int64_t session_id) override;
-    bool CloseSession(const AFGUID &session_id) override;
+    bool SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id) override;
+    bool CloseSession(const AFGUID& session_id) override;
 
 protected:
-    bool SendMsg(const char *msg, const size_t msg_len, const AFGUID &session_id = 0);
+    bool SendMsg(const char* msg, const size_t msg_len, const AFGUID& session_id = 0);
 
     void UpdateNetSession();
     void UpdateNetEvent(AFHttpSessionPtr session);
@@ -70,6 +70,8 @@ private:
 
     AFCReaderWriterLock rw_lock_;
     brynet::net::TcpService::Ptr tcp_service_ptr_{nullptr};
+    brynet::net::AsyncConnector::Ptr connector_ptr_{nullptr};
+    brynet::net::wrapper::HttpConnectionBuilder connection_builder;
     int64_t trust_session_id_{1};
 };
 

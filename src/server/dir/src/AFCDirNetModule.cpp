@@ -73,7 +73,7 @@ bool AFCDirNetModule::PreUpdate()
 
 int AFCDirNetModule::StartClient()
 {
-    //创建所有与对端链接的client
+    // Create all clients that need to connect the target endpoint
     int ret = m_pNetServiceManagerModule->CreateClusterClients();
     if (ret != 0)
     {
@@ -82,7 +82,8 @@ int AFCDirNetModule::StartClient()
         return ret;
     }
 
-    AFINetClientService *pNetClientMaster = m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
+    // Check the master connection
+    AFINetClientService* pNetClientMaster = m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
     if (pNetClientMaster == nullptr)
     {
         return -1;
@@ -91,7 +92,7 @@ int AFCDirNetModule::StartClient()
     return 0;
 }
 
-AFINetServerService *AFCDirNetModule::GetNetServer()
+AFINetServerService* AFCDirNetModule::GetNetServer()
 {
     return m_pNetServer;
 }

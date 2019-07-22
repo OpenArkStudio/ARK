@@ -23,6 +23,7 @@
 #include "base/AFMap.hpp"
 #include "bus/interface/AFIBusModule.h"
 #include "log/interface/AFILogModule.h"
+//#include "consul/interface/AFIConsulModule.h"
 #include "net/interface/AFINetServiceManagerModule.h"
 #include "net/interface/AFINetServerService.h"
 
@@ -36,17 +37,21 @@ public:
     bool Shut() override;
 
     int CreateServer(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
-    AFINetServerService *GetSelfNetServer() override;
+    AFINetServerService* GetSelfNetServer() override;
 
     int CreateClusterClients(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
-    int CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string &url) override;
+    int CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url) override;
 
-    AFINetClientService *GetNetClientService(const uint8_t &app_type) override;
-    AFINetClientService *GetNetClientServiceByBusID(const int bus_id) override;
+    AFINetClientService* GetNetClientService(const uint8_t& app_type) override;
+    AFINetClientService* GetNetClientServiceByBusID(const int bus_id) override;
 
-    bool AddNetConnectionBus(int client_bus_id, AFINet *net_server_ptr) override;
+    bool AddNetConnectionBus(int client_bus_id, AFINet* net_server_ptr) override;
     bool RemoveNetConnectionBus(int client_bus_id) override;
-    AFINet *GetNetConnectionBus(int src_bus, int target_bus) override;
+    AFINet* GetNetConnectionBus(int src_bus, int target_bus) override;
+
+    // protected:
+    //    int RegisterToConsul(const AFServerConfig* config);
+    //    int DeregisterFromConsul(const int bus_id);
 
 private:
     AFMap<int, AFINetServerService> net_servers_;
@@ -54,8 +59,9 @@ private:
 
     AFMap<std::pair<int, int>, AFINet> net_bus_relations_;
 
-    AFIBusModule *m_pBusModule;
-    AFILogModule *m_pLogModule;
+    AFIBusModule* m_pBusModule;
+    AFILogModule* m_pLogModule;
+    // AFIConsulModule* m_pConsulModule;
 };
 
 } // namespace ark

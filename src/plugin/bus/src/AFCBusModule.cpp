@@ -18,11 +18,9 @@
  *
  */
 
-#include "rapidxml/rapidxml.hpp"
-#include "rapidxml/rapidxml_iterators.hpp"
-#include "rapidxml/rapidxml_utils.hpp"
 #include "base/AFEnum.hpp"
 #include "base/AFDefine.hpp"
+#include "base/AFXml.hpp"
 #include "interface/AFIPluginManager.h"
 #include "bus/include/AFCBusModule.h"
 
@@ -45,34 +43,32 @@ bool AFCBusModule::Init()
 
 bool AFCBusModule::LoadProcConfig()
 {
-    std::string proc_file = "../bus_conf/proc.xml";
-    rapidxml::file<> xFileSource(proc_file.c_str());
-    rapidxml::xml_document<> xFileDoc;
-    xFileDoc.parse<0>(xFileSource.data());
+    static std::string proc_file = "../bus_conf/proc.xml";
+    AFXml xml_doc(proc_file);
 
-    rapidxml::xml_node<> *pRoot = xFileDoc.first_node();
-    if (pRoot == nullptr)
+    auto root_node = xml_doc.GetRootNode();
+    if (!root_node.IsValid())
     {
         ARK_ASSERT_NO_EFFECT(0);
         return false;
     }
 
-    rapidxml::xml_node<> *pHostsNode = pRoot->first_node("hosts");
-    if (pHostsNode == nullptr)
+    auto host_nodes = root_node.FindNode("hosts");
+    if (!host_nodes.IsValid())
     {
         ARK_ASSERT_NO_EFFECT(0);
         return false;
     }
 
-    for (rapidxml::xml_node<> *pHostNode = pHostsNode->first_node(); pHostNode != nullptr; pHostNode = pHostNode->next_sibling())
+    for (auto host_node = host_nodes.FindNode("host"); host_node.IsValid(); host_node.NextNode())
     {
-        std::string name = pHostNode->first_attribute("name")->value();
-        std::string private_ip = pHostNode->first_attribute("private_ip")->value();
-        mxProcConfig.hosts.insert(std::make_pair(name, private_ip));
+        std::string name = host_node.GetString("name");
+        std::string private_ip = host_node.GetString("private_ip");
+        proc_config_.hosts.insert(std::make_pair(name, private_ip));
     }
 
-    rapidxml::xml_node<> *pServersNode = pRoot->first_node("servers");
-    if (pServersNode == nullptr)
+    auto server_nodes = root_node.FindNode("servers");
+    if (!server_nodes.IsValid())
     {
         ARK_ASSERT_NO_EFFECT(0);
         return false;
@@ -81,44 +77,41 @@ bool AFCBusModule::LoadProcConfig()
     // self bus address
     AFBusAddr self_bus_id(GetSelfBusID());
 
-    for (rapidxml::xml_node<> *pServerNode = pServersNode->first_node(); pServerNode != nullptr; pServerNode = pServerNode->next_sibling())
+    for (auto server_node = server_nodes.FindNode("server"); server_node.IsValid(); server_node.NextNode())
     {
-        std::string name = pServerNode->first_attribute("name")->value();
-        uint8_t proc_id = uint8_t(ARK_LEXICAL_CAST<int>(pServerNode->first_attribute("proc_id")->value()));
-        std::string protocol = pServerNode->first_attribute("protocol")->value();
-        int max_connection = ARK_LEXICAL_CAST<int>(pServerNode->first_attribute("max_connection")->value());
-        uint8_t thread_num = ARK_LEXICAL_CAST<int>(pServerNode->first_attribute("thread_num")->value());
+        std::string name = server_node.GetString("name");
+        uint8_t app_type = static_cast<uint8_t>(server_node.GetUint32("app_type"));
+        std::string protocol = server_node.GetString("protocol");
+        uint32_t max_connection = server_node.GetUint32("max_connection");
+        uint8_t thread_num = static_cast<uint8_t>(server_node.GetUint32("thread_num"));
 
         std::vector<AFServerConfig> instances;
-        for (rapidxml::xml_node<> *pProcNode = pServerNode->first_node(); pProcNode != nullptr; pProcNode = pProcNode->next_sibling())
+        for (auto proc_node = server_node.FindNode("proc"); proc_node.IsValid(); proc_node.NextNode())
         {
-            uint8_t start = ARK_LEXICAL_CAST<int>(pProcNode->first_attribute("start")->value());
-            uint8_t end = ARK_LEXICAL_CAST<int>(pProcNode->first_attribute("end")->value());
-            std::string host_name = pProcNode->first_attribute("host")->value();
+            uint8_t start = static_cast<uint8_t>(proc_node.GetUint32("start"));
+            uint8_t end = static_cast<uint8_t>(proc_node.GetUint32("end"));
+            std::string host_name = proc_node.GetString("host");
 
             for (uint8_t i = start; i <= end; ++i)
             {
                 AFServerConfig server_config;
-                AFBusAddr server_bus(self_bus_id.channel_id, self_bus_id.zone_id, proc_id, i);
+                AFBusAddr server_bus(self_bus_id.channel_id, self_bus_id.zone_id, app_type, i);
                 server_config.self_id = server_bus.bus_id;
                 server_config.max_connection = max_connection;
                 server_config.thread_num = thread_num;
                 uint16_t port = CalcProcPort(server_bus);
+
                 std::error_code ec;
-#if ARK_PLATFORM == PLATFORM_WIN
-                server_config.local_ep_ = AFEndpoint::FromString(AFSocket::MakeUrl(protocol, "localhost", port), ec);
-#else
                 server_config.local_ep_ = AFEndpoint::FromString(AFSocket::MakeUrl(protocol, "0.0.0.0", port), ec);
-#endif
-                const std::string &real_host = GetHost(host_name);
+                const std::string& real_host = GetHost(host_name);
                 server_config.public_ep_ = AFEndpoint::FromString(AFSocket::MakeUrl(protocol, real_host, port), ec);
                 instances.emplace_back(server_config);
             }
         }
 
-        mxProcConfig.instances.insert(std::make_pair(proc_id, instances));
-        mxProcConfig.proc_types.insert(std::make_pair(name, proc_id));
-        mxProcConfig.proc_names.insert(std::make_pair(proc_id, name));
+        proc_config_.instances.insert(std::make_pair(app_type, instances));
+        proc_config_.proc_types.insert(std::make_pair(name, app_type));
+        proc_config_.proc_names.insert(std::make_pair(app_type, name));
     }
 
     return true;
@@ -128,34 +121,29 @@ bool AFCBusModule::LoadBusRelation()
 {
     // load bus relation files
     std::string bus_file = "../bus_conf/bus_relation.xml";
+    AFXml xml_doc(bus_file);
 
-    rapidxml::file<> xFileSource(bus_file.c_str());
-    rapidxml::xml_document<> xFileDoc;
-    xFileDoc.parse<0>(xFileSource.data());
-
-    rapidxml::xml_node<> *pRoot = xFileDoc.first_node();
-    if (pRoot == nullptr)
+    auto root_node = xml_doc.GetRootNode();
+    if (!root_node.IsValid())
     {
         ARK_ASSERT_NO_EFFECT(0);
         return false;
     }
 
-    rapidxml::xml_node<> *pRelationNodes = pRoot->first_node("bus_relations");
-    for (rapidxml::xml_node<> *pRelationNode = pRelationNodes->first_node("relation"); pRelationNode != nullptr;
-         pRelationNode = pRelationNode->next_sibling())
+    auto relation_nodes = root_node.FindNode("bus_relations");
+    for (auto relation_node = relation_nodes.FindNode("relation"); relation_node.IsValid(); relation_node.NextNode())
     {
-        std::string proc = pRelationNode->first_attribute("proc")->value();
-        std::string target_proc = pRelationNode->first_attribute("target_proc")->value();
-        ArkBusRelationType connection_type =
-            ArkBusRelationType(ARK_LEXICAL_CAST<int>(pRelationNode->first_attribute("connect_type")->value()));
+        std::string proc = relation_node.GetString("proc");
+        std::string target_proc = relation_node.GetString("target_proc");
+        ArkBusRelationType connection_type = static_cast<ArkBusRelationType>(relation_node.GetUint32("connect_type"));
 
-        const uint8_t &proc_type = GetAppType(proc);
-        const uint8_t &target_proc_type = GetAppType(target_proc);
+        const uint8_t& proc_type = GetAppType(proc);
+        const uint8_t& target_proc_type = GetAppType(target_proc);
 
-        auto iter = mxBusRelations.find(proc_type);
-        if (iter != mxBusRelations.end())
+        auto iter = bus_relations_.find(proc_type);
+        if (iter != bus_relations_.end())
         {
-            auto &target_process = iter->second;
+            auto& target_process = iter->second;
             target_process.insert(std::make_pair(target_proc_type, connection_type));
         }
         else
@@ -163,55 +151,55 @@ bool AFCBusModule::LoadBusRelation()
             std::map<uint8_t, ArkBusRelationType> target_process;
             target_process.insert(std::make_pair(target_proc_type, connection_type));
 
-            mxBusRelations.insert(std::make_pair(proc_type, target_process));
+            bus_relations_.insert(std::make_pair(proc_type, target_process));
         }
     }
 
     return true;
 }
 
-const std::string &AFCBusModule::GetAppName(const uint8_t &app_type)
+const std::string& AFCBusModule::GetAppName(const uint8_t& app_type)
 {
-    auto iter = mxProcConfig.proc_names.find(app_type);
-    return ((iter != mxProcConfig.proc_names.end()) ? iter->second : NULL_STR);
+    auto iter = proc_config_.proc_names.find(app_type);
+    return ((iter != proc_config_.proc_names.end()) ? iter->second : NULL_STR);
 }
 
-const uint8_t AFCBusModule::GetAppType(const std::string &name)
+const uint8_t AFCBusModule::GetAppType(const std::string& name)
 {
-    auto iter = mxProcConfig.proc_types.find(name);
-    return ((iter != mxProcConfig.proc_types.end()) ? iter->second : ARK_APP_DEFAULT);
+    auto iter = proc_config_.proc_types.find(name);
+    return ((iter != proc_config_.proc_types.end()) ? iter->second : ARK_APP_DEFAULT);
 }
 
-uint16_t AFCBusModule::CalcProcPort(const AFBusAddr &bus_addr)
+uint16_t AFCBusModule::CalcProcPort(const AFBusAddr& bus_addr)
 {
-    if (bus_addr.proc_id <= ARK_APP_DEFAULT || bus_addr.proc_id >= ARK_APP_WORLD_MAX)
+    if (bus_addr.app_type <= ARK_APP_DEFAULT || bus_addr.app_type >= ARK_APP_WORLD_MAX)
     {
         ARK_ASSERT_NO_EFFECT(0);
         return 0;
     }
 
-    if (bus_addr.proc_id > ARK_APP_DEFAULT && bus_addr.proc_id < ARK_APP_CLUSTER_MAX)
+    if (bus_addr.app_type > ARK_APP_DEFAULT && bus_addr.app_type < ARK_APP_CLUSTER_MAX)
     {
-        return (10000 + bus_addr.proc_id * 100 + bus_addr.inst_id);
+        return (10000 + bus_addr.app_type * 100 + bus_addr.inst_id);
     }
     else
     {
-        return (20000 + bus_addr.proc_id * 100 + bus_addr.inst_id);
+        return (20000 + bus_addr.app_type * 100 + bus_addr.inst_id);
     }
 }
 
-const AFServerConfig *AFCBusModule::GetAppServerInfo()
+const AFServerConfig* AFCBusModule::GetAppServerInfo()
 {
     AFBusAddr bus_addr(GetSelfBusID());
     return GetAppServerInfo(bus_addr);
 }
 
-const AFServerConfig *AFCBusModule::GetAppServerInfo(const AFBusAddr &bus_addr)
+const AFServerConfig* AFCBusModule::GetAppServerInfo(const AFBusAddr& bus_addr)
 {
-    auto iter = mxProcConfig.instances.find(bus_addr.proc_id);
-    if (iter != mxProcConfig.instances.end())
+    auto iter = proc_config_.instances.find(bus_addr.app_type);
+    if (iter != proc_config_.instances.end())
     {
-        for (auto &server : iter->second)
+        for (auto& server : iter->second)
         {
             AFBusAddr server_bus(server.self_id);
             if (server_bus.inst_id == bus_addr.inst_id)
@@ -224,10 +212,10 @@ const AFServerConfig *AFCBusModule::GetAppServerInfo(const AFBusAddr &bus_addr)
     return nullptr;
 }
 
-const std::string &AFCBusModule::GetHost(const std::string &host)
+const std::string& AFCBusModule::GetHost(const std::string& host)
 {
-    auto iter = mxProcConfig.hosts.find(host);
-    if (iter != mxProcConfig.hosts.end())
+    auto iter = proc_config_.hosts.find(host);
+    if (iter != proc_config_.hosts.end())
     {
         return iter->second;
     }
@@ -240,7 +228,7 @@ const std::string &AFCBusModule::GetHost(const std::string &host)
 const std::string AFCBusModule::GetAppHost(const int bus_id)
 {
     AFBusAddr bus_addr(bus_id);
-    const AFServerConfig *server_config = GetAppServerInfo(bus_addr);
+    const AFServerConfig* server_config = GetAppServerInfo(bus_addr);
     return (server_config == nullptr) ? NULL_STR : server_config->local_ep_.ToString();
 }
 
@@ -258,14 +246,14 @@ const std::string AFCBusModule::GetSelfBusName()
 const uint8_t AFCBusModule::GetSelfAppType()
 {
     AFBusAddr bus_id(GetSelfBusID());
-    return bus_id.proc_id;
+    return bus_id.app_type;
 }
 
-bool AFCBusModule::GetDirectBusRelations(std::vector<AFServerConfig> &target_list)
+bool AFCBusModule::GetDirectBusRelations(std::vector<AFServerConfig>& target_list)
 {
-    const uint8_t &app_type = GetSelfAppType();
-    auto iter = mxBusRelations.find(app_type);
-    if (iter != mxBusRelations.end())
+    const uint8_t& app_type = GetSelfAppType();
+    auto iter = bus_relations_.find(app_type);
+    if (iter != bus_relations_.end())
     {
         for (auto it : iter->second)
         {
@@ -276,16 +264,13 @@ bool AFCBusModule::GetDirectBusRelations(std::vector<AFServerConfig> &target_lis
             }
 
             uint8_t target_proc_id = it.first;
-            auto proc_conf_iter = mxProcConfig.instances.find(target_proc_id);
+            auto proc_conf_iter = proc_config_.instances.find(target_proc_id);
             target_list.assign(proc_conf_iter->second.begin(), proc_conf_iter->second.end());
         }
+    }
 
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    // If someone haven't any directly connection relationship, it's OK.
+    return true;
 }
 
 ArkBusRelationType AFCBusModule::GetBusRelationType(const int bus_id)
@@ -296,13 +281,13 @@ ArkBusRelationType AFCBusModule::GetBusRelationType(const int bus_id)
     }
 
     AFBusAddr target_bus(bus_id);
-    const uint8_t &app_type = GetSelfAppType();
-    auto iter = mxBusRelations.find(app_type);
-    if (iter != mxBusRelations.end())
+    const uint8_t& app_type = GetSelfAppType();
+    auto iter = bus_relations_.find(app_type);
+    if (iter != bus_relations_.end())
     {
         for (auto it : iter->second)
         {
-            if (it.first == target_bus.proc_id)
+            if (it.first == target_bus.app_type)
             {
                 return it.second;
             }

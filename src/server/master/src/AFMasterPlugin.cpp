@@ -24,10 +24,8 @@
 
 namespace ark {
 
-ARK_DLL_PLUGIN_ENTRY(AFMasterPlugin)
-ARK_DLL_PLUGIN_EXIT(AFMasterPlugin)
+ARK_PLUGIN_DECLARE(AFMasterPlugin)
 
-//////////////////////////////////////////////////////////////////////////
 int AFMasterPlugin::GetPluginVersion()
 {
     return 0;

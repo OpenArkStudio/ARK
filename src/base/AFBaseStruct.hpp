@@ -40,12 +40,12 @@ union AFBusAddr
     explicit AFBusAddr(const uint8_t c_id, const uint8_t z_id, const uint8_t p_id, const uint8_t i_id)
         : channel_id(c_id)
         , zone_id(z_id)
-        , proc_id(p_id)
+        , app_type(p_id)
         , inst_id(i_id)
     {
     }
 
-    inline AFBusAddr &operator=(const int rhs)
+    inline AFBusAddr& operator=(const int rhs)
     {
         this->bus_id = rhs;
         return *this;
@@ -53,17 +53,17 @@ union AFBusAddr
 
     inline std::string ToString()
     {
-        std::string bus_name = ARK_FORMAT("{}.{}.{}.{}", channel_id, zone_id, proc_id, inst_id);
+        std::string bus_name = ARK_FORMAT("{}.{}.{}.{}", channel_id, zone_id, app_type, inst_id);
         return bus_name;
     }
 
     int bus_id{0};
     struct
     {
-        uint8_t channel_id; //渠道id
-        uint8_t zone_id;    //小区id
-        uint8_t proc_id;    //进程id
-        uint8_t inst_id;    //进程实例id
+        uint8_t channel_id; // channel id
+        uint8_t zone_id;    // zone id
+        uint8_t app_type;   // application id
+        uint8_t inst_id;    // instance id
     };
 };
 
@@ -83,7 +83,7 @@ class AFServerConfig
 {
 public:
     int self_id{0};
-    int max_connection{0};
+    uint32_t max_connection{0};
     uint8_t thread_num{0};
     AFEndpoint local_ep_;
     AFEndpoint public_ep_;

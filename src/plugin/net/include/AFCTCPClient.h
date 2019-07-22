@@ -28,11 +28,11 @@ namespace ark {
 class AFCTCPClient : public AFINet
 {
 public:
-    AFCTCPClient(const brynet::net::TcpService::Ptr &service = nullptr, const brynet::net::AsyncConnector::Ptr &connector = nullptr);
+    AFCTCPClient(const brynet::net::TcpService::Ptr& service = nullptr, const brynet::net::AsyncConnector::Ptr& connector = nullptr);
 
     template<typename BaseType>
-    AFCTCPClient(BaseType *pBaseType, void (BaseType::*handleRecv)(const AFNetMsg *, const int64_t),
-        void (BaseType::*handleEvent)(const AFNetEvent *))
+    AFCTCPClient(
+        BaseType* pBaseType, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t), void (BaseType::*handleEvent)(const AFNetEvent*))
     {
         net_msg_cb_ = std::bind(handleRecv, pBaseType, std::placeholders::_1, std::placeholders::_2);
         net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
@@ -47,15 +47,15 @@ public:
 
     void Update() override;
 
-    bool StartClient(AFHeadLength head_len, const int dst_busid, const std::string &ip, const int port, bool ip_v6 = false) override;
+    bool StartClient(AFHeadLength head_len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 = false) override;
 
     bool Shutdown() override final;
-    bool SendMsg(AFMsgHead *head, const char *msg_data, const int64_t session_id) override;
+    bool SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id) override;
 
-    bool CloseSession(const AFGUID &session_id) override;
+    bool CloseSession(const AFGUID& session_id) override;
 
 protected:
-    bool SendMsg(const char *msg, const size_t msg_len, const AFGUID &session_id = 0);
+    bool SendMsg(const char* msg, const size_t msg_len, const AFGUID& session_id = 0);
 
     void UpdateNetSession();
     void UpdateNetEvent(AFTCPSessionPtr session);
@@ -74,6 +74,7 @@ private:
 
     brynet::net::TcpService::Ptr tcp_service_ptr_{nullptr};
     brynet::net::AsyncConnector::Ptr connector_ptr_{nullptr};
+    brynet::net::wrapper::ConnectionBuilder connection_builder_;
 };
 
 } // namespace ark

@@ -26,10 +26,7 @@
 
 namespace ark {
 
-ARK_DLL_PLUGIN_ENTRY(AFKernelPlugin)
-ARK_DLL_PLUGIN_EXIT(AFKernelPlugin)
-
-//////////////////////////////////////////////////////////////////////////
+ARK_PLUGIN_DECLARE(AFKernelPlugin)
 
 int AFKernelPlugin::GetPluginVersion()
 {

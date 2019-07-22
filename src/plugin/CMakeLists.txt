@@ -44,11 +44,5 @@ add_subdirectory(kernel)
 add_subdirectory(bus)
 add_subdirectory(net)
 add_subdirectory(utility)
-
-option(ADD_EXTRA_PLUGINS OFF)
-if(ADD_EXTRA_PLUGINS)
-    add_subdirectory(service_discovery)
-endif()
-
-
 add_subdirectory(log)
+#add_subdirectory(consul)

@@ -28,8 +28,7 @@
 
 namespace ark {
 
-ARK_DLL_PLUGIN_ENTRY(AFGamePlugin)
-ARK_DLL_PLUGIN_EXIT(AFGamePlugin)
+ARK_PLUGIN_DECLARE(AFGamePlugin)
 
 //////////////////////////////////////////////////////////////////////////
 int AFGamePlugin::GetPluginVersion()

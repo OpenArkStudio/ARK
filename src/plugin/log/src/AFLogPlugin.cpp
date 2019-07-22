@@ -23,10 +23,8 @@
 
 namespace ark {
 
-ARK_DLL_PLUGIN_ENTRY(AFLogPlugin)
-ARK_DLL_PLUGIN_EXIT(AFLogPlugin)
+ARK_PLUGIN_DECLARE(AFLogPlugin)
 
-//////////////////////////////////////////////////////////////////////////
 int AFLogPlugin::GetPluginVersion()
 {
     return 0;
