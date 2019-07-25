@@ -29,16 +29,16 @@ namespace ark {
 class AFIData
 {
 public:
-    AFIData &operator=(const AFIData &rhs) = delete;
+    AFIData& operator=(const AFIData& rhs) = delete;
 
-    inline static void *GetUserData(void *value)
+    inline static void* GetUserData(void* value)
     {
-        return (char *)value + sizeof(size_t);
+        return (char*)value + sizeof(size_t);
     }
 
-    inline static size_t GetUserDataSize(void *value)
+    inline static size_t GetUserDataSize(void* value)
     {
-        return *((size_t *)value);
+        return *((size_t*)value);
     }
 
     inline static size_t GetRawUserDataSize(size_t size)
@@ -46,13 +46,13 @@ public:
         return sizeof(size_t) + size;
     }
 
-    inline static void InitRawUserData(void *p, const void *pData, size_t size)
+    inline static void InitRawUserData(void* p, const void* pData, size_t size)
     {
-        *((size_t *)p) = size;
-        memcpy((char *)p + sizeof(size_t), pData, size);
+        *((size_t*)p) = size;
+        memcpy((char*)p + sizeof(size_t), pData, size);
     }
 
-    bool equal(const AFIData &src)
+    bool equal(const AFIData& src)
     {
         if (this->GetType() != src.GetType())
         {
@@ -143,7 +143,7 @@ public:
         return GetDouble() == value;
     }
 
-    bool equal(const char *value)
+    bool equal(const char* value)
     {
         if (this->GetType() != DT_STRING)
         {
@@ -153,7 +153,7 @@ public:
         return GetString() == value;
     }
 
-    bool equal(const void *value)
+    bool equal(const void* value)
     {
         if (this->GetType() != DT_POINTER)
         {
@@ -174,10 +174,10 @@ public:
     virtual int64_t GetInt64() const = 0;
     virtual float GetFloat() const = 0;
     virtual double GetDouble() const = 0;
-    virtual const char *GetString() const = 0;
-    virtual void *GetPointer() const = 0;
-    virtual const void *GetUserData(size_t &size) const = 0;
-    virtual void *GetRawUserData() const = 0;
+    virtual const char* GetString() const = 0;
+    virtual void* GetPointer() const = 0;
+    virtual const void* GetUserData(size_t& size) const = 0;
+    virtual void* GetRawUserData() const = 0;
 
     // Set data
     virtual void SetUnknown() = 0;
@@ -186,12 +186,12 @@ public:
     virtual void SetInt64(int64_t value) = 0;
     virtual void SetFloat(float value) = 0;
     virtual void SetDouble(double value) = 0;
-    virtual void SetString(const char *value) = 0;
-    virtual void SetPointer(void *value) = 0;
-    virtual void SetUserData(const void *value, size_t size) = 0;
-    virtual void SetRawUserData(void *value) = 0;
+    virtual void SetString(const char* value) = 0;
+    virtual void SetPointer(void* value) = 0;
+    virtual void SetUserData(const void* value, size_t size) = 0;
+    virtual void SetRawUserData(void* value) = 0;
 
-    virtual void Assign(const AFIData &src) = 0;
+    virtual void Assign(const AFIData& src) = 0;
     virtual size_t GetMemUsage() const = 0;
     virtual std::string ToString() = 0;
 };

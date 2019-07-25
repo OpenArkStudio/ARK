@@ -54,21 +54,21 @@ public:
         return (0 == nHigh) && (0 == nLow);
     }
 
-    AFGUID128 &operator=(const int &rhs)
+    AFGUID128& operator=(const int& rhs)
     {
         nHigh = 0;
         nLow = rhs;
         return *this;
     }
 
-    AFGUID128 &operator=(const int64_t &rhs)
+    AFGUID128& operator=(const int64_t& rhs)
     {
         nHigh = 0;
         nLow = rhs;
         return *this;
     }
 
-    AFGUID128 &operator=(const AFGUID128 &rhs)
+    AFGUID128& operator=(const AFGUID128& rhs)
     {
         if (this != &rhs)
         {
@@ -78,17 +78,17 @@ public:
         return *this;
     }
 
-    bool operator==(const AFGUID128 &rhs) const
+    bool operator==(const AFGUID128& rhs) const
     {
         return (this->nHigh == rhs.nHigh) && (this->nLow == rhs.nLow);
     }
 
-    bool operator!=(const AFGUID128 &rhs) const
+    bool operator!=(const AFGUID128& rhs) const
     {
         return !(*this == rhs);
     }
 
-    bool operator<(const AFGUID128 &rhs) const
+    bool operator<(const AFGUID128& rhs) const
     {
         if (this->nHigh == rhs.nHigh)
         {
@@ -103,7 +103,7 @@ public:
         return ARK_LEXICAL_CAST<std::string>(nHigh) + "-" + ARK_LEXICAL_CAST<std::string>(nLow);
     }
 
-    bool FromString(const std::string &strID)
+    bool FromString(const std::string& strID)
     {
         size_t nStrLength = strID.length();
         size_t nPos = strID.find('-');
@@ -128,9 +128,10 @@ public:
 
             return true;
         }
-        catch (std::system_error &ex)
+        catch (std::system_error& ex)
         {
-            CONSOLE_LOG_NO_FILE << "AFGUID from string failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
+            CONSOLE_LOG_NO_FILE << "AFGUID from string failed, code = " << ex.code().message() << " msg = " << ex.what()
+                                << std::endl;
             ARK_ASSERT_NO_EFFECT(0);
             return false;
         }

@@ -58,7 +58,7 @@ public:
 
     virtual ~AFQueue() {}
 
-    bool Push(const T &object)
+    bool Push(const T& object)
     {
         lock();
 
@@ -69,7 +69,7 @@ public:
         return true;
     }
 
-    bool Pop(T &object)
+    bool Pop(T& object)
     {
         lock();
 

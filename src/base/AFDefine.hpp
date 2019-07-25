@@ -55,11 +55,13 @@ public:
     DataTableName strName{""};
 };
 
-using DATA_NODE_EVENT_FUNCTOR = std::function<int(const AFGUID &, const std::string &, const AFIData &, const AFIData &)>;
-using DATA_TABLE_EVENT_FUNCTOR = std::function<int(const AFGUID &, const DATA_TABLE_EVENT_DATA &, const AFIData &, const AFIData &)>;
-using LITLE_DATA_TABLE_EVENT_FUNCTOR = std::function<int(const DATA_TABLE_EVENT_DATA &, const AFIData &, const AFIData &)>;
-using CLASS_EVENT_FUNCTOR = std::function<bool(const AFGUID &, const std::string &, const ArkEntityEvent, const AFIDataList &)>;
-using EVENT_PROCESS_FUNCTOR = std::function<int(const AFGUID &, const int, const AFIDataList &)>;
-using TIMER_FUNCTOR = std::function<void(const std::string &, const AFGUID &)>;
+using DATA_NODE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)>;
+using DATA_TABLE_EVENT_FUNCTOR =
+    std::function<int(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
+using LITLE_DATA_TABLE_EVENT_FUNCTOR = std::function<int(const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
+using CLASS_EVENT_FUNCTOR =
+    std::function<bool(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&)>;
+using EVENT_PROCESS_FUNCTOR = std::function<int(const AFGUID&, const int, const AFIDataList&)>;
+using TIMER_FUNCTOR = std::function<void(const std::string&, const AFGUID&)>;
 using SCHEDULER_FUNCTOR = std::function<bool(const int, const int)>;
 } // namespace ark

@@ -28,10 +28,10 @@ namespace ark {
 class AFIAccountModule : public AFIModule
 {
 public:
-    virtual bool GetRoleList(const std::string &strAccount, AFMsg::AckRoleLiteInfoList &xAckRoleLiteInfoList) = 0;
-    virtual bool CreateRole(
-        const std::string &strAccount, AFMsg::AckRoleLiteInfoList &xAckRoleLiteInfoList, const AFIDataList &varList) = 0;
-    virtual bool DeleteRole(const std::string &strAccount, AFMsg::AckRoleLiteInfoList &xAckRoleLiteInfoList) = 0;
+    virtual bool GetRoleList(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList) = 0;
+    virtual bool CreateRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList,
+        const AFIDataList& varList) = 0;
+    virtual bool DeleteRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList) = 0;
 };
 
 } // namespace ark

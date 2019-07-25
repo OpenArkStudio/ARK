@@ -28,14 +28,14 @@ template<typename VALUE, bool is_smart_ptr>
 class AFVectorValueType
 {
 public:
-    using value_type = VALUE *;
+    using value_type = VALUE*;
 };
 
 template<typename VALUE>
 class AFVectorValueType<VALUE, false>
 {
 public:
-    using value_type = VALUE *;
+    using value_type = VALUE*;
 };
 
 template<typename VALUE>
@@ -51,8 +51,8 @@ class AFVectorBase
 public:
     using vector_type = typename std::vector<VALUE>;
     using value_type = typename AFVectorValueType<VALUE, is_smart_ptr>::value_type;
-    using reference = value_type &;
-    using const_reference = const value_type &;
+    using reference = value_type&;
+    using const_reference = const value_type&;
     using iterator = typename vector_type::iterator;
     using const_iterator = typename vector_type::const_iterator;
     using reverse_iterator = typename vector_type::reverse_iterator;

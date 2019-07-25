@@ -84,22 +84,23 @@ public:
     }
 
     template<typename T>
-    static std::string ToString(T &value)
+    static std::string ToString(T& value)
     {
         return ARK_LEXICAL_CAST<std::string>(value);
     }
 
     template<typename T>
-    static bool FromString(const std::string &str_value, T &result)
+    static bool FromString(const std::string& str_value, T& result)
     {
         try
         {
             result = ARK_LEXICAL_CAST<T>(str_value);
             return true;
         }
-        catch (std::system_error &ex)
+        catch (std::system_error& ex)
         {
-            CONSOLE_ERROR_LOG << "FromString failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
+            CONSOLE_ERROR_LOG << "FromString failed, code = " << ex.code().message() << " msg = " << ex.what()
+                              << std::endl;
             ARK_ASSERT_NO_EFFECT(0);
             return false;
         }
@@ -108,16 +109,17 @@ public:
     }
 
     template<typename T>
-    static T FromString(const std::string &str_value)
+    static T FromString(const std::string& str_value)
     {
         try
         {
             T result = ARK_LEXICAL_CAST<T>(str_value);
             return result;
         }
-        catch (std::system_error &ex)
+        catch (std::system_error& ex)
         {
-            CONSOLE_ERROR_LOG << "FromString failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
+            CONSOLE_ERROR_LOG << "FromString failed, code = " << ex.code().message() << " msg = " << ex.what()
+                              << std::endl;
             ARK_ASSERT_NO_EFFECT(0);
             return T();
         }
@@ -129,10 +131,11 @@ public:
         return bus_addr.ToString();
     }
 
-    static ArkDataType CovertDataType(const std::string &type_name)
+    static ArkDataType CovertDataType(const std::string& type_name)
     {
-        static char const *data_type[] = {
-            "bool", "int", "uint", "int64", "uint64", "float", "double", "string", "vector3d", "struct", "table", "array",
+        static char const* data_type[] = {
+            "bool", "int", "uint", "int64", "uint64", "float", "double", "string", "vector3d", "struct", "table",
+            "array",
             // if there's more type, please add type name in here
         };
 
@@ -149,7 +152,7 @@ public:
     }
 
     template<typename T>
-    static T Operate(ArkDataOpType op, const T &base, const T &delta)
+    static T Operate(ArkDataOpType op, const T& base, const T& delta)
     {
         switch (op)
         {

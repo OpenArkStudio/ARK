@@ -30,17 +30,17 @@ namespace ark {
 class AFDataAlloc
 {
 public:
-    void *Alloc(size_t size)
+    void* Alloc(size_t size)
     {
         ARK_NEW_ARRAY_RET(char, size);
     }
 
-    void Free(void *ptr, size_t size)
+    void Free(void* ptr, size_t size)
     {
         ARK_DELETE_ARRAY(char, ptr);
     }
 
-    void Swap(AFDataAlloc &src)
+    void Swap(AFDataAlloc& src)
     {
         // do nothing
     }
@@ -63,7 +63,7 @@ public:
         Release();
     }
 
-    AFBaseData(const self_t &src)
+    AFBaseData(const self_t& src)
     {
         this->mnType = src.mnType;
 
@@ -99,7 +99,7 @@ public:
         }
     }
 
-    explicit AFBaseData(const AFIData &src)
+    explicit AFBaseData(const AFIData& src)
     {
         this->mnType = src.GetType();
 
@@ -175,7 +175,7 @@ public:
         mdValue = value;
     }
 
-    AFBaseData(int type, const char *value)
+    AFBaseData(int type, const char* value)
     {
         assert(type == DT_STRING);
 
@@ -183,7 +183,7 @@ public:
         InnerSetString(value);
     }
 
-    AFBaseData(int type, const void *value, size_t size)
+    AFBaseData(int type, const void* value, size_t size)
     {
         assert(type == DT_USERDATA);
 
@@ -191,21 +191,21 @@ public:
         InnerSetUserData(value, size);
     }
 
-    self_t &operator=(const self_t &src)
+    self_t& operator=(const self_t& src)
     {
         self_t tmp(src);
         Swap(tmp);
         return *this;
     }
 
-    self_t &operator=(const AFIData &src)
+    self_t& operator=(const AFIData& src)
     {
         self_t tmp(src);
         Swap(tmp);
         return *this;
     }
 
-    void Swap(self_t &src)
+    void Swap(self_t& src)
     {
         int tmp_type = this->mnType;
         int64_t tmp_value = this->mn64Value;
@@ -342,19 +342,19 @@ public:
         return mdValue;
     }
 
-    const char *GetString() const override
+    const char* GetString() const override
     {
         ARK_ASSERT_RET_VAL(mnType == DT_STRING, NULL_STR.c_str());
         return mstrValue;
     }
 
-    void *GetPointer() const override
+    void* GetPointer() const override
     {
         ARK_ASSERT_RET_VAL(mnType == DT_POINTER, nullptr);
         return mpVaule;
     }
 
-    const void *GetUserData(size_t &size) const override
+    const void* GetUserData(size_t& size) const override
     {
         assert(mnType == DT_USERDATA);
 
@@ -368,7 +368,7 @@ public:
         return AFIData::GetUserData(mpUserData);
     }
 
-    void *GetRawUserData() const override
+    void* GetRawUserData() const override
     {
         ARK_ASSERT_RET_VAL(mnType == DT_USERDATA, nullptr);
         return mpUserData;
@@ -417,33 +417,33 @@ public:
         mdValue = value;
     }
 
-    void SetString(const char *value) override
+    void SetString(const char* value) override
     {
         Release();
         mnType = DT_STRING;
         InnerSetString(value);
     }
 
-    void SetPointer(void *value) override
+    void SetPointer(void* value) override
     {
         Release();
         mnType = DT_POINTER;
         mpVaule = value;
     }
 
-    void SetUserData(const void *value, size_t size) override
+    void SetUserData(const void* value, size_t size) override
     {
         Release();
         mnType = DT_USERDATA;
         InnerSetUserData(value, size);
     }
 
-    void SetRawUserData(void *value) override
+    void SetRawUserData(void* value) override
     {
         SetUserData(AFIData::GetUserData(value), AFIData::GetUserDataSize(value));
     }
 
-    void Assign(const AFIData &src) override
+    void Assign(const AFIData& src) override
     {
         self_t tmp(src);
         Swap(tmp);
@@ -536,14 +536,14 @@ public:
     }
 
 protected:
-    void InnerSetString(const char *value)
+    void InnerSetString(const char* value)
     {
         const size_t value_size = strlen(value) + 1;
-        char *p = nullptr;
+        char* p = nullptr;
 
         if (value_size > BUFFER_SIZE)
         {
-            p = (char *)mxAlloc.Alloc(value_size);
+            p = (char*)mxAlloc.Alloc(value_size);
             mnAllocLen = (uint32_t)value_size;
         }
         else
@@ -555,26 +555,26 @@ protected:
         mstrValue = p;
     }
 
-    void InnerSetUserData(const void *data, size_t size)
+    void InnerSetUserData(const void* data, size_t size)
     {
         size_t value_size = GetRawUserDataSize(size);
-        char *p = (char *)mxAlloc.Alloc(value_size);
+        char* p = (char*)mxAlloc.Alloc(value_size);
         InitRawUserData(p, data, size);
         mpUserData = p;
         mnAllocLen = (uint32_t)value_size;
     }
 
-    void SetUserData(const self_t &src)
+    void SetUserData(const self_t& src)
     {
         size_t size;
-        const void *pData = src.GetUserData(size);
+        const void* pData = src.GetUserData(size);
         InnerSetUserData(pData, size);
     }
 
-    void SetUserData(const AFIData &src)
+    void SetUserData(const AFIData& src)
     {
         size_t size;
-        const void *pData = src.GetUserData(size);
+        const void* pData = src.GetUserData(size);
         InnerSetUserData(pData, size);
     }
 
@@ -590,9 +590,9 @@ private:
         int64_t mn64Value;
         float mfValue;
         double mdValue;
-        char *mstrValue;
-        void *mpVaule;
-        char *mpUserData;
+        char* mstrValue;
+        void* mpVaule;
+        char* mpUserData;
     };
 
     // buffer

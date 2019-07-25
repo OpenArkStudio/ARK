@@ -37,7 +37,7 @@ public:
     bool Shut() override;
 
 protected:
-    int OnDataNodeCB(const AFGUID &self, const std::string &node_name, const AFIData &old_var, const AFIData &new_var);
+    int OnDataNodeCB(const AFGUID& self, const std::string& node_name, const AFIData& old_var, const AFIData& new_var);
 };
 
 } // namespace ark

@@ -34,22 +34,22 @@ public:
         return mask_.test(type);
     }
 
-    void SetInitValue(const std::string &value) override
+    void SetInitValue(const std::string& value) override
     {
         init_value_ = value;
     }
 
-    const std::string &GetInitValue() const override
+    const std::string& GetInitValue() const override
     {
         return init_value_;
     }
 
-    void SetSubMetaClass(const std::string &value) override
+    void SetSubMetaClass(const std::string& value) override
     {
         sub_meta_class_ = value;
     }
 
-    const std::string &GetSubMetaClass() const override
+    const std::string& GetSubMetaClass() const override
     {
         return sub_meta_class_;
     }
@@ -64,12 +64,12 @@ private:
 class AFCConfigDataMeta : public AFIDataMeta
 {
 public:
-    void SetReferClassMeta(const std::string &value) override
+    void SetReferClassMeta(const std::string& value) override
     {
         refer_class_meta_ = value;
     }
 
-    const std::string &GetReferClassMeta() const override
+    const std::string& GetReferClassMeta() const override
     {
         return refer_class_meta_;
     }

@@ -32,17 +32,19 @@ public:
     virtual void Update() = 0;
 
     template<typename BaseType>
-    bool AddEventCallBack(const int nEventID, BaseType *pBase, int (BaseType::*handler)(const AFGUID &, const int, const AFIDataList &))
+    bool AddEventCallBack(
+        const int nEventID, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const int, const AFIDataList&))
     {
-        EVENT_PROCESS_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+        EVENT_PROCESS_FUNCTOR functor =
+            std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         return AddEventCallBack(nEventID, std::move(functor));
     }
 
     virtual bool RemoveEventCallBack(const int nEventID) = 0;
 
-    virtual bool DoEvent(const int nEventID, const AFIDataList &valueList) = 0;
+    virtual bool DoEvent(const int nEventID, const AFIDataList& valueList) = 0;
 
-    virtual bool AddEventCallBack(const int nEventID, EVENT_PROCESS_FUNCTOR &&cb) = 0;
+    virtual bool AddEventCallBack(const int nEventID, EVENT_PROCESS_FUNCTOR&& cb) = 0;
 
     virtual bool Clear() = 0;
 

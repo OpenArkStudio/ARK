@@ -36,7 +36,7 @@ public:
     class AFCronSorter
     {
     public:
-        bool operator()(const AFCronData *lhs, const AFCronData *rhs)
+        bool operator()(const AFCronData* lhs, const AFCronData* rhs)
         {
             return lhs->next_time < rhs->next_time;
         }
@@ -49,10 +49,10 @@ public:
         Reset();
     }
 
-    bool Parse(const char *cron_expression)
+    bool Parse(const char* cron_expression)
     {
         Reset();
-        const char *err_msg = nullptr;
+        const char* err_msg = nullptr;
         cron_parse_expr(cron_expression, &cron_parser, &err_msg);
         return (err_msg == nullptr);
     }
@@ -144,7 +144,7 @@ public:
         {
             for (auto iter = mxCronList.begin(); iter != mxCronList.end();)
             {
-                AFCronData *pCron = *iter;
+                AFCronData* pCron = *iter;
 
                 if (pCron->delete_flag)
                 {
@@ -184,9 +184,9 @@ public:
         }
     }
 
-    bool AddCron(int cron_id, int user_arg, const char *cron_expression, int64_t now, SCHEDULER_FUNCTOR_PTR cb)
+    bool AddCron(int cron_id, int user_arg, const char* cron_expression, int64_t now, SCHEDULER_FUNCTOR_PTR cb)
     {
-        AFCronData *pCron = ARK_NEW AFCronData();
+        AFCronData* pCron = ARK_NEW AFCronData();
         memset(pCron, 0, sizeof(*pCron));
 
         if (!pCron->Parse(cron_expression))
@@ -240,7 +240,7 @@ protected:
     }
 
 private:
-    using CronDataList = std::list<AFCronData *>;
+    using CronDataList = std::list<AFCronData*>;
     CronDataList mxCronList;
     bool mbCronWaitDelete = false;
 };

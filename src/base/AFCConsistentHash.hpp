@@ -116,7 +116,7 @@ class AFIHasher
 {
 public:
     virtual ~AFIHasher() = default;
-    virtual uint32_t GetHashValue(const AFIVirtualNode &vNode) = 0;
+    virtual uint32_t GetHashValue(const AFIVirtualNode& vNode) = 0;
 };
 
 class AFCHasher : public AFIHasher
@@ -124,7 +124,7 @@ class AFCHasher : public AFIHasher
 public:
     virtual ~AFCHasher() = default;
 
-    virtual uint32_t GetHashValue(const AFIVirtualNode &vNode)
+    virtual uint32_t GetHashValue(const AFIVirtualNode& vNode)
     {
         std::string vnode = vNode.ToStr();
         return AFCRC32::Sum(vnode);
@@ -140,21 +140,21 @@ public:
 
     virtual bool Empty() const = 0;
 
-    virtual void Insert(const int nID, const std::string &strIP, int nPort) = 0;
+    virtual void Insert(const int nID, const std::string& strIP, int nPort) = 0;
 
-    virtual void Insert(const AFCMachineNode &xNode) = 0;
+    virtual void Insert(const AFCMachineNode& xNode) = 0;
 
-    virtual bool Exist(const AFCMachineNode &xInNode) = 0;
+    virtual bool Exist(const AFCMachineNode& xInNode) = 0;
 
-    virtual std::size_t Erase(const AFCMachineNode &xNode) = 0;
+    virtual std::size_t Erase(const AFCMachineNode& xNode) = 0;
 
-    virtual bool GetSuitNode(AFCMachineNode &node) = 0;
+    virtual bool GetSuitNode(AFCMachineNode& node) = 0;
 
-    virtual bool GetSuitNode(const std::string &str, AFCMachineNode &node) = 0;
+    virtual bool GetSuitNode(const std::string& str, AFCMachineNode& node) = 0;
 
-    virtual bool GetSuitNode(uint32_t hashValue, AFCMachineNode &node) = 0;
+    virtual bool GetSuitNode(uint32_t hashValue, AFCMachineNode& node) = 0;
 
-    virtual bool GetNodeList(std::list<AFCMachineNode> &nodeList) = 0;
+    virtual bool GetNodeList(std::list<AFCMachineNode>& nodeList) = 0;
 };
 
 class AFCConsistentHash : public AFIConsistentHash
@@ -181,7 +181,7 @@ public:
         return mxNodes.empty();
     }
 
-    void Insert(const int nID, const std::string &strIP, int nPort) override
+    void Insert(const int nID, const std::string& strIP, int nPort) override
     {
         AFCMachineNode xNode;
         xNode.nMachineID = nID;
@@ -191,7 +191,7 @@ public:
         Insert(xNode);
     }
 
-    void Insert(const AFCMachineNode &xNode) override
+    void Insert(const AFCMachineNode& xNode) override
     {
         uint32_t hash = m_pHasher->GetHashValue(xNode);
         auto it = mxNodes.find(hash);
@@ -202,7 +202,7 @@ public:
         }
     }
 
-    bool Exist(const AFCMachineNode &xInNode) override
+    bool Exist(const AFCMachineNode& xInNode) override
     {
         uint32_t hash = m_pHasher->GetHashValue(xInNode);
         std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.find(hash);
@@ -215,25 +215,25 @@ public:
         return false;
     }
 
-    std::size_t Erase(const AFCMachineNode &xNode) override
+    std::size_t Erase(const AFCMachineNode& xNode) override
     {
         uint32_t hash = m_pHasher->GetHashValue(xNode);
         return mxNodes.erase(hash);
     }
 
-    bool GetSuitNode(AFCMachineNode &node) override
+    bool GetSuitNode(AFCMachineNode& node) override
     {
         int nID = 0;
         return GetSuitNode(nID, node);
     }
 
-    bool GetSuitNode(const std::string &str, AFCMachineNode &node) override
+    bool GetSuitNode(const std::string& str, AFCMachineNode& node) override
     {
         uint32_t nCRC32 = AFCRC32::Sum(str);
         return GetSuitNode(nCRC32, node);
     }
 
-    bool GetSuitNode(uint32_t hashValue, AFCMachineNode &node) override
+    bool GetSuitNode(uint32_t hashValue, AFCMachineNode& node) override
     {
         if (mxNodes.empty())
         {
@@ -252,7 +252,7 @@ public:
         return true;
     }
 
-    bool GetNodeList(std::list<AFCMachineNode> &nodeList) override
+    bool GetNodeList(std::list<AFCMachineNode>& nodeList) override
     {
         for (auto it : mxNodes)
         {
@@ -264,7 +264,7 @@ public:
 
 private:
     std::map<uint32_t, AFCMachineNode> mxNodes;
-    AFIHasher *m_pHasher;
+    AFIHasher* m_pHasher;
 };
 
 template<typename T, typename Hash, typename Alloc = std::allocator<std::pair<const typename Hash::result_type, T>>>
@@ -274,8 +274,8 @@ public:
     using size_type = typename Hash::result_type;
     using map_type = std::map<size_type, T, std::less<size_type>, Alloc>;
     using value_type = typename map_type::value_type;
-    using reference = value_type &;
-    using const_reference = const value_type &;
+    using reference = value_type&;
+    using const_reference = const value_type&;
     using iterator = typename map_type::iterator;
     using reverse_iterator = typename map_type::reverse_iterator;
     using allocator_type = Alloc;
@@ -293,7 +293,7 @@ public:
         return nodes_.empty();
     }
 
-    std::pair<iterator, bool> insert(const T &node)
+    std::pair<iterator, bool> insert(const T& node)
     {
         size_type hash = hasher_(node);
         return nodes_.insert(value_type(hash, node));
@@ -304,7 +304,7 @@ public:
         nodes_.erase(it);
     }
 
-    std::size_t erase(const T &node)
+    std::size_t erase(const T& node)
     {
         size_type hash = hasher_(node);
         return nodes_.erase(hash);
@@ -357,7 +357,7 @@ class AFCRCHasher
 public:
     using result_type = uint32_t;
 
-    result_type operator()(const std::string &node)
+    result_type operator()(const std::string& node)
     {
         return AFCRC32::Sum(node);
     }

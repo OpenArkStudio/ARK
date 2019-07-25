@@ -68,12 +68,18 @@ int AFCWorldNetModule::StartServer()
         return ret;
     }
 
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCWorldNetServerModule::OnProxyServerRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_REGISTERED, this, &AFCWorldNetServerModule::OnGameServerRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_UNREGISTERED, this, &AFCWorldNetServerModule::OnGameServerUnRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_REFRESH, this, &AFCWorldNetServerModule::OnRefreshGameServerInfoProcess);
+    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this,
+    // &AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess);
+    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this,
+    // &AFCWorldNetServerModule::OnProxyServerRegisteredProcess);
+    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this,
+    // &AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess);
+    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_REGISTERED, this,
+    // &AFCWorldNetServerModule::OnGameServerRegisteredProcess);
+    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_UNREGISTERED, this,
+    // &AFCWorldNetServerModule::OnGameServerUnRegisteredProcess);
+    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_REFRESH, this,
+    // &AFCWorldNetServerModule::OnRefreshGameServerInfoProcess);
     // m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_ONLINE_NOTIFY, this, &AFCWorldNetModule::OnOnlineProcess);
     // m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_OFFLINE_NOTIFY, this, &AFCWorldNetModule::OnOfflineProcess);
 
@@ -98,23 +104,26 @@ int AFCWorldNetModule::StartClient()
     }
 
     // if need to add a member
-    AFINetClientService *pNetClientWorld = m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
+    AFINetClientService* pNetClientWorld =
+        m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
     if (pNetClientWorld == nullptr)
     {
         return 0;
     }
 
-    // pNetClientWorld->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCWorldNetClientModule::OnSelectServerProcess);
-    // pNetClientWorld->RegMsgCallback(AFMsg::EGMI_REQ_KICK_CLIENT_INWORLD, this, &AFCWorldNetClientModule::OnKickClientProcess);
-    // pNetClientWorld->RegMsgCallback(this, &AFCWorldNetClientModule::InvalidMessage);
+    // pNetClientWorld->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this,
+    // &AFCWorldNetClientModule::OnSelectServerProcess);
+    // pNetClientWorld->RegMsgCallback(AFMsg::EGMI_REQ_KICK_CLIENT_INWORLD, this,
+    // &AFCWorldNetClientModule::OnKickClientProcess); pNetClientWorld->RegMsgCallback(this,
+    // &AFCWorldNetClientModule::InvalidMessage);
 
     // pNetClientWorld->AddNetEventCallBack(this, &AFCWorldNetClientModule::OnSocketEvent);
 
     return 0;
 }
 
-// void AFCWorldNetServerModule::OnGameServerRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const
-// uint32_t msg_len, const AFGUID& conn_id)
+// void AFCWorldNetServerModule::OnGameServerRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const
+// char* msg, const uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    //ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 
@@ -137,8 +146,8 @@ int AFCWorldNetModule::StartClient()
 //    //SynGameToProxy();
 //}
 
-// void AFCWorldNetServerModule::OnGameServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const
-// uint32_t msg_len, const AFGUID& conn_id)
+// void AFCWorldNetServerModule::OnGameServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const
+// char* msg, const uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
@@ -151,8 +160,8 @@ int AFCWorldNetModule::StartClient()
 //    //}
 //}
 
-// void AFCWorldNetServerModule::OnRefreshGameServerInfoProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const
-// uint32_t msg_len, const AFGUID& conn_id)
+// void AFCWorldNetServerModule::OnRefreshGameServerInfoProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const
+// char* msg, const uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
@@ -176,8 +185,8 @@ int AFCWorldNetModule::StartClient()
 //    //SynGameToProxy();
 //}
 
-// void AFCWorldNetServerModule::OnProxyServerRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const
-// uint32_t msg_len, const AFGUID& conn_id)
+// void AFCWorldNetServerModule::OnProxyServerRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const
+// char* msg, const uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
@@ -200,8 +209,8 @@ int AFCWorldNetModule::StartClient()
 //    //}
 //}
 
-// void AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const
-// uint32_t msg_len, const AFGUID& conn_id)
+// void AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const
+// char* msg, const uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
@@ -214,8 +223,8 @@ int AFCWorldNetModule::StartClient()
 //    //}
 //}
 
-// void AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const
-// uint32_t msg_len, const AFGUID& conn_id)
+// void AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const
+// char* msg, const uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
@@ -236,12 +245,13 @@ int AFCWorldNetModule::StartClient()
 //    //}
 //}
 
-int AFCWorldNetModule::OnLeaveGameProcess(const AFNetMsg *msg)
+int AFCWorldNetModule::OnLeaveGameProcess(const AFNetMsg* msg)
 {
     return 0;
 }
 
-// void AFCWorldNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
+// void AFCWorldNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip,
+// const int bus_id)
 //{
 //    switch (event)
 //    {
@@ -273,7 +283,7 @@ void AFCWorldNetModule::SynGameToProxy()
     //}
 }
 
-void AFCWorldNetModule::SynGameToProxy(const AFGUID &xClientID)
+void AFCWorldNetModule::SynGameToProxy(const AFGUID& xClientID)
 {
     // AFMsg::ServerInfoReportList xData;
 
@@ -293,7 +303,8 @@ void AFCWorldNetModule::SynGameToProxy(const AFGUID &xClientID)
 // void AFCWorldNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 //{
 //    ////不管是game还是proxy都要找出来,替他反注册
-//    //for (ARK_SHARE_PTR<AFServerData> pServerData = mGameMap.First(); nullptr != pServerData; pServerData = mGameMap.Next())
+//    //for (ARK_SHARE_PTR<AFServerData> pServerData = mGameMap.First(); nullptr != pServerData; pServerData =
+//    mGameMap.Next())
 //    //{
 //    //    if (xClientID == pServerData->xClient)
 //    //    {
@@ -306,7 +317,8 @@ void AFCWorldNetModule::SynGameToProxy(const AFGUID &xClientID)
 //    //}
 //    ////////////////////////////////////////////////////////////////////////////
 //    //int nServerID = 0;
-//    //for (ARK_SHARE_PTR<AFServerData> pServerData = mProxyMap.First(); pServerData != nullptr; pServerData = mProxyMap.Next())
+//    //for (ARK_SHARE_PTR<AFServerData> pServerData = mProxyMap.First(); pServerData != nullptr; pServerData =
+//    mProxyMap.Next())
 //    //{
 //    //    if (xClientID == pServerData->xClient)
 //    //    {
@@ -347,7 +359,8 @@ void AFCWorldNetModule::LogGameServer()
     ////////////////////////////////////////////////////////////////////////////
     // ARK_LOG_INFO("Begin Log ProxyServer Info---------------------------");
 
-    // for (ARK_SHARE_PTR<AFServerData> pProxyData = mProxyMap.First(); pProxyData != nullptr; pProxyData = mProxyMap.Next())
+    // for (ARK_SHARE_PTR<AFServerData> pProxyData = mProxyMap.First(); pProxyData != nullptr; pProxyData =
+    // mProxyMap.Next())
     //{
     //    ARK_LOG_INFO("ID[{}] State[{}] IP[{}] xClient[{}]",
     //                 pProxyData->xData.bus_id(),
@@ -370,7 +383,7 @@ void AFCWorldNetModule::LogGameServer()
 //}
 
 bool AFCWorldNetModule::SendMsgToGame(
-    const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message &xData, const AFGUID nPlayer)
+    const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer)
 {
     // ARK_SHARE_PTR<AFServerData> pData = mGameMap.GetElement(nGameID);
 
@@ -382,8 +395,8 @@ bool AFCWorldNetModule::SendMsgToGame(
     return true;
 }
 
-bool AFCWorldNetModule::SendMsgToGame(
-    const AFIDataList &argObjectVar, const AFIDataList &argGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message &xData)
+bool AFCWorldNetModule::SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID,
+    const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData)
 {
     if (argGameID.GetCount() != argObjectVar.GetCount())
     {
@@ -392,7 +405,7 @@ bool AFCWorldNetModule::SendMsgToGame(
 
     for (size_t i = 0; i < argObjectVar.GetCount(); i++)
     {
-        const AFGUID &identOther = argObjectVar.Int64(i);
+        const AFGUID& identOther = argObjectVar.Int64(i);
         const int64_t nGameID = argGameID.Int(i);
 
         SendMsgToGame(nGameID, eMsgID, xData, identOther);
@@ -401,7 +414,8 @@ bool AFCWorldNetModule::SendMsgToGame(
     return true;
 }
 
-bool AFCWorldNetModule::SendMsgToPlayer(const AFMsg::EGameMsgID eMsgID, google::protobuf::Message &xData, const AFGUID nPlayer)
+bool AFCWorldNetModule::SendMsgToPlayer(
+    const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer)
 {
     int nGameID = GetPlayerGameID(nPlayer);
 
@@ -413,7 +427,7 @@ bool AFCWorldNetModule::SendMsgToPlayer(const AFMsg::EGameMsgID eMsgID, google::
     return SendMsgToGame(nGameID, eMsgID, xData, nPlayer);
 }
 
-int AFCWorldNetModule::OnObjectListEnter(const AFIDataList &self, const AFIDataList &argVar)
+int AFCWorldNetModule::OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar)
 {
     if (self.GetCount() <= 0 || argVar.GetCount() <= 0)
     {
@@ -429,7 +443,7 @@ int AFCWorldNetModule::OnObjectListEnter(const AFIDataList &self, const AFIDataL
         //排除空对象
         if (identOld != 0)
         {
-            AFMsg::EntityEnterInfo *pEnter = xEntityEnterList.add_entity_list();
+            AFMsg::EntityEnterInfo* pEnter = xEntityEnterList.add_entity_list();
             pEnter->set_object_guid(identOld);
             pEnter->set_career_type(m_pKernelModule->GetNodeInt(identOld, "Job"));
             pEnter->set_player_state(m_pKernelModule->GetNodeInt(identOld, "State"));
@@ -458,7 +472,7 @@ int AFCWorldNetModule::OnObjectListEnter(const AFIDataList &self, const AFIDataL
     return 1;
 }
 
-int AFCWorldNetModule::OnObjectListLeave(const AFIDataList &self, const AFIDataList &argVar)
+int AFCWorldNetModule::OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar)
 {
     if (self.GetCount() <= 0 || argVar.GetCount() <= 0)
     {
@@ -492,7 +506,7 @@ int AFCWorldNetModule::OnObjectListLeave(const AFIDataList &self, const AFIDataL
     return 0;
 }
 
-int AFCWorldNetModule::OnViewDataNodeEnter(const AFIDataList &argVar, const AFIDataList &argGameID, const AFGUID &self)
+int AFCWorldNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self)
 {
     if (argVar.GetCount() <= 0 || self == 0)
     {
@@ -526,7 +540,7 @@ int AFCWorldNetModule::OnViewDataNodeEnter(const AFIDataList &argVar, const AFID
     return 0;
 }
 
-int AFCWorldNetModule::OnSelfDataNodeEnter(const AFGUID &self, const AFIDataList &argGameID)
+int AFCWorldNetModule::OnSelfDataNodeEnter(const AFGUID& self, const AFIDataList& argGameID)
 {
     if (self == 0)
     {
@@ -552,7 +566,7 @@ int AFCWorldNetModule::OnSelfDataNodeEnter(const AFGUID &self, const AFIDataList
     return 0;
 }
 
-int AFCWorldNetModule::OnSelfDataTableEnter(const AFGUID &self, const AFIDataList &argGameID)
+int AFCWorldNetModule::OnSelfDataTableEnter(const AFGUID& self, const AFIDataList& argGameID)
 {
     if (self == 0)
     {
@@ -577,7 +591,7 @@ int AFCWorldNetModule::OnSelfDataTableEnter(const AFGUID &self, const AFIDataLis
     return 0;
 }
 
-int AFCWorldNetModule::OnViewDataTableEnter(const AFIDataList &argVar, const AFIDataList &argGameID, const AFGUID &self)
+int AFCWorldNetModule::OnViewDataTableEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self)
 {
     if (argVar.GetCount() <= 0 || self == 0)
     {
@@ -618,7 +632,7 @@ ARK_SHARE_PTR<AFServerData> AFCWorldNetModule::GetSuitProxyForEnter()
     return mProxyMap.begin()->second;
 }
 
-AFINetServerService *AFCWorldNetModule::GetNetServer()
+AFINetServerService* AFCWorldNetModule::GetNetServer()
 {
     return m_pNetServer;
 }
@@ -636,7 +650,7 @@ void AFCWorldNetModule::RefreshWorldInfo()
     // Will add
 }
 
-void AFCWorldNetModule::OnSelectServerProcess(const AFNetMsg *msg)
+void AFCWorldNetModule::OnSelectServerProcess(const AFNetMsg* msg)
 {
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqConnectWorld);
 
@@ -653,14 +667,15 @@ void AFCWorldNetModule::OnSelectServerProcess(const AFNetMsg *msg)
     //    xData.set_world_url(xServerData->server_info_.url());
     //    xData.set_world_key(x_msg.account());
 
-    //    //m_pWorldNetServerModule->GetNetServer()->SendPBMsg(AFMsg::EGMI_ACK_CONNECT_WORLD, xData, xServerData->conn_id_, actor_id);
+    //    //m_pWorldNetServerModule->GetNetServer()->SendPBMsg(AFMsg::EGMI_ACK_CONNECT_WORLD, xData,
+    //    xServerData->conn_id_, actor_id);
 
     //    //TODO:will fix this
     //    //m_pNetClientModule->SendSuitByPB(xMsg.account(), AFMsg::EGMI_ACK_CONNECT_WORLD, xData, xHead.GetPlayerID());
     //}
 }
 
-void AFCWorldNetModule::OnKickClientProcess(const AFNetMsg *msg)
+void AFCWorldNetModule::OnKickClientProcess(const AFNetMsg* msg)
 {
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqKickFromWorld);
     // TODO

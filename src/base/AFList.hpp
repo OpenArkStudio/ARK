@@ -29,8 +29,8 @@ class AFList
 {
 public:
     using list_type = std::list<T>;
-    using reference = T &;
-    using const_reference = const T &;
+    using reference = T&;
+    using const_reference = const T&;
     using iterator = typename list_type::iterator;
     using const_iterator = typename list_type::const_iterator;
     using reverse_iterator = typename list_type::reverse_iterator;
@@ -49,7 +49,7 @@ public:
         return values_.empty();
     }
 
-    iterator erase(const_iterator &it)
+    iterator erase(const_iterator& it)
     {
         return values_.erase(it);
     }

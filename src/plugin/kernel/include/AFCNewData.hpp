@@ -41,13 +41,13 @@ public:
         return data_ != NULL_BOOLEAN;
     }
 
-    void CopyFrom(AFINewData *other) override
+    void CopyFrom(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         SetValue(other->GetValue<bool>());
     }
 
-    void SaveTo(AFINewData *other) override
+    void SaveTo(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         other->SetValue(GetValue<bool>())
@@ -58,7 +58,7 @@ public:
         return AFMisc::ToString(data_);
     }
 
-    void FromString(const std::string &value) override
+    void FromString(const std::string& value) override
     {
         data_ = AFMisc::FromString(value);
     }
@@ -92,13 +92,13 @@ public:
         return data_ != NULL_INT;
     }
 
-    void CopyFrom(AFINewData *other) override
+    void CopyFrom(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         SetValue(other->GetValue<int32_t>());
     }
 
-    void SaveTo(AFINewData *other) override
+    void SaveTo(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         other->SetValue(GetValue<int32_t>())
@@ -109,7 +109,7 @@ public:
         return AFMisc::ToString(data_);
     }
 
-    void FromString(const std::string &value) override
+    void FromString(const std::string& value) override
     {
         data_ = AFMisc::FromString(value);
     }
@@ -142,13 +142,13 @@ public:
         return data_ != NULL_INT;
     }
 
-    void CopyFrom(AFINewData *other) override
+    void CopyFrom(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         SetValue(other->GetValue<uint32_t>());
     }
 
-    void SaveTo(AFINewData *other) override
+    void SaveTo(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         other->SetValue(GetValue<uint32_t>())
@@ -159,7 +159,7 @@ public:
         return AFMisc::ToString(data_);
     }
 
-    void FromString(const std::string &value) override
+    void FromString(const std::string& value) override
     {
         data_ = AFMisc::FromString(value);
     }
@@ -192,13 +192,13 @@ public:
         return data_ != NULL_INT64;
     }
 
-    void CopyFrom(AFINewData *other) override
+    void CopyFrom(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         SetValue(other->GetValue<int64_t>());
     }
 
-    void SaveTo(AFINewData *other) override
+    void SaveTo(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         other->SetValue(GetValue<int64_t>())
@@ -209,7 +209,7 @@ public:
         return AFMisc::ToString(data_);
     }
 
-    void FromString(const std::string &value) override
+    void FromString(const std::string& value) override
     {
         data_ = AFMisc::FromString(value);
     }
@@ -242,13 +242,13 @@ public:
         return data_ != NULL_INT64;
     }
 
-    void CopyFrom(AFINewData *other) override
+    void CopyFrom(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         SetValue(other->GetValue<uint64_t>());
     }
 
-    void SaveTo(AFINewData *other) override
+    void SaveTo(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         other->SetValue(GetValue<uint64_t>())
@@ -259,7 +259,7 @@ public:
         return AFMisc::ToString(data_);
     }
 
-    void FromString(const std::string &value) override
+    void FromString(const std::string& value) override
     {
         data_ = AFMisc::FromString(value);
     }
@@ -292,13 +292,13 @@ public:
         return data_ != NULL_FLOAT;
     }
 
-    void CopyFrom(AFINewData *other) override
+    void CopyFrom(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         SetValue(other->GetValue<float>());
     }
 
-    void SaveTo(AFINewData *other) override
+    void SaveTo(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         other->SetValue(GetValue<float>())
@@ -309,7 +309,7 @@ public:
         return AFMisc::ToString(data_);
     }
 
-    void FromString(const std::string &value) override
+    void FromString(const std::string& value) override
     {
         data_ = AFMisc::FromString(value);
     }
@@ -342,13 +342,13 @@ public:
         return data_ != NULL_DOUBLE;
     }
 
-    void CopyFrom(AFINewData *other) override
+    void CopyFrom(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         SetValue(other->GetValue<double>());
     }
 
-    void SaveTo(AFINewData *other) override
+    void SaveTo(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         other->SetValue(GetValue<double>())
@@ -359,7 +359,7 @@ public:
         return AFMisc::ToString(data_);
     }
 
-    void FromString(const std::string &value) override
+    void FromString(const std::string& value) override
     {
         data_ = AFMisc::FromString(value);
     }
@@ -392,13 +392,13 @@ public:
         return data_ != NULL_STR;
     }
 
-    void CopyFrom(AFINewData *other) override
+    void CopyFrom(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         SetValue(other->GetValue<std::string>());
     }
 
-    void SaveTo(AFINewData *other) override
+    void SaveTo(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         other->SetValue(GetValue<std::string>())
@@ -409,18 +409,18 @@ public:
         return data_;
     }
 
-    void FromString(const std::string &value) override
+    void FromString(const std::string& value) override
     {
         data_ = value;
     }
 
 protected:
-    const std::string &GetString() override
+    const std::string& GetString() override
     {
         return data_;
     }
 
-    void SetString(const std::string &value) override
+    void SetString(const std::string& value) override
     {
         data_ = value;
     }
@@ -442,13 +442,13 @@ public:
         return data_ != NULL_VECTOR3D;
     }
 
-    void CopyFrom(AFINewData *other) override
+    void CopyFrom(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         SetValue(other->GetValue<AFVector3D>());
     }
 
-    void SaveTo(AFINewData *other) override
+    void SaveTo(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         other->SetValue(GetValue<AFVector3D>())
@@ -459,18 +459,18 @@ public:
         return data_.ToString();
     }
 
-    void FromString(const std::string &value) override
+    void FromString(const std::string& value) override
     {
         data_.FromString(value)
     }
 
 protected:
-    const AFVector3D &GetVector3D() override
+    const AFVector3D& GetVector3D() override
     {
         return data_;
     }
 
-    void SetString(const AFVector3D &value) override
+    void SetString(const AFVector3D& value) override
     {
         data_ = value;
     }
@@ -482,7 +482,7 @@ class AFArrayData : public AFINewData
     AFPtrVector<AFINewData> vec_data_;
 
 public:
-    void Init(const AFIClassMeta *class_meta, const AFIDataMeta *data_meta) override
+    void Init(const AFIClassMeta* class_meta, const AFIDataMeta* data_meta) override
     {
         AFINewData::Init(class_meta, data_meta);
         auto size = AFMisc::FromString<uint32_t>(data_meta->GetInitValue());
@@ -490,7 +490,7 @@ public:
 
         for (auto i = 0; i < size; ++i)
         {
-            AFINewData *data = AFDataFactory::Create(data_meta->GetSubMetaClass());
+            AFINewData* data = AFDataFactory::Create(data_meta->GetSubMetaClass());
             data->SetParent(this);
             data->Init(class_meta, data_meta);
 
@@ -506,7 +506,7 @@ public:
 
     void Reset() override
     {
-        for (auto &sub : vec_data_)
+        for (auto& sub : vec_data_)
         {
             sub->Reset();
         }
@@ -517,13 +517,13 @@ public:
         return true;
     }
 
-    void CopyFrom(AFINewData *other) override
+    void CopyFrom(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         other->SaveTo(this);
     }
 
-    void SaveTo(AFINewData *other) override
+    void SaveTo(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         std::size_t key = 0;
@@ -537,12 +537,12 @@ public:
         }
     }
 
-    AFINewData *GetData(uint64_t key) override
+    AFINewData* GetData(uint64_t key) override
     {
         return vec_data_[static_cast<std::size_t>(key)];
     }
 
-    AFINewData *GetData(uint64_t key, const std::string &data_name) override
+    AFINewData* GetData(uint64_t key, const std::string& data_name) override
     {
         auto data = GetData(key);
         if (data == nullptr)
@@ -553,13 +553,13 @@ public:
         return data->GetData(data_name);
     }
 
-    bool AddData(uint64_t key, AFINewData *data) override
+    bool AddData(uint64_t key, AFINewData* data) override
     {
         vec_data_.push_back(key, data);
         return true;
     }
 
-    bool AddData(uint64_t key, const std::string &data_name, AFINewData *data) override
+    bool AddData(uint64_t key, const std::string& data_name, AFINewData* data) override
     {
         auto find_data = GetData(key);
         if (find_data == nullptr)
@@ -582,7 +582,7 @@ public:
         return true;
     }
 
-    bool RemoveData(uint64_t key, const std::string &data_name) override
+    bool RemoveData(uint64_t key, const std::string& data_name) override
     {
         auto data = GetData(key);
         if (data == nullptr)
@@ -599,7 +599,7 @@ public:
         return NULL_STR;
     }
 
-    void FromString(const std::string &value) override
+    void FromString(const std::string& value) override
     {
         // TODO: do not need for now
     }
@@ -626,13 +626,13 @@ public:
         return map_datas_.size();
     }
 
-    void CopyFrom(AFINewData *other) override
+    void CopyFrom(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         other->SaveTo(this);
     }
 
-    void SaveTo(AFINewData *other) override
+    void SaveTo(AFINewData* other) override
     {
         ARK_ASSERT_RET_NONE(other != nullptr);
         // SAVE this TO other
@@ -647,12 +647,12 @@ public:
         }
     }
 
-    AFINewData *GetData(uint64_t key) override
+    AFINewData* GetData(uint64_t key) override
     {
         return map_datas_.find(key);
     }
 
-    AFINewData *GetData(uint64_t key, const std::string &data_name) override
+    AFINewData* GetData(uint64_t key, const std::string& data_name) override
     {
         auto data = GetData(key);
         if (data == nullptr)
@@ -663,7 +663,7 @@ public:
         return data->GetData(data_name);
     }
 
-    AFINewData *GetData(uint64_t parent_key, uint64_t child_key) override
+    AFINewData* GetData(uint64_t parent_key, uint64_t child_key) override
     {
         auto data = GetData(parent_key);
         if (data == nullptr)
@@ -674,7 +674,7 @@ public:
         return data->GetData(child_key);
     }
 
-    AFINewData *GetData(uint64_t parent_key, uint64_t child_key, const std::string &data_name) override
+    AFINewData* GetData(uint64_t parent_key, uint64_t child_key, const std::string& data_name) override
     {
         auto data = GetData(parent_key);
         if (data == nullptr)
@@ -685,7 +685,7 @@ public:
         return data->GetData(child_key, data_name);
     }
 
-    AFINewData *GetData(uint64_t parent_key, const std::string &data_name, uint64_t child_key) override
+    AFINewData* GetData(uint64_t parent_key, const std::string& data_name, uint64_t child_key) override
     {
         auto data = GetData(parent_key);
         if (data == nullptr)
@@ -696,14 +696,14 @@ public:
         return data->GetData(data_name, child_key);
     }
 
-    bool AddData(uint64_t key, AFINewData *data) override
+    bool AddData(uint64_t key, AFINewData* data) override
     {
         data->SetKeyID(key);
         data->SetParent(this);
         return map_datas_.insert(key, data).second;
     }
 
-    bool AddData(uint64_t parent_key, uint64_t child_key, AFINewData *data) override
+    bool AddData(uint64_t parent_key, uint64_t child_key, AFINewData* data) override
     {
         auto find_data = GetData(parent_key);
         if (find_data == nullptr)
@@ -714,7 +714,7 @@ public:
         return find_data->AddData(child_key, data);
     }
 
-    bool AddData(uint64_t key, const std::string &data_name, AFINewData *data) override
+    bool AddData(uint64_t key, const std::string& data_name, AFINewData* data) override
     {
         auto find_data = GetData(key);
         if (find_data == nullptr)
@@ -730,7 +730,7 @@ public:
         return map_datas_.erase(key);
     }
 
-    bool RemoveData(uint64_t key, const std::string &data_name) override
+    bool RemoveData(uint64_t key, const std::string& data_name) override
     {
         auto data = GetData(key);
         if (data == nullptr)
@@ -741,7 +741,7 @@ public:
         return data->RemoveData(data_name);
     }
 
-    void FindData(const std::string &data_name, uint64_t value, std::list<AFINewData *> &find_list) override
+    void FindData(const std::string& data_name, uint64_t value, std::list<AFINewData*>& find_list) override
     {
         for (auto data : map_datas_)
         {
@@ -753,7 +753,8 @@ public:
         }
     }
 
-    bool CheckData(const std::string &data_name, uint64_t value, const std::string &check_name, uint64_t chenck_value) override
+    bool CheckData(
+        const std::string& data_name, uint64_t value, const std::string& check_name, uint64_t chenck_value) override
     {
         // TODO: do not need for now.
     }
@@ -764,7 +765,7 @@ public:
         return NULL_STR;
     }
 
-    void FromString(const std::string &value) override
+    void FromString(const std::string& value) override
     {
         // TODO: do not need for now
     }
@@ -807,12 +808,12 @@ public:
         SetValue<uint64_t>(data_meta_->GetKey(), id);
     }
 
-    AFINewData *GetData(const std::string &data_name) override
+    AFINewData* GetData(const std::string& data_name) override
     {
         return map_datas_.find_value(data_name);
     }
 
-    AFINewData *GetData(const std::string &data_name, uint64_t key) override
+    AFINewData* GetData(const std::string& data_name, uint64_t key) override
     {
         auto data = GetData(data_name);
         if (data == nullptr)
@@ -823,7 +824,7 @@ public:
         return data->GetData(key);
     }
 
-    AFINewData *GetData(const std::string &parent_data_name, const std::string &child_data_name) override
+    AFINewData* GetData(const std::string& parent_data_name, const std::string& child_data_name) override
     {
         if (parent_data_name.empty())
         {
@@ -839,7 +840,7 @@ public:
         return data->GetData(child_data_name);
     }
 
-    AFINewData *GetData(const std::string &parent_data_name, uint64_t key, const std::string &child_data_name) override
+    AFINewData* GetData(const std::string& parent_data_name, uint64_t key, const std::string& child_data_name) override
     {
         auto data = GetData(parent_data_name);
         if (data == nullptr)
@@ -850,7 +851,7 @@ public:
         return data->GetData(key, child_data_name);
     }
 
-    AFINewData *GetData(const std::string &parent_data_name, const std::string &child_data_name, uint64_t key) override
+    AFINewData* GetData(const std::string& parent_data_name, const std::string& child_data_name, uint64_t key) override
     {
         auto data = GetData(parent_data_name);
         if (data == nullptr)
@@ -861,7 +862,8 @@ public:
         return data->GetData(child_data_name, key);
     }
 
-    AFINewData *GetData(const std::string &parent_data_name, const std::string &child_data_name, const std::string &data_name) override
+    AFINewData* GetData(
+        const std::string& parent_data_name, const std::string& child_data_name, const std::string& data_name) override
     {
         auto data = GetData(parent_data_name);
         if (data == nullptr)
@@ -872,13 +874,13 @@ public:
         return data->GetData(child_data_name, data_name);
     }
 
-    bool AddData(const std::string &data_name, AFINewData *data) override
+    bool AddData(const std::string& data_name, AFINewData* data) override
     {
         data->SetParent(this);
         return map_datas_.insert(data_name, data).second;
     }
 
-    bool AddData(const std::string &data_name, uint64_t key, AFINewData *data) override
+    bool AddData(const std::string& data_name, uint64_t key, AFINewData* data) override
     {
         auto data = GetData(data_name);
         if (data == nullptr)
@@ -889,7 +891,7 @@ public:
         return AddData(key, data);
     }
 
-    bool AddData(const std::string &parent_data_name, const std::string &child_data_name, AFINewData *data) override
+    bool AddData(const std::string& parent_data_name, const std::string& child_data_name, AFINewData* data) override
     {
         auto data = GetData(data_name);
         if (data == nullptr)
@@ -900,12 +902,12 @@ public:
         return AddData(child_data_name, data);
     }
 
-    bool RemoveData(const std::stirng &data_name) override
+    bool RemoveData(const std::stirng& data_name) override
     {
         return map_datas_.erase(data_name);
     }
 
-    bool RemoveData(const std::stirng &data_name, uint64_t key) override
+    bool RemoveData(const std::stirng& data_name, uint64_t key) override
     {
         auto data = GetData(data_name);
         if (data == nullptr)
@@ -916,7 +918,7 @@ public:
         return data->RemoveData(key);
     }
 
-    bool RemoveData(const std::stirng &data_name, const std::string &child_data_name) override
+    bool RemoveData(const std::stirng& data_name, const std::string& child_data_name) override
     {
         auto data = GetData(data_name);
         if (data == nullptr)
@@ -927,13 +929,13 @@ public:
         return data->RemoveData(child_data_name);
     }
 
-    void CopyFrom(AFINewData *other) override
+    void CopyFrom(AFINewData* other) override
     {
         SetKeyID(other->GetKeyID());
 
         for (auto iter : map_datas_)
         {
-            auto &key = iter.first;
+            auto& key = iter.first;
             auto data = iter.second;
             auto find_data = other->GetData(key);
             if (find_data != nullptr)
@@ -943,7 +945,7 @@ public:
         }
     }
 
-    void SaveTo(AFINewData *other)
+    void SaveTo(AFINewData* other)
     {
         other->CopyFrom(this);
     }
@@ -954,17 +956,17 @@ public:
         return NULL_STR;
     }
 
-    void FromString(const std::string &value) override
+    void FromString(const std::string& value) override
     {
         // Unused right now
     }
 
-    void ToMap(StringMap &value) override
+    void ToMap(StringMap& value) override
     {
         // Unused right now
     }
 
-    void FromMap(const StringMap &value) override
+    void FromMap(const StringMap& value) override
     {
         // Unused right now
     }

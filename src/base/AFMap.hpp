@@ -28,14 +28,14 @@ template<typename VALUE, bool is_smart_ptr>
 class AFMapValueType
 {
 public:
-    using value_type = VALUE *;
+    using value_type = VALUE*;
 };
 
 template<typename VALUE>
 class AFMapValueType<VALUE, false>
 {
 public:
-    using value_type = VALUE *;
+    using value_type = VALUE*;
 };
 
 template<typename VALUE>
@@ -53,8 +53,8 @@ public:
     using v_type = typename AFMapValueType<VALUE, is_smart_ptr>::value_type;
     using map_type = std::map<k_type, v_type>;
     using value_type = typename map_type::value_type;
-    using reference = value_type &;
-    using const_reference = const value_type &;
+    using reference = value_type&;
+    using const_reference = const value_type&;
     using iterator = typename map_type::iterator;
     using const_iterator = typename map_type::const_iterator;
     using reverse_iterator = typename map_type::reverse_iterator;
@@ -70,7 +70,7 @@ public:
         return nodes_.empty();
     }
 
-    std::pair<iterator, bool> insert(const k_type &key, const v_type &value)
+    std::pair<iterator, bool> insert(const k_type& key, const v_type& value)
     {
         return nodes_.insert(value_type(key, value));
     }
@@ -80,12 +80,12 @@ public:
         return nodes_.erase(it);
     }
 
-    std::size_t erase(const k_type &key)
+    std::size_t erase(const k_type& key)
     {
         return nodes_.erase(key);
     }
 
-    iterator find(const k_type &key)
+    iterator find(const k_type& key)
     {
         return nodes_.find(key);
     }
@@ -115,7 +115,7 @@ public:
         nodes_.clear();
     }
 
-    v_type find_value(const k_type &key)
+    v_type find_value(const k_type& key)
     {
         auto iter = find(key);
         if (iter != end())
@@ -142,14 +142,14 @@ template<typename VALUE, bool is_smart_ptr>
 class AFNewMapValueType
 {
 public:
-    using value_type = VALUE *;
+    using value_type = VALUE*;
 };
 
 template<typename VALUE>
 class AFNewMapValueType<VALUE, false>
 {
 public:
-    using value_type = VALUE *;
+    using value_type = VALUE*;
 };
 
 template<typename VALUE>
@@ -167,8 +167,8 @@ public:
     using v_type = typename AFNewMapValueType<VALUE, is_smart_ptr>::value_type;
     using map_type = MAP_TYPE;
     using value_type = typename map_type::value_type;
-    using reference = value_type &;
-    using const_reference = const value_type &;
+    using reference = value_type&;
+    using const_reference = const value_type&;
     using iterator = typename map_type::iterator;
     using const_iterator = typename map_type::const_iterator;
 
@@ -188,7 +188,7 @@ public:
         return nodes_.empty();
     }
 
-    std::pair<iterator, bool> insert(const k_type &key, const v_type &value)
+    std::pair<iterator, bool> insert(const k_type& key, const v_type& value)
     {
         return nodes_.insert(value_type(key, value));
     }
@@ -198,12 +198,12 @@ public:
         return nodes_.erase(it);
     }
 
-    std::size_t erase(const k_type &key)
+    std::size_t erase(const k_type& key)
     {
         return nodes_.erase(key);
     }
 
-    iterator find(const k_type &key)
+    iterator find(const k_type& key)
     {
         return nodes_.find(key);
     }
@@ -228,7 +228,7 @@ public:
         return nodes_.cbegin();
     }
 
-    bool erase(const k_type &key, bool need_delete = true)
+    bool erase(const k_type& key, bool need_delete = true)
     {
         auto iter = nodes_.find(key);
         if (iter == nodes_.end())
@@ -258,7 +258,7 @@ public:
         nodes_.clear();
     }
 
-    v_type find_value(const k_type &key)
+    v_type find_value(const k_type& key)
     {
         auto iter = find(key);
         if (iter != end())
@@ -274,13 +274,13 @@ private:
 };
 
 template<typename KEY, typename VALUE>
-using AFNewMap = AFNewMapBase<KEY, VALUE, std::map<KEY, VALUE *>, false>;
+using AFNewMap = AFNewMapBase<KEY, VALUE, std::map<KEY, VALUE*>, false>;
 
 template<typename KEY, typename VALUE>
 using AFNewSmartPtrMap = AFNewMapBase<KEY, VALUE, std::map<KEY, std::shared_ptr<VALUE>>, true>;
 
 template<typename KEY, typename VALUE>
-using AFNewHashmap = AFNewMapBase<KEY, VALUE, std::unordered_map<KEY, VALUE *>, false>;
+using AFNewHashmap = AFNewMapBase<KEY, VALUE, std::unordered_map<KEY, VALUE*>, false>;
 
 template<typename KEY, typename VALUE>
 using AFNewSmartPtrHashmap = AFNewMapBase<KEY, VALUE, std::unordered_map<KEY, std::shared_ptr<VALUE>>, true>;

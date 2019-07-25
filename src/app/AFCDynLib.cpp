@@ -22,7 +22,7 @@
 
 namespace ark {
 
-bool AFCDynLib::Load(std::string const &path)
+bool AFCDynLib::Load(std::string const& path)
 {
     std::string strLibPath = path + name_;
     lib_inst_ = (DYNLIB_HANDLE)DYNLIB_LOAD(strLibPath.c_str());
@@ -36,7 +36,7 @@ bool AFCDynLib::UnLoad()
     return true;
 }
 
-void *AFCDynLib::GetSymbol(const char *szProcName)
+void* AFCDynLib::GetSymbol(const char* szProcName)
 {
     return (DYNLIB_HANDLE)DYNLIB_GETSYM(lib_inst_, szProcName);
 }

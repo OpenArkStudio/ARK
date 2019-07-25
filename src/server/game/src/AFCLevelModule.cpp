@@ -33,7 +33,7 @@ bool AFCLevelModule::Init()
     return true;
 }
 
-int AFCLevelModule::AddExp(const AFGUID &self, const int nExp)
+int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
 {
     int eJobType = m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::career());
     int nCurExp = m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::exp());

@@ -37,10 +37,11 @@ public:
     bool PostInit() override;
     bool PreUpdate() override;
 
-    int Transpond(const AFNetMsg *msg) override;
-    int SendToPlayerClient(const int nMsgID, const char *msg, const uint32_t nLen, const AFGUID &nClientID, const AFGUID &nPlayer) override;
+    int Transpond(const AFNetMsg* msg) override;
+    int SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID,
+        const AFGUID& nPlayer) override;
 
-    bool VerifyConnectData(const std::string &strAccount, const std::string &strKey) override;
+    bool VerifyConnectData(const std::string& strAccount, const std::string& strKey) override;
 
     //进入游戏成功
     int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID) override;
@@ -50,34 +51,35 @@ protected:
 
     int StartClient();
 
-    void OnSelectServerResultProcess(const AFNetMsg *msg, const int64_t session_id);
-    void OnServerInfoProcess(const AFNetMsg *msg, const int64_t session_id);
+    void OnSelectServerResultProcess(const AFNetMsg* msg, const int64_t session_id);
+    void OnServerInfoProcess(const AFNetMsg* msg, const int64_t session_id);
 
-    void OnOtherMessage(const AFNetMsg *msg, const int64_t session_id);
-    void OnBrocastmsg(const AFNetMsg *msg, const int64_t session_id);
-    void OnAckEnterGame(const AFNetMsg *msg, const int64_t session_id);
+    void OnOtherMessage(const AFNetMsg* msg, const int64_t session_id);
+    void OnBrocastmsg(const AFNetMsg* msg, const int64_t session_id);
+    void OnAckEnterGame(const AFNetMsg* msg, const int64_t session_id);
 
-    void OnSocketEvent(const AFNetEvent *event);
+    void OnSocketEvent(const AFNetEvent* event);
 
     //连接丢失,删2层(连接对象，帐号对象)
-    void OnClientDisconnect(const AFGUID &xClientID);
+    void OnClientDisconnect(const AFGUID& xClientID);
     //有连接
-    void OnClientConnected(const AFGUID &xClientID);
+    void OnClientConnected(const AFGUID& xClientID);
 
-    void OnConnectKeyProcess(const AFNetMsg *msg, const int64_t session_id);
-    void OnReqServerListProcess(const AFNetMsg *msg, const int64_t session_id);
-    void OnSelectServerProcess(const AFNetMsg *msg, const int64_t session_id);
-    void OnReqRoleListProcess(const AFNetMsg *msg, const int64_t session_id);
-    void OnReqCreateRoleProcess(const AFNetMsg *msg, const int64_t session_id);
-    void OnReqDelRoleProcess(const AFNetMsg *msg, const int64_t session_id);
-    void OnReqEnterGameServer(const AFNetMsg *msg, const int64_t session_id);
+    void OnConnectKeyProcess(const AFNetMsg* msg, const int64_t session_id);
+    void OnReqServerListProcess(const AFNetMsg* msg, const int64_t session_id);
+    void OnSelectServerProcess(const AFNetMsg* msg, const int64_t session_id);
+    void OnReqRoleListProcess(const AFNetMsg* msg, const int64_t session_id);
+    void OnReqCreateRoleProcess(const AFNetMsg* msg, const int64_t session_id);
+    void OnReqDelRoleProcess(const AFNetMsg* msg, const int64_t session_id);
+    void OnReqEnterGameServer(const AFNetMsg* msg, const int64_t session_id);
 
     //////////////////////////////////////////////////////////////////////////
 
-    // void OnTransMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    // void OnTransMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const
+    // AFGUID& xClientID);
 
     template<class TypeName>
-    void CheckSessionTransMsg(const AFNetMsg *msg)
+    void CheckSessionTransMsg(const AFNetMsg* msg)
     {
         ////在没有正式进入游戏之前，nPlayerID都是FD
         // ARK_PROCESS_MSG(xHead, msg, nLen, TypeName);
@@ -88,7 +90,7 @@ protected:
         //}
     }
 
-    bool CheckSessionState(const int nGameID, const AFGUID &xClientID, const std::string &strAccount);
+    bool CheckSessionState(const int nGameID, const AFGUID& xClientID, const std::string& strAccount);
 
     class ClientConnectData
     {
@@ -105,12 +107,12 @@ private:
     AFMapEx<AFGUID, AFClientConnectionData> client_connections_; // net_conn_id <--> SessionData
     AFCConsistentHash mxConsistentHash;
 
-    AFILogModule *m_pLogModule;
-    AFIBusModule *m_pBusModule;
-    AFINetServiceManagerModule *m_pNetServiceManagerModule;
-    AFIMsgModule *m_pMsgModule;
+    AFILogModule* m_pLogModule;
+    AFIBusModule* m_pBusModule;
+    AFINetServiceManagerModule* m_pNetServiceManagerModule;
+    AFIMsgModule* m_pMsgModule;
 
-    AFINetServerService *m_pNetServer{nullptr};
+    AFINetServerService* m_pNetServer{nullptr};
 };
 
 } // namespace ark

@@ -29,7 +29,7 @@ class AFIComponent : public AFIModule
 {
 public:
     AFIComponent() = delete;
-    AFIComponent(AFGUID self, const std::string &strName)
+    AFIComponent(AFGUID self, const std::string& strName)
     {
         mbHasInit = false;
         mbEnable = true;
@@ -84,12 +84,12 @@ public:
         return NULL_GUID;
     }
 
-    virtual const std::string &GetComponentName() const
+    virtual const std::string& GetComponentName() const
     {
         return mstrName;
     }
 
-    virtual int OnASyncEvent(const AFGUID &self, const int event, std::string &arg)
+    virtual int OnASyncEvent(const AFGUID& self, const int event, std::string& arg)
     {
         return 0;
     }

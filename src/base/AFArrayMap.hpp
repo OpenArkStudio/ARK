@@ -39,20 +39,20 @@ public:
     };
 };
 
-#define MAKE_BUILDIN_TYPE(T)                                                                                                               \
-    template<>                                                                                                                             \
-    class IsBuildinType<T>                                                                                                                 \
-    {                                                                                                                                      \
-    public:                                                                                                                                \
-        enum                                                                                                                               \
-        {                                                                                                                                  \
-            YES = true,                                                                                                                    \
-            NO = false                                                                                                                     \
-        };                                                                                                                                 \
+#define MAKE_BUILDIN_TYPE(T)                                                                                           \
+    template<>                                                                                                         \
+    class IsBuildinType<T>                                                                                             \
+    {                                                                                                                  \
+    public:                                                                                                            \
+        enum                                                                                                           \
+        {                                                                                                              \
+            YES = true,                                                                                                \
+            NO = false                                                                                                 \
+        };                                                                                                             \
     };
 
 template<typename T>
-bool CheckBuildinType(const T &t)
+bool CheckBuildinType(const T& t)
 {
     return IsBuildinType<T>::YES ? true : false;
 }
@@ -90,14 +90,14 @@ public:
         mxIndices.Clear();
     }
 
-    bool AddElement(const std::string &name, NODE *data)
+    bool AddElement(const std::string& name, NODE* data)
     {
         mxIndices.Add(name.c_str(), mxNodes.size());
         mxNodes.push_back(data);
         return true;
     }
 
-    NODE *GetElement(const std::string &name)
+    NODE* GetElement(const std::string& name)
     {
         size_t index;
 
@@ -109,7 +109,7 @@ public:
         return mxNodes[index];
     }
 
-    NODE *operator[](size_t index)
+    NODE* operator[](size_t index)
     {
         ARK_ASSERT_RET_VAL(index < GetCount(), nullptr);
 
@@ -138,12 +138,12 @@ public:
     //    return true;
     //}
 
-    bool ExistElement(const std::string &name) const
+    bool ExistElement(const std::string& name) const
     {
         return mxIndices.exists(name.c_str());
     }
 
-    bool ExistElement(const std::string &name, size_t &index) const
+    bool ExistElement(const std::string& name, size_t& index) const
     {
         return mxIndices.GetData(name.c_str(), index);
     }
@@ -166,7 +166,7 @@ protected:
     }
 
 private:
-    AFArrayPod<NODE *, 1, AFArrayPodAlloc> mxNodes;
+    AFArrayPod<NODE*, 1, AFArrayPodAlloc> mxNodes;
     AFStringPod<char, size_t, AFStringTraits<char>> mxIndices;
 };
 

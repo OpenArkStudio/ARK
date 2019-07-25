@@ -33,36 +33,37 @@ protected:
 public:
     AFCDataTableManager() = delete;
 
-    explicit AFCDataTableManager(const AFGUID &guid)
+    explicit AFCDataTableManager(const AFGUID& guid)
         : self(guid)
     {
     }
 
-    const AFGUID &Self() override
+    const AFGUID& Self() override
     {
         return self;
     }
 
-    bool Exist(const char *name) const override
+    bool Exist(const char* name) const override
     {
         return mxTables.ExistElement(name);
     }
 
-    bool Exist(const char *name, size_t &index) const override
+    bool Exist(const char* name, size_t& index) const override
     {
         return mxTables.ExistElement(name, index);
     }
 
-    bool AddTable(const AFGUID &self_id, const char *table_name, const AFIDataList &col_type_list, const AFFeatureType feature) override
+    bool AddTable(const AFGUID& self_id, const char* table_name, const AFIDataList& col_type_list,
+        const AFFeatureType feature) override
     {
         ARK_ASSERT(table_name != nullptr && sizeof(table_name) > 0, "Table name is invalid", __FILE__, __FUNCTION__);
 
-        AFDataTable *pTable = ARK_NEW AFDataTable();
+        AFDataTable* pTable = ARK_NEW AFDataTable();
         pTable->SetName(table_name);
         pTable->SetColCount(col_type_list.GetCount());
 
-        LITLE_DATA_TABLE_EVENT_FUNCTOR functor =
-            std::bind(&AFCDataTableManager::OnEventHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+        LITLE_DATA_TABLE_EVENT_FUNCTOR functor = std::bind(&AFCDataTableManager::OnEventHandler, this,
+            std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         pTable->RegisterCallback(std::move(functor));
         for (size_t i = 0; i < col_type_list.GetCount(); ++i)
         {
@@ -73,7 +74,7 @@ public:
         return AddTableInternal(pTable);
     }
 
-    bool RegisterCallback(DATA_TABLE_EVENT_FUNCTOR &&cb) override
+    bool RegisterCallback(DATA_TABLE_EVENT_FUNCTOR&& cb) override
     {
         mxTablecallbacks.push_back(std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
         return true;
@@ -84,7 +85,7 @@ public:
         ReleaseAll();
     }
 
-    AFDataTable *GetTable(const char *name) override
+    AFDataTable* GetTable(const char* name) override
     {
         return mxTables.GetElement(name);
     }
@@ -94,94 +95,94 @@ public:
         return mxTables.GetCount();
     }
 
-    AFDataTable *GetTableByIndex(size_t index) override
+    AFDataTable* GetTableByIndex(size_t index) override
     {
         ARK_ASSERT_RET_VAL(index < GetCount(), nullptr);
         return mxTables[index];
     }
 
-    bool SetTableBool(const char *name, const int row, const int col, const bool value) override
+    bool SetTableBool(const char* name, const int row, const int col, const bool value) override
     {
-        AFDataTable *pTable = GetTable(name);
+        AFDataTable* pTable = GetTable(name);
         return ((pTable == nullptr) ? false : pTable->SetBool(row, col, value));
     }
 
-    bool SetTableInt(const char *name, const int row, const int col, const int32_t value) override
+    bool SetTableInt(const char* name, const int row, const int col, const int32_t value) override
     {
-        AFDataTable *pTable = GetTable(name);
+        AFDataTable* pTable = GetTable(name);
         return ((pTable == nullptr) ? false : pTable->SetInt(row, col, value));
     }
 
-    bool SetTableInt64(const char *name, const int row, const int col, const int64_t value) override
+    bool SetTableInt64(const char* name, const int row, const int col, const int64_t value) override
     {
-        AFDataTable *pTable = GetTable(name);
+        AFDataTable* pTable = GetTable(name);
         return ((pTable == nullptr) ? false : pTable->SetInt64(row, col, value));
     }
 
-    bool SetTableFloat(const char *name, const int row, const int col, const float value) override
+    bool SetTableFloat(const char* name, const int row, const int col, const float value) override
     {
-        AFDataTable *pTable = GetTable(name);
+        AFDataTable* pTable = GetTable(name);
         return ((pTable == nullptr) ? false : pTable->SetFloat(row, col, value));
     }
 
-    bool SetTableDouble(const char *name, const int row, const int col, const double value) override
+    bool SetTableDouble(const char* name, const int row, const int col, const double value) override
     {
-        AFDataTable *pTable = GetTable(name);
+        AFDataTable* pTable = GetTable(name);
         return ((pTable == nullptr) ? false : pTable->SetDouble(row, col, value));
     }
 
-    bool SetTableString(const char *name, const int row, const int col, const char *value) override
+    bool SetTableString(const char* name, const int row, const int col, const char* value) override
     {
-        AFDataTable *pTable = GetTable(name);
+        AFDataTable* pTable = GetTable(name);
         return ((pTable == nullptr) ? false : pTable->SetString(row, col, value));
     }
 
-    bool GetTableBool(const char *name, const int row, const int col) override
+    bool GetTableBool(const char* name, const int row, const int col) override
     {
-        AFDataTable *pTable = GetTable(name);
+        AFDataTable* pTable = GetTable(name);
         return ((pTable == nullptr) ? false : pTable->GetBool(row, col));
     }
 
-    int32_t GetTableInt(const char *name, const int row, const int col) override
+    int32_t GetTableInt(const char* name, const int row, const int col) override
     {
-        AFDataTable *pTable = GetTable(name);
+        AFDataTable* pTable = GetTable(name);
         return ((pTable == nullptr) ? NULL_INT : pTable->GetInt(row, col));
     }
 
-    int64_t GetTableInt64(const char *name, const int row, const int col) override
+    int64_t GetTableInt64(const char* name, const int row, const int col) override
     {
-        AFDataTable *pTable = GetTable(name);
+        AFDataTable* pTable = GetTable(name);
         return ((pTable == nullptr) ? NULL_INT64 : pTable->GetInt64(row, col));
     }
 
-    float GetTableFloat(const char *name, const int row, const int col) override
+    float GetTableFloat(const char* name, const int row, const int col) override
     {
-        AFDataTable *pTable = GetTable(name);
+        AFDataTable* pTable = GetTable(name);
         return ((pTable == nullptr) ? NULL_FLOAT : pTable->GetFloat(row, col));
     }
 
-    double GetTableDouble(const char *name, const int row, const int col) override
+    double GetTableDouble(const char* name, const int row, const int col) override
     {
-        AFDataTable *pTable = GetTable(name);
+        AFDataTable* pTable = GetTable(name);
         return ((pTable == nullptr) ? NULL_DOUBLE : pTable->GetDouble(row, col));
     }
 
-    const char *GetTableString(const char *name, const int row, const int col) override
+    const char* GetTableString(const char* name, const int row, const int col) override
     {
-        AFDataTable *pTable = GetTable(name);
+        AFDataTable* pTable = GetTable(name);
         return ((pTable == nullptr) ? NULL_STR.c_str() : pTable->GetString(row, col));
     }
 
 protected:
-    bool GetTableData(const char *name, const int row, const int col, AFIData &value)
+    bool GetTableData(const char* name, const int row, const int col, AFIData& value)
     {
-        AFDataTable *pTable = GetTable(name);
+        AFDataTable* pTable = GetTable(name);
         return ((pTable != nullptr) ? pTable->GetValue(row, col, value) : false);
     }
 
-    int OnEventHandler(const DATA_TABLE_EVENT_DATA &xEventData, const AFIData &oldData, const AFIData &newData)
+    int OnEventHandler(const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldData, const AFIData& newData)
     {
-        for (auto &cb : mxTablecallbacks)
+        for (auto& cb : mxTablecallbacks)
         {
             cb(self, xEventData, oldData, newData);
         }
@@ -189,12 +190,12 @@ protected:
         return 0;
     }
 
-    bool AddTableInternal(AFDataTable *pTable)
+    bool AddTableInternal(AFDataTable* pTable)
     {
         assert(pTable != nullptr);
 
-        LITLE_DATA_TABLE_EVENT_FUNCTOR functor =
-            std::bind(&AFCDataTableManager::OnEventHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+        LITLE_DATA_TABLE_EVENT_FUNCTOR functor = std::bind(&AFCDataTableManager::OnEventHandler, this,
+            std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         pTable->RegisterCallback(std::move(functor));
 
         return mxTables.AddElement(pTable->GetName(), pTable);
@@ -204,7 +205,7 @@ protected:
     {
         for (size_t i = 0; i < mxTables.GetCount(); ++i)
         {
-            AFDataTable *pTable = mxTables[i];
+            AFDataTable* pTable = mxTables[i];
             ARK_DELETE(pTable);
         }
 

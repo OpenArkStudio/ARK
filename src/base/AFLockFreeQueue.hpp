@@ -32,12 +32,12 @@ public:
     AFLockFreeQueue() = default;
     ~AFLockFreeQueue() = default;
 
-    bool Push(const T &object)
+    bool Push(const T& object)
     {
         return queue_.enqueue(object);
     }
 
-    bool Pop(T &object)
+    bool Pop(T& object)
     {
         return queue_.try_dequeue(object);
     }

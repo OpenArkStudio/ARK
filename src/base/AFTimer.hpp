@@ -56,8 +56,8 @@ public:
     // callback data
     AFGUID entity_id{0};
 
-    AFTimerData *prev{nullptr};
-    AFTimerData *next{nullptr};
+    AFTimerData* prev{nullptr};
+    AFTimerData* next{nullptr};
 };
 
 class AFTimerManager : public AFSingleton<AFTimerManager>
@@ -98,9 +98,10 @@ public:
         memset(mxSlots, 0x0, sizeof(mxSlots));
     }
 
-    bool AddForverTimer(const std::string &name, const AFGUID &entity_id, uint32_t interval_time, TIMER_FUNCTOR &&callback)
+    bool AddForverTimer(
+        const std::string& name, const AFGUID& entity_id, uint32_t interval_time, TIMER_FUNCTOR&& callback)
     {
-        AFTimerData *data = ARK_NEW AFTimerData();
+        AFTimerData* data = ARK_NEW AFTimerData();
         if (data == nullptr)
         {
             return false;
@@ -115,9 +116,10 @@ public:
         return true;
     }
 
-    bool AddSingleTimer(const std::string &name, const AFGUID &entity_id, uint32_t interval_time, uint32_t count, TIMER_FUNCTOR &&callback)
+    bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, uint32_t count,
+        TIMER_FUNCTOR&& callback)
     {
-        AFTimerData *data = ARK_NEW AFTimerData();
+        AFTimerData* data = ARK_NEW AFTimerData();
         if (data == nullptr)
         {
             return false;
@@ -133,19 +135,19 @@ public:
         return true;
     }
 
-    bool RemoveTimer(const std::string &name)
+    bool RemoveTimer(const std::string& name)
     {
         // TODO:remove registered timer
         return RemoveTimerData(name);
     }
 
-    bool RemoveTimer(const std::string &name, const AFGUID &entity_id)
+    bool RemoveTimer(const std::string& name, const AFGUID& entity_id)
     {
         // TODO:remove registered timer
         return RemoveTimerData(name, entity_id);
     }
 
-    uint32_t FindLeftTime(const std::string &name, const AFGUID &entity_id)
+    uint32_t FindLeftTime(const std::string& name, const AFGUID& entity_id)
     {
         // TODO:
         return 0;
@@ -198,7 +200,7 @@ protected:
         mxRegTimers.clear();
     }
 
-    AFTimerData *FindTimerData(const std::string &name, const AFGUID &entity_id)
+    AFTimerData* FindTimerData(const std::string& name, const AFGUID& entity_id)
     {
         auto iter = mxTimers.find(name);
 
@@ -217,20 +219,20 @@ protected:
         return it->second;
     }
 
-    bool AddTimerData(const std::string &name, const AFGUID &entity_id, AFTimerData *timer_data)
+    bool AddTimerData(const std::string& name, const AFGUID& entity_id, AFTimerData* timer_data)
     {
         auto iter = mxTimers.find(name);
 
         if (iter == mxTimers.end())
         {
-            std::map<AFGUID, AFTimerData *> tmp;
+            std::map<AFGUID, AFTimerData*> tmp;
             iter = mxTimers.insert(std::make_pair(name, tmp)).first;
         }
 
         return iter->second.insert(std::make_pair(entity_id, timer_data)).second;
     }
 
-    bool RemoveTimerData(const std::string &name)
+    bool RemoveTimerData(const std::string& name)
     {
         auto iter = mxTimers.find(name);
 
@@ -241,7 +243,7 @@ protected:
 
         for (auto it : iter->second)
         {
-            AFTimerData *data = it.second;
+            AFTimerData* data = it.second;
             RemoveSlotTimer(data);
             ARK_DELETE(data);
         }
@@ -251,7 +253,7 @@ protected:
         return true;
     }
 
-    bool RemoveTimerData(const std::string &name, const AFGUID &entity_id)
+    bool RemoveTimerData(const std::string& name, const AFGUID& entity_id)
     {
         auto iter = mxTimers.find(name);
 
@@ -267,7 +269,7 @@ protected:
             return false;
         }
 
-        AFTimerData *data = it->second;
+        AFTimerData* data = it->second;
         RemoveSlotTimer(data);
         ARK_DELETE(data);
 
@@ -281,7 +283,7 @@ protected:
         return true;
     }
 
-    void AddSlotTimer(AFTimerData *timer_data, bool first)
+    void AddSlotTimer(AFTimerData* timer_data, bool first)
     {
         if (first)
         {
@@ -306,16 +308,16 @@ protected:
         mxSlots[timer_data->slot] = timer_data;
     }
 
-    void RemoveSlotTimer(AFTimerData *timer_data)
+    void RemoveSlotTimer(AFTimerData* timer_data)
     {
-        auto *prev = timer_data->prev;
+        auto* prev = timer_data->prev;
 
         if (prev != nullptr)
         {
             prev->next = timer_data->next;
         }
 
-        auto *next = timer_data->next;
+        auto* next = timer_data->next;
 
         if (next != nullptr)
         {
@@ -333,7 +335,7 @@ protected:
 
     void UpdateSlotTimer()
     {
-        std::list<AFTimerData *> doneDatas;
+        std::list<AFTimerData*> doneDatas;
         auto timerData = mxSlots[mnNowSlot];
 
         while (timerData != nullptr)
@@ -387,10 +389,10 @@ protected:
 
 private:
     uint32_t mnNowSlot;
-    AFTimerData *mxSlots[MAX_SLOT];
+    AFTimerData* mxSlots[MAX_SLOT];
     uint64_t mnLastUpdateTime;
-    std::map<std::string, std::map<AFGUID, AFTimerData *>> mxTimers;
-    std::list<AFTimerData *> mxRegTimers;
+    std::map<std::string, std::map<AFGUID, AFTimerData*>> mxTimers;
+    std::list<AFTimerData*> mxRegTimers;
 };
 
 } // namespace ark

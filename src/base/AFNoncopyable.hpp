@@ -26,10 +26,10 @@ class AFNoncopyable
 {
 public:
     AFNoncopyable() = default;
-    AFNoncopyable(const AFNoncopyable &) = delete;
-    AFNoncopyable &operator=(const AFNoncopyable &) = delete;
-    AFNoncopyable(AFNoncopyable &&) = delete;
-    AFNoncopyable &operator=(AFNoncopyable &&) = delete;
+    AFNoncopyable(const AFNoncopyable&) = delete;
+    AFNoncopyable& operator=(const AFNoncopyable&) = delete;
+    AFNoncopyable(AFNoncopyable&&) = delete;
+    AFNoncopyable& operator=(AFNoncopyable&&) = delete;
 };
 
 } // namespace ark

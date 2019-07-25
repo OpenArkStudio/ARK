@@ -54,18 +54,19 @@ public:
     }
 
     AFTimespan(int days, int hours, int seconds, int milliseconds)
-        : span_(TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS + TimeDiff(hours) * HOUR_MS + TimeDiff(days) * DAY_MS)
+        : span_(TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS + TimeDiff(hours) * HOUR_MS +
+                TimeDiff(days) * DAY_MS)
     {
     }
 
-    AFTimespan(const AFTimespan &timespan)
+    AFTimespan(const AFTimespan& timespan)
         : span_(timespan.span_)
     {
     }
 
     ~AFTimespan() {}
 
-    AFTimespan &operator=(const AFTimespan &timespan)
+    AFTimespan& operator=(const AFTimespan& timespan)
     {
         if (this != &timespan)
         {
@@ -74,55 +75,56 @@ public:
         return *this;
     }
 
-    AFTimespan &operator=(TimeDiff microseconds)
+    AFTimespan& operator=(TimeDiff microseconds)
     {
         span_ = microseconds;
         return *this;
     }
 
-    AFTimespan &assign(int days, int hours, int minutes, int seconds, int milliseconds = 0)
+    AFTimespan& assign(int days, int hours, int minutes, int seconds, int milliseconds = 0)
     {
-        span_ = TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS + TimeDiff(hours) * HOUR_MS + TimeDiff(days) * DAY_MS;
+        span_ = TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS + TimeDiff(hours) * HOUR_MS +
+                TimeDiff(days) * DAY_MS;
         return *this;
     }
 
-    AFTimespan &assign(int seconds, int milliseconds = 0)
+    AFTimespan& assign(int seconds, int milliseconds = 0)
     {
         span_ = TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS;
         return *this;
     }
 
-    void swap(AFTimespan &timespan)
+    void swap(AFTimespan& timespan)
     {
         std::swap(span_, timespan.span_);
     }
 
-    inline bool operator==(const AFTimespan &ts) const
+    inline bool operator==(const AFTimespan& ts) const
     {
         return span_ == ts.span_;
     }
 
-    inline bool operator!=(const AFTimespan &ts) const
+    inline bool operator!=(const AFTimespan& ts) const
     {
         return span_ != ts.span_;
     }
 
-    inline bool operator>(const AFTimespan &ts) const
+    inline bool operator>(const AFTimespan& ts) const
     {
         return span_ > ts.span_;
     }
 
-    inline bool operator>=(const AFTimespan &ts) const
+    inline bool operator>=(const AFTimespan& ts) const
     {
         return span_ >= ts.span_;
     }
 
-    inline bool operator<(const AFTimespan &ts) const
+    inline bool operator<(const AFTimespan& ts) const
     {
         return span_ < ts.span_;
     }
 
-    inline bool operator<=(const AFTimespan &ts) const
+    inline bool operator<=(const AFTimespan& ts) const
     {
         return span_ <= ts.span_;
     }
@@ -157,23 +159,23 @@ public:
         return span_ <= milliseconds;
     }
 
-    inline AFTimespan operator+(const AFTimespan &d) const
+    inline AFTimespan operator+(const AFTimespan& d) const
     {
         return AFTimespan(span_ + d.span_);
     }
 
-    inline AFTimespan operator-(const AFTimespan &d) const
+    inline AFTimespan operator-(const AFTimespan& d) const
     {
         return AFTimespan(span_ - d.span_);
     }
 
-    inline AFTimespan &operator+=(const AFTimespan &d)
+    inline AFTimespan& operator+=(const AFTimespan& d)
     {
         span_ += d.span_;
         return *this;
     }
 
-    inline AFTimespan &operator-=(const AFTimespan &d)
+    inline AFTimespan& operator-=(const AFTimespan& d)
     {
         span_ -= d.span_;
         return *this;
@@ -189,13 +191,13 @@ public:
         return AFTimespan(span_ - milliseconds);
     }
 
-    inline AFTimespan &operator+=(TimeDiff milliseconds)
+    inline AFTimespan& operator+=(TimeDiff milliseconds)
     {
         span_ += milliseconds;
         return *this;
     }
 
-    inline AFTimespan &operator-=(TimeDiff milliseconds)
+    inline AFTimespan& operator-=(TimeDiff milliseconds)
     {
         span_ -= milliseconds;
         return *this;
@@ -320,14 +322,14 @@ public:
     }
 
     // Copy constructor
-    AFDateTime(const AFDateTime &other)
+    AFDateTime(const AFDateTime& other)
     {
         ts_ = other.ts_;
     }
     // Destroys the timestamp
     ~AFDateTime() = default;
 
-    AFDateTime &operator=(const AFDateTime &other)
+    AFDateTime& operator=(const AFDateTime& other)
     {
         if (this != &other)
         {
@@ -337,13 +339,13 @@ public:
         return *this;
     }
 
-    AFDateTime &operator=(TimeVal &tv)
+    AFDateTime& operator=(TimeVal& tv)
     {
         ts_ = tv;
         return *this;
     }
     /// Swaps the Timestamp with another one.
-    void swap(AFDateTime &timestamp)
+    void swap(AFDateTime& timestamp)
     {
         std::swap(ts_, timestamp.ts_);
     }
@@ -375,32 +377,32 @@ public:
 #endif
     }
 
-    bool operator==(const AFDateTime &ts) const
+    bool operator==(const AFDateTime& ts) const
     {
         return ts_ == ts.ts_;
     }
 
-    bool operator!=(const AFDateTime &ts) const
+    bool operator!=(const AFDateTime& ts) const
     {
         return ts_ != ts.ts_;
     }
 
-    bool operator>(const AFDateTime &ts) const
+    bool operator>(const AFDateTime& ts) const
     {
         return ts_ > ts.ts_;
     }
 
-    bool operator>=(const AFDateTime &ts) const
+    bool operator>=(const AFDateTime& ts) const
     {
         return ts_ >= ts.ts_;
     }
 
-    bool operator<(const AFDateTime &ts) const
+    bool operator<(const AFDateTime& ts) const
     {
         return ts_ < ts.ts_;
     }
 
-    bool operator<=(const AFDateTime &ts) const
+    bool operator<=(const AFDateTime& ts) const
     {
         return ts_ <= ts.ts_;
     }
@@ -415,39 +417,39 @@ public:
         return AFDateTime(ts_ - d);
     }
 
-    AFDateTime &operator+=(TimeDiff d)
+    AFDateTime& operator+=(TimeDiff d)
     {
         ts_ += d;
         return *this;
     }
 
-    AFDateTime &operator-=(TimeDiff d)
+    AFDateTime& operator-=(TimeDiff d)
     {
         ts_ -= d;
         return *this;
     }
 
-    AFDateTime operator+(const AFTimespan &span) const
+    AFDateTime operator+(const AFTimespan& span) const
     {
         return *this + span.totalMilliseconds();
     }
 
-    AFDateTime operator-(const AFTimespan &span) const
+    AFDateTime operator-(const AFTimespan& span) const
     {
         return *this - span.totalMilliseconds();
     }
 
-    TimeDiff operator-(const AFDateTime &ts) const
+    TimeDiff operator-(const AFDateTime& ts) const
     {
         return ts_ - ts.ts_;
     }
 
-    AFDateTime &operator+=(const AFTimespan &span)
+    AFDateTime& operator+=(const AFTimespan& span)
     {
         return *this += span.totalMilliseconds();
     }
 
-    AFDateTime &operator-=(const AFTimespan &span)
+    AFDateTime& operator-=(const AFTimespan& span)
     {
         return *this -= span.totalMilliseconds();
     }
@@ -654,8 +656,8 @@ public:
     bool SameHour(TimeVal time)
     {
         AFDateTime xTime(time);
-        return (
-            xTime.GetHour() == GetHour() && xTime.GetDay() == GetDay() && xTime.GetMonth() == GetMonth() && xTime.GetYear() == GetYear());
+        return (xTime.GetHour() == GetHour() && xTime.GetDay() == GetDay() && xTime.GetMonth() == GetMonth() &&
+                xTime.GetYear() == GetYear());
     }
 
     bool SameDay(TimeVal time)
@@ -737,8 +739,9 @@ public:
     // Returns true if all arguments are valid, false otherwise.
     static bool isValid(int year, int month, int day, int hour = 0, int minute = 0, int second = 0, int millisecond = 0)
     {
-        return (year >= 0 && year <= 9999) && (month >= 1 && month <= 12) && (day >= 1 && day <= GetDaysOfMonth(year, month)) &&
-               (hour >= 0 && hour <= 23) && (minute >= 0 && minute <= 59) && (second >= 0 && second <= 60) &&
+        return (year >= 0 && year <= 9999) && (month >= 1 && month <= 12) &&
+               (day >= 1 && day <= GetDaysOfMonth(year, month)) && (hour >= 0 && hour <= 23) &&
+               (minute >= 0 && minute <= 59) && (second >= 0 && second <= 60) &&
                (millisecond >= 0 && millisecond <= 999);
     }
 
@@ -778,7 +781,7 @@ public:
         return AFDateTime(ts.QuadPart / (10 * Resolution()));
     }
 
-    void toFileTimeNP(uint32_t &fileTimeLow, uint32_t &fileTimeHigh) const
+    void toFileTimeNP(uint32_t& fileTimeLow, uint32_t& fileTimeHigh) const
     {
         ULARGE_INTEGER epoch; // UNIX epoch (1970-01-01 00:00:00) expressed in Windows NT FILETIME
         epoch.LowPart = 0xD53E8000;
@@ -797,7 +800,7 @@ private:
     TimeVal ts_;
 };
 
-inline void swap(AFDateTime &d1, AFDateTime &d2)
+inline void swap(AFDateTime& d1, AFDateTime& d2)
 {
     d1.swap(d2);
 }

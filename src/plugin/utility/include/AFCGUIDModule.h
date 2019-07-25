@@ -32,13 +32,13 @@ public:
     bool PreShut() override;
 
     AFGUID CreateGUID() override;
-    std::string ParseUID(const AFGUID &id) override;
+    std::string ParseUID(const AFGUID& id) override;
 
 private:
 #ifdef AF_THREAD_SAFE
-    AFUidGeneratorThreadSafe *uid_generator_{nullptr};
+    AFUidGeneratorThreadSafe* uid_generator_{nullptr};
 #else
-    AFUidGenerator *uid_generator_{nullptr};
+    AFUidGenerator* uid_generator_{nullptr};
 #endif // AF_THREAD_SAFE
 };
 

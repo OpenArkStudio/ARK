@@ -35,7 +35,7 @@ public:
     bool RemoveSchedule(const int cron_id) override;
 
 protected:
-    bool AddSchedule(const int id, const int user_arg, const char *cron_expression, SCHEDULER_FUNCTOR &&cb) override;
+    bool AddSchedule(const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR&& cb) override;
 
 private:
     // std::shared_ptr<AFCronSheduler> mxCronSheduler{ nullptr };

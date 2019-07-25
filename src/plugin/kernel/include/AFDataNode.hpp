@@ -69,12 +69,12 @@ public:
         return !(value.IsNullValue());
     }
 
-    const char *GetName()
+    const char* GetName()
     {
         return name.c_str();
     }
 
-    const AFIData &GetValue()
+    const AFIData& GetValue()
     {
         return value;
     }
@@ -84,7 +84,7 @@ public:
         return value.GetType();
     }
 
-    const AFFeatureType &GetFeature()
+    const AFFeatureType& GetFeature()
     {
         return feature;
     }

@@ -29,7 +29,7 @@ namespace ark {
 class AFErrorCategory : public std::error_category, public AFSingleton<AFErrorCategory>
 {
 public:
-    const char *name() const noexcept override
+    const char* name() const noexcept override
     {
         return "ark_error";
     }

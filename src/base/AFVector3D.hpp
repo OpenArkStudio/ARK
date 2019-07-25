@@ -47,14 +47,14 @@ public:
     {
     }
 
-    AFVector3D(const AFVector3D &rhs)
+    AFVector3D(const AFVector3D& rhs)
     {
         x = rhs.x;
         y = rhs.y;
         z = rhs.z;
     }
 
-    const AFVector3D &operator=(const AFVector3D &rhs)
+    const AFVector3D& operator=(const AFVector3D& rhs)
     {
         if (this != &rhs)
         {
@@ -65,12 +65,12 @@ public:
         return *this;
     }
 
-    inline bool operator==(const AFVector3D &rhs) const
+    inline bool operator==(const AFVector3D& rhs) const
     {
         return AFMisc::IsZeroFloat(Distance(*this, rhs));
     }
 
-    inline bool operator!=(const AFVector3D &rhs) const
+    inline bool operator!=(const AFVector3D& rhs) const
     {
         return !(*this == rhs);
     }
@@ -91,7 +91,7 @@ public:
         return ARK_FORMAT("({:.2f},{:.2f},{:.2f})", x, y, z);
     }
 
-    bool FromString(const std::string &value)
+    bool FromString(const std::string& value)
     {
         // TODO:split by new format
         // x,y,z
@@ -129,9 +129,10 @@ public:
             z = ARK_LEXICAL_CAST<float>(str_z);
             return true;
         }
-        catch (std::system_error &ex)
+        catch (std::system_error& ex)
         {
-            CONSOLE_INFO_LOG << "Vector3 FromString failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
+            CONSOLE_INFO_LOG << "Vector3 FromString failed, code = " << ex.code().message() << " msg = " << ex.what()
+                             << std::endl;
             ARK_ASSERT_NO_EFFECT(0);
             return false;
         }
@@ -139,7 +140,7 @@ public:
         return true;
     }
 
-    static float Distance(const AFVector3D &a, const AFVector3D &b)
+    static float Distance(const AFVector3D& a, const AFVector3D& b)
     {
         const float dx = a.x - b.x;
         const float dy = a.y - b.y;

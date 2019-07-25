@@ -34,28 +34,28 @@ public:
     }
 
     // Create a slice that refers to d[0,n-1].
-    AFSlice(const char *d, size_t n)
+    AFSlice(const char* d, size_t n)
         : data_(d)
         , size_(n)
     {
     }
 
     // Create a slice that refers to the contents of "s"
-    AFSlice(const std::string &s)
+    AFSlice(const std::string& s)
         : data_(s.data())
         , size_(s.size())
     {
     }
 
     // Create a slice that refers to s[0,strlen(s)-1]
-    AFSlice(const char *s)
+    AFSlice(const char* s)
         : data_(s)
         , size_(strlen(s))
     {
     }
 
     // Return a pointer to the beginning of the referenced data
-    const char *data() const
+    const char* data() const
     {
         return data_;
     }
@@ -105,7 +105,7 @@ public:
     //   <  0 if "*this" <  "b",
     //   == 0 if "*this" == "b",
     //   >  0 if "*this" >  "b"
-    int compare(const AFSlice &b) const
+    int compare(const AFSlice& b) const
     {
         const size_t min_len = (size_ < b.size_) ? size_ : b.size_;
         int r = memcmp(data_, b.data_, min_len);
@@ -126,21 +126,21 @@ public:
     }
 
 private:
-    const char *data_;
+    const char* data_;
     size_t size_;
 };
 
-inline bool operator==(const AFSlice &x, const AFSlice &y)
+inline bool operator==(const AFSlice& x, const AFSlice& y)
 {
     return ((x.size() == y.size()) && (std::memcmp(x.data(), y.data(), x.size()) == 0));
 }
 
-inline bool operator!=(const AFSlice &x, const AFSlice &y)
+inline bool operator!=(const AFSlice& x, const AFSlice& y)
 {
     return !(x == y);
 }
 
-inline bool operator<(const AFSlice &x, const AFSlice &y)
+inline bool operator<(const AFSlice& x, const AFSlice& y)
 {
     return x.compare(y) < 0;
 }

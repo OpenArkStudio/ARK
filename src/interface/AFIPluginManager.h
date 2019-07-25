@@ -25,14 +25,14 @@
 
 namespace ark {
 
-#define ARK_PLUGIN_DECLARE(plugin_name)                                                                                                    \
-    ARK_EXPORT_FUNC void DllEntryPlugin(AFIPluginManager* pPluginManager)                                                                  \
-    {                                                                                                                                      \
-        pPluginManager->Register<plugin_name>();                                                                                           \
-    }                                                                                                                                      \
-    ARK_EXPORT_FUNC void DllExitPlugin(AFIPluginManager* pPluginManager)                                                                   \
-    {                                                                                                                                      \
-        pPluginManager->Deregister<plugin_name>();                                                                                         \
+#define ARK_PLUGIN_DECLARE(plugin_name)                                                                                \
+    ARK_EXPORT_FUNC void DllEntryPlugin(AFIPluginManager* pPluginManager)                                              \
+    {                                                                                                                  \
+        pPluginManager->Register<plugin_name>();                                                                       \
+    }                                                                                                                  \
+    ARK_EXPORT_FUNC void DllExitPlugin(AFIPluginManager* pPluginManager)                                               \
+    {                                                                                                                  \
+        pPluginManager->Deregister<plugin_name>();                                                                     \
     }
 
 class AFIPlugin;

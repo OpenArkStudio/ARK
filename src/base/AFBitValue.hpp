@@ -43,7 +43,7 @@ public:
     {
     }
 
-    void SetValue(const T &nValue)
+    void SetValue(const T& nValue)
     {
         m_nValue = nValue;
     }
@@ -107,7 +107,7 @@ public:
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////
-    static int GetFirstNoValueIndex(const T &nValue)
+    static int GetFirstNoValueIndex(const T& nValue)
     {
         for (int i = 0; i < GetBitLength(); ++i)
         {
@@ -120,7 +120,7 @@ public:
         return 1;
     }
 
-    static T GetBitValue(const T &nValue, const int nIndex)
+    static T GetBitValue(const T& nValue, const int nIndex)
     {
         if (nIndex < 0 || nIndex >= GetBitLength())
         {
@@ -130,7 +130,7 @@ public:
         return (nValue & (T(1) << nIndex));
     }
 
-    static void SetBitValue(T &nValue, const int nIndex)
+    static void SetBitValue(T& nValue, const int nIndex)
     {
         if (nIndex < 0 || nIndex >= GetBitLength())
         {
@@ -140,7 +140,7 @@ public:
         nValue |= (T(1) << nIndex);
     }
 
-    static void ClearBitValue(T &nValue, const int nIndex)
+    static void ClearBitValue(T& nValue, const int nIndex)
     {
         if (nIndex < 0 || nIndex >= GetBitLength())
         {
@@ -150,7 +150,7 @@ public:
         nValue &= ~(T(1) << nIndex);
     }
 
-    static bool HaveBitValue(const T &nValue, const int nIndex)
+    static bool HaveBitValue(const T& nValue, const int nIndex)
     {
         return GetBitValue(nValue, nIndex) != NoneValue;
     }

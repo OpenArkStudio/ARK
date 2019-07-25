@@ -39,20 +39,23 @@ public:
     bool Shut() override;
 
 protected:
-    int OnEvent(const AFGUID &self, const int event, const AFIDataList &arg);
-    int OnClassCallBackEvent(const AFGUID &self, const std::string &strClassName, const ArkEntityEvent event, const AFIDataList &arg);
-    int OnIntDataNodeCB(const AFGUID &self, const std::string &strProperty, const AFIData &oldVarList, const AFIData &newVarList);
-    int OnStrDataNodeCB(const AFGUID &self, const std::string &strProperty, const AFIData &oldVarList, const AFIData &newVarList);
+    int OnEvent(const AFGUID& self, const int event, const AFIDataList& arg);
+    int OnClassCallBackEvent(
+        const AFGUID& self, const std::string& strClassName, const ArkEntityEvent event, const AFIDataList& arg);
+    int OnIntDataNodeCB(
+        const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
+    int OnStrDataNodeCB(
+        const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
 
 protected:
     int64_t mLastTime{0};
 
 protected:
-    AFIKernelModule *m_pKernelModule;
-    AFIConfigModule *m_pConfigModule;
-    AFILogModule *m_pLogModule;
-    AFIMetaClassModule *m_pClassModule;
-    AFIMapModule *m_pMapModule;
+    AFIKernelModule* m_pKernelModule;
+    AFIConfigModule* m_pConfigModule;
+    AFILogModule* m_pLogModule;
+    AFIMetaClassModule* m_pClassModule;
+    AFIMapModule* m_pMapModule;
 };
 
 } // namespace ark

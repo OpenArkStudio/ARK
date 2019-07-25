@@ -34,35 +34,36 @@ class AFIDataNodeManager
 {
 public:
     virtual void Clear() = 0;
-    virtual const AFGUID &Self() const = 0;
+    virtual const AFGUID& Self() const = 0;
     template<typename BaseType>
-    bool RegisterCallback(BaseType *pBase, int (BaseType::*handler)(const AFGUID &, const std::string &, const AFIData &, const AFIData &))
+    bool RegisterCallback(
+        BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
-        DATA_NODE_EVENT_FUNCTOR functor =
-            std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+        DATA_NODE_EVENT_FUNCTOR functor = std::bind(
+            handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         return RegisterCallback(std::move(functor));
     }
 
-    virtual bool RegisterCallback(DATA_NODE_EVENT_FUNCTOR &&cb) = 0;
+    virtual bool RegisterCallback(DATA_NODE_EVENT_FUNCTOR&& cb) = 0;
     virtual size_t GetNodeCount() = 0;
-    virtual AFDataNode *GetNodeByIndex(size_t index) = 0;
-    virtual AFDataNode *GetNode(const char *name) = 0;
-    virtual bool AddNode(const char *name, const AFIData &value, const AFFeatureType feature) = 0;
-    virtual bool SetNode(const char *name, const AFIData &value) = 0;
+    virtual AFDataNode* GetNodeByIndex(size_t index) = 0;
+    virtual AFDataNode* GetNode(const char* name) = 0;
+    virtual bool AddNode(const char* name, const AFIData& value, const AFFeatureType feature) = 0;
+    virtual bool SetNode(const char* name, const AFIData& value) = 0;
 
-    virtual bool SetNodeBool(const char *name, const bool value) = 0;
-    virtual bool SetNodeInt(const char *name, const int32_t value) = 0;
-    virtual bool SetNodeInt64(const char *name, const int64_t value) = 0;
-    virtual bool SetNodeFloat(const char *name, const float value) = 0;
-    virtual bool SetNodeDouble(const char *name, const double value) = 0;
-    virtual bool SetNodeString(const char *name, const std::string &value) = 0;
+    virtual bool SetNodeBool(const char* name, const bool value) = 0;
+    virtual bool SetNodeInt(const char* name, const int32_t value) = 0;
+    virtual bool SetNodeInt64(const char* name, const int64_t value) = 0;
+    virtual bool SetNodeFloat(const char* name, const float value) = 0;
+    virtual bool SetNodeDouble(const char* name, const double value) = 0;
+    virtual bool SetNodeString(const char* name, const std::string& value) = 0;
 
-    virtual bool GetNodeBool(const char *name) = 0;
-    virtual int32_t GetNodeInt(const char *name) = 0;
-    virtual int64_t GetNodeInt64(const char *name) = 0;
-    virtual float GetNodeFloat(const char *name) = 0;
-    virtual double GetNodeDouble(const char *name) = 0;
-    virtual const char *GetNodeString(const char *name) = 0;
+    virtual bool GetNodeBool(const char* name) = 0;
+    virtual int32_t GetNodeInt(const char* name) = 0;
+    virtual int64_t GetNodeInt64(const char* name) = 0;
+    virtual float GetNodeFloat(const char* name) = 0;
+    virtual double GetNodeDouble(const char* name) = 0;
+    virtual const char* GetNodeString(const char* name) = 0;
 };
 
 } // namespace ark

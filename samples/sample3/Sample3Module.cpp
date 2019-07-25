@@ -30,7 +30,7 @@ bool Sample3Module::Init()
     return true;
 }
 
-int Sample3Module::OnEvent(const AFGUID &self, const int event, const AFIDataList &arg)
+int Sample3Module::OnEvent(const AFGUID& self, const int event, const AFIDataList& arg)
 {
     std::cout << "OnEvent EventID: " << event << " self: " << self << " argList: " << arg.String(0) << " "
               << " " << arg.Int(1) << std::endl;
@@ -42,9 +42,10 @@ int Sample3Module::OnEvent(const AFGUID &self, const int event, const AFIDataLis
 }
 
 int Sample3Module::OnClassCallBackEvent(
-    const AFGUID &self, const std::string &strClassName, const ArkEntityEvent event, const AFIDataList &arg)
+    const AFGUID& self, const std::string& strClassName, const ArkEntityEvent event, const AFIDataList& arg)
 {
-    std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self << " Event: " << (int)event << std::endl;
+    std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self << " Event: " << (int)event
+              << std::endl;
 
     if (event == ArkEntityEvent::ENTITY_EVT_DATA_FINISHED)
     {
@@ -54,19 +55,21 @@ int Sample3Module::OnClassCallBackEvent(
     return 0;
 }
 
-int Sample3Module::OnIntDataNodeCB(const AFGUID &self, const std::string &strNodeName, const AFIData &oldVar, const AFIData &newVar)
+int Sample3Module::OnIntDataNodeCB(
+    const AFGUID& self, const std::string& strNodeName, const AFIData& oldVar, const AFIData& newVar)
 {
-    std::cout << "OnIntDataNodeCB DataNode: " << strNodeName << " OldValue: " << oldVar.GetInt() << " NewValue: " << newVar.GetInt()
-              << std::endl;
+    std::cout << "OnIntDataNodeCB DataNode: " << strNodeName << " OldValue: " << oldVar.GetInt()
+              << " NewValue: " << newVar.GetInt() << std::endl;
 
     return 0;
 }
 
-int Sample3Module::OnStrDataNodeCB(const AFGUID &self, const std::string &strNodeName, const AFIData &oldVar, const AFIData &newVar)
+int Sample3Module::OnStrDataNodeCB(
+    const AFGUID& self, const std::string& strNodeName, const AFIData& oldVar, const AFIData& newVar)
 {
     //属性回调事件，只要属性值内容有变化，就会被回调
-    std::cout << "OnStrDataNodeCB DataNode: " << strNodeName << " OldValue: " << oldVar.GetString() << " NewValue: " << newVar.GetString()
-              << std::endl;
+    std::cout << "OnStrDataNodeCB DataNode: " << strNodeName << " OldValue: " << oldVar.GetString()
+              << " NewValue: " << newVar.GetString() << std::endl;
 
     return 0;
 }
@@ -93,7 +96,8 @@ bool Sample3Module::PostInit()
     // SceneID = 1
     // GroupID = 0
     // Class Name = ark::Player::ThisName()
-    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(1, 1, 0, AFEntityMetaPlayer::self_name(), "", AFCDataList());
+    ARK_SHARE_PTR<AFIEntity> pEntity =
+        m_pKernelModule->CreateEntity(1, 1, 0, AFEntityMetaPlayer::self_name(), "", AFCDataList());
     if (pEntity == nullptr)
     {
         return false;
@@ -101,8 +105,10 @@ bool Sample3Module::PostInit()
 
     // to do
     AFCData xData;
-    m_pClassModule->AddNodeCallBack(AFEntityMetaPlayer::self_name(), AFEntityMetaPlayer::gold(), this, &Sample3Module::OnIntDataNodeCB);
-    m_pClassModule->AddNodeCallBack(AFEntityMetaPlayer::self_name(), AFEntityMetaPlayer::name(), this, &Sample3Module::OnStrDataNodeCB);
+    m_pClassModule->AddNodeCallBack(
+        AFEntityMetaPlayer::self_name(), AFEntityMetaPlayer::gold(), this, &Sample3Module::OnIntDataNodeCB);
+    m_pClassModule->AddNodeCallBack(
+        AFEntityMetaPlayer::self_name(), AFEntityMetaPlayer::name(), this, &Sample3Module::OnStrDataNodeCB);
     m_pKernelModule->AddClassCallBack(AFEntityMetaPlayer::self_name(), this, &Sample3Module::OnClassCallBackEvent);
 
     pEntity->SetNodeInt(AFEntityMetaPlayer::gold(), 1000);

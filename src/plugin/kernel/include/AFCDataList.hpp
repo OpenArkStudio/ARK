@@ -29,17 +29,17 @@ namespace ark {
 class AFDataListAlloc
 {
 public:
-    void *Alloc(size_t size)
+    void* Alloc(size_t size)
     {
         ARK_NEW_ARRAY_RET(char, size);
     }
 
-    void Free(void *ptr, size_t size)
+    void Free(void* ptr, size_t size)
     {
         ARK_DELETE_ARRAY(char, ptr);
     }
 
-    void Swap(AFDataListAlloc &src)
+    void Swap(AFDataListAlloc& src)
     {
         // Do nothing
     }
@@ -62,7 +62,7 @@ private:
             float mfValue;
             double mdValue;
             size_t mnstrValue;
-            void *mpVaule;
+            void* mpVaule;
             size_t mnUserData;
             AFGUID mxGUID;
         };
@@ -83,7 +83,7 @@ public:
         mnBufferUsed = 0;
     }
 
-    AFBaseDataList(const char *strSour, int nLengh, char strSplit)
+    AFBaseDataList(const char* strSour, int nLengh, char strSplit)
     {
         assert(DATA_SIZE > 0);
         assert(BUFFER_SIZE > 0);
@@ -128,7 +128,7 @@ public:
         }
     }
 
-    AFBaseDataList(const self_t &src)
+    AFBaseDataList(const self_t& src)
     {
         assert(DATA_SIZE > 0);
         assert(BUFFER_SIZE > 0);
@@ -143,7 +143,7 @@ public:
         InnerAppend(src, 0, src.GetCount());
     }
 
-    AFBaseDataList(const AFIDataList &src)
+    AFBaseDataList(const AFIDataList& src)
     {
         assert(DATA_SIZE > 0);
         assert(BUFFER_SIZE > 0);
@@ -163,7 +163,7 @@ public:
         Release();
     }
 
-    self_t operator=(const self_t &src)
+    self_t operator=(const self_t& src)
     {
         Release();
 
@@ -192,13 +192,13 @@ public:
         }
     }
 
-    bool Concat(const AFIDataList &src) override
+    bool Concat(const AFIDataList& src) override
     {
         InnerAppend(src, 0, src.GetCount());
         return true;
     }
 
-    bool Split(const std::string &src, const std::string &split) override
+    bool Split(const std::string& src, const std::string& split) override
     {
         Clear();
 
@@ -228,13 +228,13 @@ public:
         return true;
     }
 
-    bool Append(const AFIData &data) override
+    bool Append(const AFIData& data) override
     {
         InnerAppend(data);
         return true;
     }
 
-    bool Append(const AFIDataList &src, size_t start, size_t count) override
+    bool Append(const AFIDataList& src, size_t start, size_t count) override
     {
         if (start >= src.GetCount())
         {
@@ -281,7 +281,7 @@ public:
     // add data
     bool AddBool(bool value) override
     {
-        dynamic_data_t *p = AddDynamicData();
+        dynamic_data_t* p = AddDynamicData();
         p->nType = DT_BOOLEAN;
         p->mbValue = value;
         return true;
@@ -289,7 +289,7 @@ public:
 
     bool AddInt(int value) override
     {
-        dynamic_data_t *p = AddDynamicData();
+        dynamic_data_t* p = AddDynamicData();
         p->nType = DT_INT;
         p->mnValue = value;
         return true;
@@ -297,7 +297,7 @@ public:
 
     bool AddInt64(int64_t value) override
     {
-        dynamic_data_t *p = AddDynamicData();
+        dynamic_data_t* p = AddDynamicData();
         p->nType = DT_INT64;
         p->mn64Value = value;
         return true;
@@ -305,7 +305,7 @@ public:
 
     bool AddFloat(float value) override
     {
-        dynamic_data_t *p = AddDynamicData();
+        dynamic_data_t* p = AddDynamicData();
         p->nType = DT_FLOAT;
         p->mfValue = value;
         return true;
@@ -313,27 +313,27 @@ public:
 
     bool AddDouble(double value) override
     {
-        dynamic_data_t *p = AddDynamicData();
+        dynamic_data_t* p = AddDynamicData();
         p->nType = DT_DOUBLE;
         p->mdValue = value;
         return true;
     }
 
-    bool AddString(const char *value) override
+    bool AddString(const char* value) override
     {
         assert(value != nullptr);
-        dynamic_data_t *p = AddDynamicData();
+        dynamic_data_t* p = AddDynamicData();
         p->nType = DT_STRING;
         p->mnstrValue = mnBufferUsed;
 
         const size_t value_size = strlen(value) + 1;
-        char *data = AddBuffer(value_size);
+        char* data = AddBuffer(value_size);
         memcpy(data, value, value_size);
 
         return true;
     }
 
-    virtual bool AddString(const char *value, const int nLength)
+    virtual bool AddString(const char* value, const int nLength)
     {
         if (nLength <= 0)
         {
@@ -341,7 +341,7 @@ public:
         }
 
         assert(value != nullptr);
-        dynamic_data_t *p = AddDynamicData();
+        dynamic_data_t* p = AddDynamicData();
 
         if (nullptr == p)
         {
@@ -359,36 +359,36 @@ public:
         }
 
         value_size += 1;
-        char *data = AddBuffer(value_size);
+        char* data = AddBuffer(value_size);
         memcpy(data, value, value_size);
 
         return true;
     }
 
-    bool AddPointer(void *value) override
+    bool AddPointer(void* value) override
     {
-        dynamic_data_t *p = AddDynamicData();
+        dynamic_data_t* p = AddDynamicData();
         p->nType = DT_POINTER;
         p->mpVaule = value;
         return true;
     }
 
-    bool AddUserData(const void *pData, size_t size) override
+    bool AddUserData(const void* pData, size_t size) override
     {
         assert(pData != nullptr);
 
-        dynamic_data_t *p = AddDynamicData();
+        dynamic_data_t* p = AddDynamicData();
         p->nType = DT_USERDATA;
         p->mnUserData = mnBufferUsed;
 
         const size_t value_size = AFIData::GetRawUserDataSize(size);
-        char *value = AddBuffer(value_size);
+        char* value = AddBuffer(value_size);
         AFIData::InitRawUserData(value, pData, size);
 
         return true;
     }
 
-    bool AddRawUserData(void *value) override
+    bool AddRawUserData(void* value) override
     {
         return AddUserData(AFIData::GetUserData(value), AFIData::GetUserDataSize(value));
     }
@@ -479,7 +479,7 @@ public:
         }
     }
 
-    const char *String(size_t index) const override
+    const char* String(size_t index) const override
     {
         if (index > mnDataUsed)
         {
@@ -496,7 +496,7 @@ public:
         }
     }
 
-    void *Pointer(size_t index) const override
+    void* Pointer(size_t index) const override
     {
         if (index > mnDataUsed)
         {
@@ -513,7 +513,7 @@ public:
         }
     }
 
-    const void *UserData(size_t index, size_t &size) const override
+    const void* UserData(size_t index, size_t& size) const override
     {
         if (index > mnDataUsed)
         {
@@ -523,7 +523,7 @@ public:
 
         if (mpData[index].nType == DT_USERDATA)
         {
-            char *p = mpBuffer + mpData[index].mnUserData;
+            char* p = mpBuffer + mpData[index].mnUserData;
             size = AFIData::GetUserDataSize(p);
             return AFIData::GetUserData(p);
         }
@@ -534,7 +534,7 @@ public:
         }
     }
 
-    void *RawUserData(size_t index) const override
+    void* RawUserData(size_t index) const override
     {
         if (index > mnDataUsed)
         {
@@ -641,7 +641,7 @@ public:
         }
     }
 
-    virtual bool SetString(size_t index, const char *value)
+    virtual bool SetString(size_t index, const char* value)
     {
         assert(value != nullptr);
 
@@ -655,7 +655,7 @@ public:
             return false;
         }
 
-        char *p = mpBuffer + mpData[index].mnstrValue;
+        char* p = mpBuffer + mpData[index].mnstrValue;
         const size_t size1 = strlen(value) + 1;
 
         if (size1 <= (strlen(p) + 1))
@@ -666,13 +666,13 @@ public:
 
         mpData[index].mnstrValue = mnDataUsed;
         const size_t value_size = strlen(value) + 1;
-        char *v = AddBuffer(value_size);
+        char* v = AddBuffer(value_size);
         memcpy(v, value, value_size);
 
         return true;
     }
 
-    virtual bool SetPointer(size_t index, void *value)
+    virtual bool SetPointer(size_t index, void* value)
     {
         if (index >= mnDataUsed)
         {
@@ -748,12 +748,12 @@ public:
     }
 
 protected:
-    dynamic_data_t *AddDynamicData()
+    dynamic_data_t* AddDynamicData()
     {
         if (mnDataUsed >= mnDataSize)
         {
             size_t new_size = mnDataSize * 2;
-            dynamic_data_t *p = (dynamic_data_t *)mxAlloc.Alloc(new_size * sizeof(dynamic_data_t));
+            dynamic_data_t* p = (dynamic_data_t*)mxAlloc.Alloc(new_size * sizeof(dynamic_data_t));
             memcpy(p, mpData, mnDataUsed * sizeof(dynamic_data_t));
 
             if (mnDataSize > DATA_SIZE)
@@ -768,7 +768,7 @@ protected:
         return mpData + mnDataUsed++;
     }
 
-    char *AddBuffer(size_t need_size)
+    char* AddBuffer(size_t need_size)
     {
         size_t new_used = mnBufferUsed + need_size;
 
@@ -781,7 +781,7 @@ protected:
                 new_size = new_used * 2;
             }
 
-            char *p = (char *)mxAlloc.Alloc(new_size);
+            char* p = (char*)mxAlloc.Alloc(new_size);
             memcpy(p, mpBuffer, mnBufferUsed);
 
             if (mnBufferSize > BUFFER_SIZE)
@@ -793,12 +793,12 @@ protected:
             mnBufferSize = new_size;
         }
 
-        char *ret = mpBuffer + mnBufferUsed;
+        char* ret = mpBuffer + mnBufferUsed;
         mnBufferUsed = new_used;
         return ret;
     }
 
-    void InnerAppend(const AFIData &data)
+    void InnerAppend(const AFIData& data)
     {
         bool bRet(false);
 
@@ -828,7 +828,7 @@ protected:
         case DT_USERDATA:
         {
             size_t size;
-            const void *pData = data.GetUserData(size);
+            const void* pData = data.GetUserData(size);
             bRet = AddUserData(pData, size);
         }
         break;
@@ -840,7 +840,7 @@ protected:
         ARK_ASSERT_NO_EFFECT(bRet);
     }
 
-    bool InnerAppend(const AFIDataList &src, size_t start, size_t end)
+    bool InnerAppend(const AFIDataList& src, size_t start, size_t end)
     {
         bool bRet(false);
 
@@ -872,7 +872,7 @@ protected:
             case DT_USERDATA:
             {
                 size_t size;
-                const void *pData = src.UserData(i, size);
+                const void* pData = src.UserData(i, size);
                 bRet = AddUserData(pData, size);
             }
             break;
@@ -888,11 +888,11 @@ protected:
 private:
     ALLOC mxAlloc;
     dynamic_data_t mDataStack[DATA_SIZE];
-    dynamic_data_t *mpData;
+    dynamic_data_t* mpData;
     size_t mnDataSize;
     size_t mnDataUsed;
     char mBufferStack[BUFFER_SIZE];
-    char *mpBuffer;
+    char* mpBuffer;
     size_t mnBufferSize;
     size_t mnBufferUsed;
 };

@@ -74,7 +74,7 @@ struct NoCaseCompareChar
 } no_case_compare_char;
 
 template<typename T>
-inline bool stringUtil_StartsWith(const T &str, const T &pattern, bool case_sensitive)
+inline bool stringUtil_StartsWith(const T& str, const T& pattern, bool case_sensitive)
 {
     // H_ASSERT( str.length() >= pattern.length() );
     if (str.length() < pattern.length())
@@ -93,7 +93,7 @@ inline bool stringUtil_StartsWith(const T &str, const T &pattern, bool case_sens
 }
 
 template<typename T>
-bool stringUtil_EndsWith(const T &str, const T &pattern, bool case_sensitive)
+bool stringUtil_EndsWith(const T& str, const T& pattern, bool case_sensitive)
 {
     // H_ASSERT( str.length() >= pattern.length() );
     if (str.length() < pattern.length())
@@ -126,7 +126,7 @@ struct nocase_equal_char
 };
 
 template<typename T>
-inline bool stringUtil_contains(const T &str, typename T::value_type c, bool case_sensitive)
+inline bool stringUtil_contains(const T& str, typename T::value_type c, bool case_sensitive)
 {
     if (case_sensitive)
     {
@@ -138,7 +138,7 @@ inline bool stringUtil_contains(const T &str, typename T::value_type c, bool cas
     }
 }
 template<typename T>
-inline bool stringUtil_contains(const T &strL, const T &strR, bool case_sensitive)
+inline bool stringUtil_contains(const T& strL, const T& strR, bool case_sensitive)
 {
     if (case_sensitive)
     {
@@ -151,7 +151,7 @@ inline bool stringUtil_contains(const T &strL, const T &strR, bool case_sensitiv
 }
 
 template<typename _StringType>
-inline void stringUtil_trim_charptr(_StringType &str, typename _StringType::const_pointer delims, bool left, bool right)
+inline void stringUtil_trim_charptr(_StringType& str, typename _StringType::const_pointer delims, bool left, bool right)
 {
     if (str.empty())
     {
@@ -185,7 +185,7 @@ inline void stringUtil_trim_charptr(_StringType &str, typename _StringType::cons
 }
 
 template<typename _StringType>
-inline void stringUtil_trim_string(_StringType &str, const _StringType &delims, bool left, bool right)
+inline void stringUtil_trim_string(_StringType& str, const _StringType& delims, bool left, bool right)
 {
     if (str.empty())
     {
@@ -224,7 +224,8 @@ inline void stringUtil_trim_string(_StringType &str, const _StringType &delims, 
 }
 
 template<typename _StringVector, typename StringType, typename _DelimType>
-inline void _stringUtilSplit(_StringVector &ret, const StringType &str, const _DelimType &delims, unsigned int maxSplits)
+inline void _stringUtilSplit(
+    _StringVector& ret, const StringType& str, const _DelimType& delims, unsigned int maxSplits)
 {
     unsigned int numSplits = 0;
 
@@ -263,7 +264,8 @@ inline void _stringUtilSplit(_StringVector &ret, const StringType &str, const _D
 }
 
 template<typename _SliceVector, typename StringType, typename _DelimType>
-void _stringUtilSplitStringToSliceVector(_SliceVector &ret, const StringType &str, const _DelimType &delims, unsigned int maxSplits)
+void _stringUtilSplitStringToSliceVector(
+    _SliceVector& ret, const StringType& str, const _DelimType& delims, unsigned int maxSplits)
 {
     unsigned int numSplits = 0;
 
@@ -300,7 +302,8 @@ void _stringUtilSplitStringToSliceVector(_SliceVector &ret, const StringType &st
 }
 
 template<typename StringType, typename _DelimType>
-inline void _stringUtilSplitStringToSlice(const StringType &str, const _DelimType &delims, ark::AFSlice *ret, size_t &slices_count)
+inline void _stringUtilSplitStringToSlice(
+    const StringType& str, const _DelimType& delims, ark::AFSlice* ret, size_t& slices_count)
 {
     unsigned int numSplits = 0;
 
@@ -335,20 +338,21 @@ inline void _stringUtilSplitStringToSlice(const StringType &str, const _DelimTyp
     slices_count = numSplits;
 }
 
-inline void _stringUtilSplitSliceToSlice(const ark::AFSlice &str, const char &delim, std::vector<ark::AFSlice> &ret, unsigned int maxSplits)
+inline void _stringUtilSplitSliceToSlice(
+    const ark::AFSlice& str, const char& delim, std::vector<ark::AFSlice>& ret, unsigned int maxSplits)
 {
     // Use STL methods
     size_t start, pos;
     start = 0;
 
-    const char *p = NULL;
+    const char* p = NULL;
     do
     {
         // fix strchr compile warning
 #ifdef ARK_PLATFORM_WIN
-        p = (const char *)memchr(start + const_cast<char *>(str.data()), delim, str.size() - start);
+        p = (const char*)memchr(start + const_cast<char*>(str.data()), delim, str.size() - start);
 #else
-        p = (const char *)memchr(start + str.data(), delim, str.size() - start);
+        p = (const char*)memchr(start + str.data(), delim, str.size() - start);
 #endif
 
         if (!p || p >= str.data() + str.size() || ((maxSplits) && (ret.size() + 1 == maxSplits)))
@@ -372,7 +376,8 @@ inline void _stringUtilSplitSliceToSlice(const ark::AFSlice &str, const char &de
     } while (p);
 }
 
-inline void _stringUtilSplitSliceToSlice(const ark::AFSlice &str, const char &delim, ark::AFSlice *ret, size_t &slices_count)
+inline void _stringUtilSplitSliceToSlice(
+    const ark::AFSlice& str, const char& delim, ark::AFSlice* ret, size_t& slices_count)
 {
     unsigned int numSplits = 0;
 
@@ -380,14 +385,14 @@ inline void _stringUtilSplitSliceToSlice(const ark::AFSlice &str, const char &de
     size_t start, pos;
     start = 0;
 
-    const char *p = NULL;
+    const char* p = NULL;
     do
     {
         // fix strchr compile warning
 #ifdef ARK_PLATFORM_WIN
-        p = (const char *)memchr(start + const_cast<char *>(str.data()), delim, str.size() - start);
+        p = (const char*)memchr(start + const_cast<char*>(str.data()), delim, str.size() - start);
 #else
-        p = (const char *)memchr(start + str.data(), delim, str.size() - start);
+        p = (const char*)memchr(start + str.data(), delim, str.size() - start);
 #endif
         if (!p || p >= str.data() + str.size() || (numSplits == slices_count - 1))
         {
@@ -413,8 +418,8 @@ inline void _stringUtilSplitSliceToSlice(const ark::AFSlice &str, const char &de
 }
 
 template<typename StringType>
-inline void stringUtil_Split(
-    const StringType &src, StringType &left, StringType &right, typename StringType::const_pointer pDelims, size_t nDelimsLength)
+inline void stringUtil_Split(const StringType& src, StringType& left, StringType& right,
+    typename StringType::const_pointer pDelims, size_t nDelimsLength)
 {
     typename StringType::const_iterator iter = find_first_of(src.begin(), src.end(), pDelims, pDelims + nDelimsLength);
     if (src.end() == iter)
@@ -428,7 +433,8 @@ inline void stringUtil_Split(
 }
 
 template<typename _String>
-inline void _replace(_String &str, const _String &needle, const _String &new_value, size_t start_pos /* = 0*/, int replace_count /* = -1*/)
+inline void _replace(_String& str, const _String& needle, const _String& new_value, size_t start_pos /* = 0*/,
+    int replace_count /* = -1*/)
 {
     if (0 == replace_count)
     {
@@ -448,19 +454,19 @@ inline void _replace(_String &str, const _String &needle, const _String &new_val
     }
 }
 
-inline int php_htoi(const char *s)
+inline int php_htoi(const char* s)
 {
     int value;
     int c;
 
-    c = ((const unsigned char *)s)[0];
+    c = ((const unsigned char*)s)[0];
     if (isupper(c))
     {
         c = tolower(c);
     }
     value = (c >= '0' && c <= '9' ? c - '0' : c - 'a' + 10) * 16;
 
-    c = ((const unsigned char *)s)[1];
+    c = ((const unsigned char*)s)[1];
     if (isupper(c))
     {
         c = tolower(c);
@@ -480,100 +486,100 @@ namespace ark {
 class AFStringUtils
 {
 public:
-    static void Trim(std::string &str, bool left = true, bool right = true)
+    static void Trim(std::string& str, bool left = true, bool right = true)
     {
         static const std::string delims("\0 \t\r\n\v", 6);
         Trim(str, delims, left, right);
     }
 
-    static void Trim(std::wstring &str, bool left = true, bool right = true)
+    static void Trim(std::wstring& str, bool left = true, bool right = true)
     {
         static const std::wstring delims(L"\0 \t\r\n\v", 6);
         Trim(str, delims, left, right);
     }
 
-    static void Trim(std::string &str, const std::string &delims, bool left = true, bool right = true)
+    static void Trim(std::string& str, const std::string& delims, bool left = true, bool right = true)
     {
         stringUtil_trim_string(str, delims, left, right);
     }
 
-    static void Trim(std::wstring &str, const std::wstring &delims, bool left = true, bool right = true)
+    static void Trim(std::wstring& str, const std::wstring& delims, bool left = true, bool right = true)
     {
         stringUtil_trim_string(str, delims, left, right);
     }
 
-    static void Trim(std::string &str, const char *delims, bool left = true, bool right = true)
+    static void Trim(std::string& str, const char* delims, bool left = true, bool right = true)
     {
         stringUtil_trim_charptr(str, delims, left, right);
     }
-    static void Trim(std::wstring &str, const wchar_t *delims, bool left = true, bool right = true)
+    static void Trim(std::wstring& str, const wchar_t* delims, bool left = true, bool right = true)
     {
         stringUtil_trim_charptr(str, delims, left, right);
     }
 
-    static void TrimLeft(std::string &str)
+    static void TrimLeft(std::string& str)
     {
         Trim(str, true, false);
     }
 
-    static void TrimLeft(std::wstring &str)
+    static void TrimLeft(std::wstring& str)
     {
         Trim(str, true, false);
     }
 
-    static void TrimLeft(std::string &str, const std::string &delims)
+    static void TrimLeft(std::string& str, const std::string& delims)
     {
         Trim(str, delims, true, false);
     }
 
-    static void TrimLeft(std::wstring &str, const std::wstring &delims)
+    static void TrimLeft(std::wstring& str, const std::wstring& delims)
     {
         Trim(str, delims, true, false);
     }
 
-    static void TrimLeft(std::string &str, const char *delims)
+    static void TrimLeft(std::string& str, const char* delims)
     {
         Trim(str, delims, true, false);
     }
 
-    static void TrimLeft(std::wstring &str, const wchar_t *delims)
+    static void TrimLeft(std::wstring& str, const wchar_t* delims)
     {
         Trim(str, delims, true, false);
     }
 
-    static void TrimRight(std::string &str)
+    static void TrimRight(std::string& str)
     {
         Trim(str, false, true);
     }
 
-    static void TrimRight(std::wstring &str)
+    static void TrimRight(std::wstring& str)
     {
         Trim(str, false, true);
     }
 
-    static void TrimRight(std::string &str, const std::string &delims)
+    static void TrimRight(std::string& str, const std::string& delims)
     {
         Trim(str, delims, false, true);
     }
 
-    static void TrimRight(std::wstring &str, const std::wstring &delims)
+    static void TrimRight(std::wstring& str, const std::wstring& delims)
     {
         Trim(str, delims, false, true);
     }
 
-    static void TrimRight(std::string &str, const char *delims)
+    static void TrimRight(std::string& str, const char* delims)
     {
         Trim(str, delims, false, true);
     }
 
-    static void TrimRight(std::wstring &str, const wchar_t *delims)
+    static void TrimRight(std::wstring& str, const wchar_t* delims)
     {
         Trim(str, delims, false, true);
     }
 
     // @brief trim a char
     template<typename _StringType>
-    static void Trim(_StringType &str, char c, bool left = true, bool right = true)
+    static void Trim(_StringType& str, char c, bool left = true, bool right = true)
     {
         if (str.empty())
         {
@@ -619,32 +625,33 @@ public:
     }
 
     template<typename _StringType>
-    static void TrimLeft(_StringType &str, char c)
+    static void TrimLeft(_StringType& str, char c)
     {
         Trim(str, c, true, false);
     }
 
     template<typename _StringType>
-    static void TrimRight(_StringType &str, char c)
+    static void TrimRight(_StringType& str, char c)
     {
         Trim(str, c, false, true);
     }
 
-    // @brief Replaces a section equaling to <code>needle</code> of the current string with the new substring <code>new_value</code>
+    // @brief Replaces a section equaling to <code>needle</code> of the current string with the new substring
+    // <code>new_value</code>
     // @param string & str [in,out], -
     // @param const string & needle -
     // @param const string & new_value -
     // @param string::size_type start_pos -
     // @param int replace_count - If it is -1, replaces all the <code>needle</code> by <code>new_value</code>
     // @return void -
-    static void Replace(
-        std::string &str, const std::string &needle, const std::string &new_value, size_t start_pos = 0, int replace_count = -1)
+    static void Replace(std::string& str, const std::string& needle, const std::string& new_value, size_t start_pos = 0,
+        int replace_count = -1)
     {
         return _replace(str, needle, new_value, start_pos, replace_count);
     }
 
-    static void Replace(
-        std::wstring &str, const std::wstring &needle, const std::wstring &new_value, size_t start_pos = 0, int replace_count = -1)
+    static void Replace(std::wstring& str, const std::wstring& needle, const std::wstring& new_value,
+        size_t start_pos = 0, int replace_count = -1)
     {
         return _replace(str, needle, new_value, start_pos, replace_count);
     }
@@ -655,36 +662,37 @@ public:
     // @param delims A list of delimiter characters to split by
     // @param max_splits The maximum number of splits to perform (0 for unlimited splits). If this
     //     parameters is > 0, the splitting process will stop after this many splits, left to right.
-    static void Split(
-        std::vector<std::string> &ret, const std::string &str, const std::string &delims = "\t\n ", unsigned int max_splits = 0)
+    static void Split(std::vector<std::string>& ret, const std::string& str, const std::string& delims = "\t\n ",
+        unsigned int max_splits = 0)
     {
         _stringUtilSplit(ret, str, delims, max_splits);
     }
 
-    static void Split(
-        std::vector<std::wstring> &ret, const std::wstring &str, const std::wstring &delims = L"\t\n ", unsigned int max_splits = 0)
+    static void Split(std::vector<std::wstring>& ret, const std::wstring& str, const std::wstring& delims = L"\t\n ",
+        unsigned int max_splits = 0)
     {
         _stringUtilSplit(ret, str, delims, max_splits);
     }
 
-    static void Split(
-        std::vector<std::string> &ret, const std::string &str, const std::string::value_type &delims, unsigned int max_splits = 0)
+    static void Split(std::vector<std::string>& ret, const std::string& str, const std::string::value_type& delims,
+        unsigned int max_splits = 0)
     {
         _stringUtilSplit(ret, str, delims, max_splits);
     }
 
-    static void Split(
-        std::vector<std::wstring> &ret, const std::wstring &str, const std::wstring::value_type &delims, unsigned int max_splits = 0)
+    static void Split(std::vector<std::wstring>& ret, const std::wstring& str, const std::wstring::value_type& delims,
+        unsigned int max_splits = 0)
     {
         _stringUtilSplit(ret, str, delims, max_splits);
     }
 
-    static void Split(std::vector<AFSlice> &ret, const std::string &str, int delims, unsigned int max_splits = 0)
+    static void Split(std::vector<AFSlice>& ret, const std::string& str, int delims, unsigned int max_splits = 0)
     {
         _stringUtilSplitStringToSliceVector(ret, str, delims, max_splits);
     }
 
-    static void Split(std::vector<AFSlice> &ret, const std::string &str, const std::string &delims = "\t\n ", unsigned int max_splits = 0)
+    static void Split(std::vector<AFSlice>& ret, const std::string& str, const std::string& delims = "\t\n ",
+        unsigned int max_splits = 0)
     {
         _stringUtilSplitStringToSliceVector(ret, str, delims, max_splits);
     }
@@ -706,22 +714,22 @@ public:
     // @param[out] AFSlice slices[] -
     // @param[in,out] size_t & slice_count -
     // @return void -
-    static void Split(const std::string &str, int delims, AFSlice slices[], size_t &slice_count)
+    static void Split(const std::string& str, int delims, AFSlice slices[], size_t& slice_count)
     {
         _stringUtilSplitStringToSlice(str, delims, slices, slice_count);
     }
 
-    static void Split(const std::string &str, const std::string &delims, AFSlice slices[], size_t &slice_count)
+    static void Split(const std::string& str, const std::string& delims, AFSlice slices[], size_t& slice_count)
     {
         _stringUtilSplitStringToSlice(str, delims, slices, slice_count);
     }
 
-    static void Split(const AFSlice &str, int delims, AFSlice slices[], size_t &slice_count)
+    static void Split(const AFSlice& str, int delims, AFSlice slices[], size_t& slice_count)
     {
         _stringUtilSplitSliceToSlice(str, delims, slices, slice_count);
     }
 
-    static void Split(const AFSlice &str, int delims, std::vector<AFSlice> &slices, unsigned int max_splits = 0)
+    static void Split(const AFSlice& str, int delims, std::vector<AFSlice>& slices, unsigned int max_splits = 0)
     {
         _stringUtilSplitSliceToSlice(str, delims, slices, max_splits);
     }
@@ -729,62 +737,67 @@ public:
     /**
      * Split a std::string into tow strings using the special characters .
      * e.g. src="abc, hello world "  if cutset="," then left="abc", right=" hello world "
-     * @warning If any of delimiters was found, we just return, left std::string and right std::string will not be changed.
+     * @warning If any of delimiters was found, we just return, left std::string and right std::string will not be
+     * changed.
      * @param src The source std::string
      * @param left The left std::string separated by cutset
      * @param left The right std::string separated by cutset
-     * @param cutset A list of delimiter characters to split by. We only use the first one when come up against a delimiter
+     * @param cutset A list of delimiter characters to split by. We only use the first one when come up against a
+     * delimiter
      */
-    static void Split(const std::string &src, std::string &left, std::string &right, const std::string &delims = "\t\n ")
+    static void Split(
+        const std::string& src, std::string& left, std::string& right, const std::string& delims = "\t\n ")
     {
         Split(src, left, right, delims.c_str());
     }
 
-    static void Split(const std::wstring &src, std::wstring &left, std::wstring &right, const std::wstring &delims = L"\t\n ")
+    static void Split(
+        const std::wstring& src, std::wstring& left, std::wstring& right, const std::wstring& delims = L"\t\n ")
     {
         Split(src, left, right, delims.c_str());
     }
 
-    static void Split(const std::string &src, std::string &left, std::string &right, const char *delims = "\t\n ")
+    static void Split(const std::string& src, std::string& left, std::string& right, const char* delims = "\t\n ")
     {
         stringUtil_Split(src, left, right, delims, strlen(delims));
     }
 
-    static void Split(const std::wstring &src, std::wstring &left, std::wstring &right, const wchar_t *delims = L"\t\n ")
+    static void Split(
+        const std::wstring& src, std::wstring& left, std::wstring& right, const wchar_t* delims = L"\t\n ")
     {
         stringUtil_Split(src, left, right, delims, wcslen(delims));
     }
 
     template<typename _SourceStringType, typename _SubStringType>
-    static void Explode(
-        const _SourceStringType &source, const _SourceStringType &cutset, std::vector<_SubStringType> &return_value, int limit = -1)
+    static void Explode(const _SourceStringType& source, const _SourceStringType& cutset,
+        std::vector<_SubStringType>& return_value, int limit = -1)
     {
         // TODO
     }
 
-    static void ToLower(std::string &str)
+    static void ToLower(std::string& str)
     {
         std::transform(str.begin(), str.end(), str.begin(), [](unsigned char c) { return tolower(c); });
     }
 
-    static void ToLower(std::wstring &str)
+    static void ToLower(std::wstring& str)
     {
         std::transform(str.begin(), str.end(), str.begin(), [](wchar_t c) { return towlower(c); });
     }
 
-    static void ToUpper(std::string &str)
+    static void ToUpper(std::string& str)
     {
         std::transform(str.begin(), str.end(), str.begin(), [](unsigned char c) { return toupper(c); });
     }
 
-    static void ToUpper(std::wstring &str)
+    static void ToUpper(std::wstring& str)
     {
         std::transform(str.begin(), str.end(), str.begin(), [](wchar_t c) { return towupper(c); });
     }
 
     // std::string compare
     // @param case_sensitive true If we compare the std::string with case sensitively
-    static bool Equals(const std::string &str1, const std::string &str2, bool case_sensitive = true)
+    static bool Equals(const std::string& str1, const std::string& str2, bool case_sensitive = true)
     {
         if (case_sensitive)
         {
@@ -797,7 +810,7 @@ public:
     }
 
     // @brief std::string compare ignoring case sensitively
-    static bool EqualsIgnoreCase(const std::string &str1, const std::string &str2)
+    static bool EqualsIgnoreCase(const std::string& str1, const std::string& str2)
     {
         if (str1.length() == str2.length())
         {
@@ -809,12 +822,12 @@ public:
     // @brief     Returns whether the std::string begins with the pattern passed in.
     // @param[in] pattern The pattern to compare with.
     // @param[in] case_sensitive true case sensitive, false ignore the case
-    static bool StartsWith(const std::string &str, const std::string &pattern, bool case_sensitive = true)
+    static bool StartsWith(const std::string& str, const std::string& pattern, bool case_sensitive = true)
     {
         return stringUtil_StartsWith(str, pattern, case_sensitive);
     }
 
-    static bool StartsWith(const std::wstring &str, const std::wstring &pattern, bool case_sensitive = true)
+    static bool StartsWith(const std::wstring& str, const std::wstring& pattern, bool case_sensitive = true)
     {
         return stringUtil_StartsWith(str, pattern, case_sensitive);
     }
@@ -822,12 +835,12 @@ public:
     // @brief     Returns whether the std::string ends with the pattern passed in.
     // @param[in] pattern The pattern to compare with.
     // @param[in] case_sensitive true case sensitive, false ignore the case
-    static bool EndsWith(const std::string &str, const std::string &pattern, bool case_sensitive = true)
+    static bool EndsWith(const std::string& str, const std::string& pattern, bool case_sensitive = true)
     {
         return stringUtil_EndsWith(str, pattern, case_sensitive);
     }
 
-    static bool EndsWith(const std::wstring &str, const std::wstring &pattern, bool case_sensitive = true)
+    static bool EndsWith(const std::wstring& str, const std::wstring& pattern, bool case_sensitive = true)
     {
         return stringUtil_EndsWith(str, pattern, case_sensitive);
     }
@@ -836,7 +849,7 @@ public:
     // @param str String to test
     // @param pattern Pattern to match against; which can include simple '*' wildcards
     // @param case_sensitive Whether the match is case sensitive or not
-    static bool Match(const std::string &str, const std::string &pattern, bool case_sensitive = true)
+    static bool Match(const std::string& str, const std::string& pattern, bool case_sensitive = true)
     {
         std::string tmpStr = str;
         std::string tmpPattern = pattern;
@@ -909,7 +922,7 @@ public:
         }
     }
 
-    static bool Match(const std::wstring &str, const std::wstring &pattern, bool case_sensitive = true)
+    static bool Match(const std::wstring& str, const std::wstring& pattern, bool case_sensitive = true)
     {
         std::wstring tmpStr = str;
         std::wstring tmpPattern = pattern;
@@ -987,28 +1000,28 @@ public:
     // @param pattern, the pattern std::string or char to find
     // @param[in] case_sensitive true case sensitive, false ignore the case
     // @return bool, return true if the occurrence of pattern within the motherStr or false
-    static bool Contains(const std::string &mother, char pattern, bool case_sensitive = true)
+    static bool Contains(const std::string& mother, char pattern, bool case_sensitive = true)
     {
         return stringUtil_contains(mother, pattern, case_sensitive);
     }
 
-    static bool Contains(const std::wstring &mother, wchar_t pattern, bool case_sensitive = true)
+    static bool Contains(const std::wstring& mother, wchar_t pattern, bool case_sensitive = true)
     {
         return stringUtil_contains(mother, pattern, case_sensitive);
     }
 
-    static bool Contains(const std::string &mother, const std::string &pattern, bool case_sensitive = true)
+    static bool Contains(const std::string& mother, const std::string& pattern, bool case_sensitive = true)
     {
         return stringUtil_contains(mother, pattern, case_sensitive);
     }
 
-    static bool Contains(const std::wstring &mother, const std::wstring &pattern, bool case_sensitive = true)
+    static bool Contains(const std::wstring& mother, const std::wstring& pattern, bool case_sensitive = true)
     {
         return stringUtil_contains(mother, pattern, case_sensitive);
     }
 
     // query whether parameter std::string is a float number std::string or not.
-    static bool IsFloatNumber(std::string &s)
+    static bool IsFloatNumber(std::string& s)
     {
         if (s.find('.') != std::string::npos || s.find('e') != std::string::npos || s.find('E') != std::string::npos)
         {
@@ -1018,7 +1031,7 @@ public:
         return false;
     }
 
-    static bool IsDigit(const std::string &str)
+    static bool IsDigit(const std::string& str)
     {
         if (str.empty())
         {
@@ -1035,7 +1048,7 @@ public:
     }
 
     // URL encode & decode
-    static bool URLEncode(const char *url, size_t url_len, char *edcoded_url, size_t &edcoded_url_len)
+    static bool URLEncode(const char* url, size_t url_len, char* edcoded_url, size_t& edcoded_url_len)
     {
         static unsigned char hexchars[] = "0123456789ABCDEF";
 
@@ -1043,10 +1056,10 @@ public:
         unsigned char *to, *start, *to_end;
         unsigned char const *from, *end;
 
-        start = to = (unsigned char *)(edcoded_url);
+        start = to = (unsigned char*)(edcoded_url);
         to_end = to + edcoded_url_len;
 
-        from = (unsigned char const *)url;
+        from = (unsigned char const*)url;
         end = from + url_len;
 
         while (from < end)
@@ -1064,7 +1077,8 @@ public:
                     return false;
                 }
             }
-            else if ((c < '0' && c != '-' && c != '.') || (c < 'A' && c > '9') || (c > 'Z' && c < 'a' && c != '_') || (c > 'z'))
+            else if ((c < '0' && c != '-' && c != '.') || (c < 'A' && c > '9') || (c > 'Z' && c < 'a' && c != '_') ||
+                     (c > 'z'))
             {
                 if (to + 2 < to_end)
                 {
@@ -1095,19 +1109,19 @@ public:
         return true;
     }
 
-    static std::string URLEncode(const std::string &str)
+    static std::string URLEncode(const std::string& str)
     {
         std::string out;
         URLEncode(str, out);
         return out;
     }
 
-    static void URLEncode(const std::string &str, std::string &out)
+    static void URLEncode(const std::string& str, std::string& out)
     {
         URLEncode(str.data(), str.size(), out);
     }
 
-    static void URLEncode(const char *url, size_t url_len, std::string &out)
+    static void URLEncode(const char* url, size_t url_len, std::string& out)
     {
         size_t encoded_url_len = url_len * 3;
         out.resize(encoded_url_len);
@@ -1115,19 +1129,19 @@ public:
         out.resize(encoded_url_len);
     }
 
-    static std::string URLDecode(const std::string &str)
+    static std::string URLDecode(const std::string& str)
     {
         std::string out;
         URLDecode(str, out);
         return out;
     }
 
-    static void URLDecode(const std::string &str, std::string &out)
+    static void URLDecode(const std::string& str, std::string& out)
     {
         URLDecode(str.data(), str.size(), out);
     }
 
-    static void URLDecode(const char *encoded_url, size_t encoded_url_len, std::string &out)
+    static void URLDecode(const char* encoded_url, size_t encoded_url_len, std::string& out)
     {
         out.resize(encoded_url_len);
         size_t decoded_url_len = encoded_url_len;
@@ -1135,10 +1149,10 @@ public:
         out.resize(decoded_url_len);
     }
 
-    static void URLDecode(const char *encoded_url, size_t encoded_url_len, char *decoded_url, size_t &decoded_url_len)
+    static void URLDecode(const char* encoded_url, size_t encoded_url_len, char* decoded_url, size_t& decoded_url_len)
     {
-        char *dest = decoded_url;
-        const char *data = encoded_url;
+        char* dest = decoded_url;
+        const char* data = encoded_url;
         int len = (int)encoded_url_len;
         while (len--)
         {
@@ -1163,7 +1177,7 @@ public:
         decoded_url_len = dest - decoded_url;
     }
 
-    static void URLDecode(std::string &str)
+    static void URLDecode(std::string& str)
     {
         URLDecode(str, str);
     }

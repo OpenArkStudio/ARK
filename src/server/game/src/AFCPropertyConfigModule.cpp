@@ -37,7 +37,7 @@ bool AFCPropertyConfigModule::PostInit()
     return true;
 }
 
-int AFCPropertyConfigModule::CalculateBaseValue(const int nJob, const int nLevel, const std::string &strProperty)
+int AFCPropertyConfigModule::CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty)
 {
     ARK_SHARE_PTR<AFMapEx<int, std::string>> xPropertyMap = mhtCoefficienData.find_value(nJob);
 

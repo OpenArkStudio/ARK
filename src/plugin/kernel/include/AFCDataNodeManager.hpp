@@ -33,7 +33,7 @@ class AFCDataNodeManager : public AFIDataNodeManager, public AFNoncopyable
 public:
     AFCDataNodeManager() = delete;
 
-    explicit AFCDataNodeManager(const AFGUID &self)
+    explicit AFCDataNodeManager(const AFGUID& self)
         : self_(self)
     {
     }
@@ -49,12 +49,12 @@ public:
         node_indices_.Clear();
     }
 
-    const AFGUID &Self() const override
+    const AFGUID& Self() const override
     {
         return self_;
     }
 
-    bool RegisterCallback(DATA_NODE_EVENT_FUNCTOR &&cb) override
+    bool RegisterCallback(DATA_NODE_EVENT_FUNCTOR&& cb) override
     {
         node_callbacks_.push_back(std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
         return true;
@@ -65,13 +65,13 @@ public:
         return data_nodes_.size();
     }
 
-    AFDataNode *GetNodeByIndex(size_t index) override
+    AFDataNode* GetNodeByIndex(size_t index) override
     {
         ARK_ASSERT_RET_VAL(index >= 0 && index <= data_nodes_.size(), nullptr);
         return data_nodes_[index];
     }
 
-    AFDataNode *GetNode(const char *name) override
+    AFDataNode* GetNode(const char* name) override
     {
         size_t index;
 
@@ -83,9 +83,9 @@ public:
         return data_nodes_[index];
     }
 
-    bool AddNode(const char *name, const AFIData &value, const AFFeatureType feature) override
+    bool AddNode(const char* name, const AFIData& value, const AFFeatureType feature) override
     {
-        AFDataNode *pNode = ARK_NEW AFDataNode;
+        AFDataNode* pNode = ARK_NEW AFDataNode;
         pNode->name = name;
         pNode->value = value;
         pNode->feature = feature;
@@ -94,7 +94,7 @@ public:
         return true;
     }
 
-    bool SetNode(const char *name, const AFIData &value) override
+    bool SetNode(const char* name, const AFIData& value) override
     {
         size_t index;
 
@@ -131,7 +131,7 @@ public:
         return false;
     }
 
-    bool SetNodeBool(const char *name, const bool value) override
+    bool SetNodeBool(const char* name, const bool value) override
     {
         size_t index;
 
@@ -156,7 +156,7 @@ public:
         return true;
     }
 
-    bool SetNodeInt(const char *name, const int32_t value) override
+    bool SetNodeInt(const char* name, const int32_t value) override
     {
         size_t index;
 
@@ -181,7 +181,7 @@ public:
         return true;
     }
 
-    bool SetNodeInt64(const char *name, const int64_t value) override
+    bool SetNodeInt64(const char* name, const int64_t value) override
     {
         size_t index;
 
@@ -206,7 +206,7 @@ public:
         return true;
     }
 
-    bool SetNodeFloat(const char *name, const float value) override
+    bool SetNodeFloat(const char* name, const float value) override
     {
         size_t index;
 
@@ -231,7 +231,7 @@ public:
         return true;
     }
 
-    bool SetNodeDouble(const char *name, const double value) override
+    bool SetNodeDouble(const char* name, const double value) override
     {
         size_t index;
 
@@ -256,7 +256,7 @@ public:
         return true;
     }
 
-    bool SetNodeString(const char *name, const std::string &value) override
+    bool SetNodeString(const char* name, const std::string& value) override
     {
         size_t index;
 
@@ -281,7 +281,7 @@ public:
         return true;
     }
 
-    bool GetNodeBool(const char *name) override
+    bool GetNodeBool(const char* name) override
     {
         size_t index;
 
@@ -293,7 +293,7 @@ public:
         return data_nodes_[index]->value.GetBool();
     }
 
-    int32_t GetNodeInt(const char *name) override
+    int32_t GetNodeInt(const char* name) override
     {
         size_t index;
 
@@ -305,7 +305,7 @@ public:
         return data_nodes_[index]->value.GetInt();
     }
 
-    int64_t GetNodeInt64(const char *name) override
+    int64_t GetNodeInt64(const char* name) override
     {
         size_t index;
 
@@ -317,7 +317,7 @@ public:
         return data_nodes_[index]->value.GetInt64();
     }
 
-    float GetNodeFloat(const char *name) override
+    float GetNodeFloat(const char* name) override
     {
         size_t index;
 
@@ -329,7 +329,7 @@ public:
         return data_nodes_[index]->value.GetFloat();
     }
 
-    double GetNodeDouble(const char *name) override
+    double GetNodeDouble(const char* name) override
     {
         size_t index;
 
@@ -341,7 +341,7 @@ public:
         return data_nodes_[index]->value.GetDouble();
     }
 
-    const char *GetNodeString(const char *name) override
+    const char* GetNodeString(const char* name) override
     {
         size_t index;
 
@@ -354,7 +354,7 @@ public:
     }
 
 protected:
-    bool FindIndex(const char *name, size_t &index)
+    bool FindIndex(const char* name, size_t& index)
     {
         if (!node_indices_.GetData(name, index))
         {
@@ -364,9 +364,9 @@ protected:
         return true;
     }
 
-    bool OnNodeCallback(const char *name, const AFIData &oldData, const AFIData &newData)
+    bool OnNodeCallback(const char* name, const AFIData& oldData, const AFIData& newData)
     {
-        for (auto &cb : node_callbacks_)
+        for (auto& cb : node_callbacks_)
         {
             cb(self_, name, oldData, newData);
         }
@@ -375,7 +375,7 @@ protected:
     }
 
 private:
-    AFArrayPod<AFDataNode *, 1, CoreAlloc> data_nodes_;
+    AFArrayPod<AFDataNode*, 1, CoreAlloc> data_nodes_;
     AFStringPod<char, size_t, AFStringTraits<char>, CoreAlloc> node_indices_;
 
     AFGUID self_;

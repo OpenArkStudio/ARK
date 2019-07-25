@@ -40,18 +40,20 @@ public:
     virtual void EndTrail(const AFGUID self);
 
 protected:
-    int LogObjectData(const AFGUID &self);
-    int TrailObjectData(const AFGUID &self);
+    int LogObjectData(const AFGUID& self);
+    int TrailObjectData(const AFGUID& self);
 
-    int OnObjectPropertyEvent(const AFGUID &self, const std::string &nodeName, const AFIData &oldVar, const AFIData &newVar);
+    int OnObjectPropertyEvent(
+        const AFGUID& self, const std::string& nodeName, const AFIData& oldVar, const AFIData& newVar);
 
-    int OnEntityTableEvent(const AFGUID &self, const DATA_TABLE_EVENT_DATA &xEventData, const AFIData &oldVar, const AFIData &newVar);
+    int OnEntityTableEvent(
+        const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
 private:
-    AFIKernelModule *m_pKernelModule;
-    AFIConfigModule *m_pConfigModule;
-    AFIMetaClassModule *m_pClassModule;
-    AFILogModule *m_pLogModule;
+    AFIKernelModule* m_pKernelModule;
+    AFIConfigModule* m_pConfigModule;
+    AFIMetaClassModule* m_pClassModule;
+    AFILogModule* m_pLogModule;
 };
 
 } // namespace ark

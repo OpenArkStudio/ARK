@@ -31,10 +31,10 @@ public:
         : atomic_lock_(false)
     {
     }
-    AFSpinLock(AFSpinLock const &) = default;
-    AFSpinLock(AFSpinLock &&) = default;
-    AFSpinLock &operator=(AFSpinLock const &) = default;
-    AFSpinLock &operator=(AFSpinLock &&) = default;
+    AFSpinLock(AFSpinLock const&) = default;
+    AFSpinLock(AFSpinLock&&) = default;
+    AFSpinLock& operator=(AFSpinLock const&) = default;
+    AFSpinLock& operator=(AFSpinLock&&) = default;
 
     ~AFSpinLock(void) = default;
 

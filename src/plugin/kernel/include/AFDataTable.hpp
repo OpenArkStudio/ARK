@@ -63,13 +63,13 @@ public:
         ReleaseAll();
     }
 
-    void SetName(const char *value)
+    void SetName(const char* value)
     {
         ARK_ASSERT_RET_NONE(value != nullptr);
         mstrName = value;
     }
 
-    const char *GetName() const
+    const char* GetName() const
     {
         return mstrName.c_str();
     }
@@ -115,7 +115,7 @@ public:
     {
         // default insert row
         size_t col_num = GetColCount();
-        RowData *row_data = ARK_NEW_ARRAY(RowData, col_num);
+        RowData* row_data = ARK_NEW_ARRAY(RowData, col_num);
 
         size_t nIndex = FindEmptyRow();
         mxRowDatas[nIndex] = row_data;
@@ -134,14 +134,14 @@ public:
     bool AddRow(size_t row)
     {
         size_t col_num = GetColCount();
-        RowData *row_data = ARK_NEW_ARRAY(RowData, col_num);
+        RowData* row_data = ARK_NEW_ARRAY(RowData, col_num);
 
         while (GetRowCount() <= row)
         {
             mxRowDatas.push_back(nullptr);
         }
 
-        RowData *old_row_data = mxRowDatas[row];
+        RowData* old_row_data = mxRowDatas[row];
         if (nullptr != old_row_data)
         {
             ARK_DELETE_ARRAY(RowData, row_data);
@@ -161,7 +161,7 @@ public:
         return true;
     }
 
-    bool AddRow(size_t row, const AFIDataList &data)
+    bool AddRow(size_t row, const AFIDataList& data)
     {
         size_t col_num = GetColCount();
         if (data.GetCount() != col_num)
@@ -170,7 +170,7 @@ public:
             return false;
         }
 
-        RowData *row_data = ARK_NEW_ARRAY(RowData, col_num);
+        RowData* row_data = ARK_NEW_ARRAY(RowData, col_num);
         for (size_t i = 0; i < data.GetCount(); ++i)
         {
             int type = GetColType(i);
@@ -209,7 +209,7 @@ public:
             mxRowDatas.push_back(nullptr);
         }
 
-        RowData *old_row_data = mxRowDatas[row];
+        RowData* old_row_data = mxRowDatas[row];
         if (nullptr != old_row_data)
         {
             ARK_DELETE_ARRAY(RowData, row_data);
@@ -228,7 +228,7 @@ public:
         return true;
     }
 
-    int AddRow(const AFIDataList &data)
+    int AddRow(const AFIDataList& data)
     {
         size_t nIndex = FindEmptyRow();
         if (!AddRow(nIndex, data))
@@ -243,7 +243,7 @@ public:
     {
         for (size_t i = 0; i < GetRowCount(); ++i)
         {
-            RowData *row_data = mxRowDatas[i];
+            RowData* row_data = mxRowDatas[i];
             if (row_data == nullptr)
             {
                 return i;
@@ -278,12 +278,12 @@ public:
         ReleaseAll();
     }
 
-    void SetFeature(const AFFeatureType &new_feature)
+    void SetFeature(const AFFeatureType& new_feature)
     {
         this->feature = new_feature;
     }
 
-    const AFFeatureType &GetFeature() const
+    const AFFeatureType& GetFeature() const
     {
         return feature;
     }
@@ -335,7 +335,7 @@ public:
             return false;
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         if (nullptr == row_data)
         {
             return false;
@@ -344,14 +344,14 @@ public:
         return true;
     }
 
-    bool SetValue(size_t row, size_t col, const AFIData &value)
+    bool SetValue(size_t row, size_t col, const AFIData& value)
     {
         if ((row >= GetRowCount()) || (col >= GetColCount()))
         {
             return false;
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
 
         if (!row_data[col].equal(value))
@@ -376,7 +376,7 @@ public:
             return false;
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
 
         if (!row_data[col].equal(value))
@@ -402,7 +402,7 @@ public:
             return false;
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
 
         if (!row_data[col].equal(value))
@@ -427,7 +427,7 @@ public:
             return false;
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
         if (!row_data[col].equal(value))
         {
@@ -451,7 +451,7 @@ public:
             return false;
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
         if (!row_data[col].equal(value))
         {
@@ -474,7 +474,7 @@ public:
             return false;
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
         if (!row_data[col].equal(value))
         {
@@ -491,14 +491,14 @@ public:
         return true;
     }
 
-    bool SetString(size_t row, size_t col, const char *value)
+    bool SetString(size_t row, size_t col, const char* value)
     {
         if ((row >= GetRowCount()) || (col >= GetColCount()))
         {
             return false;
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
         if (!row_data[col].equal(value))
         {
@@ -514,14 +514,14 @@ public:
         return true;
     }
 
-    bool GetValue(size_t row, size_t col, AFIData &value)
+    bool GetValue(size_t row, size_t col, AFIData& value)
     {
         if ((row >= GetRowCount()) || (col >= GetColCount()))
         {
             return false;
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
 
         value.Assign(row_data[col]);
@@ -535,7 +535,7 @@ public:
             return NULL_BOOLEAN;
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
         return row_data[col].GetBool();
     }
@@ -547,7 +547,7 @@ public:
             return NULL_INT;
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, 0);
         return row_data[col].GetInt();
     }
@@ -559,7 +559,7 @@ public:
             return NULL_INT64;
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, 0);
         return row_data[col].GetInt64();
     }
@@ -571,7 +571,7 @@ public:
             return NULL_FLOAT;
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, 0);
         return row_data[col].GetFloat();
     }
@@ -583,24 +583,24 @@ public:
             return NULL_DOUBLE;
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, 0);
         return row_data[col].GetDouble();
     }
 
-    const char *GetString(size_t row, size_t col)
+    const char* GetString(size_t row, size_t col)
     {
         if ((row >= GetRowCount()) || (col >= GetColCount()))
         {
             return NULL_STR.c_str();
         }
 
-        RowData *row_data = mxRowDatas[row];
+        RowData* row_data = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, NULL_STR.c_str());
         return row_data[col].GetString();
     }
 
-    bool GetColTypeList(AFIDataList &col_type_list)
+    bool GetColTypeList(AFIDataList& col_type_list)
     {
         int col_count = GetColCount();
         for (int i = 0; i < col_count; ++i)
@@ -614,7 +614,7 @@ public:
         return true;
     }
 
-    int FindRow(size_t col, const AFIData &key, size_t begin_row = 0)
+    int FindRow(size_t col, const AFIData& key, size_t begin_row = 0)
     {
         if (col >= GetColCount())
         {
@@ -664,7 +664,7 @@ public:
 
         for (size_t i = begin_row; i < row_num; ++i)
         {
-            RowData *row_data = mxRowDatas[i];
+            RowData* row_data = mxRowDatas[i];
             ARK_ASSERT_CONTINUE(nullptr != row_data);
             if (row_data[col].GetBool() == key)
             {
@@ -691,7 +691,7 @@ public:
 
         for (size_t i = begin_row; i < row_num; ++i)
         {
-            RowData *row_data = mxRowDatas[i];
+            RowData* row_data = mxRowDatas[i];
             ARK_ASSERT_CONTINUE(nullptr != row_data);
 
             if (row_data[col].GetInt() == key)
@@ -718,7 +718,7 @@ public:
 
         for (size_t i = begin_row; i < row_num; ++i)
         {
-            RowData *row_data = mxRowDatas[i];
+            RowData* row_data = mxRowDatas[i];
             ARK_ASSERT_CONTINUE(nullptr != row_data);
 
             if (row_data[col].GetInt64() == key)
@@ -745,7 +745,7 @@ public:
 
         for (size_t i = begin_row; i < row_num; ++i)
         {
-            RowData *row_data = mxRowDatas[i];
+            RowData* row_data = mxRowDatas[i];
             ARK_ASSERT_CONTINUE(nullptr != row_data);
 
             if (AFMisc::IsFloatEqual(row_data[col].GetFloat(), key))
@@ -772,7 +772,7 @@ public:
 
         for (size_t i = begin_row; i < row_num; ++i)
         {
-            RowData *row_data = mxRowDatas[i];
+            RowData* row_data = mxRowDatas[i];
             ARK_ASSERT_CONTINUE(nullptr != row_data);
 
             if (AFMisc::IsDoubleEqual(row_data[col].GetDouble(), key))
@@ -784,7 +784,7 @@ public:
         return -1;
     }
 
-    int FindString(size_t col, const char *key, size_t begin_row = 0)
+    int FindString(size_t col, const char* key, size_t begin_row = 0)
     {
         if (col >= GetColCount())
         {
@@ -799,7 +799,7 @@ public:
 
         for (size_t i = begin_row; i < row_num; ++i)
         {
-            RowData *row_data = mxRowDatas[i];
+            RowData* row_data = mxRowDatas[i];
             ARK_ASSERT_CONTINUE(nullptr != row_data);
 
             if (ARK_STRICMP(row_data[col].GetString(), key) == 0)
@@ -811,16 +811,16 @@ public:
         return -1;
     }
 
-    bool QueryRow(const size_t row, AFIDataList &varList)
+    bool QueryRow(const size_t row, AFIDataList& varList)
     {
         ARK_ASSERT_RET_VAL_NO_EFFECT(row < mxRowDatas.size(), false);
 
-        RowData *rowData = mxRowDatas[row];
+        RowData* rowData = mxRowDatas[row];
         ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != rowData, false);
 
         for (size_t i = 0; i < mxColTypes.size(); ++i)
         {
-            RowData &subData = rowData[i];
+            RowData& subData = rowData[i];
 
             switch (subData.GetType())
             {
@@ -851,14 +851,14 @@ public:
         return true;
     }
 
-    bool RegisterCallback(LITLE_DATA_TABLE_EVENT_FUNCTOR &&cb)
+    bool RegisterCallback(LITLE_DATA_TABLE_EVENT_FUNCTOR&& cb)
     {
         mxTablecallbacks = std::forward<LITLE_DATA_TABLE_EVENT_FUNCTOR>(cb);
         return true;
     }
 
 protected:
-    void ReleaseRow(RowData *row_data, size_t col_num)
+    void ReleaseRow(RowData* row_data, size_t col_num)
     {
         for (size_t i = 0; i < col_num; ++i)
         {
@@ -883,7 +883,7 @@ protected:
         mxRowDatas.clear();
     }
 
-    void OnEventHandler(const DATA_TABLE_EVENT_DATA &xEventData, const AFIData &oldData, const AFIData &newData)
+    void OnEventHandler(const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldData, const AFIData& newData)
     {
         if (mxTablecallbacks)
         {
@@ -895,7 +895,7 @@ private:
     DataTableName mstrName;                          // DataTable name
     AFFeatureType feature;                           // DataTable feature
     AFArrayPod<int, 1, CoreAlloc> mxColTypes;        // DataTable column type array
-    AFArrayPod<RowData *, 1, CoreAlloc> mxRowDatas;  // DataTable data array
+    AFArrayPod<RowData*, 1, CoreAlloc> mxRowDatas;   // DataTable data array
     LITLE_DATA_TABLE_EVENT_FUNCTOR mxTablecallbacks; // callback
 };
 

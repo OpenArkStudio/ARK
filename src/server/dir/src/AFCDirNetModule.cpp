@@ -83,7 +83,8 @@ int AFCDirNetModule::StartClient()
     }
 
     // Check the master connection
-    AFINetClientService* pNetClientMaster = m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
+    AFINetClientService* pNetClientMaster =
+        m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
     if (pNetClientMaster == nullptr)
     {
         return -1;

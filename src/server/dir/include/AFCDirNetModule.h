@@ -36,7 +36,7 @@ public:
     bool PostInit() override;
     bool PreUpdate() override;
 
-    virtual AFINetServerService *GetNetServer();
+    virtual AFINetServerService* GetNetServer();
 
 protected:
     int StartServer();
@@ -47,11 +47,11 @@ protected:
     // void OnClientDisconnect(const AFGUID& conn_id);
 
 private:
-    AFILogModule *m_pLogModule;
-    AFIBusModule *m_pBusModule;
-    AFINetServiceManagerModule *m_pNetServiceManagerModule;
+    AFILogModule* m_pLogModule;
+    AFIBusModule* m_pBusModule;
+    AFINetServiceManagerModule* m_pNetServiceManagerModule;
 
-    AFINetServerService *m_pNetServer;
+    AFINetServerService* m_pNetServer;
 };
 
 } // namespace ark

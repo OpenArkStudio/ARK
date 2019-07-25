@@ -36,14 +36,14 @@ public:
     bool PostInit() override;
     bool PreUpdate() override;
 
-    // int OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const
-    // std::string& strWorldURL, const std::string& strKey) override;
+    // int OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const
+    // std::string& strAccount, const std::string& strWorldURL, const std::string& strKey) override;
 
 protected:
     int StartServer();
     int StartClient();
 
-    AFMapEx<int, AFMsg::ServerInfoReport> &GetWorldMap();
+    AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap();
 
     // void OnSocketClientEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip,  int bus_id);
 
@@ -51,19 +51,22 @@ protected:
     // void OnClientConnected(const AFGUID& xClientID);
 
     ////登入
-    // void OnLoginProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    // void OnLoginProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const
+    // AFGUID& xClientID);
 
     ////选择大世界
-    // void OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID&
-    // xClientID);
+    // void OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen,
+    // const AFGUID& xClientID);
 
     ////申请查看世界列表
-    // void OnViewWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID&
-    // xClientID);
+    // void OnViewWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen,
+    // const AFGUID& xClientID);
 
-    // void OnHeartBeat(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    // void OnLogOut(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    ////void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID&
+    // void OnHeartBeat(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const
+    // AFGUID& xClientID); void OnLogOut(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const
+    // uint32_t nLen, const AFGUID& xClientID);
+    ////void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen,
+    ///const AFGUID&
     /// xClientID);
 
     // void SynWorldToClient(const AFGUID& xClientID);
@@ -71,11 +74,11 @@ protected:
 private:
     AFMapEx<AFGUID, AFClientConnectionData> mmClientSessionData;
 
-    AFILogModule *m_pLogModule;
-    AFIBusModule *m_pBusModule;
-    AFINetServiceManagerModule *m_pNetServiceManagerModule;
+    AFILogModule* m_pLogModule;
+    AFIBusModule* m_pBusModule;
+    AFINetServiceManagerModule* m_pNetServiceManagerModule;
 
-    AFINetServerService *m_pNetServer;
+    AFINetServerService* m_pNetServer;
 };
 
 } // namespace ark

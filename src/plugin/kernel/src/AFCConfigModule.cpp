@@ -70,7 +70,8 @@ bool AFCConfigModule::Load()
         // support for unlimited layer class inherits
         rapidxml::xml_node<>* root = xDoc.first_node();
 
-        for (rapidxml::xml_node<>* attr_node = root->first_node(); attr_node != nullptr; attr_node = attr_node->next_sibling())
+        for (rapidxml::xml_node<>* attr_node = root->first_node(); attr_node != nullptr;
+             attr_node = attr_node->next_sibling())
         {
             if (!Load(attr_node, pMetaClass))
             {
@@ -117,7 +118,8 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attr_node, ARK_SHARE_PTR<AFIMet
                 for (size_t i = 0; i < pBaseClassNodeManager->GetNodeCount(); ++i)
                 {
                     AFDataNode* pBaseClassNode = pBaseClassNodeManager->GetNodeByIndex(i);
-                    pElementNodeManager->AddNode(pBaseClassNode->name.c_str(), pBaseClassNode->value, pBaseClassNode->feature);
+                    pElementNodeManager->AddNode(
+                        pBaseClassNode->name.c_str(), pBaseClassNode->value, pBaseClassNode->feature);
                 }
             }
         }
@@ -139,7 +141,8 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attr_node, ARK_SHARE_PTR<AFIMet
     }
 
     // 3.set the config value to them
-    for (rapidxml::xml_attribute<>* pAttribute = attr_node->first_attribute(); pAttribute; pAttribute = pAttribute->next_attribute())
+    for (rapidxml::xml_attribute<>* pAttribute = attr_node->first_attribute(); pAttribute;
+         pAttribute = pAttribute->next_attribute())
     {
         const char* pstrConfigName = pAttribute->name();
         const char* pstrConfigValue = pAttribute->value();

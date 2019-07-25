@@ -46,7 +46,7 @@ void AFCPropertyTrailModule::EndTrail(const AFGUID self)
     // Will complete this
 }
 
-int AFCPropertyTrailModule::LogObjectData(const AFGUID &self)
+int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
 {
     ARK_SHARE_PTR<AFIEntity> xEntity = m_pKernelModule->GetEntity(self);
 
@@ -63,7 +63,7 @@ int AFCPropertyTrailModule::LogObjectData(const AFGUID &self)
 
         for (size_t i = 0; i < nodeCount; ++i)
         {
-            AFDataNode *pNode = xNodeManager->GetNodeByIndex(i);
+            AFDataNode* pNode = xNodeManager->GetNodeByIndex(i);
             ARK_LOG_TRACE("Player[{}] Node[{}] Value[{}]", self, pNode->GetName(), pNode->ToString());
         }
     }
@@ -76,7 +76,7 @@ int AFCPropertyTrailModule::LogObjectData(const AFGUID &self)
 
         for (size_t i = 0; i < tableCount; ++i)
         {
-            AFDataTable *pTable = xTableManager->GetTableByIndex(i);
+            AFDataTable* pTable = xTableManager->GetTableByIndex(i);
             size_t rowCount = pTable->GetRowCount();
 
             for (size_t j = 0; j < rowCount; ++j)
@@ -91,7 +91,8 @@ int AFCPropertyTrailModule::LogObjectData(const AFGUID &self)
 
                 for (size_t k = 0; k < xDataList.GetCount(); ++k)
                 {
-                    ARK_LOG_TRACE("Player[{}] Table[{}] Row[{}] Col[{}] Value[{}]", self, pTable->GetName(), j, k, xDataList.ToString(k));
+                    ARK_LOG_TRACE("Player[{}] Table[{}] Row[{}] Col[{}] Value[{}]", self, pTable->GetName(), j, k,
+                        xDataList.ToString(k));
                 }
             }
         }
@@ -101,20 +102,20 @@ int AFCPropertyTrailModule::LogObjectData(const AFGUID &self)
 }
 
 int AFCPropertyTrailModule::OnObjectPropertyEvent(
-    const AFGUID &self, const std::string &nodeName, const AFIData &oldVar, const AFIData &newVar)
+    const AFGUID& self, const std::string& nodeName, const AFIData& oldVar, const AFIData& newVar)
 {
     ARK_LOG_INFO("Trace id[{}] Name[{}] Old[{}] New[{}]", self, nodeName, oldVar.GetString(), newVar.GetString());
     return 0;
 }
 
 int AFCPropertyTrailModule::OnEntityTableEvent(
-    const AFGUID &self, const DATA_TABLE_EVENT_DATA &xEventData, const AFIData &oldVar, const AFIData &newVar)
+    const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
     // will add
     return 0;
 }
 
-int AFCPropertyTrailModule::TrailObjectData(const AFGUID &self)
+int AFCPropertyTrailModule::TrailObjectData(const AFGUID& self)
 {
     // will add
     return 0;

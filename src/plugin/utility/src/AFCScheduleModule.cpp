@@ -41,7 +41,8 @@ bool AFCScheduleModule::Update()
     return true;
 }
 
-bool AFCScheduleModule::AddSchedule(const int id, const int user_arg, const char *cron_expression, SCHEDULER_FUNCTOR &&cb)
+bool AFCScheduleModule::AddSchedule(
+    const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR&& cb)
 {
     // return mxCronSheduler->AddCron(id, user_arg, cron_expression, pPluginManager->GetNowTime(), cb);
     return true;

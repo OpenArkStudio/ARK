@@ -72,25 +72,25 @@ public:
     bool Save() override;
     bool Clear() override;
 
-    bool ExistConfig(const std::string &config_id) override;
-    bool ExistConfig(const std::string &class_name, const std::string &config_id) override;
+    bool ExistConfig(const std::string& config_id) override;
+    bool ExistConfig(const std::string& class_name, const std::string& config_id) override;
 
-    ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string &config_id) override;
-    ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string &config_id) override;
+    ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& config_id) override;
+    ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& config_id) override;
 
-    bool GetNodeBool(const std::string &config_id, const std::string &node_name) override;
-    int32_t GetNodeInt(const std::string &config_id, const std::string &node_name) override;
-    int64_t GetNodeInt64(const std::string &config_id, const std::string &node_name) override;
-    float GetNodeFloat(const std::string &config_id, const std::string &node_name) override;
-    double GetNodeDouble(const std::string &config_id, const std::string &node_name) override;
-    const char *GetNodeString(const std::string &config_id, const std::string &node_name) override;
+    bool GetNodeBool(const std::string& config_id, const std::string& node_name) override;
+    int32_t GetNodeInt(const std::string& config_id, const std::string& node_name) override;
+    int64_t GetNodeInt64(const std::string& config_id, const std::string& node_name) override;
+    float GetNodeFloat(const std::string& config_id, const std::string& node_name) override;
+    double GetNodeDouble(const std::string& config_id, const std::string& node_name) override;
+    const char* GetNodeString(const std::string& config_id, const std::string& node_name) override;
 
 protected:
-    AFDataNode *GetNode(const std::string &config_id, const std::string &node_name);
-    bool Load(rapidxml::xml_node<> *attr_node, ARK_SHARE_PTR<AFIMetaClass> pMetaClass);
+    AFDataNode* GetNode(const std::string& config_id, const std::string& node_name);
+    bool Load(rapidxml::xml_node<>* attr_node, ARK_SHARE_PTR<AFIMetaClass> pMetaClass);
 
 private:
-    AFIMetaClassModule *m_pMetaClassModule{nullptr};
+    AFIMetaClassModule* m_pMetaClassModule{nullptr};
     bool loaded_{false};
     AFArrayMap<std::string, AFConfigInfo> all_configs_;
 };

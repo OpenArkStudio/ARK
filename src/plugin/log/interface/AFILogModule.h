@@ -29,18 +29,24 @@
 
 namespace ark {
 
-#define ARK_LOG_TRACE(my_fmt, ...)                                                                                                         \
-    m_pLogModule->Log(spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::trace, my_fmt, ##__VA_ARGS__);
-#define ARK_LOG_DEBUG(my_fmt, ...)                                                                                                         \
-    m_pLogModule->Log(spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::debug, my_fmt, ##__VA_ARGS__);
-#define ARK_LOG_INFO(my_fmt, ...)                                                                                                          \
-    m_pLogModule->Log(spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::info, my_fmt, ##__VA_ARGS__);
-#define ARK_LOG_WARN(my_fmt, ...)                                                                                                          \
-    m_pLogModule->Log(spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::warn, my_fmt, ##__VA_ARGS__);
-#define ARK_LOG_ERROR(my_fmt, ...)                                                                                                         \
-    m_pLogModule->Log(spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::err, my_fmt, ##__VA_ARGS__);
-#define ARK_LOG_CRITICAL(my_fmt, ...)                                                                                                      \
-    m_pLogModule->Log(spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::critical, my_fmt, ##__VA_ARGS__);
+#define ARK_LOG_TRACE(my_fmt, ...)                                                                                     \
+    m_pLogModule->Log(spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::trace, my_fmt,  \
+        ##__VA_ARGS__);
+#define ARK_LOG_DEBUG(my_fmt, ...)                                                                                     \
+    m_pLogModule->Log(spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::debug, my_fmt,  \
+        ##__VA_ARGS__);
+#define ARK_LOG_INFO(my_fmt, ...)                                                                                      \
+    m_pLogModule->Log(                                                                                                 \
+        spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::info, my_fmt, ##__VA_ARGS__);
+#define ARK_LOG_WARN(my_fmt, ...)                                                                                      \
+    m_pLogModule->Log(                                                                                                 \
+        spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::warn, my_fmt, ##__VA_ARGS__);
+#define ARK_LOG_ERROR(my_fmt, ...)                                                                                     \
+    m_pLogModule->Log(                                                                                                 \
+        spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::err, my_fmt, ##__VA_ARGS__);
+#define ARK_LOG_CRITICAL(my_fmt, ...)                                                                                  \
+    m_pLogModule->Log(spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::critical,       \
+        my_fmt, ##__VA_ARGS__);
 
 #define ARK_OSS_LOG(msg) m_pLogModule->OssLog(msg);
 
@@ -48,9 +54,9 @@ class AFILogModule : public AFIModule
 {
 public:
     template<typename... ARGS>
-    void Log(spdlog::source_loc &&loc, spdlog::level::level_enum log_level, const char *my_fmt, const ARGS &... args)
+    void Log(spdlog::source_loc&& loc, spdlog::level::level_enum log_level, const char* my_fmt, const ARGS&... args)
     {
-        const std::shared_ptr<spdlog::async_logger> &logger = GetDevLogger();
+        const std::shared_ptr<spdlog::async_logger>& logger = GetDevLogger();
 
         if (logger == nullptr)
         {
@@ -63,7 +69,7 @@ public:
     virtual std::shared_ptr<spdlog::async_logger> GetDevLogger() = 0;
     //////////////////////////////////////////////////////////////////////////
     // oss log
-    virtual void OssLog(const google::protobuf::Message &msg) = 0;
+    virtual void OssLog(const google::protobuf::Message& msg) = 0;
 };
 
 } // namespace ark

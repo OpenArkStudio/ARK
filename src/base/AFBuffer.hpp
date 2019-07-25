@@ -36,13 +36,13 @@ public:
 
     explicit AFBuffer(size_t buffer_size = 1024 * 512)
     {
-        if ((data_ = (char *)malloc(sizeof(char) * buffer_size)) != NULL)
+        if ((data_ = (char*)malloc(sizeof(char) * buffer_size)) != NULL)
         {
             data_size_ = buffer_size;
         }
     }
 
-    bool write(const char *data, size_t len)
+    bool write(const char* data, size_t len)
     {
         bool write_ret = true;
 
@@ -84,7 +84,7 @@ public:
         return write_pos_ - read_pos_;
     }
 
-    char *get_data()
+    char* get_data()
     {
         if (read_pos_ < data_size_)
         {
@@ -163,7 +163,7 @@ private:
         return data_size_;
     }
 
-    char *get_write_ptr()
+    char* get_write_ptr()
     {
         if (write_pos_ < data_size_)
         {
@@ -178,7 +178,7 @@ private:
     void grow(size_t len)
     {
         size_t n = data_size_ + len;
-        char *d = new char[n];
+        char* d = new char[n];
 
         memcpy(d, data_, get_write_pos());
         data_size_ = n;
@@ -186,7 +186,7 @@ private:
         data_ = d;
     }
 
-    char *data_{nullptr};
+    char* data_{nullptr};
     size_t data_size_{0};
 
     size_t write_pos_{0};

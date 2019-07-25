@@ -28,7 +28,7 @@ class AFIGUIDModule : public AFIModule
 {
 public:
     virtual AFGUID CreateGUID() = 0;
-    virtual std::string ParseUID(const AFGUID &id) = 0;
+    virtual std::string ParseUID(const AFGUID& id) = 0;
 };
 
 } // namespace ark

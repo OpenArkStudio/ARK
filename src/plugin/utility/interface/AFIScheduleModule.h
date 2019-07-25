@@ -29,29 +29,32 @@ class AFIScheduleModule : public AFIModule
 {
 public:
     template<typename BaseType>
-    bool AddSchedule(
-        const int id, const int user_arg, const char *cron_expression, BaseType *pBase, bool (BaseType::*handler)(const int, const int))
+    bool AddSchedule(const int id, const int user_arg, const char* cron_expression, BaseType* pBase,
+        bool (BaseType::*handler)(const int, const int))
     {
         SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
         return AddSchedule(id, user_arg, cron_expression, std::move(functor));
     }
 
     template<typename BaseType>
-    bool AddDailySchedule(const int id, const int user_arg, BaseType *pBase, bool (BaseType::*handler)(const int, const int))
+    bool AddDailySchedule(
+        const int id, const int user_arg, BaseType* pBase, bool (BaseType::*handler)(const int, const int))
     {
         SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
         return AddSchedule(id, user_arg, "0 0 * * * *", std::move(functor));
     }
 
     template<typename BaseType>
-    bool AddWeeklySchedule(const int id, const int user_arg, BaseType *pBase, bool (BaseType::*handler)(const int, const int))
+    bool AddWeeklySchedule(
+        const int id, const int user_arg, BaseType* pBase, bool (BaseType::*handler)(const int, const int))
     {
         SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
         return AddSchedule(id, user_arg, "0 0 * * 1 *", std::move(functor));
     }
 
     template<typename BaseType>
-    bool AddMonthlySchedule(const int id, const int user_arg, BaseType *pBase, bool (BaseType::*handler)(const int, const int))
+    bool AddMonthlySchedule(
+        const int id, const int user_arg, BaseType* pBase, bool (BaseType::*handler)(const int, const int))
     {
         SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
         return AddSchedule(id, user_arg, "0 0 1 * * *", std::move(functor));
@@ -60,7 +63,7 @@ public:
     virtual bool RemoveSchedule(const int id) = 0;
 
 protected:
-    virtual bool AddSchedule(const int id, const int user_arg, const char *cron_expression, SCHEDULER_FUNCTOR &&cb) = 0;
+    virtual bool AddSchedule(const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR&& cb) = 0;
 };
 
 } // namespace ark

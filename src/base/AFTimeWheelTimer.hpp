@@ -51,7 +51,7 @@ class AFTimeWheelVec
 {
 public:
     int index{0};
-    std::vector<std::list<AFTimeWheelData *>> vec;
+    std::vector<std::list<AFTimeWheelData*>> vec;
 };
 
 class AFTimeWheelManager : public AFSingleton<AFTimeWheelManager>
@@ -65,14 +65,14 @@ public:
 
         for (int i = 0; i < FREE_TIMER_SIZE; ++i)
         {
-            AFTimeWheelData *data = ARK_NEW AFTimeWheelData();
+            AFTimeWheelData* data = ARK_NEW AFTimeWheelData();
             memset(data, 0, sizeof(AFTimeWheelData));
             free_timers_.push_back(data);
         }
 
         for (int i = 0; i < TV_NUM; ++i)
         {
-            AFTimeWheelVec *tv = ARK_NEW AFTimeWheelVec();
+            AFTimeWheelVec* tv = ARK_NEW AFTimeWheelVec();
             InitTimerVec(tv, TV_SIZE);
             tw_vecs_[i] = tv;
         }
@@ -104,9 +104,10 @@ public:
         free_timers_.clear();
     }
 
-    uint64_t AddTimer(const std::string &name, const AFGUID &entity_id, int32_t count, uint32_t interval, TIMER_FUNCTOR_PTR callback)
+    uint64_t AddTimer(
+        const std::string& name, const AFGUID& entity_id, int32_t count, uint32_t interval, TIMER_FUNCTOR_PTR callback)
     {
-        AFTimeWheelData *timer = GetFreeTimer();
+        AFTimeWheelData* timer = GetFreeTimer();
         ARK_STRNCPY(timer->name, name.c_str(), (name.length() > 16) ? 16 : name.length() + 1);
         timer->idx = ++timer_idx_;
         timer->expires = (interval / TIMER_PRECISION) + now_slot_;
@@ -129,7 +130,7 @@ public:
             return false;
         }
 
-        AFTimeWheelData *timer = iter->second;
+        AFTimeWheelData* timer = iter->second;
         timers_.erase(iter);
 
         timer->callback = nullptr;
@@ -137,19 +138,19 @@ public:
     }
 
 protected:
-    void InitTimerVec(AFTimeWheelVec *tv, int32_t size)
+    void InitTimerVec(AFTimeWheelVec* tv, int32_t size)
     {
         tv->index = 0;
         tv->vec.resize(size);
         for (int i = 0; i < size; ++i)
         {
-            tv->vec[i] = std::list<AFTimeWheelData *>();
+            tv->vec[i] = std::list<AFTimeWheelData*>();
         }
     }
 
-    AFTimeWheelData *GetFreeTimer()
+    AFTimeWheelData* GetFreeTimer()
     {
-        AFTimeWheelData *timer = nullptr;
+        AFTimeWheelData* timer = nullptr;
         if (free_timers_.empty())
         {
             timer = ARK_NEW AFTimeWheelData;
@@ -164,7 +165,7 @@ protected:
         return timer;
     }
 
-    void AddToFreeTimer(AFTimeWheelData *timer)
+    void AddToFreeTimer(AFTimeWheelData* timer)
     {
         free_timers_.push_back(timer);
     }
@@ -186,13 +187,13 @@ protected:
         }
     }
 
-    void AddTimerInternal(AFTimeWheelData *timer_data)
+    void AddTimerInternal(AFTimeWheelData* timer_data)
     {
         uint64_t expires = timer_data->expires;
         int64_t idx = expires - now_slot_;
         if (idx <= 0)
         {
-            AFTimeWheelVec *tv = tw_vecs_[0];
+            AFTimeWheelVec* tv = tw_vecs_[0];
             tv->vec[tv->index].push_back(timer_data);
             return;
         }
@@ -227,7 +228,7 @@ protected:
         int32_t index = tw_vecs_[0]->index;
         while (!tw_vecs_[0]->vec[index].empty())
         {
-            AFTimeWheelData *timer = tw_vecs_[0]->vec[index].front();
+            AFTimeWheelData* timer = tw_vecs_[0]->vec[index].front();
             tw_vecs_[0]->vec[index].pop_front();
 
             if (timer->callback == nullptr)
@@ -264,12 +265,12 @@ protected:
         tw_vecs_[0]->index = (tw_vecs_[0]->index + 1) & TV_MASK;
     }
 
-    void CarryTimers(AFTimeWheelVec *tv)
+    void CarryTimers(AFTimeWheelVec* tv)
     {
         int32_t index = tv->index;
         while (!tv->vec[index].empty())
         {
-            AFTimeWheelData *timer = tv->vec[index].front();
+            AFTimeWheelData* timer = tv->vec[index].front();
             AddTimerInternal(timer);
             tv->vec[index].pop_front();
         }
@@ -279,11 +280,11 @@ protected:
 
 private:
     uint32_t now_slot_{0};
-    AFTimeWheelVec *tw_vecs_[TV_NUM];
+    AFTimeWheelVec* tw_vecs_[TV_NUM];
     uint64_t last_update_time_{0};
     uint64_t timer_idx_{0};
-    std::unordered_map<uint64_t, AFTimeWheelData *> timers_;
-    std::list<AFTimeWheelData *> free_timers_;
+    std::unordered_map<uint64_t, AFTimeWheelData*> timers_;
+    std::list<AFTimeWheelData*> free_timers_;
 };
 
 } // namespace ark

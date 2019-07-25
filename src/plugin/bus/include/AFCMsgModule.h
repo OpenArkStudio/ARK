@@ -32,26 +32,26 @@ class AFCMsgModule : public AFIMsgModule
 public:
     bool Init() override;
 
-    bool SendSuitSSMsg(const uint8_t app_type, const std::string &hash_key, const int msg_id, const google::protobuf::Message &msg,
-        const AFGUID &actor_id = 0) override;
-    bool SendSuitSSMsg(const uint8_t app_type, const uint32_t &hash_value, const int msg_id, const google::protobuf::Message &msg,
-        const AFGUID &actor_id = 0) override;
-    bool SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message &msg, const AFGUID &conn_id,
-        const AFGUID &actor_id = 0) override;
+    bool SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, const int msg_id,
+        const google::protobuf::Message& msg, const AFGUID& actor_id = 0) override;
+    bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, const int msg_id,
+        const google::protobuf::Message& msg, const AFGUID& actor_id = 0) override;
+    bool SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg,
+        const AFGUID& conn_id, const AFGUID& actor_id = 0) override;
 
-    bool SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char *msg, const int msg_len, const AFGUID &conn_id,
-        const AFGUID &actor_id = 0) override;
-    bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message &msg, const AFGUID &conn_id,
-        const AFGUID &actor_id = 0) override;
-    bool SendSSMsg(const int target_bus, const int msg_id, const char *msg, const int msg_len, const AFGUID &conn_id,
-        const AFGUID &actor_id = 0) override;
+    bool SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg, const int msg_len,
+        const AFGUID& conn_id, const AFGUID& actor_id = 0) override;
+    bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& conn_id,
+        const AFGUID& actor_id = 0) override;
+    bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id,
+        const AFGUID& actor_id = 0) override;
 
-    bool SendSSMsgByRouter(const AFSSMsgHead &head) override;
+    bool SendSSMsgByRouter(const AFSSMsgHead& head) override;
 
 private:
-    AFINetServiceManagerModule *m_pNetServiceManagerModule;
-    AFIBusModule *m_pBusModule;
-    AFILogModule *m_pLogModule;
+    AFINetServiceManagerModule* m_pNetServiceManagerModule;
+    AFIBusModule* m_pBusModule;
+    AFILogModule* m_pLogModule;
 };
 
 } // namespace ark

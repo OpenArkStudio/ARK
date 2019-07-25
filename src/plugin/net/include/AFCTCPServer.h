@@ -44,8 +44,8 @@ public:
 
     void Update() override;
 
-    bool StartServer(AFHeadLength head_length, const int busid, const std::string& ip, const int port, const int thread_num,
-        const unsigned int max_client, bool ip_v6 = false) override;
+    bool StartServer(AFHeadLength head_length, const int busid, const std::string& ip, const int port,
+        const int thread_num, const unsigned int max_client, bool ip_v6 = false) override;
     bool Shutdown() override final;
 
     bool SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id) override;

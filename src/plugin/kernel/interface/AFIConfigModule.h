@@ -33,18 +33,18 @@ public:
     virtual bool Load() = 0;
     virtual bool Save() = 0;
     virtual bool Clear() = 0;
-    virtual bool ExistConfig(const std::string &config_id) = 0;
-    virtual bool ExistConfig(const std::string &class_name, const std::string &config_id) = 0;
+    virtual bool ExistConfig(const std::string& config_id) = 0;
+    virtual bool ExistConfig(const std::string& class_name, const std::string& config_id) = 0;
 
-    virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string &config_id) = 0;
-    virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string &config_id) = 0;
+    virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& config_id) = 0;
+    virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& config_id) = 0;
 
-    virtual bool GetNodeBool(const std::string &config_id, const std::string &node_name) = 0;
-    virtual int32_t GetNodeInt(const std::string &config_id, const std::string &node_name) = 0;
-    virtual int64_t GetNodeInt64(const std::string &config_id, const std::string &node_name) = 0;
-    virtual float GetNodeFloat(const std::string &config_id, const std::string &node_name) = 0;
-    virtual double GetNodeDouble(const std::string &config_id, const std::string &node_name) = 0;
-    virtual const char *GetNodeString(const std::string &config_id, const std::string &node_name) = 0;
+    virtual bool GetNodeBool(const std::string& config_id, const std::string& node_name) = 0;
+    virtual int32_t GetNodeInt(const std::string& config_id, const std::string& node_name) = 0;
+    virtual int64_t GetNodeInt64(const std::string& config_id, const std::string& node_name) = 0;
+    virtual float GetNodeFloat(const std::string& config_id, const std::string& node_name) = 0;
+    virtual double GetNodeDouble(const std::string& config_id, const std::string& node_name) = 0;
+    virtual const char* GetNodeString(const std::string& config_id, const std::string& node_name) = 0;
 };
 
 } // namespace ark

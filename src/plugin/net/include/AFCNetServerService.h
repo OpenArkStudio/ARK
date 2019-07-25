@@ -31,33 +31,33 @@ namespace ark {
 class AFCNetServerService : public AFINetServerService
 {
 public:
-    explicit AFCNetServerService(AFIPluginManager *p);
+    explicit AFCNetServerService(AFIPluginManager* p);
     ~AFCNetServerService() override;
 
-    bool Start(
-        const AFHeadLength len, const int bus_id, const AFEndpoint &ep, const uint8_t thread_count, const uint32_t max_connection) override;
+    bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count,
+        const uint32_t max_connection) override;
     bool Update() override;
 
-    AFINet *GetNet() override;
+    AFINet* GetNet() override;
 
-    bool RegMsgCallback(const int msg_id, const NET_MSG_FUNCTOR_PTR &cb) override;
-    bool RegForwardMsgCallback(const NET_MSG_FUNCTOR_PTR &cb) override;
-    bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR &cb) override;
+    bool RegMsgCallback(const int msg_id, const NET_MSG_FUNCTOR_PTR& cb) override;
+    bool RegForwardMsgCallback(const NET_MSG_FUNCTOR_PTR& cb) override;
+    bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) override;
 
 protected:
-    void OnNetMsg(const AFNetMsg *msg, const int64_t session_id);
-    void OnNetEvent(const AFNetEvent *event);
+    void OnNetMsg(const AFNetMsg* msg, const int64_t session_id);
+    void OnNetEvent(const AFNetEvent* event);
 
-    void OnClientRegister(const AFNetMsg *msg, const int64_t session_id);
-    void SyncToAllClient(const int bus_id, const AFGUID &session_id);
+    void OnClientRegister(const AFNetMsg* msg, const int64_t session_id);
+    void SyncToAllClient(const int bus_id, const AFGUID& session_id);
 
 private:
-    AFIPluginManager *m_pPluginManager;
-    AFINetServiceManagerModule *m_pNetServiceManagerModule;
-    AFILogModule *m_pLogModule;
-    AFIMsgModule *m_pMsgModule;
+    AFIPluginManager* m_pPluginManager;
+    AFINetServiceManagerModule* m_pNetServiceManagerModule;
+    AFILogModule* m_pLogModule;
+    AFIMsgModule* m_pMsgModule;
 
-    AFINet *m_pNet{nullptr};
+    AFINet* m_pNet{nullptr};
 
     std::map<int, NET_MSG_FUNCTOR_PTR> net_msg_callbacks_;
     std::list<NET_MSG_FUNCTOR_PTR> net_forward_msg_callbacks_;

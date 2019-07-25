@@ -365,7 +365,8 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& plugin_name)
     else
     {
 #ifdef ARK_PLATFORM_WIN
-        CONSOLE_LOG << "Load dynamic library[" << pLib->GetName() << "] failed, ErrorNo=[" << GetLastError() << "]" << std::endl;
+        CONSOLE_LOG << "Load dynamic library[" << pLib->GetName() << "] failed, ErrorNo=[" << GetLastError() << "]"
+                    << std::endl;
         CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
         assert(0);
         return false;
@@ -373,7 +374,8 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& plugin_name)
         char* error = dlerror();
         if (error)
         {
-            CONSOLE_LOG << stderr << " Load shared library[" << pLib->GetName() << "] failed, ErrorNo=[" << error << "]" << std::endl;
+            CONSOLE_LOG << stderr << " Load shared library[" << pLib->GetName() << "] failed, ErrorNo=[" << error << "]"
+                        << std::endl;
             CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
             assert(0);
             return false;

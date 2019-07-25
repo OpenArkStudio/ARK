@@ -134,7 +134,7 @@ private:
 class AFScopeRLock : public AFNoncopyable
 {
 public:
-    explicit AFScopeRLock(AFCReaderWriterLock &lock)
+    explicit AFScopeRLock(AFCReaderWriterLock& lock)
         : rwlock(lock)
     {
         rwlock.ReaderLock();
@@ -146,13 +146,13 @@ public:
     }
 
 private:
-    AFCReaderWriterLock &rwlock;
+    AFCReaderWriterLock& rwlock;
 };
 
 class AFScopeWLock : public AFNoncopyable
 {
 public:
-    explicit AFScopeWLock(AFCReaderWriterLock &lock)
+    explicit AFScopeWLock(AFCReaderWriterLock& lock)
         : rwlock_(lock)
     {
         rwlock_.WriterLock();
@@ -164,7 +164,7 @@ public:
     }
 
 private:
-    AFCReaderWriterLock &rwlock_;
+    AFCReaderWriterLock& rwlock_;
 };
 
 } // namespace ark

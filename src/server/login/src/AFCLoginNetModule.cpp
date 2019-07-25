@@ -80,12 +80,12 @@ bool AFCLoginNetModule::PreUpdate()
     return (ret == 0);
 }
 
-// void AFCLoginNetModule::OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t
-// msg_len, const AFGUID& conn_id)
+// void AFCLoginNetModule::OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg,
+// const uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::AckConnectWorldResult);
-//    //OnSelectWorldResultsProcess(x_msg.world_id(), AFIMsgModule::PBToGUID(x_msg.sender()), x_msg.login_id(), x_msg.account(),
-//    x_msg.world_url(), x_msg.world_key());
+//    //OnSelectWorldResultsProcess(x_msg.world_id(), AFIMsgModule::PBToGUID(x_msg.sender()), x_msg.login_id(),
+//    x_msg.account(), x_msg.world_url(), x_msg.world_key());
 //}
 
 int AFCLoginNetModule::StartClient()
@@ -100,7 +100,7 @@ int AFCLoginNetModule::StartClient()
     }
 
     // if need to add a member
-    AFINetClientService *pNetClient = m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_WORLD);
+    AFINetClientService* pNetClient = m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_WORLD);
     if (pNetClient == nullptr)
     {
         return -1;
@@ -111,8 +111,8 @@ int AFCLoginNetModule::StartClient()
     return 0;
 }
 
-// int AFCLoginNetModule::OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string&
-// strAccount, const std::string& strWorldURL, const std::string& strWorldKey)
+// int AFCLoginNetModule::OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID,
+// const std::string& strAccount, const std::string& strWorldURL, const std::string& strWorldKey)
 //{
 //    ARK_SHARE_PTR<AFSessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
 
@@ -126,7 +126,8 @@ int AFCLoginNetModule::StartClient()
 //        xMsg.set_world_url(strWorldURL);
 //        xMsg.set_world_key(strWorldKey);
 
-//        //m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pSessionData->mnClientID, xSenderID);
+//        //m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pSessionData->mnClientID,
+//        xSenderID);
 //    }
 
 //    return 0;
@@ -145,8 +146,8 @@ int AFCLoginNetModule::StartClient()
 ////    mmClientSessionData.RemoveElement(xClientID);
 ////}
 
-// void AFCLoginNetModule::OnLoginProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const
-// AFGUID& conn_id)
+// void AFCLoginNetModule::OnLoginProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const
+// uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqAccountLogin);
 //    ARK_SHARE_PTR<AFSessionData> pSession = mmClientSessionData.GetElement(conn_id);
@@ -163,8 +164,9 @@ int AFCLoginNetModule::StartClient()
 
 //        if (0 != nState)
 //        {
-//            ARK_LOG_ERROR("Check password failed, id = {} account = {} password = {}", conn_id.ToString(), x_msg.account(),
-//            x_msg.password()); AFMsg::AckEventResult xMsg; xMsg.set_event_code(AFMsg::EGEC_ACCOUNTPWD_INVALID);
+//            ARK_LOG_ERROR("Check password failed, id = {} account = {} password = {}", conn_id.ToString(),
+//            x_msg.account(), x_msg.password()); AFMsg::AckEventResult xMsg;
+//            xMsg.set_event_code(AFMsg::EGEC_ACCOUNTPWD_INVALID);
 
 //            //m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xMsg, conn_id, actor_id);
 //            return;
@@ -180,12 +182,13 @@ int AFCLoginNetModule::StartClient()
 //        xData.set_parame3(x_msg.security_code());
 
 //        //m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, conn_id, actor_id);
-//        ARK_LOG_INFO("In same scene and group but it not a clone scene, id = {} account = {}", conn_id.ToString(), x_msg.account());
+//        ARK_LOG_INFO("In same scene and group but it not a clone scene, id = {} account = {}", conn_id.ToString(),
+//        x_msg.account());
 //    }
 //}
 
-// void AFCLoginNetModule::OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len,
-// const AFGUID& conn_id)
+// void AFCLoginNetModule::OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const
+// uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqConnectWorld);
 //    ARK_SHARE_PTR<AFSessionData> pSession = mmClientSessionData.GetElement(conn_id);
@@ -208,11 +211,12 @@ int AFCLoginNetModule::StartClient()
 //    xData.set_account(pSession->mstrAccout);
 
 //    //TODO:will fix this
-//    //m_pLoginToMasterModule->GetClusterModule()->SendSuitByPB(pSession->mstrAccout, AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xData,
-//    xHead.GetPlayerID());//here has a problem to be solve
+//    //m_pLoginToMasterModule->GetClusterModule()->SendSuitByPB(pSession->mstrAccout,
+//    AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xData, xHead.GetPlayerID());//here has a problem to be solve
 //}
 
-////void AFCLoginNetServerModule::OnSocketClientEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id)
+////void AFCLoginNetServerModule::OnSocketClientEvent(const NetEventType event, const AFGUID& conn_id, const
+///std::string& ip, int bus_id)
 ////{
 ////    switch (event)
 ////    {
@@ -252,8 +256,8 @@ int AFCLoginNetModule::StartClient()
 //    //m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, xClientID, AFGUID(0));
 //}
 
-// void AFCLoginNetModule::OnViewWorldProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len,
-// const AFGUID& conn_id)
+// void AFCLoginNetModule::OnViewWorldProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const
+// uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqServerList);
 
@@ -263,19 +267,20 @@ int AFCLoginNetModule::StartClient()
 //    }
 //}
 
-// void AFCLoginNetModule::OnHeartBeat(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID&
-// xClientID)
+// void AFCLoginNetModule::OnHeartBeat(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t
+// nLen, const AFGUID& xClientID)
 //{
 //    //do nothing
 //}
 
-// void AFCLoginNetModule::OnLogOut(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID&
-// xClientID)
+// void AFCLoginNetModule::OnLogOut(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t
+// nLen, const AFGUID& xClientID)
 //{
 //    //do nothing
 //}
 
-////void AFCLoginNetServerModule::InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen,
+////void AFCLoginNetServerModule::InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg,
+///const uint32_t nLen,
 /// const AFGUID& xClientID)
 ////{
 ////    ARK_LOG_ERROR("Invalid msg id = {}", nMsgID);

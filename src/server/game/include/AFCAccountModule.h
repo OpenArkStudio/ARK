@@ -34,25 +34,26 @@ class AFCAccountModule : public AFIAccountModule
 public:
     bool Init() override;
 
-    virtual bool GetRoleList(const std::string &strAccount, AFMsg::AckRoleLiteInfoList &xAckRoleLiteInfoList);
-    virtual bool CreateRole(const std::string &strAccount, AFMsg::AckRoleLiteInfoList &xAckRoleLiteInfoList, const AFIDataList &varList);
-    virtual bool DeleteRole(const std::string &strAccount, AFMsg::AckRoleLiteInfoList &xAckRoleLiteInfoList);
+    virtual bool GetRoleList(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList);
+    virtual bool CreateRole(
+        const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList, const AFIDataList& varList);
+    virtual bool DeleteRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList);
 
 protected:
-    int OnLoadRoleBeginEvent(const AFGUID &object, const int nEventID, const AFIDataList &var);
+    int OnLoadRoleBeginEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-    int OnLoadRoleFinalEvent(const AFGUID &object, const int nEventID, const AFIDataList &var);
+    int OnLoadRoleFinalEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-    int OnCreateRoleEvent(const AFGUID &object, const int nEventID, const AFIDataList &var);
+    int OnCreateRoleEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-    int OnDeleteRoleEvent(const AFGUID &object, const int nEventID, const AFIDataList &var);
+    int OnDeleteRoleEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-    int OnAcountDisConnectEvent(const AFGUID &object, const int nEventID, const AFIDataList &var);
+    int OnAcountDisConnectEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
 private:
-    AFIKernelModule *m_pKernelModule;
-    AFIConfigModule *m_pElementInfoModule;
-    AFIGUIDModule *m_pUUIDModule;
+    AFIKernelModule* m_pKernelModule;
+    AFIConfigModule* m_pElementInfoModule;
+    AFIGUIDModule* m_pUUIDModule;
 };
 
 } // namespace ark

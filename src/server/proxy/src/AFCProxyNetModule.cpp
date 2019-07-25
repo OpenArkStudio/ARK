@@ -173,7 +173,7 @@ void AFCProxyNetModule::OnConnectKeyProcess(const AFNetMsg* msg, const int64_t s
     //}
 }
 
-void AFCProxyNetModule::OnSocketEvent(const AFNetEvent *event)
+void AFCProxyNetModule::OnSocketEvent(const AFNetEvent* event)
 {
     switch (event->GetType())
     {
@@ -194,7 +194,7 @@ void AFCProxyNetModule::OnSocketEvent(const AFNetEvent *event)
     }
 }
 
-void AFCProxyNetModule::OnClientConnected(const AFGUID &conn_id)
+void AFCProxyNetModule::OnClientConnected(const AFGUID& conn_id)
 {
     ARK_SHARE_PTR<AFClientConnectionData> pSessionData = std::make_shared<AFClientConnectionData>();
 
@@ -202,7 +202,7 @@ void AFCProxyNetModule::OnClientConnected(const AFGUID &conn_id)
     client_connections_.insert(conn_id, pSessionData);
 }
 
-void AFCProxyNetModule::OnClientDisconnect(const AFGUID &conn_id)
+void AFCProxyNetModule::OnClientDisconnect(const AFGUID& conn_id)
 {
     ARK_SHARE_PTR<AFClientConnectionData> pSessionData = client_connections_.find_value(conn_id);
     if (pSessionData != nullptr)
@@ -223,7 +223,7 @@ void AFCProxyNetModule::OnClientDisconnect(const AFGUID &conn_id)
     }
 }
 
-void AFCProxyNetModule::OnSelectServerProcess(const AFNetMsg *msg, const int64_t session_id)
+void AFCProxyNetModule::OnSelectServerProcess(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PO CESS_MSG(xHead, msg, nLen, AFMsg::ReqSelectServer);
     // AFINetClientService* pWorldNetService = m_pNetClientManagerModule->GetNetClientServiceByBusID(xMsg.world_id());
@@ -234,9 +234,8 @@ void AFCProxyNetModule::OnSelectServerProcess(const AFNetMsg *msg, const int64_t
 
     //    if (pSessionData)
     //    {
-    //        //now this client bind a game server, after this time, all message will be sent to this game server who bind with client
-    //        pSessionData->mn
-    //        ameID = xMsg.wor //        AFMsg::AckEventResult xResultMsg;
+    //        //now this client bind a game server, after this time, all message will be sent to this game server who
+    //        bind with client pSessionData->mn ameID = xMsg.wor //        AFMsg::AckEventResult xResultMsg;
     //        xResultMsg.set_event_code(AFMsg::EGameEventCode::EGEC_SELECTSERVER_SUCCESS);
     //        m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_SELECT_SERVER, xResultMsg, xClientID, nPlayerID);
     //        return;
@@ -248,7 +247,7 @@ void AFCProxyNetModule::OnSelectServerProcess(const AFNetMsg *msg, const int64_t
     // m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_SELECT_SERVER, xMsg, xClientID, nPlayerID);
 }
 
-void AFCProxyNetModule::OnReqServerListProcess(const AFNetMsg *msg, const int64_t session_id)
+void AFCProxyNetModule::OnReqServerListProcess(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PO CESS_MSG(xHead, msg, nLen, AFMsg::ReqServerList);
 
@@ -288,7 +287,7 @@ void AFCProxyNetModule::OnReqServerListProcess(const AFNetMsg *msg, const int64_
     //}
 }
 
-int AFCProxyNetModule::Transpond(const AFNetMsg *msg)
+int AFCProxyNetModule::Transpond(const AFNetMsg* msg)
 {
     // ARK_SHARE_PTR<AFClientConnectioD ata> pSessionData = client_connections_.GetElement(xHead.GetUID());
 
@@ -301,30 +300,30 @@ int AFCProxyNetModule::Transpond(const AFNetMsg *msg)
 }
 
 int AFCProxyNetModule::SendToPlayerClient(
-    const int nMsgID, const char *msg, const uint32_t nLen, const AFGUID &nClientD , const AFGUID &nPlayer)
+    const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientD, const AFGUID& nPlayer)
 {
     // m_N etServer->GetNet()->SenR awMsg(nMsgID, msg, nLen, nClientID, nPlayer);
 
     return true;
 }
 
-void AFCProxyNetModule::OnReqRoleListProcess(const AFNetMsg *msg, const int64_t session_id)
+void AFCProxyNetModule::OnReqRoleListProcess(const AFNetMsg* msg, const int64_t session_id)
 {
     // Checke ssionTransMsg<AFMsg::ReqRoleList>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
-void AFCProxyNetModule::OnReqCreateRoleProcess(const AFNetMsg *msg, const int64_t session_id)
+void AFCProxyNetModule::OnReqCreateRoleProcess(const AFNetMsg* msg, const int64_t session_id)
 {
     //在没有正式进游 戏之前，nPlayerID都是FD
     // CheckSessionTransMsg<AFMsg::ReqCreateRole>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
-void AFCProxyNetModule::OnReqDelRoleProcess(const AFNetMsg *msg, const int64_t session_id)
+void AFCProxyNetModule::OnReqDelRoleProcess(const AFNetMsg* msg, const int64_t session_id)
 {
     // CheckSessionTransMs< AFMsg::ReqDeleteRole>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
-void AFCProxyNetModule::OnReqEnterGameServer(const AFNetMsg *msg, const int64_t session_id)
+void AFCProxyNetModule::OnReqEnterGameServer(const AFNetMsg* msg, const int64_t session_id)
 {
     // CheckSessionTransMs< AFMsg::ReqEnterGameServer>(xHead, nMsgID, msg, nLen, xClientID);
 }
@@ -345,7 +344,7 @@ int AFCProxyNetModule::EnterGameSuccessEvent(const AFGUID conn_id, const AFGUID 
     return 0;
 }
 
-bool AFCProxyNetModule::CheckSessionState(const int nGameID, const AFGUID &xClientID, const std::string &strAccount)
+bool AFCProxyNetModule::CheckSessionState(const int nGameID, const AFGUID& xClientID, const std::string& strAccount)
 {
     AFINetClientService* pWorldNetService = m_pNetServiceManagerModule->GetNetClientServiceByBusID(nGameID);
     ARK_SHARE_PTR<AFConnectionData> pServerData = pWorldNetService->GetServerNetInfo(nGameID);
@@ -364,24 +363,23 @@ bool AFCProxyNetModule::CheckSessionState(const int nGameID, const AFGUID &xClie
     return false;
 }
 
-void AFCProxyNetModule::OnOtherMessage(const AFNetMsg *msg, const int64_t session_id)
+void AFCProxyNetModule::OnOtherMessage(const AFNetMsg* msg, const int64_t session_id)
 {
     // Transpond(xHead, nMsgID  msg, nLen);
 }
 
-void AFCProxyNetModule::OnBrocastmsg(const AFNetMsg *msg, const int64_t session_id)
+void AFCProxyNetModule::OnBrocastmsg(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_MSG(xHead, s g, nLen, AFMsg::BrocastMsg);
 
     // for (int i = 0; i < xMsg.target_entity_list_size(); i++)
     //{
     //    const AFMsg::PBGUID& xPlayerClientID = xMsg.target_entity_list(i);
-    //    m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.msg_id(), xMsg.msg_data().c_str(), xMsg.msg_data().size(),
-    //    AFIMsgModule::PBToGUID(xPlayerC
-    //    ientID), nPlayerID);
+    //    m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.msg_id(), xMsg.msg_data().c_str(),
+    //    xMsg.msg_data().size(), AFIMsgModule::PBToGUID(xPlayerC ientID), nPlayerID);
 }
 
-void AFCProxyNetModule::OnAckEnterGame(const AFNetMsg *msg, const int64_t session_id)
+void AFCProxyNetModule::OnAckEnterGame(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_MSG(xHead, s g, nLen, AFMsg::AckEventResult);
 

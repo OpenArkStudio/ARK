@@ -29,7 +29,7 @@ namespace ark {
 class AFCEntityClassMeta : public AFIClassMeta
 {
 public:
-    AFIDataMeta *FindDataMeta(const std::string &name) const
+    AFIDataMeta* FindDataMeta(const std::string& name) const
     {
         return entity_data_metas_.find_value(name);
     }
@@ -41,7 +41,7 @@ private:
 class AFCConfigClassMeta : public AFIClassMeta
 {
 public:
-    AFIDataMeta *FindDataMeta(const std::string &name) const
+    AFIDataMeta* FindDataMeta(const std::string& name) const
     {
         return config_data_metas_.find_value(name);
     }

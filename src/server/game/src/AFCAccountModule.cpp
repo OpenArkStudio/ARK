@@ -31,21 +31,21 @@ bool AFCAccountModule::Init()
     return true;
 }
 
-int AFCAccountModule::OnLoadRoleFinalEvent(const AFGUID &object, const int nEventID, const AFIDataList &var)
+int AFCAccountModule::OnLoadRoleFinalEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
     return 0;
 }
 
-bool AFCAccountModule::GetRoleList(const std::string &strAccount, AFMsg::AckRoleLiteInfoList &xAckRoleLiteInfoList)
+bool AFCAccountModule::GetRoleList(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList)
 {
 
     return true;
 }
 
 bool AFCAccountModule::CreateRole(
-    const std::string &strAccount, AFMsg::AckRoleLiteInfoList &xAckRoleLiteInfoList, const AFIDataList &varList)
+    const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList, const AFIDataList& varList)
 {
-    AFMsg::RoleLiteInfo *pData = xAckRoleLiteInfoList.add_char_data();
+    AFMsg::RoleLiteInfo* pData = xAckRoleLiteInfoList.add_char_data();
     pData->set_id(m_pUUIDModule->CreateGUID());
 
     int career = varList.Int(0);
@@ -69,27 +69,27 @@ bool AFCAccountModule::CreateRole(
     return true;
 }
 
-bool AFCAccountModule::DeleteRole(const std::string &strAccount, AFMsg::AckRoleLiteInfoList &xAckRoleLiteInfoList)
+bool AFCAccountModule::DeleteRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList)
 {
     return true;
 }
 
-int AFCAccountModule::OnCreateRoleEvent(const AFGUID &object, const int nEventID, const AFIDataList &var)
+int AFCAccountModule::OnCreateRoleEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
     return 0;
 }
 
-int AFCAccountModule::OnDeleteRoleEvent(const AFGUID &object, const int nEventID, const AFIDataList &var)
+int AFCAccountModule::OnDeleteRoleEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
     return 0;
 }
 
-int AFCAccountModule::OnAcountDisConnectEvent(const AFGUID &object, const int nEventID, const AFIDataList &var)
+int AFCAccountModule::OnAcountDisConnectEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
     return 0;
 }
 
-int AFCAccountModule::OnLoadRoleBeginEvent(const AFGUID &object, const int nEventID, const AFIDataList &var)
+int AFCAccountModule::OnLoadRoleBeginEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
     return 0;
 }

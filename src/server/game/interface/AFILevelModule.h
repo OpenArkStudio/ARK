@@ -27,7 +27,7 @@ namespace ark {
 class AFILevelModule : public AFIModule
 {
 public:
-    virtual int AddExp(const AFGUID &self, const int nExp) = 0;
+    virtual int AddExp(const AFGUID& self, const int nExp) = 0;
 };
 
 } // namespace ark

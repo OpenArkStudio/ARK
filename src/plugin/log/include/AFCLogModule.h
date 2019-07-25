@@ -35,11 +35,11 @@ public:
 
     spdlogger GetDevLogger() override;
 
-    void OssLog(const google::protobuf::Message &msg) override;
+    void OssLog(const google::protobuf::Message& msg) override;
 
 protected:
     void CreateDevLogger();
-    spdlogger CreateOssLogger(const std::string &name);
+    spdlogger CreateOssLogger(const std::string& name);
 
 private:
     spdlogger dev_logger_{nullptr};

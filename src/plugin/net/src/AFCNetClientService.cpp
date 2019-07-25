@@ -253,8 +253,8 @@ void AFCNetClientService::RemoveServerWeightData(ARK_SHARE_PTR<AFConnectionData>
 
 int AFCNetClientService::OnConnect(const AFNetEvent* event)
 {
-    ARK_LOG_INFO("Connected [{}] successfully, ip={} session_id={}", AFBusAddr(event->GetBusId()).ToString(), event->GetIP(),
-        event->GetId());
+    ARK_LOG_INFO("Connected [{}] successfully, ip={} session_id={}", AFBusAddr(event->GetBusId()).ToString(),
+        event->GetIP(), event->GetId());
 
     ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(event->GetBusId());
 
@@ -274,8 +274,8 @@ int AFCNetClientService::OnConnect(const AFNetEvent* event)
 
 int AFCNetClientService::OnDisconnect(const AFNetEvent* event)
 {
-    ARK_LOG_ERROR("Disconnect [{}] successfully, ip={} session_id={}", AFBusAddr(event->GetBusId()).ToString(), event->GetIP(),
-        event->GetId());
+    ARK_LOG_ERROR("Disconnect [{}] successfully, ip={} session_id={}", AFBusAddr(event->GetBusId()).ToString(),
+        event->GetIP(), event->GetId());
 
     ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(event->GetBusId());
 

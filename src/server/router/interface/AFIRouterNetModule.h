@@ -29,7 +29,7 @@ class AFINetServerService;
 class AFIRouterNetModule : public AFIModule
 {
 public:
-    virtual AFINetServerService *GetNetServer() = 0;
+    virtual AFINetServerService* GetNetServer() = 0;
 };
 
 } // namespace ark

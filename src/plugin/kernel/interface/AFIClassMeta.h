@@ -25,19 +25,19 @@ namespace ark {
 class AFIClassMeta
 {
 public:
-    bool IsChildDataMeta(const std::string &name) const
+    bool IsChildDataMeta(const std::string& name) const
     {
         return FindDataMeta(name) != nullptr;
     }
 
-    virtual AFIDataMeta *FindDataMeta(const std::string &name) const = 0;
+    virtual AFIDataMeta* FindDataMeta(const std::string& name) const = 0;
 
-    void SetClassMetaName(const std::string &value)
+    void SetClassMetaName(const std::string& value)
     {
         class_meta_name_ = value;
     }
 
-    const std::string &GetClassMetaName() const
+    const std::string& GetClassMetaName() const
     {
         return class_meta_name_;
     }

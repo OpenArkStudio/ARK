@@ -32,7 +32,7 @@ class AFCEntity : public AFIEntity
 public:
     AFCEntity() = delete;
 
-    explicit AFCEntity(const AFGUID &self)
+    explicit AFCEntity(const AFGUID& self)
         : self_(self)
     {
         m_pNodeManager = std::make_shared<AFCDataNodeManager>(self_);
@@ -53,156 +53,156 @@ public:
     }
 
     ///////////////////////////////////////////////////////////////////////
-    const AFGUID &Self() override
+    const AFGUID& Self() override
     {
         return self_;
     }
 
-    bool CheckNodeExist(const std::string &name) override
+    bool CheckNodeExist(const std::string& name) override
     {
         return (GetNodeManager()->GetNode(name.c_str()) != nullptr);
     }
 
-    bool SetNodeBool(const std::string &name, const bool value)
+    bool SetNodeBool(const std::string& name, const bool value)
     {
         return GetNodeManager()->SetNodeBool(name.c_str(), value);
     }
 
-    bool SetNodeInt(const std::string &name, const int32_t value)
+    bool SetNodeInt(const std::string& name, const int32_t value)
     {
         return GetNodeManager()->SetNodeInt(name.c_str(), value);
     }
 
-    bool SetNodeInt64(const std::string &name, const int64_t value)
+    bool SetNodeInt64(const std::string& name, const int64_t value)
     {
         return GetNodeManager()->SetNodeInt64(name.c_str(), value);
     }
 
-    bool SetNodeFloat(const std::string &name, const float value)
+    bool SetNodeFloat(const std::string& name, const float value)
     {
         return GetNodeManager()->SetNodeFloat(name.c_str(), value);
     }
 
-    bool SetNodeDouble(const std::string &name, const double value)
+    bool SetNodeDouble(const std::string& name, const double value)
     {
         return GetNodeManager()->SetNodeDouble(name.c_str(), value);
     }
 
-    bool SetNodeString(const std::string &name, const std::string &value)
+    bool SetNodeString(const std::string& name, const std::string& value)
     {
         return GetNodeManager()->SetNodeString(name.c_str(), value);
     }
 
-    bool GetNodeBool(const std::string &name)
+    bool GetNodeBool(const std::string& name)
     {
         return GetNodeManager()->GetNodeBool(name.c_str());
     }
 
-    int32_t GetNodeInt(const std::string &name)
+    int32_t GetNodeInt(const std::string& name)
     {
         return GetNodeManager()->GetNodeInt(name.c_str());
     }
 
-    int64_t GetNodeInt64(const std::string &name)
+    int64_t GetNodeInt64(const std::string& name)
     {
         return GetNodeManager()->GetNodeInt64(name.c_str());
     }
 
-    float GetNodeFloat(const std::string &name)
+    float GetNodeFloat(const std::string& name)
     {
         return GetNodeManager()->GetNodeFloat(name.c_str());
     }
 
-    double GetNodeDouble(const std::string &name)
+    double GetNodeDouble(const std::string& name)
     {
         return GetNodeManager()->GetNodeDouble(name.c_str());
     }
 
-    const char *GetNodeString(const std::string &name)
+    const char* GetNodeString(const std::string& name)
     {
         return GetNodeManager()->GetNodeString(name.c_str());
     }
 
     //////////////////////////////////////////////////////////////////////////
 
-    bool CheckTableExist(const std::string &name) override
+    bool CheckTableExist(const std::string& name) override
     {
-        AFDataTable *pTable = GetTableManager()->GetTable(name.c_str());
+        AFDataTable* pTable = GetTableManager()->GetTable(name.c_str());
         return (nullptr != pTable);
     }
 
-    bool SetTableBool(const std::string &name, const int row, const int col, const bool value)
+    bool SetTableBool(const std::string& name, const int row, const int col, const bool value)
     {
         return GetTableManager()->SetTableBool(name.c_str(), row, col, value);
     }
 
-    bool SetTableInt(const std::string &name, const int row, const int col, const int32_t value)
+    bool SetTableInt(const std::string& name, const int row, const int col, const int32_t value)
     {
         return GetTableManager()->SetTableInt(name.c_str(), row, col, value);
     }
 
-    bool SetTableInt64(const std::string &name, const int row, const int col, const int64_t value)
+    bool SetTableInt64(const std::string& name, const int row, const int col, const int64_t value)
     {
         return GetTableManager()->SetTableInt64(name.c_str(), row, col, value);
     }
 
-    bool SetTableFloat(const std::string &name, const int row, const int col, const float value)
+    bool SetTableFloat(const std::string& name, const int row, const int col, const float value)
     {
         return GetTableManager()->SetTableFloat(name.c_str(), row, col, value);
     }
 
-    bool SetTableDouble(const std::string &name, const int row, const int col, const double value)
+    bool SetTableDouble(const std::string& name, const int row, const int col, const double value)
     {
         return GetTableManager()->SetTableDouble(name.c_str(), row, col, value);
     }
 
-    bool SetTableString(const std::string &name, const int row, const int col, const std::string &value)
+    bool SetTableString(const std::string& name, const int row, const int col, const std::string& value)
     {
         return GetTableManager()->SetTableString(name.c_str(), row, col, value.c_str());
     }
 
-    bool GetTableBool(const std::string &name, const int row, const int col)
+    bool GetTableBool(const std::string& name, const int row, const int col)
     {
         return GetTableManager()->GetTableBool(name.c_str(), row, col);
     }
 
-    int32_t GetTableInt(const std::string &name, const int row, const int col)
+    int32_t GetTableInt(const std::string& name, const int row, const int col)
     {
         return GetTableManager()->GetTableInt(name.c_str(), row, col);
     }
 
-    int64_t GetTableInt64(const std::string &name, const int row, const int col)
+    int64_t GetTableInt64(const std::string& name, const int row, const int col)
     {
         return GetTableManager()->GetTableInt64(name.c_str(), row, col);
     }
 
-    float GetTableFloat(const std::string &name, const int row, const int col)
+    float GetTableFloat(const std::string& name, const int row, const int col)
     {
         return GetTableManager()->GetTableFloat(name.c_str(), row, col);
     }
 
-    double GetTableDouble(const std::string &name, const int row, const int col)
+    double GetTableDouble(const std::string& name, const int row, const int col)
     {
         return GetTableManager()->GetTableDouble(name.c_str(), row, col);
     }
 
-    const char *GetTableString(const std::string &name, const int row, const int col)
+    const char* GetTableString(const std::string& name, const int row, const int col)
     {
         return GetTableManager()->GetTableString(name.c_str(), row, col);
     }
 
     //////////////////////////////////////////////////////////////////////////
-    ARK_SHARE_PTR<AFIDataNodeManager> &GetNodeManager() override
+    ARK_SHARE_PTR<AFIDataNodeManager>& GetNodeManager() override
     {
         return m_pNodeManager;
     }
 
-    ARK_SHARE_PTR<AFIDataTableManager> &GetTableManager() override
+    ARK_SHARE_PTR<AFIDataTableManager>& GetTableManager() override
     {
         return m_pTableManager;
     }
 
-    ARK_SHARE_PTR<AFIEventManager> &GetEventManager() override
+    ARK_SHARE_PTR<AFIEventManager>& GetEventManager() override
     {
         return m_pEventManager;
     }

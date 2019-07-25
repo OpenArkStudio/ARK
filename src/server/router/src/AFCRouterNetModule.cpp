@@ -84,7 +84,8 @@ int AFCRouterNetModule::StartClient()
         return ret;
     }
 
-    AFINetClientService *pNetClientWorld = m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
+    AFINetClientService* pNetClientWorld =
+        m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
     if (pNetClientWorld == nullptr)
     {
         return 0;
@@ -95,7 +96,7 @@ int AFCRouterNetModule::StartClient()
     return 0;
 }
 
-AFINetServerService *AFCRouterNetModule::GetNetServer()
+AFINetServerService* AFCRouterNetModule::GetNetServer()
 {
     return m_pNetServer;
 }

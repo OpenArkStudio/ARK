@@ -32,10 +32,10 @@ namespace ark {
 
 class AFINet;
 
-using NET_MSG_FUNCTOR = std::function<void(const AFNetMsg *, const int64_t)>;
+using NET_MSG_FUNCTOR = std::function<void(const AFNetMsg*, const int64_t)>;
 using NET_MSG_FUNCTOR_PTR = std::shared_ptr<NET_MSG_FUNCTOR>;
 
-using NET_EVENT_FUNCTOR = std::function<void(const AFNetEvent *)>;
+using NET_EVENT_FUNCTOR = std::function<void(const AFNetEvent*)>;
 using NET_EVENT_FUNCTOR_PTR = std::shared_ptr<NET_EVENT_FUNCTOR>;
 
 class AFINet
@@ -45,26 +45,27 @@ public:
 
     // need to call this function every frame to drive network library
     virtual void Update() = 0;
-    virtual bool StartClient(AFHeadLength head_len, const int dst_busid, const std::string &ip, const int port, bool ip_v6 = false)
+    virtual bool StartClient(
+        AFHeadLength head_len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 = false)
     {
         return false;
     }
 
-    virtual bool StartServer(AFHeadLength head_len, const int busid, const std::string &ip, const int port, const int thread_num,
-        const unsigned int max_client, bool ip_v6 = false)
+    virtual bool StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port,
+        const int thread_num, const unsigned int max_client, bool ip_v6 = false)
     {
         return false;
     }
 
     virtual bool Shutdown() = 0;
 
-    virtual bool SendMsg(AFMsgHead *head, const char *msg_data, const int64_t session_id) = 0;
-    virtual bool BroadcastMsg(AFMsgHead *head, const char *msg_data)
+    virtual bool SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id) = 0;
+    virtual bool BroadcastMsg(AFMsgHead* head, const char* msg_data)
     {
         return false;
     }
 
-    virtual bool CloseSession(const int64_t &session_id) = 0;
+    virtual bool CloseSession(const int64_t& session_id) = 0;
 
     bool IsWorking() const
     {

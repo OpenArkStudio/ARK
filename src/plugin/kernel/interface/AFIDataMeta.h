@@ -28,12 +28,12 @@ namespace ark {
 class AFIDataMeta
 {
 public:
-    void SetName(const std::string &value)
+    void SetName(const std::string& value)
     {
         name_ = value;
     }
 
-    const std::string &GetName() const
+    const std::string& GetName() const
     {
         return name_;
     }
@@ -53,32 +53,32 @@ public:
         return false;
     }
 
-    virtual void SetInitValue(const std::string &value)
+    virtual void SetInitValue(const std::string& value)
     {
         // Do nothing in base class
     }
 
-    virtual const std::string &GetInitValue() const
+    virtual const std::string& GetInitValue() const
     {
         return NULL_STR;
     }
 
-    virtual void SetSubMetaClass(const std::string &value)
+    virtual void SetSubMetaClass(const std::string& value)
     {
         // Do nothing in base class
     }
 
-    virtual const std::string &GetSubMetaClass() const
+    virtual const std::string& GetSubMetaClass() const
     {
         return NULL_STR;
     }
     //////////////////////////////////////////////////////////////////////////
-    virtual void SetReferClassMeta(const std::string &value)
+    virtual void SetReferClassMeta(const std::string& value)
     {
         // Do nothing in base class
     }
 
-    virtual const std::string &GetReferClassMeta() const
+    virtual const std::string& GetReferClassMeta() const
     {
         return NULL_STR;
     }

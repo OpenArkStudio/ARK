@@ -30,7 +30,8 @@ namespace ark {
 class AFCWebSocktClient : public AFINet
 {
 public:
-    AFCWebSocktClient(brynet::net::TcpService::Ptr server = nullptr, brynet::net::AsyncConnector::Ptr connector = nullptr);
+    AFCWebSocktClient(
+        brynet::net::TcpService::Ptr server = nullptr, brynet::net::AsyncConnector::Ptr connector = nullptr);
 
     template<typename BaseType>
     AFCWebSocktClient(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFNetMsg*, const int64_t),
@@ -46,7 +47,8 @@ public:
     ~AFCWebSocktClient() override;
 
     void Update() override;
-    bool StartClient(AFHeadLength len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 = false) override;
+    bool StartClient(
+        AFHeadLength len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 = false) override;
 
     bool Shutdown() override final;
     bool SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id) override;

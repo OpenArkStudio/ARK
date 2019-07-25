@@ -34,20 +34,21 @@
 
 namespace ark {
 
-//class AFCHttpClient // : public AFINet
+// class AFCHttpClient // : public AFINet
 //{
-//public:
+// public:
 //    AFCHttpClient();
 //
-//    std::string Request(const std::string& ip, uint16_t port, brynet::net::http::HttpRequest::HTTP_METHOD method, const std::string& url,
+//    std::string Request(const std::string& ip, uint16_t port, brynet::net::http::HttpRequest::HTTP_METHOD method,
+//    const std::string& url,
 //        const std::map<std::string, std::string>& url_params, const std::string& http_body = "");
 //
-//private:
+// private:
 //    brynet::net::TcpService::Ptr tcp_service_{nullptr};
 //    brynet::net::AsyncConnector::Ptr async_connector_{nullptr};
 //};
 //
-//AFCHttpClient::AFCHttpClient()
+// AFCHttpClient::AFCHttpClient()
 //{
 //    brynet::net::base::InitSocket();
 //
@@ -58,8 +59,10 @@ namespace ark {
 //    async_connector_->startWorkerThread();
 //}
 //
-//std::string AFCHttpClient::Request(const std::string& ip, uint16_t port, brynet::net::http::HttpRequest::HTTP_METHOD method,
-//    const std::string& url, const std::map<std::string, std::string>& url_params, const std::string& http_json_body /* = ""*/)
+// std::string AFCHttpClient::Request(const std::string& ip, uint16_t port, brynet::net::http::HttpRequest::HTTP_METHOD
+// method,
+//    const std::string& url, const std::map<std::string, std::string>& url_params, const std::string& http_json_body /*
+//    = ""*/)
 //{
 //    brynet::net::http::HttpRequest request;
 //    request.setMethod(method);
@@ -90,7 +93,8 @@ namespace ark {
 //                []() { std::cout << "connect failed-------------" << std::endl; }),
 //        })
 //        .configureConnectionOptions({brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(10240),
-//            brynet::net::TcpService::AddSocketOption::AddEnterCallback([](const brynet::net::TcpConnection::Ptr& session) {
+//            brynet::net::TcpService::AddSocketOption::AddEnterCallback([](const brynet::net::TcpConnection::Ptr&
+//            session) {
 //                // do something for session
 //                (void)session;
 //                std::cout << "enter callback" << std::endl;
@@ -101,13 +105,15 @@ namespace ark {
 //            session->send(req_url.c_str(), req_url.size());
 //            std::cout << "after send" << std::endl;
 //            session->setHttpCallback(
-//                [req_url](const brynet::net::http::HTTPParser& httpParser, const brynet::net::http::HttpSession::Ptr& session) {
+//                [req_url](const brynet::net::http::HTTPParser& httpParser, const brynet::net::http::HttpSession::Ptr&
+//                session) {
 //                    //(void)session;
 //                    std::cout << "status=" << httpParser.getStatus() << std::endl;
 //                    std::cout << "body=" << httpParser.getBody() << std::endl;
 //                });
 //            session->setClosedCallback(
-//                [req_url](const brynet::net::http::HttpSession::Ptr& session) { std::cout << "disconnect" << std::endl; });
+//                [req_url](const brynet::net::http::HttpSession::Ptr& session) { std::cout << "disconnect" <<
+//                std::endl; });
 //        })
 //        .asyncConnect();
 //
@@ -128,7 +134,8 @@ bool Sample1Module::Init()
     // url_params.insert(std::make_pair("tag", "session"));
     // url_params.insert(std::make_pair("passing", "1"));
     // http_client->Request(
-    //    "172.26.24.163", 8500, brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_GET, "/v1/health/service/atelier", url_params);
+    //    "172.26.24.163", 8500, brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_GET,
+    //    "/v1/health/service/atelier", url_params);
 
     return true;
 }
@@ -155,8 +162,8 @@ void TestDateTime()
 {
     AFDateTime now;
     std::cout << now.ToString() << std::endl;
-    std::cout << now.GetYear() << "/" << now.GetMonth() << "/" << now.GetDay() << " " << now.GetHour() << ":" << now.GetMinute() << ":"
-              << now.GetSecond() << std::endl;
+    std::cout << now.GetYear() << "/" << now.GetMonth() << "/" << now.GetDay() << " " << now.GetHour() << ":"
+              << now.GetMinute() << ":" << now.GetSecond() << std::endl;
     std::cout << now.GetTime() << std::endl;
 
     AFDateTime now2(now.GetYear(), now.GetMonth(), now.GetDay(), now.GetHour(), now.GetMinute(), now.GetSecond());

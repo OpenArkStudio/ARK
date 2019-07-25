@@ -38,56 +38,56 @@ public:
         EConstDefine_DefaultWeight = 255,
     };
 
-    AFCNetClientService(AFIPluginManager *p);
+    AFCNetClientService(AFIPluginManager* p);
 
-    bool StartClient(const AFHeadLength head_len, const int &target_bus_id, const AFEndpoint &endpoint) override;
+    bool StartClient(const AFHeadLength head_len, const int& target_bus_id, const AFEndpoint& endpoint) override;
     void Update() override;
     void Shutdown() override;
 
-    bool RegMsgCallback(const int msg_id, const NET_MSG_FUNCTOR_PTR &cb) override;
-    bool RegForwardMsgCallback(const NET_MSG_FUNCTOR_PTR &cb) override;
-    bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR &cb) override;
+    bool RegMsgCallback(const int msg_id, const NET_MSG_FUNCTOR_PTR& cb) override;
+    bool RegForwardMsgCallback(const NET_MSG_FUNCTOR_PTR& cb) override;
+    bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) override;
 
     ARK_SHARE_PTR<AFConnectionData> GetServerNetInfo(const int nServerID) override;
-    AFMapEx<int, AFConnectionData> &GetServerList() override;
+    AFMapEx<int, AFConnectionData>& GetServerList() override;
 
 protected:
     void ProcessUpdate();
     void ProcessAddNewNetClient();
 
-    AFINet *CreateNet(const proto_type proto);
+    AFINet* CreateNet(const proto_type proto);
 
-    void RegisterToServer(const AFGUID &session_id, const int bus_id);
-    int OnConnect(const AFNetEvent *event);
-    int OnDisconnect(const AFNetEvent *event);
+    void RegisterToServer(const AFGUID& session_id, const int bus_id);
+    int OnConnect(const AFNetEvent* event);
+    int OnDisconnect(const AFNetEvent* event);
 
-    void OnNetMsg(const AFNetMsg *msg, const int64_t session_id);
-    void OnNetEvent(const AFNetEvent *event);
+    void OnNetMsg(const AFNetMsg* msg, const int64_t session_id);
+    void OnNetEvent(const AFNetEvent* event);
 
-    void KeepReport(ARK_SHARE_PTR<AFConnectionData> &connection_data)
+    void KeepReport(ARK_SHARE_PTR<AFConnectionData>& connection_data)
     { /*Will add*/
     }
-    void LogServerInfo(const std::string &strServerInfo)
+    void LogServerInfo(const std::string& strServerInfo)
     { /*Will add*/
     }
 
     void LogServerInfo();
-    void KeepAlive(ARK_SHARE_PTR<AFConnectionData> &pServerData);
+    void KeepAlive(ARK_SHARE_PTR<AFConnectionData>& pServerData);
 
-    bool GetServerMachineData(const std::string &strServerID, AFCMachineNode &xMachineData);
-    void AddServerWeightData(ARK_SHARE_PTR<AFConnectionData> &xInfo);
+    bool GetServerMachineData(const std::string& strServerID, AFCMachineNode& xMachineData);
+    void AddServerWeightData(ARK_SHARE_PTR<AFConnectionData>& xInfo);
 
-    void RemoveServerWeightData(ARK_SHARE_PTR<AFConnectionData> &xInfo);
+    void RemoveServerWeightData(ARK_SHARE_PTR<AFConnectionData>& xInfo);
 
     // recv other server infos
-    void OnServerNotify(const AFNetMsg *msg, const int64_t session_id);
+    void OnServerNotify(const AFNetMsg* msg, const int64_t session_id);
 
 private:
-    AFIPluginManager *m_pPluginManager;
-    AFINetServiceManagerModule *m_pNetServiceManagerModule;
-    AFIBusModule *m_pBusModule;
-    AFIMsgModule *m_pMsgModule;
-    AFILogModule *m_pLogModule;
+    AFIPluginManager* m_pPluginManager;
+    AFINetServiceManagerModule* m_pNetServiceManagerModule;
+    AFIBusModule* m_pBusModule;
+    AFIMsgModule* m_pMsgModule;
+    AFILogModule* m_pLogModule;
 
     AFMapEx<int, AFConnectionData> target_servers_;
     AFCConsistentHash consistent_hashmap_;

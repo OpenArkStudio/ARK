@@ -40,7 +40,7 @@ public:
         --mnHashmapCount;
     };
 
-    bool AddElement(const T &name, const ARK_SHARE_PTR<TD> data)
+    bool AddElement(const T& name, const ARK_SHARE_PTR<TD> data)
     {
         typename HashmapObject::iterator itr = mxObjectList.find(name);
 
@@ -53,13 +53,13 @@ public:
         return false;
     }
 
-    bool SetElement(const T &name, const ARK_SHARE_PTR<TD> data)
+    bool SetElement(const T& name, const ARK_SHARE_PTR<TD> data)
     {
         mxObjectList[name] = data;
         return true;
     }
 
-    bool RemoveElement(const T &name)
+    bool RemoveElement(const T& name)
     {
         ARK_SHARE_PTR<TD> pData;
         typename HashmapObject::iterator itr = mxObjectList.find(name);
@@ -74,7 +74,7 @@ public:
         return false;
     }
 
-    TD *GetElementNude(const T &name)
+    TD* GetElementNude(const T& name)
     {
         typename HashmapObject::iterator itr = mxObjectList.find(name);
 
@@ -86,7 +86,7 @@ public:
         return nullptr;
     }
 
-    ARK_SHARE_PTR<TD> GetElement(const T &name)
+    ARK_SHARE_PTR<TD> GetElement(const T& name)
     {
         typename HashmapObject::iterator itr = mxObjectList.find(name);
 
@@ -98,7 +98,7 @@ public:
         return nullptr;
     }
 
-    bool ExitElement(const T &name)
+    bool ExitElement(const T& name)
     {
         typename HashmapObject::iterator itr = mxObjectList.find(name);
         return (itr != mxObjectList.end());
@@ -138,7 +138,7 @@ public:
         return nullptr;
     }
 
-    TD *FirstNude(T &name)
+    TD* FirstNude(T& name)
     {
         if (mxObjectList.size() <= 0)
         {
@@ -156,7 +156,7 @@ public:
         return NULL;
     }
 
-    TD *NextNude(T &name)
+    TD* NextNude(T& name)
     {
         if (mxObjectCurIter == mxObjectList.end())
         {
@@ -174,7 +174,7 @@ public:
         return NULL;
     }
 
-    TD *FirstNude()
+    TD* FirstNude()
     {
         if (mxObjectList.size() <= 0)
         {
@@ -191,7 +191,7 @@ public:
         return NULL;
     }
 
-    TD *NextNude()
+    TD* NextNude()
     {
         if (mxObjectCurIter == mxObjectList.end())
         {
@@ -208,7 +208,7 @@ public:
         return NULL;
     }
 
-    ARK_SHARE_PTR<TD> First(T &name)
+    ARK_SHARE_PTR<TD> First(T& name)
     {
         if (mxObjectList.size() <= 0)
         {
@@ -226,7 +226,7 @@ public:
         return nullptr;
     }
 
-    ARK_SHARE_PTR<TD> Next(T &name)
+    ARK_SHARE_PTR<TD> Next(T& name)
     {
         if (mxObjectCurIter == mxObjectList.end())
         {
@@ -250,7 +250,7 @@ public:
         return Suit(t);
     }
 
-    ARK_SHARE_PTR<TD> Suit(T &name)
+    ARK_SHARE_PTR<TD> Suit(T& name)
     {
         if (Count() <= 0)
         {

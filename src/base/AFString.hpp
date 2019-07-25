@@ -33,34 +33,34 @@ template<>
 class CharTraits<char>
 {
 public:
-    static size_t Length(const char *value)
+    static size_t Length(const char* value)
     {
         return strlen(value);
     }
 
-    static int Compare(const char *lvalue, const char *rvalue)
+    static int Compare(const char* lvalue, const char* rvalue)
     {
         return strcmp(lvalue, rvalue);
     }
 
-    static void Copy(char *dst, const char *src, size_t len)
+    static void Copy(char* dst, const char* src, size_t len)
     {
         memcpy(dst, src, len);
     }
 
-    static void Put(char *dst, char value)
+    static void Put(char* dst, char value)
     {
         *dst = value;
     }
 
-    static const char *EmptyValue()
+    static const char* EmptyValue()
     {
         return "";
     }
 
-    static size_t Find(const char *dst, const char *find, size_t begin = 0)
+    static size_t Find(const char* dst, const char* find, size_t begin = 0)
     {
-        const char *pos = strstr(&dst[begin], find);
+        const char* pos = strstr(&dst[begin], find);
 
         if (pos == nullptr)
         {
@@ -85,17 +85,17 @@ public:
 
     ~AFStringAlloc() {}
 
-    void *Alloc(size_t size)
+    void* Alloc(size_t size)
     {
         return new char[size];
     }
 
-    void Freee(void *ptr, size_t size)
+    void Freee(void* ptr, size_t size)
     {
-        delete[](char *) ptr;
+        delete[](char*) ptr;
     }
 
-    void Swap(AFStringAlloc &src)
+    void Swap(AFStringAlloc& src)
     {
         // Do nothing
     }
@@ -123,42 +123,42 @@ public:
         }
     }
 
-    AFString(const self_t &src)
+    AFString(const self_t& src)
     {
         Init(src.c_str(), src.length());
     }
 
-    explicit AFString(const TYPE *src)
+    explicit AFString(const TYPE* src)
     {
         Init(src, TRAITS::Length(src));
     }
 
-    AFString(const TYPE *src, size_t len)
+    AFString(const TYPE* src, size_t len)
     {
         Init(src, len);
     }
 
-    AFString(const TYPE *value1, const TYPE *value2)
+    AFString(const TYPE* value1, const TYPE* value2)
     {
         InitWithTwo(value1, TRAITS::Length(value1), value2, TRAITS::Length(value2));
     }
 
-    AFString(const TYPE *value1, size_t len1, const TYPE *value2, size_t len2)
+    AFString(const TYPE* value1, size_t len1, const TYPE* value2, size_t len2)
     {
         InitWithTwo(value1, len1, value2, len2);
     }
 
     template<size_t NEW_SIZE>
-    explicit AFString(const AFString<TYPE, NEW_SIZE, TRAITS, ALLOC> &src)
+    explicit AFString(const AFString<TYPE, NEW_SIZE, TRAITS, ALLOC>& src)
     {
         Init(src.c_str(), src.length());
     }
 
-    void swap(self_t &src)
+    void swap(self_t& src)
     {
         size_t tmp_size = src.mnSize;
         size_t tmp_capacity = src.mnCapacity;
-        TYPE *tmp_data = src.mpData;
+        TYPE* tmp_data = src.mpData;
         TYPE tmp_stack[SIZE];
 
         if (tmp_capacity <= SIZE)
@@ -195,7 +195,7 @@ public:
         mxAlloc.Swap(src.mxAlloc);
     }
 
-    self_t &operator=(const self_t &src)
+    self_t& operator=(const self_t& src)
     {
         if (this != &src)
         {
@@ -206,32 +206,32 @@ public:
     }
 
     template<size_t NEW_SIZE>
-    self_t &operator=(const AFString<TYPE, NEW_SIZE, TRAITS, ALLOC> &src)
+    self_t& operator=(const AFString<TYPE, NEW_SIZE, TRAITS, ALLOC>& src)
     {
         return InnerAssign(src.c_str(), src.length());
     }
 
-    self_t &operator=(const TYPE *src)
+    self_t& operator=(const TYPE* src)
     {
         return InnerAssign(src, TRAITS::Length(src));
     }
 
-    self_t &operator=(TYPE value)
+    self_t& operator=(TYPE value)
     {
         return InnerAssign(&value, 1);
     }
 
-    self_t &operator+=(const self_t &src)
+    self_t& operator+=(const self_t& src)
     {
         return InnerAppend(src.c_str(), src.length());
     }
 
-    self_t &operator+=(const TYPE *src)
+    self_t& operator+=(const TYPE* src)
     {
         return InnerAppend(src, TRAITS::Length(src));
     }
 
-    self_t &operator+=(TYPE value)
+    self_t& operator+=(TYPE value)
     {
         return InnerAppend(&value, 1);
     }
@@ -256,7 +256,7 @@ public:
         return mnCapacity;
     }
 
-    const TYPE *c_str() const
+    const TYPE* c_str() const
     {
         return mpData;
     }
@@ -274,37 +274,37 @@ public:
         mnSize = 0;
     }
 
-    bool compare(const self_t &src) const
+    bool compare(const self_t& src) const
     {
         return (TRAITS::Compare(this->c_str(), src.c_str()) == 0);
     }
 
-    bool compare(const TYPE *src) const
+    bool compare(const TYPE* src) const
     {
         return (TRAITS::Compare(this->c_str(), src) == 0);
     }
 
-    self_t &append(const self_t &src)
+    self_t& append(const self_t& src)
     {
         return InnerAppend(src.c_str(), src.length());
     }
 
-    self_t &append(const TYPE *src, const size_t len)
+    self_t& append(const TYPE* src, const size_t len)
     {
         return InnerAppend(src, len);
     }
 
-    self_t &append(const TYPE *src)
+    self_t& append(const TYPE* src)
     {
         return InnerAppend(src, TRAITS::Length(src));
     }
 
-    self_t &append(TYPE value)
+    self_t& append(TYPE value)
     {
         return InnerAppend(&value, 1);
     }
 
-    size_t find(const TYPE *src, const size_t begin = 0)
+    size_t find(const TYPE* src, const size_t begin = 0)
     {
         return TRAITS::Find(mpData, src, begin);
     }
@@ -345,7 +345,7 @@ public:
     }
 
 private:
-    void Init(const TYPE *src, size_t len)
+    void Init(const TYPE* src, size_t len)
     {
         mnSize = len;
 
@@ -357,14 +357,14 @@ private:
         else
         {
             mnCapacity = (mnSize + 1) * 2;
-            mpData = (TYPE *)mxAlloc.Alloc(mnCapacity * sizeof(TYPE));
+            mpData = (TYPE*)mxAlloc.Alloc(mnCapacity * sizeof(TYPE));
         }
 
         TRAITS::Copy(mpData, src, mnSize);
         TRAITS::Put(mpData + mnSize, 0);
     }
 
-    void InitWithTwo(const TYPE *value1, size_t size1, const TYPE *value2, size_t size2)
+    void InitWithTwo(const TYPE* value1, size_t size1, const TYPE* value2, size_t size2)
     {
         mnSize = size1 + size2;
 
@@ -376,7 +376,7 @@ private:
         else
         {
             mnCapacity = (mnSize + 1) * 2;
-            mpData = (TYPE *)mxAlloc.Alloc(mnCapacity * sizeof(TYPE));
+            mpData = (TYPE*)mxAlloc.Alloc(mnCapacity * sizeof(TYPE));
         }
 
         TRAITS::Copy(mpData, value1, size1);
@@ -384,7 +384,7 @@ private:
         TRAITS::Put(mpData + size1 + size2, 0);
     }
 
-    self_t &InnerAssign(const TYPE *src, size_t len)
+    self_t& InnerAssign(const TYPE* src, size_t len)
     {
         if (len < mnCapacity)
         {
@@ -401,7 +401,7 @@ private:
         return (*this);
     }
 
-    self_t &InnerAppend(const TYPE *src, size_t len)
+    self_t& InnerAppend(const TYPE* src, size_t len)
     {
         const size_t NEW_SIZE = this->mnSize + len;
 
@@ -422,7 +422,7 @@ private:
 
     ALLOC mxAlloc;
     TYPE mxStack[SIZE];
-    TYPE *mpData;
+    TYPE* mpData;
     size_t mnCapacity;
     size_t mnSize;
 };
@@ -439,70 +439,70 @@ template<>
 class hash<DataNodeName>
 {
 public:
-    size_t operator()(DataNodeName const &pro) const
+    size_t operator()(DataNodeName const& pro) const
     {
-        const char *value = pro.c_str();
+        const char* value = pro.c_str();
         return GetHashValue(value);
     }
 };
 
 template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline bool operator==(const AFString<TYPE, SIZE, TRAITS, ALLOC> &s1, const AFString<TYPE, SIZE, TRAITS, ALLOC> &s2)
+inline bool operator==(const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, const AFString<TYPE, SIZE, TRAITS, ALLOC>& s2)
 {
     return (s1.compare(s2) == 0);
 }
 
 template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline bool operator==(const AFString<TYPE, SIZE, TRAITS, ALLOC> &s1, const TYPE *s2)
+inline bool operator==(const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, const TYPE* s2)
 {
     return (s1.compare(s2) == 0);
 }
 
 template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline bool operator==(const TYPE *s1, const AFString<TYPE, SIZE, TRAITS, ALLOC> &s2)
+inline bool operator==(const TYPE* s1, const AFString<TYPE, SIZE, TRAITS, ALLOC>& s2)
 {
     return (s2.compare(s1) == 0);
 }
 
 template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline bool operator!=(const AFString<TYPE, SIZE, TRAITS, ALLOC> &s1, const AFString<TYPE, SIZE, TRAITS, ALLOC> &s2)
+inline bool operator!=(const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, const AFString<TYPE, SIZE, TRAITS, ALLOC>& s2)
 {
     return (s1.compare(s2) != 0);
 }
 
 template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline bool operator!=(const AFString<TYPE, SIZE, TRAITS, ALLOC> &s1, const TYPE *s2)
+inline bool operator!=(const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, const TYPE* s2)
 {
     return (s1.compare(s2) != 0);
 }
 
 template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline bool operator!=(const TYPE *s1, const AFString<TYPE, SIZE, TRAITS, ALLOC> &s2)
+inline bool operator!=(const TYPE* s1, const AFString<TYPE, SIZE, TRAITS, ALLOC>& s2)
 {
     return (s2.compare(s1) != 0);
 }
 
 template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
 inline AFString<TYPE, SIZE, TRAITS, ALLOC> operator+(
-    const AFString<TYPE, SIZE, TRAITS, ALLOC> &s1, const AFString<TYPE, SIZE, TRAITS, ALLOC> &s2)
+    const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, const AFString<TYPE, SIZE, TRAITS, ALLOC>& s2)
 {
     return AFString<TYPE, SIZE, TRAITS, ALLOC>(s1).append(s2);
 }
 
 template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline AFString<TYPE, SIZE, TRAITS, ALLOC> operator+(const AFString<TYPE, SIZE, TRAITS, ALLOC> &s1, const TYPE *s2)
+inline AFString<TYPE, SIZE, TRAITS, ALLOC> operator+(const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, const TYPE* s2)
 {
     return AFString<TYPE, SIZE, TRAITS, ALLOC>(s1).append(s2);
 }
 
 template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline AFString<TYPE, SIZE, TRAITS, ALLOC> operator+(const AFString<TYPE, SIZE, TRAITS, ALLOC> &s1, TYPE ch)
+inline AFString<TYPE, SIZE, TRAITS, ALLOC> operator+(const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, TYPE ch)
 {
     return AFString<TYPE, SIZE, TRAITS, ALLOC>(s1).append(ch);
 }
 
 template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline AFString<TYPE, SIZE, TRAITS, ALLOC> operator+(const TYPE *s1, const AFString<TYPE, SIZE, TRAITS, ALLOC> &s2)
+inline AFString<TYPE, SIZE, TRAITS, ALLOC> operator+(const TYPE* s1, const AFString<TYPE, SIZE, TRAITS, ALLOC>& s2)
 {
     return AFString<TYPE, SIZE, TRAITS, ALLOC>(s1).append(s2);
 }

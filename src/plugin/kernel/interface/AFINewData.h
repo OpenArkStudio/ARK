@@ -32,12 +32,12 @@ class AFINewData
 {
     using StringMap = std::map<std::string, std::string>;
 
-    const AFIClassMeta *class_meta_{nullptr};
-    const AFIDataMeta *data_meta_{nullptr};
-    AFINewData *parent_{nullptr};
+    const AFIClassMeta* class_meta_{nullptr};
+    const AFIDataMeta* data_meta_{nullptr};
+    AFINewData* parent_{nullptr};
 
 public:
-    virtual bool Init(const AFIClassMeta *class_meta, const AFIDataMeta *data_meta)
+    virtual bool Init(const AFIClassMeta* class_meta, const AFIDataMeta* data_meta)
     {
         ARK_ASSERT_RET_VAL(class_meta != nullptr && data_meta != nullptr, false);
         class_meta_ = class_meta;
@@ -45,12 +45,12 @@ public:
         return true;
     }
 
-    const AFIClassMeta *GetClassMeta() const
+    const AFIClassMeta* GetClassMeta() const
     {
         return class_meta_;
     }
 
-    const AFIDataMeta *GetDataMeta() const
+    const AFIDataMeta* GetDataMeta() const
     {
         return data_meta_;
     }
@@ -62,7 +62,7 @@ public:
         return 1;
     }
 
-    virtual const std::string &GetName() const
+    virtual const std::string& GetName() const
     {
         return data_meta_->GetName();
     }
@@ -89,32 +89,32 @@ public:
         return data_meta_->HaveMask(mask);
     }
 
-    AFINewData *GetParent()
+    AFINewData* GetParent()
     {
         return parent_;
     }
 
-    void SetParent(AFINewData *data)
+    void SetParent(AFINewData* data)
     {
         ARK_ASSERT_RET_NONE(data != nullptr);
         parent_ = data;
     }
 
     // Copy and save
-    virtual void CopyFrom(AFINewData *other) = 0;
-    virtual void SaveTo(AFINewData *other) = 0;
+    virtual void CopyFrom(AFINewData* other) = 0;
+    virtual void SaveTo(AFINewData* other) = 0;
 
     // Serialize to string
     virtual std::string ToString() = 0;
-    virtual void FromString(const std::string &value) = 0;
+    virtual void FromString(const std::string& value) = 0;
 
     // String map
-    virtual void ToMap(StringMap &value)
+    virtual void ToMap(StringMap& value)
     {
         // Do nothing in base class
     }
 
-    virtual void FromMap(const StringMap &value)
+    virtual void FromMap(const StringMap& value)
     {
         // Do nothing in base class
     }
@@ -122,13 +122,13 @@ public:
     //////////////////////////////////////////////////////////////////////////
     // build-in type
     template<typename T>
-    const T &DefaultValue()
+    const T& DefaultValue()
     {
         return static_cast<T>(NULL_INT);
     }
 
     template<typename T = uint64_t>
-    const T &GetValue()
+    const T& GetValue()
     {
         switch (GetType())
         {
@@ -171,7 +171,7 @@ public:
     }
 
     template<typename T = uint64_t>
-    T GetValue(const std::string &parent_data_name, const std::string &data_name)
+    T GetValue(const std::string& parent_data_name, const std::string& data_name)
     {
         auto data = GetData(parent_data_name, data_name);
         ARK_ASSERT_RET_VAL(data != nullptr, DefaultValue<T>());
@@ -180,7 +180,7 @@ public:
     }
 
     template<typename T = uint64_t>
-    T GetValue(uint64_t key, const std::string &data_name)
+    T GetValue(uint64_t key, const std::string& data_name)
     {
         auto data = GetData(key, data_name);
         ARK_ASSERT_RET_VAL(data != nullptr, DefaultValue<T>());
@@ -189,7 +189,7 @@ public:
     }
 
     template<typename T = uint64_t>
-    T GetValue(const std::string &parent_data_name, uint64_t key, const std::string &data_name)
+    T GetValue(const std::string& parent_data_name, uint64_t key, const std::string& data_name)
     {
         auto data = GetData(parent_data_name, key);
         ARK_ASSERT_RET_VAL(data != nullptr, DefaultValue<T>());
@@ -198,7 +198,7 @@ public:
     }
 
     template<typename T = uint64_t>
-    void SetValue(const T &value)
+    void SetValue(const T& value)
     {
         switch (type_)
         {
@@ -230,7 +230,7 @@ public:
     }
 
     template<typename T = uint64_t>
-    void SetValue(const std::string &data_name, const T &value)
+    void SetValue(const std::string& data_name, const T& value)
     {
         auto data = GetData(data_name);
         ARK_ASSERT_RET_NONE(data != nullptr);
@@ -239,7 +239,7 @@ public:
     }
 
     template<typename T = uint64_t>
-    void SetValue(const std::string &parent_data_name, const std::string &data_name, const T &value)
+    void SetValue(const std::string& parent_data_name, const std::string& data_name, const T& value)
     {
         auto data = GetData(parent_data_name, data_name);
         ARK_ASSERT_RET_NONE(data != nullptr);
@@ -248,7 +248,7 @@ public:
     }
 
     template<typename T = uint64_t>
-    void SetValue(uint64_t key, const std::string &data_name, const T &value)
+    void SetValue(uint64_t key, const std::string& data_name, const T& value)
     {
         auto data = GetData(key, data_name);
         ARK_ASSERT_RET_NONE(data != nullptr);
@@ -257,7 +257,7 @@ public:
     }
 
     template<typename T = uint64_t>
-    void SetValue(const std::string &parent_data_name, uint64_t key, const std::string &data_name, const T &value)
+    void SetValue(const std::string& parent_data_name, uint64_t key, const std::string& data_name, const T& value)
     {
         auto data = GetData(parent_data_name, key);
         ARK_ASSERT_RET_NONE(data != nullptr);
@@ -266,7 +266,7 @@ public:
     }
 
     template<typename T = uint64_t>
-    T OpValue(ArkDataOpType op, const T &value)
+    T OpValue(ArkDataOpType op, const T& value)
     {
         auto cur_value = GetValue<T>();
         auto new_value = AFMisc::Operate<T>(op, base, value);
@@ -275,7 +275,7 @@ public:
     }
 
     template<typename T = uint64_t>
-    T OpValue(const std::string &data_name, ArkDataOpType op, const T &value)
+    T OpValue(const std::string& data_name, ArkDataOpType op, const T& value)
     {
         auto data = GetData(data_name);
         ARK_ASSERT_RET_VAL(data != nullptr, DefaultValue<T>());
@@ -284,7 +284,7 @@ public:
     }
 
     template<typename T = uint64_t>
-    T OpValue(const std::string &parent_data_name, const std::string &data_name, ArkDataOpType op, const T &value)
+    T OpValue(const std::string& parent_data_name, const std::string& data_name, ArkDataOpType op, const T& value)
     {
         auto data = GetData(parent_data_name, data_name);
         ARK_ASSERT_RET_VAL(data != nullptr, DefaultValue<T>());
@@ -293,7 +293,7 @@ public:
     }
 
     template<typename T = uint64_t>
-    void OpValue(uint64_t key, const std::string &data_name, ArkDataOpType op, const T &value)
+    void OpValue(uint64_t key, const std::string& data_name, ArkDataOpType op, const T& value)
     {
         auto data = GetData(key, data_name);
         ARK_ASSERT_RET_VAL(data != nullptr, DefaultValue<T>());
@@ -302,7 +302,7 @@ public:
     }
 
     template<typename T = uint64_t>
-    void OpValue(const std::string &data_name, uint64_t key, ArkDataOpType op, const T &value)
+    void OpValue(const std::string& data_name, uint64_t key, ArkDataOpType op, const T& value)
     {
         auto data = GetData(data_name, key);
         ARK_ASSERT_RET_VAL(data != nullptr, DefaultValue<T>());
@@ -311,7 +311,8 @@ public:
     }
 
     template<typename T = uint64_t>
-    void OpValue(const std::string &parent_data_name, uint64_t key, const std::string &data_name, ArkDataOpType op, const T &value)
+    void OpValue(const std::string& parent_data_name, uint64_t key, const std::string& data_name, ArkDataOpType op,
+        const T& value)
     {
         auto data = GetData(parent_data_name, key, data_name);
         ARK_ASSERT_RET_VAL(data != nullptr, DefaultValue<T>());
@@ -321,122 +322,123 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
     // Object
-    virtual AFINewData *GetData(const std::string &data_name)
+    virtual AFINewData* GetData(const std::string& data_name)
     {
         // Implement in the derived class.
         return nullptr;
     }
 
-    virtual AFINewData *GetData(const std::string &data_name, uint64_t key)
+    virtual AFINewData* GetData(const std::string& data_name, uint64_t key)
     {
         // Implement in the derived class.
         return nullptr;
     }
 
-    virtual AFINewData *GetData(const std::string &parent_data_name, const std::string &child_data_name)
+    virtual AFINewData* GetData(const std::string& parent_data_name, const std::string& child_data_name)
     {
         // Implement in the derived class.
         return nullptr;
     }
 
-    virtual AFINewData *GetData(const std::string &parent_data_name, uint64_t key, const std::string &child_data_name)
+    virtual AFINewData* GetData(const std::string& parent_data_name, uint64_t key, const std::string& child_data_name)
     {
         // Implement in the derived class.
         return nullptr;
     }
 
-    virtual AFINewData *GetData(const std::string &parent_data_name, const std::string &child_data_name, uint64_t key)
+    virtual AFINewData* GetData(const std::string& parent_data_name, const std::string& child_data_name, uint64_t key)
     {
         // Implement in the derived class.
         return nullptr;
     }
 
-    virtual AFINewData *GetData(const std::string &parent_data_name, const std::string &child_data_name, const std::string &data_name)
+    virtual AFINewData* GetData(
+        const std::string& parent_data_name, const std::string& child_data_name, const std::string& data_name)
     {
         // Implement in the derived class.
         return nullptr;
     }
 
-    virtual bool AddData(const std::string &data_name, AFINewData *data)
+    virtual bool AddData(const std::string& data_name, AFINewData* data)
     {
         // Implement in the derived class.
         return false;
     }
 
-    virtual bool AddData(const std::string &data_name, uint64_t key, AFINewData *data)
+    virtual bool AddData(const std::string& data_name, uint64_t key, AFINewData* data)
     {
         // Implement in the derived class.
         return false;
     }
 
-    virtual bool AddData(const std::string &parent_data_name, const std::string &child_data_name, AFINewData *data)
+    virtual bool AddData(const std::string& parent_data_name, const std::string& child_data_name, AFINewData* data)
     {
         // Implement in the derived class.
         return false;
     }
 
-    virtual bool RemoveData(const std::stirng &data_name)
+    virtual bool RemoveData(const std::stirng& data_name)
     {
         // Implement in the derived class.
         return false;
     }
 
-    virtual bool RemoveData(const std::stirng &data_name, uint64_t key)
+    virtual bool RemoveData(const std::stirng& data_name, uint64_t key)
     {
         // Implement in the derived class.
         return false;
     }
 
-    virtual bool RemoveData(const std::stirng &data_name, const std::string &child_data_name)
+    virtual bool RemoveData(const std::stirng& data_name, const std::string& child_data_name)
     {
         // Implement in the derived class.
         return false;
     }
     //////////////////////////////////////////////////////////////////////////
     // Table/Record
-    virtual AFINewData *GetData(uint64_t key)
+    virtual AFINewData* GetData(uint64_t key)
     {
         // Implement in the derived class.
         return nullptr;
     }
 
-    virtual AFINewData *GetData(uint64_t key, const std::string &data_name)
+    virtual AFINewData* GetData(uint64_t key, const std::string& data_name)
     {
         // Implement in the derived class.
         return nullptr;
     }
 
-    virtual AFINewData *GetData(uint64_t parent_key, uint64_t child_key)
+    virtual AFINewData* GetData(uint64_t parent_key, uint64_t child_key)
     {
         // Implement in the derived class.
         return nullptr;
     }
 
-    virtual AFINewData *GetData(uint64_t parent_key, uint64_t child_key, const std::string &data_name)
+    virtual AFINewData* GetData(uint64_t parent_key, uint64_t child_key, const std::string& data_name)
     {
         // Implement in the derived class.
         return nullptr;
     }
 
-    virtual AFINewData *GetData(uint64_t parent_key, const std::string &data_name, uint64_t child_key)
+    virtual AFINewData* GetData(uint64_t parent_key, const std::string& data_name, uint64_t child_key)
     {
         // Implement in the derived class.
         return nullptr;
     }
 
-    virtual bool AddData(uint64_t key, AFINewData *data)
+    virtual bool AddData(uint64_t key, AFINewData* data)
     {
         // Implement in the derived class.
         return false;
     }
 
-    virtual bool AddData(uint64_t parent_key, uint64_t child_key, AFINewData *data)
+    virtual bool AddData(uint64_t parent_key, uint64_t child_key, AFINewData* data)
     {
         // Implement in the derived class.
         return false;
     }
 
-    virtual bool AddData(uint64_t key, const std::string &data_name, AFINewData *data)
+    virtual bool AddData(uint64_t key, const std::string& data_name, AFINewData* data)
     {
         // Implement in the derived class.
         return false;
@@ -448,18 +450,19 @@ public:
         return false;
     }
 
-    virtual bool RemoveData(uint64_t key, const std::string &data_name)
+    virtual bool RemoveData(uint64_t key, const std::string& data_name)
     {
         // Implement in the derived class.
         return false;
     }
 
-    virtual void FindData(const std::string &data_name, uint64_t value, std::list<AFINewData *> &find_list)
+    virtual void FindData(const std::string& data_name, uint64_t value, std::list<AFINewData*>& find_list)
     {
         // Implement in the derived class.
     }
 
-    virtual bool CheckData(const std::string &data_name, uint64_t value, const std::string &check_name, uint64_t chenck_value)
+    virtual bool CheckData(
+        const std::string& data_name, uint64_t value, const std::string& check_name, uint64_t chenck_value)
     {
         // Implement in the derived class.
     }
@@ -535,22 +538,22 @@ protected:
         // Do nothing.
     }
 
-    virtual const std::string &GetString()
+    virtual const std::string& GetString()
     {
         return NULL_STR;
     }
 
-    virtual void SetString(std::string &value)
+    virtual void SetString(std::string& value)
     {
         // Do nothing.
     }
 
-    virtual const AFVector3D &GetVector3D()
+    virtual const AFVector3D& GetVector3D()
     {
         return NULL_VECTOR3D;
     }
 
-    virtual void SetVector3D(const AFVector3D &value)
+    virtual void SetVector3D(const AFVector3D& value)
     {
         // Do nothing.
     }
@@ -558,19 +561,19 @@ protected:
 
 // template specialization for complex structure
 template<>
-inline const std::string &AFINewData::DefaultValue()
+inline const std::string& AFINewData::DefaultValue()
 {
     return NULL_STR;
 }
 
 template<>
-inline const AFVector3D &AFINewData::DefaultValue()
+inline const AFVector3D& AFINewData::DefaultValue()
 {
     return NULL_VECTOR3D;
 }
 
 template<>
-inline const std::string &AFINewData::GetValue()
+inline const std::string& AFINewData::GetValue()
 {
     return GetString();
 }
@@ -582,13 +585,13 @@ inline void AFINewData::SetValue(std::string value)
 }
 
 template<>
-inline void AFINewData::SetValue(const std::string &value)
+inline void AFINewData::SetValue(const std::string& value)
 {
     FromString(value);
 }
 
 template<>
-inline const AFVector3D &AFINewData::GetValue()
+inline const AFVector3D& AFINewData::GetValue()
 {
     return GetVector3D();
 }
@@ -600,7 +603,7 @@ inline void AFINewData::SetValue(AFVector3D value)
 }
 
 template<>
-inline void AFINewData::SetValue(const AFVector3D &value)
+inline void AFINewData::SetValue(const AFVector3D& value)
 {
     SetVector3D(value);
 }

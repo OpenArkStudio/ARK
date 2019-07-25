@@ -31,23 +31,23 @@ public:
     CoreAlloc() = default;
     ~CoreAlloc() = default;
 
-    void *Alloc(size_t size)
+    void* Alloc(size_t size)
     {
         ARK_NEW_ARRAY_RET(char, size);
     }
 
-    void Free(void *ptr, size_t size)
+    void Free(void* ptr, size_t size)
     {
         ARK_DELETE_ARRAY(char, ptr);
     }
 
-    void Swap(CoreAlloc &src)
+    void Swap(CoreAlloc& src)
     {
         // Do nothing
     }
 };
 
-inline static unsigned int GetHashValueNoCase(const char *name)
+inline static unsigned int GetHashValueNoCase(const char* name)
 {
     static unsigned char convert_to_lower[256] = {
         0x00,
@@ -320,7 +320,7 @@ inline static unsigned int GetHashValueNoCase(const char *name)
     return hash;
 }
 
-inline unsigned int GetHashValue(const char *name)
+inline unsigned int GetHashValue(const char* name)
 {
     assert(name != nullptr);
 

@@ -15,7 +15,8 @@ public:
 
     bool DeregisterService(const std::string& service_id) override;
 
-    bool GetHealthServices(const std::string& service_name, const std::string& tag_filter, consulpp::ConsulServiceSet& services) override;
+    bool GetHealthServices(
+        const std::string& service_name, const std::string& tag_filter, consulpp::ConsulServiceSet& services) override;
 
     const std::string GetKeyValue(const std::string& key) override;
     void SetKeyValue(const std::string& key, const std::string& value) override;

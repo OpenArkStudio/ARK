@@ -31,16 +31,18 @@ bool Sample2Module::Init()
     return true;
 }
 
-int Sample2Module::OnDataNodeCB(const AFGUID &self, const std::string &name, const AFIData &old_var, const AFIData &new_var)
+int Sample2Module::OnDataNodeCB(
+    const AFGUID& self, const std::string& name, const AFIData& old_var, const AFIData& new_var)
 {
-    std::cout << "OnDataNodeCB DataNode: " << name << " Old value: " << old_var.GetInt() << " New value: " << new_var.GetInt() << std::endl;
+    std::cout << "OnDataNodeCB DataNode: " << name << " Old value: " << old_var.GetInt()
+              << " New value: " << new_var.GetInt() << std::endl;
     return 0;
 }
 
 bool Sample2Module::PostInit()
 {
-    AFIKernelModule *pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    AFIMetaClassModule *pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
+    AFIKernelModule* pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
+    AFIMetaClassModule* pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
 
     AFCDataList xData;
     xData.AddInt(111);
@@ -48,7 +50,7 @@ bool Sample2Module::PostInit()
     std::cout << typeid(Sample2Module).name() << ", PostInit" << std::endl;
 
     // Create an Entity for this test
-    AFIEntity *pEntity = ARK_NEW AFCEntity(1);
+    AFIEntity* pEntity = ARK_NEW AFCEntity(1);
 
     // Add a DataNode name is "my_test1" of this Entity
     pEntity->GetNodeManager()->AddNode("my_test1", AFCData(DT_INT, 1), 0);

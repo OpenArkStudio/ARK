@@ -35,11 +35,11 @@ public:
 
     ARK_SHARE_PTR<AFMapInfo> GetMapInfo(const int map_id) override;
 
-    bool IsInMapInstance(const AFGUID &self) override;
+    bool IsInMapInstance(const AFGUID& self) override;
     bool ExistMap(const int map_id) override;
 
-    bool SwitchMap(const AFGUID &self, const int target_map, const int target_inst, const AFVector3D &pos, const float orient,
-        const AFIDataList &args) override;
+    bool SwitchMap(const AFGUID& self, const int target_map, const int target_inst, const AFVector3D& pos,
+        const float orient, const AFIDataList& args) override;
 
     bool CreateMap(const int map_id) override;
     bool DestroyMap(const int map_id) override;
@@ -48,18 +48,19 @@ public:
     int GetMaxOnlineCount() override;
     int GetMapOnlineCount(const int map_id) override;
     int GetMapOnlineCount(const int map_id, const int inst_id) override;
-    int GetMapOnlineList(const int map_id, AFIDataList &list) override;
+    int GetMapOnlineList(const int map_id, AFIDataList& list) override;
 
     int CreateMapInstance(const int map_id) override;
     bool ReleaseMapInstance(const int map_id, const int inst_id) override;
     bool ExitMapInstance(const int map_id, const int inst_id) override;
 
-    bool GetInstEntityList(const int map_id, const int inst_id, AFIDataList &list) override;
-    int GetEntityByDataNode(const int map_id, const std::string &name, const AFIDataList &value_args, AFIDataList &list) override;
+    bool GetInstEntityList(const int map_id, const int inst_id, AFIDataList& list) override;
+    int GetEntityByDataNode(
+        const int map_id, const std::string& name, const AFIDataList& value_args, AFIDataList& list) override;
 
 private:
-    AFIKernelModule *m_pKernelModule;
-    AFILogModule *m_pLogModule;
+    AFIKernelModule* m_pKernelModule;
+    AFILogModule* m_pLogModule;
 
     AFMapEx<int, AFMapInfo> map_infos_;
 };

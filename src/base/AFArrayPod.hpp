@@ -31,17 +31,17 @@ public:
     AFArrayPodAlloc() = default;
     ~AFArrayPodAlloc() = default;
 
-    void *Alloc(size_t size)
+    void* Alloc(size_t size)
     {
         ARK_NEW_ARRAY_RET(char, size);
     }
 
-    void Free(void *ptr, size_t size)
+    void Free(void* ptr, size_t size)
     {
         ARK_DELETE_ARRAY(char, ptr);
     }
 
-    void Swap(AFArrayPodAlloc &src)
+    void Swap(AFArrayPodAlloc& src)
     {
         // do nothing
     }
@@ -64,7 +64,7 @@ public:
         mnSize = 0;
     }
 
-    AFArrayPod(const self_t &src)
+    AFArrayPod(const self_t& src)
     {
         mnSize = src.mnSize;
 
@@ -76,7 +76,7 @@ public:
         else
         {
             mnCapacity = src.mnCapacity;
-            mpData = (TYPE *)mxAlloc.Alloc(mnCapacity * sizeof(TYPE));
+            mpData = (TYPE*)mxAlloc.Alloc(mnCapacity * sizeof(TYPE));
         }
 
         memcpy(mpData, src.mpData, mnSize * sizeof(TYPE));
@@ -90,18 +90,18 @@ public:
         }
     }
 
-    self_t &operator=(const self_t &rhs)
+    self_t& operator=(const self_t& rhs)
     {
         self_t tmp(rhs);
         swap(tmp);
         return *this;
     }
 
-    void swap(self_t &src)
+    void swap(self_t& src)
     {
         size_t tmp_size = src.mnSize;
         size_t tmp_capacity = src.mnCapacity;
-        TYPE *tmp_data = src.mpData;
+        TYPE* tmp_data = src.mpData;
         TYPE tmp_stack[SIZE];
 
         if (tmp_capacity <= SIZE)
@@ -149,17 +149,17 @@ public:
         return mnSize;
     }
 
-    const TYPE *data() const
+    const TYPE* data() const
     {
         return mpData;
     }
 
-    void push_back(const TYPE &data)
+    void push_back(const TYPE& data)
     {
         if (mnSize == mnCapacity)
         {
             size_t new_size = mnSize * 2;
-            TYPE *p = (TYPE *)mxAlloc.Alloc(new_size * sizeof(TYPE));
+            TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
             memcpy(p, mpData, mnSize * sizeof(TYPE));
 
             if (mnCapacity > SIZE)
@@ -180,25 +180,25 @@ public:
         --mnSize;
     }
 
-    TYPE &back()
+    TYPE& back()
     {
         assert(mnSize > 0);
         return mpData[mnSize - 1];
     }
 
-    const TYPE &back() const
+    const TYPE& back() const
     {
         assert(mnSize > 0);
         return mpData[mnSize - 1];
     }
 
-    TYPE &operator[](size_t index)
+    TYPE& operator[](size_t index)
     {
         assert(index < mnSize);
         return mpData[index];
     }
 
-    const TYPE &operator[](size_t index) const
+    const TYPE& operator[](size_t index) const
     {
         assert(index < mnSize);
         return mpData[index];
@@ -208,7 +208,7 @@ public:
     {
         if (size > mnCapacity)
         {
-            TYPE *p = (TYPE *)mxAlloc.Alloc(size * sizeof(TYPE));
+            TYPE* p = (TYPE*)mxAlloc.Alloc(size * sizeof(TYPE));
             memcpy(p, mpData, mnSize * sizeof(TYPE));
 
             if (mnCapacity > SIZE)
@@ -232,7 +232,7 @@ public:
                 new_size = size;
             }
 
-            TYPE *p = (TYPE *)mxAlloc.Alloc(new_size * sizeof(TYPE));
+            TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
             memcpy(p, mpData, mnSize * sizeof(TYPE));
 
             if (mnCapacity > SIZE)
@@ -247,7 +247,7 @@ public:
         mnSize = size;
     }
 
-    void resize(size_t size, const TYPE &value)
+    void resize(size_t size, const TYPE& value)
     {
         if (size > mnCapacity)
         {
@@ -258,7 +258,7 @@ public:
                 new_size = size;
             }
 
-            TYPE *p = (TYPE *)mxAlloc.Alloc(new_size * sizeof(TYPE));
+            TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
             memcpy(p, mpData, mnSize * sizeof(TYPE));
 
             if (mnCapacity > SIZE)
@@ -281,12 +281,12 @@ public:
         mnSize = size;
     }
 
-    void insert(size_t index, const TYPE &data)
+    void insert(size_t index, const TYPE& data)
     {
         assert(index <= mnSize);
 
         resize(mnSize + 1);
-        TYPE *p = mpData + index;
+        TYPE* p = mpData + index;
         memmove(p + 1, p, (mnSize - index - 1) * sizeof(TYPE));
         *p = data;
     }
@@ -295,7 +295,7 @@ public:
     {
         assert(index <= mnSize);
 
-        TYPE *p = mpData + index;
+        TYPE* p = mpData + index;
         memmove(p, p + 1, (mnSize - index - 1) * sizeof(TYPE));
         --mnSize;
     }
@@ -303,7 +303,7 @@ public:
     void remove_some(size_t start, size_t count)
     {
         assert((start <= mnSize) && ((start + count) <= mnSize));
-        TYPE *p = mpData + start;
+        TYPE* p = mpData + start;
         memmove(p, p + count, (mnSize - start - count) * sizeof(TYPE));
         mnSize -= count;
     }
@@ -328,7 +328,7 @@ public:
 private:
     ALLOC mxAlloc;
     TYPE mxStack[SIZE];
-    TYPE *mpData;
+    TYPE* mpData;
     size_t mnCapacity;
     size_t mnSize;
 };

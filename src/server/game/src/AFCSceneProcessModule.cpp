@@ -38,7 +38,8 @@ bool AFCSceneProcessModule::Init()
     m_pGameNetModule = pPluginManager->FindModule<AFIGameNetModule>();
     m_pGUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
 
-    m_pKernelModule->AddClassCallBack(AFEntityMetaPlayer::self_name(), this, &AFCSceneProcessModule::OnObjectClassEvent);
+    m_pKernelModule->AddClassCallBack(
+        AFEntityMetaPlayer::self_name(), this, &AFCSceneProcessModule::OnObjectClassEvent);
 
     return true;
 }
@@ -80,7 +81,8 @@ bool AFCSceneProcessModule::CreateMapEntities(const int map_id, const int inst_i
     // for (auto iter : *pMapRes)
     //{
     //    auto pResource = iter.second;
-    //    const std::string class_name = m_pConfigModule->GetNodeString(pResource->strConfigID, AFConfigMetaNpc::self_name());
+    //    const std::string class_name = m_pConfigModule->GetNodeString(pResource->strConfigID,
+    //    AFConfigMetaNpc::self_name());
 
     //    AFCDataList arg;
     //    arg << ark::NPC::X() << pResource->fSeedX;
@@ -110,8 +112,8 @@ int AFCSceneProcessModule::CreateMapInstance(const int& map_id)
 
 int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEventID, const AFIDataList& var)
 {
-    if (var.GetCount() != 4 ||
-        !var.TypeEx(AF_DATA_TYPE::DT_INT64, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_UNKNOWN))
+    if (var.GetCount() != 4 || !var.TypeEx(AF_DATA_TYPE::DT_INT64, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT,
+                                   AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_UNKNOWN))
     {
         return 0;
     }
@@ -124,13 +126,15 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     if (self != ident)
     {
-        ARK_LOG_ERROR("you are not you self, but you want to entry this scene, id = {} scene_id = {}", ident, target_map);
+        ARK_LOG_ERROR(
+            "you are not you self, but you want to entry this scene, id = {} scene_id = {}", ident, target_map);
         return 1;
     }
 
     if (cur_map == target_map && target_inst == cur_inst)
     {
-        ARK_LOG_ERROR("In same map and map_instance but it not a clone scene, id = {} scene_id = {}", ident, target_map);
+        ARK_LOG_ERROR(
+            "In same map and map_instance but it not a clone scene, id = {} scene_id = {}", ident, target_map);
         return 1;
     }
 
@@ -223,8 +227,10 @@ int AFCSceneProcessModule::OnObjectClassEvent(
     }
     else if (ArkEntityEvent::ENTITY_EVT_DATA_FINISHED == eClassEvent)
     {
-        m_pKernelModule->AddEventCallBack(self, AFED_ON_CLIENT_ENTER_SCENE, this, &AFCSceneProcessModule::OnEnterSceneEvent);
-        m_pKernelModule->AddEventCallBack(self, AFED_ON_CLIENT_LEAVE_SCENE, this, &AFCSceneProcessModule::OnLeaveSceneEvent);
+        m_pKernelModule->AddEventCallBack(
+            self, AFED_ON_CLIENT_ENTER_SCENE, this, &AFCSceneProcessModule::OnEnterSceneEvent);
+        m_pKernelModule->AddEventCallBack(
+            self, AFED_ON_CLIENT_LEAVE_SCENE, this, &AFCSceneProcessModule::OnLeaveSceneEvent);
     }
 
     return 0;
@@ -283,7 +289,8 @@ bool AFCSceneProcessModule::LoadMapResource(const int map_id)
     ////资源文件列表
     // rapidxml::xml_node<>* pSeedFileRoot = xFileDoc.first_node();
 
-    // for (rapidxml::xml_node<>* pSeedFileNode = pSeedFileRoot->first_node(); pSeedFileNode; pSeedFileNode = pSeedFileNode->next_sibling())
+    // for (rapidxml::xml_node<>* pSeedFileNode = pSeedFileRoot->first_node(); pSeedFileNode; pSeedFileNode =
+    // pSeedFileNode->next_sibling())
     //{
     //    //种子具体信息
     //    std::string strSeedID = pSeedFileNode->first_attribute("ID")->value();

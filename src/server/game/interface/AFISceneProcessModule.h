@@ -37,8 +37,8 @@ class AFISceneProcessModule : public AFIModule
 public:
     virtual bool IsInstanceMap(const int nSceneID) = 0;
     virtual E_SCENE_TYPE GetMapInstanceType(const int map_id) = 0;
-    virtual bool ApplyMapInstance(const int map_id, int &map_inst_id) = 0;
-    virtual bool ExitMapInstance(const int map_id, const int &map_inst_id) = 0;
+    virtual bool ApplyMapInstance(const int map_id, int& map_inst_id) = 0;
+    virtual bool ExitMapInstance(const int map_id, const int& map_inst_id) = 0;
 };
 
 } // namespace ark

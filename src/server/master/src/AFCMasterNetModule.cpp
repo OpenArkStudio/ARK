@@ -69,14 +69,21 @@ int AFCMasterNetModule::StartServer()
     }
 
     // m_pNetServer->RegMsgCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCMasterNetServerModule::OnHeartBeat);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_MTL_WORLD_REGISTERED, this, &AFCMasterNetServerModule::OnWorldRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_MTL_WORLD_UNREGISTERED, this, &AFCMasterNetServerModule::OnWorldUnRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_MTL_WORLD_REFRESH, this, &AFCMasterNetServerModule::OnRefreshWorldInfoProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_LTM_LOGIN_REGISTERED, this, &AFCMasterNetServerModule::OnLoginRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_LTM_LOGIN_UNREGISTERED, this, &AFCMasterNetServerModule::OnLoginUnRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_LTM_LOGIN_REFRESH, this, &AFCMasterNetServerModule::OnRefreshLoginInfoProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCMasterNetServerModule::OnSelectWorldProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCMasterNetServerModule::OnSelectServerResultProcess);
+    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_MTL_WORLD_REGISTERED, this,
+    // &AFCMasterNetServerModule::OnWorldRegisteredProcess);
+    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_MTL_WORLD_UNREGISTERED, this,
+    // &AFCMasterNetServerModule::OnWorldUnRegisteredProcess);
+    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_MTL_WORLD_REFRESH, this,
+    // &AFCMasterNetServerModule::OnRefreshWorldInfoProcess);
+    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_LTM_LOGIN_REGISTERED, this,
+    // &AFCMasterNetServerModule::OnLoginRegisteredProcess);
+    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_LTM_LOGIN_UNREGISTERED, this,
+    // &AFCMasterNetServerModule::OnLoginUnRegisteredProcess);
+    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_LTM_LOGIN_REFRESH, this,
+    // &AFCMasterNetServerModule::OnRefreshLoginInfoProcess);
+    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this,
+    // &AFCMasterNetServerModule::OnSelectWorldProcess); m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_CONNECT_WORLD,
+    // this, &AFCMasterNetServerModule::OnSelectServerResultProcess);
 
     // m_pNetServer->RegMsgCallback(AFMsg::E_SS_MSG_ID_SERVER_REPORT, this, &AFCMasterNetServerModule::OnServerReport);
 
@@ -87,7 +94,8 @@ int AFCMasterNetModule::StartServer()
     return 0;
 }
 
-// void AFCMasterNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
+// void AFCMasterNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip,
+// const int bus_id)
 //{
 //    switch (event)
 //    {
@@ -118,8 +126,8 @@ int AFCMasterNetModule::StartServer()
 //    reg_servers_.RemoveElement(bus_id);
 //}
 
-// void AFCMasterNetServerModule::OnWorldRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t
-// nLen, const AFGUID& xClientID)
+// void AFCMasterNetServerModule::OnWorldRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char*
+// msg, const uint32_t nLen, const AFGUID& xClientID)
 //{
 //    ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
@@ -142,8 +150,8 @@ int AFCMasterNetModule::StartServer()
 //    SynWorldToLogin();
 //}
 
-// void AFCMasterNetServerModule::OnWorldUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const
-// uint32_t nLen, const AFGUID& xClientID)
+// void AFCMasterNetServerModule::OnWorldUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const
+// char* msg, const uint32_t nLen, const AFGUID& xClientID)
 //{
 //    ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
@@ -158,8 +166,8 @@ int AFCMasterNetModule::StartServer()
 //    SynWorldToLogin();
 //}
 
-// void AFCMasterNetServerModule::OnRefreshWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const
-// uint32_t nLen, const AFGUID& xClientID)
+// void AFCMasterNetServerModule::OnRefreshWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const
+// char* msg, const uint32_t nLen, const AFGUID& xClientID)
 //{
 //    ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
@@ -182,8 +190,8 @@ int AFCMasterNetModule::StartServer()
 //    SynWorldToLogin();
 //}
 
-// void AFCMasterNetServerModule::OnLoginRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t
-// nLen, const AFGUID& xClientID)
+// void AFCMasterNetServerModule::OnLoginRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char*
+// msg, const uint32_t nLen, const AFGUID& xClientID)
 //{
 //    ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
@@ -206,8 +214,8 @@ int AFCMasterNetModule::StartServer()
 //    SynWorldToLogin();
 //}
 
-// void AFCMasterNetServerModule::OnLoginUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const
-// uint32_t nLen, const AFGUID& xClientID)
+// void AFCMasterNetServerModule::OnLoginUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const
+// char* msg, const uint32_t nLen, const AFGUID& xClientID)
 //{
 //    ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
@@ -221,8 +229,8 @@ int AFCMasterNetModule::StartServer()
 //    }
 //}
 
-// void AFCMasterNetServerModule::OnRefreshLoginInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const
-// uint32_t nLen, const AFGUID& xClientID)
+// void AFCMasterNetServerModule::OnRefreshLoginInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const
+// char* msg, const uint32_t nLen, const AFGUID& xClientID)
 //{
 //    ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
@@ -243,8 +251,8 @@ int AFCMasterNetModule::StartServer()
 //    }
 //}
 
-// void AFCMasterNetServerModule::OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t
-// nLen, const AFGUID& xClientID)
+// void AFCMasterNetServerModule::OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char*
+// msg, const uint32_t nLen, const AFGUID& xClientID)
 //{
 //    ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ReqConnectWorld);
 
@@ -259,8 +267,8 @@ int AFCMasterNetModule::StartServer()
 //    m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xMsg, pServerData->xClient, nPlayerID);
 //}
 
-// void AFCMasterNetServerModule::OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const
-// uint32_t nLen, const AFGUID& xClientID)
+// void AFCMasterNetServerModule::OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const
+// char* msg, const uint32_t nLen, const AFGUID& xClientID)
 //{
 //    ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
 //    ARK_SHARE_PTR<AFServerData> pServerData = mLoginMap.GetElement(xMsg.login_id());
@@ -278,27 +286,29 @@ int AFCMasterNetModule::StartServer()
 //{
 //    AFMsg::ServerInfoReportList xData;
 
-//    for (ARK_SHARE_PTR<AFServerData> pServerData = mWorldMap.First(); nullptr != pServerData; pServerData = mWorldMap.Next())
+//    for (ARK_SHARE_PTR<AFServerData> pServerData = mWorldMap.First(); nullptr != pServerData; pServerData =
+//    mWorldMap.Next())
 //    {
 //        AFMsg::ServerInfoReport* pData = xData.add_server_list();
 //        *pData = pServerData->xData;
 //    }
 
 //    //广播给所有loginserver
-//    for (ARK_SHARE_PTR<AFServerData> pServerData = mLoginMap.First(); nullptr != pServerData; pServerData = mLoginMap.Next())
+//    for (ARK_SHARE_PTR<AFServerData> pServerData = mLoginMap.First(); nullptr != pServerData; pServerData =
+//    mLoginMap.Next())
 //    {
 //        m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_STS_NET_INFO, xData, pServerData->xClient, AFGUID(0));
 //    }
 //}
 
-// void AFCMasterNetServerModule::OnHeartBeat(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len,
-// const AFGUID& conn_id)
+// void AFCMasterNetServerModule::OnHeartBeat(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const
+// uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    //do nothing
 //}
 
-// void AFCMasterNetServerModule::InvalidMessage(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len,
-// const AFGUID& conn_id)
+// void AFCMasterNetServerModule::InvalidMessage(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const
+// uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    ARK_LOG_ERROR("Invalid msg id = {}", msg_id);
 //}
@@ -318,8 +328,8 @@ int AFCMasterNetModule::StartServer()
 //    ARK_LOG_INFO("---------------------------End to log all registered server---------------------------");
 //}
 //////////////////////////////////////////////////////////////////////////
-// void AFCMasterNetServerModule::OnServerReport(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len,
-// const AFGUID& conn_id)
+// void AFCMasterNetServerModule::OnServerReport(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const
+// uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_report);
 //    ARK_SHARE_PTR<AFServerData> server_data_ptr = reg_servers_.GetElement(x_msg.bus_id());

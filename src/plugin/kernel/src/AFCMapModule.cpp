@@ -43,7 +43,7 @@ ARK_SHARE_PTR<ark::AFMapInfo> AFCMapModule::GetMapInfo(const int map_id)
     return map_infos_.find_value(map_id);
 }
 
-bool AFCMapModule::IsInMapInstance(const AFGUID &self)
+bool AFCMapModule::IsInMapInstance(const AFGUID& self)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if (pEntity != nullptr)
@@ -63,8 +63,8 @@ bool AFCMapModule::ExistMap(const int map_id)
     return (pMapInfo != nullptr);
 }
 
-bool AFCMapModule::SwitchMap(
-    const AFGUID &self, const int target_map, const int target_inst, const AFVector3D &pos, const float fOrient, const AFIDataList &args)
+bool AFCMapModule::SwitchMap(const AFGUID& self, const int target_map, const int target_inst, const AFVector3D& pos,
+    const float fOrient, const AFIDataList& args)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if (pEntity == nullptr)
@@ -153,7 +153,7 @@ int AFCMapModule::GetOnlineCount()
     for (auto iter : map_infos_)
     {
         auto pMapInfo = iter.second;
-        auto &all_instances = pMapInfo->GetAllInstance();
+        auto& all_instances = pMapInfo->GetAllInstance();
         for (auto it : all_instances)
         {
             online_count += it.second->player_entities_.size();
@@ -208,7 +208,7 @@ int AFCMapModule::GetMapOnlineCount(const int map_id, const int map_instance_id)
     return online_count;
 }
 
-int AFCMapModule::GetMapOnlineList(const int map_id, AFIDataList &list)
+int AFCMapModule::GetMapOnlineList(const int map_id, AFIDataList& list)
 {
     ARK_SHARE_PTR<AFMapInfo> pMapInfo = map_infos_.find_value(map_id);
     if (pMapInfo == nullptr)
@@ -299,7 +299,7 @@ bool AFCMapModule::ExitMapInstance(const int map_id, const int inst_id)
     return (pMapInstance != nullptr);
 }
 
-bool AFCMapModule::GetInstEntityList(const int map_id, const int inst_id, AFIDataList &list)
+bool AFCMapModule::GetInstEntityList(const int map_id, const int inst_id, AFIDataList& list)
 {
     ARK_SHARE_PTR<AFMapInfo> pMapInfo = map_infos_.find_value(map_id);
     if (pMapInfo == nullptr)
@@ -326,7 +326,8 @@ bool AFCMapModule::GetInstEntityList(const int map_id, const int inst_id, AFIDat
     return true;
 }
 
-int AFCMapModule::GetEntityByDataNode(const int map_id, const std::string &name, const AFIDataList &value_args, AFIDataList &list)
+int AFCMapModule::GetEntityByDataNode(
+    const int map_id, const std::string& name, const AFIDataList& value_args, AFIDataList& list)
 {
     AFCDataList varObjectList;
     GetMapOnlineList(map_id, varObjectList);
@@ -340,13 +341,13 @@ int AFCMapModule::GetEntityByDataNode(const int map_id, const std::string &name,
             continue;
         }
 
-        ARK_SHARE_PTR<AFIDataNodeManager> &pNodeManager = pEntity->GetNodeManager();
+        ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager = pEntity->GetNodeManager();
         if (pNodeManager == nullptr)
         {
             continue;
         }
 
-        AFDataNode *pDataNode = pNodeManager->GetNode(name.c_str());
+        AFDataNode* pDataNode = pNodeManager->GetNode(name.c_str());
         if (pDataNode != nullptr && value_args.Equal(0, pDataNode->value))
         {
             list.AddInt64(ident);

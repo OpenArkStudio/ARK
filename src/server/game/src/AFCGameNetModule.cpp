@@ -78,9 +78,12 @@ int AFCGameNetModule::StartServer()
         return ret;
     }
 
-    m_pNetServerService->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCGameNetModule::OnRefreshProxyServerInfoProcess);
-    m_pNetServerService->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCGameNetModule::OnProxyServerRegisteredProcess);
-    m_pNetServerService->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCGameNetModule::OnProxyServerUnRegisteredProcess);
+    m_pNetServerService->RegMsgCallback(
+        AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCGameNetModule::OnRefreshProxyServerInfoProcess);
+    m_pNetServerService->RegMsgCallback(
+        AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCGameNetModule::OnProxyServerRegisteredProcess);
+    m_pNetServerService->RegMsgCallback(
+        AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCGameNetModule::OnProxyServerUnRegisteredProcess);
     m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCGameNetModule::OnClienEnterGameProcess);
     m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_LEAVE_GAME, this, &AFCGameNetModule::OnClientLeaveGameProcess);
     m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_ROLE_LIST, this, &AFCGameNetModule::OnReqiureRoleListProcess);
@@ -113,7 +116,7 @@ int AFCGameNetModule::StartClient()
     }
 
     // if need to add a member
-    AFINetClientService *pNetClient = m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_WORLD);
+    AFINetClientService* pNetClient = m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_WORLD);
     if (pNetClient == nullptr)
     {
         return -1;
@@ -125,7 +128,7 @@ int AFCGameNetModule::StartClient()
     return 0;
 }
 
-void AFCGameNetModule::OnClienEnterGameProcess(const AFNetMsg *msg, const int64_t session_id)
+void AFCGameNetModule::OnClienEnterGameProcess(const AFNetMsg* msg, const int64_t session_id)
 {
     ////Before enter game, PlayerID means gate fd
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqEnterGameServer);
@@ -176,7 +179,8 @@ void AFCGameNetModule::OnClienEnterGameProcess(const AFNetMsg *msg, const int64_
     // var.AddString("ClientID");
     // var.AddInt64(nGateClientID);
 
-    // ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(nRoleID, nSceneID, 0, ark::Player::ThisName(), "", var);
+    // ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(nRoleID, nSceneID, 0, ark::Player::ThisName(),
+    // "", var);
 
     // if (nullptr == pEntity)
     //{
@@ -190,7 +194,8 @@ void AFCGameNetModule::OnClienEnterGameProcess(const AFNetMsg *msg, const int64_
     // pEntity->SetNodeInt("GateID", nGateID);
     // pEntity->SetNodeInt("GameID", pPluginManager->BusID());
 
-    // m_pKernelModule->DoEvent(pEntity->Self(), ark::Player::ThisName(), ArkEntityEvent::ENTITY_EVT_ALL_FINISHED, AFCDataList());
+    // m_pKernelModule->DoEvent(pEntity->Self(), ark::Player::ThisName(), ArkEntityEvent::ENTITY_EVT_ALL_FINISHED,
+    // AFCDataList());
 
     // AFCDataList varEntry;
     // varEntry << pEntity->Self();
@@ -200,7 +205,7 @@ void AFCGameNetModule::OnClienEnterGameProcess(const AFNetMsg *msg, const int64_
     // m_pKernelModule->DoEvent(pEntity->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
 }
 
-void AFCGameNetModule::OnClientLeaveGameProcess(const AFNetMsg *msg, const int64_t session_id)
+void AFCGameNetModule::OnClientLeaveGameProcess(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqLeaveGameServer);
 
@@ -220,7 +225,7 @@ void AFCGameNetModule::OnClientLeaveGameProcess(const AFNetMsg *msg, const int64
     //}
 }
 
-int AFCGameNetModule::OnViewDataNodeEnter(const AFIDataList &argVar, const AFGUID &self)
+int AFCGameNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFGUID& self)
 {
     if (argVar.GetCount() <= 0 || self == 0)
     {
@@ -253,7 +258,7 @@ int AFCGameNetModule::OnViewDataNodeEnter(const AFIDataList &argVar, const AFGUI
     return 0;
 }
 
-int AFCGameNetModule::OnSelfDataNodeEnter(const AFGUID &self)
+int AFCGameNetModule::OnSelfDataNodeEnter(const AFGUID& self)
 {
     if (self == 0)
     {
@@ -277,7 +282,7 @@ int AFCGameNetModule::OnSelfDataNodeEnter(const AFGUID &self)
     return 0;
 }
 
-int AFCGameNetModule::OnSelfDataTableEnter(const AFGUID &self)
+int AFCGameNetModule::OnSelfDataTableEnter(const AFGUID& self)
 {
     if (self == 0)
     {
@@ -301,7 +306,7 @@ int AFCGameNetModule::OnSelfDataTableEnter(const AFGUID &self)
     return 0;
 }
 
-int AFCGameNetModule::OnViewDataTableEnter(const AFIDataList &argVar, const AFGUID &self)
+int AFCGameNetModule::OnViewDataTableEnter(const AFIDataList& argVar, const AFGUID& self)
 {
     if (argVar.GetCount() <= 0 || self == 0)
     {
@@ -335,7 +340,7 @@ int AFCGameNetModule::OnViewDataTableEnter(const AFIDataList &argVar, const AFGU
     return 0;
 }
 
-bool AFCGameNetModule::ProcessLeaveGroup(const AFGUID &self, int map_id, int old_inst_id)
+bool AFCGameNetModule::ProcessLeaveGroup(const AFGUID& self, int map_id, int old_inst_id)
 {
     if (old_inst_id <= 0)
     {
@@ -376,7 +381,7 @@ bool AFCGameNetModule::ProcessLeaveGroup(const AFGUID &self, int map_id, int old
     return true;
 }
 
-bool AFCGameNetModule::ProcessEnterGroup(const AFGUID &self, int nSceneID, int nNewGroupID)
+bool AFCGameNetModule::ProcessEnterGroup(const AFGUID& self, int nSceneID, int nNewGroupID)
 {
     //再广播给别人自己出现(层升或者跃层)
     if (nNewGroupID <= 0)
@@ -440,7 +445,7 @@ bool AFCGameNetModule::ProcessEnterGroup(const AFGUID &self, int nSceneID, int n
     return true;
 }
 
-int AFCGameNetModule::OnEntityListEnter(const AFIDataList &self, const AFIDataList &argVar)
+int AFCGameNetModule::OnEntityListEnter(const AFIDataList& self, const AFIDataList& argVar)
 {
     if (self.GetCount() <= 0 || argVar.GetCount() <= 0)
     {
@@ -459,7 +464,7 @@ int AFCGameNetModule::OnEntityListEnter(const AFIDataList &self, const AFIDataLi
             continue;
         }
 
-        AFMsg::EntityEnterInfo *pEnterInfo = xEntityEnterList.add_entity_list();
+        AFMsg::EntityEnterInfo* pEnterInfo = xEntityEnterList.add_entity_list();
         pEnterInfo->set_object_guid(identOld);
         AFVector3D xPoint;
         xPoint.x = m_pKernelModule->GetNodeFloat(identOld, "x");
@@ -493,7 +498,7 @@ int AFCGameNetModule::OnEntityListEnter(const AFIDataList &self, const AFIDataLi
     return 0;
 }
 
-int AFCGameNetModule::OnEntityListLeave(const AFIDataList &self, const AFIDataList &argVar)
+int AFCGameNetModule::OnEntityListLeave(const AFIDataList& self, const AFIDataList& argVar)
 {
     if (self.GetCount() <= 0 || argVar.GetCount() <= 0)
     {
@@ -527,7 +532,8 @@ int AFCGameNetModule::OnEntityListLeave(const AFIDataList &self, const AFIDataLi
     return 0;
 }
 
-int AFCGameNetModule::OnCommonDataNodeEvent(const AFGUID &self, const std::string &name, const AFIData &oldVar, const AFIData &newVar)
+int AFCGameNetModule::OnCommonDataNodeEvent(
+    const AFGUID& self, const std::string& name, const AFIData& oldVar, const AFIData& newVar)
 {
     if (AFEntityMetaBaseEntity::map_inst_id() == name)
     {
@@ -541,7 +547,8 @@ int AFCGameNetModule::OnCommonDataNodeEvent(const AFGUID &self, const std::strin
         OnContainerEvent(self, name, oldVar, newVar);
     }
 
-    if (AFEntityMetaPlayer::self_name() == std::string(m_pKernelModule->GetNodeString(self, AFEntityMetaBaseEntity::class_name())) &&
+    if (AFEntityMetaPlayer::self_name() ==
+            std::string(m_pKernelModule->GetNodeString(self, AFEntityMetaBaseEntity::class_name())) &&
         (m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::load_data_finished()) <= 0))
     {
         return 0;
@@ -557,7 +564,7 @@ int AFCGameNetModule::OnCommonDataNodeEvent(const AFGUID &self, const std::strin
 
     AFMsg::EntityDataNode xEntityDataNode;
     xEntityDataNode.set_entity_id(self);
-    AFMsg::PBNodeData *pData = xEntityDataNode.add_data_node_list();
+    AFMsg::PBNodeData* pData = xEntityDataNode.add_data_node_list();
     AFIMsgModule::DataNodeToPBNode(oldVar, name.c_str(), *pData);
 
     for (size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
@@ -570,17 +577,17 @@ int AFCGameNetModule::OnCommonDataNodeEvent(const AFGUID &self, const std::strin
 }
 
 void AFCGameNetModule::CommonDataTableAddEvent(
-    const AFGUID &self, const std::string &strTableName, int nRow, int nCol, const AFCDataList &valueBroadCaseList)
+    const AFGUID& self, const std::string& strTableName, int nRow, int nCol, const AFCDataList& valueBroadCaseList)
 {
     AFMsg::EntityDataTableAddRow xTableAddRow;
     xTableAddRow.set_entity_id(self);
     xTableAddRow.set_table_name(strTableName);
 
-    AFMsg::DataTableAddRow *pAddRowData = xTableAddRow.add_row_data();
+    AFMsg::DataTableAddRow* pAddRowData = xTableAddRow.add_row_data();
     pAddRowData->set_row(nRow);
 
     // add row 需要完整的row
-    AFDataTable *pTable = m_pKernelModule->FindTable(self, strTableName);
+    AFDataTable* pTable = m_pKernelModule->FindTable(self, strTableName);
     if (pTable == nullptr)
     {
         return;
@@ -592,7 +599,7 @@ void AFCGameNetModule::CommonDataTableAddEvent(
     {
         for (size_t i = 0; i < xRowDataList.GetCount(); i++)
         {
-            AFMsg::PBCellData *pAddData = pAddRowData->add_cell_list();
+            AFMsg::PBCellData* pAddData = pAddRowData->add_cell_list();
             AFIMsgModule::TableCellToPBCell(xRowDataList, nRow, nCol, *pAddData);
         }
 
@@ -606,7 +613,7 @@ void AFCGameNetModule::CommonDataTableAddEvent(
 }
 
 void AFCGameNetModule::CommonDataTableDeleteEvent(
-    const AFGUID &self, const std::string &strTableName, int nRow, const AFCDataList &valueBroadCaseList)
+    const AFGUID& self, const std::string& strTableName, int nRow, const AFCDataList& valueBroadCaseList)
 {
     AFMsg::EntityDataTableRemove xTableRemoveRow;
     xTableRemoveRow.set_entity_id(self);
@@ -621,8 +628,8 @@ void AFCGameNetModule::CommonDataTableDeleteEvent(
     }
 }
 
-void AFCGameNetModule::CommonDataTableSwapEvent(
-    const AFGUID &self, const std::string &strTableName, int nRow, int target_row, const AFCDataList &valueBroadCaseList)
+void AFCGameNetModule::CommonDataTableSwapEvent(const AFGUID& self, const std::string& strTableName, int nRow,
+    int target_row, const AFCDataList& valueBroadCaseList)
 {
     // swap 2 different rows
     AFMsg::EntityDataTableSwap xTableSwap;
@@ -639,13 +646,13 @@ void AFCGameNetModule::CommonDataTableSwapEvent(
     }
 }
 
-void AFCGameNetModule::CommonDataTableUpdateEvent(
-    const AFGUID &self, const std::string &strTableName, int nRow, int nCol, const AFIData &newVar, const AFCDataList &valueBroadCaseList)
+void AFCGameNetModule::CommonDataTableUpdateEvent(const AFGUID& self, const std::string& strTableName, int nRow,
+    int nCol, const AFIData& newVar, const AFCDataList& valueBroadCaseList)
 {
     AFMsg::EntityDataTable xTableChanged;
     xTableChanged.set_entity_id(self);
     xTableChanged.set_table_name(strTableName);
-    AFMsg::PBCellData *pCellData = xTableChanged.add_table_cell_list();
+    AFMsg::PBCellData* pCellData = xTableChanged.add_table_cell_list();
     AFIMsgModule::TableCellToPBCell(newVar, nRow, nCol, *pCellData);
 
     for (size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
@@ -657,9 +664,9 @@ void AFCGameNetModule::CommonDataTableUpdateEvent(
 }
 
 int AFCGameNetModule::OnCommonDataTableEvent(
-    const AFGUID &self, const DATA_TABLE_EVENT_DATA &xEventData, const AFIData &oldVar, const AFIData &newVar)
+    const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
-    const std::string &strTableName = xEventData.strName.c_str();
+    const std::string& strTableName = xEventData.strName.c_str();
     const int nOpType = xEventData.nOpType;
     const int nRow = xEventData.nRow;
     const int nCol = xEventData.nCol;
@@ -671,7 +678,8 @@ int AFCGameNetModule::OnCommonDataTableEvent(
         return 1;
     }
 
-    if (AFEntityMetaPlayer::self_name() == std::string(m_pKernelModule->GetNodeString(self, AFEntityMetaBaseEntity::class_name())) &&
+    if (AFEntityMetaPlayer::self_name() ==
+            std::string(m_pKernelModule->GetNodeString(self, AFEntityMetaBaseEntity::class_name())) &&
         m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::load_data_finished()) <= 0)
     {
         return 1;
@@ -709,7 +717,7 @@ int AFCGameNetModule::OnCommonDataTableEvent(
     return 0;
 }
 
-int AFCGameNetModule::CommonClassDestoryEvent(const AFGUID &self)
+int AFCGameNetModule::CommonClassDestoryEvent(const AFGUID& self)
 {
     int map_id = m_pKernelModule->GetNodeInt(self, AFEntityMetaBaseEntity::map_id());
     int map_inst_id = m_pKernelModule->GetNodeInt(self, AFEntityMetaBaseEntity::map_inst_id());
@@ -746,7 +754,7 @@ int AFCGameNetModule::CommonClassDestoryEvent(const AFGUID &self)
 }
 
 int AFCGameNetModule::OnCommonClassEvent(
-    const AFGUID &self, const std::string &strClassName, const ArkEntityEvent eClassEvent, const AFIDataList &var)
+    const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var)
 {
     switch (eClassEvent)
     {
@@ -799,7 +807,7 @@ int AFCGameNetModule::OnCommonClassEvent(
 }
 
 int AFCGameNetModule::OnMapInstanceEvent(
-    const AFGUID &self, const std::string &strPropertyName, const AFIData &oldVar, const AFIData &newVar)
+    const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
 {
     //容器发生变化，只可能从A容器的0层切换到B容器的0层
     //需要注意的是------------任何层改变的时候，此玩家其实还未进入层，因此，层改变的时候获取的玩家列表，目标层是不包含自己的
@@ -815,7 +823,8 @@ int AFCGameNetModule::OnMapInstanceEvent(
     return 0;
 }
 
-int AFCGameNetModule::OnContainerEvent(const AFGUID &self, const std::string &strPropertyName, const AFIData &oldVar, const AFIData &newVar)
+int AFCGameNetModule::OnContainerEvent(
+    const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
 {
     //容器发生变化，只可能从A容器的0层切换到B容器的0层
     //需要注意的是------------任何容器改变的时候，玩家必须是0层
@@ -902,7 +911,7 @@ int AFCGameNetModule::OnContainerEvent(const AFGUID &self, const std::string &st
     return 0;
 }
 
-int AFCGameNetModule::GetNodeBroadcastEntityList(const AFGUID &self, const std::string &name, AFIDataList &valueObject)
+int AFCGameNetModule::GetNodeBroadcastEntityList(const AFGUID& self, const std::string& name, AFIDataList& valueObject)
 {
     int nObjectContainerID = m_pKernelModule->GetNodeInt(self, AFEntityMetaBaseEntity::map_id());
     int nObjectGroupID = m_pKernelModule->GetNodeInt(self, AFEntityMetaBaseEntity::map_inst_id());
@@ -916,7 +925,7 @@ int AFCGameNetModule::GetNodeBroadcastEntityList(const AFGUID &self, const std::
         return -1;
     }
 
-    AFDataNode *pDataNode = pClassDataNodeManager->GetNode(name.c_str());
+    AFDataNode* pDataNode = pClassDataNodeManager->GetNode(name.c_str());
 
     if (nullptr == pDataNode)
     {
@@ -937,7 +946,7 @@ int AFCGameNetModule::GetNodeBroadcastEntityList(const AFGUID &self, const std::
     return valueObject.GetCount();
 }
 
-int AFCGameNetModule::GetTableBroadcastEntityList(const AFGUID &self, const std::string &name, AFIDataList &valueObject)
+int AFCGameNetModule::GetTableBroadcastEntityList(const AFGUID& self, const std::string& name, AFIDataList& valueObject)
 {
     int map_id = m_pKernelModule->GetNodeInt(self, AFEntityMetaBaseEntity::map_id());
     int map_inst_id = m_pKernelModule->GetNodeInt(self, AFEntityMetaBaseEntity::map_inst_id());
@@ -951,7 +960,7 @@ int AFCGameNetModule::GetTableBroadcastEntityList(const AFGUID &self, const std:
         return -1;
     }
 
-    AFDataTable *pDataTable = pClassDataTableManager->GetTable(name.c_str());
+    AFDataTable* pDataTable = pClassDataTableManager->GetTable(name.c_str());
 
     if (pDataTable == nullptr)
     {
@@ -971,14 +980,14 @@ int AFCGameNetModule::GetTableBroadcastEntityList(const AFGUID &self, const std:
 
     return valueObject.GetCount();
 }
-int AFCGameNetModule::GetBroadcastEntityList(const int map_id, const int inst_id, AFIDataList &valueObject)
+int AFCGameNetModule::GetBroadcastEntityList(const int map_id, const int inst_id, AFIDataList& valueObject)
 {
     AFCDataList map_inst_entity_list;
     m_pMapModule->GetInstEntityList(map_id, inst_id, map_inst_entity_list);
 
     for (size_t i = 0; i < map_inst_entity_list.GetCount(); i++)
     {
-        const std::string &strObjClassName =
+        const std::string& strObjClassName =
             m_pKernelModule->GetNodeString(map_inst_entity_list.Int64(i), AFEntityMetaBaseEntity::class_name());
 
         if (AFEntityMetaPlayer::self_name() == strObjClassName)
@@ -991,7 +1000,7 @@ int AFCGameNetModule::GetBroadcastEntityList(const int map_id, const int inst_id
 }
 
 int AFCGameNetModule::OnEntityEvent(
-    const AFGUID &self, const std::string &strClassName, const ArkEntityEvent eClassEvent, const AFIDataList &var)
+    const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var)
 {
     switch (eClassEvent)
     {
@@ -1006,7 +1015,8 @@ int AFCGameNetModule::OnEntityEvent(
         break;
 
     case ArkEntityEvent::ENTITY_EVT_ALL_FINISHED:
-        m_pKernelModule->AddEventCallBack(self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, this, &AFCGameNetModule::OnSwapSceneResultEvent);
+        m_pKernelModule->AddEventCallBack(
+            self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, this, &AFCGameNetModule::OnSwapSceneResultEvent);
         break;
 
     default:
@@ -1016,10 +1026,11 @@ int AFCGameNetModule::OnEntityEvent(
     return 0;
 }
 
-int AFCGameNetModule::OnSwapSceneResultEvent(const AFGUID &self, const int nEventID, const AFIDataList &var)
+int AFCGameNetModule::OnSwapSceneResultEvent(const AFGUID& self, const int nEventID, const AFIDataList& var)
 {
-    if (var.GetCount() != 7 || !var.TypeEx(AF_DATA_TYPE::DT_INT64, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT,
-                                   AF_DATA_TYPE::DT_FLOAT, AF_DATA_TYPE::DT_FLOAT, AF_DATA_TYPE::DT_FLOAT, AF_DATA_TYPE::DT_UNKNOWN))
+    if (var.GetCount() != 7 ||
+        !var.TypeEx(AF_DATA_TYPE::DT_INT64, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT,
+            AF_DATA_TYPE::DT_FLOAT, AF_DATA_TYPE::DT_FLOAT, AF_DATA_TYPE::DT_FLOAT, AF_DATA_TYPE::DT_UNKNOWN))
     {
         return 1;
     }
@@ -1044,7 +1055,7 @@ int AFCGameNetModule::OnSwapSceneResultEvent(const AFGUID &self, const int nEven
     return 0;
 }
 
-void AFCGameNetModule::OnReqiureRoleListProcess(const AFNetMsg *msg, const int64_t session_id)
+void AFCGameNetModule::OnReqiureRoleListProcess(const AFNetMsg* msg, const int64_t session_id)
 {
     ////fd
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqRoleList);
@@ -1059,7 +1070,7 @@ void AFCGameNetModule::OnReqiureRoleListProcess(const AFNetMsg *msg, const int64
     // m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, nGateClientID);
 }
 
-void AFCGameNetModule::OnCreateRoleGameProcess(const AFNetMsg *msg, const int64_t session_id)
+void AFCGameNetModule::OnCreateRoleGameProcess(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqCreateRole);
     // const AFGUID& nGateClientID = actor_id;
@@ -1080,7 +1091,7 @@ void AFCGameNetModule::OnCreateRoleGameProcess(const AFNetMsg *msg, const int64_
     // m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, nGateClientID);
 }
 
-void AFCGameNetModule::OnDeleteRoleGameProcess(const AFNetMsg *msg, const int64_t session_id)
+void AFCGameNetModule::OnDeleteRoleGameProcess(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqDeleteRole);
 
@@ -1094,7 +1105,7 @@ void AFCGameNetModule::OnDeleteRoleGameProcess(const AFNetMsg *msg, const int64_
     // m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, actor_id);
 }
 
-void AFCGameNetModule::OnClienSwapSceneProcess(const AFNetMsg *msg, const int64_t session_id)
+void AFCGameNetModule::OnClienSwapSceneProcess(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_ACTOR_MSG(head, msg_id, msg, msg_len, AFMsg::ReqAckSwapScene);
 
@@ -1106,7 +1117,7 @@ void AFCGameNetModule::OnClienSwapSceneProcess(const AFNetMsg *msg, const int64_
     // m_pKernelModule->DoEvent(pEntity->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
 }
 
-void AFCGameNetModule::OnProxyServerRegisteredProcess(const AFNetMsg *msg, const int64_t session_id)
+void AFCGameNetModule::OnProxyServerRegisteredProcess(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 
@@ -1128,7 +1139,7 @@ void AFCGameNetModule::OnProxyServerRegisteredProcess(const AFNetMsg *msg, const
     //}
 }
 
-void AFCGameNetModule::OnProxyServerUnRegisteredProcess(const AFNetMsg *msg, const int64_t session_id)
+void AFCGameNetModule::OnProxyServerUnRegisteredProcess(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 
@@ -1140,7 +1151,7 @@ void AFCGameNetModule::OnProxyServerUnRegisteredProcess(const AFNetMsg *msg, con
     //}
 }
 
-void AFCGameNetModule::OnRefreshProxyServerInfoProcess(const AFNetMsg *msg, const int64_t session_id)
+void AFCGameNetModule::OnRefreshProxyServerInfoProcess(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 
@@ -1162,7 +1173,7 @@ void AFCGameNetModule::OnRefreshProxyServerInfoProcess(const AFNetMsg *msg, cons
     //}
 }
 
-void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message &xMsg, const AFGUID &self)
+void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self)
 {
     ARK_SHARE_PTR<GateBaseInfo> pData = mRoleBaseData.find_value(self);
 
@@ -1179,7 +1190,7 @@ void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::
     //}
 }
 
-void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, const std::string &strMsg, const AFGUID &self)
+void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self)
 {
     ARK_SHARE_PTR<GateBaseInfo> pData = mRoleBaseData.find_value(self);
 
@@ -1196,12 +1207,12 @@ void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, const std::string 
     //}
 }
 
-AFINetServerService *AFCGameNetModule::GetNetServerService()
+AFINetServerService* AFCGameNetModule::GetNetServerService()
 {
     return m_pNetServerService;
 }
 
-bool AFCGameNetModule::AddPlayerGateInfo(const AFGUID &nRoleID, const AFGUID &nClientID, const int nGateID)
+bool AFCGameNetModule::AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID)
 {
     if (nGateID <= 0)
     {
@@ -1244,7 +1255,7 @@ bool AFCGameNetModule::AddPlayerGateInfo(const AFGUID &nRoleID, const AFGUID &nC
     return true;
 }
 
-bool AFCGameNetModule::RemovePlayerGateInfo(const AFGUID &nRoleID)
+bool AFCGameNetModule::RemovePlayerGateInfo(const AFGUID& nRoleID)
 {
     ARK_SHARE_PTR<GateBaseInfo> pBaseData = mRoleBaseData.find_value(nRoleID);
 
@@ -1266,7 +1277,7 @@ bool AFCGameNetModule::RemovePlayerGateInfo(const AFGUID &nRoleID)
     return true;
 }
 
-ARK_SHARE_PTR<AFIGameNetModule::GateBaseInfo> AFCGameNetModule::GetPlayerGateInfo(const AFGUID &nRoleID)
+ARK_SHARE_PTR<AFIGameNetModule::GateBaseInfo> AFCGameNetModule::GetPlayerGateInfo(const AFGUID& nRoleID)
 {
     return mRoleBaseData.find_value(nRoleID);
 }
@@ -1276,7 +1287,7 @@ ARK_SHARE_PTR<AFIGameNetModule::GateServerInfo> AFCGameNetModule::GetGateServerI
     return mProxyMap.find_value(nGateID);
 }
 
-ARK_SHARE_PTR<AFIGameNetModule::GateServerInfo> AFCGameNetModule::GetGateServerInfoByClientID(const AFGUID &nClientID)
+ARK_SHARE_PTR<AFIGameNetModule::GateServerInfo> AFCGameNetModule::GetGateServerInfoByClientID(const AFGUID& nClientID)
 {
     int nGateID = -1;
     for (auto iter : mProxyMap)
@@ -1295,7 +1306,7 @@ ARK_SHARE_PTR<AFIGameNetModule::GateServerInfo> AFCGameNetModule::GetGateServerI
     return nullptr;
 }
 
-void AFCGameNetModule::OnTransWorld(const AFNetMsg *msg)
+void AFCGameNetModule::OnTransWorld(const AFNetMsg* msg)
 {
     // ARK_PROCESS_ACTOR_STRING_MSG(head, msg, msg_len);
     // m_pGameServerToWorldModule->SendBySuit(nHasKey, nMsgID, msg, nLen);

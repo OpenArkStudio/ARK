@@ -32,7 +32,7 @@ public:
     bool Init() override;
     bool PostInit() override;
 
-    int CalculateBaseValue(const int nJob, const int nLevel, const std::string &strProperty) override;
+    int CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty) override;
     bool LegalLevel(const int nJob, const int nLevel) override;
 
 protected:
@@ -43,8 +43,8 @@ private:
     // different job, different PropertyID[Level->EffectData]
     AFMapEx<int, AFMapEx<int, std::string>> mhtCoefficienData;
 
-    AFIMetaClassModule *m_pClassModule;
-    AFIConfigModule *m_pConfigModule;
+    AFIMetaClassModule* m_pClassModule;
+    AFIConfigModule* m_pConfigModule;
 };
 
 } // namespace ark

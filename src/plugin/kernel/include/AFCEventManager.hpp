@@ -49,7 +49,7 @@ public:
         need_remove_events_.clear();
     }
 
-    bool AddEventCallBack(const int event_id, EVENT_PROCESS_FUNCTOR &&cb) override
+    bool AddEventCallBack(const int event_id, EVENT_PROCESS_FUNCTOR&& cb) override
     {
         auto pEventInfo = event_callbacks_.find_value(event_id);
         if (pEventInfo == nullptr)
@@ -71,7 +71,7 @@ public:
         return true;
     }
 
-    bool DoEvent(const int event_id, const AFIDataList &args) override
+    bool DoEvent(const int event_id, const AFIDataList& args) override
     {
         auto event_info = event_callbacks_.find_value(event_id);
         if (event_info == nullptr)

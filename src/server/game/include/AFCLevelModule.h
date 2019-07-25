@@ -33,13 +33,13 @@ class AFCLevelModule : public AFILevelModule
 public:
     bool Init() override;
 
-    int AddExp(const AFGUID &self, const int nExp) override;
+    int AddExp(const AFGUID& self, const int nExp) override;
 
 private:
-    AFIPropertyConfigModule *m_pPropertyConfigModule;
-    AFIKernelModule *m_pKernelModule;
-    AFILogModule *m_pLogModule;
-    AFIConfigModule *m_pConfigModule;
+    AFIPropertyConfigModule* m_pPropertyConfigModule;
+    AFIKernelModule* m_pKernelModule;
+    AFILogModule* m_pLogModule;
+    AFIConfigModule* m_pConfigModule;
 };
 
 } // namespace ark

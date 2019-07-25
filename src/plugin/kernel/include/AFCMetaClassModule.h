@@ -180,7 +180,8 @@ public:
                 continue;
             }
 
-            bool bRet = pNodeManager->AddNode(pStaticConfigNode->GetName(), pStaticConfigNode->GetValue(), pStaticConfigNode->GetFeature());
+            bool bRet = pNodeManager->AddNode(
+                pStaticConfigNode->GetName(), pStaticConfigNode->GetValue(), pStaticConfigNode->GetFeature());
 
             if (!bRet)
             {
@@ -225,7 +226,8 @@ public:
         return true;
     }
 
-    int OnEventHandler(const AFGUID& id, const DATA_TABLE_EVENT_DATA& event_data, const AFIData& old_data, const AFIData& new_data)
+    int OnEventHandler(
+        const AFGUID& id, const DATA_TABLE_EVENT_DATA& event_data, const AFIData& old_data, const AFIData& new_data)
     {
         for (auto& cb : common_table_callbacks_)
         {
@@ -349,9 +351,11 @@ public:
     bool Load() override;
 
     bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb) override;
-    bool DoEvent(const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event, const AFIDataList& args) override;
+    bool DoEvent(const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event,
+        const AFIDataList& args) override;
     bool AddNodeCallBack(const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb) override;
-    bool AddTableCallBack(const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb) override;
+    bool AddTableCallBack(
+        const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb) override;
     bool AddCommonNodeCallback(const std::string& class_name, DATA_NODE_EVENT_FUNCTOR&& cb) override;
     bool AddCommonTableCallback(const std::string& class_name, DATA_TABLE_EVENT_FUNCTOR&& cb) override;
 

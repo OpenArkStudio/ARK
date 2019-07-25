@@ -88,7 +88,8 @@ int AFCNetServiceManagerModule::CreateServer(const AFHeadLength head_len /* = AF
     const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
     if (server_config == nullptr)
     {
-        ARK_LOG_ERROR("Cannot get process server info, bus id = {}", AFBusAddr(m_pBusModule->GetSelfBusID()).ToString());
+        ARK_LOG_ERROR(
+            "Cannot get process server info, bus id = {}", AFBusAddr(m_pBusModule->GetSelfBusID()).ToString());
         ARK_ASSERT_NO_EFFECT(0);
         return -1;
     }
@@ -96,8 +97,8 @@ int AFCNetServiceManagerModule::CreateServer(const AFHeadLength head_len /* = AF
     AFINetServerService* pServer = ARK_NEW AFCNetServerService(GetPluginManager());
     net_servers_.insert(m_pBusModule->GetSelfBusID(), pServer);
 
-    bool ret = pServer->Start(
-        head_len, m_pBusModule->GetSelfBusID(), server_config->public_ep_, server_config->thread_num, server_config->max_connection);
+    bool ret = pServer->Start(head_len, m_pBusModule->GetSelfBusID(), server_config->public_ep_,
+        server_config->thread_num, server_config->max_connection);
     if (ret)
     {
         ARK_LOG_INFO("Start net server successful, url = {}", server_config->public_ep_.ToString());
@@ -145,8 +146,8 @@ int AFCNetServiceManagerModule::CreateClusterClients(const AFHeadLength head_len
         bool ret = pClient->StartClient(head_len, target.self_id, target.intranet_ep_);
         if (!ret)
         {
-            ARK_LOG_ERROR(
-                "start net client failed, self_bus_id={} target_url={}", m_pBusModule->GetSelfBusName(), target.intranet_ep_.ToString());
+            ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", m_pBusModule->GetSelfBusName(),
+                target.intranet_ep_.ToString());
             return ret;
         }
     }
@@ -154,7 +155,8 @@ int AFCNetServiceManagerModule::CreateClusterClients(const AFHeadLength head_len
     return 0;
 }
 
-int AFCNetServiceManagerModule::CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url)
+int AFCNetServiceManagerModule::CreateClusterClient(
+    const AFHeadLength head_len, const int bus_id, const std::string& url)
 {
     ArkBusRelationType relation_type = m_pBusModule->GetBusRelationType(bus_id);
     if (relation_type != ArkBusRelationType::BRT_DIRECT)
