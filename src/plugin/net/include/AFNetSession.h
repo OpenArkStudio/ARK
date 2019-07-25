@@ -54,7 +54,7 @@ public:
 
     void ReleaseQueueData()
     {
-        AFNetEvent *event = nullptr;
+        AFNetEvent* event = nullptr;
         if (PopNetEvent(event))
         {
             while (event != nullptr)
@@ -64,7 +64,7 @@ public:
             }
         }
 
-        AFNetMsg *msg = nullptr;
+        AFNetMsg* msg = nullptr;
         if (PopNetMsg(msg))
         {
             while (msg != nullptr)
@@ -75,12 +75,12 @@ public:
         }
     }
 
-    const SessionPTR &GetSession()
+    const SessionPTR& GetSession()
     {
         return session_;
     }
 
-    int AddBuffer(const char *data, size_t len)
+    int AddBuffer(const char* data, size_t len)
     {
         buffer_.write(data, len);
         return (int)buffer_.get_length();
@@ -97,7 +97,7 @@ public:
         return buffer_.get_length();
     }
 
-    char *GetBuffer()
+    char* GetBuffer()
     {
         return buffer_.get_data();
     }
@@ -112,12 +112,12 @@ public:
         return head_len_;
     }
 
-    const int64_t &GetSessionId()
+    const int64_t& GetSessionId()
     {
         return session_id_;
     }
 
-    void SetSessionId(const int64_t &id)
+    void SetSessionId(const int64_t& id)
     {
         session_id_ = id;
     }
@@ -132,22 +132,22 @@ public:
         need_remove_ = value;
     }
 
-    bool AddNetEvent(AFNetEvent *&event)
+    bool AddNetEvent(AFNetEvent*& event)
     {
         return event_queue_.Push(event);
     }
 
-    bool PopNetEvent(AFNetEvent *&event)
+    bool PopNetEvent(AFNetEvent*& event)
     {
         return event_queue_.Pop(event);
     }
 
-    bool AddNetMsg(AFNetMsg *&msg)
+    bool AddNetMsg(AFNetMsg*& msg)
     {
         return msg_queue_.Push(msg);
     }
 
-    bool PopNetMsg(AFNetMsg *&msg)
+    bool PopNetMsg(AFNetMsg*& msg)
     {
         return msg_queue_.Pop(msg);
     }
@@ -155,7 +155,7 @@ public:
     void ParseBufferToMsg()
     {
         uint32_t pos = 0;
-        AFMsgHead *msg_head = CheckRecvDataValid(pos);
+        AFMsgHead* msg_head = CheckRecvDataValid(pos);
         if (msg_head == nullptr)
         {
             return;
@@ -163,8 +163,8 @@ public:
 
         while (GetBufferLen() >= static_cast<size_t>(pos + GetHeadLen() + msg_head->length_))
         {
-            AFNetMsg *msg = AFNetMsg::AllocMsg(msg_head->length_);
-            memcpy(msg, msg_head, GetHeadLen());
+            AFNetMsg* msg = AFNetMsg::AllocMsg(msg_head->length_);
+            memcpy(&msg->GetHead(), msg_head, GetHeadLen());
 
             pos += GetHeadLen();
             if (msg_head->length_ > 0)
@@ -191,14 +191,14 @@ public:
     }
 
 protected:
-    AFMsgHead *CheckRecvDataValid(uint32_t pos)
+    AFMsgHead* CheckRecvDataValid(uint32_t pos)
     {
         if (GetBufferLen() < (pos + GetHeadLen()))
         {
             return nullptr;
         }
 
-        auto head = reinterpret_cast<AFMsgHead *>(GetBuffer() + pos);
+        auto head = reinterpret_cast<AFMsgHead*>(GetBuffer() + pos);
         ARK_ASSERT_RET_VAL(head->length_ <= ARK_MSG_MAX_LENGTH, nullptr);
 
         return head;
@@ -210,8 +210,8 @@ private:
     AFGUID object_id_{0};
     AFBuffer buffer_;
 
-    AFLockFreeQueue<AFNetMsg *> msg_queue_;
-    AFLockFreeQueue<AFNetEvent *> event_queue_;
+    AFLockFreeQueue<AFNetMsg*> msg_queue_;
+    AFLockFreeQueue<AFNetEvent*> event_queue_;
     const SessionPTR session_;
 
     volatile bool connected_{false};
@@ -219,9 +219,9 @@ private:
 };
 
 using AFTCPSession = AFNetSession<brynet::net::TcpConnectionPtr>;
-using AFTCPSessionPtr = AFTCPSession *;
+using AFTCPSessionPtr = AFTCPSession*;
 
 using AFHttpSession = AFNetSession<brynet::net::http::HttpSession::Ptr>;
-using AFHttpSessionPtr = AFHttpSession *;
+using AFHttpSessionPtr = AFHttpSession*;
 
 } // namespace ark

@@ -60,10 +60,10 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
         session->setUD(cur_session_id);
 
         AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
-        net_connect_event->id_ = cur_session_id;
-        net_connect_event->type_ = AFNetEventType::CONNECTED;
-        net_connect_event->bus_id_ = this->bus_id_;
-        net_connect_event->ip_ = session->getIP();
+        net_connect_event->SetId(cur_session_id);
+        net_connect_event->SetType(AFNetEventType::CONNECTED);
+        net_connect_event->SetBusId(this->bus_id_);
+        net_connect_event->SetIP(session->getIP());
 
         // scope lock
         {
@@ -97,10 +97,10 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
             int64_t session_id = *pUD;
 
             AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
-            net_disconnect_event->id_ = session_id;
-            net_disconnect_event->type_ = AFNetEventType::DISCONNECTED;
-            net_disconnect_event->bus_id_ = this->bus_id_;
-            net_disconnect_event->ip_ = session->getIP();
+            net_disconnect_event->SetId(session_id);
+            net_disconnect_event->SetType(AFNetEventType::DISCONNECTED);
+            net_disconnect_event->SetBusId(this->bus_id_);
+            net_disconnect_event->SetIP(session->getIP());
 
             const AFTCPSessionPtr session_ptr = this->GetNetSession(session_id);
             if (session_ptr == nullptr)
@@ -163,30 +163,18 @@ void AFCTCPServer::UpdateNetSession()
 void AFCTCPServer::UpdateNetEvent(AFTCPSessionPtr session)
 {
     AFNetEvent* event(nullptr);
-    if (!session->PopNetEvent(event))
-    {
-        return;
-    }
-
-    while (event != nullptr)
+    while (session->PopNetEvent(event))
     {
         net_event_cb_(event);
         AFNetEvent::Release(event);
-
-        session->PopNetEvent(event);
     }
 }
 
 void AFCTCPServer::UpdateNetMsg(AFTCPSessionPtr session)
 {
     AFNetMsg* msg(nullptr);
-    if (!session->PopNetMsg(msg))
-    {
-        return;
-    }
-
     int msg_count = 0;
-    while (msg != nullptr)
+    while (session->PopNetMsg(msg))
     {
         net_msg_cb_(msg, session->GetSessionId());
         AFNetMsg::Release(msg);
@@ -196,8 +184,6 @@ void AFCTCPServer::UpdateNetMsg(AFTCPSessionPtr session)
         {
             break;
         }
-
-        session->PopNetMsg(msg);
     }
 }
 
@@ -320,19 +306,12 @@ bool AFCTCPServer::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t 
         return false;
     }
 
+    uint32_t head_length = session->GetHeadLen();
+    ARK_ASSERT_RET_VAL(
+        (head_length == AFHeadLength::CS_HEAD_LENGTH) || (head_length == AFHeadLength::SS_HEAD_LENGTH), false);
+
     std::string buffer;
-    switch (session->GetHeadLen())
-    {
-    case AFHeadLength::CS_HEAD_LENGTH:
-        buffer.append(reinterpret_cast<char*>(head), AFHeadLength::CS_HEAD_LENGTH);
-        break;
-    case AFHeadLength::SS_HEAD_LENGTH:
-        buffer.append(reinterpret_cast<char*>(head), AFHeadLength::SS_HEAD_LENGTH);
-        break;
-    default:
-        return false;
-        break;
-    }
+    buffer.append(reinterpret_cast<char*>(head), session->GetHeadLen());
 
     if (buffer.empty())
     {

@@ -38,8 +38,8 @@ void AFCWebSocktServer::Update()
     UpdateNetSession();
 }
 
-bool AFCWebSocktServer::StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port, const int thread_num,
-    const unsigned int max_client, bool ip_v6 /* = false*/)
+bool AFCWebSocktServer::StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port,
+    const int thread_num, const unsigned int max_client, bool ip_v6 /* = false*/)
 {
     this->bus_id_ = busid;
 
@@ -48,27 +48,28 @@ bool AFCWebSocktServer::StartServer(AFHeadLength head_len, const int busid, cons
 
     auto OnEnterCallback = [this, &head_len](const brynet::net::TcpConnectionPtr& session) {
         const std::string& session_ip = session->getIP();
-        brynet::net::http::HttpService::setup(
-            session, [this, &head_len, &session_ip](const brynet::net::http::HttpSession::Ptr& httpSession) {
-                int64_t cur_session_id = this->trusted_session_id_++;
-                AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
-                net_connect_event->id_ = cur_session_id;
-                net_connect_event->type_ = AFNetEventType::CONNECTED;
-                net_connect_event->bus_id_ = this->bus_id_;
-                net_connect_event->ip_ = session_ip;
+        brynet::net::http::HttpService::setup(session, [this, &head_len, &session_ip](
+                                                           const brynet::net::http::HttpSession::Ptr& httpSession) {
+            int64_t cur_session_id = this->trusted_session_id_++;
+            AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
+            net_connect_event->SetId(cur_session_id);
+            net_connect_event->SetType(AFNetEventType::CONNECTED);
+            net_connect_event->SetBusId(this->bus_id_);
+            net_connect_event->SetIP(session_ip);
 
-                // Scope lock
+            // Scope lock
+            {
+                AFScopeWLock guard(this->rw_lock_);
+                AFHttpSessionPtr session_ptr = ARK_NEW AFHttpSession(head_len, cur_session_id, httpSession);
+                if (this->AddNetSession(session_ptr))
                 {
-                    AFScopeWLock guard(this->rw_lock_);
-                    AFHttpSessionPtr session_ptr = ARK_NEW AFHttpSession(head_len, cur_session_id, httpSession);
-                    if (this->AddNetSession(session_ptr))
-                    {
-                        session_ptr->AddNetEvent(net_connect_event);
-                    }
+                    session_ptr->AddNetEvent(net_connect_event);
                 }
+            }
 
-                httpSession->setWSCallback([this](const brynet::net::http::HttpSession::Ptr& httpSession,
-                                               brynet::net::http::WebSocketFormat::WebSocketFrameType opcode, const std::string& payload) {
+            httpSession->setWSCallback(
+                [this](const brynet::net::http::HttpSession::Ptr& httpSession,
+                    brynet::net::http::WebSocketFormat::WebSocketFrameType opcode, const std::string& payload) {
                     switch (opcode)
                     {
                     case brynet::net::http::WebSocketFormat::WebSocketFrameType::ERROR_FRAME:
@@ -108,41 +109,42 @@ bool AFCWebSocktServer::StartServer(AFHeadLength head_len, const int busid, cons
                     }
                 });
 
-                httpSession->setHttpCallback(
-                    [](const brynet::net::http::HTTPParser& httpParser, const brynet::net::http::HttpSession::Ptr& session) {
-                        brynet::net::http::HttpResponse response;
-                        response.setBody("<html>Hello ARK.</html>");
-                        std::string result = response.getResult();
-                        session->send(result.c_str(), result.size(), [session]() { session->postShutdown(); });
-                    });
-
-                httpSession->setClosedCallback([this, &session_ip](const brynet::net::http::HttpSession::Ptr& httpSession) {
-                    const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
-                    int64_t session_id = *ud;
-
-                    AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
-                    net_disconnect_event->id_ = session_id;
-                    net_disconnect_event->type_ = AFNetEventType::DISCONNECTED;
-                    net_disconnect_event->bus_id_ = this->bus_id_;
-                    net_disconnect_event->ip_ = session_ip;
-
-                    AFScopeWLock guard(this->rw_lock_);
-                    const AFHttpSessionPtr session_ptr = this->GetNetSession(session_id);
-                    if (session_ptr == nullptr)
-                    {
-                        return;
-                    }
-
-                    session_ptr->AddNetEvent(net_disconnect_event);
-                    session_ptr->SetNeedRemove(true);
-                });
+            httpSession->setHttpCallback([](const brynet::net::http::HTTPParser& httpParser,
+                                             const brynet::net::http::HttpSession::Ptr& session) {
+                brynet::net::http::HttpResponse response;
+                response.setBody("<html>Hello ARK.</html>");
+                std::string result = response.getResult();
+                session->send(result.c_str(), result.size(), [session]() { session->postShutdown(); });
             });
+
+            httpSession->setClosedCallback([this, &session_ip](const brynet::net::http::HttpSession::Ptr& httpSession) {
+                const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
+                int64_t session_id = *ud;
+
+                AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
+                net_disconnect_event->SetId(session_id);
+                net_disconnect_event->SetType(AFNetEventType::DISCONNECTED);
+                net_disconnect_event->SetBusId(this->bus_id_);
+                net_disconnect_event->SetIP(session_ip);
+
+                AFScopeWLock guard(this->rw_lock_);
+                const AFHttpSessionPtr session_ptr = this->GetNetSession(session_id);
+                if (session_ptr == nullptr)
+                {
+                    return;
+                }
+
+                session_ptr->AddNetEvent(net_disconnect_event);
+                session_ptr->SetNeedRemove(true);
+            });
+        });
     };
 
     listen_builder_.configureService(tcp_service_ptr_)
         .configureSocketOptions({[](brynet::net::TcpSocket& socket) { socket.setNodelay(); }})
-        .configureConnectionOptions({brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE),
-            brynet::net::TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback)})
+        .configureConnectionOptions(
+            {brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE),
+                brynet::net::TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback)})
         .configureListen([=](brynet::net::wrapper::BuildListenConfig config) { config.setAddr(ip_v6, ip, port); })
         .asyncRun();
 
@@ -188,30 +190,18 @@ void AFCWebSocktServer::UpdateNetSession()
 void AFCWebSocktServer::UpdateNetEvent(AFHttpSessionPtr session)
 {
     AFNetEvent* event(nullptr);
-    if (!session->PopNetEvent(event))
-    {
-        return;
-    }
-
-    while (event != nullptr)
+    while (session->PopNetEvent(event))
     {
         net_event_cb_(event);
         AFNetEvent::Release(event);
-
-        session->PopNetEvent(event);
     }
 }
 
 void AFCWebSocktServer::UpdateNetMsg(AFHttpSessionPtr session)
 {
     AFNetMsg* msg(nullptr);
-    if (!session->PopNetMsg(msg))
-    {
-        return;
-    }
-
     int msg_count = 0;
-    while (msg != nullptr)
+    while (session->PopNetMsg(msg))
     {
         net_msg_cb_(msg, session->GetSessionId());
         AFNetMsg::Release(msg);
@@ -221,8 +211,6 @@ void AFCWebSocktServer::UpdateNetMsg(AFHttpSessionPtr session)
         {
             break;
         }
-
-        session->PopNetMsg(msg);
     }
 }
 

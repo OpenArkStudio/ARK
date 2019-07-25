@@ -42,7 +42,8 @@ void AFCWebSocktClient::Update()
     UpdateNetSession();
 }
 
-bool AFCWebSocktClient::StartClient(AFHeadLength len, const int target_busid, const std::string& ip, const int port, bool ip_v6)
+bool AFCWebSocktClient::StartClient(
+    AFHeadLength len, const int target_busid, const std::string& ip, const int port, bool ip_v6)
 {
     dst_bus_id_ = target_busid;
 
@@ -60,59 +61,59 @@ bool AFCWebSocktClient::StartClient(AFHeadLength len, const int target_busid, co
         std::string requestStr = request.getResult();
         httpSession->send(requestStr.c_str(), requestStr.size());
 
-        httpSession->setWSConnected(
-            [this, &len, &ip](const brynet::net::http::HttpSession::Ptr& httpSession, const brynet::net::http::HTTPParser&) {
-                // now session_id
-                int64_t cur_session_id = this->trust_session_id_++;
+        httpSession->setWSConnected([this, &len, &ip](const brynet::net::http::HttpSession::Ptr& httpSession,
+                                        const brynet::net::http::HTTPParser&) {
+            // now session_id
+            int64_t cur_session_id = this->trust_session_id_++;
 
-                // create net event
-                AFNetEvent* net_event_ptr = AFNetEvent::AllocEvent();
-                net_event_ptr->id_ = cur_session_id;
-                net_event_ptr->type_ = AFNetEventType::CONNECTED;
-                net_event_ptr->bus_id_ = this->dst_bus_id_;
-                net_event_ptr->ip_ = ip;
+            // create net event
+            AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
+            net_connect_event->SetId(cur_session_id);
+            net_connect_event->SetType(AFNetEventType::CONNECTED);
+            net_connect_event->SetBusId(this->dst_bus_id_);
+            net_connect_event->SetIP(ip);
 
-                // set session ud
-                httpSession->setUD(cur_session_id);
+            // set session ud
+            httpSession->setUD(cur_session_id);
 
-                // create session and net event
-                {
-                    AFScopeWLock guard(this->rw_lock_);
-
-                    AFHttpSessionPtr session_ptr = ARK_NEW AFHttpSession(len, cur_session_id, httpSession);
-                    this->client_session_ptr_.reset(session_ptr);
-                    session_ptr->AddNetEvent(net_event_ptr);
-                }
-            });
-
-        httpSession->setWSCallback([this](const brynet::net::http::HttpSession::Ptr& httpSession,
-                                       brynet::net::http::WebSocketFormat::WebSocketFrameType opcode, const std::string& payload) {
-            const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
-            int64_t session_id = *ud;
-
-            // Scope lock
+            // create session and net event
             {
-                AFScopeRLock xGuard(this->rw_lock_);
-                this->client_session_ptr_->AddBuffer(payload.c_str(), payload.size());
-                this->client_session_ptr_->ParseBufferToMsg();
+                AFScopeWLock guard(this->rw_lock_);
+
+                AFHttpSessionPtr session_ptr = ARK_NEW AFHttpSession(len, cur_session_id, httpSession);
+                this->client_session_ptr_.reset(session_ptr);
+                session_ptr->AddNetEvent(net_connect_event);
             }
         });
+
+        httpSession->setWSCallback(
+            [this](const brynet::net::http::HttpSession::Ptr& httpSession,
+                brynet::net::http::WebSocketFormat::WebSocketFrameType opcode, const std::string& payload) {
+                const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
+                int64_t session_id = *ud;
+
+                // Scope lock
+                {
+                    AFScopeRLock xGuard(this->rw_lock_);
+                    this->client_session_ptr_->AddBuffer(payload.c_str(), payload.size());
+                    this->client_session_ptr_->ParseBufferToMsg();
+                }
+            });
 
         httpSession->setClosedCallback([this, &ip](const brynet::net::http::HttpSession::Ptr& httpSession) {
             const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
             int64_t session_id = *ud;
 
             // create net event
-            AFNetEvent* net_event_ptr = AFNetEvent::AllocEvent();
-            net_event_ptr->id_ = session_id;
-            net_event_ptr->type_ = AFNetEventType::DISCONNECTED;
-            net_event_ptr->bus_id_ = this->dst_bus_id_;
-            net_event_ptr->ip_ = ip;
-
+            AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
+            net_disconnect_event->SetId(session_id);
+            net_disconnect_event->SetType(AFNetEventType::DISCONNECTED);
+            net_disconnect_event->SetBusId(this->dst_bus_id_);
+            net_disconnect_event->SetIP(ip);
             // Scope lock
             {
                 AFScopeWLock xGuard(this->rw_lock_);
-                this->client_session_ptr_->AddNetEvent(net_event_ptr);
+                this->client_session_ptr_->AddNetEvent(net_disconnect_event);
                 this->client_session_ptr_->SetNeedRemove(true);
             }
         });
@@ -123,7 +124,8 @@ bool AFCWebSocktClient::StartClient(AFHeadLength len, const int target_busid, co
 
     connection_builder.configureService(tcp_service_ptr_)
         .configureConnector(connector_ptr_)
-        .configureConnectionOptions({brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE)})
+        .configureConnectionOptions(
+            {brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE)})
         .configureConnectOptions({brynet::net::AsyncConnector::ConnectOptions::WithAddr(ip, port),
             brynet::net::AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
             brynet::net::AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback(
@@ -170,17 +172,11 @@ void AFCWebSocktClient::UpdateNetEvent(AFHttpSessionPtr session)
     }
 
     AFNetEvent* event(nullptr);
-    if (!session->PopNetEvent(event))
-    {
-        return;
-    }
 
-    while (event != nullptr)
+    while (session->PopNetEvent(event))
     {
         net_event_cb_(event);
         AFNetEvent::Release(event);
-
-        session->PopNetEvent(event);
     }
 }
 
@@ -192,13 +188,8 @@ void AFCWebSocktClient::UpdateNetMsg(AFHttpSessionPtr session)
     }
 
     AFNetMsg* msg = nullptr;
-    if (!session->PopNetMsg(msg))
-    {
-        return;
-    }
-
     int msg_count = 0;
-    while (msg != nullptr)
+    while (session->PopNetMsg(msg))
     {
         net_msg_cb_(msg, session->GetSessionId());
         AFNetMsg::Release(msg);
@@ -208,8 +199,6 @@ void AFCWebSocktClient::UpdateNetMsg(AFHttpSessionPtr session)
         {
             break;
         }
-
-        session->PopNetMsg(msg);
     }
 }
 

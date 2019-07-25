@@ -23,8 +23,8 @@
 
 namespace ark {
 
-AFCTCPClient::AFCTCPClient(
-    const brynet::net::TcpService::Ptr& service /* = nullptr*/, const brynet::net::AsyncConnector::Ptr& connector /* = nullptr*/)
+AFCTCPClient::AFCTCPClient(const brynet::net::TcpService::Ptr& service /* = nullptr*/,
+    const brynet::net::AsyncConnector::Ptr& connector /* = nullptr*/)
 {
     brynet::net::base::InitSocket();
 
@@ -43,7 +43,8 @@ void AFCTCPClient::Update()
     UpdateNetSession();
 }
 
-bool AFCTCPClient::StartClient(AFHeadLength head_len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 /* = false*/)
+bool AFCTCPClient::StartClient(
+    AFHeadLength head_len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 /* = false*/)
 {
     this->dst_bus_id_ = dst_busid;
 
@@ -59,10 +60,10 @@ bool AFCTCPClient::StartClient(AFHeadLength head_len, const int dst_busid, const
 
         // create net event
         AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
-        net_connect_event->id_ = cur_session_id;
-        net_connect_event->type_ = AFNetEventType::CONNECTED;
-        net_connect_event->bus_id_ = this->dst_bus_id_;
-        net_connect_event->ip_ = session->getIP();
+        net_connect_event->SetId(cur_session_id);
+        net_connect_event->SetType(AFNetEventType::CONNECTED);
+        net_connect_event->SetBusId(this->dst_bus_id_);
+        net_connect_event->SetIP(session->getIP());
 
         // create session and operate data
         // scope lock
@@ -96,10 +97,10 @@ bool AFCTCPClient::StartClient(AFHeadLength head_len, const int dst_busid, const
 
             // create net event
             AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
-            net_disconnect_event->id_ = session_id;
-            net_disconnect_event->type_ = AFNetEventType::DISCONNECTED;
-            net_disconnect_event->bus_id_ = this->dst_bus_id_;
-            net_disconnect_event->ip_ = session->getIP();
+            net_disconnect_event->SetId(session_id);
+            net_disconnect_event->SetType(AFNetEventType::DISCONNECTED);
+            net_disconnect_event->SetBusId(this->dst_bus_id_);
+            net_disconnect_event->SetIP(session->getIP());
 
             // scope lock
             {
@@ -184,17 +185,10 @@ void AFCTCPClient::UpdateNetEvent(AFTCPSessionPtr session)
     }
 
     AFNetEvent* event(nullptr);
-    if (!session->PopNetEvent(event))
-    {
-        return;
-    }
-
-    while (event != nullptr)
+    while (session->PopNetEvent(event))
     {
         net_event_cb_(event);
         AFNetEvent::Release(event);
-
-        session->PopNetEvent(event);
     }
 }
 
@@ -206,13 +200,8 @@ void AFCTCPClient::UpdateNetMsg(AFTCPSessionPtr session)
     }
 
     AFNetMsg* msg(nullptr);
-    if (!session->PopNetMsg(msg))
-    {
-        return;
-    }
-
     int msg_count = 0;
-    while (msg != nullptr)
+    while (session->PopNetMsg(msg))
     {
         net_msg_cb_(msg, session->GetSessionId());
         AFNetMsg::Release(msg);
@@ -222,8 +211,6 @@ void AFCTCPClient::UpdateNetMsg(AFTCPSessionPtr session)
         {
             break;
         }
-
-        session->PopNetMsg(msg);
     }
 }
 

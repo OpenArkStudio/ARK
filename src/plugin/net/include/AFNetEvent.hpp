@@ -27,7 +27,7 @@
 
 namespace ark {
 
-enum AFNetEventType
+enum class AFNetEventType : uint8_t
 {
     NONE = 0,
     CONNECTED = 1,
@@ -38,16 +38,57 @@ enum AFNetEventType
 class AFNetEvent
 {
 public:
-    static AFNetEvent *AllocEvent()
+    static AFNetEvent* AllocEvent()
     {
         return ARK_NEW AFNetEvent();
     }
 
-    static void Release(AFNetEvent *&event)
+    static void Release(AFNetEvent*& event)
     {
         ARK_DELETE(event);
     }
 
+    AFNetEventType GetType() const
+    {
+        return type_;
+    }
+
+    int64_t GetId() const
+    {
+        return id_;
+    }
+
+    const std::string& GetIP() const
+    {
+        return ip_;
+    }
+
+    int GetBusId() const
+    {
+        return bus_id_;
+    }
+
+    void SetType(AFNetEventType value)
+    {
+        type_ = value;
+    }
+
+    void SetId(int64_t value)
+    {
+        id_ = value;
+    }
+
+    void SetIP(const std::string& value)
+    {
+        ip_ = value;
+    }
+
+    void SetBusId(int value)
+    {
+        bus_id_ = value;
+    }
+
+private:
     AFNetEventType type_{AFNetEventType::NONE};
     int64_t id_{0};
     std::string ip_{};

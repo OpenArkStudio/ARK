@@ -69,19 +69,26 @@ public:
     int32_t dst_bus_{0};  // Destination bus id
 };
 
-class AFNetMsg : public AFSSMsgHead, public AFNoncopyable
+class AFNetMsg
 {
+protected:
+    AFNetMsg(const AFNetMsg&) = delete;
+    AFNetMsg& operator=(const AFNetMsg&) = delete;
+    AFNetMsg(AFNetMsg&&) = delete;
+    AFNetMsg& operator=(AFNetMsg&&) = delete;
+
 public:
+    AFNetMsg() = default;
     virtual ~AFNetMsg() = default;
 
-    static AFNetMsg *AllocMsg(uint32_t len)
+    static AFNetMsg* AllocMsg(uint32_t len)
     {
-        AFNetMsg *msg = ARK_NEW AFNetMsg();
+        AFNetMsg* msg = ARK_NEW AFNetMsg();
         msg->AllocData(len);
         return msg;
     }
 
-    static void Release(AFNetMsg *&msg)
+    static void Release(AFNetMsg*& msg)
     {
         if (msg != nullptr)
         {
@@ -90,32 +97,83 @@ public:
         }
     }
 
-    void CopyData(const char *data, const uint32_t len)
+    void CopyData(const char* data, const uint32_t len)
     {
         ARK_ASSERT_RET_NONE(data != nullptr && len > 0);
-        this->length_ = len;
+
+        SetMsgLength(len);
         memcpy(this->msg_data_, data, len);
     }
 
-    void CopyFrom(AFNetMsg *msg)
+    void CopyFrom(AFNetMsg* msg)
     {
-        this->id_ = msg->id_;
-        this->actor_id_ = msg->actor_id_;
-        this->src_bus_ = msg->src_bus_;
-        this->dst_bus_ = msg->dst_bus_;
-        if (msg->length_ > 0)
+        ARK_ASSERT_RET_NONE(msg != nullptr);
+
+        head_ = msg->head_;
+        if (msg->head_.length_ > 0)
         {
-            CopyData(msg->msg_data_, msg->length_);
+            CopyData(msg->msg_data_, msg->GetMsgLength());
         }
     }
 
-    void CopyFrom(const int64_t actor_id, const uint16_t msg_id, const char *data, const uint32_t len, int src_bus, int dst_bus)
+    uint16_t GetMsgId() const
     {
-        this->id_ = msg_id;
-        this->actor_id_ = actor_id;
-        this->src_bus_ = src_bus;
-        this->dst_bus_ = dst_bus;
-        CopyData(data, len);
+        return head_.id_;
+    }
+
+    uint32_t GetMsgLength() const
+    {
+        return head_.length_;
+    }
+
+    int64_t GetActorId() const
+    {
+        return head_.actor_id_;
+    }
+
+    int32_t GetSrcBus() const
+    {
+        return head_.src_bus_;
+    }
+
+    int32_t GetDstBus() const
+    {
+        return head_.dst_bus_;
+    }
+
+    void SetMsgId(uint16_t value)
+    {
+        head_.id_ = value;
+    }
+
+    void SetMsgLength(uint32_t value)
+    {
+        head_.length_ = value;
+    }
+
+    void SetActorId(int64_t value)
+    {
+        head_.actor_id_ = value;
+    }
+
+    void SetSrcBus(int32_t value)
+    {
+        head_.src_bus_ = value;
+    }
+
+    void SetDstBus(int32_t value)
+    {
+        head_.dst_bus_ = value;
+    }
+
+    char* GetMsgData() const
+    {
+        return msg_data_;
+    }
+
+    AFSSMsgHead& GetHead()
+    {
+        return head_;
     }
 
 protected:
@@ -134,11 +192,12 @@ protected:
             ARK_DELETE_ARRAY(char, msg_data_);
         }
 
-        length_ = 0;
+        head_.length_ = 0;
     }
 
-public:
-    char *msg_data_{nullptr};
+private:
+    AFSSMsgHead head_;
+    char* msg_data_{nullptr};
 };
 
 } // namespace ark
