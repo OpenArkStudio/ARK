@@ -13,13 +13,15 @@ cd protobuf/cmake
 if [ -d "build" ]; then
     rm -rf build
 fi
+
 mkdir build && cd build
+
 cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=release -Dprotobuf_BUILD_TESTS=OFF ..
 make -j 4
-cp -a *.so* ../../../lib
+cp -a *.dylib ../../../lib
 
-cp -a *.so* ../../../../bin/bin
-cp -a *.so* ../../../../src/proto/proto-gen
+cp -a *.dylib ../../../../bin/bin
+cp -a *.dylib ../../../../src/proto/proto-gen
 cp -a protoc* ../../../../src/proto/proto-gen
 
 cd ../../../
@@ -32,11 +34,12 @@ chmod -R 755 *
 if [ -d "build" ]; then
     rm -rf build
 fi
+
 mkdir build && cd build
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=release ..
 make -j 4
-cp -a lib/*.so ../../lib
-cp -a lib/*.so* ../../../bin/bin
+cp -a lib/*.dylib ../../lib
+cp -a lib/*.dylib ../../../bin/bin
 cd ../../
 
 ##################################################################

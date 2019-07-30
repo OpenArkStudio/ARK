@@ -20,17 +20,13 @@ cd ../
 
 echo "Building protobuf..."
 
-REM if exist protobuf (rd protobuf /q /s)
-REM git clone https://github.com/protocolbuffers/protobuf.git --depth 1
-
 cd protobuf/cmake
+if exist build (rd build /q /s)
 md build
 cd build
 %CMAKE_CMD% -Dprotobuf_BUILD_SHARED_LIBS=OFF -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_MSVC_STATIC_RUNTIME=OFF ..
 %VS_DEVENV% protobuf.sln /build "Debug|x64"
 %VS_DEVENV% protobuf.sln /build "Release|x64"
-REM copy Debug\*.dll ..\..\..\lib /Y
-REM copy Release\*.dll ..\..\..\lib /Y
 copy Debug\*.lib ..\..\..\lib /Y
 copy Release\*.lib ..\..\..\lib /Y
 
@@ -40,10 +36,9 @@ cd ..\..\..\
 
 REM ####################################################################################################
 echo "Building brynet..."
-REM if exist brynet (rd brynet /q /s)
-REM git clone -b master https://github.com/ArkNX/brynet.git --depth 1
 
 cd brynet
+if exist build (rd build /q /s)
 md build
 cd build
 %CMAKE_CMD% ..
@@ -51,6 +46,8 @@ cd build
 %VS_DEVENV% brynet.sln /build "Release|x64" /project brynet.vcxproj
 copy lib\Debug\*.lib ..\..\lib\ /Y
 copy lib\Release\*.lib ..\..\lib /Y
+copy lib\Debug\*.dll ..\..\..\bin\bin /Y
+copy lib\Release\*.dll ..\..\..\bin\bin /Y
 
 cd ..\..\
 REM ####################################################################################################
