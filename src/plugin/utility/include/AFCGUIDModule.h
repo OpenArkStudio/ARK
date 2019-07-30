@@ -29,16 +29,15 @@ class AFCGUIDModule : public AFIGUIDModule
 {
 public:
     bool Init() override;
-    bool PreShut() override;
 
     AFGUID CreateGUID() override;
     std::string ParseUID(const AFGUID& id) override;
 
 private:
 #ifdef AF_THREAD_SAFE
-    AFUidGeneratorThreadSafe* uid_generator_{nullptr};
+    std::unique_ptr<AFUidGeneratorThreadSafe> uid_generator_{nullptr};
 #else
-    AFUidGenerator* uid_generator_{nullptr};
+    std::unique_ptr<AFUidGenerator> uid_generator_{nullptr};
 #endif // AF_THREAD_SAFE
 };
 

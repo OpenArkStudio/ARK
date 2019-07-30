@@ -28,18 +28,20 @@ namespace ark {
 
 bool AFCGUIDModule::Init()
 {
+#ifdef ARK_HAVE_LANG_CXX14
 #ifdef AF_THREAD_SAFE
-    uid_generator_ = ARK_NEW AFUidGeneratorThreadSafe();
+    uid_generator_ = std::make_unique<AFUidGeneratorThreadSafe>();
 #else
-    uid_generator_ = ARK_NEW AFUidGenerator();
-#endif // AF_THREAD_SAFE
+    uid_generator_ = std::make_unique<AFUidGenerator>();
+#endif
+#else
+#ifdef AF_THREAD_SAFE
+    uid_generator_.reset(ARK_NEW AFUidGeneratorThreadSafe());
+#else
+    uid_generator_.reset(ARK_NEW AFUidGenerator());
+#endif
+#endif
 
-    return true;
-}
-
-bool AFCGUIDModule::PreShut()
-{
-    ARK_DELETE(uid_generator_);
     return true;
 }
 

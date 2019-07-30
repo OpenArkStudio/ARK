@@ -229,15 +229,16 @@ AFINet* AFCNetServiceManagerModule::GetNetConnectionBus(int src_bus, int target_
 //        return -1;
 //    }
 //
+//    const std::string app_name = m_pBusModule->GetAppWholeName(config->self_id);
 //    consulpp::ConsulService service;
-//    service.SetId(m_pBusModule->GetAppWholeName(config->self_id));
+//    service.SetId(app_name);
 //    service.SetName("ark_service");
 //    service.SetAddress(config->public_ep_.GetIP());
 //    service.SetPort(config->public_ep_.GetPort());
-//    // multi-tags
+//    // multi-tag
 //    service.SetTag(app_name);
 //    service.SetTag(bus.ToString());
-//    // multi-metas
+//    // multi-meta
 //    service.SetMeta("version", "0.9.5");
 //
 //    consulpp::ConsulCheck check;

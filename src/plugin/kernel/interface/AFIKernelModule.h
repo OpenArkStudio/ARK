@@ -32,8 +32,7 @@ public:
     bool AddEventCallBack(const AFGUID& self, const int nEventID, BaseType* pBase,
         int (BaseType::*handler)(const AFGUID&, const int, const AFIDataList&))
     {
-        EVENT_PROCESS_FUNCTOR functor =
-            std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+        auto functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         return AddEventCallBack(self, nEventID, std::move(functor));
     }
 
@@ -41,7 +40,7 @@ public:
     bool AddClassCallBack(const std::string& name, BaseType* pBase,
         int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
     {
-        CLASS_EVENT_FUNCTOR functor = std::bind(
+        auto functor = std::bind(
             handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         return AddClassCallBack(name, std::move(functor));
     }
@@ -55,7 +54,7 @@ public:
     bool RegCommonClassEvent(BaseType* pBase,
         int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
     {
-        CLASS_EVENT_FUNCTOR functor = std::bind(
+        auto functor = std::bind(
             handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         return RegCommonClassEvent(std::move(functor));
     }
@@ -64,7 +63,7 @@ public:
     bool RegCommonDataNodeEvent(
         BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
-        DATA_NODE_EVENT_FUNCTOR functor = std::bind(
+        auto functor = std::bind(
             handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         return RegCommonDataNodeEvent(std::move(functor));
     }
@@ -73,7 +72,7 @@ public:
     bool RegCommonDataTableEvent(BaseType* pBase,
         int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
     {
-        DATA_TABLE_EVENT_FUNCTOR functor = std::bind(
+        auto functor = std::bind(
             handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         return RegCommonDataTableEvent(std::move(functor));
     }

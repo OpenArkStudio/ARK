@@ -282,12 +282,13 @@ void MainLoop()
 
 int main(int argc, char* argv[])
 {
-    PrintLogo();
     if (!ParseArgs(argc, argv))
     {
         CONSOLE_INFO_LOG << "Application parameter is invalid, please check it..." << std::endl;
         return 0;
     }
+
+    PrintLogo();
 
     AFCPluginManager::get()->Start();
     while (!g_exit_loop)

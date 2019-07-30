@@ -42,8 +42,9 @@ public:
     template<typename classBaseName, typename className>
     void RegisterModule()
     {
-        assert((std::is_base_of<AFIModule, classBaseName>::value));
-        assert((std::is_base_of<classBaseName, className>::value));
+        ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, classBaseName>::value));
+        ARK_ASSERT_RET_NONE((std::is_base_of<classBaseName, className>::value));
+
         AFIModule* pRegModuleName = ARK_NEW className();
         pRegModuleName->SetPluginManager(pPluginManager);
         pRegModuleName->name_ = typeid(classBaseName).name();
@@ -62,7 +63,7 @@ public:
         if (base_update_mfp == derived_update_mfp)
 #endif
         {
-            module_updates_.insert(pRegModuleName->name_, pRegModuleName);
+            pPluginManager->AddUpdateModule(pRegModuleName);
         }
     }
 
@@ -72,15 +73,14 @@ public:
         std::string name = typeid(classBaseName).name();
         AFIModule* pDeregModuleName = dynamic_cast<AFIModule*>(pPluginManager->FindModule(name));
         pPluginManager->RemoveModule(name);
-        modules_.erase(typeid(classBaseName).name());
-        module_updates_.erase(name);
+        pPluginManager->RemoveUpdateModule(name);
+        modules_.erase(name);
         ARK_DELETE(pDeregModuleName);
     }
 
 protected:
     // All registered modules
     AFMap<std::string, AFIModule> modules_;
-    AFMap<std::string, AFIModule> module_updates_;
 };
 
 } // namespace ark

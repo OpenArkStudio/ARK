@@ -49,6 +49,9 @@ public:
     void RemoveModule(const std::string& strModuleName) override;
     virtual AFIModule* FindModule(const std::string& strModuleName) override;
 
+    bool AddUpdateModule(AFIModule* pModule) override;
+    void RemoveUpdateModule(const std::string& module_name) override;
+
     int BusID() const override;
     void SetBusID(const int app_id) override;
 
@@ -102,6 +105,8 @@ private:
     AFMap<std::string, AFIPlugin> plugin_instances_;
     AFMap<std::string, AFIModule> module_instances_;
     std::vector<AFIModule*> ordered_module_instances_; // order
+
+    AFMap<std::string, AFIModule> module_updates_;
 };
 
 } // namespace ark

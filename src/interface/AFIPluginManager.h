@@ -85,7 +85,12 @@ public:
 
     virtual void AddModule(const std::string& module_name, AFIModule* pModule) = 0;
     virtual void RemoveModule(const std::string& module_name) = 0;
+
     virtual AFIModule* FindModule(const std::string& module_name) = 0;
+    virtual void RemoveUpdateModule(const std::string& module_name) = 0;
+
+    // add the module with update functions.
+    virtual bool AddUpdateModule(AFIModule* pModule) = 0;
 
     virtual int BusID() const = 0;
     virtual void SetBusID(const int app_id) = 0;
