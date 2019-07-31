@@ -21,7 +21,6 @@
 #pragma once
 
 #include "base/AFMacros.hpp"
-#include "interface/AFIModule.hpp"
 
 namespace ark {
 
@@ -35,6 +34,7 @@ namespace ark {
         pPluginManager->Deregister<plugin_name>();                                                                     \
     }
 
+class AFIModule;
 class AFIPlugin;
 
 class ARK_EXPORT AFIPluginManager // : public AFIModule

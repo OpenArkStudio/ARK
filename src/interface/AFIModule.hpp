@@ -21,10 +21,11 @@
 #pragma once
 
 #include "base/AFPlatform.hpp"
+#include "interface/AFIPluginManager.hpp"
 
 namespace ark {
 
-class AFIPluginManager;
+// class AFIPluginManager;
 
 class AFIModule
 {

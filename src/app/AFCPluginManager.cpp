@@ -21,6 +21,7 @@
 #include "base/AFPlatform.hpp"
 #include "base/AFDateTime.hpp"
 #include "base/AFXml.hpp"
+#include "interface/AFIModule.hpp"
 #include "interface/AFIPlugin.hpp"
 #include "AFCPluginManager.hpp"
 

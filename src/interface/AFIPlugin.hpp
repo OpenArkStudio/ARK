@@ -23,10 +23,13 @@
 #include "base/AFPlatform.hpp"
 #include "base/AFMap.hpp"
 #include "base/AFArrayMap.hpp"
-#include "interface/AFIModule.hpp"
-#include "AFIPluginManager.hpp"
+//#include "interface/AFIModule.hpp"
+//#include "AFIPluginManager.hpp"
 
 namespace ark {
+
+class AFIModule;
+class AFIPluginManager;
 
 class AFIPlugin
 {
@@ -94,7 +97,6 @@ protected:
     AFMap<std::string, AFIModule> modules_;
 
 private:
-    friend class AFIPluginManager;
     AFIPluginManager* pPluginManager{nullptr};
 };
 
