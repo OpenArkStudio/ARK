@@ -67,7 +67,7 @@ public:
 
     AFDataNode* GetNodeByIndex(size_t index) override
     {
-        ARK_ASSERT_RET_VAL(index >= 0 && index <= data_nodes_.size(), nullptr);
+        ARK_ASSERT_RET_VAL(index <= data_nodes_.size(), nullptr);
         return data_nodes_[index];
     }
 

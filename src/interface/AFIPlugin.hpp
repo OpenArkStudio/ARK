@@ -23,17 +23,15 @@
 #include "base/AFPlatform.hpp"
 #include "base/AFMap.hpp"
 #include "base/AFArrayMap.hpp"
-//#include "interface/AFIModule.hpp"
-//#include "AFIPluginManager.hpp"
+#include "interface/AFIModule.hpp"
+#include "interface/AFIPluginManager.hpp"
 
 namespace ark {
-
-class AFIModule;
-class AFIPluginManager;
 
 class AFIPlugin
 {
 public:
+    virtual ~AFIPlugin() = default;
     virtual int GetPluginVersion() = 0;
     virtual const std::string GetPluginName() = 0;
 
@@ -47,9 +45,9 @@ public:
         ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));
 
         AFIModule* pRegModuleName = ARK_NEW DERIVED_MODULE();
-        pRegModuleName->SetPluginManager(GetPluginManager());
+        pRegModuleName->SetPluginManager(pPluginManager);
         pRegModuleName->SetName(GET_CLASS_NAME(MODULE));
-        GetPluginManager()->AddModule(pRegModuleName->Name(), pRegModuleName);
+        pPluginManager->AddModule(pRegModuleName->Name(), pRegModuleName);
         modules_.insert(pRegModuleName->Name(), pRegModuleName);
 #ifdef ARK_PLATFORM_WIN
         std::string base_name = GET_CLASS_NAME(&AFIModule::Update);
@@ -97,6 +95,8 @@ protected:
     AFMap<std::string, AFIModule> modules_;
 
 private:
+    friend class AFIModule;
+    friend class AFIPluginManager;
     AFIPluginManager* pPluginManager{nullptr};
 };
 
