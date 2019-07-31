@@ -18,9 +18,9 @@
  *
  */
 
-#include "bus/include/AFBusPlugin.h"
-#include "bus/include/AFCBusModule.h"
-#include "bus/include/AFCMsgModule.h"
+#include "bus/include/AFBusPlugin.hpp"
+#include "bus/include/AFCBusModule.hpp"
+#include "bus/include/AFCMsgModule.hpp"
 
 namespace ark {
 
@@ -33,7 +33,7 @@ int AFBusPlugin::GetPluginVersion()
 
 const std::string AFBusPlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(AFBusPlugin)
+    return GET_CLASS_NAME(AFBusPlugin);
 }
 
 void AFBusPlugin::Install()

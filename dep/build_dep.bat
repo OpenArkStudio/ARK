@@ -46,8 +46,6 @@ cd build
 %VS_DEVENV% brynet.sln /build "Release|x64" /project brynet.vcxproj
 copy lib\Debug\*.lib ..\..\lib\ /Y
 copy lib\Release\*.lib ..\..\lib /Y
-copy lib\Debug\*.dll ..\..\..\bin\bin /Y
-copy lib\Release\*.dll ..\..\..\bin\bin /Y
 
 cd ..\..\
 REM ####################################################################################################

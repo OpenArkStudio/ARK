@@ -18,8 +18,8 @@
  *
  */
 
-#include "proxy/include/AFProxyPlugin.h"
-#include "proxy/include/AFCProxyNetModule.h"
+#include "proxy/include/AFProxyPlugin.hpp"
+#include "proxy/include/AFCProxyNetModule.hpp"
 
 namespace ark {
 
@@ -32,7 +32,7 @@ int AFProxyPlugin::GetPluginVersion()
 
 const std::string AFProxyPlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(AFProxyPlugin)
+    return GET_CLASS_NAME(AFProxyPlugin);
 }
 
 void AFProxyPlugin::Install()

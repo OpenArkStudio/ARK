@@ -23,13 +23,13 @@
 #include "rapidxml/rapidxml_print.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 #include "kernel/include/AFDataNode.hpp"
-#include "kernel/include/AFCConfigModule.h"
+#include "kernel/include/AFCConfigModule.hpp"
 
 namespace ark {
 
 bool AFCConfigModule::Init()
 {
-    m_pMetaClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
+    m_pMetaClassModule = FindModule<AFIMetaClassModule>();
 
     // Todo: will use the new data config, please wait for a while.
     // return Load();
@@ -63,7 +63,7 @@ bool AFCConfigModule::Load()
         // Todo: will fix by AFXml of stack size.
         //////////////////////////////////////////////////////////////////////////
         rapidxml::xml_document<> xDoc;
-        std::string strFile = pPluginManager->GetResPath() + res_path;
+        std::string strFile = GetPluginManager()->GetResPath() + res_path;
         rapidxml::file<> fdoc(strFile.c_str());
         xDoc.parse<0>(fdoc.data());
         //////////////////////////////////////////////////////////////////////////

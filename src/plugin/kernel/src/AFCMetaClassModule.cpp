@@ -21,14 +21,14 @@
 #include "base/AFXml.hpp"
 #include "kernel/interface/AFIData.hpp"
 #include "kernel/include/AFDataNode.hpp"
-#include "kernel/include/AFCMetaClassModule.h"
+#include "kernel/include/AFCMetaClassModule.hpp"
 
 namespace ark {
 
 bool AFCMetaClassModule::Init()
 {
-    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+    m_pConfigModule = FindModule<AFIConfigModule>();
+    m_pLogModule = FindModule<AFILogModule>();
 
     ARK_ASSERT_RET_VAL(Load(), false);
     return true;
@@ -181,7 +181,7 @@ bool AFCMetaClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHAR
 
     // Todo: will fix by AFXml of stack size.
     //////////////////////////////////////////////////////////////////////////
-    std::string strFile = pPluginManager->GetResPath() + pstrClassFilePath;
+    std::string strFile = GetPluginManager()->GetResPath() + pstrClassFilePath;
     rapidxml::file<> fdoc(strFile.c_str());
     rapidxml::xml_document<> xDoc;
     xDoc.parse<0>(fdoc.data());
@@ -358,7 +358,7 @@ bool AFCMetaClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIM
 
 bool AFCMetaClassModule::Load()
 {
-    std::string file_path = pPluginManager->GetResPath() + config_class_file;
+    std::string file_path = GetPluginManager()->GetResPath() + config_class_file;
 
     ARK_LOG_INFO("Load config files: {}", file_path);
 
@@ -423,7 +423,7 @@ bool AFCMetaClassModule::DoEvent(
 //////////////////////////////////////////////////////////////////////////
 // bool AFCNewMetaConfigModule::Init()
 //{
-//    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+//    m_pLogModule = FindModule<AFILogModule>();
 
 //    ARK_ASSERT_RET_VAL(Load(), false);
 //    return true;
@@ -431,7 +431,7 @@ bool AFCMetaClassModule::DoEvent(
 
 // bool AFCNewMetaConfigModule::Load()
 //{
-//    std::string file_path = pPluginManager->GetResPath() + config_class_file;
+//    std::string file_path = GetResPath() + config_class_file;
 
 //    ARK_LOG_INFO("Load config files: {}", file_path);
 

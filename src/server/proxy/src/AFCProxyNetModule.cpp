@@ -18,17 +18,17 @@
  *
  */
 
-#include "interface/AFIPluginManager.h"
-#include "proxy/include/AFCProxyNetModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "proxy/include/AFCProxyNetModule.hpp"
 
 namespace ark {
 
 bool AFCProxyNetModule::Init()
 {
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
-    m_pMsgModule = pPluginManager->FindModule<AFIMsgModule>();
-    m_pNetServiceManagerModule = pPluginManager->FindModule<AFINetServiceManagerModule>();
+    m_pLogModule = FindModule<AFILogModule>();
+    m_pBusModule = FindModule<AFIBusModule>();
+    m_pMsgModule = FindModule<AFIMsgModule>();
+    m_pNetServiceManagerModule = FindModule<AFINetServiceManagerModule>();
 
     return true;
 }

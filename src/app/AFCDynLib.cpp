@@ -18,7 +18,7 @@
  *
  */
 
-#include "AFCDynLib.h"
+#include "AFCDynLib.hpp"
 
 namespace ark {
 

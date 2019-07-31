@@ -28,8 +28,8 @@
 #include "Sample1Module.h"
 #include "proto/cpp/AFOss.pb.h"
 
-#include "net/interface/AFINet.h"
-#include "net/include/AFNetSession.h"
+#include "net/interface/AFINet.hpp"
+#include "net/include/AFNetSession.hpp"
 #include "brynet/net/http/HttpFormat.h"
 
 namespace ark {
@@ -122,11 +122,11 @@ namespace ark {
 ///////////////////////////////////////////////////////////
 bool Sample1Module::Init()
 {
-    m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pGUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
+    m_pTimerModule = FindModule<AFITimerModule>();
+    m_pLogModule = FindModule<AFILogModule>();
+    m_pGUIDModule = FindModule<AFIGUIDModule>();
 
-    ARK_LOG_INFO("{}, init", typeid(Sample1Module).name());
+    ARK_LOG_INFO("{}, init", GET_CLASS_NAME(Sample1Module));
 
     // http_client = new AFCHttpClient();
 
@@ -262,7 +262,7 @@ void Sample1Module::TestOssLog()
         msg.set_cid(1);
         msg.set_sid(1);
         msg.set_account("xxxxx");
-        AFDateTime time(pPluginManager->GetNowTime());
+        AFDateTime time(GetPluginManager()->GetNowTime());
         msg.set_time(time.GetTime());
         msg.set_ms(time.Raw());
         msg.set_ts(time.ToISO8601String());
@@ -283,7 +283,7 @@ void Sample1Module::TestOssLog()
 
 bool Sample1Module::PostInit()
 {
-    ARK_LOG_INFO("{}, PostInit", typeid(Sample1Module).name());
+    ARK_LOG_INFO("{}, PostInit", GET_CLASS_NAME(Sample1Module));
 
     // TestCRC();
     // TestConsistentHashmap();
@@ -340,13 +340,13 @@ bool Sample1Module::Update()
 
 bool Sample1Module::PreShut()
 {
-    ARK_LOG_INFO("{}, PreShut", typeid(Sample1Module).name());
+    ARK_LOG_INFO("{}, PreShut", GET_CLASS_NAME(Sample1Module));
     return true;
 }
 
 bool Sample1Module::Shut()
 {
-    ARK_LOG_INFO("{}, Shut", typeid(Sample1Module).name());
+    ARK_LOG_INFO("{}, Shut", GET_CLASS_NAME(Sample1Module));
     return true;
 }
 
@@ -357,7 +357,7 @@ void Sample1Module::TestTimer(const std::string& name, const AFGUID& entity_id)
 
 // bool Sample1Module::TestSchduler(const int id, const int arg)
 //{
-//    std::cout << pPluginManager->GetNowTime() << std::endl;
+//    std::cout << GetNowTime() << std::endl;
 //    std::cout << "Test Scheduler: id = " << id << ", arg = " << arg << std::endl;
 //    return true;
 //}

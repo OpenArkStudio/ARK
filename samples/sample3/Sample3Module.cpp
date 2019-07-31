@@ -19,14 +19,14 @@
  */
 
 #include "base/AFDateTime.hpp"
-#include "interface/AFIPluginManager.h"
+#include "interface/AFIPluginManager.hpp"
 #include "Sample3Module.h"
 
 namespace ark {
 
 bool Sample3Module::Init()
 {
-    std::cout << typeid(Sample3Module).name() << ", Init" << std::endl;
+    std::cout << GET_CLASS_NAME(Sample3Module) << ", Init" << std::endl;
     return true;
 }
 
@@ -76,13 +76,13 @@ int Sample3Module::OnStrDataNodeCB(
 
 bool Sample3Module::PostInit()
 {
-    std::cout << typeid(Sample3Module).name() << ", PostInit" << std::endl;
+    std::cout << GET_CLASS_NAME(Sample3Module) << ", PostInit" << std::endl;
 
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
-    m_pMapModule = pPluginManager->FindModule<AFIMapModule>();
+    m_pKernelModule = FindModule<AFIKernelModule>();
+    m_pConfigModule = FindModule<AFIConfigModule>();
+    m_pLogModule = FindModule<AFILogModule>();
+    m_pClassModule = FindModule<AFIMetaClassModule>();
+    m_pMapModule = FindModule<AFIMapModule>();
 
     ARK_LOG_INFO("Init finished...");
 
@@ -120,7 +120,7 @@ bool Sample3Module::PostInit()
 
 bool Sample3Module::PreShut()
 {
-    std::cout << typeid(Sample3Module).name() << ", PreShut" << std::endl;
+    std::cout << GET_CLASS_NAME(Sample3Module) << ", PreShut" << std::endl;
     m_pKernelModule->DestroyAll();
 
     return true;
@@ -128,7 +128,7 @@ bool Sample3Module::PreShut()
 
 bool Sample3Module::Shut()
 {
-    std::cout << typeid(Sample3Module).name() << ", Shut" << std::endl;
+    std::cout << GET_CLASS_NAME(Sample3Module) << ", Shut" << std::endl;
     return true;
 }
 

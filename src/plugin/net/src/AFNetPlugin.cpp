@@ -18,8 +18,8 @@
  *
  */
 
-#include "net/include/AFNetPlugin.h"
-#include "net/include/AFCNetServiceManagerModule.h"
+#include "net/include/AFNetPlugin.hpp"
+#include "net/include/AFCNetServiceManagerModule.hpp"
 
 namespace ark {
 
@@ -32,7 +32,7 @@ int AFNetPlugin::GetPluginVersion()
 
 const std::string AFNetPlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(AFNetPlugin)
+    return GET_CLASS_NAME(AFNetPlugin);
 }
 
 void AFNetPlugin::Install()

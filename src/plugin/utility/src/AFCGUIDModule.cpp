@@ -21,8 +21,8 @@
 #include "base/AFDefine.hpp"
 #include "base/AFDateTime.hpp"
 #include "base/AFBaseStruct.hpp"
-#include "interface/AFIPluginManager.h"
-#include "utility/include/AFCGUIDModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "utility/include/AFCGUIDModule.hpp"
 
 namespace ark {
 
@@ -49,7 +49,7 @@ AFGUID AFCGUIDModule::CreateGUID()
 {
     ARK_ASSERT_RET_VAL(uid_generator_ != nullptr, NULL_GUID);
 
-    AFBusAddr bus_addr(pPluginManager->BusID());
+    AFBusAddr bus_addr(GetPluginManager()->BusID());
     int64_t id = int64_t(bus_addr.zone_id) << (2 * 8) | int64_t(bus_addr.app_type) << (1 * 8) |
                  int64_t(bus_addr.inst_id) << (0 * 8);
     return uid_generator_->GetUID(id);

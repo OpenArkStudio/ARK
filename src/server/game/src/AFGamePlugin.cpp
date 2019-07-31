@@ -18,13 +18,13 @@
  *
  */
 
-#include "game/include/AFGamePlugin.h"
-#include "game/include/AFCSceneProcessModule.h"
-#include "game/include/AFCPropertyModule.h"
-#include "game/include/AFCLevelModule.h"
-#include "game/include/AFCPropertyConfigModule.h"
-#include "game/include/AFCAccountModule.h"
-#include "game/include/AFCGameNetModule.h"
+#include "game/include/AFGamePlugin.hpp"
+#include "game/include/AFCSceneProcessModule.hpp"
+#include "game/include/AFCPropertyModule.hpp"
+#include "game/include/AFCLevelModule.hpp"
+#include "game/include/AFCPropertyConfigModule.hpp"
+#include "game/include/AFCAccountModule.hpp"
+#include "game/include/AFCGameNetModule.hpp"
 
 namespace ark {
 
@@ -38,7 +38,7 @@ int AFGamePlugin::GetPluginVersion()
 
 const std::string AFGamePlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(AFGamePlugin)
+    return GET_CLASS_NAME(AFGamePlugin);
 }
 
 void AFGamePlugin::Install()

@@ -20,17 +20,19 @@
 
 #include <iostream>
 
-#include "net/interface/AFINet.h"
-#include "net/include/AFNetSession.h"
 #include "brynet/net/http/HttpFormat.h"
+
+#include "net/interface/AFINet.hpp"
+#include "net/include/AFNetSession.hpp"
 
 class AFCHttpClient // : public AFINet
 {
 public:
     AFCHttpClient();
 
-    std::string Request(const std::string& ip, uint16_t port, brynet::net::http::HttpRequest::HTTP_METHOD method, const std::string& url,
-        const std::map<std::string, std::string>& url_params, const std::string& http_body = "");
+    std::string Request(const std::string& ip, uint16_t port, brynet::net::http::HttpRequest::HTTP_METHOD method,
+        const std::string& url, const std::map<std::string, std::string>& url_params,
+        const std::string& http_body = "");
 
 private:
     brynet::net::TcpService::Ptr tcp_service_{nullptr};
@@ -48,8 +50,9 @@ AFCHttpClient::AFCHttpClient()
     async_connector_->startWorkerThread();
 }
 
-std::string AFCHttpClient::Request(const std::string& ip, uint16_t port, brynet::net::http::HttpRequest::HTTP_METHOD method,
-    const std::string& url, const std::map<std::string, std::string>& url_params, const std::string& http_json_body /* = ""*/)
+std::string AFCHttpClient::Request(const std::string& ip, uint16_t port,
+    brynet::net::http::HttpRequest::HTTP_METHOD method, const std::string& url,
+    const std::map<std::string, std::string>& url_params, const std::string& http_json_body /* = ""*/)
 {
     brynet::net::http::HttpRequest request;
     request.setMethod(method);
@@ -81,24 +84,26 @@ std::string AFCHttpClient::Request(const std::string& ip, uint16_t port, brynet:
                 []() { std::cout << "connect failed-------------" << std::endl; }),
         })
         .configureConnectionOptions({brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(1024),
-            brynet::net::TcpService::AddSocketOption::AddEnterCallback([](const brynet::net::TcpConnection::Ptr& session) {
-                // do something for session
-                (void)session;
-                std::cout << "enter callback" << std::endl;
-            })})
+            brynet::net::TcpService::AddSocketOption::AddEnterCallback(
+                [](const brynet::net::TcpConnection::Ptr& session) {
+                    // do something for session
+                    (void)session;
+                    std::cout << "enter callback" << std::endl;
+                })})
         .configureEnterCallback([req_url](brynet::net::http::HttpSession::Ptr session) {
             //(void)session;
             std::cout << "connect success+++++++++++++" << std::endl;
             session->send(req_url.c_str(), req_url.size());
             std::cout << "after send" << std::endl;
-            session->setHttpCallback(
-                [req_url](const brynet::net::http::HTTPParser& httpParser, const brynet::net::http::HttpSession::Ptr& session) {
-                    //(void)session;
-                    std::cout << "status" << httpParser.getStatus() << std::endl;
-                    std::cout << "body=" << httpParser.getBody() << std::endl;
-                });
-            session->setClosedCallback(
-                [req_url](const brynet::net::http::HttpSession::Ptr& session) { std::cout << "disconnect" << std::endl; });
+            session->setHttpCallback([req_url](const brynet::net::http::HTTPParser& httpParser,
+                                         const brynet::net::http::HttpSession::Ptr& session) {
+                //(void)session;
+                std::cout << "status" << httpParser.getStatus() << std::endl;
+                std::cout << "body=" << httpParser.getBody() << std::endl;
+            });
+            session->setClosedCallback([req_url](const brynet::net::http::HttpSession::Ptr& session) {
+                std::cout << "disconnect" << std::endl;
+            });
         })
         .asyncConnect();
 
@@ -112,8 +117,8 @@ int main()
     std::map<std::string, std::string> url_params;
     url_params.insert(std::make_pair("tag", "session"));
     url_params.insert(std::make_pair("passing", "1"));
-    http_client.Request(
-        "172.26.24.163", 8500, brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_GET, "/v1/health/service/atelier", url_params);
+    http_client.Request("172.26.24.163", 8500, brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_GET,
+        "/v1/health/service/atelier", url_params);
 
     int a;
     std::cin >> a;

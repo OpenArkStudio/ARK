@@ -19,15 +19,15 @@
  */
 
 #include "kernel/include/AFCEntity.hpp"
-#include "kernel/interface/AFIMetaClassModule.h"
-#include "kernel/interface/AFIKernelModule.h"
+#include "kernel/interface/AFIMetaClassModule.hpp"
+#include "kernel/interface/AFIKernelModule.hpp"
 #include "Sample2Module.h"
 
 namespace ark {
 
 bool Sample2Module::Init()
 {
-    std::cout << typeid(Sample2Module).name() << ", Init" << std::endl;
+    std::cout << GET_CLASS_NAME(Sample2Module) << ", Init" << std::endl;
     return true;
 }
 
@@ -41,13 +41,13 @@ int Sample2Module::OnDataNodeCB(
 
 bool Sample2Module::PostInit()
 {
-    AFIKernelModule* pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    AFIMetaClassModule* pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
+    AFIKernelModule* pKernelModule = FindModule<AFIKernelModule>();
+    AFIMetaClassModule* pClassModule = FindModule<AFIMetaClassModule>();
 
     AFCDataList xData;
     xData.AddInt(111);
 
-    std::cout << typeid(Sample2Module).name() << ", PostInit" << std::endl;
+    std::cout << GET_CLASS_NAME(Sample2Module) << ", PostInit" << std::endl;
 
     // Create an Entity for this test
     AFIEntity* pEntity = ARK_NEW AFCEntity(1);
@@ -78,13 +78,13 @@ bool Sample2Module::PostInit()
 
 bool Sample2Module::PreShut()
 {
-    std::cout << typeid(Sample2Module).name() << ", PreShut" << std::endl;
+    std::cout << GET_CLASS_NAME(Sample2Module) << ", PreShut" << std::endl;
     return true;
 }
 
 bool Sample2Module::Shut()
 {
-    std::cout << typeid(Sample2Module).name() << ", Shut" << std::endl;
+    std::cout << GET_CLASS_NAME(Sample2Module) << ", Shut" << std::endl;
     return true;
 }
 

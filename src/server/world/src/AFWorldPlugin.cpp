@@ -18,8 +18,8 @@
  *
  */
 
-#include "world/include/AFWorldPlugin.h"
-#include "world/include/AFCWorldNetModule.h"
+#include "world/include/AFWorldPlugin.hpp"
+#include "world/include/AFCWorldNetModule.hpp"
 
 namespace ark {
 

@@ -18,9 +18,9 @@
  *
  */
 
-#include "interface/AFIPluginManager.h"
-#include "master/include/AFMasterPlugin.h"
-#include "master/include/AFCMasterNetModule.h"
+#include "interface/AFIModule.hpp"
+#include "master/include/AFMasterPlugin.hpp"
+#include "master/include/AFCMasterNetModule.hpp"
 
 namespace ark {
 
@@ -33,7 +33,7 @@ int AFMasterPlugin::GetPluginVersion()
 
 const std::string AFMasterPlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(AFMasterPlugin)
+    return GET_CLASS_NAME(AFMasterPlugin);
 }
 
 void AFMasterPlugin::Install()

@@ -18,20 +18,20 @@
  *
  */
 
-#include "interface/AFIPluginManager.h"
+#include "interface/AFIPluginManager.hpp"
 #include "kernel/include/AFCDataList.hpp"
 #include "kernel/include/AFDataNode.hpp"
 #include "kernel/include/AFDataTable.hpp"
-#include "game/include/AFCPropertyTrailModule.h"
+#include "game/include/AFCPropertyTrailModule.hpp"
 
 namespace ark {
 
 bool AFCPropertyTrailModule::Init()
 {
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
-    m_pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+    m_pKernelModule = FindModule<AFIKernelModule>();
+    m_pConfigModule = FindModule<AFIConfigModule>();
+    m_pClassModule = FindModule<AFIMetaClassModule>();
+    m_pLogModule = FindModule<AFILogModule>();
 
     return true;
 }

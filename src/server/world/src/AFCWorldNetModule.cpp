@@ -19,21 +19,21 @@
  */
 
 #include "proto/AFProtoCPP.hpp"
-#include "interface/AFIPluginManager.h"
+#include "interface/AFIPluginManager.hpp"
 #include "kernel/include/AFDataNode.hpp"
-#include "world/include/AFCWorldNetModule.h"
+#include "world/include/AFCWorldNetModule.hpp"
 
 namespace ark {
 
 bool AFCWorldNetModule::Init()
 {
-    mnLastCheckTime = pPluginManager->GetNowTime();
+    mnLastCheckTime = GetPluginManager()->GetNowTime();
 
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
-    m_pMsgModule = pPluginManager->FindModule<AFIMsgModule>();
-    m_pNetServiceManagerModule = pPluginManager->FindModule<AFINetServiceManagerModule>();
+    m_pKernelModule = FindModule<AFIKernelModule>();
+    m_pLogModule = FindModule<AFILogModule>();
+    m_pBusModule = FindModule<AFIBusModule>();
+    m_pMsgModule = FindModule<AFIMsgModule>();
+    m_pNetServiceManagerModule = FindModule<AFINetServiceManagerModule>();
 
     return true;
 }

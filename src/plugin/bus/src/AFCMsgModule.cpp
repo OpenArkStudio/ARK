@@ -19,16 +19,16 @@
  */
 
 #include "base/AFMisc.hpp"
-#include "interface/AFIPluginManager.h"
-#include "bus/include/AFCMsgModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "bus/include/AFCMsgModule.hpp"
 
 namespace ark {
 
 bool AFCMsgModule::Init()
 {
-    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
-    m_pNetServiceManagerModule = pPluginManager->FindModule<AFINetServiceManagerModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+    m_pBusModule = FindModule<AFIBusModule>();
+    m_pNetServiceManagerModule = FindModule<AFINetServiceManagerModule>();
+    m_pLogModule = FindModule<AFILogModule>();
 
     return true;
 }

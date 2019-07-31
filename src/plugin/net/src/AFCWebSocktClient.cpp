@@ -19,7 +19,7 @@
  */
 
 #include <brynet/net/http/HttpFormat.h>
-#include "net/include/AFCWebSocktClient.h"
+#include "net/include/AFCWebSocktClient.hpp"
 
 namespace ark {
 

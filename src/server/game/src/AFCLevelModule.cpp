@@ -18,17 +18,17 @@
  *
  */
 
-#include "interface/AFIPluginManager.h"
-#include "game/include/AFCLevelModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "game/include/AFCLevelModule.hpp"
 
 namespace ark {
 
 bool AFCLevelModule::Init()
 {
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pPropertyConfigModule = pPluginManager->FindModule<AFIPropertyConfigModule>();
-    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
+    m_pKernelModule = FindModule<AFIKernelModule>();
+    m_pLogModule = FindModule<AFILogModule>();
+    m_pPropertyConfigModule = FindModule<AFIPropertyConfigModule>();
+    m_pConfigModule = FindModule<AFIConfigModule>();
 
     return true;
 }

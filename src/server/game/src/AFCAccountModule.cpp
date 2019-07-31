@@ -18,16 +18,16 @@
  *
  */
 
-#include "bus/interface/AFIMsgModule.h"
-#include "game/include/AFCAccountModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "game/include/AFCAccountModule.hpp"
 
 namespace ark {
 
 bool AFCAccountModule::Init()
 {
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pElementInfoModule = pPluginManager->FindModule<AFIConfigModule>();
-    m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
+    m_pKernelModule = FindModule<AFIKernelModule>();
+    m_pElementInfoModule = FindModule<AFIConfigModule>();
+    m_pUUIDModule = FindModule<AFIGUIDModule>();
     return true;
 }
 

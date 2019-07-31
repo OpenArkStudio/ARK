@@ -32,7 +32,7 @@ int Sample1Plugin::GetPluginVersion()
 
 const std::string Sample1Plugin::GetPluginName()
 {
-    return GET_CLASS_NAME(Sample1Plugin)
+    return GET_CLASS_NAME(Sample1Plugin);
 }
 
 void Sample1Plugin::Install()

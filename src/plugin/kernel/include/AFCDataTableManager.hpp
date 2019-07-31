@@ -23,7 +23,7 @@
 #include "base/AFCoreDef.hpp"
 #include "base/AFArrayMap.hpp"
 #include "AFDataTable.hpp"
-#include "kernel/interface/AFIDataTableManager.h"
+#include "kernel/interface/AFIDataTableManager.hpp"
 
 namespace ark {
 

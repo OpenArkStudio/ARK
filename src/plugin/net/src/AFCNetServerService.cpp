@@ -18,9 +18,9 @@
  *
  */
 
-#include "interface/AFIPluginManager.h"
-#include "net/include/AFCTCPServer.h"
-#include "net/include/AFCNetServerService.h"
+#include "interface/AFIPluginManager.hpp"
+#include "net/include/AFCTCPServer.hpp"
+#include "net/include/AFCNetServerService.hpp"
 
 namespace ark {
 

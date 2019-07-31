@@ -18,21 +18,21 @@
  *
  */
 
-#include "interface/AFIPluginManager.h"
-#include "master/include/AFCMasterNetModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "master/include/AFCMasterNetModule.hpp"
 
 namespace ark {
 
 bool AFCMasterNetModule::Init()
 {
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
-    m_pNetServiceManagerModule = pPluginManager->FindModule<AFINetServiceManagerModule>();
-    m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
-    m_pMsgModule = pPluginManager->FindModule<AFIMsgModule>();
+    m_pLogModule = FindModule<AFILogModule>();
+    m_pBusModule = FindModule<AFIBusModule>();
+    m_pNetServiceManagerModule = FindModule<AFINetServiceManagerModule>();
+    m_pTimerModule = FindModule<AFITimerModule>();
+    m_pMsgModule = FindModule<AFIMsgModule>();
 
     // log timer
-    // m_pTimerModule->AddForeverTimer("master-sub-server-timer", pPluginManager->BusID(), 30 * 1000, this,
+    // m_pTimerModule->AddForeverTimer("master-sub-server-timer", BusID(), 30 * 1000, this,
     // &AFCMasterNetServerModule::OnTimerLogServer);
 
     return true;

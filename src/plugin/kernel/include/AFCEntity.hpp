@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "kernel/interface/AFIEntity.h"
+#include "kernel/interface/AFIEntity.hpp"
 #include "kernel/include/AFCDataTableManager.hpp"
 #include "kernel/include/AFCDataNodeManager.hpp"
 #include "kernel/include/AFCEventManager.hpp"

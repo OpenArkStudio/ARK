@@ -18,8 +18,8 @@
  *
  */
 
-#include "router/include/AFRouterPlugin.h"
-#include "router/include/AFCRouterNetModule.h"
+#include "router/include/AFRouterPlugin.hpp"
+#include "router/include/AFCRouterNetModule.hpp"
 
 namespace ark {
 

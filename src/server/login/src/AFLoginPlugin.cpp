@@ -18,8 +18,8 @@
  *
  */
 
-#include "login/include/AFLoginPlugin.h"
-#include "login/include/AFCLoginNetModule.h"
+#include "login/include/AFLoginPlugin.hpp"
+#include "login/include/AFCLoginNetModule.hpp"
 
 namespace ark {
 

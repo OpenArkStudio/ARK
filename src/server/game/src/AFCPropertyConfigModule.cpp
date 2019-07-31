@@ -18,15 +18,15 @@
  *
  */
 
-#include "interface/AFIPluginManager.h"
-#include "game/include/AFCPropertyConfigModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "game/include/AFCPropertyConfigModule.hpp"
 
 namespace ark {
 
 bool AFCPropertyConfigModule::Init()
 {
-    m_pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
-    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
+    m_pClassModule = FindModule<AFIMetaClassModule>();
+    m_pConfigModule = FindModule<AFIConfigModule>();
 
     return true;
 }

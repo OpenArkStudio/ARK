@@ -19,11 +19,11 @@
  */
 
 #include "base/AFDefine.hpp"
-#include "interface/AFIPluginManager.h"
+#include "interface/AFIPluginManager.hpp"
 #include "kernel/include/AFCEntity.hpp"
 #include "kernel/include/AFDataNode.hpp"
 #include "kernel/include/AFDataTable.hpp"
-#include "kernel/include/AFCKernelModule.h"
+#include "kernel/include/AFCKernelModule.hpp"
 
 namespace ark {
 
@@ -50,11 +50,11 @@ bool AFCKernelModule::Init()
 {
     delete_list_.clear();
 
-    m_pMapModule = pPluginManager->FindModule<AFIMapModule>();
-    m_pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
-    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pGUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
+    m_pMapModule = FindModule<AFIMapModule>();
+    m_pClassModule = FindModule<AFIMetaClassModule>();
+    m_pConfigModule = FindModule<AFIConfigModule>();
+    m_pLogModule = FindModule<AFILogModule>();
+    m_pGUIDModule = FindModule<AFIGUIDModule>();
 
     return true;
 }

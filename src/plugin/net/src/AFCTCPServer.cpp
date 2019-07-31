@@ -18,7 +18,7 @@
  *
  */
 
-#include "net/include/AFCTCPServer.h"
+#include "net/include/AFCTCPServer.hpp"
 
 #ifdef ARK_PLATFORM_WIN
 #include <WS2tcpip.h>

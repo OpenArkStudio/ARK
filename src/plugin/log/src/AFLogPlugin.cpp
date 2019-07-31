@@ -18,8 +18,8 @@
  *
  */
 
-#include "log/include/AFLogPlugin.h"
-#include "log/include/AFCLogModule.h"
+#include "log/include/AFLogPlugin.hpp"
+#include "log/include/AFCLogModule.hpp"
 
 namespace ark {
 
@@ -32,7 +32,7 @@ int AFLogPlugin::GetPluginVersion()
 
 const std::string AFLogPlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(AFLogPlugin)
+    return GET_CLASS_NAME(AFLogPlugin);
 }
 
 void AFLogPlugin::Install()

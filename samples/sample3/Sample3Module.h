@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include "kernel/interface/AFIKernelModule.h"
-#include "kernel/interface/AFIConfigModule.h"
-#include "kernel/interface/AFIMetaClassModule.h"
-#include "kernel/interface/AFIMapModule.h"
-#include "log/interface/AFILogModule.h"
+#include "kernel/interface/AFIKernelModule.hpp"
+#include "kernel/interface/AFIConfigModule.hpp"
+#include "kernel/interface/AFIMetaClassModule.hpp"
+#include "kernel/interface/AFIMapModule.hpp"
+#include "log/interface/AFILogModule.hpp"
 
 namespace ark {
 

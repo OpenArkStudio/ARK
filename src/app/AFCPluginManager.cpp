@@ -21,8 +21,8 @@
 #include "base/AFPlatform.hpp"
 #include "base/AFDateTime.hpp"
 #include "base/AFXml.hpp"
-#include "interface/AFIPlugin.h"
-#include "AFCPluginManager.h"
+#include "interface/AFIPlugin.hpp"
+#include "AFCPluginManager.hpp"
 
 namespace ark {
 
@@ -232,7 +232,7 @@ bool AFCPluginManager::AddUpdateModule(AFIModule* pModule)
         return false;
     }
 
-    return module_updates_.insert(pModule->name_, pModule).second;
+    return module_updates_.insert(pModule->Name(), pModule).second;
 }
 
 void AFCPluginManager::RemoveUpdateModule(const std::string& module_name)

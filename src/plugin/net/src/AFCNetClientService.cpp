@@ -19,9 +19,9 @@
  */
 
 #include "base/AFDateTime.hpp"
-#include "interface/AFIPluginManager.h"
-#include "net/include/AFCTCPClient.h"
-#include "net/include/AFCNetClientService.h"
+#include "interface/AFIPluginManager.hpp"
+#include "net/include/AFCTCPClient.hpp"
+#include "net/include/AFCNetClientService.hpp"
 
 namespace ark {
 

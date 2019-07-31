@@ -18,16 +18,16 @@
  *
  */
 
-#include "interface/AFIPluginManager.h"
-#include "router/include/AFCRouterNetModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "router/include/AFCRouterNetModule.hpp"
 
 namespace ark {
 
 bool AFCRouterNetModule::Init()
 {
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
-    m_pNetServiceManagerModule = pPluginManager->FindModule<AFINetServiceManagerModule>();
+    m_pLogModule = FindModule<AFILogModule>();
+    m_pBusModule = FindModule<AFIBusModule>();
+    m_pNetServiceManagerModule = FindModule<AFINetServiceManagerModule>();
 
     return true;
 }

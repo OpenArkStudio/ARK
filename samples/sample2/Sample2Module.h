@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "interface/AFIPlugin.h"
-#include "interface/AFIPluginManager.h"
+#include "interface/AFIPlugin.hpp"
+#include "interface/AFIModule.hpp"
 #include "kernel/interface/AFIData.hpp"
 
 namespace ark {

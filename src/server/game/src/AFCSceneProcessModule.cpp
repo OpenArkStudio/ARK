@@ -24,19 +24,20 @@
 #include "rapidxml/rapidxml_utils.hpp"
 #include "base/AFEventDefine.hpp"
 #include "base/AFDateTime.hpp"
-#include "game/include/AFCSceneProcessModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "game/include/AFCSceneProcessModule.hpp"
 
 namespace ark {
 
 bool AFCSceneProcessModule::Init()
 {
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
-    m_pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
-    m_pMapModule = pPluginManager->FindModule<AFIMapModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pGameNetModule = pPluginManager->FindModule<AFIGameNetModule>();
-    m_pGUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
+    m_pKernelModule = FindModule<AFIKernelModule>();
+    m_pConfigModule = FindModule<AFIConfigModule>();
+    m_pClassModule = FindModule<AFIMetaClassModule>();
+    m_pMapModule = FindModule<AFIMapModule>();
+    m_pLogModule = FindModule<AFILogModule>();
+    m_pGameNetModule = FindModule<AFIGameNetModule>();
+    m_pGUIDModule = FindModule<AFIGUIDModule>();
 
     m_pKernelModule->AddClassCallBack(
         AFEntityMetaPlayer::self_name(), this, &AFCSceneProcessModule::OnObjectClassEvent);

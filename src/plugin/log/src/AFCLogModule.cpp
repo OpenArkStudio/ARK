@@ -22,8 +22,8 @@
 #include "spdlog/sinks/rotating_file_with_date_sink.h"
 #include "base/AFMacros.hpp"
 #include "base/AFMisc.hpp"
-#include "interface/AFIPluginManager.h"
-#include "log/include/AFCLogModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "log/include/AFCLogModule.hpp"
 
 namespace ark {
 
@@ -54,8 +54,8 @@ std::shared_ptr<spdlog::async_logger> AFCLogModule::GetDevLogger()
 void AFCLogModule::CreateDevLogger()
 {
     std::vector<spdlog::sink_ptr> sinks_vec;
-    std::string log_name = ARK_FORMAT("{}{}{}.{}.log", pPluginManager->GetLogPath(), spdlog::details::os::folder_sep,
-        pPluginManager->AppName(), AFMisc::Bus2Str(pPluginManager->BusID()));
+    std::string log_name = ARK_FORMAT("{}{}{}.{}.log", GetPluginManager()->GetLogPath(),
+        spdlog::details::os::folder_sep, GetPluginManager()->AppName(), AFMisc::Bus2Str(GetPluginManager()->BusID()));
     auto date_and_hour_sink = std::make_shared<spdlog::sinks::date_and_hour_file_sink_mt>(log_name);
 #ifdef ARK_RUN_MODE_DEBUG
 #ifdef ARK_PLATFORM_WIN
@@ -69,7 +69,7 @@ void AFCLogModule::CreateDevLogger()
 
     dev_tp_ = std::make_shared<spdlog::details::thread_pool>(spdlog::details::default_async_q_size, 1);
     dev_logger_ = std::make_shared<spdlog::async_logger>(
-        pPluginManager->AppName(), std::begin(sinks_vec), std::end(sinks_vec), dev_tp_);
+        GetPluginManager()->AppName(), std::begin(sinks_vec), std::end(sinks_vec), dev_tp_);
 
 #ifdef ARK_RUN_MODE_DEBUG
     dev_logger_->set_level(spdlog::level::level_enum::trace);
@@ -96,7 +96,7 @@ AFCLogModule::spdlogger AFCLogModule::CreateOssLogger(const std::string& name)
     {
         // log/oss/login.log
         std::vector<spdlog::sink_ptr> sinks_vec;
-        std::string log_name = ARK_FORMAT("{}{}oss{}{}.log", pPluginManager->GetLogPath(),
+        std::string log_name = ARK_FORMAT("{}{}oss{}{}.log", GetPluginManager()->GetLogPath(),
             spdlog::details::os::folder_sep, spdlog::details::os::folder_sep, name);
         auto rorate_file_sink =
             std::make_shared<spdlog::sinks::rotating_file_with_date_sink_mt>(log_name, 20 * 1024 * 1024, 100000);

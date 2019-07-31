@@ -18,10 +18,9 @@
  *
  */
 
-#include "utility/include/AFUtilityPlugin.h"
-#include "utility/include/AFCGUIDModule.h"
-#include "utility/include/AFCTimerModule.h"
-//#include "utility/include/AFCLogModule.h"
+#include "utility/include/AFUtilityPlugin.hpp"
+#include "utility/include/AFCGUIDModule.hpp"
+#include "utility/include/AFCTimerModule.hpp"
 //#include "utility/include/AFCScheduleModule.h"
 
 namespace ark {
@@ -35,22 +34,18 @@ int AFUtilityPlugin::GetPluginVersion()
 
 const std::string AFUtilityPlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(AFUtilityPlugin)
+    return GET_CLASS_NAME(AFUtilityPlugin);
 }
 
 void AFUtilityPlugin::Install()
 {
     RegisterModule<AFIGUIDModule, AFCGUIDModule>();
     RegisterModule<AFITimerModule, AFCTimerModule>();
-    // RegisterModule<AFILogModule, AFCLogModule>();
-    // RegisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
     // RegisterModule<AFIScheduleModule, AFCScheduleModule>();
 }
 
 void AFUtilityPlugin::Uninstall()
 {
-    // DeregisterModule<AFIScheduleModule, AFCScheduleModule>();
-    // DeregisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
     // DeregisterModule<AFILogModule, AFCLogModule>();
     DeregisterModule<AFITimerModule, AFCTimerModule>();
     DeregisterModule<AFIGUIDModule, AFCGUIDModule>();

@@ -21,8 +21,8 @@
 #include "base/AFEnum.hpp"
 #include "base/AFDefine.hpp"
 #include "base/AFXml.hpp"
-#include "interface/AFIPluginManager.h"
-#include "bus/include/AFCBusModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "bus/include/AFCBusModule.hpp"
 
 namespace ark {
 
@@ -238,7 +238,7 @@ const std::string AFCBusModule::GetAppHost(const int bus_id)
 
 const int AFCBusModule::GetSelfBusID()
 {
-    return pPluginManager->BusID();
+    return GetPluginManager()->BusID();
 }
 
 const std::string AFCBusModule::GetSelfBusName()

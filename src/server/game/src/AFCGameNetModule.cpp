@@ -19,25 +19,25 @@
  */
 
 #include "base/AFEventDefine.hpp"
-#include "interface/AFIPluginManager.h"
+#include "interface/AFIPluginManager.hpp"
 #include "kernel/include/AFDataNode.hpp"
-#include "game/include/AFCGameNetModule.h"
+#include "game/include/AFCGameNetModule.hpp"
 
 namespace ark {
 
 bool AFCGameNetModule::Init()
 {
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
-    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
-    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
-    m_pMsgModule = pPluginManager->FindModule<AFIMsgModule>();
-    m_pNetServiceManagerModule = pPluginManager->FindModule<AFINetServiceManagerModule>();
-    m_pSceneProcessModule = pPluginManager->FindModule<AFISceneProcessModule>();
-    m_AccountModule = pPluginManager->FindModule<AFIAccountModule>();
-    m_pMapModule = pPluginManager->FindModule<AFIMapModule>();
+    m_pKernelModule = FindModule<AFIKernelModule>();
+    m_pClassModule = FindModule<AFIMetaClassModule>();
+    m_pConfigModule = FindModule<AFIConfigModule>();
+    m_pLogModule = FindModule<AFILogModule>();
+    m_pUUIDModule = FindModule<AFIGUIDModule>();
+    m_pBusModule = FindModule<AFIBusModule>();
+    m_pMsgModule = FindModule<AFIMsgModule>();
+    m_pNetServiceManagerModule = FindModule<AFINetServiceManagerModule>();
+    m_pSceneProcessModule = FindModule<AFISceneProcessModule>();
+    m_AccountModule = FindModule<AFIAccountModule>();
+    m_pMapModule = FindModule<AFIMapModule>();
 
     m_pKernelModule->RegCommonClassEvent(this, &AFCGameNetModule::OnCommonClassEvent);
     m_pKernelModule->RegCommonDataNodeEvent(this, &AFCGameNetModule::OnCommonDataNodeEvent);
@@ -192,7 +192,7 @@ void AFCGameNetModule::OnClienEnterGameProcess(const AFNetMsg* msg, const int64_
 
     // pEntity->SetNodeInt("LoadPropertyFinish", 1);
     // pEntity->SetNodeInt("GateID", nGateID);
-    // pEntity->SetNodeInt("GameID", pPluginManager->BusID());
+    // pEntity->SetNodeInt("GameID", BusID());
 
     // m_pKernelModule->DoEvent(pEntity->Self(), ark::Player::ThisName(), ArkEntityEvent::ENTITY_EVT_ALL_FINISHED,
     // AFCDataList());

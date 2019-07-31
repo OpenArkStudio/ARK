@@ -18,8 +18,8 @@
  *
  */
 
-#include "interface/AFIPluginManager.h"
-#include "utility/include/AFCScheduleModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "utility/include/AFCScheduleModule.hpp"
 
 namespace ark {
 
@@ -37,14 +37,14 @@ bool AFCScheduleModule::PreShut()
 
 bool AFCScheduleModule::Update()
 {
-    // mxCronSheduler->Update(pPluginManager->GetNowTime());
+    // mxCronSheduler->Update(GetNowTime());
     return true;
 }
 
 bool AFCScheduleModule::AddSchedule(
     const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR&& cb)
 {
-    // return mxCronSheduler->AddCron(id, user_arg, cron_expression, pPluginManager->GetNowTime(), cb);
+    // return mxCronSheduler->AddCron(id, user_arg, cron_expression, GetNowTime(), cb);
     return true;
 }
 

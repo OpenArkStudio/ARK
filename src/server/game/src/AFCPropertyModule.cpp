@@ -19,18 +19,18 @@
  */
 
 #include "base/AFDateTime.hpp"
-#include "interface/AFIPluginManager.h"
-#include "game/include/AFCPropertyModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "game/include/AFCPropertyModule.hpp"
 
 namespace ark {
 
 bool AFCPropertyModule::Init()
 {
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
-    m_pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
-    m_pPropertyConfigModule = pPluginManager->FindModule<AFIPropertyConfigModule>();
-    m_pLevelModule = pPluginManager->FindModule<AFILevelModule>();
+    m_pKernelModule = FindModule<AFIKernelModule>();
+    m_pConfigModule = FindModule<AFIConfigModule>();
+    m_pClassModule = FindModule<AFIMetaClassModule>();
+    m_pPropertyConfigModule = FindModule<AFIPropertyConfigModule>();
+    m_pLevelModule = FindModule<AFILevelModule>();
 
     m_pKernelModule->AddClassCallBack(AFEntityMetaPlayer::self_name(), this, &AFCPropertyModule::OnObjectClassEvent);
     m_pClassModule->AddNodeCallBack(

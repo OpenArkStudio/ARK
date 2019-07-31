@@ -18,16 +18,16 @@
  *
  */
 
-#include "interface/AFIPluginManager.h"
-#include "login/include/AFCLoginNetModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "login/include/AFCLoginNetModule.hpp"
 
 namespace ark {
 
 bool AFCLoginNetModule::Init()
 {
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
-    m_pNetServiceManagerModule = pPluginManager->FindModule<AFINetServiceManagerModule>();
+    m_pLogModule = FindModule<AFILogModule>();
+    m_pBusModule = FindModule<AFIBusModule>();
+    m_pNetServiceManagerModule = FindModule<AFINetServiceManagerModule>();
 
     return true;
 }
@@ -206,7 +206,7 @@ int AFCLoginNetModule::StartClient()
 
 //    AFMsg::ReqConnectWorld xData;
 //    xData.set_world_id(x_msg.world_id());
-//    xData.set_login_id(pPluginManager->BusID());
+//    xData.set_login_id(BusID());
 //    xData.mutable_sender()->CopyFrom(AFIMsgModule::GUIDToPB(pSession->mnClientID));
 //    xData.set_account(pSession->mstrAccout);
 
@@ -216,7 +216,7 @@ int AFCLoginNetModule::StartClient()
 //}
 
 ////void AFCLoginNetServerModule::OnSocketClientEvent(const NetEventType event, const AFGUID& conn_id, const
-///std::string& ip, int bus_id)
+///std::string& i    p, int bus_id)
 ////{
 ////    switch (event)
 ////    {
@@ -280,7 +280,7 @@ int AFCLoginNetModule::StartClient()
 //}
 
 ////void AFCLoginNetServerModule::InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg,
-///const uint32_t nLen,
+///const uint32_t     nLen,
 /// const AFGUID& xClientID)
 ////{
 ////    ARK_LOG_ERROR("Invalid msg id = {}", nMsgID);

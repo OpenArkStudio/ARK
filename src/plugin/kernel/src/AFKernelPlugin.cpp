@@ -18,11 +18,11 @@
  *
  */
 
-#include "kernel/include/AFKernelPlugin.h"
-#include "kernel/include/AFCKernelModule.h"
-#include "kernel/include/AFCMetaClassModule.h"
-#include "kernel/include/AFCConfigModule.h"
-#include "kernel/include/AFCMapModule.h"
+#include "kernel/include/AFKernelPlugin.hpp"
+#include "kernel/include/AFCKernelModule.hpp"
+#include "kernel/include/AFCMetaClassModule.hpp"
+#include "kernel/include/AFCConfigModule.hpp"
+#include "kernel/include/AFCMapModule.hpp"
 
 namespace ark {
 

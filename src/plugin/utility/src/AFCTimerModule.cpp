@@ -18,15 +18,15 @@
  *
  */
 
-#include "interface/AFIPluginManager.h"
-#include "utility/include/AFCTimerModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "utility/include/AFCTimerModule.hpp"
 
 namespace ark {
 
 bool AFCTimerModule::Init()
 {
     mxTimerManager = std::make_shared<AFTimerManager>();
-    mxTimerManager->Init(pPluginManager->GetNowTime());
+    mxTimerManager->Init(GetPluginManager()->GetNowTime());
 
     return true;
 }
@@ -39,7 +39,7 @@ bool AFCTimerModule::PreShut()
 
 bool AFCTimerModule::Update()
 {
-    mxTimerManager->Update(pPluginManager->GetNowTime());
+    mxTimerManager->Update(GetPluginManager()->GetNowTime());
     return true;
 }
 

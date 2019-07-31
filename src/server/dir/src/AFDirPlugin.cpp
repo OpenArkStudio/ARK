@@ -18,8 +18,8 @@
  *
  */
 
-#include "dir/include/AFDirPlugin.h"
-#include "dir/include/AFCDirNetModule.h"
+#include "dir/include/AFDirPlugin.hpp"
+#include "dir/include/AFCDirNetModule.hpp"
 
 namespace ark {
 

@@ -18,18 +18,18 @@
  *
  */
 
-#include "interface/AFIPluginManager.h"
-#include "net/include/AFCNetServerService.h"
-#include "net/include/AFCNetClientService.h"
-#include "net/include/AFCNetServiceManagerModule.h"
+#include "interface/AFIPluginManager.hpp"
+#include "net/include/AFCNetServerService.hpp"
+#include "net/include/AFCNetClientService.hpp"
+#include "net/include/AFCNetServiceManagerModule.hpp"
 
 namespace ark {
 
 bool AFCNetServiceManagerModule::Init()
 {
-    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    // m_pConsulModule = pPluginManager->FindModule<AFIConsulModule>();
+    m_pBusModule = FindModule<AFIBusModule>();
+    m_pLogModule = FindModule<AFILogModule>();
+    // m_pConsulModule = FindModule<AFIConsulModule>();
 
     //// Todo: test address, will add configuration
     // m_pConsulModule->SetRegisterCenter("172.26.230.87", 8500);

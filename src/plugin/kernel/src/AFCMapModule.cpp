@@ -18,16 +18,16 @@
  *
  */
 
-#include "interface/AFIPluginManager.h"
+#include "interface/AFIPluginManager.hpp"
 #include "kernel/include/AFDataNode.hpp"
-#include "kernel/include/AFCMapModule.h"
+#include "kernel/include/AFCMapModule.hpp"
 
 namespace ark {
 
 bool AFCMapModule::Init()
 {
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+    m_pKernelModule = FindModule<AFIKernelModule>();
+    m_pLogModule = FindModule<AFILogModule>();
 
     return true;
 }

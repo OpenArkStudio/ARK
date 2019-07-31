@@ -20,12 +20,12 @@
 
 #pragma once
 
-#include "interface/AFIPlugin.h"
-#include "interface/AFIPluginManager.h"
-#include "utility/interface/AFITimerModule.h"
-#include "log/interface/AFILogModule.h"
-#include "utility/interface/AFIScheduleModule.h"
-#include "utility/interface/AFIGUIDModule.h"
+#include "interface/AFIPlugin.hpp"
+#include "interface/AFIModule.hpp"
+#include "utility/interface/AFITimerModule.hpp"
+#include "log/interface/AFILogModule.hpp"
+#include "utility/interface/AFIScheduleModule.hpp"
+#include "utility/interface/AFIGUIDModule.hpp"
 
 namespace ark {
 
