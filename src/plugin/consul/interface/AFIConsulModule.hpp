@@ -1,7 +1,7 @@
 #pragma once
 
 #include "consulpp/consulpp.hpp"
-#include "interface/AFIModule.h"
+#include "interface/AFIModule.hpp"
 
 namespace ark {
 

@@ -1,5 +1,5 @@
-#include "consul/include/AFConsulPlugin.h"
-#include "consul/include/AFCConsulModule.h"
+#include "consul/include/AFConsulPlugin.hpp"
+#include "consul/include/AFCConsulModule.hpp"
 
 namespace ark {
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "consul/interface/AFIConsulModule.h"
+#include "consul/interface/AFIConsulModule.hpp"
 
 namespace ark {
 

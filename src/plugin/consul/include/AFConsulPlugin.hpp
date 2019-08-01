@@ -1,5 +1,5 @@
-#include "interface/AFIPlugin.h"
-#include "interface/AFIPluginManager.h"
+#include "interface/AFIPlugin.hpp"
+#include "interface/AFIPluginManager.hpp"
 
 namespace ark {
 

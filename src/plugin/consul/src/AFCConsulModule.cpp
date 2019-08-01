@@ -1,4 +1,4 @@
-#include "consul/include/AFCConsulModule.h"
+#include "consul/include/AFCConsulModule.hpp"
 
 namespace ark {
 
