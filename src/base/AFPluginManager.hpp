@@ -133,19 +133,6 @@ public:
         }
     }
 
-    AFIModule* FindModule(const std::string& module_name)
-    {
-        auto iter = module_instances_.find(module_name);
-        if (iter != module_instances_.end())
-        {
-            return iter->second;
-        }
-        else
-        {
-            return nullptr;
-        }
-    }
-
     bool AddUpdateModule(AFIModule* pModule)
     {
         ARK_ASSERT_RET_VAL(pModule != nullptr, false);
@@ -237,6 +224,19 @@ protected:
     AFIPlugin* FindPlugin(const std::string& plugin_name)
     {
         return plugin_instances_.find_value(plugin_name);
+    }
+
+    AFIModule* FindModule(const std::string& module_name)
+    {
+        auto iter = module_instances_.find(module_name);
+        if (iter != module_instances_.end())
+        {
+            return iter->second;
+        }
+        else
+        {
+            return nullptr;
+        }
     }
 
     bool Init()

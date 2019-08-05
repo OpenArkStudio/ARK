@@ -74,11 +74,12 @@ public:
         ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));
         ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));
 
-        std::string name = GET_CLASS_NAME(MODULE);
-        AFIModule* pDeregModuleName = dynamic_cast<AFIModule*>(GetPluginManager()->FindModule(name));
-        GetPluginManager()->RemoveModule(name);
-        GetPluginManager()->RemoveUpdateModule(name);
-        modules_.erase(name);
+        AFIModule* pDeregModuleName = dynamic_cast<AFIModule*>(GetPluginManager()->FindModule<MODULE>());
+        ARK_ASSERT_RET_NONE(pDeregModuleName != nullptr);
+
+        GetPluginManager()->RemoveModule(pDeregModuleName->Name());
+        GetPluginManager()->RemoveUpdateModule(pDeregModuleName->Name());
+        modules_.erase(pDeregModuleName->Name());
         ARK_DELETE(pDeregModuleName);
     }
 
