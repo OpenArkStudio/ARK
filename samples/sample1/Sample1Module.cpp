@@ -24,6 +24,7 @@
 #include "base/AFTimer.hpp"
 #include "base/AFCRC.hpp"
 #include "base/AFCConsistentHash.hpp"
+#include "base/AFPluginManager.hpp"
 #include "kernel/include/AFCData.hpp"
 #include "Sample1Module.h"
 #include "proto/cpp/AFOss.pb.h"

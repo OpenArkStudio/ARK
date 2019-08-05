@@ -21,7 +21,7 @@
 #include "base/AFEnum.hpp"
 #include "base/AFDefine.hpp"
 #include "base/AFXml.hpp"
-#include "interface/AFIPluginManager.hpp"
+#include "base/AFPluginManager.hpp"
 #include "bus/include/AFCBusModule.hpp"
 
 namespace ark {

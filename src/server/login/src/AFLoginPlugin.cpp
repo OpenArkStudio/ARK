@@ -18,6 +18,7 @@
  *
  */
 
+#include "base/AFPluginManager.hpp"
 #include "login/include/AFLoginPlugin.hpp"
 #include "login/include/AFCLoginNetModule.hpp"
 

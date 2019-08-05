@@ -22,6 +22,7 @@
 #include "rapidxml/rapidxml_iterators.hpp"
 #include "rapidxml/rapidxml_print.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
+#include "base/AFPluginManager.hpp"
 #include "kernel/include/AFDataNode.hpp"
 #include "kernel/include/AFCConfigModule.hpp"
 

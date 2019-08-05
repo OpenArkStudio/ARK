@@ -19,13 +19,13 @@
  */
 
 #include "base/AFDateTime.hpp"
-#include "interface/AFIPluginManager.hpp"
+#include "base/AFPluginManager.hpp"
 #include "net/include/AFCTCPClient.hpp"
 #include "net/include/AFCNetClientService.hpp"
 
 namespace ark {
 
-AFCNetClientService::AFCNetClientService(AFIPluginManager* p)
+AFCNetClientService::AFCNetClientService(AFPluginManager* p)
     : m_pPluginManager(p)
 {
     m_pNetServiceManagerModule = m_pPluginManager->FindModule<AFINetServiceManagerModule>();

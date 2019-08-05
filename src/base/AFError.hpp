@@ -21,7 +21,7 @@
 #pragma once
 
 #include "base/AFPlatform.hpp"
-#include "AFSingleton.hpp"
+#include "base/AFSingleton.hpp"
 
 namespace ark {
 

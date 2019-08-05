@@ -24,11 +24,11 @@
 
 namespace ark {
 
-class AFCDynLib
+class AFDynLib
 {
 public:
-    explicit AFCDynLib(const std::string& strName)
-        : name_(strName)
+    explicit AFDynLib(const std::string& lib_name)
+        : name_(lib_name)
     {
 #ifdef ARK_RUN_MODE_DEBUG
         name_.append("_d");
@@ -36,17 +36,28 @@ public:
 
 #ifdef ARK_PLATFORM_WIN
         name_.append(".dll");
-#elif defined(ARK_PLATFORM_LINUX)
+#elif defined ARK_PLATFORM_LINUX
         name_.append(".so");
-#elif defined(ARK_PLATFORM_DARWIN)
+#elif defined ARK_PLATFORM_DARWIN
         name_.append(".so");
 #endif
 
         CONSOLE_LOG << "LoadPlugin: " << name_ << std::endl;
     }
 
-    bool Load(std::string const& path);
-    bool UnLoad();
+    bool Load(const std::string& path)
+    {
+        std::string strLibPath = path + name_;
+        lib_inst_ = (DYNLIB_HANDLE)DYNLIB_LOAD(strLibPath.c_str());
+
+        return lib_inst_ != nullptr;
+    }
+
+    bool UnLoad()
+    {
+        DYNLIB_UNLOAD(lib_inst_);
+        return true;
+    }
 
     // Get the name of the library
     const std::string& GetName(void) const
@@ -54,11 +65,13 @@ public:
         return name_;
     }
 
-    void* GetSymbol(const char* szProcName);
+    DYNLIB_HANDLE GetSymbol(const std::string& symbol_name)
+    {
+        return (DYNLIB_HANDLE)DYNLIB_GETSYM(lib_inst_, symbol_name.c_str());
+    }
 
 private:
-    std::string name_;
-
+    std::string name_{};
     DYNLIB_HANDLE lib_inst_{nullptr};
 };
 

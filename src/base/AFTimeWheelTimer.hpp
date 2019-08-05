@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include "AFPlatform.hpp"
-#include "AFDefine.hpp"
-#include "AFSingleton.hpp"
-#include "AFDateTime.hpp"
+#include "base/AFPlatform.hpp"
+#include "base/AFDefine.hpp"
+#include "base/AFSingleton.hpp"
+#include "base/AFDateTime.hpp"
 
 namespace ark {
 const uint32_t FREE_TIMER_SIZE = 1000;
@@ -40,7 +40,7 @@ public:
     uint32_t interval{0};
     uint64_t expires{0};
     uint64_t idx{0};
-    TIMER_FUNCTOR_PTR callback{nullptr};
+    TIMER_FUNCTOR callback;
 
     // callback data
     char name[16]{0};
@@ -105,7 +105,7 @@ public:
     }
 
     uint64_t AddTimer(
-        const std::string& name, const AFGUID& entity_id, int32_t count, uint32_t interval, TIMER_FUNCTOR_PTR callback)
+        const std::string& name, const AFGUID& entity_id, int32_t count, uint32_t interval, TIMER_FUNCTOR callback)
     {
         AFTimeWheelData* timer = GetFreeTimer();
         ARK_STRNCPY(timer->name, name.c_str(), (name.length() > 16) ? 16 : name.length() + 1);
@@ -133,7 +133,7 @@ public:
         AFTimeWheelData* timer = iter->second;
         timers_.erase(iter);
 
-        timer->callback = nullptr;
+        // timer->callback = nullptr;
         return true;
     }
 
@@ -238,7 +238,7 @@ protected:
             }
 
             // timer handler
-            (*(timer->callback))(timer->name, timer->entity_id);
+            (timer->callback)(timer->name, timer->entity_id);
 
             // forever timer
             if (timer->count < 0 && timer->interval > 0)

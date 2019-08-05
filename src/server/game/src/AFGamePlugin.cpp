@@ -18,6 +18,7 @@
  *
  */
 
+#include "base/AFPluginManager.hpp"
 #include "game/include/AFGamePlugin.hpp"
 #include "game/include/AFCSceneProcessModule.hpp"
 #include "game/include/AFCPropertyModule.hpp"

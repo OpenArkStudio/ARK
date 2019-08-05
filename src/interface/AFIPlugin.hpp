@@ -23,10 +23,12 @@
 #include "base/AFPlatform.hpp"
 #include "base/AFMap.hpp"
 #include "base/AFArrayMap.hpp"
+//#include "base/AFPluginManager.hpp"
 #include "interface/AFIModule.hpp"
-#include "interface/AFIPluginManager.hpp"
 
 namespace ark {
+
+class AFPluginManager;
 
 class AFIPlugin
 {
@@ -80,12 +82,12 @@ public:
         ARK_DELETE(pDeregModuleName);
     }
 
-    AFIPluginManager* GetPluginManager() const
+    AFPluginManager* GetPluginManager() const
     {
         return pPluginManager;
     }
 
-    void SetPluginManager(AFIPluginManager* p)
+    void SetPluginManager(AFPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -95,9 +97,7 @@ protected:
     AFMap<std::string, AFIModule> modules_;
 
 private:
-    friend class AFIModule;
-    friend class AFIPluginManager;
-    AFIPluginManager* pPluginManager{nullptr};
+    AFPluginManager* pPluginManager{nullptr};
 };
 
 } // namespace ark

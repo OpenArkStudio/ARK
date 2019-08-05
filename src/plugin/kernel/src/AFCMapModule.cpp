@@ -18,7 +18,7 @@
  *
  */
 
-#include "interface/AFIPluginManager.hpp"
+#include "base/AFPluginManager.hpp"
 #include "kernel/include/AFDataNode.hpp"
 #include "kernel/include/AFCMapModule.hpp"
 

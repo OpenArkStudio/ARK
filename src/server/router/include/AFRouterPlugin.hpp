@@ -22,7 +22,7 @@
 
 #include "base/AFPlatform.hpp"
 #include "interface/AFIPlugin.hpp"
-#include "interface/AFIPluginManager.hpp"
+#include "base/AFPluginManager.hpp"
 
 namespace ark {
 

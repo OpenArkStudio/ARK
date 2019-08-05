@@ -18,6 +18,7 @@
  *
  */
 
+#include "base/AFPluginManager.hpp"
 #include "world/include/AFWorldPlugin.hpp"
 #include "world/include/AFCWorldNetModule.hpp"
 

@@ -19,7 +19,7 @@
  */
 
 #include "base/AFMisc.hpp"
-#include "interface/AFIPluginManager.hpp"
+#include "base/AFPluginManager.hpp"
 #include "bus/include/AFCMsgModule.hpp"
 
 namespace ark {

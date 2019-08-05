@@ -21,7 +21,8 @@
 #pragma once
 
 #include "base/AFPlatform.hpp"
-#include "AFSpinLock.hpp"
+#include "base/AFMacros.hpp"
+#include "base/AFSpinLock.hpp"
 
 namespace ark {
 

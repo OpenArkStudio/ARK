@@ -25,7 +25,7 @@
 #include "rapidxml/rapidxml_print.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 #include "base/AFList.hpp"
-#include "interface/AFIPluginManager.hpp"
+#include "base/AFPluginManager.hpp"
 #include "log/interface/AFILogModule.hpp"
 #include "kernel/include/AFCDataList.hpp"
 #include "kernel/include/AFCDataNodeManager.hpp"

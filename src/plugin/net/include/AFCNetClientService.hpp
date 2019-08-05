@@ -38,7 +38,7 @@ public:
         EConstDefine_DefaultWeight = 255,
     };
 
-    AFCNetClientService(AFIPluginManager* p);
+    AFCNetClientService(AFPluginManager* p);
 
     bool StartClient(const AFHeadLength head_len, const int& target_bus_id, const AFEndpoint& endpoint) override;
     void Update() override;
@@ -83,7 +83,7 @@ protected:
     void OnServerNotify(const AFNetMsg* msg, const int64_t session_id);
 
 private:
-    AFIPluginManager* m_pPluginManager;
+    AFPluginManager* m_pPluginManager;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
     AFIBusModule* m_pBusModule;
     AFIMsgModule* m_pMsgModule;

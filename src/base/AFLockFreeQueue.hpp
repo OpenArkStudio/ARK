@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "base/AFPlatform.hpp"
 #include "common/readerwriterqueue.h"
+#include "base/AFPlatform.hpp"
 
 namespace ark {
 

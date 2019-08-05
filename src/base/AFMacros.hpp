@@ -338,7 +338,17 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
 #define ARK_FORMAT_FUNCTION(my_fmt, ...) fmt::format(std::string("[{}:{}]") + my_fmt, ARK_FUNCTION_LINE, ##__VA_ARGS__);
 
 #define ARK_SRATIC_ASSERT static_assert
-#define GET_CLASS_NAME(className) (typeid(className).name())
+#define GET_CLASS_NAME(class_name) (typeid(class_name).name())
+
+#define ARK_PLUGIN_DECLARE(plugin_name)                                                                                \
+    ARK_EXPORT_FUNC void DllEntryPlugin(AFPluginManager* pPluginManager)                                               \
+    {                                                                                                                  \
+        pPluginManager->Register<plugin_name>();                                                                       \
+    }                                                                                                                  \
+    ARK_EXPORT_FUNC void DllExitPlugin(AFPluginManager* pPluginManager)                                                \
+    {                                                                                                                  \
+        pPluginManager->Deregister<plugin_name>();                                                                     \
+    }
 
 // clear player data time
 #define CLEAR_HOUR 5

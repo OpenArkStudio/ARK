@@ -18,7 +18,7 @@
  *
  */
 
-#include "interface/AFIPluginManager.hpp"
+#include "base/AFPluginManager.hpp"
 #include "utility/include/AFCScheduleModule.hpp"
 
 namespace ark {

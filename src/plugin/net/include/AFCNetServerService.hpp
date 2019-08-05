@@ -31,7 +31,7 @@ namespace ark {
 class AFCNetServerService : public AFINetServerService
 {
 public:
-    explicit AFCNetServerService(AFIPluginManager* p);
+    explicit AFCNetServerService(AFPluginManager* p);
     ~AFCNetServerService() override;
 
     bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count,
@@ -52,7 +52,7 @@ protected:
     void SyncToAllClient(const int bus_id, const AFGUID& session_id);
 
 private:
-    AFIPluginManager* m_pPluginManager;
+    AFPluginManager* m_pPluginManager;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
     AFILogModule* m_pLogModule;
     AFIMsgModule* m_pMsgModule;

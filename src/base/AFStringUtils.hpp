@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "AFPlatform.hpp"
-#include "AFSlice.hpp"
+#include "base/AFPlatform.hpp"
+#include "base/AFSlice.hpp"
 
 namespace {
 // internal functions

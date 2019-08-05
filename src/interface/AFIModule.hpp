@@ -21,11 +21,11 @@
 #pragma once
 
 #include "base/AFPlatform.hpp"
-#include "interface/AFIPluginManager.hpp"
+#include "base/AFMacros.hpp"
 
 namespace ark {
 
-// class AFIPluginManager;
+class AFPluginManager;
 
 class AFIModule
 {
@@ -68,13 +68,14 @@ public:
         return true;
     }
 
-    AFIPluginManager* GetPluginManager() const
+    AFPluginManager* GetPluginManager() const
     {
         return pPluginManager;
     }
 
-    void SetPluginManager(AFIPluginManager* p)
+    void SetPluginManager(AFPluginManager* p)
     {
+        ARK_ASSERT_RET_NONE(p != nullptr);
         pPluginManager = p;
     }
 
@@ -95,9 +96,7 @@ public:
     }
 
 private:
-    friend class AFIPluginManager;
-    AFIPluginManager* pPluginManager{nullptr};
-
+    AFPluginManager* pPluginManager{nullptr};
     std::string name_;
 };
 

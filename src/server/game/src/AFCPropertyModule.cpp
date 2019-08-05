@@ -19,7 +19,7 @@
  */
 
 #include "base/AFDateTime.hpp"
-#include "interface/AFIPluginManager.hpp"
+#include "base/AFPluginManager.hpp"
 #include "game/include/AFCPropertyModule.hpp"
 
 namespace ark {

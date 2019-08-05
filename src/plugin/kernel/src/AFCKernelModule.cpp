@@ -19,7 +19,7 @@
  */
 
 #include "base/AFDefine.hpp"
-#include "interface/AFIPluginManager.hpp"
+#include "base/AFPluginManager.hpp"
 #include "kernel/include/AFCEntity.hpp"
 #include "kernel/include/AFDataNode.hpp"
 #include "kernel/include/AFDataTable.hpp"

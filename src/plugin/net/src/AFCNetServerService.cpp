@@ -18,13 +18,13 @@
  *
  */
 
-#include "interface/AFIPluginManager.hpp"
+#include "base/AFPluginManager.hpp"
 #include "net/include/AFCTCPServer.hpp"
 #include "net/include/AFCNetServerService.hpp"
 
 namespace ark {
 
-AFCNetServerService::AFCNetServerService(AFIPluginManager* p)
+AFCNetServerService::AFCNetServerService(AFPluginManager* p)
     : m_pPluginManager(p)
 {
     m_pNetServiceManagerModule = m_pPluginManager->FindModule<AFINetServiceManagerModule>();

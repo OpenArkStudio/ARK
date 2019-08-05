@@ -18,7 +18,7 @@
  *
  */
 
-#include "interface/AFIPluginManager.hpp"
+#include "base/AFPluginManager.hpp"
 #include "proxy/include/AFCProxyNetModule.hpp"
 
 namespace ark {
