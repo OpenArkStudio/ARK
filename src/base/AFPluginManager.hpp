@@ -414,7 +414,7 @@ protected:
         ARK_ASSERT_RET_VAL(iter != plugin_libs_.end(), false);
 
         AFDynLib* pDynLib = iter->second;
-        ARK_ASSERT_RET_VAL(pDynLib == nullptr, false);
+        ARK_ASSERT_RET_VAL(pDynLib != nullptr, false);
 
         auto func = (DLL_EXIT_PLUGIN_FUNC)pDynLib->GetSymbol("DllExitPlugin");
         ARK_ASSERT_RET_VAL(func != nullptr, false);

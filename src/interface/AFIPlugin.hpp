@@ -23,7 +23,6 @@
 #include "base/AFPlatform.hpp"
 #include "base/AFMap.hpp"
 #include "base/AFArrayMap.hpp"
-//#include "base/AFPluginManager.hpp"
 #include "interface/AFIModule.hpp"
 
 namespace ark {
@@ -74,7 +73,7 @@ public:
         ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));
         ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));
 
-        AFIModule* pDeregModuleName = dynamic_cast<AFIModule*>(GetPluginManager()->FindModule<MODULE>());
+        AFIModule* pDeregModuleName = dynamic_cast<AFIModule*>(GetPluginManager()->template FindModule<MODULE>());
         ARK_ASSERT_RET_NONE(pDeregModuleName != nullptr);
 
         GetPluginManager()->RemoveModule(pDeregModuleName->Name());

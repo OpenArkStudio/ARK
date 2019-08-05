@@ -82,7 +82,7 @@ public:
     template<typename MODULE>
     MODULE* FindModule()
     {
-        return GetPluginManager()->FindModule<MODULE>();
+        return GetPluginManager()->template FindModule<MODULE>();
     }
 
     const std::string& Name() const
