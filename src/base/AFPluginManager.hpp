@@ -31,7 +31,7 @@
 
 namespace ark {
 
-class ARK_EXPORT AFPluginManager final : public AFSingleton<AFPluginManager>
+class AFPluginManager final : public AFSingleton<AFPluginManager>
 {
 public:
     AFPluginManager()
