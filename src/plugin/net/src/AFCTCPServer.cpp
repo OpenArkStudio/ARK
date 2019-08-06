@@ -58,7 +58,6 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
 
         session->setUD(cur_session_id);
 
-        // TODO: Ê¹ÓÃrunAsyncAfterFunction
         AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
         net_connect_event->SetId(cur_session_id);
         net_connect_event->SetType(AFNetEventType::CONNECTED);

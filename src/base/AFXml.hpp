@@ -72,8 +72,10 @@ public:
         {
             ARK_ASSERT_RET_VAL(optional == false, default_value);
         }
-
-        return AFMisc::FromString<bool>(attr->value());
+        else
+        {
+            return AFMisc::FromString<bool>(attr->value());
+        }
     }
 
     uint32_t GetUint32(const char* key, bool optional = false, uint32_t default_value = NULL_INT)
@@ -85,8 +87,10 @@ public:
         {
             ARK_ASSERT_RET_VAL(optional == false, default_value);
         }
-
-        return AFMisc::FromString<uint32_t>(attr->value());
+        else
+        {
+            return AFMisc::FromString<uint32_t>(attr->value());
+        }
     }
 
     float GetFloat(const char* key, bool optional = false, float default_value = NULL_FLOAT)
@@ -98,8 +102,10 @@ public:
         {
             ARK_ASSERT_RET_VAL(optional == false, default_value);
         }
-
-        return AFMisc::FromString<float>(attr->value());
+        else
+        {
+            return AFMisc::FromString<float>(attr->value());
+        }
     }
 
     std::string GetString(const char* key, bool optional = false, std::string default_value = NULL_STR)
@@ -111,8 +117,10 @@ public:
         {
             ARK_ASSERT_RET_VAL(optional == false, default_value);
         }
-
-        return attr->value();
+        else
+        {
+            return attr->value();
+        }
     }
 
 private:
