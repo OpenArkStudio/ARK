@@ -18,7 +18,6 @@
  *
  */
 
-#include "base/AFPluginManager.hpp"
 #include "utility/include/AFCTimerModule.hpp"
 
 namespace ark {

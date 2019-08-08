@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "base/AFPluginManager.hpp"
 #include "proto/AFProtoCPP.hpp"
 #include "log/interface/AFILogModule.hpp"
 #include "bus/interface/AFIMsgModule.hpp"
@@ -44,7 +45,7 @@ protected:
     int StartServer();
     int StartClient();
 
-    AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap();
+    // AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap();
 
     // void OnSocketClientEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip,  int bus_id);
 
@@ -67,9 +68,7 @@ protected:
     // AFGUID& xClientID); void OnLogOut(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const
     // uint32_t nLen, const AFGUID& xClientID);
     ////void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen,
-    ///const AFGUID&
-      /// xCli
-    
+    ///const AFGUID&      xClientID);
 
     // void SynWorldToClient(const AFGUID& xClientID);
 

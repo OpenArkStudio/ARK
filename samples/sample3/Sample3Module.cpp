@@ -19,7 +19,6 @@
  */
 
 #include "base/AFDateTime.hpp"
-#include "base/AFPluginManager.hpp"
 #include "Sample3Module.h"
 
 namespace ark {

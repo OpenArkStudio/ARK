@@ -21,6 +21,7 @@
 #pragma once
 
 #include "base/AFTimer.hpp"
+#include "base/AFPluginManager.hpp"
 #include "utility/interface/AFITimerModule.hpp"
 
 namespace ark {

@@ -22,6 +22,7 @@
 
 #include "proto/AFProtoCPP.hpp"
 #include "base/AFCConsistentHash.hpp"
+#include "base/AFPluginManager.hpp"
 #include "log/interface/AFILogModule.hpp"
 #include "bus/interface/AFIMsgModule.hpp"
 #include "bus/interface/AFIBusModule.hpp"

@@ -18,7 +18,6 @@
  *
  */
 
-#include "base/AFPluginManager.hpp"
 #include "proxy/include/AFProxyPlugin.hpp"
 #include "proxy/include/AFCProxyNetModule.hpp"
 

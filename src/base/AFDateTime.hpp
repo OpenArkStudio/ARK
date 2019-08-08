@@ -291,8 +291,8 @@ public:
     // Difference between two TimeVal values in milliseconds.
     using TimeDiff = int64_t;
 
-    static const TimeVal TIMEVAL_MIN = std::numeric_limits<int64_t>::min();
-    static const TimeVal TIMEVAL_MAX = std::numeric_limits<int64_t>::max();
+    static const TimeVal TIMEVAL_MIN = (std::numeric_limits<int64_t>::min)();
+    static const TimeVal TIMEVAL_MAX = (std::numeric_limits<int64_t>::max)();
 
     // Creates a timestamp with the current time.
     AFDateTime()

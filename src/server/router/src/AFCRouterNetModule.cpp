@@ -18,7 +18,6 @@
  *
  */
 
-#include "base/AFPluginManager.hpp"
 #include "router/include/AFCRouterNetModule.hpp"
 
 namespace ark {

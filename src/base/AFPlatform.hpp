@@ -20,17 +20,20 @@
 
 #pragma once
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <math.h>
-#include <assert.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <cassert>
+#include <cstdarg>
+#include <csignal>
+#include <cctype>
+#include <cstdint>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
-#include <cstring>
 #include <vector>
 #include <map>
 #include <list>
@@ -40,13 +43,10 @@
 #include <algorithm>
 #include <utility>
 #include <functional>
-#include <cctype>
 #include <iterator>
 #include <unordered_map>
-#include <stdint.h>
 #include <functional>
 #include <memory>
-#include <signal.h>
 #include <chrono>
 #include <sstream>
 #include <random>
@@ -56,15 +56,14 @@
 #include <queue>
 #include <algorithm>
 #include <future>
-#include <ctime>
 #include <bitset>
 #include <regex>
-#include <time.h>
 
-#define NOMINMAX
 #if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64)
 // only windows include
-#include <io.h>
+
+#define NOMINMAX
+
 #ifndef WIN32_LEAN_AND_MEAN
 #include <WinSock2.h>
 #include <MSWSock.h>

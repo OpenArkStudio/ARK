@@ -18,7 +18,6 @@
  *
  */
 
-#include "base/AFPluginManager.hpp"
 #include "Sample1Plugin.h"
 #include "Sample1Module.h"
 

@@ -19,6 +19,7 @@
  */
 
 #include "base/AFXml.hpp"
+#include "base/AFPluginManager.hpp"
 #include "kernel/interface/AFIData.hpp"
 #include "kernel/include/AFDataNode.hpp"
 #include "kernel/include/AFCMetaClassModule.hpp"

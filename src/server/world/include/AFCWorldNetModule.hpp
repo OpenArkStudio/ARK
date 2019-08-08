@@ -21,6 +21,7 @@
 #pragma once
 
 #include "proto/AFProtoCPP.hpp"
+#include "base/AFPluginManager.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
 #include "log/interface/AFILogModule.hpp"
 #include "utility/interface/AFITimerModule.hpp"

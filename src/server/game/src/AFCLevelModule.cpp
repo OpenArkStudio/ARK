@@ -18,7 +18,6 @@
  *
  */
 
-#include "base/AFPluginManager.hpp"
 #include "game/include/AFCLevelModule.hpp"
 
 namespace ark {

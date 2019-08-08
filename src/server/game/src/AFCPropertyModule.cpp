@@ -19,7 +19,6 @@
  */
 
 #include "base/AFDateTime.hpp"
-#include "base/AFPluginManager.hpp"
 #include "game/include/AFCPropertyModule.hpp"
 
 namespace ark {

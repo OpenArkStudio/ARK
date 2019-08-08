@@ -21,6 +21,7 @@
 #pragma once
 
 #include "base/AFMap.hpp"
+#include "base/AFPluginManager.hpp"
 #include "log/interface/AFILogModule.hpp"
 
 namespace ark {

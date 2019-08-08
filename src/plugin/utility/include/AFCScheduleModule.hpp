@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "base/AFPluginManager.hpp"
 //#include "base/AFCronScheduler.hpp"
 #include "utility/interface/AFIScheduleModule.hpp"
 

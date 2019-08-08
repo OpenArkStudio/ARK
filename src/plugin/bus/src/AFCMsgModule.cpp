@@ -19,7 +19,6 @@
  */
 
 #include "base/AFMisc.hpp"
-#include "base/AFPluginManager.hpp"
 #include "bus/include/AFCMsgModule.hpp"
 
 namespace ark {

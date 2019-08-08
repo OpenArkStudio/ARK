@@ -22,6 +22,7 @@
 
 #include "base/AFMap.hpp"
 #include "base/AFArrayMap.hpp"
+#include "base/AFPluginManager.hpp"
 #include "utility/interface/AFIGUIDModule.hpp"
 #include "log/interface/AFILogModule.hpp"
 #include "kernel/include/AFCDataList.hpp"

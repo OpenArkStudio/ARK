@@ -21,6 +21,7 @@
 #pragma once
 
 #include "base/AFArrayMap.hpp"
+#include "base/AFPluginManager.hpp"
 #include "kernel/interface/AFIConfigModule.hpp"
 #include "kernel/include/AFCDataList.hpp"
 #include "kernel/include/AFDataTable.hpp"

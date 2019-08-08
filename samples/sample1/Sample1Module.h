@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "base/AFPluginManager.hpp"
 #include "interface/AFIPlugin.hpp"
 #include "interface/AFIModule.hpp"
 #include "utility/interface/AFITimerModule.hpp"

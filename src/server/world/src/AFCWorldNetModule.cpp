@@ -18,8 +18,6 @@
  *
  */
 
-#include "proto/AFProtoCPP.hpp"
-#include "base/AFPluginManager.hpp"
 #include "kernel/include/AFDataNode.hpp"
 #include "world/include/AFCWorldNetModule.hpp"
 

@@ -21,7 +21,7 @@
 #pragma once
 
 #include "base/AFList.hpp"
-
+#include "base/AFPluginManager.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
 #include "kernel/interface/AFIConfigModule.hpp"
 #include "kernel/interface/AFIMetaClassModule.hpp"

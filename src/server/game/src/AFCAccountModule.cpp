@@ -18,7 +18,6 @@
  *
  */
 
-#include "base/AFPluginManager.hpp"
 #include "game/include/AFCAccountModule.hpp"
 
 namespace ark {

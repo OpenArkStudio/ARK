@@ -18,7 +18,6 @@
  *
  */
 
-#include "base/AFPluginManager.hpp"
 #include "master/include/AFMasterPlugin.hpp"
 #include "master/include/AFCMasterNetModule.hpp"
 

@@ -18,7 +18,6 @@
  *
  */
 
-#include "base/AFPluginManager.hpp"
 #include "kernel/include/AFCDataList.hpp"
 #include "kernel/include/AFDataNode.hpp"
 #include "kernel/include/AFDataTable.hpp"

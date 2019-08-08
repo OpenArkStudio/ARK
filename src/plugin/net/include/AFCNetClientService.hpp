@@ -22,6 +22,7 @@
 
 #include "base/AFMap.hpp"
 #include "base/AFCConsistentHash.hpp"
+#include "base/AFPluginManager.hpp"
 #include "net/interface/AFINetClientService.hpp"
 #include "net/interface/AFINetServiceManagerModule.hpp"
 #include "bus/interface/AFIBusModule.hpp"

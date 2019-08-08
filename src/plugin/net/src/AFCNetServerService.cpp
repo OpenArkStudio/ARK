@@ -18,7 +18,6 @@
  *
  */
 
-#include "base/AFPluginManager.hpp"
 #include "net/include/AFCTCPServer.hpp"
 #include "net/include/AFCNetServerService.hpp"
 

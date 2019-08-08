@@ -20,7 +20,6 @@
 
 #pragma once
 
-#include "base/AFPlatform.hpp"
 #include "interface/AFIPlugin.hpp"
 #include "base/AFPluginManager.hpp"
 

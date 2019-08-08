@@ -18,7 +18,6 @@
  *
  */
 
-#include "base/AFPluginManager.hpp"
 #include "dir/include/AFDirPlugin.hpp"
 #include "dir/include/AFCDirNetModule.hpp"
 

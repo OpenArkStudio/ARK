@@ -18,7 +18,6 @@
  *
  */
 
-#include "base/AFPluginManager.hpp"
 #include "log/include/AFLogPlugin.hpp"
 #include "log/include/AFCLogModule.hpp"
 

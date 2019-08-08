@@ -21,7 +21,6 @@
 #include "base/AFDefine.hpp"
 #include "base/AFDateTime.hpp"
 #include "base/AFBaseStruct.hpp"
-#include "base/AFPluginManager.hpp"
 #include "utility/include/AFCGUIDModule.hpp"
 
 namespace ark {

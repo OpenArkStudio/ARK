@@ -18,7 +18,6 @@
  *
  */
 
-#include "base/AFPluginManager.hpp"
 #include "kernel/include/AFCEntity.hpp"
 #include "kernel/interface/AFIMetaClassModule.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"

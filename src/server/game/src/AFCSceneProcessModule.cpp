@@ -24,7 +24,6 @@
 #include "rapidxml/rapidxml_utils.hpp"
 #include "base/AFEventDefine.hpp"
 #include "base/AFDateTime.hpp"
-#include "base/AFPluginManager.hpp"
 #include "game/include/AFCSceneProcessModule.hpp"
 
 namespace ark {

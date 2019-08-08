@@ -22,7 +22,6 @@
 #include "spdlog/sinks/rotating_file_with_date_sink.h"
 #include "base/AFMacros.hpp"
 #include "base/AFMisc.hpp"
-#include "base/AFPluginManager.hpp"
 #include "log/include/AFCLogModule.hpp"
 
 namespace ark {

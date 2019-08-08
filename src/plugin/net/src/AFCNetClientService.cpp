@@ -19,7 +19,6 @@
  */
 
 #include "base/AFDateTime.hpp"
-#include "base/AFPluginManager.hpp"
 #include "net/include/AFCTCPClient.hpp"
 #include "net/include/AFCNetClientService.hpp"
 

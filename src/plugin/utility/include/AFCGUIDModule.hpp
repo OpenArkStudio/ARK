@@ -21,6 +21,7 @@
 #pragma once
 
 #include "base/AFUidGenerator.hpp"
+#include "base/AFPluginManager.hpp"
 #include "utility/interface/AFIGUIDModule.hpp"
 
 namespace ark {

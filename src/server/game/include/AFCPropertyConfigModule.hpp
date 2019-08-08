@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "base/AFPluginManager.hpp"
 #include "kernel/interface/AFIMetaClassModule.hpp"
 #include "kernel/interface/AFIConfigModule.hpp"
 #include "game/interface/AFIPropertyConfigModule.hpp"

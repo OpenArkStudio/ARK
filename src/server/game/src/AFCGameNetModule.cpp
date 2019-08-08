@@ -19,7 +19,6 @@
  */
 
 #include "base/AFEventDefine.hpp"
-#include "base/AFPluginManager.hpp"
 #include "kernel/include/AFDataNode.hpp"
 #include "game/include/AFCGameNetModule.hpp"
 

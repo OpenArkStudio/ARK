@@ -23,6 +23,14 @@
 #include "base/AFPlatform.hpp"
 #include "spdlog/fmt/fmt.h"
 
+#ifdef min
+#undef min
+#endif // min
+
+#ifdef max
+#undef max
+#endif // max
+
 // Input param type
 #ifndef IN
 #define IN

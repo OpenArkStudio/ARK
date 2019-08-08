@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "base/AFPluginManager.hpp"
 #include "proto/AFProtoCPP.hpp"
 #include "interface/AFIModule.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"

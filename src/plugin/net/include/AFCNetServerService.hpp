@@ -21,6 +21,7 @@
 #pragma once
 
 #include "base/AFMap.hpp"
+#include "base/AFPluginManager.hpp"
 #include "log/interface/AFILogModule.hpp"
 #include "bus/interface/AFIMsgModule.hpp"
 #include "net/interface/AFINetServiceManagerModule.hpp"

@@ -18,7 +18,6 @@
  *
  */
 
-#include "base/AFPluginManager.hpp"
 #include "bus/include/AFBusPlugin.hpp"
 #include "bus/include/AFCBusModule.hpp"
 #include "bus/include/AFCMsgModule.hpp"
