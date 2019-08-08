@@ -24,26 +24,16 @@
 
 namespace ark {
 
-ARK_PLUGIN_DECLARE(Sample2Plugin)
-
-int Sample2Plugin::GetPluginVersion()
-{
-    return 0;
-}
-
-const std::string Sample2Plugin::GetPluginName()
-{
-    return GET_CLASS_NAME(Sample2Plugin);
-}
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(Sample2Plugin)
 
 void Sample2Plugin::Install()
 {
-    RegisterModule<Sample2Module, Sample2Module>();
+    ARK_REGISTER_MODULE(Sample2Module, Sample2Module);
 }
 
 void Sample2Plugin::Uninstall()
 {
-    DeregisterModule<Sample2Module, Sample2Module>();
+    ARK_DEREGISTER_MODULE(Sample2Module, Sample2Module);
 }
 
 } // namespace ark

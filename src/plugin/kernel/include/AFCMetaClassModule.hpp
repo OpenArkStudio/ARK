@@ -344,6 +344,7 @@ private:
 
 class AFCMetaClassModule : public AFIMetaClassModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
     bool Shut() override;

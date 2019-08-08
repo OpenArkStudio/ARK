@@ -31,6 +31,7 @@ namespace ark {
 
 class AFCPropertyModule : public AFIPropertyModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
 

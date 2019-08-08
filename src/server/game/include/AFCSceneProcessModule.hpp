@@ -36,6 +36,7 @@ namespace ark {
 
 class AFCSceneProcessModule : public AFISceneProcessModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
     bool PostInit() override;

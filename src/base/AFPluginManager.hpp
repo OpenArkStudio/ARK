@@ -136,7 +136,7 @@ public:
     bool AddUpdateModule(AFIModule* pModule)
     {
         ARK_ASSERT_RET_VAL(pModule != nullptr, false);
-        return module_updates_.insert(pModule->Name(), pModule).second;
+        return module_updates_.insert(pModule->GetName(), pModule).second;
     }
 
     void RemoveUpdateModule(const std::string& module_name)
@@ -144,7 +144,12 @@ public:
         module_updates_.erase(module_name);
     }
 
-    int BusID() const
+    int64_t GetNowTime() const
+    {
+        return timestamp_;
+    }
+
+    int GetBusID() const
     {
         return bus_id_;
     }
@@ -154,7 +159,7 @@ public:
         bus_id_ = value;
     }
 
-    const std::string& AppName() const
+    const std::string& GetAppName() const
     {
         return app_name_;
     }
@@ -162,11 +167,6 @@ public:
     void SetAppName(const std::string& value)
     {
         app_name_ = value;
-    }
-
-    int64_t GetNowTime() const
-    {
-        return timestamp_;
     }
 
     const std::string& GetResPath() const
@@ -182,14 +182,14 @@ public:
         plugin_conf_path_ = value;
     }
 
-    void SetLogPath(const std::string& value)
-    {
-        log_path_ = value;
-    }
-
     const std::string& GetLogPath() const
     {
         return log_path_;
+    }
+
+    void SetLogPath(const std::string& value)
+    {
+        log_path_ = value;
     }
 
 protected:
@@ -197,16 +197,10 @@ protected:
     {
         std::string plugin_name = plugin->GetPluginName();
 
-        if (!FindPlugin(plugin_name))
-        {
-            plugin->SetPluginManager(this);
-            plugin_instances_.insert(plugin_name, plugin);
-            plugin->Install();
-        }
-        else
-        {
-            ARK_ASSERT_NO_EFFECT(0);
-        }
+        ARK_ASSERT_RET_NONE(FindPlugin(plugin_name));
+        plugin->SetPluginManager(this);
+        plugin_instances_.insert(plugin_name, plugin);
+        plugin->Install();
     }
 
     void Deregister(AFIPlugin* plugin)
@@ -229,14 +223,7 @@ protected:
     AFIModule* FindModule(const std::string& module_name)
     {
         auto iter = module_instances_.find(module_name);
-        if (iter != module_instances_.end())
-        {
-            return iter->second;
-        }
-        else
-        {
-            return nullptr;
-        }
+        return ((iter != module_instances_.end()) ? iter->second : nullptr);
     }
 
     bool Init()

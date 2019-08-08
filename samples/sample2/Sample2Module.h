@@ -28,6 +28,7 @@ namespace ark {
 
 class Sample2Module : public AFIModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     explicit Sample2Module() = default;
 

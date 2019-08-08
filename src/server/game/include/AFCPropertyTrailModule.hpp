@@ -32,6 +32,7 @@ namespace ark {
 
 class AFCPropertyTrailModule : public AFIPropertyTrailModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
 

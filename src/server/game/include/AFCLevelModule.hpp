@@ -30,6 +30,7 @@ namespace ark {
 
 class AFCLevelModule : public AFILevelModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
 

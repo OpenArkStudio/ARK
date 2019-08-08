@@ -34,6 +34,7 @@ namespace ark {
 
 class AFCMasterNetModule : public AFIMasterNetModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
     bool PostInit() override;

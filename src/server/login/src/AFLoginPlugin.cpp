@@ -24,27 +24,16 @@
 
 namespace ark {
 
-ARK_PLUGIN_DECLARE(AFLoginPlugin)
-
-//////////////////////////////////////////////////////////////////////////
-int AFLoginPlugin::GetPluginVersion()
-{
-    return 0;
-}
-
-const std::string AFLoginPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFLoginPlugin);
-}
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFLoginPlugin)
 
 void AFLoginPlugin::Install()
 {
-    RegisterModule<AFILoginNetModule, AFCLoginNetModule>();
+    ARK_REGISTER_MODULE(AFILoginNetModule, AFCLoginNetModule);
 }
 
 void AFLoginPlugin::Uninstall()
 {
-    DeregisterModule<AFILoginNetModule, AFCLoginNetModule>();
+    ARK_DEREGISTER_MODULE(AFILoginNetModule, AFCLoginNetModule);
 }
 
 } // namespace ark

@@ -25,28 +25,18 @@
 
 namespace ark {
 
-ARK_PLUGIN_DECLARE(AFBusPlugin)
-
-int AFBusPlugin::GetPluginVersion()
-{
-    return 0;
-}
-
-const std::string AFBusPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFBusPlugin);
-}
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFBusPlugin)
 
 void AFBusPlugin::Install()
 {
-    RegisterModule<AFIBusModule, AFCBusModule>();
-    RegisterModule<AFIMsgModule, AFCMsgModule>();
+    ARK_REGISTER_MODULE(AFIBusModule, AFCBusModule);
+    ARK_REGISTER_MODULE(AFIMsgModule, AFCMsgModule);
 }
 
 void AFBusPlugin::Uninstall()
 {
-    DeregisterModule<AFIMsgModule, AFCMsgModule>();
-    DeregisterModule<AFIBusModule, AFCBusModule>();
+    ARK_DEREGISTER_MODULE(AFIMsgModule, AFCMsgModule);
+    ARK_DEREGISTER_MODULE(AFIBusModule, AFCBusModule);
 }
 
 } // namespace ark

@@ -27,6 +27,7 @@ namespace ark {
 
 class AFCLogModule : public AFILogModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     using spdlogger = std::shared_ptr<spdlog::async_logger>;
     using spd_threadpool = std::shared_ptr<spdlog::details::thread_pool>;

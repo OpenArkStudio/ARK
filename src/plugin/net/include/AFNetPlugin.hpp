@@ -25,15 +25,6 @@
 
 namespace ark {
 
-class AFNetPlugin : public AFIPlugin
-{
-public:
-    int GetPluginVersion() override;
-
-    const std::string GetPluginName() override;
-
-    void Install() override;
-    void Uninstall() override;
-};
+ARK_DECLARE_PLUGIN(AFNetPlugin)
 
 } // namespace ark

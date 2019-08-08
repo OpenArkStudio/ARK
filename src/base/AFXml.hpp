@@ -70,7 +70,15 @@ public:
         auto attr = xmlnode->first_attribute(key);
         if (attr == nullptr)
         {
-            ARK_ASSERT_RET_VAL(optional == false, default_value);
+            if (optional == false)
+            {
+                return default_value;
+            }
+            else
+            {
+                ARK_ASSERT_NO_EFFECT(0);
+                return default_value;
+            }
         }
         else
         {
@@ -85,7 +93,15 @@ public:
         auto attr = node->first_attribute(key);
         if (attr == nullptr)
         {
-            ARK_ASSERT_RET_VAL(optional == false, default_value);
+            if (optional == false)
+            {
+                return default_value;
+            }
+            else
+            {
+                ARK_ASSERT_NO_EFFECT(0);
+                return default_value;
+            }
         }
         else
         {
@@ -100,7 +116,15 @@ public:
         auto attr = node->first_attribute(key);
         if (attr == nullptr)
         {
-            ARK_ASSERT_RET_VAL(optional == false, default_value);
+            if (optional == false)
+            {
+                return default_value;
+            }
+            else
+            {
+                ARK_ASSERT_NO_EFFECT(0);
+                return default_value;
+            }
         }
         else
         {
@@ -115,7 +139,15 @@ public:
         auto attr = node->first_attribute(key);
         if (attr == nullptr)
         {
-            ARK_ASSERT_RET_VAL(optional == false, default_value);
+            if (optional == false)
+            {
+                return default_value;
+            }
+            else
+            {
+                ARK_ASSERT_NO_EFFECT(0);
+                return default_value;
+            }
         }
         else
         {

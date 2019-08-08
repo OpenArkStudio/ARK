@@ -32,6 +32,7 @@ namespace ark {
 
 class AFCProxyNetModule : public AFIProxyNetModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
     bool PostInit() override;

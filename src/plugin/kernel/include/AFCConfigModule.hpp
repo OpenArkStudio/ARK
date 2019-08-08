@@ -64,6 +64,7 @@ private:
 
 class AFCConfigModule : public AFIConfigModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
     bool Shut() override;

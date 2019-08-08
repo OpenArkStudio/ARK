@@ -26,30 +26,20 @@
 
 namespace ark {
 
-ARK_PLUGIN_DECLARE(AFUtilityPlugin)
-
-int AFUtilityPlugin::GetPluginVersion()
-{
-    return 0;
-}
-
-const std::string AFUtilityPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFUtilityPlugin);
-}
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFUtilityPlugin)
 
 void AFUtilityPlugin::Install()
 {
-    RegisterModule<AFIGUIDModule, AFCGUIDModule>();
-    RegisterModule<AFITimerModule, AFCTimerModule>();
-    // RegisterModule<AFIScheduleModule, AFCScheduleModule>();
+    ARK_REGISTER_MODULE(AFIGUIDModule, AFCGUIDModule);
+    ARK_REGISTER_MODULE(AFITimerModule, AFCTimerModule);
+    // ARK_REGISTER_MODULE(AFIScheduleModule, AFCScheduleModule);
 }
 
 void AFUtilityPlugin::Uninstall()
 {
     // DeregisterModule<AFILogModule, AFCLogModule>();
-    DeregisterModule<AFITimerModule, AFCTimerModule>();
-    DeregisterModule<AFIGUIDModule, AFCGUIDModule>();
+    ARK_DEREGISTER_MODULE(AFITimerModule, AFCTimerModule);
+    ARK_DEREGISTER_MODULE(AFIGUIDModule, AFCGUIDModule);
 }
 
 } // namespace ark

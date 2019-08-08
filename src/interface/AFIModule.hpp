@@ -68,36 +68,26 @@ public:
         return true;
     }
 
-    AFPluginManager* GetPluginManager() const
+    virtual AFPluginManager* GetPluginManager() const
     {
-        return pPluginManager;
+        return nullptr;
     }
 
-    void SetPluginManager(AFPluginManager* p)
+    virtual void SetPluginManager(AFPluginManager* p)
     {
-        ARK_ASSERT_RET_NONE(p != nullptr);
-        pPluginManager = p;
+        // Do nothing in the module interface
     }
 
-    template<typename MODULE>
-    MODULE* FindModule()
+    virtual const std::string& GetName() const
     {
-        return GetPluginManager()->template FindModule<MODULE>();
+        static const std::string null_str = "";
+        return null_str;
     }
 
-    const std::string& Name() const
+    virtual void SetName(const std::string& value)
     {
-        return name_;
+        // Do nothing in the module interface
     }
-
-    void SetName(const std::string& value)
-    {
-        name_ = value;
-    }
-
-private:
-    AFPluginManager* pPluginManager{nullptr};
-    std::string name_;
 };
 
 } // namespace ark

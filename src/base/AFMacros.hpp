@@ -339,16 +339,131 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
 
 #define ARK_SRATIC_ASSERT static_assert
 #define GET_CLASS_NAME(class_name) (typeid(class_name).name())
+//////////////////////////////////////////////////////////////////////////
+// Plugin macros
+#define ARK_DECLARE_PLUGIN(PLUGIN_CLASS)                                                                               \
+    class PLUGIN_CLASS : public AFIPlugin                                                                              \
+    {                                                                                                                  \
+    public:                                                                                                            \
+        int GetPluginVersion()                                                                                         \
+        {                                                                                                              \
+            return 0;                                                                                                  \
+        }                                                                                                              \
+        const std::string GetPluginName()                                                                              \
+        {                                                                                                              \
+            return GET_CLASS_NAME(PLUGIN_CLASS);                                                                       \
+        }                                                                                                              \
+        void Install() override;                                                                                       \
+        void Uninstall() override;                                                                                     \
+        AFPluginManager* GetPluginManager() const override                                                             \
+        {                                                                                                              \
+            return plugin_manager_;                                                                                    \
+        }                                                                                                              \
+        void SetPluginManager(AFPluginManager* p)                                                                      \
+        {                                                                                                              \
+            ARK_ASSERT_RET_NONE(p != nullptr);                                                                         \
+            plugin_manager_ = p;                                                                                       \
+        }                                                                                                              \
+                                                                                                                       \
+    private:                                                                                                           \
+        AFMap<std::string, AFIModule> modules_;                                                                        \
+        AFPluginManager* plugin_manager_{nullptr};                                                                     \
+    };
 
-#define ARK_PLUGIN_DECLARE(plugin_name)                                                                                \
+#define ARK_DECLARE_PLUGIN_DLL_FUNCTION(PLUGIN_CLASS)                                                                  \
     ARK_EXPORT_FUNC void DllEntryPlugin(AFPluginManager* pPluginManager)                                               \
     {                                                                                                                  \
-        pPluginManager->Register<plugin_name>();                                                                       \
+        pPluginManager->Register<PLUGIN_CLASS>();                                                                      \
     }                                                                                                                  \
     ARK_EXPORT_FUNC void DllExitPlugin(AFPluginManager* pPluginManager)                                                \
     {                                                                                                                  \
-        pPluginManager->Deregister<plugin_name>();                                                                     \
+        pPluginManager->Deregister<PLUGIN_CLASS>();                                                                    \
     }
+
+#ifdef ARK_PLATFORM_WIN
+#define ARK_REGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                    \
+    {                                                                                                                  \
+        ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                              \
+        ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                         \
+        AFIModule* pRegModule = ARK_NEW DERIVED_MODULE();                                                              \
+        pRegModule->SetPluginManager(GetPluginManager());                                                              \
+        pRegModule->SetName(GET_CLASS_NAME(MODULE));                                                                   \
+        GetPluginManager()->AddModule(pRegModule->GetName(), pRegModule);                                              \
+        modules_.insert(pRegModule->GetName(), pRegModule);                                                            \
+        std::string base_name = GET_CLASS_NAME(&AFIModule::Update);                                                    \
+        std::string child_name = GET_CLASS_NAME(&DERIVED_MODULE::Update);                                              \
+        if (base_name != child_name)                                                                                   \
+        {                                                                                                              \
+            GetPluginManager()->AddUpdateModule(pRegModule);                                                           \
+        }                                                                                                              \
+    }
+#else
+#define ARK_REGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                    \
+    {                                                                                                                  \
+        ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                              \
+        ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                         \
+        AFIModule* pRegModule = ARK_NEW DERIVED_MODULE();                                                              \
+        pRegModule->SetPluginManager(GetPluginManager());                                                              \
+        pRegModule->SetName(GET_CLASS_NAME(MODULE));                                                                   \
+        GetPluginManager()->AddModule(pRegModule->GetName(), pRegModule);                                              \
+        modules_.insert(pRegModule->GetName(), pRegModule);                                                            \
+        AFIModule base;                                                                                                \
+        bool (AFIModule::*mfp)() = &AFIModule::Update;                                                                 \
+        bool (DERIVED_MODULE::*child_mfp)() = &DERIVED_MODULE::Update;                                                 \
+        void* base_update_mfp = (void*)(base.*mfp);                                                                    \
+        void* derived_update_mfp = (void*)(static_cast<DERIVED_MODULE*>(pRegModule)->*child_mfp);                      \
+        if (base_update_mfp == derived_update_mfp)                                                                     \
+        {                                                                                                              \
+            GetPluginManager()->AddUpdateModule(pRegModule);                                                           \
+        }                                                                                                              \
+    }
+#endif
+
+#define ARK_DEREGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                  \
+    {                                                                                                                  \
+        ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                              \
+        ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                         \
+        AFIModule* pDeregModule = dynamic_cast<AFIModule*>(GetPluginManager()->template FindModule<MODULE>());         \
+        ARK_ASSERT_RET_NONE(pDeregModule != nullptr);                                                                  \
+        GetPluginManager()->RemoveModule(pDeregModule->GetName());                                                     \
+        GetPluginManager()->RemoveUpdateModule(pDeregModule->GetName());                                               \
+        modules_.erase(pDeregModule->GetName());                                                                       \
+        ARK_DELETE(pDeregModule);                                                                                      \
+    }
+
+//////////////////////////////////////////////////////////////////////////
+// Module macros
+#define ARK_DECLARE_MODULE_FUNCTIONS                                                                                   \
+public:                                                                                                                \
+    AFPluginManager* GetPluginManager() const override                                                                 \
+    {                                                                                                                  \
+        return plugin_manager_;                                                                                        \
+    }                                                                                                                  \
+    void SetPluginManager(AFPluginManager* p) override                                                                 \
+    {                                                                                                                  \
+        ARK_ASSERT_RET_NONE(p != nullptr);                                                                             \
+        plugin_manager_ = p;                                                                                           \
+    }                                                                                                                  \
+    const std::string& GetName() const override                                                                        \
+    {                                                                                                                  \
+        return name_;                                                                                                  \
+    }                                                                                                                  \
+    void SetName(const std::string& value) override                                                                    \
+    {                                                                                                                  \
+        name_ = value;                                                                                                 \
+    }                                                                                                                  \
+                                                                                                                       \
+protected:                                                                                                             \
+    template<typename MODULE>                                                                                          \
+    MODULE* FindModule()                                                                                               \
+    {                                                                                                                  \
+        return GetPluginManager()->template FindModule<MODULE>();                                                      \
+    }                                                                                                                  \
+                                                                                                                       \
+private:                                                                                                               \
+    AFPluginManager* plugin_manager_{nullptr};                                                                         \
+    std::string name_{};
+//////////////////////////////////////////////////////////////////////////
 
 // clear player data time
 #define CLEAR_HOUR 5

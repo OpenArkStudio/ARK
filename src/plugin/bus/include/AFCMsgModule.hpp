@@ -29,6 +29,7 @@ namespace ark {
 
 class AFCMsgModule : public AFIMsgModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
 

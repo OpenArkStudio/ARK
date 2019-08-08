@@ -31,6 +31,7 @@ namespace ark {
 
 class AFCLoginNetModule : public AFILoginNetModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
     bool PostInit() override;
@@ -67,7 +68,8 @@ protected:
     // uint32_t nLen, const AFGUID& xClientID);
     ////void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen,
     ///const AFGUID&
-     /// xClientID);
+      /// xCli
+    
 
     // void SynWorldToClient(const AFGUID& xClientID);
 

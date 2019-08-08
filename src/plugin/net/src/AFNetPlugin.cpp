@@ -24,26 +24,16 @@
 
 namespace ark {
 
-ARK_PLUGIN_DECLARE(AFNetPlugin)
-
-int AFNetPlugin::GetPluginVersion()
-{
-    return 0;
-}
-
-const std::string AFNetPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFNetPlugin);
-}
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFNetPlugin)
 
 void AFNetPlugin::Install()
 {
-    RegisterModule<AFINetServiceManagerModule, AFCNetServiceManagerModule>();
+    ARK_REGISTER_MODULE(AFINetServiceManagerModule, AFCNetServiceManagerModule);
 }
 
 void AFNetPlugin::Uninstall()
 {
-    DeregisterModule<AFINetServiceManagerModule, AFCNetServiceManagerModule>();
+    ARK_DEREGISTER_MODULE(AFINetServiceManagerModule, AFCNetServiceManagerModule);
 }
 
 } // namespace ark

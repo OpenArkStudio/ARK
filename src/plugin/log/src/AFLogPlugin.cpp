@@ -24,26 +24,16 @@
 
 namespace ark {
 
-ARK_PLUGIN_DECLARE(AFLogPlugin)
-
-int AFLogPlugin::GetPluginVersion()
-{
-    return 0;
-}
-
-const std::string AFLogPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFLogPlugin);
-}
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFLogPlugin)
 
 void AFLogPlugin::Install()
 {
-    RegisterModule<AFILogModule, AFCLogModule>();
+    ARK_REGISTER_MODULE(AFILogModule, AFCLogModule);
 }
 
 void AFLogPlugin::Uninstall()
 {
-    DeregisterModule<AFILogModule, AFCLogModule>();
+    ARK_DEREGISTER_MODULE(AFILogModule, AFCLogModule);
 }
 
 } // namespace ark

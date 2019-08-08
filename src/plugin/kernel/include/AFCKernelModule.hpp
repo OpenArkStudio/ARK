@@ -36,6 +36,7 @@ namespace ark {
 
 class AFCKernelModule : public AFIKernelModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     explicit AFCKernelModule();
     ~AFCKernelModule() override;

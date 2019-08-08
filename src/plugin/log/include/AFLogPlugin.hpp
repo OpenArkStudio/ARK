@@ -25,15 +25,6 @@
 
 namespace ark {
 
-class AFLogPlugin : public AFIPlugin
-{
-public:
-    int GetPluginVersion() override;
-
-    const std::string GetPluginName() override;
-
-    void Install() override;
-    void Uninstall() override;
-};
+ARK_DECLARE_PLUGIN(AFLogPlugin)
 
 } // namespace ark

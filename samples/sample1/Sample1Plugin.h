@@ -25,17 +25,6 @@
 
 namespace ark {
 
-class Sample1Plugin : public AFIPlugin
-{
-public:
-    explicit Sample1Plugin() = default;
-
-    int GetPluginVersion() override;
-
-    const std::string GetPluginName() override;
-
-    void Install() override;
-    void Uninstall() override;
-};
+ARK_DECLARE_PLUGIN(Sample1Plugin)
 
 } // namespace ark

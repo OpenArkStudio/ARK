@@ -49,7 +49,7 @@ AFGUID AFCGUIDModule::CreateGUID()
 {
     ARK_ASSERT_RET_VAL(uid_generator_ != nullptr, NULL_GUID);
 
-    AFBusAddr bus_addr(GetPluginManager()->BusID());
+    AFBusAddr bus_addr(GetPluginManager()->GetBusID());
     int64_t id = int64_t(bus_addr.zone_id) << (2 * 8) | int64_t(bus_addr.app_type) << (1 * 8) |
                  int64_t(bus_addr.inst_id) << (0 * 8);
     return uid_generator_->GetUID(id);

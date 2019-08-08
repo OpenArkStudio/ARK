@@ -29,37 +29,26 @@
 
 namespace ark {
 
-ARK_PLUGIN_DECLARE(AFGamePlugin)
-
-//////////////////////////////////////////////////////////////////////////
-int AFGamePlugin::GetPluginVersion()
-{
-    return 0;
-}
-
-const std::string AFGamePlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFGamePlugin);
-}
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFGamePlugin)
 
 void AFGamePlugin::Install()
 {
-    RegisterModule<AFISceneProcessModule, AFCSceneProcessModule>();
-    RegisterModule<AFIPropertyModule, AFCPropertyModule>();
-    RegisterModule<AFILevelModule, AFCLevelModule>();
-    RegisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
-    RegisterModule<AFIAccountModule, AFCAccountModule>();
-    RegisterModule<AFIGameNetModule, AFCGameNetModule>();
+    ARK_REGISTER_MODULE(AFISceneProcessModule, AFCSceneProcessModule);
+    ARK_REGISTER_MODULE(AFIPropertyModule, AFCPropertyModule);
+    ARK_REGISTER_MODULE(AFILevelModule, AFCLevelModule);
+    ARK_REGISTER_MODULE(AFIPropertyConfigModule, AFCPropertyConfigModule);
+    ARK_REGISTER_MODULE(AFIAccountModule, AFCAccountModule);
+    ARK_REGISTER_MODULE(AFIGameNetModule, AFCGameNetModule);
 }
 
 void AFGamePlugin::Uninstall()
 {
-    DeregisterModule<AFIGameNetModule, AFCGameNetModule>();
-    DeregisterModule<AFIAccountModule, AFCAccountModule>();
-    DeregisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
-    DeregisterModule<AFILevelModule, AFCLevelModule>();
-    DeregisterModule<AFIPropertyModule, AFCPropertyModule>();
-    DeregisterModule<AFISceneProcessModule, AFCSceneProcessModule>();
+    ARK_DEREGISTER_MODULE(AFIGameNetModule, AFCGameNetModule);
+    ARK_DEREGISTER_MODULE(AFIAccountModule, AFCAccountModule);
+    ARK_DEREGISTER_MODULE(AFIPropertyConfigModule, AFCPropertyConfigModule);
+    ARK_DEREGISTER_MODULE(AFILevelModule, AFCLevelModule);
+    ARK_DEREGISTER_MODULE(AFIPropertyModule, AFCPropertyModule);
+    ARK_DEREGISTER_MODULE(AFISceneProcessModule, AFCSceneProcessModule);
 }
 
 } // namespace ark

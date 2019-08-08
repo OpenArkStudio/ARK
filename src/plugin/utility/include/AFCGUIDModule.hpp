@@ -27,6 +27,7 @@ namespace ark {
 
 class AFCGUIDModule : public AFIGUIDModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
 

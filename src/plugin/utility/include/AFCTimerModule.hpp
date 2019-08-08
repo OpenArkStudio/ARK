@@ -27,6 +27,7 @@ namespace ark {
 
 class AFCTimerModule : public AFITimerModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
     bool Update() override;

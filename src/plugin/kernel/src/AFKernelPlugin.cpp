@@ -26,32 +26,22 @@
 
 namespace ark {
 
-ARK_PLUGIN_DECLARE(AFKernelPlugin)
-
-int AFKernelPlugin::GetPluginVersion()
-{
-    return 0;
-}
-
-const std::string AFKernelPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFKernelPlugin);
-}
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFKernelPlugin)
 
 void AFKernelPlugin::Install()
 {
-    RegisterModule<AFIMetaClassModule, AFCMetaClassModule>();
-    RegisterModule<AFIConfigModule, AFCConfigModule>();
-    RegisterModule<AFIKernelModule, AFCKernelModule>();
-    RegisterModule<AFIMapModule, AFCMapModule>();
+    ARK_REGISTER_MODULE(AFIMetaClassModule, AFCMetaClassModule);
+    ARK_REGISTER_MODULE(AFIConfigModule, AFCConfigModule);
+    ARK_REGISTER_MODULE(AFIKernelModule, AFCKernelModule);
+    ARK_REGISTER_MODULE(AFIMapModule, AFCMapModule);
 }
 
 void AFKernelPlugin::Uninstall()
 {
-    DeregisterModule<AFIMapModule, AFCMapModule>();
-    DeregisterModule<AFIKernelModule, AFCKernelModule>();
-    DeregisterModule<AFIConfigModule, AFCConfigModule>();
-    DeregisterModule<AFIMetaClassModule, AFCMetaClassModule>();
+    ARK_DEREGISTER_MODULE(AFIMapModule, AFCMapModule);
+    ARK_DEREGISTER_MODULE(AFIKernelModule, AFCKernelModule);
+    ARK_DEREGISTER_MODULE(AFIConfigModule, AFCConfigModule);
+    ARK_DEREGISTER_MODULE(AFIMetaClassModule, AFCMetaClassModule);
 }
 
 } // namespace ark

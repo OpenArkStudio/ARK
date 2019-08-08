@@ -30,6 +30,7 @@ namespace ark {
 
 class Sample3Module : public AFIModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     explicit Sample3Module() = default;
 

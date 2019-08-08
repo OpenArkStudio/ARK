@@ -31,6 +31,7 @@ namespace ark {
 
 class AFCNetServiceManagerModule : public AFINetServiceManagerModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
     bool Update() override;

@@ -24,26 +24,16 @@
 
 namespace ark {
 
-ARK_PLUGIN_DECLARE(AFMasterPlugin)
-
-int AFMasterPlugin::GetPluginVersion()
-{
-    return 0;
-}
-
-const std::string AFMasterPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFMasterPlugin);
-}
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFMasterPlugin)
 
 void AFMasterPlugin::Install()
 {
-    RegisterModule<AFIMasterNetModule, AFCMasterNetModule>();
+    ARK_REGISTER_MODULE(AFIMasterNetModule, AFCMasterNetModule);
 }
 
 void AFMasterPlugin::Uninstall()
 {
-    DeregisterModule<AFIMasterNetModule, AFCMasterNetModule>();
+    ARK_DEREGISTER_MODULE(AFIMasterNetModule, AFCMasterNetModule);
 }
 
 } // namespace ark

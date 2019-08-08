@@ -31,6 +31,7 @@ namespace ark {
 
 class AFCDirNetModule : public AFIDirNetModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
     bool PostInit() override;

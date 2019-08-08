@@ -24,26 +24,16 @@
 
 namespace ark {
 
-ARK_PLUGIN_DECLARE(AFWorldPlugin)
-
-int AFWorldPlugin::GetPluginVersion()
-{
-    return 0;
-}
-
-const std::string AFWorldPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFWorldPlugin);
-}
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFWorldPlugin)
 
 void AFWorldPlugin::Install()
 {
-    RegisterModule<AFIWorldNetModule, AFCWorldNetModule>();
+    ARK_REGISTER_MODULE(AFIWorldNetModule, AFCWorldNetModule);
 }
 
 void AFWorldPlugin::Uninstall()
 {
-    DeregisterModule<AFIWorldNetModule, AFCWorldNetModule>();
+    ARK_DEREGISTER_MODULE(AFIWorldNetModule, AFCWorldNetModule);
 }
 
 } // namespace ark

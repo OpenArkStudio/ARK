@@ -53,8 +53,8 @@ long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 {
     AFDateTime now;
     std::string dump_name =
-        ARK_FORMAT("{}-{:04d}{:02d}{:02d}_{:02d}_{:02d}_{:02d}.dmp", AFPluginManager::get()->AppName(), now.GetYear(),
-            now.GetMonth(), now.GetDay(), now.GetHour(), now.GetMinute(), now.GetSecond());
+        ARK_FORMAT("{}-{:04d}{:02d}{:02d}_{:02d}_{:02d}_{:02d}.dmp", AFPluginManager::get()->GetAppName(),
+            now.GetYear(), now.GetMonth(), now.GetDay(), now.GetHour(), now.GetMinute(), now.GetSecond());
 
     CreateDumpFile(dump_name.c_str(), pException);
 
@@ -226,7 +226,7 @@ bool ParseArgs(int argc, char* argv[])
     {
         AFPluginManager::get()->SetAppName(name.Get());
 
-        std::string process_name = ARK_FORMAT("{}-{}-{}", name.Get(), busid.Get(), AFPluginManager::get()->BusID());
+        std::string process_name = ARK_FORMAT("{}-{}-{}", name.Get(), busid.Get(), AFPluginManager::get()->GetBusID());
         // Set process name
 #ifdef ARK_PLATFORM_WIN
         SetConsoleTitle(process_name.c_str());

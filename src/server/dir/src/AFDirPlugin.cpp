@@ -24,27 +24,16 @@
 
 namespace ark {
 
-ARK_PLUGIN_DECLARE(AFDirPlugin)
-
-//////////////////////////////////////////////////////////////////////////
-int AFDirPlugin::GetPluginVersion()
-{
-    return 0;
-}
-
-const std::string AFDirPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFDirPlugin);
-}
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFDirPlugin)
 
 void AFDirPlugin::Install()
 {
-    RegisterModule<AFIDirNetModule, AFCDirNetModule>();
+    ARK_REGISTER_MODULE(AFIDirNetModule, AFCDirNetModule);
 }
 
 void AFDirPlugin::Uninstall()
 {
-    DeregisterModule<AFIDirNetModule, AFCDirNetModule>();
+    ARK_DEREGISTER_MODULE(AFIDirNetModule, AFCDirNetModule);
 }
 
 } // namespace ark

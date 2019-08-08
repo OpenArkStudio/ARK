@@ -54,29 +54,30 @@ std::shared_ptr<spdlog::async_logger> AFCLogModule::GetDevLogger()
 void AFCLogModule::CreateDevLogger()
 {
     std::vector<spdlog::sink_ptr> sinks_vec;
-    std::string log_name = ARK_FORMAT("{}{}{}.{}.log", GetPluginManager()->GetLogPath(),
-        spdlog::details::os::folder_sep, GetPluginManager()->AppName(), AFMisc::Bus2Str(GetPluginManager()->BusID()));
+    std::string log_name =
+        ARK_FORMAT("{}{}{}.{}.log", GetPluginManager()->GetLogPath(), spdlog::details::os::folder_sep,
+            GetPluginManager()->GetAppName(), AFMisc::Bus2Str(GetPluginManager()->GetBusID()));
     auto date_and_hour_sink = std::make_shared<spdlog::sinks::date_and_hour_file_sink_mt>(log_name);
 #ifdef ARK_RUN_MODE_DEBUG
 #ifdef ARK_PLATFORM_WIN
     auto color_sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
 #else
     auto color_sink = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
-#endif
+#endif // ARK_PLATFORM_WIN
     sinks_vec.push_back(color_sink);
-#endif
+#endif // ARK_RUN_MODE_DEBUG
     sinks_vec.push_back(date_and_hour_sink);
 
     dev_tp_ = std::make_shared<spdlog::details::thread_pool>(spdlog::details::default_async_q_size, 1);
     dev_logger_ = std::make_shared<spdlog::async_logger>(
-        GetPluginManager()->AppName(), std::begin(sinks_vec), std::end(sinks_vec), dev_tp_);
+        GetPluginManager()->GetAppName(), std::begin(sinks_vec), std::end(sinks_vec), dev_tp_);
 
 #ifdef ARK_RUN_MODE_DEBUG
     dev_logger_->set_level(spdlog::level::level_enum::trace);
     dev_logger_->set_pattern("%^[%Y%m%d %H:%M:%S.%e][%-8l][%@]%v%$");
 #else
     dev_logger_->set_pattern("[%Y%m%d %H:%M:%S.%e][%-8l][%@]%v");
-#endif
+#endif // ARK_RUN_MODE_DEBUG
     // flush when level >= trace
     dev_logger_->flush_on(spdlog::level::trace);
 

@@ -29,10 +29,9 @@
 
 namespace ark {
 
-// class AFCHttpClient;
-
 class Sample1Module : public AFIModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     explicit Sample1Module() = default;
 
@@ -52,8 +51,6 @@ protected:
     AFILogModule* m_pLogModule;
     AFIGUIDModule* m_pGUIDModule;
     AFIScheduleModule* m_pScheduleModule;
-
-    // AFCHttpClient* http_client{nullptr};
 };
 
 } // namespace ark

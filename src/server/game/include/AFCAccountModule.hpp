@@ -31,6 +31,7 @@ namespace ark {
 
 class AFCAccountModule : public AFIAccountModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
 

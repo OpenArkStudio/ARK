@@ -23,26 +23,16 @@
 
 namespace ark {
 
-ARK_PLUGIN_DECLARE(AFRouterPlugin)
-
-int AFRouterPlugin::GetPluginVersion()
-{
-    return 0;
-}
-
-const std::string AFRouterPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFRouterPlugin);
-}
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFRouterPlugin)
 
 void AFRouterPlugin::Install()
 {
-    RegisterModule<AFIRouterNetModule, AFCRouterNetModule>();
+    ARK_REGISTER_MODULE(AFIRouterNetModule, AFCRouterNetModule);
 }
 
 void AFRouterPlugin::Uninstall()
 {
-    DeregisterModule<AFIRouterNetModule, AFCRouterNetModule>();
+    ARK_DEREGISTER_MODULE(AFIRouterNetModule, AFCRouterNetModule);
 }
 
 } // namespace ark

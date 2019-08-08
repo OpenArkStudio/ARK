@@ -24,26 +24,16 @@
 
 namespace ark {
 
-ARK_PLUGIN_DECLARE(AFProxyPlugin)
-
-int AFProxyPlugin::GetPluginVersion()
-{
-    return 0;
-}
-
-const std::string AFProxyPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFProxyPlugin);
-}
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFProxyPlugin)
 
 void AFProxyPlugin::Install()
 {
-    RegisterModule<AFIProxyNetModule, AFCProxyNetModule>();
+    ARK_REGISTER_MODULE(AFIProxyNetModule, AFCProxyNetModule);
 }
 
 void AFProxyPlugin::Uninstall()
 {
-    DeregisterModule<AFIProxyNetModule, AFCProxyNetModule>();
+    ARK_DEREGISTER_MODULE(AFIProxyNetModule, AFCProxyNetModule);
 }
 
 } // namespace ark

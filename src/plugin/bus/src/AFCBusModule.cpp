@@ -238,7 +238,7 @@ const std::string AFCBusModule::GetAppHost(const int bus_id)
 
 const int AFCBusModule::GetSelfBusID()
 {
-    return GetPluginManager()->BusID();
+    return GetPluginManager()->GetBusID();
 }
 
 const std::string AFCBusModule::GetSelfBusName()

@@ -23,7 +23,6 @@
 #include "base/AFPlatform.hpp"
 #include "base/AFMap.hpp"
 #include "base/AFArrayMap.hpp"
-#include "interface/AFIModule.hpp"
 
 namespace ark {
 
@@ -39,65 +38,8 @@ public:
     virtual void Install() = 0;
     virtual void Uninstall() = 0;
 
-    template<typename MODULE, typename DERIVED_MODULE>
-    void RegisterModule()
-    {
-        ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));
-        ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));
-
-        AFIModule* pRegModuleName = ARK_NEW DERIVED_MODULE();
-        pRegModuleName->SetPluginManager(pPluginManager);
-        pRegModuleName->SetName(GET_CLASS_NAME(MODULE));
-        pPluginManager->AddModule(pRegModuleName->Name(), pRegModuleName);
-        modules_.insert(pRegModuleName->Name(), pRegModuleName);
-#ifdef ARK_PLATFORM_WIN
-        std::string base_name = GET_CLASS_NAME(&AFIModule::Update);
-        std::string child_name = GET_CLASS_NAME(&DERIVED_MODULE::Update);
-        if (base_name != child_name)
-#else
-        AFIModule base;
-        bool (AFIModule::*mfp)() = &AFIModule::Update;
-        bool (DERIVED_MODULE::*child_mfp)() = &DERIVED_MODULE::Update;
-        void* base_update_mfp = (void*)(base.*mfp);
-        void* derived_update_mfp = (void*)(static_cast<DERIVED_MODULE*>(pRegModuleName)->*child_mfp);
-        if (base_update_mfp == derived_update_mfp)
-#endif
-        {
-            GetPluginManager()->AddUpdateModule(pRegModuleName);
-        }
-    }
-
-    template<typename MODULE, typename DERIVED_MODULE>
-    void DeregisterModule()
-    {
-        ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));
-        ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));
-
-        AFIModule* pDeregModuleName = dynamic_cast<AFIModule*>(GetPluginManager()->template FindModule<MODULE>());
-        ARK_ASSERT_RET_NONE(pDeregModuleName != nullptr);
-
-        GetPluginManager()->RemoveModule(pDeregModuleName->Name());
-        GetPluginManager()->RemoveUpdateModule(pDeregModuleName->Name());
-        modules_.erase(pDeregModuleName->Name());
-        ARK_DELETE(pDeregModuleName);
-    }
-
-    AFPluginManager* GetPluginManager() const
-    {
-        return pPluginManager;
-    }
-
-    void SetPluginManager(AFPluginManager* p)
-    {
-        pPluginManager = p;
-    }
-
-protected:
-    // All registered modules
-    AFMap<std::string, AFIModule> modules_;
-
-private:
-    AFPluginManager* pPluginManager{nullptr};
+    virtual AFPluginManager* GetPluginManager() const = 0;
+    virtual void SetPluginManager(AFPluginManager* p) = 0;
 };
 
 } // namespace ark

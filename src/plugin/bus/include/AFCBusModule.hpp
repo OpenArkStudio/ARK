@@ -26,6 +26,7 @@ namespace ark {
 
 class AFCBusModule final : public AFIBusModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
 
