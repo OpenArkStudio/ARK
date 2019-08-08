@@ -167,7 +167,7 @@ const std::string& AFCBusModule::GetAppName(const ARK_APP_TYPE& app_type)
     return ((iter != proc_config_.app_type_names.end()) ? iter->second : NULL_STR);
 }
 
-const ARK_APP_TYPE AFCBusModule::GetAppType(const std::string& name)
+ARK_APP_TYPE AFCBusModule::GetAppType(const std::string& name)
 {
     auto iter = proc_config_.app_name_types.find(name);
     return ((iter != proc_config_.app_name_types.end()) ? iter->second : ARK_APP_TYPE::ARK_APP_DEFAULT);
@@ -236,7 +236,7 @@ const std::string AFCBusModule::GetAppHost(const int bus_id)
     return (server_config == nullptr) ? NULL_STR : server_config->intranet_ep_.ToString();
 }
 
-const int AFCBusModule::GetSelfBusID()
+int AFCBusModule::GetSelfBusID()
 {
     return GetPluginManager()->GetBusID();
 }
@@ -247,7 +247,7 @@ const std::string AFCBusModule::GetSelfBusName()
     return bus_id.ToString();
 }
 
-const ARK_APP_TYPE AFCBusModule::GetSelfAppType()
+ARK_APP_TYPE AFCBusModule::GetSelfAppType()
 {
     AFBusAddr bus_id(GetSelfBusID());
     return ARK_APP_TYPE(bus_id.app_type);
@@ -308,7 +308,7 @@ ArkBusRelationType AFCBusModule::GetBusRelationType(const int bus_id)
     return ArkBusRelationType::BRT_UNKNOWN;
 }
 
-const int AFCBusModule::CombineBusID(const ARK_APP_TYPE app_type, const uint8_t inst_id)
+int AFCBusModule::CombineBusID(const ARK_APP_TYPE app_type, const uint8_t inst_id)
 {
     ARK_ASSERT_RET_VAL(app_type > ARK_APP_TYPE::ARK_APP_DEFAULT && app_type < ARK_APP_TYPE::ARK_APP_MAX, 0);
 

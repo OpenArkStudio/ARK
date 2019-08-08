@@ -32,7 +32,7 @@ public:
 
     const std::string GetAppWholeName(const int bus_id) override;
     const std::string& GetAppName(const ARK_APP_TYPE& app_type) override;
-    const ARK_APP_TYPE GetAppType(const std::string& name) override;
+    ARK_APP_TYPE GetAppType(const std::string& name) override;
 
     const AFServerConfig* GetAppServerInfo() override;
     const std::string GetAppHost(const int bus_id) override;
@@ -40,11 +40,11 @@ public:
     bool GetDirectBusRelations(std::vector<AFServerConfig>& target_list) override;
     ArkBusRelationType GetBusRelationType(const int bus_id) override;
 
-    const ARK_APP_TYPE GetSelfAppType() override;
-    const int GetSelfBusID() override;
+    ARK_APP_TYPE GetSelfAppType() override;
+    int GetSelfBusID() override;
     const std::string GetSelfBusName() override;
 
-    const int CombineBusID(const ARK_APP_TYPE app_type, const uint8_t inst_id) override;
+    int CombineBusID(const ARK_APP_TYPE app_type, const uint8_t inst_id) override;
 
 protected:
     bool LoadProcConfig();
