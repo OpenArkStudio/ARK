@@ -197,7 +197,7 @@ protected:
     {
         std::string plugin_name = plugin->GetPluginName();
 
-        ARK_ASSERT_RET_NONE(FindPlugin(plugin_name));
+        ARK_ASSERT_RET_NONE(FindPlugin(plugin_name) == false);
         plugin->SetPluginManager(this);
         plugin_instances_.insert(plugin_name, plugin);
         plugin->Install();
