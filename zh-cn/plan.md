@@ -3,17 +3,19 @@
 ## High priority
 
 - [ ] excel格式修改为一张excel里放所有的schema,其他配置表分开来写,兼容现在的格式
-- [ ] 调整代码风格统一
+- [x] 调整代码风格统一
 - [ ] 修改进程启动优先链接logserver，如果logserver连不上，则直接不能启动，这样就可以从一开始就能打log了
-- [ ] spdlog升级
+- [x] spdlog升级
 - [ ] 增加dirty data layer, 当一个客户端请求处理完成后统一下发变化数据，不能有变有发，会导致小包太碎，并且浪费协议的head
 - [ ] 文档逐步补齐，概念介绍、设计理念、服务器架构、使用例子
-- [ ] 所有的基础数据结构向C#看齐
-- [ ] 服务中心注册(考虑etcd/zookeeper来做)
+- [x] 所有的基础数据结构向C++容器看齐
+- [ ] 服务中心注册(考虑etcd/consul来做)
 - [ ] 定时log和心跳改为timer方式，不要再是用update和HeartBeat了
 - [ ] 修改配置打包工具(用Excel编辑，生成`csv`来给工程读取。为解决多人协作冲突, excel可以用名字后缀区分，类如Item.A.xlsx Item.B.xlsx)
-- [ ] 插件加载顺序(通过配置中的字段, 或者通过配置的顺序)
-- [ ] 修改xml不再直接用rapidxml，用封装后的AFXml
+- [ ] ~~插件加载顺序(通过配置中的字段, 或者通过配置的顺序)~~
+- [x] 修改xml不再直接用rapidxml，用封装后的AFXml
+- [x] 接口类重新设计纯粹化
+- [ ] 增加生成器来生成重复代码(_插件类和模块类_)
 
 ## Low priority
 
@@ -51,5 +53,6 @@
 ## Bugs
 
 - [ ] ClearRow的时候后面的行号会变化，所以要考虑要么行号不变，只是置空，要么就得客户端来根据DeleteRow消息同步修改后续的row变化
-- [X] 现在的ConfigPlugin数据加载有问题
-- [ ] AFMapEx的First Next返回值有问题
+- [x] 现在的ConfigPlugin数据加载有问题
+- [x] AFMapEx的First Next返回值有问题
+  

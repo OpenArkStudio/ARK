@@ -1,6 +1,6 @@
 ![logo](../_images/ark_logo.svg ':size=233x108')
 
-# <small>0.9.2 pre-release</small>
+# <small>0.9.6 release</small>
 
 > 一个轻量级、敏捷的、弹性的、分布式的插件开发框架.
 
