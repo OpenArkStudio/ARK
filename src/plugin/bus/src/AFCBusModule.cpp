@@ -274,9 +274,9 @@ bool AFCBusModule::GetDirectBusRelations(std::vector<AFServerConfig>& target_lis
                 continue;
             }
 
-            const ARK_APP_TYPE target_app_type = it.first;
+            auto target_app_type = it.first;
             auto proc_conf_iter = proc_config_.instances.find(target_app_type);
-            target_list.assign(proc_conf_iter->second.begin(), proc_conf_iter->second.end());
+            target_list.insert(target_list.end(), proc_conf_iter->second.begin(), proc_conf_iter->second.end());
         }
     }
 
