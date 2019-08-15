@@ -20,7 +20,7 @@
 
 #include <args/args.hxx>
 
-#include "base/AFBaseStruct.hpp"
+#include "base/AFBus.hpp"
 #include "base/AFMacros.hpp"
 #include "base/AFDateTime.hpp"
 #include "base/AFMisc.hpp"
@@ -209,10 +209,10 @@ bool ParseArgs(int argc, char* argv[])
         }
 
         AFBusAddr busaddr;
-        busaddr.channel_id = ARK_LEXICAL_CAST<int>(slices[0].data());
-        busaddr.zone_id = ARK_LEXICAL_CAST<int>(slices[1].data());
-        busaddr.app_type = ARK_LEXICAL_CAST<int>(slices[2].data());
-        busaddr.inst_id = ARK_LEXICAL_CAST<int>(slices[3].data());
+        busaddr.channel_id = ARK_LEXICAL_CAST<uint8_t>(slices[0].data());
+        busaddr.zone_id = ARK_LEXICAL_CAST<uint8_t>(slices[1].data());
+        busaddr.app_type = ARK_LEXICAL_CAST<uint8_t>(slices[2].data());
+        busaddr.inst_id = ARK_LEXICAL_CAST<uint8_t>(slices[3].data());
 
         AFPluginManager::get()->SetBusID(busaddr.bus_id);
     }

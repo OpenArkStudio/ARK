@@ -22,7 +22,7 @@
 
 #include "base/AFMacros.hpp"
 #include "base/AFEnum.hpp"
-#include "base/AFBaseStruct.hpp"
+#include "base/AFBus.hpp"
 #include "base/AFStringUtils.hpp"
 
 namespace ark {

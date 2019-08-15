@@ -18,7 +18,7 @@
  *
  */
 
-#include "base/AFBaseStruct.hpp"
+#include "base/AFBus.hpp"
 #include "net/include/AFCTCPClient.hpp"
 
 namespace ark {
