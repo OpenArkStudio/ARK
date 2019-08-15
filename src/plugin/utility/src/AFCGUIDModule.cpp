@@ -20,7 +20,7 @@
 
 #include "base/AFDefine.hpp"
 #include "base/AFDateTime.hpp"
-#include "base/AFBaseStruct.hpp"
+#include "base/AFBus.hpp"
 #include "utility/include/AFCGUIDModule.hpp"
 
 namespace ark {

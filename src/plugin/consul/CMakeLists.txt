@@ -1,5 +1,5 @@
 if(WIN32)
-    if(CMAKE_BUILD_TYPE MATCHES "debug" OR CMAKE_BUILD_TYPE MATCHES "Debug")
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "debug")
         BUILD_PLUGIN_MACRO_EX(AFConsulPlugin cpprest_2_10d.lib)
     else()
         BUILD_PLUGIN_MACRO_EX(AFConsulPlugin cpprest_2_10.lib)

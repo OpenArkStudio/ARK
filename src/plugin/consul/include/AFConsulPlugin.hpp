@@ -1,8 +1,8 @@
 #include "interface/AFIPlugin.hpp"
-#include "interface/AFIPluginManager.hpp"
+#include "base/AFPluginManager.hpp"
 
 namespace ark {
 
-ARK_DECLEAR_PLUGIN(AFConsulPlugin)
+ARK_DECLARE_PLUGIN(AFConsulPlugin)
 
 } // namespace ark

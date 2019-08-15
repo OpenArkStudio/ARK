@@ -21,7 +21,7 @@
 #pragma once
 
 #include "base/AFApp.hpp"
-#include "base/AFBaseStruct.hpp"
+#include "base/AFBus.hpp"
 #include "base/AFEnum.hpp"
 #include "interface/AFIModule.hpp"
 

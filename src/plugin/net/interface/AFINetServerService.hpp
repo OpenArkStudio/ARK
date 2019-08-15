@@ -21,7 +21,7 @@
 #pragma once
 
 #include "proto/AFProtoCPP.hpp"
-#include "base/AFBaseStruct.hpp"
+#include "base/AFBus.hpp"
 #include "AFINet.hpp"
 
 namespace ark {
