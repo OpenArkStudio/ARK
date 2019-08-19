@@ -1,11 +1,13 @@
 #pragma once
 
+#include "base/AFPluginManager.hpp"
 #include "consul/interface/AFIConsulModule.hpp"
 
 namespace ark {
 
 class AFCConsulModule : public AFIConsulModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     explicit AFCConsulModule() = default;
 
