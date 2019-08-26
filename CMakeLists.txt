@@ -51,9 +51,20 @@ include_directories(
     ${ROOT_DIR}/src/plugin
     ${ROOT_DIR}/src/server)
 
+string(TOLOWER ${CMAKE_BUILD_TYPE} _type)
+if(UNIX)
+if (_type STREQUAL debug)
+    set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/debug)
+    set(LIB_OUTPUT_DIR ${ROOT_DIR}/bin/debug)
+else()
+    set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/bin)
+    set(LIB_OUTPUT_DIR ${ROOT_DIR}/bin/bin)
+endif()
+elseif(WIN32)
+    set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin)
+    set(LIB_OUTPUT_DIR ${ROOT_DIR}/bin)
+endif()
 
-set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/bin)
-set(LIB_OUTPUT_DIR ${ROOT_DIR}/bin/bin)
 set(DEP_LIB_DIR ${ROOT_DIR}/dep/lib/ ${LIB_OUTPUT_DIR})
 
 if(UNIX)
@@ -74,12 +85,13 @@ if(UNIX)
     
 else(WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest -D_CRT_SECURE_NO_WARNINGS -D_SILENCE_CXX17_C_HEADER_DEPRECATION_WARNING")
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${LIB_OUTPUT_DIR}")
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${LIB_OUTPUT_DIR}")
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${LIB_OUTPUT_DIR}")
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${LIB_OUTPUT_DIR}")
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${LIB_OUTPUT_DIR}")
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${LIB_OUTPUT_DIR}")
+    #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${LIB_OUTPUT_DIR}")
+    #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${LIB_OUTPUT_DIR}")
+    #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${LIB_OUTPUT_DIR}")
+#
+    #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${LIB_OUTPUT_DIR}")
+    #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${LIB_OUTPUT_DIR}")
+    #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${LIB_OUTPUT_DIR}")
 endif()
 
 link_directories(${DEP_LIB_DIR})
@@ -87,10 +99,10 @@ link_directories(${DEP_LIB_DIR})
 #---------------------------------------------------------------------------------------
 # log
 #---------------------------------------------------------------------------------------
-message(STATUS "root dir=${ROOT_DIR}")
-message(STATUS "bin output dir=${BIN_OUTPUT_DIR}")
-message(STATUS "dep lib dir=${DEP_LIB_DIR}")
-message(STATUS "plugin output dir=${LIB_OUTPUT_DIR}")
+message(STATUS "ROOT_DIR=${ROOT_DIR}")
+message(STATUS "BIN_OUTPUT_DIR=${BIN_OUTPUT_DIR}")
+message(STATUS "DEP_LIB_DIR=${DEP_LIB_DIR}")
+message(STATUS "LIB_OUTPUT_DIR=${LIB_OUTPUT_DIR}")
 message(STATUS "CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
 
 #---------------------------------------------------------------------------------------

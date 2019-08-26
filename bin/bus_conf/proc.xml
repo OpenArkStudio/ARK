@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xml>
 	<hosts>
-		<host name="test1_x64" intranet_ip="127.0.0.1" desc="machine1" />
-		<host name="test2_x64" intranet_ip="127.0.0.1" desc="machine2" />
+		<host name="test1_x64" intranet_ip="127.0.0.1" internet_ip="127.0.0.1" desc="machine1" />
+		<host name="test2_x64" intranet_ip="127.0.0.1" internet_ip="127.0.0.1" desc="machine2" />
 	</hosts>
 	<!-- all server processes -->
 	<!--
@@ -25,7 +25,8 @@
 	20000 + type * 100 + instance_id
 	ex.
 	master port = 10000 + 1 * 100 + 1 = 10101
-	cluster max port = 10000 + 99 * 100 + 1 = 19901
+	1.1.99.255
+	cluster max port = 10000 + 99 * 100 + 255 = 19900 + 255 = 22455
 	
 	world1 port = 20000 + 100 * 100 + 1 = 30001
 	world2 port = 20000 + 100 * 100 + 2 = 30002

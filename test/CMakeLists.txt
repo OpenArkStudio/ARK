@@ -1,15 +1,10 @@
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
+set(project_name test)
 
-file(GLOB_RECURSE TEST_SRC *.h *.hpp *.cpp *.cc *.c)
+file(GLOB_RECURSE TEST_SRC test.cpp)
     
 if(UNIX)
     #Set rpath
-    set(CMAKE_INSTALL_RPATH "./lib/" "../lib/")
+    set(CMAKE_INSTALL_RPATH ".")
     set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
@@ -23,7 +18,6 @@ else(WIN32)
         optimized brynet.lib)
 endif()
 
-set_target_properties(ark_test PROPERTIES OUTPUT_NAME_DEBUG "test_d")
 set_target_properties(ark_test PROPERTIES
     FOLDER "test"
     ARCHIVE_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}

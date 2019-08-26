@@ -1,6 +1,6 @@
 if(UNIX)
     #Set rpath
-    SET(CMAKE_INSTALL_RPATH "./" "../lib/")
+    SET(CMAKE_INSTALL_RPATH ".")
     SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
