@@ -24,6 +24,6 @@ echo Starting game...
 
 echo All processes are launching...
 
-ps aux | grep *_server
+ps aux | grep app
 
 cd ../

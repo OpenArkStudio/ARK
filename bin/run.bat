@@ -7,9 +7,7 @@ REM the default zone is 1001
 set CHANNEL_ID=1
 set ZONE_ID=1
 
-set PATH=..\lib\
-
-cd bin
+cd Release
 
 echo Starting master...
 start "master" app.exe -x --busid=%CHANNEL_ID%.0.1.1 --name=master_server --plugin=../plugin_conf/master.plugin --logpath=../binlog

@@ -1,5 +1,8 @@
-## We will build all execute files in this folder.
+# Read me
 
-Like: 
-Launcher_d(.exe)
-etc.
+This directory put some bineray files.
+
+- app_d(.exe)
+- dll/so
+- lib/a
+- etc.

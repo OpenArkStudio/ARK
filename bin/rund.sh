@@ -1,4 +1,4 @@
-cd bin
+cd debug
 
 export LC_ALL="C"
 
@@ -24,6 +24,6 @@ echo Starting game...
 
 echo All processes are launching...
 
-ps aux | grep *_server
+ps aux | grep app_d
 
 cd ../

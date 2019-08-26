@@ -1,7 +1,7 @@
 macro(BUILD_SERVER_MACRO project_name)
     if(UNIX)
         #Set rpath
-        set(CMAKE_INSTALL_RPATH "./lib/" "../lib/")
+        set(CMAKE_INSTALL_RPATH ".")
         set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
     endif()
 
