@@ -18,27 +18,27 @@
  *
  */
 
-#include "net/include/AFCWebSocktServer.hpp"
+#include "net/include/AFCWebSocketServer.hpp"
 
 namespace ark {
 
-AFCWebSocktServer::AFCWebSocktServer()
+AFCWebSocketServer::AFCWebSocketServer()
 {
     brynet::net::base::InitSocket();
 }
 
-AFCWebSocktServer::~AFCWebSocktServer()
+AFCWebSocketServer::~AFCWebSocketServer()
 {
     Shutdown();
     brynet::net::base::DestroySocket();
 }
 
-void AFCWebSocktServer::Update()
+void AFCWebSocketServer::Update()
 {
     UpdateNetSession();
 }
 
-bool AFCWebSocktServer::StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port,
+bool AFCWebSocketServer::StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port,
     const int thread_num, const unsigned int max_client, bool ip_v6 /* = false*/)
 {
     this->bus_id_ = busid;
@@ -151,7 +151,7 @@ bool AFCWebSocktServer::StartServer(AFHeadLength head_len, const int busid, cons
     return true;
 }
 
-void AFCWebSocktServer::UpdateNetSession()
+void AFCWebSocketServer::UpdateNetSession()
 {
     std::list<AFGUID> remove_sessions;
 
@@ -187,7 +187,7 @@ void AFCWebSocktServer::UpdateNetSession()
     remove_sessions.clear();
 }
 
-void AFCWebSocktServer::UpdateNetEvent(AFHttpSessionPtr session)
+void AFCWebSocketServer::UpdateNetEvent(AFHttpSessionPtr session)
 {
     AFNetEvent* event(nullptr);
     while (session->PopNetEvent(event))
@@ -197,7 +197,7 @@ void AFCWebSocktServer::UpdateNetEvent(AFHttpSessionPtr session)
     }
 }
 
-void AFCWebSocktServer::UpdateNetMsg(AFHttpSessionPtr session)
+void AFCWebSocketServer::UpdateNetMsg(AFHttpSessionPtr session)
 {
     AFNetMsg* msg(nullptr);
     int msg_count = 0;
@@ -214,14 +214,14 @@ void AFCWebSocktServer::UpdateNetMsg(AFHttpSessionPtr session)
     }
 }
 
-bool AFCWebSocktServer::Shutdown()
+bool AFCWebSocketServer::Shutdown()
 {
     CloseAllSession();
     SetWorking(false);
     return true;
 }
 
-bool AFCWebSocktServer::SendMsgToAllClient(const char* msg, const size_t nLen)
+bool AFCWebSocketServer::SendMsgToAllClient(const char* msg, const size_t nLen)
 {
     // auto frame = std::make_shared<std::string>();
     // brynet::net::WebSocketFormat::wsFrameBuild(msg,
@@ -244,7 +244,7 @@ bool AFCWebSocktServer::SendMsgToAllClient(const char* msg, const size_t nLen)
     return true;
 }
 
-bool AFCWebSocktServer::SendMsg(const char* msg, const size_t msg_len, const AFGUID& session_id)
+bool AFCWebSocketServer::SendMsg(const char* msg, const size_t msg_len, const AFGUID& session_id)
 {
     // AFScopeRdLock xGuard(rw_lock_);
 
@@ -267,12 +267,12 @@ bool AFCWebSocktServer::SendMsg(const char* msg, const size_t msg_len, const AFG
     return true;
 }
 
-bool AFCWebSocktServer::AddNetSession(AFHttpSessionPtr session)
+bool AFCWebSocketServer::AddNetSession(AFHttpSessionPtr session)
 {
     return sessions_.insert(std::make_pair(session->GetSessionId(), session)).second;
 }
 
-bool AFCWebSocktServer::CloseSession(AFHttpSessionPtr session)
+bool AFCWebSocketServer::CloseSession(AFHttpSessionPtr session)
 {
     if (session != nullptr)
     {
@@ -288,13 +288,13 @@ bool AFCWebSocktServer::CloseSession(AFHttpSessionPtr session)
     }
 }
 
-bool AFCWebSocktServer::CloseSession(const AFGUID& session_id)
+bool AFCWebSocketServer::CloseSession(const AFGUID& session_id)
 {
     auto session = GetNetSession(session_id);
     return CloseSession(session);
 }
 
-bool AFCWebSocktServer::CloseAllSession()
+bool AFCWebSocketServer::CloseAllSession()
 {
     for (auto& iter : sessions_)
     {
@@ -307,13 +307,13 @@ bool AFCWebSocktServer::CloseAllSession()
     return true;
 }
 
-AFHttpSessionPtr AFCWebSocktServer::GetNetSession(const AFGUID& session_id)
+AFHttpSessionPtr AFCWebSocketServer::GetNetSession(const AFGUID& session_id)
 {
     auto it = sessions_.find(session_id);
     return (it != sessions_.end() ? it->second : nullptr);
 }
 
-bool AFCWebSocktServer::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id)
+bool AFCWebSocketServer::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id)
 {
     // AFCSMsgHead head;
     // head.set_msg_id(msg_id);
@@ -334,7 +334,7 @@ bool AFCWebSocktServer::SendMsg(AFMsgHead* head, const char* msg_data, const int
     return true;
 }
 
-bool AFCWebSocktServer::BroadcastMsg(AFMsgHead* head, const char* msg_data)
+bool AFCWebSocketServer::BroadcastMsg(AFMsgHead* head, const char* msg_data)
 {
     // AFCSMsgHead head;
     // head.set_msg_id(msg_id);
