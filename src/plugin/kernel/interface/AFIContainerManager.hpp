@@ -1,10 +1,10 @@
 /*
- * This source file is part of ARK
+ * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
  * Copyright (c) 2013-2019 ArkNX authors.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"),
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -18,24 +18,22 @@
  *
  */
 
-#include "Sample3Plugin.h"
-#include "Sample3Module.h"
-#include "DataNewTestModule.h"
+#pragma once
+
+#include "AFIContainer.hpp"
+#include "kernel/include/AFClassMeta.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN_DLL_FUNCTION(Sample3Plugin)
-
-void Sample3Plugin::Install()
+class AFIContainerManager
 {
-    ARK_REGISTER_MODULE(DataNewTestModule, DataNewTestModule);
-    ARK_REGISTER_MODULE(Sample3Module, Sample3Module);
-}
+public:
+    virtual ~AFIContainerManager() = default;
 
-void Sample3Plugin::Uninstall()
-{
-    ARK_DEREGISTER_MODULE(Sample3Module, Sample3Module);
-    ARK_DEREGISTER_MODULE(DataNewTestModule, DataNewTestModule);
-}
+    virtual ARK_SHARE_PTR<AFIContainer> FindContainer(const std::string& name) = 0;
+    virtual ARK_SHARE_PTR<AFIContainer> CreateContainer(
+        const std::string& name, ARK_SHARE_PTR<AFClassMeta> pClassMeta) = 0;
+    virtual bool DeleteContainer(const std::string& name) = 0;
+};
 
 } // namespace ark

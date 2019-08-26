@@ -50,6 +50,7 @@ enum class ArkDataType : uint32_t
     DT_FLOAT,    // float
     DT_DOUBLE,   // double
     DT_STRING,   // string
+    DT_WSTRING,  // wstring
     DT_VECTOR3D, // vector3d
     DT_ARRAY,    // array
     DT_TABLE,    // DataTable
@@ -100,6 +101,23 @@ enum class ArkDataOpType : uint16_t
     DOT_SET, // =
     DOT_AND, // &
     DOT_OR,  // |
+};
+
+enum ArkTableOpType : uint16_t // table operate type
+{
+    TABLE_ADD = 0,  // add whole row data
+    TABLE_DELETE,   // delete whole row data
+    TABLE_UPDATE,   // update row & col cell data
+    TABLE_COVERAGE, // coverage whole row data
+    TABLE_SWAP,     // swap two whole row data
+};
+
+enum ArkTableNodeFeature : uint16_t
+{
+    PF_PUBLIC = 0,    // send to others
+    PF_PRIVATE = 1,   // send to self
+    PF_REAL_TIME = 2, // send real-time when changed
+    PF_SAVE = 3,      // if need save to database
 };
 
 } // namespace ark

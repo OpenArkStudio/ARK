@@ -218,6 +218,16 @@ public:
         return nodes_.end();
     }
 
+    const_iterator begin() const noexcept
+    {
+        return nodes_.cbegin();
+    }
+
+    const_iterator end() const noexcept
+    {
+        return nodes_.cend();
+    }
+
     const_iterator cbegin() const noexcept
     {
         return nodes_.cbegin();
@@ -228,7 +238,7 @@ public:
         return nodes_.cbegin();
     }
 
-    bool erase(const k_type& key, bool need_delete = true)
+    bool remove(const k_type& key, bool need_delete = true)
     {
         auto iter = nodes_.find(key);
         if (iter == nodes_.end())
@@ -236,7 +246,7 @@ public:
             return false;
         }
 
-        if (need_delete && !is_smart_ptr)
+        if (need_delete)
         {
             ARK_DELETE(iter->second);
         }
@@ -245,14 +255,28 @@ public:
         return true;
     }
 
-    void clear(bool need_delete = true)
+    bool remove_shared(const k_type& key)
     {
-        if (need_delete && !is_smart_ptr)
+        auto iter = nodes_.find(key);
+        if (iter == nodes_.end())
         {
-            for (auto iter : nodes_)
-            {
-                ARK_DELETE(iter.second);
-            }
+            return false;
+        }
+
+        erase(iter);
+        return true;
+    }
+
+    void clear()
+    {
+        nodes_.clear();
+    }
+
+    void removeall()
+    {
+        for (auto iter : nodes_)
+        {
+            ARK_DELETE(iter.second);
         }
 
         nodes_.clear();

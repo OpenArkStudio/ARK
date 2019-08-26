@@ -18,24 +18,26 @@
  *
  */
 
-#include "Sample3Plugin.h"
-#include "Sample3Module.h"
-#include "DataNewTestModule.h"
+#pragma once
+
+#include "interface/AFIModule.hpp"
+#include "AFIStaticObject.hpp"
+#include "kernel/include/AFStaticObjectManager.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN_DLL_FUNCTION(Sample3Plugin)
-
-void Sample3Plugin::Install()
+class AFIConfigNewModule : public AFIModule
 {
-    ARK_REGISTER_MODULE(DataNewTestModule, DataNewTestModule);
-    ARK_REGISTER_MODULE(Sample3Module, Sample3Module);
-}
+public:
+    virtual bool Load() = 0;
+    virtual bool Save() = 0;
+    virtual bool Clear() = 0;
 
-void Sample3Plugin::Uninstall()
-{
-    ARK_DEREGISTER_MODULE(Sample3Module, Sample3Module);
-    ARK_DEREGISTER_MODULE(DataNewTestModule, DataNewTestModule);
-}
+    // find config static object manager
+    virtual ARK_SHARE_PTR<AFStaticObjectManager> FindStaticObjectMgr(const std::string& class_name) = 0;
+
+    // find config
+    virtual ARK_SHARE_PTR<AFIStaticObject> FindStaticObject(const std::string& class_name, const size_t config_id) = 0;
+};
 
 } // namespace ark

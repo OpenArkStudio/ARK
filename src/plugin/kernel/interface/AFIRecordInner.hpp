@@ -1,10 +1,10 @@
 /*
- * This source file is part of ARK
+ * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
  * Copyright (c) 2013-2019 ArkNX authors.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"),
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -18,24 +18,21 @@
  *
  */
 
-#include "Sample3Plugin.h"
-#include "Sample3Module.h"
-#include "DataNewTestModule.h"
+#pragma once
+
+#include "AFIRecord.hpp"
+#include "AFIDataNewType.hpp"
+#include "kernel/include/AFRecordMeta.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN_DLL_FUNCTION(Sample3Plugin)
-
-void Sample3Plugin::Install()
+class AFIRecordInner : public AFIRecord
 {
-    ARK_REGISTER_MODULE(DataNewTestModule, DataNewTestModule);
-    ARK_REGISTER_MODULE(Sample3Module, Sample3Module);
-}
+public:
+    virtual bool OnRowDataChanged(
+        size_t row, const std::string& name, const AFIDataNewType& old_data, const AFIDataNewType& new_data) const = 0;
 
-void Sample3Plugin::Uninstall()
-{
-    ARK_DEREGISTER_MODULE(Sample3Module, Sample3Module);
-    ARK_DEREGISTER_MODULE(DataNewTestModule, DataNewTestModule);
-}
+    virtual ARK_SHARE_PTR<AFRecordMeta> GetMeta() const = 0;
+};
 
 } // namespace ark

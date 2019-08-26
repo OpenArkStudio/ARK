@@ -20,30 +20,25 @@
 
 #pragma once
 
+#include "base/AFPlatform.hpp"
+
 namespace ark {
 
-class AFIClassMeta
+class AFIContainer
 {
 public:
-    bool IsChildDataMeta(const std::string& name) const
-    {
-        return FindDataMeta(name) != nullptr;
-    }
+    virtual ~AFIContainer() = default;
 
-    virtual AFIDataMeta* FindDataMeta(const std::string& name) const = 0;
-
-    void SetClassMetaName(const std::string& value)
-    {
-        class_meta_name_ = value;
-    }
-
-    const std::string& GetClassMetaName() const
-    {
-        return class_meta_name_;
-    }
-
-private:
-    std::string class_meta_name_{};
+    // get object parent unique id
+    virtual const AFGUID& GetParentID() const = 0;
+    virtual const AFGUID& First() = 0;
+    virtual const AFGUID& Next() = 0;
+    virtual const AFGUID& Find(size_t index) = 0;
+    virtual size_t Find(const AFGUID& id) = 0;
+    virtual bool Place(const AFGUID& guid) = 0;
+    virtual bool Place(size_t index, const AFGUID& guid, AFGUID& replaced_guid) = 0;
+    virtual bool Swap(const AFGUID& src_container, const int src_index, const int dest_index) = 0;
+    virtual bool Swap(const AFGUID& src_container, const AFGUID& src_object, const AFGUID& dest_object) = 0;
 };
 
 } // namespace ark

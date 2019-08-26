@@ -20,33 +20,26 @@
 
 #pragma once
 
-#include "interface/AFIClassMeta.h"
-#include "AFMap.hpp"
-#include "AFCDataMeta.hpp"
+#include "base/AFPlatform.hpp"
 
 namespace ark {
 
-class AFCEntityClassMeta : public AFIClassMeta
+class AFIStaticObject
 {
 public:
-    AFIDataMeta* FindDataMeta(const std::string& name) const
-    {
-        return entity_data_metas_.find_value(name);
-    }
+    virtual ~AFIStaticObject() = default;
 
-private:
-    AFNewHashmap<std::string, AFCEntityDataMeta> entity_data_metas_;
+    // query data
+    virtual const std::string& GetClassName() const = 0;
+    virtual uint64_t GetConfigID() const = 0;
+    virtual bool GetBool(const std::string& name) = 0;
+    virtual int32_t GetInt32(const std::string& name) = 0;
+    virtual uint32_t GetUInt32(const std::string& name) = 0;
+    virtual int64_t GetInt64(const std::string& name) = 0;
+    virtual float GetFloat(const std::string& name) = 0;
+    virtual double GetDouble(const std::string& name) = 0;
+    virtual const std::string& GetString(const std::string& name) = 0;
+    virtual const std::wstring& GetWString(const std::string& name) = 0;
 };
 
-class AFCConfigClassMeta : public AFIClassMeta
-{
-public:
-    AFIDataMeta* FindDataMeta(const std::string& name) const
-    {
-        return config_data_metas_.find_value(name);
-    }
-
-private:
-    AFNewHashmap<std::string, AFCConfigDataMeta> config_data_metas_;
-};
 } // namespace ark
