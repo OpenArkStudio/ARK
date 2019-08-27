@@ -26,15 +26,19 @@ namespace ark {
 AFCWebSocketClient::AFCWebSocketClient(
     brynet::net::TcpService::Ptr service /*= nullptr*/, brynet::net::AsyncConnector::Ptr connector /*= nullptr*/)
 {
-    brynet::net::base::InitSocket();
-    tcp_service_ptr_ = (service != nullptr ? service : brynet::net::TcpService::Create());
-    connector_ptr_ = (connector != nullptr ? connector : brynet::net::AsyncConnector::Create());
+    using namespace brynet::net;
+
+    base::InitSocket();
+    tcp_service_ptr_ = (service != nullptr ? service : TcpService::Create());
+    connector_ptr_ = (connector != nullptr ? connector : AsyncConnector::Create());
 }
 
 AFCWebSocketClient::~AFCWebSocketClient()
 {
+    using namespace brynet::net;
+
     Shutdown();
-    brynet::net::base::DestroySocket();
+    base::DestroySocket();
 }
 
 void AFCWebSocketClient::Update()
@@ -45,12 +49,15 @@ void AFCWebSocketClient::Update()
 bool AFCWebSocketClient::StartClient(
     AFHeadLength len, const int target_busid, const std::string& ip, const int port, bool ip_v6)
 {
+    using namespace brynet::net;
+    using namespace brynet::net::http;
+
     dst_bus_id_ = target_busid;
 
     CONSOLE_INFO_LOG << "connect success" << std::endl;
-    auto OnEnterCallback = [this, len, ip](const brynet::net::http::HttpSession::Ptr& httpSession) {
+    auto OnEnterCallback = [this, len, ip](const HttpSession::Ptr& httpSession) {
         brynet::net::http::HttpRequest request;
-        request.setMethod(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_GET);
+        request.setMethod(HttpRequest::HTTP_METHOD::HTTP_METHOD_GET);
         request.setUrl("/ws");
         request.addHeadValue("Host", ip);
         request.addHeadValue("Upgrade", "websocket");
@@ -61,8 +68,7 @@ bool AFCWebSocketClient::StartClient(
         std::string requestStr = request.getResult();
         httpSession->send(requestStr.c_str(), requestStr.size());
 
-        httpSession->setWSConnected([this, &len, &ip](const brynet::net::http::HttpSession::Ptr& httpSession,
-                                        const brynet::net::http::HTTPParser&) {
+        httpSession->setWSConnected([this, &len, &ip](const HttpSession::Ptr& httpSession, const HTTPParser&) {
             // now session_id
             int64_t cur_session_id = this->trust_session_id_++;
 
@@ -86,22 +92,21 @@ bool AFCWebSocketClient::StartClient(
             }
         });
 
-        httpSession->setWSCallback(
-            [this](const brynet::net::http::HttpSession::Ptr& httpSession,
-                brynet::net::http::WebSocketFormat::WebSocketFrameType opcode, const std::string& payload) {
-                const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
-                int64_t session_id = *ud;
+        httpSession->setWSCallback([this](const HttpSession::Ptr& httpSession,
+                                       WebSocketFormat::WebSocketFrameType opcode, const std::string& payload) {
+            const auto ud = cast<int64_t>(httpSession->getUD());
+            int64_t session_id = *ud;
 
-                // Scope lock
-                {
-                    AFScopeRLock xGuard(this->rw_lock_);
-                    this->client_session_ptr_->AddBuffer(payload.c_str(), payload.size());
-                    this->client_session_ptr_->ParseBufferToMsg();
-                }
-            });
+            // Scope lock
+            {
+                AFScopeRLock xGuard(this->rw_lock_);
+                this->client_session_ptr_->AddBuffer(payload.c_str(), payload.size());
+                this->client_session_ptr_->ParseBufferToMsg();
+            }
+        });
 
-        httpSession->setClosedCallback([this, &ip](const brynet::net::http::HttpSession::Ptr& httpSession) {
-            const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
+        httpSession->setClosedCallback([this, &ip](const HttpSession::Ptr& httpSession) {
+            const auto ud = cast<int64_t>(httpSession->getUD());
             int64_t session_id = *ud;
 
             // create net event
@@ -124,12 +129,11 @@ bool AFCWebSocketClient::StartClient(
 
     connection_builder.configureService(tcp_service_ptr_)
         .configureConnector(connector_ptr_)
-        .configureConnectionOptions(
-            {brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE)})
-        .configureConnectOptions({brynet::net::AsyncConnector::ConnectOptions::WithAddr(ip, port),
-            brynet::net::AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
-            brynet::net::AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback(
-                [](brynet::net::TcpSocket& socket) { socket.setNodelay(); })})
+        .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE)})
+        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
+            AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
+            AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback(
+                [](TcpSocket& socket) { socket.setNodelay(); })})
         .configureEnterCallback(OnEnterCallback)
         .asyncConnect();
 
@@ -166,13 +170,9 @@ void AFCWebSocketClient::UpdateNetSession()
 
 void AFCWebSocketClient::UpdateNetEvent(AFHttpSessionPtr session)
 {
-    if (session == nullptr)
-    {
-        return;
-    }
+    ARK_ASSERT_RET_NONE(session != nullptr);
 
-    AFNetEvent* event(nullptr);
-
+    AFNetEvent* event{nullptr};
     while (session->PopNetEvent(event))
     {
         net_event_cb_(event);
@@ -182,12 +182,9 @@ void AFCWebSocketClient::UpdateNetEvent(AFHttpSessionPtr session)
 
 void AFCWebSocketClient::UpdateNetMsg(AFHttpSessionPtr session)
 {
-    if (session == nullptr)
-    {
-        return;
-    }
+    ARK_ASSERT_RET_NONE(session != nullptr);
 
-    AFNetMsg* msg = nullptr;
+    AFNetMsg* msg{nullptr};
     int msg_count = 0;
     while (session->PopNetMsg(msg))
     {
@@ -204,9 +201,10 @@ void AFCWebSocketClient::UpdateNetMsg(AFHttpSessionPtr session)
 
 bool AFCWebSocketClient::SendMsg(const char* msg, const size_t msg_len, const AFGUID& session_id /* = 0*/)
 {
+    using namespace brynet::net::http;
+
     auto frame = std::make_shared<std::string>();
-    brynet::net::http::WebSocketFormat::wsFrameBuild(
-        msg, msg_len, *frame, brynet::net::http::WebSocketFormat::WebSocketFrameType::BINARY_FRAME, true, false);
+    WebSocketFormat::wsFrameBuild(msg, msg_len, *frame, WebSocketFormat::WebSocketFrameType::BINARY_FRAME, true, false);
 
     if (client_session_ptr_->GetSession() != nullptr)
     {

@@ -39,9 +39,9 @@ public:
         net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
 
         brynet::net::base::InitSocket();
-        tcp_service_ptr_ = brynet::net::TcpService::Create();
+        tcp_service__ = brynet::net::TcpService::Create();
         // this could let you use common connector when multi-client created
-        connector_ptr_ = brynet::net::AsyncConnector::Create();
+        connector_ = brynet::net::AsyncConnector::Create();
     }
 
     ~AFCTCPClient() override;
@@ -74,8 +74,8 @@ private:
     NET_EVENT_FUNCTOR net_event_cb_;
     AFCReaderWriterLock rw_lock_;
 
-    brynet::net::TcpService::Ptr tcp_service_ptr_{nullptr};
-    brynet::net::AsyncConnector::Ptr connector_ptr_{nullptr};
+    brynet::net::TcpService::Ptr tcp_service__{nullptr};
+    brynet::net::AsyncConnector::Ptr connector_{nullptr};
     brynet::net::wrapper::ConnectionBuilder connection_builder_;
 };
 

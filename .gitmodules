@@ -1,8 +1,8 @@
-[submodule "dep/rapidxml"]
+[submodule "rapidxml"]
 	path = dep/rapidxml
 	url = https://github.com/ArkNX/rapidxml.git
 	branch = master
-[submodule "dep/args"]
+[submodule "args"]
 	path = dep/args
 	url = https://github.com/Taywee/args.git
 	branch = master
@@ -17,4 +17,8 @@
 [submodule "brynet"]
 	path = dep/brynet
 	url = https://github.com/IronsDu/brynet.git
+	branch = master
+[submodule "lexical_cast"]
+	path = dep/boost/lexical_cast
+	url = https://github.com/boostorg/lexical_cast.git
 	branch = master

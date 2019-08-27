@@ -48,12 +48,14 @@ void AFCTCPServer::Update()
 bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port,
     const int thread_num, const unsigned int max_client, bool ip_v6 /* = false*/)
 {
+    using namespace brynet::net;
+
     this->bus_id_ = busid;
 
-    tcp_service_ptr_ = brynet::net::TcpService::Create();
+    tcp_service_ptr_ = TcpService::Create();
     tcp_service_ptr_->startWorkerThread(thread_num);
 
-    auto OnEnterCallback = [this, head_len](const brynet::net::TcpConnectionPtr& session) {
+    auto OnEnterCallback = [this, head_len](const TcpConnectionPtr& session) {
         int64_t cur_session_id = this->trusted_session_id_++;
 
         session->setUD(cur_session_id);
@@ -75,7 +77,7 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
         }
 
         session->setDataCallback([this, session](const char* buffer, size_t len) {
-            auto pUD = brynet::net::cast<int64_t>(session->getUD());
+            auto pUD = cast<int64_t>(session->getUD());
             if (pUD != nullptr)
             {
                 const AFTCPSessionPtr session_ptr = this->GetNetSession(*pUD);
@@ -86,8 +88,8 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
             return len;
         });
 
-        session->setDisConnectCallback([this](const brynet::net::TcpConnectionPtr& session) {
-            auto pUD = brynet::net::cast<int64_t>(session->getUD());
+        session->setDisConnectCallback([this](const TcpConnectionPtr& session) {
+            auto pUD = cast<int64_t>(session->getUD());
             if (pUD == nullptr)
             {
                 return;
@@ -114,11 +116,10 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
 
     // Chain expression
     listen_builder.configureService(tcp_service_ptr_)
-        .configureSocketOptions({[](brynet::net::TcpSocket& socket) { socket.setNodelay(); }})
-        .configureConnectionOptions(
-            {brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE),
-                brynet::net::TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback)})
-        .configureListen([=](brynet::net::wrapper::BuildListenConfig config) { config.setAddr(ip_v6, ip, port); })
+        .configureSocketOptions({[](TcpSocket& socket) { socket.setNodelay(); }})
+        .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE),
+            TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback)})
+        .configureListen([=](wrapper::BuildListenConfig config) { config.setAddr(ip_v6, ip, port); })
         .asyncRun();
 
     SetWorking(true);
@@ -134,10 +135,7 @@ void AFCTCPServer::UpdateNetSession()
         for (auto& iter : sessions_)
         {
             auto& session = iter.second;
-            if (session == nullptr)
-            {
-                continue;
-            }
+            ARK_ASSERT_CONTINUE(session != nullptr);
 
             UpdateNetEvent(session);
             UpdateNetMsg(session);
@@ -161,7 +159,9 @@ void AFCTCPServer::UpdateNetSession()
 
 void AFCTCPServer::UpdateNetEvent(AFTCPSessionPtr session)
 {
-    AFNetEvent* event(nullptr);
+    ARK_ASSERT_RET_NONE(session != nullptr);
+
+    AFNetEvent* event{nullptr};
     while (session->PopNetEvent(event))
     {
         net_event_cb_(event);
@@ -171,7 +171,9 @@ void AFCTCPServer::UpdateNetEvent(AFTCPSessionPtr session)
 
 void AFCTCPServer::UpdateNetMsg(AFTCPSessionPtr session)
 {
-    AFNetMsg* msg(nullptr);
+    ARK_ASSERT_RET_NONE(session != nullptr);
+
+    AFNetMsg* msg{nullptr};
     int msg_count = 0;
     while (session->PopNetMsg(msg))
     {
@@ -229,18 +231,13 @@ bool AFCTCPServer::AddNetSession(AFTCPSessionPtr session)
 
 bool AFCTCPServer::CloseSession(AFTCPSessionPtr& session)
 {
-    if (session != nullptr)
-    {
-        auto session_id = session->GetSessionId();
-        session->GetSession()->postDisConnect();
-        ARK_DELETE(session);
-        sessions_.erase(session_id);
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    ARK_ASSERT_RET_VAL(session != nullptr, false);
+
+    auto session_id = session->GetSessionId();
+    session->GetSession()->postDisConnect();
+    ARK_DELETE(session);
+    sessions_.erase(session_id);
+    return true;
 }
 
 bool AFCTCPServer::CloseSession(const int64_t& session_id)
@@ -294,16 +291,9 @@ AFTCPSessionPtr AFCTCPServer::GetNetSession(const int64_t& session_id)
 
 bool AFCTCPServer::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id)
 {
-    if (head == nullptr || msg_data == nullptr || session_id <= 0)
-    {
-        return false;
-    }
-
+    ARK_ASSERT_RET_VAL(head != nullptr && msg_data != nullptr, false);
     auto session = GetNetSession(session_id);
-    if (session == nullptr)
-    {
-        return false;
-    }
+    ARK_ASSERT_RET_VAL(session != nullptr, false);
 
     uint32_t head_length = session->GetHeadLen();
     ARK_ASSERT_RET_VAL(
@@ -324,10 +314,7 @@ bool AFCTCPServer::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t 
 
 bool AFCTCPServer::BroadcastMsg(AFMsgHead* head, const char* msg_data)
 {
-    if (head == nullptr || msg_data == nullptr)
-    {
-        return false;
-    }
+    ARK_ASSERT_RET_VAL(head != nullptr && msg_data != nullptr, false);
 
     if (sessions_.empty())
     {
