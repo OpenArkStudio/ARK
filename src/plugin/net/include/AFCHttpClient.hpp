@@ -20,13 +20,33 @@
 
 #pragma once
 
+#include <brynet/net/TCPService.h>
+#include <brynet/net/Connector.h>
+#include <brynet/net/EventLoop.h>
 #include <brynet/net/http/HttpFormat.h>
-#include "net/interface/AFINet.hpp"
-#include "net/include/AFNetSession.hpp"
+#include "base/AFPlatform.hpp"
+#include "net/interface/AFIHttpClient.hpp"
 
 namespace ark {
 
-// Todo: add http client later, now use cpprestsdk in consul plugin.
-// !Because we need json, http encode/decode and other components in http client.
+class AFCHttpClient final : public AFIHttpClient
+{
+
+public:
+    AFCHttpClient();
+    virtual ~AFCHttpClient();
+
+protected:
+    void AsyncPost(const std::string& ip, const uint16_t port, const std::string& url,
+        std::map<std::string, std::string>& params, const std::string& post_data, HTTP_CALLBACK&& callback) override;
+
+    void AsyncGet(const std::string& ip, const uint16_t port, const std::string& url,
+        std::map<std::string, std::string>& params, HTTP_CALLBACK&& callback) override;
+
+private:
+    brynet::net::AsyncConnector::Ptr connector_{nullptr};
+    brynet::net::TcpService::Ptr tcp_service_{nullptr};
+    brynet::net::wrapper::HttpConnectionBuilder connection_builder_;
+};
 
 } // namespace ark

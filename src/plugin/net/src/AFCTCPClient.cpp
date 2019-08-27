@@ -26,16 +26,19 @@ namespace ark {
 AFCTCPClient::AFCTCPClient(const brynet::net::TcpService::Ptr& service /* = nullptr*/,
     const brynet::net::AsyncConnector::Ptr& connector /* = nullptr*/)
 {
-    brynet::net::base::InitSocket();
+    using namespace brynet::net;
+    base::InitSocket();
 
-    tcp_service_ptr_ = (service != nullptr ? service : brynet::net::TcpService::Create());
-    connector_ptr_ = (connector != nullptr ? connector : brynet::net::AsyncConnector::Create());
+    tcp_service__ = (service != nullptr ? service : TcpService::Create());
+    connector_ = (connector != nullptr ? connector : AsyncConnector::Create());
 }
 
 AFCTCPClient::~AFCTCPClient()
 {
+    using namespace brynet::net;
+
     Shutdown();
-    brynet::net::base::DestroySocket();
+    base::DestroySocket();
 }
 
 void AFCTCPClient::Update()
@@ -46,12 +49,14 @@ void AFCTCPClient::Update()
 bool AFCTCPClient::StartClient(
     AFHeadLength head_len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 /* = false*/)
 {
+    using namespace brynet::net;
+
     this->dst_bus_id_ = dst_busid;
 
-    tcp_service_ptr_->startWorkerThread(1);
-    connector_ptr_->startWorkerThread();
+    tcp_service__->startWorkerThread(1);
+    connector_->startWorkerThread();
 
-    auto OnEnterCallback = [this, head_len](const brynet::net::TcpConnectionPtr& session) {
+    auto OnEnterCallback = [this, head_len](const TcpConnectionPtr& session) {
         // now session_id
         int64_t cur_session_id = this->trust_session_id_++;
 
@@ -77,7 +82,7 @@ bool AFCTCPClient::StartClient(
 
         // data cb
         session->setDataCallback([this, session](const char* buffer, size_t len) {
-            const auto ud = brynet::net::cast<int64_t>(session->getUD());
+            const auto ud = cast<int64_t>(session->getUD());
             int64_t session_id = *ud;
 
             // scope lock
@@ -92,7 +97,7 @@ bool AFCTCPClient::StartClient(
 
         // disconnect cb
         session->setDisConnectCallback([this](const brynet::net::TcpConnectionPtr& session) {
-            const auto ud = brynet::net::cast<int64_t>(session->getUD());
+            const auto ud = cast<int64_t>(session->getUD());
             int64_t session_id = *ud;
 
             // create net event
@@ -113,15 +118,15 @@ bool AFCTCPClient::StartClient(
 
     auto failedCallback = []() { CONSOLE_ERROR_LOG << "connect failed" << std::endl; };
 
-    connection_builder_.configureService(tcp_service_ptr_)
-        .configureConnector(connector_ptr_)
-        .configureConnectionOptions({brynet::net::TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback),
-            brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE)})
-        .configureConnectOptions({brynet::net::AsyncConnector::ConnectOptions::WithAddr(ip, port),
-            brynet::net::AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
-            brynet::net::AsyncConnector::ConnectOptions::WithFailedCallback(failedCallback),
-            brynet::net::AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback(
-                [](brynet::net::TcpSocket& socket) { socket.setNodelay(); })})
+    connection_builder_.configureService(tcp_service__)
+        .configureConnector(connector_)
+        .configureConnectionOptions({TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback),
+            TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE)})
+        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
+            AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
+            AsyncConnector::ConnectOptions::WithFailedCallback(failedCallback),
+            AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback(
+                [](TcpSocket& socket) { socket.setNodelay(); })})
         .asyncConnect();
 
     SetWorking(true);
@@ -179,10 +184,7 @@ void AFCTCPClient::UpdateNetSession()
 
 void AFCTCPClient::UpdateNetEvent(AFTCPSessionPtr session)
 {
-    if (session == nullptr)
-    {
-        return;
-    }
+    ARK_ASSERT_RET_NONE(session != nullptr);
 
     AFNetEvent* event(nullptr);
     while (session->PopNetEvent(event))
@@ -194,10 +196,7 @@ void AFCTCPClient::UpdateNetEvent(AFTCPSessionPtr session)
 
 void AFCTCPClient::UpdateNetMsg(AFTCPSessionPtr session)
 {
-    if (session == nullptr)
-    {
-        return;
-    }
+    ARK_ASSERT_RET_NONE(session != nullptr);
 
     AFNetMsg* msg(nullptr);
     int msg_count = 0;
@@ -216,15 +215,8 @@ void AFCTCPClient::UpdateNetMsg(AFTCPSessionPtr session)
 
 bool AFCTCPClient::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id)
 {
-    if (head == nullptr || msg_data == nullptr)
-    {
-        return false;
-    }
-
-    if (client_session_ptr_ == nullptr)
-    {
-        return false;
-    }
+    ARK_ASSERT_RET_VAL(head != nullptr && msg_data != nullptr, false);
+    ARK_ASSERT_RET_VAL(client_session_ptr_ != nullptr, false);
 
     std::string buffer;
     switch (client_session_ptr_->GetHeadLen())

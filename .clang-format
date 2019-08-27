@@ -66,7 +66,7 @@ IncludeCategories:
   - Regex: ".*"
     Priority: 1
 IncludeIsMainRegex: "(Test)?$"
-IndentCaseLabels: false
+IndentCaseLabels: true
 IndentPPDirectives: None #BeforeHash is not available, don't know why.
 IndentWidth: 4
 IndentWrappedFunctionNames: false

@@ -23,8 +23,6 @@
 #include "net/interface/AFINet.hpp"
 #include "net/include/AFNetSession.hpp"
 
-#pragma pack(push, 1)
-
 namespace ark {
 
 class AFCWebSocketClient : public AFINet
@@ -78,5 +76,3 @@ private:
 };
 
 } // namespace ark
-
-#pragma pack(pop)
