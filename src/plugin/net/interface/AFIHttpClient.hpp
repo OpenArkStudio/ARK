@@ -29,50 +29,80 @@ namespace ark {
 class AFIHttpClient
 {
 public:
-    using HTTP_CALLBACK = std::function<void(const std::string&)>;
-    using HTTP_CALLBACK = std::function<void(const std::string&)>;
+    virtual void AsyncPost(const std::string& ip, const uint16_t port, const std::string& url,
+        std::map<std::string, std::string>& params, const std::string& post_data,
+        std::function<void(const std::string&)>&& callback) = 0;
 
-    template<typename BaseType>
-    void AsyncPost(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params, const std::string& post_data, BaseType* base_ptr,
-        void (BaseType::*handler)(const std::string&))
+    // Response - the type pf response protobuf message
+    template<typename Response>
+    int AsyncJsonPost(const std::string& ip, const uint16_t port, const std::string& url,
+        std::map<std::string, std::string>& params, const google::protobuf::Message& post_msg,
+        std::function<void(const Response&)>&& callback)
     {
-        auto functor = std::bind(handler, base_ptr, std::placeholders::_1);
-        AsyncPost(ip, port, url, params, post_data, std::move(functor));
+        std::string post_body;
+        google::protobuf::util::MessageToJsonString(post_msg, &post_body);
+        AsyncPost(ip, port, url, params, post_body, [=](const std::string& response_body) {
+            Response response;
+            auto status = google::protobuf::util::JsonStringToMessage(response_body, response);
+            if (!status.ok())
+            {
+                CONSOLE_ERROR_LOG << "google::protobuf::util::JsonStringToMessage failed, "
+                                  << status.error_message().ToString() << std::endl;
+                return;
+            }
+
+            auto tcp_service = GetTcpService();
+            if (tcp_service == nullptr)
+            {
+                return;
+            }
+
+            auto event_loop = tcp_service->getRandomEventLoop();
+            event_loop->runAsyncFunctor([=]() {
+                if (callback != nullptr)
+                {
+                    callback(response);
+                }
+            });
+        });
     }
 
-    //// BaseType - the this pointer of function's class
-    //// Response - response protobuf message
-    //template<typename BaseType, typename Response>
-    //void AsyncPost(const std::string& ip, const uint16_t port, const std::string& url,
-    //    std::map<std::string, std::string>& params, const google::protobuf::Message& post_msg, BaseType* base_ptr,
-    //    void (BaseType::*handler)(const Response& msg))
-    //{
-    //    auto functor = std::bind(handler, base_ptr, std::placeholders::_1);
-    //    AsyncPost(ip, port, url, params, post_msg, std::move(functor));
-    //}
+    virtual void AsyncGet(const std::string& ip, const uint16_t port, const std::string& url,
+        std::map<std::string, std::string>& params, std::function<void(const std::string&)>&& callback) = 0;
 
-    template<typename BaseType>
-    void AsyncGet(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params, BaseType* base_ptr, void (BaseType::*handler)(const std::string&))
+    // Response - the type pf response protobuf message
+    template<typename Response>
+    void AsyncJsonGet(const std::string& ip, const uint16_t port, const std::string& url,
+        std::map<std::string, std::string>& params, std::function<void(const Response&)>&& callback)
     {
-        auto functor = std::bind(handler, base_ptr, std::placeholders::_1);
-        AsyncGet(ip, port, url, params, post_data, std::move(functor));
-    }
+        AsyncGet(ip, port, url, params, [=](const std::string& response_body) {
+            Response response;
+            auto status = google::protobuf::util::JsonStringToMessage(response_body, response);
+            if (!status.ok())
+            {
+                CONSOLE_ERROR_LOG << "google::protobuf::util::JsonStringToMessage failed, "
+                                  << status.error_message().ToString() << std::endl;
+                return;
+            }
 
-    //template<typename BaseType, typename Response>
-    //void AsyncGet(const std::string& ip, const uint16_t port, const std::string& url,
-    //    std::map<std::string, std::string>& params, BaseType* base_ptr, void (BaseType::*handler)(const Response&))
-    //{
-    //    auto functor = std::bind(handler, base_ptr, std::placeholders::_1);
-    //    AsyncGet(ip, port, url, params, post_data, std::move(functor));
-    //}
+            auto tcp_service = GetTcpService();
+            if (tcp_service == nullptr)
+            {
+                return;
+            }
+
+            auto event_loop = tcp_service->getRandomEventLoop();
+            event_loop->runAsyncFunctor([=]() {
+                if (callback != nullptr)
+                {
+                    callback(response);
+                }
+            });
+        });
+    }
 
 protected:
-    virtual void AsyncPost(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params, const std::string& post_data, HTTP_CALLBACK&& callback) = 0;
-    virtual void AsyncGet(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params, HTTP_CALLBACK&& callback) = 0;
+    virtual brynet::net::TcpService::Ptr GetTcpService() = 0;
 };
 
 } // namespace ark
