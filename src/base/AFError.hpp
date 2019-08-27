@@ -38,13 +38,13 @@ public:
     {
         switch (err_val)
         {
-        case 1:
-            return "first error";
-        case 2:
-            return "second error";
-        default:
-            return "unknown error";
-            break;
+            case -1:
+                return "first error";
+            case -2:
+                return "second error";
+            default:
+                return "unknown error";
+                break;
         }
 
         return "";
