@@ -252,17 +252,10 @@ typedef struct HINSTANCE__* hInstance;
         assert(exp_);                                                                                                  \
     } while (false)
 
-#if defined(USE_BOOST)
-#include <boost/lexical_cast.hpp>
-#define ARK_LEXICAL_CAST boost::lexical_cast
-template<typename TD>
-using ARK_SHARE_PTR = boost::shared_ptr<TD>;
-#else
 #include "common/lexical_cast.hpp"
 #define ARK_LEXICAL_CAST lexical_cast
-template<typename TD>
-using ARK_SHARE_PTR = std::shared_ptr<TD>;
-#endif
+template<typename T>
+using ARK_SHARE_PTR = std::shared_ptr<T>;
 
 // cpp version
 #if (__cplusplus >= 201103L || (defined(_MSC_VER) && _MSC_VER >= 1800))
