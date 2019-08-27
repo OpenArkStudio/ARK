@@ -18,7 +18,3 @@
 	path = dep/brynet
 	url = https://github.com/IronsDu/brynet.git
 	branch = master
-[submodule "lexical_cast"]
-	path = dep/boost/lexical_cast
-	url = https://github.com/boostorg/lexical_cast.git
-	branch = master
