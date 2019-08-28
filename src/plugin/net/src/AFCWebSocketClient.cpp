@@ -41,11 +41,6 @@ AFCWebSocketClient::~AFCWebSocketClient()
     base::DestroySocket();
 }
 
-void AFCWebSocketClient::Update()
-{
-    UpdateNetSession();
-}
-
 bool AFCWebSocketClient::StartClient(
     AFHeadLength len, const int target_busid, const std::string& ip, const int port, bool ip_v6)
 {
@@ -153,8 +148,18 @@ bool AFCWebSocketClient::CloseAllSession()
     return true;
 }
 
+void AFCWebSocketClient::Update()
+{
+    UpdateNetSession();
+}
+
 void AFCWebSocketClient::UpdateNetSession()
 {
+    if (client_session_ptr_ == nullptr)
+    {
+        return;
+    }
+
     {
         AFScopeRLock guard(rw_lock_);
         UpdateNetEvent(client_session_ptr_.get());

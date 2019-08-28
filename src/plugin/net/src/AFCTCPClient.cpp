@@ -29,7 +29,7 @@ AFCTCPClient::AFCTCPClient(const brynet::net::TcpService::Ptr& service /* = null
     using namespace brynet::net;
     base::InitSocket();
 
-    tcp_service__ = (service != nullptr ? service : TcpService::Create());
+    tcp_service_ = (service != nullptr ? service : TcpService::Create());
     connector_ = (connector != nullptr ? connector : AsyncConnector::Create());
 }
 
@@ -53,7 +53,7 @@ bool AFCTCPClient::StartClient(
 
     this->dst_bus_id_ = dst_busid;
 
-    tcp_service__->startWorkerThread(1);
+    tcp_service_->startWorkerThread(1);
     connector_->startWorkerThread();
 
     auto OnEnterCallback = [this, head_len](const TcpConnectionPtr& session) {
@@ -118,7 +118,7 @@ bool AFCTCPClient::StartClient(
 
     auto failedCallback = []() { CONSOLE_ERROR_LOG << "connect failed" << std::endl; };
 
-    connection_builder_.configureService(tcp_service__)
+    connection_builder_.configureService(tcp_service_)
         .configureConnector(connector_)
         .configureConnectionOptions({TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback),
             TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE)})
@@ -168,6 +168,11 @@ bool AFCTCPClient::CloseSession(const AFGUID& session_id)
 
 void AFCTCPClient::UpdateNetSession()
 {
+    if (client_session_ptr_ == nullptr)
+    {
+        return;
+    }
+
     {
         AFScopeRLock guard(rw_lock_);
         UpdateNetEvent(client_session_ptr_.get());
@@ -221,15 +226,15 @@ bool AFCTCPClient::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t 
     std::string buffer;
     switch (client_session_ptr_->GetHeadLen())
     {
-    case AFHeadLength::CS_HEAD_LENGTH:
-        buffer.append(reinterpret_cast<char*>(head), AFHeadLength::CS_HEAD_LENGTH);
-        break;
-    case AFHeadLength::SS_HEAD_LENGTH:
-        buffer.append(reinterpret_cast<char*>(head), AFHeadLength::SS_HEAD_LENGTH);
-        break;
-    default:
-        return false;
-        break;
+        case AFHeadLength::CS_HEAD_LENGTH:
+            buffer.append(reinterpret_cast<char*>(head), AFHeadLength::CS_HEAD_LENGTH);
+            break;
+        case AFHeadLength::SS_HEAD_LENGTH:
+            buffer.append(reinterpret_cast<char*>(head), AFHeadLength::SS_HEAD_LENGTH);
+            break;
+        default:
+            return false;
+            break;
     }
 
     if (buffer.empty())
