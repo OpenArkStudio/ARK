@@ -20,29 +20,33 @@
 
 #pragma once
 
-#include "AFIStaticObject.hpp"
-#include "AFIDataNew.hpp"
-#include "AFIRecord.hpp"
+#include "AFIStaticEntity.hpp"
+#include "AFINode.hpp"
+#include "AFITable.hpp"
 #include "kernel/include/AFClassMeta.hpp"
-#include "kernel/include/AFDataNewMeta.hpp"
+#include "kernel/include/AFNodeMeta.hpp"
 
 namespace ark {
 
-class AFIStaticObjectInner : public AFIStaticObject
+class AFIStaticEntityInner : public AFIStaticEntity
 {
 public:
-    using DataList = AFNewHashmap<std::string, AFIDataNew>;
+    using DataList = AFNewMap<uint32_t, AFINode>;
 
-    virtual ~AFIStaticObjectInner() = default;
+    virtual ~AFIStaticEntityInner() = default;
 
-    // record op
-    virtual AFIRecord* AddRecord(const AFGUID& guid, const std::string& name) = 0;
-    virtual AFIRecord* FindRecord(const std::string& name) = 0;
+    virtual uint32_t GetIndex(const std::string& name) = 0;
+
+    // table op
+    virtual AFITable* AddTable(const AFGUID& guid, const uint32_t index) = 0;
+
+    virtual AFITable* FindTable(const uint32_t index) = 0;
 
     // data op
     virtual void Reset() = 0;
-    virtual AFIDataNew* CreateData(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta) = 0;
-    virtual AFIDataNew* FindData(const std::string& name, bool bCreate = false) = 0;
+    virtual AFINode* CreateData(ARK_SHARE_PTR<AFNodeMeta> pDataMeta) = 0;
+
+    virtual AFINode* FindData(const uint32_t index, bool bCreate = false) = 0;
 
     virtual bool IsEmpty() const = 0;
 

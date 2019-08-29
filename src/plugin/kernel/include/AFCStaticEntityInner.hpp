@@ -20,25 +20,27 @@
 
 #pragma once
 
-#include "kernel/interface/AFIStaticObjectInner.hpp"
+#include "kernel/interface/AFIStaticEntityInner.hpp"
 #include "base/AFMap.hpp"
 
 namespace ark {
 
-class AFCStaticObjectInner final : public AFIStaticObjectInner
+class AFCStaticEntityInner final : public AFIStaticEntityInner
 {
 public:
-    using RecordList = AFNewHashmap<std::string, AFIRecord>;
+    using TableList = AFNewMap<uint32_t, AFITable>;
 
-    AFCStaticObjectInner() = delete;
+    AFCStaticEntityInner() = delete;
 
-    explicit AFCStaticObjectInner(ARK_SHARE_PTR<AFClassMeta> pClassMeta, uint64_t config_id);
+    explicit AFCStaticEntityInner(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const ID_TYPE_ARG config_id);
 
-    ~AFCStaticObjectInner() override;
+    ~AFCStaticEntityInner() override;
+
+    uint32_t GetIndex(const std::string& name) override;
 
     // query data
     const std::string& GetClassName() const override;
-    uint64_t GetConfigID() const override;
+    const ID_TYPE_ARG GetConfigID() const override;
     bool GetBool(const std::string& name) override;
     int32_t GetInt32(const std::string& name) override;
     uint32_t GetUInt32(const std::string& name) override;
@@ -48,13 +50,24 @@ public:
     const std::string& GetString(const std::string& name) override;
     const std::wstring& GetWString(const std::string& name) override;
 
-    // data operation
-    AFIDataNew* CreateData(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta) override;
-    AFIDataNew* FindData(const std::string& name, bool bCreate = false) override;
+    bool GetBool(const uint32_t index) override;
+    int32_t GetInt32(const uint32_t index) override;
+    uint32_t GetUInt32(const uint32_t index) override;
+    int64_t GetInt64(const uint32_t index) override;
+    float GetFloat(const uint32_t index) override;
+    double GetDouble(const uint32_t index) override;
+    const std::string& GetString(const uint32_t index) override;
+    const std::wstring& GetWString(const uint32_t index) override;
 
-    // record meta operation
-    AFIRecord* AddRecord(const AFGUID& guid, const std::string& name) override;
-    AFIRecord* FindRecord(const std::string& name) override;
+    // data operation
+    AFINode* CreateData(ARK_SHARE_PTR<AFNodeMeta> pDataMeta) override;
+    AFINode* FindData(const uint32_t index, bool bCreate = false) override;
+
+    // table meta operation
+    AFITable* AddTable(const AFGUID& guid, const uint32_t index) override;
+
+    AFITable* FindTable(const uint32_t index) override;
+
     void Reset() override;
     bool IsEmpty() const override;
     const DataList& GetDataList() override;
@@ -65,13 +78,13 @@ private:
     ARK_SHARE_PTR<AFClassMeta> class_meta_{nullptr};
 
     // config id
-    uint64_t config_id_{NULL_INT64};
+    ID_TYPE config_id_{0};
 
     // data list
     DataList data_list_;
 
-    // record list
-    RecordList record_list_;
+    // table list
+    TableList table_list_;
 };
 
 } // namespace ark

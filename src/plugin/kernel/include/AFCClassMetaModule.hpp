@@ -21,19 +21,19 @@
 #pragma once
 
 #include "log/interface/AFILogModule.hpp"
-#include "kernel/interface/AFIClassNewMetaModule.hpp"
+#include "kernel/interface/AFIClassMetaModule.hpp"
 #include "base/AFMap.hpp"
 #include "AFClassMeta.hpp"
 #include "AFClassMetaManager.hpp"
 
 namespace ark {
 
-class AFCClassNewMetaModule : public AFIClassNewMetaModule
+class AFCClassMetaModule : public AFIClassMetaModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
-    AFCClassNewMetaModule() = default;
-    virtual ~AFCClassNewMetaModule() = default;
+    AFCClassMetaModule() = default;
+    virtual ~AFCClassMetaModule() = default;
 
     bool Init() override;
     bool Shut() override;

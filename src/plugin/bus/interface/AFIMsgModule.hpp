@@ -24,10 +24,9 @@
 #include "proto/AFProtoCPP.hpp"
 #include "interface/AFIModule.hpp"
 #include "net/interface/AFINet.hpp"
-#include "kernel/interface/AFIDataNodeManager.hpp"
-#include "kernel/interface/AFIDataTableManager.hpp"
-#include "kernel/include/AFDataNode.hpp"
-#include "kernel/include/AFDataTable.hpp"
+#include "kernel/include/AFCNode.hpp"
+#include "kernel/include/AFCTableInner.hpp"
+#include "kernel/include/AFCData.hpp"
 
 namespace ark {
 
@@ -95,22 +94,22 @@ public:
 
         switch (DataVar.GetType())
         {
-        case DT_BOOLEAN:
+        case ArkDataType::DT_BOOLEAN:
             variantData->set_bool_value(DataVar.GetBool());
             break;
-        case DT_INT:
+        case ArkDataType::DT_INT32:
             variantData->set_int_value(DataVar.GetInt());
             break;
-        case DT_INT64:
+        case ArkDataType::DT_INT64:
             variantData->set_int64_value(DataVar.GetInt64());
             break;
-        case DT_FLOAT:
+        case ArkDataType::DT_FLOAT:
             variantData->set_float_value(DataVar.GetFloat());
             break;
-        case DT_DOUBLE:
+        case ArkDataType::DT_DOUBLE:
             variantData->set_double_value(DataVar.GetDouble());
             break;
-        case DT_STRING:
+        case ArkDataType::DT_STRING:
             variantData->set_str_value(DataVar.GetString());
             break;
         default:
@@ -129,7 +128,7 @@ public:
         }
 
         xMsg.set_node_name(name);
-        xMsg.set_data_type(DataVar.GetType());
+        xMsg.set_data_type((int32_t)DataVar.GetType());
         AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
 
         return AFData2PBVariant(DataVar, variantData);
@@ -139,7 +138,7 @@ public:
     {
         xMsg.set_col(nCol);
         xMsg.set_row(nRow);
-        xMsg.set_data_type(DataVar.GetType());
+        xMsg.set_data_type((int32_t)DataVar.GetType());
         AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
 
         return AFData2PBVariant(DataVar, variantData);
@@ -149,27 +148,27 @@ public:
     {
         xMsg.set_col(nCol);
         xMsg.set_row(nRow);
-        xMsg.set_data_type(DataList.GetType(nCol));
+        xMsg.set_data_type((int32_t)DataList.GetType(nCol));
         AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
 
         switch (DataList.GetType(nCol))
         {
-        case DT_BOOLEAN:
+        case ArkDataType::DT_BOOLEAN:
             variantData->set_bool_value(DataList.Bool(nCol));
             break;
-        case DT_INT:
+        case ArkDataType::DT_INT32:
             variantData->set_int_value(DataList.Int(nCol));
             break;
-        case DT_INT64:
+        case ArkDataType::DT_INT64:
             variantData->set_int64_value(DataList.Int64(nCol));
             break;
-        case DT_FLOAT:
+        case ArkDataType::DT_FLOAT:
             variantData->set_float_value(DataList.Float(nCol));
             break;
-        case DT_DOUBLE:
+        case ArkDataType::DT_DOUBLE:
             variantData->set_double_value(DataList.Double(nCol));
             break;
-        case DT_STRING:
+        case ArkDataType::DT_STRING:
             variantData->set_str_value(DataList.String(nCol));
             break;
         default:
@@ -180,7 +179,7 @@ public:
         return true;
     }
 
-    static bool PackTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableBase* pEntityTableBase)
+    static bool PackTableToPB(AFCTableInner* pTable, AFMsg::EntityDataTableBase* pEntityTableBase)
     {
         if (pTable == nullptr || pEntityTableBase == nullptr)
         {

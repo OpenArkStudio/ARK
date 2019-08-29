@@ -20,26 +20,19 @@
 
 #pragma once
 
-#include "base/AFPlatform.hpp"
+#include "AFITable.hpp"
+#include "AFIData.hpp"
+#include "kernel/include/AFTableMeta.hpp"
 
 namespace ark {
 
-class AFIStaticObject
+class AFITableInner : public AFITable
 {
 public:
-    virtual ~AFIStaticObject() = default;
+    virtual bool OnRowDataChanged(
+        uint32_t row, const uint32_t index, const AFIData& old_data, const AFIData& new_data) const = 0;
 
-    // query data
-    virtual const std::string& GetClassName() const = 0;
-    virtual uint64_t GetConfigID() const = 0;
-    virtual bool GetBool(const std::string& name) = 0;
-    virtual int32_t GetInt32(const std::string& name) = 0;
-    virtual uint32_t GetUInt32(const std::string& name) = 0;
-    virtual int64_t GetInt64(const std::string& name) = 0;
-    virtual float GetFloat(const std::string& name) = 0;
-    virtual double GetDouble(const std::string& name) = 0;
-    virtual const std::string& GetString(const std::string& name) = 0;
-    virtual const std::wstring& GetWString(const std::string& name) = 0;
+    virtual ARK_SHARE_PTR<AFTableMeta> GetMeta() const = 0;
 };
 
 } // namespace ark

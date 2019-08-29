@@ -20,7 +20,6 @@
 
 #include "Sample3Plugin.h"
 #include "Sample3Module.h"
-#include "DataNewTestModule.h"
 
 namespace ark {
 
@@ -28,14 +27,12 @@ ARK_DECLARE_PLUGIN_DLL_FUNCTION(Sample3Plugin)
 
 void Sample3Plugin::Install()
 {
-    ARK_REGISTER_MODULE(DataNewTestModule, DataNewTestModule);
     ARK_REGISTER_MODULE(Sample3Module, Sample3Module);
 }
 
 void Sample3Plugin::Uninstall()
 {
     ARK_DEREGISTER_MODULE(Sample3Module, Sample3Module);
-    ARK_DEREGISTER_MODULE(DataNewTestModule, DataNewTestModule);
 }
 
 } // namespace ark

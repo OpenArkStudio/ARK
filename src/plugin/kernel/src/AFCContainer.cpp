@@ -22,8 +22,8 @@
 
 namespace ark {
 
-AFCContainer::AFCContainer(const std::string& name, ARK_SHARE_PTR<AFClassMeta> pClassMeta)
-    : name_(name)
+AFCContainer::AFCContainer(const uint32_t index, ARK_SHARE_PTR<AFClassMeta> pClassMeta)
+    : index_(index)
 {
     class_meta_ = pClassMeta;
 }

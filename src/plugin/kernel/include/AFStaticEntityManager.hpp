@@ -20,24 +20,23 @@
 
 #pragma once
 
-#include "kernel/interface/AFIStaticObjectInner.hpp"
 #include "base/AFMap.hpp"
-#include "AFCStaticObjectInner.hpp"
+#include "AFCStaticEntityInner.hpp"
 
 namespace ark {
 
-class AFStaticObjectManager final
+class AFStaticEntityManager final
 {
 public:
-    using StaticObjectList = AFNewSmartPtrMap<size_t, AFIStaticObject>;
+    using StaticObjectList = AFNewSmartPtrMap<ID_TYPE, AFIStaticEntity>;
 
-    AFStaticObjectManager() = default;
-    virtual ~AFStaticObjectManager()
+    AFStaticEntityManager() = default;
+    virtual ~AFStaticEntityManager()
     {
         static_object_list_.clear();
     }
 
-    ARK_SHARE_PTR<AFIStaticObject> CreateObject(const uint64_t config_id, ARK_SHARE_PTR<AFClassMeta> pClassMeta)
+    ARK_SHARE_PTR<AFIStaticEntity> CreateObject(const ID_TYPE_ARG config_id, ARK_SHARE_PTR<AFClassMeta> pClassMeta)
     {
         ARK_ASSERT_RET_VAL(pClassMeta != nullptr, nullptr);
 
@@ -46,13 +45,13 @@ public:
         ARK_ASSERT_RET_VAL(iter == static_object_list_.end(), nullptr);
 
         // create new class
-        auto pObject = std::make_shared<AFCStaticObjectInner>(pClassMeta, config_id);
+        auto pObject = std::make_shared<AFCStaticEntityInner>(pClassMeta, config_id);
         static_object_list_.insert(config_id, pObject);
 
         return pObject;
     }
 
-    ARK_SHARE_PTR<AFIStaticObject> FindObject(size_t config_id)
+    ARK_SHARE_PTR<AFIStaticEntity> FindObject(const ID_TYPE_ARG config_id)
     {
         return static_object_list_.find_value(config_id);
     }

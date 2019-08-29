@@ -74,7 +74,7 @@ public:
         type_class_meta_list_.push_back(name);
     }
 
-    // exact object meta and record meta of class meta
+    // exact object meta and table meta of class meta
     bool AfterLoaded()
     {
         for (auto iter : class_meta_list_)
@@ -103,48 +103,48 @@ private:
     {
         ARK_ASSERT_RET_VAL(pMeta != nullptr, false);
 
-        auto& class_list = pMeta->GetClassList();
-        for (auto& iter : class_list)
-        {
-            const std::string& type_name = iter;
-            auto pClassMeta = FindMeta(type_name);
-            ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
+        //auto& class_list = pMeta->GetClassList();
+        //for (auto& iter : class_list)
+        //{
+        //    const std::string& type_name = iter;
+        //    auto pClassMeta = FindMeta(type_name);
+        //    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
 
-            ExactToMeta(pMeta, pClassMeta);
-        }
+        //    ExactToMeta(pMeta, pClassMeta);
+        //}
 
-        // init record col meta
-        auto& record_meta_list = pMeta->GetRecordMetaList();
-        for (auto iter : record_meta_list)
-        {
-            auto pRecordMeta = iter.second;
-            ARK_ASSERT_RET_VAL(pRecordMeta != nullptr, false);
+        //// init table col meta
+        //auto& table_meta_list = pMeta->GetTableMetaList();
+        //for (auto iter : table_meta_list)
+        //{
+        //    auto pTableMeta = iter.second;
+        //    ARK_ASSERT_RET_VAL(pTableMeta != nullptr, false);
 
-            auto& type_name = pRecordMeta->GetTypeName();
-            auto pClassMeta = FindMeta(type_name);
-            ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
+        //    auto& type_name = pTableMeta->GetTypeName();
+        //    auto pClassMeta = FindMeta(type_name);
+        //    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
 
-            auto data_meta_list = pClassMeta->GetDataMetaList();
-            for (auto iter_data : data_meta_list)
-            {
-                auto& name = iter_data.first;
-                auto pDataMeta = iter_data.second;
-                pRecordMeta->AddColMeta(name, pDataMeta);
-            }
-        }
+        //    auto data_meta_list = pClassMeta->GetDataMetaList();
+        //    for (auto iter_data : data_meta_list)
+        //    {
+        //        auto& name = iter_data.first;
+        //        auto pDataMeta = iter_data.second;
+        //        pTableMeta->AddColMeta(name, pDataMeta);
+        //    }
+        //}
 
-        // init container meta
-        auto& container_list = pMeta->GetContainerList();
-        for (auto iter : container_list)
-        {
-            const std::string& name = iter.first;
-            const std::string& type_name = iter.second;
+        //// init container meta
+        //auto& container_list = pMeta->GetContainerList();
+        //for (auto iter : container_list)
+        //{
+        //    const std::string& name = iter.first;
+        //    const std::string& type_name = iter.second;
 
-            auto pClassMeta = FindMeta(type_name);
-            ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
+        //    auto pClassMeta = FindMeta(type_name);
+        //    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
 
-            pMeta->AddContainer(name, pClassMeta);
-        }
+        //    pMeta->AddContainer(name, pClassMeta);
+        //}
 
         return true;
     }
@@ -153,44 +153,44 @@ private:
     {
         ARK_ASSERT_RET_VAL(pMeta != nullptr && pClassMeta != nullptr, false);
 
-        // exact data meta
-        auto& meta_list = pClassMeta->GetDataMetaList();
-        for (auto iter : meta_list)
-        {
-            auto& name = iter.first;
-            auto pDataMeta = iter.second;
-            ARK_ASSERT_RET_VAL(pDataMeta != nullptr, false);
+        //// exact data meta
+        //auto& meta_list = pClassMeta->GetDataMetaList();
+        //for (auto iter : meta_list)
+        //{
+        //    auto& name = iter.first;
+        //    auto pDataMeta = iter.second;
+        //    ARK_ASSERT_RET_VAL(pDataMeta != nullptr, false);
 
-            ARK_ASSERT_RET_VAL(!pMeta->AddDataMeta(name, pDataMeta), false);
-        }
+        //    ARK_ASSERT_RET_VAL(!pMeta->AddDataMeta(pDataMeta), false);
+        //}
 
-        // exact record class
-        auto& record_meta_list = pClassMeta->GetRecordMetaList();
-        for (auto iter_record : record_meta_list)
-        {
-            auto pRecordMeta = iter_record.second;
-            ARK_ASSERT_RET_VAL(pRecordMeta != nullptr, false);
+        //// exact table class
+        //auto& table_meta_list = pClassMeta->GetTableMetaList();
+        //for (auto iter_table : table_meta_list)
+        //{
+        //    auto pTableMeta = iter_table.second;
+        //    ARK_ASSERT_RET_VAL(pTableMeta != nullptr, false);
 
-            ARK_ASSERT_RET_VAL(!pMeta->AddRecordMeta(pRecordMeta), false);
-        }
+        //    ARK_ASSERT_RET_VAL(!pMeta->AddTableMeta(pTableMeta), false);
+        //}
 
-        // exact container class
-        auto& container_list = pClassMeta->GetContainerList();
-        for (auto iter : container_list)
-        {
-            ARK_ASSERT_RET_VAL(!pMeta->AddContainer(iter.first, iter.second), false);
-        }
+        //// exact container class
+        //auto& container_list = pClassMeta->GetContainerList();
+        //for (auto iter : container_list)
+        //{
+        //    ARK_ASSERT_RET_VAL(!pMeta->AddContainer(iter.first, iter.second), false);
+        //}
 
-        // exact class meta
-        auto& class_list = pClassMeta->GetClassList();
-        for (auto iter : class_list)
-        {
-            const std::string& type_name = iter;
-            auto pOtherClassMeta = FindMeta(type_name);
-            ARK_ASSERT_RET_VAL(pOtherClassMeta != nullptr, false);
+        //// exact class meta
+        //auto& class_list = pClassMeta->GetClassList();
+        //for (auto iter : class_list)
+        //{
+        //    const std::string& type_name = iter;
+        //    auto pOtherClassMeta = FindMeta(type_name);
+        //    ARK_ASSERT_RET_VAL(pOtherClassMeta != nullptr, false);
 
-            ExactToMeta(pMeta, pOtherClassMeta);
-        }
+        //    ExactToMeta(pMeta, pOtherClassMeta);
+        //}
 
         return true;
     }

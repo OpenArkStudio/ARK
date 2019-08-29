@@ -19,9 +19,10 @@
  */
 
 #include "kernel/include/AFCEntity.hpp"
-#include "kernel/interface/AFIMetaClassModule.hpp"
+#include "kernel/interface/AFIClassMetaModule.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
 #include "Sample2Module.h"
+#include "kernel/include/AFCDataList.hpp"
 
 namespace ark {
 
@@ -42,7 +43,7 @@ int Sample2Module::OnDataNodeCB(
 bool Sample2Module::PostInit()
 {
     AFIKernelModule* pKernelModule = FindModule<AFIKernelModule>();
-    AFIMetaClassModule* pClassModule = FindModule<AFIMetaClassModule>();
+    AFIClassMetaModule* pClassModule = FindModule<AFIClassMetaModule>();
 
     AFCDataList xData;
     xData.AddInt(111);
@@ -50,28 +51,28 @@ bool Sample2Module::PostInit()
     std::cout << GET_CLASS_NAME(Sample2Module) << ", PostInit" << std::endl;
 
     // Create an Entity for this test
-    AFIEntity* pEntity = ARK_NEW AFCEntity(1);
+    //AFIEntity* pEntity = ARK_NEW AFCEntity(1);
 
     // Add a DataNode name is "my_test1" of this Entity
-    pEntity->GetNodeManager()->AddNode("my_test1", AFCData(DT_INT, 1), 0);
+    //pEntity->AddNode("my_test1", AFCData(DT_INT, 1), 0);
     // Add a DataNode name is "my_test2" of this Entity
-    pEntity->GetNodeManager()->AddNode("my_test2", AFCData(DT_INT, 1), 0);
+    //pEntity->GetNodeManager()->AddNode("my_test2", AFCData(DT_INT, 1), 0);
 
     // Set the "my_test2" DataNode value as 1111
-    pEntity->SetNodeInt("my_test2", 1111);
+    //pEntity->SetNodeInt("my_test2", 1111);
     // Get the "my_test2" property value and printf it
-    const int nDataNode2 = pEntity->GetNodeInt("my_test2");
-    std::cout << "DataNode - my_test2:" << nDataNode2 << std::endl;
+    //const int nDataNode2 = pEntity->GetNodeInt("my_test2");
+    //std::cout << "DataNode - my_test2:" << nDataNode2 << std::endl;
 
     // Add a callback function for DataNode "my_test2"
-    pClassModule->AddNodeCallBack("Player", "ls", this, &Sample2Module::OnDataNodeCB);
+    //pClassModule->AddNodeCallBack("Player", "ls", this, &Sample2Module::OnDataNodeCB);
 
     // Set the DataNode "my_test2" value as 2222, then the function "Example2Module::OnDataNodeCB" will be called
-    pEntity->SetNodeInt("my_test2", 2222);
-    int nDataNode2_new = pEntity->GetNodeInt("my_test2");
+    //pEntity->SetNodeInt("my_test2", 2222);
+    //int nDataNode2_new = pEntity->GetNodeInt("my_test2");
 
     // delete memory
-    ARK_DELETE(pEntity);
+    //ARK_DELETE(pEntity);
 
     return true;
 }

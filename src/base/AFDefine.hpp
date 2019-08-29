@@ -29,7 +29,6 @@
 namespace ark {
 class AFIData;
 class AFIDataList;
-class AFIDataNewType;
 
 const static bool NULL_BOOLEAN = false;
 const static int NULL_INT = 0U;
@@ -45,6 +44,10 @@ const static AFVector3D NULL_VECTOR3D = AFVector3D(0.0f, 0.0f, 0.0f);
 static const std::string config_class_file = "meta/config_class.config";
 
 static const std::string entity_class_file = "meta/entity_class.meta";
+
+//data define(only support based integer type)
+using ID_TYPE = uint32_t;
+using ID_TYPE_ARG = ID_TYPE;
 
 using AFFeatureType = std::bitset<8>;
 
@@ -67,15 +70,16 @@ public:
 
     uint8_t op_type_{0u};
     size_t row_{0u};
-    std::string data_name_{NULL_STR};
-    std::string record_name_{NULL_STR};
+    uint32_t data_index_{0u};
+    uint32_t table_index_{0u};
+    std::string table_name_{NULL_STR};
 };
 
 using RECORD_EVENT_FUNCTOR =
-    std::function<int(const AFGUID&, const DATA_RECORD_EVENT_DATA&, const AFIDataNewType&, const AFIDataNewType&)>;
+    std::function<int(const AFGUID&, const DATA_RECORD_EVENT_DATA&, const AFIData&, const AFIData&)>;
 
 using DATA_EVENT_FUNCTOR =
-    std::function<int(const AFGUID&, const std::string&, const AFIDataNewType&, const AFIDataNewType&)>;
+    std::function<int(const AFGUID&, const std::string&, const uint32_t, const AFIData&, const AFIData&)>;
 //------------------------------
 
 using DATA_NODE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)>;

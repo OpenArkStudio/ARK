@@ -25,24 +25,25 @@
 #include "base/AFDefine.hpp"
 #include "base/AFArrayPod.hpp"
 #include "base/AFMap.hpp"
-#include "AFDataNewMeta.hpp"
+#include "AFNodeMeta.hpp"
 
 namespace ark {
 
-class AFRecordMeta final
+class AFTableMeta final
 {
 public:
-    using ColMetaList = AFNewSmartPtrHashmap<std::string, AFDataNewMeta>;
+    using ColMetaList = AFNewSmartPtrMap<uint32_t, AFNodeMeta>;
 
-    AFRecordMeta() = delete;
+    AFTableMeta() = delete;
 
-    explicit AFRecordMeta(const std::string& name)
+    explicit AFTableMeta(const std::string& name, const uint32_t index)
         : name_(name)
+        , index_(index)
     {
         // todo
     }
 
-    virtual ~AFRecordMeta()
+    virtual ~AFTableMeta()
     {
         col_meta_list_.clear();
     }
@@ -57,21 +58,21 @@ public:
         return col_meta_list_.size();
     }
 
-    bool AddColMeta(const std::string& name, ARK_SHARE_PTR<AFDataNewMeta> pMeta)
+    bool AddColMeta(const uint32_t index, ARK_SHARE_PTR<AFNodeMeta> pMeta)
     {
         ARK_ASSERT_RET_VAL(pMeta != nullptr, false);
 
-        return col_meta_list_.insert(name, pMeta).second;
+        return col_meta_list_.insert(index, pMeta).second;
     }
 
-    ARK_SHARE_PTR<AFDataNewMeta> FindMeta(const std::string& name)
+    ARK_SHARE_PTR<AFNodeMeta> FindMeta(const uint32_t index)
     {
-        return col_meta_list_.find_value(name);
+        return col_meta_list_.find_value(index);
     }
 
-    const ArkDataType GetColType(const std::string& name)
+    const ArkDataType GetColType(const uint32_t index)
     {
-        auto pMeta = col_meta_list_.find_value(name);
+        auto pMeta = col_meta_list_.find_value(index);
         ARK_ASSERT_RET_VAL(pMeta != nullptr, ArkDataType::DT_EMPTY);
 
         return pMeta->GetType();
@@ -117,14 +118,22 @@ public:
         return type_name_;
     }
 
+    uint32_t GetIndex() const
+    {
+        return index_;
+    }
+
 private:
-    // record name
+    // table name
     std::string name_{NULL_STR};
+
+    // index
+    uint32_t index_{0u};
 
     // data type name
     std::string type_name_{NULL_STR};
 
-    // record col type
+    // table col type
     ColMetaList col_meta_list_;
 
     // feature type

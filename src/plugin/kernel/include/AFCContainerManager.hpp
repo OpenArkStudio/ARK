@@ -32,16 +32,15 @@ public:
     ~AFCContainerManager() override;
 
     // find container
-    ARK_SHARE_PTR<AFIContainer> FindContainer(const std::string& name) override;
+    ARK_SHARE_PTR<AFIContainer> FindContainer(const uint32_t index) override;
 
-    ARK_SHARE_PTR<AFIContainer> CreateContainer(
-        const std::string& name, ARK_SHARE_PTR<AFClassMeta> pClassMeta) override;
+    ARK_SHARE_PTR<AFIContainer> CreateContainer(const uint32_t index, ARK_SHARE_PTR<AFClassMeta> pClassMeta) override;
 
-    bool DeleteContainer(const std::string& name) override;
+    bool DestroyContainer(const uint32_t index) override;
 
 private:
     // container
-    AFNewSmartPtrHashmap<std::string, AFIContainer> container_data_;
+    AFNewSmartPtrMap<uint32_t, AFIContainer> container_data_;
 };
 
 } // namespace ark

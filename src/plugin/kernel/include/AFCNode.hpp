@@ -20,41 +20,48 @@
 
 #pragma once
 
-#include "plugin/kernel/interface/AFIDataNew.hpp"
+#include "plugin/kernel/interface/AFINode.hpp"
 
 namespace ark {
 
-#define DATA_NEW_META_OP_DECLARE                                                                                       \
-    virtual void SetMeta(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta)                                                       \
+#define DATA_NODE_DECLARE                                                                                              \
+    void SetMeta(ARK_SHARE_PTR<AFNodeMeta> pDataMeta) override                                                         \
     {                                                                                                                  \
         data_meta_ = pDataMeta;                                                                                        \
     }                                                                                                                  \
                                                                                                                        \
-    virtual ARK_SHARE_PTR<AFDataNewMeta> GetMeta()                                                                     \
+    ARK_SHARE_PTR<AFNodeMeta> GetMeta() override                                                                       \
     {                                                                                                                  \
         return data_meta_;                                                                                             \
     }                                                                                                                  \
                                                                                                                        \
-    virtual const std::string& GetName()                                                                               \
+    const std::string& GetName() override                                                                              \
     {                                                                                                                  \
         ARK_ASSERT_RET_VAL(data_meta_ != nullptr, NULL_STR);                                                           \
                                                                                                                        \
         return data_meta_->GetName();                                                                                  \
     }                                                                                                                  \
                                                                                                                        \
+    uint32_t GetIndex() const override                                                                                 \
+    {                                                                                                                  \
+        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, 0);                                                                  \
+                                                                                                                       \
+        return data_meta_->GetIndex();                                                                                 \
+    }                                                                                                                  \
+                                                                                                                       \
 private:                                                                                                               \
-    ARK_SHARE_PTR<AFDataNewMeta> data_meta_{nullptr};
+    ARK_SHARE_PTR<AFNodeMeta> data_meta_{nullptr};
 
 // data int32_t
-class AFDataInt32 final : public AFIDataNew
+class AFNodeInt32 final : public AFINode
 {
 public:
-    explicit AFDataInt32(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta)
+    explicit AFNodeInt32(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
 
-    ~AFDataInt32() override = default;
+    ~AFNodeInt32() override = default;
 
     ArkDataType GetType() const override
     {
@@ -72,7 +79,7 @@ public:
         return NULL_INT == data_;
     }
 
-    void CopyFrom(AFIDataNew* other) override
+    void CopyFrom(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -80,7 +87,7 @@ public:
         SetInt32(other->GetInt32());
     }
 
-    void SaveTo(AFIDataNew* other) override
+    void SaveTo(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -115,22 +122,27 @@ public:
         return data_meta_->HaveMask(mask);
     }
 
-    DATA_NEW_META_OP_DECLARE
+    const ID_TYPE GetID() const override
+    {
+        return static_cast<ID_TYPE>(data_);
+    }
+
+    DATA_NODE_DECLARE
 
     // data value
     int32_t data_{NULL_INT};
 };
 
 // data uint32_t
-class AFDataUInt32 final : public AFIDataNew
+class AFNodeUInt32 final : public AFINode
 {
 public:
-    explicit AFDataUInt32(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta)
+    explicit AFNodeUInt32(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
 
-    ~AFDataUInt32() override = default;
+    ~AFNodeUInt32() override = default;
 
     ArkDataType GetType() const override
     {
@@ -148,7 +160,7 @@ public:
         return NULL_INT == data_;
     }
 
-    void CopyFrom(AFIDataNew* other) override
+    void CopyFrom(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -156,7 +168,7 @@ public:
         SetInt32(other->GetUInt32());
     }
 
-    void SaveTo(AFIDataNew* other) override
+    void SaveTo(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -191,22 +203,27 @@ public:
         return data_meta_->HaveMask(mask);
     }
 
-    DATA_NEW_META_OP_DECLARE
+    const ID_TYPE GetID() const override
+    {
+        return static_cast<ID_TYPE>(data_);
+    }
+
+    DATA_NODE_DECLARE
 
     // data value
     uint32_t data_{NULL_INT};
 };
 
 // data string
-class AFDataString final : public AFIDataNew
+class AFNodeString final : public AFINode
 {
 public:
-    explicit AFDataString(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta)
+    explicit AFNodeString(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
 
-    ~AFDataString() override = default;
+    ~AFNodeString() override = default;
 
     ArkDataType GetType() const override
     {
@@ -224,7 +241,7 @@ public:
         return data_.empty();
     }
 
-    void CopyFrom(AFIDataNew* other) override
+    void CopyFrom(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -232,7 +249,7 @@ public:
         SetString(other->GetString());
     }
 
-    void SaveTo(AFIDataNew* other) override
+    void SaveTo(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -267,22 +284,27 @@ public:
         return data_meta_->HaveMask(mask);
     }
 
-    DATA_NEW_META_OP_DECLARE
+    const ID_TYPE GetID() const override
+    {
+        return AFMisc::FromString<ID_TYPE>(data_);
+    }
+
+    DATA_NODE_DECLARE
 
     // data value
     std::string data_{NULL_STR};
 };
 
 // data bool
-class AFDataBool final : public AFIDataNew
+class AFNodeBool final : public AFINode
 {
 public:
-    explicit AFDataBool(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta)
+    explicit AFNodeBool(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
 
-    ~AFDataBool() override = default;
+    ~AFNodeBool() override = default;
 
     ArkDataType GetType() const override
     {
@@ -300,7 +322,7 @@ public:
         return data_ == NULL_BOOLEAN;
     }
 
-    void CopyFrom(AFIDataNew* other) override
+    void CopyFrom(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -308,7 +330,7 @@ public:
         SetBool(other->GetBool());
     }
 
-    void SaveTo(AFIDataNew* other) override
+    void SaveTo(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -343,22 +365,27 @@ public:
         return data_meta_->HaveMask(mask);
     }
 
-    DATA_NEW_META_OP_DECLARE
+    const ID_TYPE GetID() const override
+    {
+        return static_cast<ID_TYPE>(data_);
+    }
+
+    DATA_NODE_DECLARE
 
     // data value
     bool data_{NULL_BOOLEAN};
 };
 
 // data int64
-class AFDataInt64 final : public AFIDataNew
+class AFNodeInt64 final : public AFINode
 {
 public:
-    explicit AFDataInt64(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta)
+    explicit AFNodeInt64(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
 
-    ~AFDataInt64() override = default;
+    ~AFNodeInt64() override = default;
 
     ArkDataType GetType() const override
     {
@@ -376,7 +403,7 @@ public:
         return data_ == NULL_INT;
     }
 
-    void CopyFrom(AFIDataNew* other) override
+    void CopyFrom(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -384,7 +411,7 @@ public:
         SetInt64(other->GetInt64());
     }
 
-    void SaveTo(AFIDataNew* other) override
+    void SaveTo(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -419,22 +446,27 @@ public:
         return data_meta_->HaveMask(mask);
     }
 
-    DATA_NEW_META_OP_DECLARE
+    const ID_TYPE GetID() const override
+    {
+        return static_cast<ID_TYPE>(data_);
+    }
+
+    DATA_NODE_DECLARE
 
     // data value
     int64_t data_{NULL_INT64};
 };
 
 // data uint64
-class AFDataUInt64 final : public AFIDataNew
+class AFNodeUInt64 final : public AFINode
 {
 public:
-    explicit AFDataUInt64(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta)
+    explicit AFNodeUInt64(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
 
-    ~AFDataUInt64() override = default;
+    ~AFNodeUInt64() override = default;
 
     ArkDataType GetType() const override
     {
@@ -452,7 +484,7 @@ public:
         return data_ == NULL_INT;
     }
 
-    void CopyFrom(AFIDataNew* other) override
+    void CopyFrom(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -460,7 +492,7 @@ public:
         SetUInt64(other->GetUInt64());
     }
 
-    void SaveTo(AFIDataNew* other) override
+    void SaveTo(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -495,22 +527,27 @@ public:
         return data_meta_->HaveMask(mask);
     }
 
-    DATA_NEW_META_OP_DECLARE
+    const ID_TYPE GetID() const override
+    {
+        return static_cast<ID_TYPE>(data_);
+    }
+
+    DATA_NODE_DECLARE
 
     // data value
     uint64_t data_{NULL_INT64};
 };
 
 // data float
-class AFDataFloat final : public AFIDataNew
+class AFNodeFloat final : public AFINode
 {
 public:
-    explicit AFDataFloat(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta)
+    explicit AFNodeFloat(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
 
-    ~AFDataFloat() override = default;
+    ~AFNodeFloat() override = default;
 
     ArkDataType GetType() const override
     {
@@ -528,7 +565,7 @@ public:
         return data_ == NULL_INT;
     }
 
-    void CopyFrom(AFIDataNew* other) override
+    void CopyFrom(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -536,7 +573,7 @@ public:
         SetFloat(other->GetFloat());
     }
 
-    void SaveTo(AFIDataNew* other) override
+    void SaveTo(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -571,22 +608,27 @@ public:
         return data_meta_->HaveMask(mask);
     }
 
-    DATA_NEW_META_OP_DECLARE
+    const ID_TYPE GetID() const override
+    {
+        return static_cast<ID_TYPE>(data_);
+    }
+
+    DATA_NODE_DECLARE
 
     // data value
     float data_{NULL_FLOAT};
 };
 
 // data double
-class AFDataDouble final : public AFIDataNew
+class AFNodeDouble final : public AFINode
 {
 public:
-    explicit AFDataDouble(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta)
+    explicit AFNodeDouble(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
 
-    ~AFDataDouble() override = default;
+    ~AFNodeDouble() override = default;
 
     ArkDataType GetType() const override
     {
@@ -604,7 +646,7 @@ public:
         return data_ == NULL_INT;
     }
 
-    void CopyFrom(AFIDataNew* other) override
+    void CopyFrom(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -612,7 +654,7 @@ public:
         SetDouble(other->GetDouble());
     }
 
-    void SaveTo(AFIDataNew* other) override
+    void SaveTo(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -647,22 +689,27 @@ public:
         return data_meta_->HaveMask(mask);
     }
 
-    DATA_NEW_META_OP_DECLARE
+    const ID_TYPE GetID() const override
+    {
+        return static_cast<ID_TYPE>(data_);
+    }
+
+    DATA_NODE_DECLARE
 
     // data value
     double data_{NULL_DOUBLE};
 };
 
 // data object
-class AFDataObejct final : public AFIDataNew
+class AFNodeObejct final : public AFINode
 {
 public:
-    explicit AFDataObejct(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta)
+    explicit AFNodeObejct(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
 
-    ~AFDataObejct() override = default;
+    ~AFNodeObejct() override = default;
 
     ArkDataType GetType() const override
     {
@@ -680,7 +727,7 @@ public:
         return data_ == NULL_INT;
     }
 
-    void CopyFrom(AFIDataNew* other) override
+    void CopyFrom(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -688,7 +735,7 @@ public:
         SetObject(other->GetObject());
     }
 
-    void SaveTo(AFIDataNew* other) override
+    void SaveTo(AFINode* other) override
     {
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->GetType() == other->GetType());
@@ -723,43 +770,48 @@ public:
         return data_meta_->HaveMask(mask);
     }
 
-    DATA_NEW_META_OP_DECLARE
+    const ID_TYPE GetID() const override
+    {
+        return static_cast<ID_TYPE>(data_);
+    }
+
+    DATA_NODE_DECLARE
 
     // data value
     AFGUID data_{NULL_GUID};
 };
 
 // create new data
-static AFIDataNew* CreateDataByMeta(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta)
+static AFINode* CreateDataByMeta(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
 {
     ARK_ASSERT_RET_VAL(pDataMeta != nullptr, nullptr);
 
-    AFIDataNew* pData = nullptr;
+    AFINode* pData = nullptr;
     switch (pDataMeta->GetType())
     {
     case ark::ArkDataType::DT_BOOLEAN:
-        pData = ARK_NEW AFDataBool(pDataMeta);
+        pData = ARK_NEW AFNodeBool(pDataMeta);
         break;
     case ark::ArkDataType::DT_INT32:
-        pData = ARK_NEW AFDataInt32(pDataMeta);
+        pData = ARK_NEW AFNodeInt32(pDataMeta);
         break;
     case ark::ArkDataType::DT_UINT32:
-        pData = ARK_NEW AFDataUInt32(pDataMeta);
+        pData = ARK_NEW AFNodeUInt32(pDataMeta);
         break;
     case ark::ArkDataType::DT_INT64:
-        pData = ARK_NEW AFDataInt64(pDataMeta);
+        pData = ARK_NEW AFNodeInt64(pDataMeta);
         break;
     case ark::ArkDataType::DT_UINT64:
-        pData = ARK_NEW AFDataUInt64(pDataMeta);
+        pData = ARK_NEW AFNodeUInt64(pDataMeta);
         break;
     case ark::ArkDataType::DT_FLOAT:
-        pData = ARK_NEW AFDataFloat(pDataMeta);
+        pData = ARK_NEW AFNodeFloat(pDataMeta);
         break;
     case ark::ArkDataType::DT_DOUBLE:
-        pData = ARK_NEW AFDataDouble(pDataMeta);
+        pData = ARK_NEW AFNodeDouble(pDataMeta);
         break;
     case ark::ArkDataType::DT_STRING:
-        pData = ARK_NEW AFDataString(pDataMeta);
+        pData = ARK_NEW AFNodeString(pDataMeta);
         break;
     case ark::ArkDataType::DT_VECTOR3D:
         break;
@@ -768,7 +820,7 @@ static AFIDataNew* CreateDataByMeta(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta)
     case ark::ArkDataType::DT_TABLE:
         break;
     case ark::ArkDataType::DT_OBJECT:
-        pData = ARK_NEW AFDataObejct(pDataMeta);
+        pData = ARK_NEW AFNodeObejct(pDataMeta);
         break;
     default:
         break;

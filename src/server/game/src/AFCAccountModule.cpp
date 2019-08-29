@@ -63,7 +63,7 @@ bool AFCAccountModule::CreateRole(
     pData->set_reg_time(0);
     pData->set_last_offline_time(0);
     pData->set_last_offline_ip(0);
-    pData->set_view_record("");
+    pData->set_view_table("");
 
     return true;
 }

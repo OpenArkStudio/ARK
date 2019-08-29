@@ -28,7 +28,7 @@
 
 namespace ark {
 
-class AFIClassNewMetaModule : public AFIModule
+class AFIClassMetaModule : public AFIModule
 {
 public:
     virtual bool Load() = 0;

@@ -20,7 +20,7 @@
 
 #include "kernel/include/AFKernelPlugin.hpp"
 #include "kernel/include/AFCKernelModule.hpp"
-#include "kernel/include/AFCMetaClassModule.hpp"
+#include "kernel/include/AFCClassMetaModule.hpp"
 #include "kernel/include/AFCConfigModule.hpp"
 #include "kernel/include/AFCMapModule.hpp"
 
@@ -30,7 +30,7 @@ ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFKernelPlugin)
 
 void AFKernelPlugin::Install()
 {
-    ARK_REGISTER_MODULE(AFIMetaClassModule, AFCMetaClassModule);
+    ARK_REGISTER_MODULE(AFIClassMetaModule, AFCClassMetaModule);
     ARK_REGISTER_MODULE(AFIConfigModule, AFCConfigModule);
     ARK_REGISTER_MODULE(AFIKernelModule, AFCKernelModule);
     ARK_REGISTER_MODULE(AFIMapModule, AFCMapModule);
@@ -41,7 +41,7 @@ void AFKernelPlugin::Uninstall()
     ARK_DEREGISTER_MODULE(AFIMapModule, AFCMapModule);
     ARK_DEREGISTER_MODULE(AFIKernelModule, AFCKernelModule);
     ARK_DEREGISTER_MODULE(AFIConfigModule, AFCConfigModule);
-    ARK_DEREGISTER_MODULE(AFIMetaClassModule, AFCMetaClassModule);
+    ARK_DEREGISTER_MODULE(AFIClassMetaModule, AFCClassMetaModule);
 }
 
 } // namespace ark

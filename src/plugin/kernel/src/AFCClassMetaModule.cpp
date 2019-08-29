@@ -18,13 +18,13 @@
  *
  */
 
-#include "kernel/include/AFCClassNewMetaModule.hpp"
+#include "kernel/include/AFCClassMetaModule.hpp"
 #include "base/AFXml.hpp"
 #include "base/AFPluginManager.hpp"
 
 namespace ark {
 
-bool AFCClassNewMetaModule::Init()
+bool AFCClassMetaModule::Init()
 {
     m_pLogModule = FindModule<AFILogModule>();
 
@@ -35,14 +35,14 @@ bool AFCClassNewMetaModule::Init()
     return true;
 }
 
-bool AFCClassNewMetaModule::Shut()
+bool AFCClassMetaModule::Shut()
 {
     ARK_DELETE(m_pClassMetaManager);
 
     return true;
 }
 
-bool AFCClassNewMetaModule::Load()
+bool AFCClassMetaModule::Load()
 {
     if (!LoadConfig())
     {
@@ -57,7 +57,7 @@ bool AFCClassNewMetaModule::Load()
     return true;
 }
 
-bool AFCClassNewMetaModule::LoadConfig()
+bool AFCClassMetaModule::LoadConfig()
 {
     std::string file_path = GetPluginManager()->GetResPath() + config_class_file;
 
@@ -91,7 +91,7 @@ bool AFCClassNewMetaModule::LoadConfig()
     return true;
 }
 
-bool AFCClassNewMetaModule::LoadConfigMeta(const std::string& schema_path, ARK_SHARE_PTR<AFClassMeta> pClassMeta)
+bool AFCClassMetaModule::LoadConfigMeta(const std::string& schema_path, ARK_SHARE_PTR<AFClassMeta> pClassMeta)
 {
     std::string file_path = GetPluginManager()->GetResPath() + schema_path;
 
@@ -109,11 +109,12 @@ bool AFCClassNewMetaModule::LoadConfigMeta(const std::string& schema_path, ARK_S
     {
         std::string name = meta_node.GetString("field");
         std::string type_name = meta_node.GetString("type");
+        uint32_t index = meta_node.GetUint32("field_index");
 
         ArkDataType data_type = ConvertDataType(type_name);
         ARK_ASSERT_RET_VAL(data_type != ArkDataType::DT_EMPTY, false);
 
-        auto pDataMeta = pClassMeta->CreateDataMeta(name);
+        auto pDataMeta = pClassMeta->CreateDataMeta(name, index);
         ARK_ASSERT_RET_VAL(pDataMeta != nullptr, false);
 
         pDataMeta->SetType(data_type);
@@ -122,7 +123,7 @@ bool AFCClassNewMetaModule::LoadConfigMeta(const std::string& schema_path, ARK_S
     return true;
 }
 
-bool AFCClassNewMetaModule::LoadEntity()
+bool AFCClassMetaModule::LoadEntity()
 {
     std::string file_path = GetPluginManager()->GetResPath() + entity_class_file;
 
@@ -142,6 +143,7 @@ bool AFCClassNewMetaModule::LoadEntity()
         std::string data_name = meta_node.GetString("field_name");
         std::string type_name = meta_node.GetString("type");
         std::string type_class = meta_node.GetString("type_class");
+        uint32_t index = meta_node.GetUint32("field_index");
 
         // data mask
         uint32_t mask_save = meta_node.GetUint32("save");
@@ -171,20 +173,20 @@ bool AFCClassNewMetaModule::LoadEntity()
 
         if (ArkDataType::DT_TABLE == data_type)
         {
-            // create record meta
-            auto pRecordMeta = pClassMeta->CreateRecordMeta(data_name);
-            ARK_ASSERT_RET_VAL(pRecordMeta != nullptr, false);
+            // create table meta
+            auto pTableMeta = pClassMeta->CreateTableMeta(data_name, index);
+            ARK_ASSERT_RET_VAL(pTableMeta != nullptr, false);
 
-            pRecordMeta->SetTypeName(type_class);
+            pTableMeta->SetTypeName(type_class);
 
             if (mask_save > 0)
             {
-                pRecordMeta->SetFeatureType(ArkTableNodeFeature::PF_SAVE);
+                pTableMeta->SetFeatureType(ArkTableNodeFeature::PF_SAVE);
             }
 
             if (mask_sync_self > 0)
             {
-                pRecordMeta->SetFeatureType(ArkTableNodeFeature::PF_PRIVATE);
+                pTableMeta->SetFeatureType(ArkTableNodeFeature::PF_PRIVATE);
             }
 
             m_pClassMetaManager->AddTypeClassMeta(type_class);
@@ -192,7 +194,7 @@ bool AFCClassNewMetaModule::LoadEntity()
         else
         {
             // default create data meta
-            auto pDataMeta = pClassMeta->CreateDataMeta(data_name);
+            auto pDataMeta = pClassMeta->CreateDataMeta(data_name, index);
             ARK_ASSERT_RET_VAL(pDataMeta != nullptr, false);
 
             if (mask_save > 0)
@@ -209,13 +211,13 @@ bool AFCClassNewMetaModule::LoadEntity()
         }
     }
 
-    // exact record meta and object meta of a class meta after all loaded
+    // exact table meta and object meta of a class meta after all loaded
     ARK_ASSERT_RET_VAL(m_pClassMetaManager->AfterLoaded(), false);
 
     return true;
 }
 
-ArkDataType AFCClassNewMetaModule::ConvertDataType(const std::string& type_name)
+ArkDataType AFCClassMetaModule::ConvertDataType(const std::string& type_name)
 {
     ArkDataType data_type = ArkDataType::DT_EMPTY;
     if (type_name == "bool")
@@ -266,7 +268,7 @@ ArkDataType AFCClassNewMetaModule::ConvertDataType(const std::string& type_name)
     return data_type;
 }
 
-bool AFCClassNewMetaModule::AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb)
+bool AFCClassMetaModule::AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb)
 {
     auto pClassMeta = m_pClassMetaManager->FindMeta(class_name);
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
@@ -277,7 +279,7 @@ bool AFCClassNewMetaModule::AddClassCallBack(const std::string& class_name, CLAS
     return pCallBack->AddClassCallBack(std::forward<CLASS_EVENT_FUNCTOR>(cb));
 }
 
-bool AFCClassNewMetaModule::DoEvent(
+bool AFCClassMetaModule::DoEvent(
     const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event, const AFIDataList& args)
 {
     auto pClassMeta = m_pClassMetaManager->FindMeta(class_name);
@@ -289,12 +291,12 @@ bool AFCClassNewMetaModule::DoEvent(
     return pCallBack->DoEvent(id, class_name, class_event, args);
 }
 
-ARK_SHARE_PTR<AFClassMeta> AFCClassNewMetaModule::FindMeta(const std::string& class_name)
+ARK_SHARE_PTR<AFClassMeta> AFCClassMetaModule::FindMeta(const std::string& class_name)
 {
     return m_pClassMetaManager->FindMeta(class_name);
 }
 
-const AFClassMetaManager::ClassMetaList& AFCClassNewMetaModule::GetMetaList() const
+const AFClassMetaManager::ClassMetaList& AFCClassMetaModule::GetMetaList() const
 {
     return m_pClassMetaManager->GetMetaList();
 }

@@ -26,20 +26,21 @@
 
 namespace ark {
 
-class AFDataNewMeta final
+class AFNodeMeta final
 {
 public:
     using AFDataMask = std::bitset<16>;
 
-    AFDataNewMeta() = delete;
+    AFNodeMeta() = delete;
 
-    explicit AFDataNewMeta(const std::string& name)
+    explicit AFNodeMeta(const std::string& name, const uint32_t index)
         : name_(name)
+        , index_(index)
     {
         //
     }
 
-    virtual ~AFDataNewMeta() = default;
+    virtual ~AFNodeMeta() = default;
 
     const std::string& GetName()
     {
@@ -66,12 +67,20 @@ public:
         return mask_.test((size_t)mask);
     }
 
+    uint32_t GetIndex() const
+    {
+        return index_;
+    }
+
 private:
     // data name
     std::string name_{NULL_STR};
 
     // data type
     ArkDataType type_{ArkDataType::DT_EMPTY};
+
+    //node index
+    uint32_t index_{0u};
 
     // data mask
     AFDataMask mask_{0};

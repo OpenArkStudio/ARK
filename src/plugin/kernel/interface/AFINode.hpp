@@ -21,21 +21,22 @@
 #pragma once
 
 #include "base/AFPlatform.hpp"
-#include "kernel/include/AFDataNewMeta.hpp"
+#include "kernel/include/AFNodeMeta.hpp"
 
 namespace ark {
 
-class AFIDataNew
+class AFINode
 {
 public:
-    virtual ~AFIDataNew() = default;
+    virtual ~AFINode() = default;
 
     virtual ArkDataType GetType() const = 0;
     virtual void Reset() = 0;
     virtual bool IsNull() const = 0;
-    virtual void CopyFrom(AFIDataNew* other) = 0;
-    virtual void SaveTo(AFIDataNew* other) = 0;
+    virtual void CopyFrom(AFINode* other) = 0;
+    virtual void SaveTo(AFINode* other) = 0;
     virtual bool HaveMask(ArkDataMaskType mask) = 0;
+    virtual const ID_TYPE GetID() const = 0;
 
     // Get data
     virtual bool GetBool() const
@@ -134,9 +135,10 @@ public:
     virtual void FromString(const std::string& value) {}
 
     // set meta
-    virtual void SetMeta(ARK_SHARE_PTR<AFDataNewMeta> pDataMeta) = 0;
-    virtual ARK_SHARE_PTR<AFDataNewMeta> GetMeta() = 0;
+    virtual void SetMeta(ARK_SHARE_PTR<AFNodeMeta> pDataMeta) = 0;
+    virtual ARK_SHARE_PTR<AFNodeMeta> GetMeta() = 0;
     virtual const std::string& GetName() = 0;
+    virtual uint32_t GetIndex() const = 0;
 };
 
 } // namespace ark

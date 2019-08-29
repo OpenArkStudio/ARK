@@ -22,7 +22,7 @@
 
 #include "plugin/kernel/interface/AFIContainer.hpp"
 #include "base/AFMap.hpp"
-#include "AFCObject.hpp"
+#include "AFCEntity.hpp"
 
 namespace ark {
 
@@ -31,7 +31,7 @@ class AFCContainer final : public AFIContainer
 public:
     using ObjectDataList = std::map<size_t, AFGUID>;
 
-    explicit AFCContainer(const std::string& name, ARK_SHARE_PTR<AFClassMeta> pClassMeta);
+    explicit AFCContainer(const uint32_t index, ARK_SHARE_PTR<AFClassMeta> pClassMeta);
 
     ~AFCContainer() override;
 
@@ -52,7 +52,7 @@ public:
 
 private:
     // name
-    std::string name_;
+    uint32_t index_;
 
     // contain object class meta
     ARK_SHARE_PTR<AFClassMeta> class_meta_;

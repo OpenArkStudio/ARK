@@ -28,16 +28,16 @@ AFCContainerManager ::~AFCContainerManager()
 }
 
 // find container
-ARK_SHARE_PTR<AFIContainer> AFCContainerManager::FindContainer(const std::string& name)
+ARK_SHARE_PTR<AFIContainer> AFCContainerManager::FindContainer(const uint32_t index)
 {
-    return container_data_.find_value(name);
+    return container_data_.find_value(index);
 }
 
 ARK_SHARE_PTR<AFIContainer> AFCContainerManager::CreateContainer(
-    const std::string& name, ARK_SHARE_PTR<AFClassMeta> pClassMeta)
+    const uint32_t index, ARK_SHARE_PTR<AFClassMeta> pClassMeta)
 {
     // return if found
-    auto pContainer = FindContainer(name);
+    auto pContainer = FindContainer(index);
     if (nullptr != pContainer)
     {
         return pContainer;
@@ -45,20 +45,20 @@ ARK_SHARE_PTR<AFIContainer> AFCContainerManager::CreateContainer(
 
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, nullptr);
 
-    auto pContainerClassMeta = pClassMeta->FindContainer(name);
+    auto pContainerClassMeta = pClassMeta->FindContainer(index);
     ARK_ASSERT_RET_VAL(pContainerClassMeta != nullptr, nullptr);
 
-    pContainer = std::make_shared<AFCContainer>(name, pContainerClassMeta);
+    pContainer = std::make_shared<AFCContainer>(index, pContainerClassMeta);
     ARK_ASSERT_RET_VAL(pContainer != nullptr, nullptr);
 
-    container_data_.insert(name, pContainer);
+    container_data_.insert(index, pContainer);
 
     return pContainer;
 }
 
-bool AFCContainerManager::DeleteContainer(const std::string& name)
+bool AFCContainerManager::DestroyContainer(const uint32_t index)
 {
-    return container_data_.erase(name);
+    return container_data_.erase(index);
 }
 
 } // namespace ark

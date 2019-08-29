@@ -45,94 +45,73 @@ public:
         return AddClassCallBack(name, std::move(functor));
     }
 
+    template<typename BaseType>
+    bool AddDataCallBack(const std::string& class_name, const std::string& name, BaseType* pBase,
+        int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
+    {
+        return AddDataCallBack(class_name, name,
+            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+                std::placeholders::_4)));
+    }
+
+    template<typename BaseType>
+    bool AddTableCallBack(const std::string& class_name, const std::string& name, BaseType* pBase,
+        int (BaseType::*handler)(const AFGUID&, const DATA_RECORD_EVENT_DATA&, const AFIData&, const AFIData&))
+    {
+        return AddTableCallBack(class_name, name,
+            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+                std::placeholders::_4)));
+    }
+
+    virtual bool AddDataCallBack(const std::string& class_name, const std::string& name, DATA_EVENT_FUNCTOR&& cb) = 0;
+
+    virtual bool AddTableCallBack(
+        const std::string& class_name, const std::string& name, RECORD_EVENT_FUNCTOR&& cb) = 0;
+
+    //call call back by index
+    template<typename BaseType>
+    bool AddDataCallBack(const std::string& class_name, const uint32_t index, BaseType* pBase,
+        int (BaseType::*handler)(const AFGUID&, const uint32_t index, const AFIData&, const AFIData&))
+    {
+        return AddDataCallBack(class_name, index,
+            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+                std::placeholders::_4)));
+    }
+
+    template<typename BaseType>
+    bool AddTableCallBack(const std::string& class_name, const uint32_t index, BaseType* pBase,
+        int (BaseType::*handler)(const AFGUID&, const DATA_RECORD_EVENT_DATA&, const AFIData&, const AFIData&))
+    {
+        return AddTableCallBack(class_name, index,
+            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+                std::placeholders::_4)));
+    }
+
+    virtual bool AddDataCallBack(const std::string& class_name, const uint32_t index, DATA_EVENT_FUNCTOR&& cb) = 0;
+
+    virtual bool AddTableCallBack(const std::string& class_name, const uint32_t index, RECORD_EVENT_FUNCTOR&& cb) = 0;
+
     virtual bool DoEvent(
         const AFGUID& self, const std::string& name, ArkEntityEvent eEvent, const AFIDataList& valueList) = 0;
     virtual bool DoEvent(const AFGUID& self, const int nEventID, const AFIDataList& valueList) = 0;
 
-    //////////////////////////////////////////////////////////////////////////
-    template<typename BaseType>
-    bool RegCommonClassEvent(BaseType* pBase,
-        int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
-    {
-        auto functor = std::bind(
-            handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return RegCommonClassEvent(std::move(functor));
-    }
-
-    template<typename BaseType>
-    bool RegCommonDataNodeEvent(
-        BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
-    {
-        auto functor = std::bind(
-            handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return RegCommonDataNodeEvent(std::move(functor));
-    }
-
-    template<typename BaseType>
-    bool RegCommonDataTableEvent(BaseType* pBase,
-        int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
-    {
-        auto functor = std::bind(
-            handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return RegCommonDataTableEvent(std::move(functor));
-    }
     /////////////////////////////////////////////////////////////////
-    virtual ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& self) = 0;
     virtual ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int map_id, const int map_instance_id,
-        const std::string& class_name, const std::string& config_index, const AFIDataList& args) = 0;
+        const std::string& class_name, const ID_TYPE_ARG config_id, const AFIDataList& args) = 0;
+
+    virtual ARK_SHARE_PTR<AFIEntity> CreateContainerEntity(const AFGUID& self, const std::string& container_name,
+        const std::string& class_name, const ID_TYPE_ARG config_id) = 0;
+
+    virtual ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& self) = 0;
 
     virtual bool DestroyEntity(const AFGUID& self) = 0;
     virtual bool DestroyAll() = 0;
-    //////////////////////////////////////////////////////////////////////////
-    virtual bool FindNode(const AFGUID& self, const std::string& name) = 0;
 
-    virtual bool SetNodeBool(const AFGUID& self, const std::string& name, const bool value) = 0;
-    virtual bool SetNodeInt(const AFGUID& self, const std::string& name, const int32_t value) = 0;
-    virtual bool SetNodeInt64(const AFGUID& self, const std::string& name, const int64_t value) = 0;
-    virtual bool SetNodeFloat(const AFGUID& self, const std::string& name, const float value) = 0;
-    virtual bool SetNodeDouble(const AFGUID& self, const std::string& name, const double value) = 0;
-    virtual bool SetNodeString(const AFGUID& self, const std::string& name, const std::string& value) = 0;
-
-    virtual bool GetNodeBool(const AFGUID& self, const std::string& name) = 0;
-    virtual int32_t GetNodeInt(const AFGUID& self, const std::string& name) = 0;
-    virtual int64_t GetNodeInt64(const AFGUID& self, const std::string& name) = 0;
-    virtual float GetNodeFloat(const AFGUID& self, const std::string& name) = 0;
-    virtual double GetNodeDouble(const AFGUID& self, const std::string& name) = 0;
-    virtual const char* GetNodeString(const AFGUID& self, const std::string& name) = 0;
-    //////////////////////////////////////////////////////////////////////////
-    virtual AFDataTable* FindTable(const AFGUID& self, const std::string& name) = 0;
-    virtual bool ClearTable(const AFGUID& self, const std::string& name) = 0;
-
-    virtual bool SetTableBool(
-        const AFGUID& self, const std::string& name, const int row, const int col, const bool value) = 0;
-    virtual bool SetTableInt(
-        const AFGUID& self, const std::string& name, const int row, const int col, const int32_t value) = 0;
-    virtual bool SetTableInt64(
-        const AFGUID& self, const std::string& name, const int row, const int col, const int64_t value) = 0;
-    virtual bool SetTableFloat(
-        const AFGUID& self, const std::string& name, const int row, const int col, const float value) = 0;
-    virtual bool SetTableDouble(
-        const AFGUID& self, const std::string& name, const int row, const int col, const double value) = 0;
-    virtual bool SetTableString(
-        const AFGUID& self, const std::string& name, const int row, const int col, const std::string& value) = 0;
-
-    virtual bool GetTableBool(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
-    virtual int32_t GetTableInt(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
-    virtual int64_t GetTableInt64(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
-    virtual float GetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
-    virtual double GetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
-    virtual const char* GetTableString(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
-
-    //////////////////////////////////////////////////////////////////////////
     virtual bool LogInfo(const AFGUID& ident) = 0;
 
 protected:
     virtual bool AddEventCallBack(const AFGUID& self, const int nEventID, EVENT_PROCESS_FUNCTOR&& cb) = 0;
     virtual bool AddClassCallBack(const std::string& strClassName, CLASS_EVENT_FUNCTOR&& cb) = 0;
-
-    virtual bool RegCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb) = 0;
-    virtual bool RegCommonDataNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb) = 0;
-    virtual bool RegCommonDataTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb) = 0;
 };
 
 } // namespace ark

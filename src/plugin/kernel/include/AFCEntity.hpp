@@ -1,10 +1,10 @@
 /*
- * This source file is part of ARK
+ * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
  * Copyright (c) 2013-2019 ArkNX authors.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"),
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -21,198 +21,166 @@
 #pragma once
 
 #include "kernel/interface/AFIEntity.hpp"
-#include "kernel/include/AFCDataTableManager.hpp"
-#include "kernel/include/AFCDataNodeManager.hpp"
-#include "kernel/include/AFCEventManager.hpp"
+#include "base/AFMap.hpp"
+#include "base/AFList.hpp"
+#include "kernel/interface/AFIData.hpp"
+#include "kernel/interface/AFIStaticEntityInner.hpp"
+#include "AFClassCallBackManager.hpp"
+#include "kernel/interface/AFIContainerManager.hpp"
 
 namespace ark {
 
-class AFCEntity : public AFIEntity
+class AFCEntity final : public AFIEntity
 {
 public:
     AFCEntity() = delete;
 
-    explicit AFCEntity(const AFGUID& self)
-        : self_(self)
-    {
-        m_pNodeManager = std::make_shared<AFCDataNodeManager>(self_);
-        m_pTableManager = std::make_shared<AFCDataTableManager>(self_);
-        m_pEventManager = std::make_shared<AFCEventManager>(self_);
-    }
+    explicit AFCEntity(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE_ARG config_id,
+        const int32_t map, const int32_t map_entity_id);
 
-    ~AFCEntity() override
-    {
-        m_pNodeManager->Clear();
-        m_pTableManager->Clear();
-        m_pEventManager->Clear();
-    }
+    ~AFCEntity() override;
 
-    void Update() override
-    {
-        GetEventManager()->Update();
-    }
+    void Update() override;
 
-    ///////////////////////////////////////////////////////////////////////
-    const AFGUID& Self() override
-    {
-        return self_;
-    }
+    // get unique id
+    const AFGUID& GetID() const override;
 
-    bool CheckNodeExist(const std::string& name) override
-    {
-        return (GetNodeManager()->GetNode(name.c_str()) != nullptr);
-    }
+    // get parent unique id
+    const AFGUID& GetParentID() const override;
 
-    bool SetNodeBool(const std::string& name, const bool value)
-    {
-        return GetNodeManager()->SetNodeBool(name.c_str(), value);
-    }
+    bool HaveMask(const std::string& name, ArkDataMaskType mask) override;
+    bool HaveMask(const uint32_t index, ArkDataMaskType mask) override;
 
-    bool SetNodeInt(const std::string& name, const int32_t value)
-    {
-        return GetNodeManager()->SetNodeInt(name.c_str(), value);
-    }
+    const std::string& GetClassName() const override;
+    const ID_TYPE_ARG GetConfigID() const override;
+    int32_t GetMapID() const override;
+    int32_t GetMapEntityID() const override;
 
-    bool SetNodeInt64(const std::string& name, const int64_t value)
-    {
-        return GetNodeManager()->SetNodeInt64(name.c_str(), value);
-    }
+    bool InitData(ARK_SHARE_PTR<AFIStaticEntity> pStaticObject) override;
 
-    bool SetNodeFloat(const std::string& name, const float value)
-    {
-        return GetNodeManager()->SetNodeFloat(name.c_str(), value);
-    }
+    // set data
+    bool SetBool(const std::string& name, bool value) override;
+    bool SetInt32(const std::string& name, const int32_t value) override;
+    bool SetUInt32(const std::string& name, const uint32_t value) override;
+    bool SetInt64(const std::string& name, const int64_t value) override;
+    bool SetFloat(const std::string& name, const float value) override;
+    bool SetDouble(const std::string& name, const double value) override;
+    bool SetString(const std::string& name, const std::string& value) override;
+    bool SetWString(const std::string& name, const std::wstring& value) override;
+    bool SetObject(const std::string& name, const AFGUID& value) override;
 
-    bool SetNodeDouble(const std::string& name, const double value)
-    {
-        return GetNodeManager()->SetNodeDouble(name.c_str(), value);
-    }
+    bool SetBool(const uint32_t index, bool value) override;
+    bool SetInt32(const uint32_t index, const int32_t value) override;
+    bool SetUInt32(const uint32_t index, const uint32_t value) override;
+    bool SetInt64(const uint32_t index, const int64_t value) override;
+    bool SetFloat(const uint32_t index, const float value) override;
+    bool SetDouble(const uint32_t index, const double value) override;
+    bool SetString(const uint32_t index, const std::string& value) override;
+    bool SetWString(const uint32_t index, const std::wstring& value) override;
+    bool SetObject(const uint32_t index, const AFGUID& value) override;
 
-    bool SetNodeString(const std::string& name, const std::string& value)
-    {
-        return GetNodeManager()->SetNodeString(name.c_str(), value);
-    }
+    // get data
+    AFINode* GetNode(const std::string& name) override;
+    bool GetBool(const std::string& name) override;
+    int32_t GetInt32(const std::string& name) override;
+    uint32_t GetUInt32(const std::string& name) override;
+    int64_t GetInt64(const std::string& name) override;
+    float GetFloat(const std::string& name) override;
+    double GetDouble(const std::string& name) override;
+    const std::string& GetString(const std::string& name) override;
+    const std::wstring& GetWString(const std::string& name) override;
+    const AFGUID& GetObject(const std::string& name) override;
 
-    bool GetNodeBool(const std::string& name)
-    {
-        return GetNodeManager()->GetNodeBool(name.c_str());
-    }
+    AFINode* GetNode(const uint32_t index) override;
+    bool GetBool(const uint32_t index) override;
+    int32_t GetInt32(const uint32_t index) override;
+    uint32_t GetUInt32(const uint32_t index) override;
+    int64_t GetInt64(const uint32_t index) override;
+    float GetFloat(const uint32_t index) override;
+    double GetDouble(const uint32_t index) override;
+    const std::string& GetString(const uint32_t index) override;
+    const std::wstring& GetWString(const uint32_t index) override;
+    const AFGUID& GetObject(const uint32_t index) override;
 
-    int32_t GetNodeInt(const std::string& name)
-    {
-        return GetNodeManager()->GetNodeInt(name.c_str());
-    }
+    // container operation
+    ARK_SHARE_PTR<AFIContainer> FindContainer(const std::string& name) override;
+    ARK_SHARE_PTR<AFIContainer> FindContainer(const uint32_t index) override;
 
-    int64_t GetNodeInt64(const std::string& name)
-    {
-        return GetNodeManager()->GetNodeInt64(name.c_str());
-    }
+    // table data
+    AFITable* FindTable(const std::string& name) override;
+    AFITable* FindTable(const uint32_t index) override;
 
-    float GetNodeFloat(const std::string& name)
-    {
-        return GetNodeManager()->GetNodeFloat(name.c_str());
-    }
+    ARK_SHARE_PTR<AFIEventManager>& GetEventManager() override;
 
-    double GetNodeDouble(const std::string& name)
-    {
-        return GetNodeManager()->GetNodeDouble(name.c_str());
-    }
+    // custom data
+    bool AddCustomBool(const std::string& name, bool value) override;
+    bool AddCustomInt32(const std::string& name, const int32_t value) override;
+    bool AddCustomUInt32(const std::string& name, const uint32_t value) override;
+    bool AddCustomInt64(const std::string& name, const int64_t value) override;
+    bool AddCustomFloat(const std::string& name, const float value) override;
+    bool AddCustomDouble(const std::string& name, const double value) override;
+    bool AddCustomString(const std::string& name, const std::string& value) override;
+    bool AddCustomWString(const std::string& name, const std::wstring& value) override;
+    bool AddCustomObject(const std::string& name, const AFGUID& value) override;
 
-    const char* GetNodeString(const std::string& name)
-    {
-        return GetNodeManager()->GetNodeString(name.c_str());
-    }
+    bool SetCustomBool(const std::string& name, bool value) override;
+    bool SetCustomInt32(const std::string& name, const int32_t value) override;
+    bool SetCustomUInt32(const std::string& name, const uint32_t value) override;
+    bool SetCustomInt64(const std::string& name, const int64_t value) override;
+    bool SetCustomFloat(const std::string& name, const float value) override;
+    bool SetCustomDouble(const std::string& name, const double value) override;
+    bool SetCustomString(const std::string& name, const std::string& value) override;
+    bool SetCustomWString(const std::string& name, const std::wstring& value) override;
+    bool SetCustomObject(const std::string& name, const AFGUID& value) override;
 
-    //////////////////////////////////////////////////////////////////////////
+    bool GetCustomBool(const std::string& name) override;
+    int32_t GetCustomInt32(const std::string& name) override;
+    uint32_t GetCustomUInt32(const std::string& name) override;
+    int64_t GetCustomInt64(const std::string& name) override;
+    float GetCustomFloat(const std::string& name) override;
+    double GetCustomDouble(const std::string& name) override;
+    const std::string& GetCustomString(const std::string& name) override;
+    const std::wstring& GetCustomWString(const std::string& name) override;
+    const AFGUID& GetCustomObject(const std::string& name) override;
 
-    bool CheckTableExist(const std::string& name) override
-    {
-        AFDataTable* pTable = GetTableManager()->GetTable(name.c_str());
-        return (nullptr != pTable);
-    }
-
-    bool SetTableBool(const std::string& name, const int row, const int col, const bool value)
-    {
-        return GetTableManager()->SetTableBool(name.c_str(), row, col, value);
-    }
-
-    bool SetTableInt(const std::string& name, const int row, const int col, const int32_t value)
-    {
-        return GetTableManager()->SetTableInt(name.c_str(), row, col, value);
-    }
-
-    bool SetTableInt64(const std::string& name, const int row, const int col, const int64_t value)
-    {
-        return GetTableManager()->SetTableInt64(name.c_str(), row, col, value);
-    }
-
-    bool SetTableFloat(const std::string& name, const int row, const int col, const float value)
-    {
-        return GetTableManager()->SetTableFloat(name.c_str(), row, col, value);
-    }
-
-    bool SetTableDouble(const std::string& name, const int row, const int col, const double value)
-    {
-        return GetTableManager()->SetTableDouble(name.c_str(), row, col, value);
-    }
-
-    bool SetTableString(const std::string& name, const int row, const int col, const std::string& value)
-    {
-        return GetTableManager()->SetTableString(name.c_str(), row, col, value.c_str());
-    }
-
-    bool GetTableBool(const std::string& name, const int row, const int col)
-    {
-        return GetTableManager()->GetTableBool(name.c_str(), row, col);
-    }
-
-    int32_t GetTableInt(const std::string& name, const int row, const int col)
-    {
-        return GetTableManager()->GetTableInt(name.c_str(), row, col);
-    }
-
-    int64_t GetTableInt64(const std::string& name, const int row, const int col)
-    {
-        return GetTableManager()->GetTableInt64(name.c_str(), row, col);
-    }
-
-    float GetTableFloat(const std::string& name, const int row, const int col)
-    {
-        return GetTableManager()->GetTableFloat(name.c_str(), row, col);
-    }
-
-    double GetTableDouble(const std::string& name, const int row, const int col)
-    {
-        return GetTableManager()->GetTableDouble(name.c_str(), row, col);
-    }
-
-    const char* GetTableString(const std::string& name, const int row, const int col)
-    {
-        return GetTableManager()->GetTableString(name.c_str(), row, col);
-    }
-
-    //////////////////////////////////////////////////////////////////////////
-    ARK_SHARE_PTR<AFIDataNodeManager>& GetNodeManager() override
-    {
-        return m_pNodeManager;
-    }
-
-    ARK_SHARE_PTR<AFIDataTableManager>& GetTableManager() override
-    {
-        return m_pTableManager;
-    }
-
-    ARK_SHARE_PTR<AFIEventManager>& GetEventManager() override
-    {
-        return m_pEventManager;
-    }
+    bool FindCustomData(const std::string& name) override;
+    bool RemoveCustomData(const std::string& name) override;
 
 private:
-    AFGUID self_;
+    // create data new and copy data arg
+    bool CopyData(AFINode* pData);
 
-    ARK_SHARE_PTR<AFIDataNodeManager> m_pNodeManager;
-    ARK_SHARE_PTR<AFIDataTableManager> m_pTableManager;
-    ARK_SHARE_PTR<AFIEventManager> m_pEventManager;
+    void OnDataCallBack(
+        const std::string& name, const uint32_t index, const AFIData& old_data, const AFIData& new_data);
+
+private:
+    // object unique id
+    AFGUID guid_{NULL_GUID};
+
+    // map id
+    int32_t map_id_{NULL_INT};
+
+    // map obj id
+    int32_t map_entity_id_{NULL_INT};
+
+    // parent guid
+    AFGUID parent_{NULL_GUID};
+
+    // custom data
+    using CustomDataList = AFNewHashmap<std::string, AFIData>;
+    CustomDataList custom_data_list_;
+
+    // static object
+    ARK_SHARE_PTR<AFIStaticEntityInner> m_pStaticObject{nullptr};
+
+    // container manager
+    ARK_SHARE_PTR<AFIContainerManager> m_pContainerManager{nullptr};
+
+    // event manager
+    ARK_SHARE_PTR<AFIEventManager> m_pEventManager{nullptr};
+
+    // call back manager
+    ARK_SHARE_PTR<AFClassCallBackManager> m_pCallBackManager{nullptr};
 };
 
 } // namespace ark

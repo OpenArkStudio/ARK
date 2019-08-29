@@ -30,10 +30,10 @@ class AFIContainerManager
 public:
     virtual ~AFIContainerManager() = default;
 
-    virtual ARK_SHARE_PTR<AFIContainer> FindContainer(const std::string& name) = 0;
+    virtual ARK_SHARE_PTR<AFIContainer> FindContainer(const uint32_t index) = 0;
     virtual ARK_SHARE_PTR<AFIContainer> CreateContainer(
-        const std::string& name, ARK_SHARE_PTR<AFClassMeta> pClassMeta) = 0;
-    virtual bool DeleteContainer(const std::string& name) = 0;
+        const uint32_t index, ARK_SHARE_PTR<AFClassMeta> pClassMeta) = 0;
+    virtual bool DestroyContainer(const uint32_t index) = 0;
 };
 
 } // namespace ark
