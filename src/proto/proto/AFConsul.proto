@@ -1,0 +1,24 @@
+syntax = "proto3";
+package consul;
+
+message check_data {
+  string id = 1;
+  string name = 2;
+  string note = 3;
+  string timeout = 4;
+  string interval = 5;
+  string tcp = 6;
+}
+
+message service_data {
+  string id = 1;
+  string name = 2;
+  string ip = 3;
+  int32 port = 4;
+  repeated string tags = 5;
+  map<string, string> metas = 6;
+}
+
+message service {
+  repeated service_data services = 1;
+}

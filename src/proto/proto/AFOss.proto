@@ -7,24 +7,22 @@ package osslog;
 //---------------------------------------------
 
 //登录、登出日志
-message login
-{
-    string logid = 1;
-    //TODO
+message login {
+  string logid = 1;
+  // TODO
 }
 
 //新帐号创建日志
-message create_account
-{
-    int32 cid = 1;
-    int32 sid = 2;
-    string account = 3;
-    int32 time = 4;
-    double ms = 5;
-    string ts = 6;
-    string ip = 7;
-    string adv = 8;
-    string ad = 9;
-    int32 guest = 10;
-    string device = 11;
+message create_account {
+  int32 cid = 1;
+  int32 sid = 2;
+  string account = 3;
+  int32 time = 4;
+  double ms = 5;
+  string ts = 6;
+  string ip = 7;
+  string adv = 8;
+  string ad = 9;
+  int32 guest = 10;
+  string device = 11;
 }
