@@ -29,6 +29,7 @@
 
 namespace ark {
 
+class AFIContainer;
 class AFIEntity
 {
 public:
@@ -38,41 +39,56 @@ public:
     virtual const AFGUID& GetID() const = 0;
 
     // get object parent unique id
-    virtual const AFGUID& GetParentID() const = 0;
+    virtual ARK_SHARE_PTR<AFIContainer> GetParentContainer() const = 0;
+    virtual bool SetParentContainer(ARK_SHARE_PTR<AFIContainer> pContainer) = 0;
 
     virtual void Update() = 0;
 
     virtual bool InitData(ARK_SHARE_PTR<AFIStaticEntity> pStaticObject) = 0;
 
     // get base data
-    virtual bool HaveMask(const std::string& name, ArkDataMaskType mask) = 0;
-    virtual bool HaveMask(const uint32_t index, ArkDataMaskType mask) = 0;
+    virtual bool IsPublic(const std::string& name) = 0;
+    virtual bool IsPublic(const uint32_t index) = 0;
+    virtual bool IsPrivate(const std::string& name) = 0;
+    virtual bool IsPrivate(const uint32_t index) = 0;
+    virtual bool IsSave(const std::string& name) = 0;
+    virtual bool IsSave(const uint32_t index) = 0;
+    virtual bool IsRealTime(const std::string& name) = 0;
+    virtual bool IsRealTime(const uint32_t index) = 0;
+    virtual bool HaveFeature(const std::string& name, AFNodeFeature feature) = 0;
+    virtual bool HaveFeature(const uint32_t index, AFNodeFeature feature) = 0;
+
+    virtual AFFeatureType GetFeature(const uint32_t index) const = 0;
 
     virtual const std::string& GetClassName() const = 0;
-    virtual const ID_TYPE_ARG GetConfigID() const = 0;
+    virtual ID_TYPE GetConfigID() const = 0;
     virtual int32_t GetMapID() const = 0;
     virtual int32_t GetMapEntityID() const = 0;
+    virtual bool SetMapID(const int32_t value) = 0;
+    virtual bool SetMapEntityID(const int32_t value) = 0;
 
     // set data
     virtual bool SetBool(const std::string& name, bool value) = 0;
     virtual bool SetInt32(const std::string& name, const int32_t value) = 0;
     virtual bool SetUInt32(const std::string& name, const uint32_t value) = 0;
     virtual bool SetInt64(const std::string& name, const int64_t value) = 0;
+    virtual bool SetUInt64(const std::string& name, const uint64_t value) = 0;
     virtual bool SetFloat(const std::string& name, const float value) = 0;
     virtual bool SetDouble(const std::string& name, const double value) = 0;
     virtual bool SetString(const std::string& name, const std::string& value) = 0;
     virtual bool SetWString(const std::string& name, const std::wstring& value) = 0;
-    virtual bool SetObject(const std::string& name, const AFGUID& value) = 0;
+    virtual bool SetGUID(const std::string& name, const AFGUID& value) = 0;
 
     virtual bool SetBool(const uint32_t index, bool value) = 0;
     virtual bool SetInt32(const uint32_t index, const int32_t value) = 0;
     virtual bool SetUInt32(const uint32_t index, const uint32_t value) = 0;
     virtual bool SetInt64(const uint32_t index, const int64_t value) = 0;
+    virtual bool SetUInt64(const uint32_t index, const uint64_t value) = 0;
     virtual bool SetFloat(const uint32_t index, const float value) = 0;
     virtual bool SetDouble(const uint32_t index, const double value) = 0;
     virtual bool SetString(const uint32_t index, const std::string& value) = 0;
     virtual bool SetWString(const uint32_t index, const std::wstring& value) = 0;
-    virtual bool SetObject(const uint32_t index, const AFGUID& value) = 0;
+    virtual bool SetGUID(const uint32_t index, const AFGUID& value) = 0;
 
     // get data
     virtual AFINode* GetNode(const std::string& name) = 0;
@@ -80,22 +96,24 @@ public:
     virtual int32_t GetInt32(const std::string& name) = 0;
     virtual uint32_t GetUInt32(const std::string& name) = 0;
     virtual int64_t GetInt64(const std::string& name) = 0;
+    virtual uint64_t GetUInt64(const std::string& name) = 0;
     virtual float GetFloat(const std::string& name) = 0;
     virtual double GetDouble(const std::string& name) = 0;
     virtual const std::string& GetString(const std::string& name) = 0;
     virtual const std::wstring& GetWString(const std::string& name) = 0;
-    virtual const AFGUID& GetObject(const std::string& name) = 0;
+    virtual const AFGUID& GetGUID(const std::string& name) = 0;
 
     virtual AFINode* GetNode(const uint32_t index) = 0;
     virtual bool GetBool(const uint32_t index) = 0;
     virtual int32_t GetInt32(const uint32_t index) = 0;
     virtual uint32_t GetUInt32(const uint32_t index) = 0;
     virtual int64_t GetInt64(const uint32_t index) = 0;
+    virtual uint64_t GetUInt64(const uint32_t index) = 0;
     virtual float GetFloat(const uint32_t index) = 0;
     virtual double GetDouble(const uint32_t index) = 0;
     virtual const std::string& GetString(const uint32_t index) = 0;
     virtual const std::wstring& GetWString(const uint32_t index) = 0;
-    virtual const AFGUID& GetObject(const uint32_t index) = 0;
+    virtual const AFGUID& GetGUID(const uint32_t index) = 0;
 
     // table data
     virtual AFITable* FindTable(const std::string& name) = 0;
@@ -115,7 +133,7 @@ public:
     virtual bool AddCustomDouble(const std::string& name, const double value) = 0;
     virtual bool AddCustomString(const std::string& name, const std::string& value) = 0;
     virtual bool AddCustomWString(const std::string& name, const std::wstring& value) = 0;
-    virtual bool AddCustomObject(const std::string& name, const AFGUID& value) = 0;
+    virtual bool AddCustomGUID(const std::string& name, const AFGUID& value) = 0;
 
     virtual bool SetCustomBool(const std::string& name, bool value) = 0;
     virtual bool SetCustomInt32(const std::string& name, const int32_t value) = 0;
@@ -125,7 +143,7 @@ public:
     virtual bool SetCustomDouble(const std::string& name, const double value) = 0;
     virtual bool SetCustomString(const std::string& name, const std::string& value) = 0;
     virtual bool SetCustomWString(const std::string& name, const std::wstring& value) = 0;
-    virtual bool SetCustomObject(const std::string& name, const AFGUID& value) = 0;
+    virtual bool SetCustomGUID(const std::string& name, const AFGUID& value) = 0;
 
     virtual bool GetCustomBool(const std::string& name) = 0;
     virtual int32_t GetCustomInt32(const std::string& name) = 0;
@@ -133,12 +151,20 @@ public:
     virtual int64_t GetCustomInt64(const std::string& name) = 0;
     virtual float GetCustomFloat(const std::string& name) = 0;
     virtual double GetCustomDouble(const std::string& name) = 0;
-    virtual const std::string& GetCustomString(const std::string& name) = 0;
+    virtual const char* GetCustomString(const std::string& name) = 0;
     virtual const std::wstring& GetCustomWString(const std::string& name) = 0;
-    virtual const AFGUID& GetCustomObject(const std::string& name) = 0;
+    virtual const AFGUID& GetCustomGUID(const std::string& name) = 0;
 
     virtual bool FindCustomData(const std::string& name) = 0;
     virtual bool RemoveCustomData(const std::string& name) = 0;
+
+    virtual AFINode* FirstNode() = 0;
+    virtual AFINode* NextNode() = 0;
+    virtual ARK_SHARE_PTR<AFIContainer> FirstContainer() = 0;
+
+    virtual AFITable* FirstTable() = 0;
+    virtual AFITable* NextTable() = 0;
+    virtual ARK_SHARE_PTR<AFIContainer> NextContainer() = 0;
 };
 
 } // namespace ark

@@ -20,73 +20,41 @@
 
 #pragma once
 
-#include "base/AFMacros.hpp"
-#include "base/AFEnum.hpp"
-#include "base/AFDefine.hpp"
-
 namespace ark {
 
-class AFNodeMeta final
+class AFContainerMeta final
 {
 public:
-    AFNodeMeta() = delete;
+    AFContainerMeta() = delete;
 
-    explicit AFNodeMeta(const std::string& name, const uint32_t index)
+    explicit AFContainerMeta(const std::string& name, const uint32_t index, const std::string& class_name)
         : name_(name)
         , index_(index)
+        , class_name_(class_name)
     {
         //
     }
 
-    virtual ~AFNodeMeta() = default;
+    virtual ~AFContainerMeta() = default;
 
-    const std::string& GetName()
+    const std::string& GetName() const
     {
         return name_;
     }
 
-    void SetType(ArkDataType value)
+    const std::string& GetClassName() const
     {
-        type_ = value;
-    }
-
-    ArkDataType GetType() const
-    {
-        return type_;
-    }
-
-    void SetFeature(AFFeatureType feature)
-    {
-        feature_ = feature;
-    }
-
-    bool HaveFeature(AFNodeFeature feature) const
-    {
-        return feature_.test((size_t)feature);
-    }
-
-    uint32_t GetIndex() const
-    {
-        return index_;
-    }
-
-    AFFeatureType GetFeature() const
-    {
-        return feature_;
+        return class_name_;
     }
 
 private:
-    // data name
+    // container name
     std::string name_{NULL_STR};
 
-    // data type
-    ArkDataType type_{ArkDataType::DT_EMPTY};
-
-    //node index
+    // container index
     uint32_t index_{0u};
 
-    // data mask
-    AFFeatureType feature_{0};
+    std::string class_name_{NULL_STR};
 };
 
 } // namespace ark

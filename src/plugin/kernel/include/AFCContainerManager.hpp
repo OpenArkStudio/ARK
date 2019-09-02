@@ -34,13 +34,19 @@ public:
     // find container
     ARK_SHARE_PTR<AFIContainer> FindContainer(const uint32_t index) override;
 
-    ARK_SHARE_PTR<AFIContainer> CreateContainer(const uint32_t index, ARK_SHARE_PTR<AFClassMeta> pClassMeta) override;
+    ARK_SHARE_PTR<AFIContainer> CreateContainer(
+        ARK_SHARE_PTR<AFClassMeta> pClassMeta, const uint32_t index, const AFGUID& parent_id) override;
 
     bool DestroyContainer(const uint32_t index) override;
 
+    ARK_SHARE_PTR<AFIContainer> First() override;
+    ARK_SHARE_PTR<AFIContainer> Next() override;
+
 private:
     // container
-    AFNewSmartPtrMap<uint32_t, AFIContainer> container_data_;
+    using ContainerList = AFNewSmartPtrMap<uint32_t, AFIContainer>;
+    ContainerList container_data_;
+    ContainerList::const_iterator iter_;
 };
 
 } // namespace ark

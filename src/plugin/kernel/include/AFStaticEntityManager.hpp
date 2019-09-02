@@ -36,7 +36,7 @@ public:
         static_object_list_.clear();
     }
 
-    ARK_SHARE_PTR<AFIStaticEntity> CreateObject(const ID_TYPE_ARG config_id, ARK_SHARE_PTR<AFClassMeta> pClassMeta)
+    ARK_SHARE_PTR<AFIStaticEntity> CreateObject(const ID_TYPE config_id, ARK_SHARE_PTR<AFClassMeta> pClassMeta)
     {
         ARK_ASSERT_RET_VAL(pClassMeta != nullptr, nullptr);
 
@@ -51,7 +51,7 @@ public:
         return pObject;
     }
 
-    ARK_SHARE_PTR<AFIStaticEntity> FindObject(const ID_TYPE_ARG config_id)
+    ARK_SHARE_PTR<AFIStaticEntity> FindObject(const ID_TYPE config_id)
     {
         return static_object_list_.find_value(config_id);
     }

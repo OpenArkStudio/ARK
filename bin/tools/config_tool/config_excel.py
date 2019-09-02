@@ -16,6 +16,13 @@ class my_excel(object):
         self.sheet = self.workbook.active  # 获取第一个sheet
         self.font = Font(color=None)
         self.colorDict = {"red": 'FFFF3030', "green": 'FF008B00'}
+        self.sheet_names = [] # 表单的名字列表
+
+    # 获取表单的名字列表
+    def get_sheet_names(self):
+        self.sheet_names = self.workbook.get_sheet_names()
+        return self.sheet_names
+
 
     # 设置当前要操作的sheet对象，使用index来获取相应的sheet
     def set_sheet_by_index(self, sheet_index):
@@ -33,8 +40,7 @@ class my_excel(object):
 
     # 设置当前要操作的sheet对象，使用sheet名称来获取相应的sheet
     def set_sheet_by_name(self, sheet_name):
-        sheet = self.workbook.get_sheet_by_name(sheet_name)
-        self.sheet = sheet
+        self.sheet = self.workbook.get_sheet_by_name(sheet_name)
         return self.sheet
 
     # 获取默认sheet中最大的行数

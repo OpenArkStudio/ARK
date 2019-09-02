@@ -37,21 +37,50 @@ public:
     virtual bool GetBool(const uint32_t index) = 0;
     virtual int32_t GetInt32(const uint32_t index) = 0;
     virtual int64_t GetInt64(const uint32_t index) = 0;
+    virtual uint32_t GetUInt32(const uint32_t index) = 0;
+    virtual uint64_t GetUInt64(const uint32_t index) = 0;
     virtual float GetFloat(const uint32_t index) = 0;
     virtual double GetDouble(const uint32_t index) = 0;
     virtual const std::string& GetString(const uint32_t index) = 0;
     virtual const std::wstring& GetWString(const uint32_t index) = 0;
-    virtual const AFGUID& GetObject(const uint32_t index) = 0;
+    virtual const AFGUID& GetGUID(const uint32_t index) = 0;
+
+    virtual bool GetBool(const std::string& name) = 0;
+    virtual int32_t GetInt32(const std::string& name) = 0;
+    virtual int64_t GetInt64(const std::string& name) = 0;
+    virtual uint32_t GetUInt32(const std::string& name) = 0;
+    virtual uint64_t GetUInt64(const std::string& name) = 0;
+    virtual float GetFloat(const std::string& name) = 0;
+    virtual double GetDouble(const std::string& name) = 0;
+    virtual const std::string& GetString(const std::string& name) = 0;
+    virtual const std::wstring& GetWString(const std::string& name) = 0;
+    virtual const AFGUID& GetGUID(const std::string& name) = 0;
 
     // set row data
     virtual bool SetBool(const uint32_t index, bool value) = 0;
     virtual bool SetInt32(const uint32_t index, int32_t value) = 0;
     virtual bool SetInt64(const uint32_t index, int64_t value) = 0;
+    virtual bool SetUInt32(const uint32_t index, uint32_t value) = 0;
+    virtual bool SetUInt64(const uint32_t index, uint64_t value) = 0;
     virtual bool SetFloat(const uint32_t index, float value) = 0;
     virtual bool SetDouble(const uint32_t index, double value) = 0;
     virtual bool SetString(const uint32_t index, const std::string& value) = 0;
     virtual bool SetWString(const uint32_t index, const std::wstring& value) = 0;
-    virtual bool SetObject(const uint32_t index, const AFGUID& value) = 0;
+    virtual bool SetGUID(const uint32_t index, const AFGUID& value) = 0;
+
+    virtual bool SetBool(const std::string& name, bool value) = 0;
+    virtual bool SetInt32(const std::string& name, int32_t value) = 0;
+    virtual bool SetInt64(const std::string& name, int64_t value) = 0;
+    virtual bool SetUInt32(const std::string& name, uint32_t value) = 0;
+    virtual bool SetUInt64(const std::string& name, uint64_t value) = 0;
+    virtual bool SetFloat(const std::string& name, float value) = 0;
+    virtual bool SetDouble(const std::string& name, double value) = 0;
+    virtual bool SetString(const std::string& name, const std::string& value) = 0;
+    virtual bool SetWString(const std::string& name, const std::wstring& value) = 0;
+    virtual bool SetGUID(const std::string& name, const AFGUID& value) = 0;
+
+    virtual AFINode* First() = 0;
+    virtual AFINode* Next() = 0;
 };
 
 class AFITable
@@ -61,9 +90,10 @@ public:
 
     // table meta interface
     virtual const std::string& GetName() const = 0;
-    virtual const uint32_t GetColCount() const = 0;
-    virtual const ArkDataType GetColType(const uint32_t index) const = 0;
-    virtual const AFFeatureType GetFeatureType() const = 0;
+    virtual uint32_t GetColCount() const = 0;
+    virtual ArkDataType GetColType(const uint32_t index) const = 0;
+    virtual const AFFeatureType GetFeature() const = 0;
+    virtual bool HaveFeature(const ArkTableNodeFeature feature) const = 0;
     virtual bool IsPublic() const = 0;
     virtual bool IsPrivate() const = 0;
     virtual bool IsRealTime() const = 0;
@@ -76,14 +106,18 @@ public:
     virtual uint32_t FindDouble(const uint32_t index, double value) = 0;
     virtual uint32_t FindString(const uint32_t index, const std::string& value) = 0;
     virtual uint32_t FindWString(const uint32_t index, const std::wstring& value) = 0;
-    virtual uint32_t FindObject(const uint32_t index, const AFGUID& value) = 0;
+    virtual uint32_t FindGUID(const uint32_t index, const AFGUID& value) = 0;
+
+    virtual AFIRow* First() = 0;
+    virtual AFIRow* Next() = 0;
+
+    virtual uint32_t GetIndex() = 0;
 
     // table get
     virtual uint32_t GetRowCount() const = 0;
 
     // table set
-    virtual AFIRow* AddRow(uint32_t row) = 0;
-    virtual AFIRow* AddRow(uint32_t row, const AFIDataList& data) = 0;
+    virtual AFIRow* AddRow(uint32_t row = 0u) = 0;
     virtual AFIRow* FindRow(uint32_t row) = 0;
     virtual bool RemoveRow(uint32_t row) = 0;
     virtual void Clear() = 0;

@@ -28,6 +28,7 @@ meta_path = "meta/"
 server_res_path = "server/"
 client_res_path = "client/"
 config_class_file = "meta/config_class.config"
+entity_class_file = "meta/entity_class.config"
 cpp_meta_file = "code/AFMetaDefine.hpp"
 cs_meta_file = "code/AFMetaDefine.cs"
 
@@ -35,11 +36,13 @@ cs_meta_file = "code/AFMetaDefine.cs"
 config_form_head_list = ['', 'field', 'type', 'target', 'refer', 'desc']
 config_form_head_row = 5
 
+#field_index
+field_index="field_index"
+
 # entity class form header
 entity_form_head_row = 3
 entity_unused_flag = 'unused'
 
 entity_field_name_col = 2
 entity_field_type_col = 3
-entity_parent_class_col = 6
-entity_field_sub_class_col = 8
+entity_field_sub_class_col = 4

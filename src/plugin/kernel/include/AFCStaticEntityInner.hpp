@@ -32,7 +32,7 @@ public:
 
     AFCStaticEntityInner() = delete;
 
-    explicit AFCStaticEntityInner(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const ID_TYPE_ARG config_id);
+    explicit AFCStaticEntityInner(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const ID_TYPE config_id);
 
     ~AFCStaticEntityInner() override;
 
@@ -40,7 +40,7 @@ public:
 
     // query data
     const std::string& GetClassName() const override;
-    const ID_TYPE_ARG GetConfigID() const override;
+    ID_TYPE GetConfigID() const override;
     bool GetBool(const std::string& name) override;
     int32_t GetInt32(const std::string& name) override;
     uint32_t GetUInt32(const std::string& name) override;
@@ -73,6 +73,12 @@ public:
     const DataList& GetDataList() override;
     ARK_SHARE_PTR<AFClassMeta> GetClassMeta() override;
 
+    AFINode* FirstNode() override;
+    AFINode* NextNode() override;
+
+    AFITable* FirstTable() override;
+    AFITable* NextTable() override;
+
 private:
     // class meta
     ARK_SHARE_PTR<AFClassMeta> class_meta_{nullptr};
@@ -82,9 +88,11 @@ private:
 
     // data list
     DataList data_list_;
+    DataList::const_iterator iter_data_;
 
     // table list
     TableList table_list_;
+    TableList::const_iterator iter_table_;
 };
 
 } // namespace ark

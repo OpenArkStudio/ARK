@@ -27,7 +27,7 @@ namespace ark {
 // constructor
 AFCTableInner::AFCTableInner(
     ARK_SHARE_PTR<AFTableMeta> pTableMeta, ARK_SHARE_PTR<AFClassCallBackManager> pCallBackManager, const AFGUID& guid)
-    : guid_(guid_)
+    : guid_(guid)
 {
     table_meta_ = pTableMeta;
     m_pCallBackManager = pCallBackManager;
@@ -45,25 +45,32 @@ const std::string& AFCTableInner::GetName() const
     return table_meta_->GetName();
 }
 
-const uint32_t AFCTableInner::GetColCount() const
+uint32_t AFCTableInner::GetColCount() const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, (uint32_t)NULL_INT);
 
     return table_meta_->GetColCount();
 }
 
-const ArkDataType AFCTableInner::GetColType(const uint32_t index) const
+ArkDataType AFCTableInner::GetColType(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, ArkDataType::DT_EMPTY);
 
     return table_meta_->GetColType(index);
 }
 
-const AFFeatureType AFCTableInner::GetFeatureType() const
+const AFFeatureType AFCTableInner::GetFeature() const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_INT);
 
-    return table_meta_->GetFeatureType();
+    return table_meta_->GetFeature();
+}
+
+bool AFCTableInner::HaveFeature(const ArkTableNodeFeature feature) const
+{
+    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, false);
+
+    return table_meta_->HaveFeature(feature);
 }
 
 bool AFCTableInner::IsPublic() const
@@ -101,7 +108,7 @@ uint32_t AFCTableInner::GetRowCount() const
 }
 
 // table set
-AFIRow* AFCTableInner::AddRow(uint32_t row)
+AFIRow* AFCTableInner::AddRow(uint32_t row /* = 0u*/)
 {
     ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr && table_meta_ != nullptr, nullptr);
 
@@ -114,7 +121,7 @@ AFIRow* AFCTableInner::AddRow(uint32_t row)
     else
     {
         pRowData = data_.find_value(row);
-        ARK_ASSERT_RET_VAL(pRowData == nullptr, pRowData); // return if found
+        ARK_ASSERT_RET_VAL(pRowData == nullptr, nullptr); // return if found
 
         if (current_row < row)
         {
@@ -132,14 +139,6 @@ AFIRow* AFCTableInner::AddRow(uint32_t row)
     OnRowDataChanged(row, ArkTableOpType::TABLE_ADD);
 
     return pRowData;
-}
-
-AFIRow* AFCTableInner::AddRow(uint32_t row, const AFIDataList& data)
-{
-    // todo
-    // todo: add event handler
-
-    return nullptr;
 }
 
 AFIRow* AFCTableInner::FindRow(uint32_t row)
@@ -177,12 +176,12 @@ bool AFCTableInner::OnRowDataChanged(
 {
     ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr || table_meta_ != nullptr, false);
 
-    DATA_RECORD_EVENT_DATA xData;
+    TABLE_EVENT_DATA xData;
     xData.table_name_ = table_meta_->GetName();
     xData.table_index_ = table_meta_->GetIndex();
     xData.data_index_ = index;
     xData.row_ = row;
-    xData.op_type_ = ArkTableOpType::TABLE_UPDATE;
+    xData.op_type_ = (size_t)ArkTableOpType::TABLE_UPDATE;
 
     m_pCallBackManager->OnTableCallBack(guid_, xData, old_data, new_data);
 
@@ -307,20 +306,52 @@ uint32_t AFCTableInner::FindWString(const uint32_t index, const std::wstring& va
     return 0u;
 }
 
-uint32_t AFCTableInner::FindObject(const uint32_t index, const AFGUID& value)
+uint32_t AFCTableInner::FindGUID(const uint32_t index, const AFGUID& value)
 {
     for (auto iter : data_)
     {
         auto pRowData = iter.second;
         ARK_ASSERT_RET_VAL(pRowData != nullptr, 0u);
 
-        if (pRowData->GetObject(index) == value)
+        if (pRowData->GetGUID(index) == value)
         {
             return iter.first;
         }
     }
 
     return 0u;
+}
+
+AFIRow* AFCTableInner::First()
+{
+    iter_ = data_.begin();
+    ARK_ASSERT_RET_VAL(iter_ != data_.end(), nullptr);
+
+    return iter_->second;
+}
+
+AFIRow* AFCTableInner::Next()
+{
+    ARK_ASSERT_RET_VAL(iter_ != data_.end(), nullptr);
+
+    iter_++;
+    ARK_ASSERT_RET_VAL(iter_ != data_.end(), nullptr);
+
+    return iter_->second;
+}
+
+uint32_t AFCTableInner::GetIndex()
+{
+    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_INT);
+
+    return table_meta_->GetIndex();
+}
+
+uint32_t AFCTableInner::GetIndex(const std::string& name)
+{
+    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_INT);
+
+    return table_meta_->GetIndex(name);
 }
 
 void AFCTableInner::ReleaseRow(AFIRow* row_data)
@@ -330,11 +361,11 @@ void AFCTableInner::ReleaseRow(AFIRow* row_data)
 
 void AFCTableInner::OnRowDataChanged(uint32_t row, ArkTableOpType op_type)
 {
-    DATA_RECORD_EVENT_DATA xData;
+    TABLE_EVENT_DATA xData;
     xData.table_name_ = table_meta_->GetName();
     xData.table_index_ = table_meta_->GetIndex();
     xData.row_ = row;
-    xData.op_type_ = op_type;
+    xData.op_type_ = (size_t)op_type;
 
     m_pCallBackManager->OnTableCallBack(
         guid_, xData, AFCData(ArkDataType::DT_BOOLEAN, false), AFCData(ArkDataType::DT_BOOLEAN, false));

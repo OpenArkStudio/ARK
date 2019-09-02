@@ -32,8 +32,10 @@ public:
 
     virtual ARK_SHARE_PTR<AFIContainer> FindContainer(const uint32_t index) = 0;
     virtual ARK_SHARE_PTR<AFIContainer> CreateContainer(
-        const uint32_t index, ARK_SHARE_PTR<AFClassMeta> pClassMeta) = 0;
+        ARK_SHARE_PTR<AFClassMeta> pClassMeta, const uint32_t index, const AFGUID& parent_id) = 0;
     virtual bool DestroyContainer(const uint32_t index) = 0;
+    virtual ARK_SHARE_PTR<AFIContainer> First() = 0;
+    virtual ARK_SHARE_PTR<AFIContainer> Next() = 0;
 };
 
 } // namespace ark

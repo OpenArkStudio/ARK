@@ -34,7 +34,7 @@ public:
     AFClassMetaManager() = default;
     virtual ~AFClassMetaManager()
     {
-        type_class_meta_list_.clear();
+        // type_class_meta_list_.clear();
         class_meta_list_.clear();
     }
 
@@ -67,31 +67,62 @@ public:
     }
 
     // add type class meta
-    void AddTypeClassMeta(const std::string& name)
-    {
-        ARK_ASSERT_RET_NONE(!type_class_meta_list_.exist(name));
+    // void AddTypeClassMeta(const std::string& name)
+    // {
+    //     ARK_ASSERT_RET_NONE(!type_class_meta_list_.exist(name));
 
-        type_class_meta_list_.push_back(name);
-    }
+    //     type_class_meta_list_.push_back(name);
+    // }
 
     // exact object meta and table meta of class meta
+    // bool AfterLoaded()
+    // {
+    //     for (auto iter : class_meta_list_)
+    //     {
+    //         auto& name = iter.first;
+    //         auto meta = iter.second;
+    //         ARK_ASSERT_RET_VAL(meta != nullptr, false);
+
+    //         // continue if meta included by others
+    //         if (type_class_meta_list_.exist(name))
+    //         {
+    //             continue;
+    //         }
+
+    //         if (!AfterLoaded(meta))
+    //         {
+    //             return false;
+    //         }
+    //     }
+
+    //     return true;
+    // }
+
     bool AfterLoaded()
     {
-        for (auto iter : class_meta_list_)
+        for (auto iter_class_meta : class_meta_list_)
         {
-            auto& name = iter.first;
-            auto meta = iter.second;
+            auto meta = iter_class_meta.second;
             ARK_ASSERT_RET_VAL(meta != nullptr, false);
 
-            // continue if meta included by others
-            if (type_class_meta_list_.exist(name))
+            // init table col meta
+            auto& table_meta_list = meta->GetTableMetaList();
+            for (auto iter : table_meta_list)
             {
-                continue;
-            }
+                auto pTableMeta = iter.second;
+                ARK_ASSERT_RET_VAL(pTableMeta != nullptr, false);
 
-            if (!AfterLoaded(meta))
-            {
-                return false;
+                auto& type_name = pTableMeta->GetTypeName();
+                auto pClassMeta = FindMeta(type_name);
+                ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
+
+                auto data_meta_list = pClassMeta->GetDataMetaList();
+                for (auto iter_data : data_meta_list)
+                {
+                    auto& name = iter_data.first;
+                    auto pDataMeta = iter_data.second;
+                    pTableMeta->AddColMeta(name, pDataMeta);
+                }
             }
         }
 
@@ -200,7 +231,7 @@ private:
     ClassMetaList class_meta_list_;
 
     // type class meta
-    AFList<std::string> type_class_meta_list_;
+    // AFList<std::string> type_class_meta_list_;
 };
 
 } // namespace ark

@@ -43,11 +43,12 @@ public:
 
     const std::string& GetName() const override;
 
-    const uint32_t GetColCount() const override;
+    uint32_t GetColCount() const override;
 
-    const ArkDataType GetColType(const uint32_t index) const override;
+    ArkDataType GetColType(const uint32_t index) const override;
 
-    const AFFeatureType GetFeatureType() const override;
+    const AFFeatureType GetFeature() const override;
+    bool HaveFeature(const ArkTableNodeFeature feature) const override;
     bool IsPublic() const override;
     bool IsPrivate() const override;
     bool IsRealTime() const override;
@@ -57,8 +58,7 @@ public:
     uint32_t GetRowCount() const override;
 
     // table set
-    AFIRow* AddRow(uint32_t row) override;
-    AFIRow* AddRow(uint32_t row, const AFIDataList& data) override;
+    AFIRow* AddRow(uint32_t row = 0u) override;
     AFIRow* FindRow(uint32_t row) override;
 
     bool RemoveRow(uint32_t row) override;
@@ -79,7 +79,13 @@ public:
     uint32_t FindDouble(const uint32_t index, double value) override;
     uint32_t FindString(const uint32_t index, const std::string& value) override;
     uint32_t FindWString(const uint32_t index, const std::wstring& value) override;
-    uint32_t FindObject(const uint32_t index, const AFGUID& value) override;
+    uint32_t FindGUID(const uint32_t index, const AFGUID& value) override;
+
+    AFIRow* First() override;
+    AFIRow* Next() override;
+
+    uint32_t GetIndex() override;
+    uint32_t GetIndex(const std::string& name) override;
 
 private:
     void ReleaseRow(AFIRow* row_data);
@@ -98,6 +104,9 @@ private:
 
     // table data
     TableData data_;
+
+    //table iterator
+    TableData::const_iterator iter_;
 
     // call back
     ARK_SHARE_PTR<AFClassCallBackManager> m_pCallBackManager{nullptr};

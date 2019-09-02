@@ -255,18 +255,6 @@ public:
         return true;
     }
 
-    bool remove_shared(const k_type& key)
-    {
-        auto iter = nodes_.find(key);
-        if (iter == nodes_.end())
-        {
-            return false;
-        }
-
-        erase(iter);
-        return true;
-    }
-
     void clear()
     {
         nodes_.clear();

@@ -21,6 +21,7 @@
 #pragma once
 
 #include "kernel/interface/AFIConfigModule.hpp"
+#include "base/AFPluginManager.hpp"
 #include "log/interface/AFILogModule.hpp"
 #include "kernel/interface/AFIClassMetaModule.hpp"
 
@@ -40,7 +41,8 @@ public:
     // find config static object manager
     ARK_SHARE_PTR<AFStaticEntityManager> FindStaticEntityMgr(const std::string& class_name) override;
 
-    ARK_SHARE_PTR<AFIStaticEntity> FindStaticEntity(const std::string& class_name, const size_t config_id) override;
+    ARK_SHARE_PTR<AFIStaticEntity> FindStaticEntity(const std::string& class_name, const ID_TYPE config_id) override;
+    ARK_SHARE_PTR<AFIStaticEntity> FindStaticEntity(const ID_TYPE config_id) override;
 
 protected:
     bool LoadConfig(ARK_SHARE_PTR<AFClassMeta> pClassMeta);

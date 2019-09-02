@@ -35,8 +35,9 @@ public:
     virtual bool IsNull() const = 0;
     virtual void CopyFrom(AFINode* other) = 0;
     virtual void SaveTo(AFINode* other) = 0;
-    virtual bool HaveMask(ArkDataMaskType mask) = 0;
-    virtual const ID_TYPE GetID() const = 0;
+    virtual bool HaveFeature(AFNodeFeature feature) = 0;
+    virtual AFFeatureType GetFeature() const = 0;
+    virtual ID_TYPE GetID() const = 0;
 
     // Get data
     virtual bool GetBool() const

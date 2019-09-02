@@ -355,7 +355,7 @@ message EntityEnterInfo  //对象出现基本信息
   Point3D pos = 2;
   int32 career_type = 3;
   int32 player_state = 4;
-  string config_id = 5;
+  uint32 config_id = 5;
   int32 scene_id = 6;
   string class_id = 7;
 }

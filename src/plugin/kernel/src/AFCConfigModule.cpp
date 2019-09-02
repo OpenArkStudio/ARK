@@ -37,8 +37,6 @@ bool AFCConfigModule::Init()
     m_pClassModule = FindModule<AFIClassMetaModule>();
 
     return Load();
-
-    return true;
 }
 
 bool AFCConfigModule::Shut()
@@ -164,13 +162,33 @@ ARK_SHARE_PTR<AFStaticEntityManager> AFCConfigModule::FindStaticEntityMgr(const 
     return static_entity_mgr_list_.find_value(class_name);
 }
 
-ARK_SHARE_PTR<AFIStaticEntity> AFCConfigModule::FindStaticEntity(const std::string& class_name, const size_t config_id)
+ARK_SHARE_PTR<AFIStaticEntity> AFCConfigModule::FindStaticEntity(const std::string& class_name, const ID_TYPE config_id)
 {
     auto pObjectManger = static_entity_mgr_list_.find_value(class_name);
     ARK_ASSERT_RET_VAL(pObjectManger != nullptr, nullptr);
 
     auto pStaticObject = pObjectManger->FindObject(config_id);
     return pStaticObject;
+}
+
+ARK_SHARE_PTR<AFIStaticEntity> AFCConfigModule::FindStaticEntity(const ID_TYPE config_id)
+{
+    for (auto& iter : static_entity_mgr_list_)
+    {
+        auto pMgr = iter.second;
+        if (nullptr == pMgr)
+        {
+            continue;
+        }
+
+        auto pStaticEntity = pMgr->FindObject(config_id);
+        if (pStaticEntity)
+        {
+            return pStaticEntity;
+        }
+    }
+
+    return nullptr;
 }
 
 } // namespace ark

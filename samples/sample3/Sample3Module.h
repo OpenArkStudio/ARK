@@ -59,20 +59,20 @@ protected:
 
     //------------inner interface----------------
     ARK_SHARE_PTR<AFIEntity> CreateAnPlayerAndInit();
-    void QueryDataStringTest(const AFGUID& guid, size_t count);
-    void QueryDataIntTest(const AFGUID& guid, size_t count);
-    void SetDataTest(const AFGUID& guid, size_t count);
-    void CustomDataTest(const AFGUID& guid, size_t count);
+    void QueryStringTest(const AFGUID& guid, size_t count, const uint32_t index);
+    void QueryIntTest(const AFGUID& guid, size_t count, const uint32_t index);
+    void SetDataTest(const AFGUID& guid, size_t count, const uint32_t index);
+    void CustomDataTest(const AFGUID& guid, size_t count, const uint32_t index);
 
     //------------callback----------------------
     int OnClassCallBackEvent(
         const AFGUID& self, const std::string& strClassName, const ArkEntityEvent event, const AFIDataList& arg);
 
-    int OnDataCallBackEvent(
-        const AFGUID& self, const std::string& data_name, const AFIData& old_value, const AFIData& new_value);
+    int OnDataCallBackEvent(const AFGUID& self, const std::string& data_name, const uint32_t index,
+        const AFIData& old_value, const AFIData& new_value);
 
     int OnTableCallBackEvent(
-        const AFGUID& self, const DATA_RECORD_EVENT_DATA& data, const AFIData& old_value, const AFIData& new_value);
+        const AFGUID& self, const TABLE_EVENT_DATA& data, const AFIData& old_value, const AFIData& new_value);
 
 protected:
     AFIKernelModule* m_pKernelModule;

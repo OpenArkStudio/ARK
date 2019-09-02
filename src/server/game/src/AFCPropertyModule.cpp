@@ -27,12 +27,12 @@ bool AFCPropertyModule::Init()
 {
     m_pKernelModule = FindModule<AFIKernelModule>();
     m_pConfigModule = FindModule<AFIConfigModule>();
-    m_pClassModule = FindModule<AFIMetaClassModule>();
+    m_pClassModule = FindModule<AFIClassMetaModule>();
     m_pPropertyConfigModule = FindModule<AFIPropertyConfigModule>();
     m_pLevelModule = FindModule<AFILevelModule>();
 
     m_pKernelModule->AddClassCallBack(AFEntityMetaPlayer::self_name(), this, &AFCPropertyModule::OnObjectClassEvent);
-    m_pClassModule->AddNodeCallBack(
+    m_pKernelModule->AddDataCallBack(
         AFEntityMetaPlayer::self_name(), AFEntityMetaPlayer::level(), this, &AFCPropertyModule::OnObjectLevelEvent);
     // m_pClassModule->AddTableCallBack(AFEntityMetaPlayer::self_name(), ark::Player::R_CommPropertyValue(), this,
     // &AFCPropertyModule::OnPropertyTableEvent);
@@ -49,7 +49,13 @@ int AFCPropertyModule::GetPropertyValue(
         // PropertyNameToCol(strPropertyName));
     }
 
-    return m_pKernelModule->GetNodeInt(self, attr_name);
+	auto pEntity = m_pKernelModule->GetEntity(self);
+	if (pEntity == nullptr)
+	{
+        return 0;
+	}
+
+    return pEntity->GetInt32(attr_name);
 }
 
 int AFCPropertyModule::SetPropertyValue(
@@ -121,8 +127,8 @@ int AFCPropertyModule::SubPropertyValue(
     return 0;
 }
 
-int AFCPropertyModule::OnObjectLevelEvent(
-    const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
+int AFCPropertyModule::OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const uint32_t index,
+    const AFIData& oldVar, const AFIData& newVar)
 {
     RefreshBaseProperty(self);
 

@@ -43,13 +43,12 @@ const static AFVector3D NULL_VECTOR3D = AFVector3D(0.0f, 0.0f, 0.0f);
 
 static const std::string config_class_file = "meta/config_class.config";
 
-static const std::string entity_class_file = "meta/entity_class.meta";
+static const std::string entity_class_file = "meta/entity_class.config";
 
 //data define(only support based integer type)
 using ID_TYPE = uint32_t;
-using ID_TYPE_ARG = ID_TYPE;
 
-using AFFeatureType = std::bitset<8>;
+using AFFeatureType = std::bitset<16>;
 
 class DATA_TABLE_EVENT_DATA
 {
@@ -63,10 +62,10 @@ public:
 };
 
 //----record new call back------
-class DATA_RECORD_EVENT_DATA
+class TABLE_EVENT_DATA
 {
 public:
-    DATA_RECORD_EVENT_DATA() = default;
+    TABLE_EVENT_DATA() = default;
 
     uint8_t op_type_{0u};
     size_t row_{0u};
@@ -75,8 +74,7 @@ public:
     std::string table_name_{NULL_STR};
 };
 
-using RECORD_EVENT_FUNCTOR =
-    std::function<int(const AFGUID&, const DATA_RECORD_EVENT_DATA&, const AFIData&, const AFIData&)>;
+using TABLE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
 
 using DATA_EVENT_FUNCTOR =
     std::function<int(const AFGUID&, const std::string&, const uint32_t, const AFIData&, const AFIData&)>;

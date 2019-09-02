@@ -32,7 +32,7 @@ public:
 
     // query data
     virtual const std::string& GetClassName() const = 0;
-    virtual const ID_TYPE_ARG GetConfigID() const = 0;
+    virtual ID_TYPE GetConfigID() const = 0;
     virtual bool GetBool(const std::string& name) = 0;
     virtual int32_t GetInt32(const std::string& name) = 0;
     virtual uint32_t GetUInt32(const std::string& name) = 0;

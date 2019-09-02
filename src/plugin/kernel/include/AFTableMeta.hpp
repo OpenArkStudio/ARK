@@ -60,8 +60,13 @@ public:
 
     bool AddColMeta(const uint32_t index, ARK_SHARE_PTR<AFNodeMeta> pMeta)
     {
-        ARK_ASSERT_RET_VAL(pMeta != nullptr, false);
+        ARK_ASSERT_RET_VAL(index > 0 && pMeta != nullptr, false);
 
+        ARK_ASSERT_RET_VAL(col_meta_list_.find_value(index) == nullptr, false);
+
+        ARK_ASSERT_RET_VAL(name_index_list_.find(pMeta->GetName()) == name_index_list_.end(), false);
+
+        name_index_list_.insert(std::make_pair(pMeta->GetName(), index));
         return col_meta_list_.insert(index, pMeta).second;
     }
 
@@ -70,7 +75,7 @@ public:
         return col_meta_list_.find_value(index);
     }
 
-    const ArkDataType GetColType(const uint32_t index)
+    ArkDataType GetColType(const uint32_t index)
     {
         auto pMeta = col_meta_list_.find_value(index);
         ARK_ASSERT_RET_VAL(pMeta != nullptr, ArkDataType::DT_EMPTY);
@@ -78,34 +83,39 @@ public:
         return pMeta->GetType();
     }
 
-    const AFFeatureType GetFeatureType() const
+    const AFFeatureType GetFeature() const
     {
         return feature_;
     }
 
-    void SetFeatureType(const AFFeatureType& feature)
+    bool HaveFeature(const ArkTableNodeFeature feature) const
+    {
+        return feature_.test((size_t)feature);
+    }
+
+    void SetFeature(const AFFeatureType& feature)
     {
         feature_ = feature;
     }
 
     bool IsPublic() const
     {
-        return feature_.test(ArkTableNodeFeature::PF_PUBLIC);
+        return feature_.test((size_t)ArkTableNodeFeature::PF_PUBLIC);
     }
 
     bool IsPrivate() const
     {
-        return feature_.test(ArkTableNodeFeature::PF_PRIVATE);
+        return feature_.test((size_t)ArkTableNodeFeature::PF_PRIVATE);
     }
 
     bool IsRealTime() const
     {
-        return feature_.test(ArkTableNodeFeature::PF_REAL_TIME);
+        return feature_.test((size_t)ArkTableNodeFeature::PF_REAL_TIME);
     }
 
     bool IsSave() const
     {
-        return feature_.test(ArkTableNodeFeature::PF_SAVE);
+        return feature_.test((size_t)ArkTableNodeFeature::PF_SAVE);
     }
 
     void SetTypeName(const std::string& value)
@@ -123,6 +133,17 @@ public:
         return index_;
     }
 
+    uint32_t GetIndex(const std::string& name)
+    {
+        auto iter = name_index_list_.find(name);
+        if (iter == name_index_list_.end())
+        {
+            return NULL_INT;
+        }
+
+        return iter->second;
+    }
+
 private:
     // table name
     std::string name_{NULL_STR};
@@ -132,6 +153,10 @@ private:
 
     // data type name
     std::string type_name_{NULL_STR};
+
+    // name index list
+    using NameIndexList = std::unordered_map<std::string, uint32_t>;
+    NameIndexList name_index_list_;
 
     // table col type
     ColMetaList col_meta_list_;

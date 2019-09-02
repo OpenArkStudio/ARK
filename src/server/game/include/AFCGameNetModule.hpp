@@ -25,8 +25,7 @@
 #include "log/interface/AFILogModule.hpp"
 #include "utility/interface/AFIGUIDModule.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
-#include "kernel/interface/AFIMetaClassModule.hpp"
-#include "kernel/interface/AFIConfigModule.hpp"
+#include "kernel/interface/AFIClassMetaModule.hpp"
 #include "kernel/interface/AFIMapModule.hpp"
 #include "bus/interface/AFIBusModule.hpp"
 #include "bus/interface/AFIMsgModule.hpp"
@@ -83,10 +82,10 @@ public:
     void OnTransWorld(const AFNetMsg* msg);
 
     // Common Node & table & class event
-    int OnCommonDataNodeEvent(
-        const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
+    int OnCommonDataNodeEvent(const AFGUID& self, const std::string& strPropertyName, const uint32_t index,
+        const AFIData& oldVar, const AFIData& newVar);
     int OnCommonDataTableEvent(
-        const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
+        const AFGUID& self, const TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
     int OnCommonClassEvent(
         const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var);
 
@@ -111,13 +110,13 @@ protected:
     int StartClient();
 
     void CommonDataTableAddEvent(
-        const AFGUID& self, const std::string& strTableName, int nRow, int nCol, const AFCDataList& valueBroadCaseList);
+        const AFGUID& self, const uint32_t index, uint32_t nRow, const AFIDataList& valueBroadCaseList);
     void CommonDataTableDeleteEvent(
-        const AFGUID& self, const std::string& strTableName, int nRow, const AFCDataList& valueBroadCaseList);
-    void CommonDataTableSwapEvent(const AFGUID& self, const std::string& strTableName, int nRow, int target_row,
-        const AFCDataList& valueBroadCaseList);
-    void CommonDataTableUpdateEvent(const AFGUID& self, const std::string& strTableName, int nRow, int nCol,
-        const AFIData& newVar, const AFCDataList& valueBroadCaseList);
+        const AFGUID& self, const uint32_t index, uint32_t nRow, const AFIDataList& valueBroadCaseList);
+    void CommonDataTableSwapEvent(const AFGUID& self, const uint32_t index, uint32_t nRow, uint32_t target_row,
+        const AFIDataList& valueBroadCaseList);
+    void CommonDataTableUpdateEvent(const AFGUID& self, const uint32_t index, uint32_t nRow, uint32_t nCol,
+        const AFIData& newVar, const AFIDataList& valueBroadCaseList);
 
     int CommonClassDestoryEvent(const AFGUID& self);
 
@@ -129,9 +128,8 @@ private:
     //////////////////////////////////////////////////////////////////////////
     AFIGUIDModule* m_pUUIDModule;
     AFIKernelModule* m_pKernelModule;
-    AFIMetaClassModule* m_pClassModule;
+    AFIClassMetaModule* m_pClassModule;
     AFILogModule* m_pLogModule;
-    AFIConfigModule* m_pConfigModule;
     AFIBusModule* m_pBusModule;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
     AFIMapModule* m_pMapModule;

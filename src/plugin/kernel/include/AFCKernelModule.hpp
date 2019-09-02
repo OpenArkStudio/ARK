@@ -45,23 +45,13 @@ public:
     bool Update() override;
     bool PreShut() override;
 
-    bool AddEventCallBack(const AFGUID& self, const int event_id, EVENT_PROCESS_FUNCTOR&& cb) override;
-
-    bool AddDataCallBack(const std::string& class_name, const std::string& name, DATA_EVENT_FUNCTOR&& cb) override;
-
-    bool AddTableCallBack(const std::string& class_name, const std::string& name, RECORD_EVENT_FUNCTOR&& cb) override;
-
-    bool AddDataCallBack(const std::string& class_name, const uint32_t index, DATA_EVENT_FUNCTOR&& cb) override;
-
-    bool AddTableCallBack(const std::string& class_name, const uint32_t index, RECORD_EVENT_FUNCTOR&& cb) override;
-
     ///////////////////////////////////////////////////////////////////////
     ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& self) override;
     ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int nSceneID, const int nGroupID,
-        const std::string& strClassName, const ID_TYPE_ARG config_id, const AFIDataList& arg) override;
+        const std::string& strClassName, const ID_TYPE config_id, const AFIDataList& arg) override;
 
-    ARK_SHARE_PTR<AFIEntity> CreateContainerEntity(const AFGUID& self, const std::string& container_name,
-        const std::string& class_name, const ID_TYPE_ARG config_id) override;
+    ARK_SHARE_PTR<AFIEntity> CreateContainerEntity(const AFGUID& self, const uint32_t container_index,
+        const std::string& class_name, const ID_TYPE config_id) override;
 
     bool DestroyAll() override;
     bool DestroyEntity(const AFGUID& self) override;
@@ -75,10 +65,40 @@ public:
         const AFIDataList& args) override;
     bool DoEvent(const AFGUID& self, const int event_id, const AFIDataList& args) override;
 
+    bool Exist(const AFGUID& self) override;
+
+    bool EntityToDBData(const AFGUID& self, AFMsg::pb_db_entity& pb_data) override;
+    ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFMsg::pb_db_entity& pb_data) override;
+
+    // send message
+    bool SendCustomMessage(const AFGUID& target, const uint32_t msg_id, const AFIDataList& args) override;
+
 protected:
     bool DestroySelf(const AFGUID& self);
 
     bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb) override;
+    bool AddEventCallBack(const AFGUID& self, const int event_id, EVENT_PROCESS_FUNCTOR&& cb) override;
+    bool AddDataCallBack(const std::string& class_name, const std::string& name, DATA_EVENT_FUNCTOR&& cb) override;
+    bool AddTableCallBack(const std::string& class_name, const std::string& name, TABLE_EVENT_FUNCTOR&& cb) override;
+
+    bool AddDataCallBack(const std::string& class_name, const uint32_t index, DATA_EVENT_FUNCTOR&& cb) override;
+    bool AddTableCallBack(const std::string& class_name, const uint32_t index, TABLE_EVENT_FUNCTOR&& cb) override;
+
+    bool AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb) override;
+    bool AddCommonNodeEvent(DATA_EVENT_FUNCTOR&& cb) override;
+    bool AddCommonTableEvent(TABLE_EVENT_FUNCTOR&& cb) override;
+
+    // convert db data and entity
+    bool EntityToDBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_db_entity& pb_data);
+    bool NodeToDBData(AFINode* pNode, AFMsg::pb_db_entity_data& pb_data);
+    bool TableToDBData(AFITable* pTable, AFMsg::pb_db_table& pb_data);
+
+    template<typename T>
+    bool DBDataToNode(T pData, const AFMsg::pb_db_entity_data& pb_db_entity_data);
+    bool DBDataToTable(
+        ARK_SHARE_PTR<AFIEntity> pEntityData, const std::string& name, const AFMsg::pb_db_table& pb_table);
+    bool DBDataToContainer(
+        ARK_SHARE_PTR<AFIEntity> pEntity, const std::string& name, const AFMsg::pb_db_container& pb_data);
 
 private:
     std::list<AFGUID> delete_list_;

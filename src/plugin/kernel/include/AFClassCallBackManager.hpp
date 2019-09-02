@@ -65,7 +65,7 @@ public:
         return true;
     }
 
-    bool AddTableCallBack(const uint32_t index, RECORD_EVENT_FUNCTOR&& cb)
+    bool AddTableCallBack(const uint32_t index, TABLE_EVENT_FUNCTOR&& cb)
     {
         auto iter = table_call_backs_list_.find(index);
         if (iter == table_call_backs_list_.end())
@@ -73,7 +73,7 @@ public:
             TableCallBacks* pTableCBs = ARK_NEW TableCallBacks;
             ARK_ASSERT_RET_VAL(pTableCBs != nullptr, false);
 
-            pTableCBs->push_back(std::forward<RECORD_EVENT_FUNCTOR>(cb));
+            pTableCBs->push_back(std::forward<TABLE_EVENT_FUNCTOR>(cb));
             table_call_backs_list_.insert(index, pTableCBs);
         }
         else
@@ -113,7 +113,7 @@ public:
     }
 
     bool OnTableCallBack(
-        const AFGUID& id, const DATA_RECORD_EVENT_DATA& event_data, const AFIData& old_data, const AFIData& new_data)
+        const AFGUID& id, const TABLE_EVENT_DATA& event_data, const AFIData& old_data, const AFIData& new_data)
     {
         auto table_call_backs = table_call_backs_list_.find_value(event_data.table_index_);
         if (table_call_backs == nullptr)
@@ -138,7 +138,7 @@ private:
     AFNewHashmap<uint32_t, DataCallBacks> data_call_backs_list_;
 
     // table call backs list
-    using TableCallBacks = std::vector<RECORD_EVENT_FUNCTOR>;
+    using TableCallBacks = std::vector<TABLE_EVENT_FUNCTOR>;
     AFNewHashmap<uint32_t, TableCallBacks> table_call_backs_list_;
 };
 

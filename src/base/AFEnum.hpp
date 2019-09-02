@@ -23,21 +23,6 @@
 #include "base/AFPlatform.hpp"
 
 namespace ark {
-// TODO: delete
-enum AF_DATA_TYPE
-{
-    DT_UNKNOWN,  // unknown type
-    DT_BOOLEAN,  // bool
-    DT_INT,      // int32_t
-    DT_INT64,    // int64_t
-    DT_FLOAT,    // float
-    DT_DOUBLE,   // double
-    DT_STRING,   // string(char*)
-    DT_POINTER,  // pointer(void*)
-    DT_USERDATA, // user data(char*)
-    DT_TABLE,    // table
-    DT_MAX,      // max
-};
 
 enum class ArkDataType : uint32_t
 {
@@ -54,19 +39,9 @@ enum class ArkDataType : uint32_t
     DT_VECTOR3D, // vector3d
     DT_ARRAY,    // array
     DT_TABLE,    // DataTable
-    DT_OBJECT,   // object(complex data container)
-};
-
-enum class ArkDataMaskType : uint32_t
-{
-    DMT_UNKNOWN,    // unknown
-    DMT_SAVE_DB,    // save to database
-    DMT_SYNC_SELF,  // sync to self
-    DMT_SYNC_VIEW,  // sync to view range
-    DMT_SYNC_TEAM,  // sync to team member
-    DMT_SYNC_GUILD, // sync to guild member
-    DMT_SYNC_MAP,   // sync to all player in same map
-    DMT_LOG,        // log when changed
+    DT_GUID,     // guid
+    DT_POINTER,  // pointer(void*)
+    DT_USERDATA, // user data(char*)
 };
 
 enum class ArkBusRelationType : uint32_t
@@ -103,7 +78,7 @@ enum class ArkDataOpType : uint16_t
     DOT_OR,  // |
 };
 
-enum ArkTableOpType : uint16_t // table operate type
+enum class ArkTableOpType : uint16_t // table operate type
 {
     TABLE_ADD = 0,  // add whole row data
     TABLE_DELETE,   // delete whole row data
@@ -112,12 +87,26 @@ enum ArkTableOpType : uint16_t // table operate type
     TABLE_SWAP,     // swap two whole row data
 };
 
-enum ArkTableNodeFeature : uint16_t
+enum class ArkTableNodeFeature : uint16_t
 {
     PF_PUBLIC = 0,    // send to others
     PF_PRIVATE = 1,   // send to self
     PF_REAL_TIME = 2, // send real-time when changed
     PF_SAVE = 3,      // if need save to database
+};
+
+enum class AFNodeFeature : uint16_t
+{
+    PF_PUBLIC = 0,     // send to others
+    PF_PRIVATE = 1,    // send to self
+    PF_REAL_TIME = 2,  // send real-time when changed
+    PF_SAVE = 3,       // save to database
+    PF_SYNC_SELF = 4,  // sync to self
+    PF_SYNC_VIEW = 5,  // sync to view range
+    PF_SYNC_TEAM = 6,  // sync to team member
+    PF_SYNC_GUILD = 7, // sync to guild member
+    PF_SYNC_MAP = 8,   // sync to all player in same map
+    PF_LOG = 9,        // log when changed
 };
 
 } // namespace ark

@@ -34,9 +34,15 @@ bool AFCLevelModule::Init()
 
 int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
 {
-    int eJobType = m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::career());
-    int nCurExp = m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::exp());
-    int nLevel = m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::level());
+    auto pEntity = m_pKernelModule->GetEntity(self);
+	if (pEntity == nullptr)
+	{
+        return 0;
+	}
+
+    int eJobType = pEntity->GetInt32(AFEntityMetaPlayer::career());
+    int nCurExp = pEntity->GetInt32(AFEntityMetaPlayer::exp());
+    int nLevel = pEntity->GetInt32(AFEntityMetaPlayer::level());
     int nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, AFEntityMetaPlayer::exp()); // xx
 
     nCurExp += nExp;
@@ -48,7 +54,7 @@ int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
         //升级
         nLevel++;
         //防止越级BUG
-        m_pKernelModule->SetNodeInt(self, AFEntityMetaPlayer::level(), nLevel);
+        pEntity->SetInt32(AFEntityMetaPlayer::level(), nLevel);
 
         nCurExp = nRemainExp;
 
@@ -62,7 +68,7 @@ int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
         nRemainExp -= nMaxExp;
     }
 
-    m_pKernelModule->SetNodeInt(self, AFEntityMetaPlayer::exp(), nCurExp);
+    pEntity->SetInt32(AFEntityMetaPlayer::exp(), nCurExp);
 
     return 0;
 }

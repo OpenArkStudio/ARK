@@ -49,9 +49,23 @@ namespace ark {
         return data_meta_->GetIndex();                                                                                 \
     }                                                                                                                  \
                                                                                                                        \
+    AFFeatureType GetFeature() const override                                                                          \
+    {                                                                                                                  \
+        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, 0);                                                                  \
+                                                                                                                       \
+        return data_meta_->GetFeature();                                                                               \
+    }                                                                                                                  \
+                                                                                                                       \
+    bool HaveFeature(AFNodeFeature feature) override                                                                   \
+    {                                                                                                                  \
+        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, false);                                                              \
+                                                                                                                       \
+        return data_meta_->HaveFeature(feature);                                                                       \
+    }                                                                                                                  \
+                                                                                                                       \
 private:                                                                                                               \
-    ARK_SHARE_PTR<AFNodeMeta> data_meta_{nullptr};
-
+    ARK_SHARE_PTR<AFNodeMeta> data_meta_{nullptr};                                                                     \
+                                                                                                                       \
 // data int32_t
 class AFNodeInt32 final : public AFINode
 {
@@ -115,14 +129,7 @@ public:
         data_ = AFMisc::FromString<int32_t>(value);
     }
 
-    bool HaveMask(ArkDataMaskType mask) override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, false);
-
-        return data_meta_->HaveMask(mask);
-    }
-
-    const ID_TYPE GetID() const override
+    ID_TYPE GetID() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -196,14 +203,7 @@ public:
         data_ = AFMisc::FromString<uint32_t>(value);
     }
 
-    bool HaveMask(ArkDataMaskType mask) override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, false);
-
-        return data_meta_->HaveMask(mask);
-    }
-
-    const ID_TYPE GetID() const override
+    ID_TYPE GetID() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -277,14 +277,7 @@ public:
         data_ = value;
     }
 
-    bool HaveMask(ArkDataMaskType mask) override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, false);
-
-        return data_meta_->HaveMask(mask);
-    }
-
-    const ID_TYPE GetID() const override
+    ID_TYPE GetID() const override
     {
         return AFMisc::FromString<ID_TYPE>(data_);
     }
@@ -358,14 +351,7 @@ public:
         data_ = AFMisc::FromString<bool>(value);
     }
 
-    bool HaveMask(ArkDataMaskType mask) override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, false);
-
-        return data_meta_->HaveMask(mask);
-    }
-
-    const ID_TYPE GetID() const override
+    ID_TYPE GetID() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -439,14 +425,7 @@ public:
         data_ = AFMisc::FromString<int64_t>(value);
     }
 
-    bool HaveMask(ArkDataMaskType mask) override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, false);
-
-        return data_meta_->HaveMask(mask);
-    }
-
-    const ID_TYPE GetID() const override
+    ID_TYPE GetID() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -520,14 +499,7 @@ public:
         data_ = AFMisc::FromString<uint64_t>(value);
     }
 
-    bool HaveMask(ArkDataMaskType mask) override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, false);
-
-        return data_meta_->HaveMask(mask);
-    }
-
-    const ID_TYPE GetID() const override
+    ID_TYPE GetID() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -601,14 +573,7 @@ public:
         data_ = AFMisc::FromString<float>(value);
     }
 
-    bool HaveMask(ArkDataMaskType mask) override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, false);
-
-        return data_meta_->HaveMask(mask);
-    }
-
-    const ID_TYPE GetID() const override
+    ID_TYPE GetID() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -682,14 +647,7 @@ public:
         data_ = AFMisc::FromString<double>(value);
     }
 
-    bool HaveMask(ArkDataMaskType mask) override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, false);
-
-        return data_meta_->HaveMask(mask);
-    }
-
-    const ID_TYPE GetID() const override
+    ID_TYPE GetID() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -701,15 +659,15 @@ public:
 };
 
 // data object
-class AFNodeObejct final : public AFINode
+class AFNodeGUID final : public AFINode
 {
 public:
-    explicit AFNodeObejct(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
+    explicit AFNodeGUID(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
 
-    ~AFNodeObejct() override = default;
+    ~AFNodeGUID() override = default;
 
     ArkDataType GetType() const override
     {
@@ -763,14 +721,7 @@ public:
         data_ = AFMisc::FromString<AFGUID>(value);
     }
 
-    bool HaveMask(ArkDataMaskType mask) override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, false);
-
-        return data_meta_->HaveMask(mask);
-    }
-
-    const ID_TYPE GetID() const override
+    ID_TYPE GetID() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -789,41 +740,41 @@ static AFINode* CreateDataByMeta(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
     AFINode* pData = nullptr;
     switch (pDataMeta->GetType())
     {
-    case ark::ArkDataType::DT_BOOLEAN:
-        pData = ARK_NEW AFNodeBool(pDataMeta);
-        break;
-    case ark::ArkDataType::DT_INT32:
-        pData = ARK_NEW AFNodeInt32(pDataMeta);
-        break;
-    case ark::ArkDataType::DT_UINT32:
-        pData = ARK_NEW AFNodeUInt32(pDataMeta);
-        break;
-    case ark::ArkDataType::DT_INT64:
-        pData = ARK_NEW AFNodeInt64(pDataMeta);
-        break;
-    case ark::ArkDataType::DT_UINT64:
-        pData = ARK_NEW AFNodeUInt64(pDataMeta);
-        break;
-    case ark::ArkDataType::DT_FLOAT:
-        pData = ARK_NEW AFNodeFloat(pDataMeta);
-        break;
-    case ark::ArkDataType::DT_DOUBLE:
-        pData = ARK_NEW AFNodeDouble(pDataMeta);
-        break;
-    case ark::ArkDataType::DT_STRING:
-        pData = ARK_NEW AFNodeString(pDataMeta);
-        break;
-    case ark::ArkDataType::DT_VECTOR3D:
-        break;
-    case ark::ArkDataType::DT_ARRAY:
-        break;
-    case ark::ArkDataType::DT_TABLE:
-        break;
-    case ark::ArkDataType::DT_OBJECT:
-        pData = ARK_NEW AFNodeObejct(pDataMeta);
-        break;
-    default:
-        break;
+        case ark::ArkDataType::DT_BOOLEAN:
+            pData = ARK_NEW AFNodeBool(pDataMeta);
+            break;
+        case ark::ArkDataType::DT_INT32:
+            pData = ARK_NEW AFNodeInt32(pDataMeta);
+            break;
+        case ark::ArkDataType::DT_UINT32:
+            pData = ARK_NEW AFNodeUInt32(pDataMeta);
+            break;
+        case ark::ArkDataType::DT_INT64:
+            pData = ARK_NEW AFNodeInt64(pDataMeta);
+            break;
+        case ark::ArkDataType::DT_UINT64:
+            pData = ARK_NEW AFNodeUInt64(pDataMeta);
+            break;
+        case ark::ArkDataType::DT_FLOAT:
+            pData = ARK_NEW AFNodeFloat(pDataMeta);
+            break;
+        case ark::ArkDataType::DT_DOUBLE:
+            pData = ARK_NEW AFNodeDouble(pDataMeta);
+            break;
+        case ark::ArkDataType::DT_STRING:
+            pData = ARK_NEW AFNodeString(pDataMeta);
+            break;
+        case ark::ArkDataType::DT_VECTOR3D:
+            break;
+        case ark::ArkDataType::DT_ARRAY:
+            break;
+        case ark::ArkDataType::DT_TABLE:
+            break;
+        case ark::ArkDataType::DT_GUID:
+            pData = ARK_NEW AFNodeGUID(pDataMeta);
+            break;
+        default:
+            break;
     }
 
     return pData;

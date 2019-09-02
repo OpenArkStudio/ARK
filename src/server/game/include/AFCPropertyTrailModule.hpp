@@ -24,7 +24,7 @@
 #include "log/interface/AFILogModule.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
 #include "kernel/interface/AFIConfigModule.hpp"
-#include "kernel/interface/AFIMetaClassModule.hpp"
+#include "kernel/interface/AFIClassMetaModule.hpp"
 #include "game/interface/AFIPropertyModule.hpp"
 #include "game/interface/AFIPropertyConfigModule.hpp"
 #include "game/interface/AFIPropertyTrailModule.hpp"
@@ -53,7 +53,7 @@ protected:
 private:
     AFIKernelModule* m_pKernelModule;
     AFIConfigModule* m_pConfigModule;
-    AFIMetaClassModule* m_pClassModule;
+    AFIClassMetaModule* m_pClassModule;
     AFILogModule* m_pLogModule;
 };
 

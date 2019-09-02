@@ -48,33 +48,37 @@ public:
     virtual bool AddBool(bool value) = 0;
     virtual bool AddInt(int value) = 0;
     virtual bool AddInt64(int64_t value) = 0;
+    virtual bool AddUInt(uint32_t value) = 0;
+    virtual bool AddUInt64(uint64_t value) = 0;
     virtual bool AddFloat(float value) = 0;
     virtual bool AddDouble(double value) = 0;
     virtual bool AddString(const char* value) = 0;
-    //virtual bool AddPointer(void* value) = 0;
-    //virtual bool AddUserData(const void* pData, size_t size) = 0;
-    //virtual bool AddRawUserData(void* value) = 0;
+    virtual bool AddPointer(void* value) = 0;
+    virtual bool AddUserData(const void* pData, size_t size) = 0;
+    virtual bool AddRawUserData(void* value) = 0;
 
     // get data
     virtual bool Bool(size_t index) const = 0;
     virtual int Int(size_t index) const = 0;
     virtual int64_t Int64(size_t index) const = 0;
+    virtual uint32_t UInt(size_t index) const = 0;
+    virtual uint64_t UInt64(size_t index) const = 0;
     virtual float Float(size_t index) const = 0;
     virtual double Double(size_t index) const = 0;
     virtual const char* String(size_t index) const = 0;
-    //virtual void* Pointer(size_t index) const = 0;
-    //virtual const void* UserData(size_t index, size_t& size) const = 0;
-    //virtual void* RawUserData(size_t index) const = 0;
+    virtual void* Pointer(size_t index) const = 0;
+    virtual const void* UserData(size_t index, size_t& size) const = 0;
+    virtual void* RawUserData(size_t index) const = 0;
     virtual const std::string ToString(size_t index) = 0;
 
     // get memory usage
     virtual size_t GetMemUsage() const = 0;
 
     template<typename... Args>
-    bool TypeEx(const int arg1, const Args&... args) const
+    bool TypeEx(const ArkDataType arg1, const Args&... args) const
     {
         bool bRet = true;
-        int values[] = {arg1, args...};
+        ArkDataType values[] = {arg1, args...};
 
         int index = 0;
 
@@ -109,27 +113,27 @@ public:
 
         switch (xData.GetType())
         {
-        case ArkDataType::DT_BOOLEAN:
-            xData.SetBool(Bool(index));
-            break;
-        case ArkDataType::DT_INT32:
-            xData.SetInt(Int(index));
-            break;
-        case ArkDataType::DT_INT64:
-            xData.SetInt64(Int64(index));
-            break;
-        case ArkDataType::DT_FLOAT:
-            xData.SetFloat(Float(index));
-            break;
-        case ArkDataType::DT_DOUBLE:
-            xData.SetDouble(Double(index));
-            break;
-        case ArkDataType::DT_STRING:
-            xData.SetString(String(index));
-            break;
-        default:
-            ARK_ASSERT_RET_VAL(0, false);
-            break;
+            case ArkDataType::DT_BOOLEAN:
+                xData.SetBool(Bool(index));
+                break;
+            case ArkDataType::DT_INT32:
+                xData.SetInt(Int(index));
+                break;
+            case ArkDataType::DT_INT64:
+                xData.SetInt64(Int64(index));
+                break;
+            case ArkDataType::DT_FLOAT:
+                xData.SetFloat(Float(index));
+                break;
+            case ArkDataType::DT_DOUBLE:
+                xData.SetDouble(Double(index));
+                break;
+            case ArkDataType::DT_STRING:
+                xData.SetString(String(index));
+                break;
+            default:
+                ARK_ASSERT_RET_VAL(0, false);
+                break;
         }
 
         return true;
@@ -144,27 +148,33 @@ public:
 
         switch (xData.GetType())
         {
-        case ArkDataType::DT_BOOLEAN:
-            return xData.GetBool() == Bool(index);
-            break;
-        case ArkDataType::DT_INT32:
-            return xData.GetInt() == Int(index);
-            break;
-        case ArkDataType::DT_INT64:
-            return xData.GetInt64() == Int64(index);
-            break;
-        case ArkDataType::DT_FLOAT:
-            return AFMisc::IsZeroFloat(xData.GetFloat() - Float(index));
-            break;
-        case ArkDataType::DT_DOUBLE:
-            return AFMisc::IsZeroDouble(xData.GetDouble() - Double(index));
-            break;
-        case ArkDataType::DT_STRING:
-            return std::string(xData.GetString()) == std::string(String(index));
-            break;
-        default:
-            ARK_ASSERT_RET_VAL(0, false);
-            break;
+            case ArkDataType::DT_BOOLEAN:
+                return xData.GetBool() == Bool(index);
+                break;
+            case ArkDataType::DT_INT32:
+                return xData.GetInt() == Int(index);
+                break;
+            case ArkDataType::DT_INT64:
+                return xData.GetInt64() == Int64(index);
+                break;
+            case ArkDataType::DT_UINT32:
+                return xData.GetUInt() == UInt(index);
+                break;
+            case ArkDataType::DT_UINT64:
+                return xData.GetUInt64() == UInt64(index);
+                break;
+            case ArkDataType::DT_FLOAT:
+                return AFMisc::IsZeroFloat(xData.GetFloat() - Float(index));
+                break;
+            case ArkDataType::DT_DOUBLE:
+                return AFMisc::IsZeroDouble(xData.GetDouble() - Double(index));
+                break;
+            case ArkDataType::DT_STRING:
+                return std::string(xData.GetString()) == std::string(String(index));
+                break;
+            default:
+                ARK_ASSERT_RET_VAL(0, false);
+                break;
         }
 
         return true;
@@ -215,7 +225,7 @@ public:
 
     inline AFIDataList& operator<<(uint32_t value)
     {
-        bool bRet = AddInt(value);
+        bool bRet = AddUInt(value);
         ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
@@ -229,7 +239,7 @@ public:
 
     inline AFIDataList& operator<<(uint64_t value)
     {
-        bool bRet = AddInt64(value);
+        bool bRet = AddUInt64(value);
         ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }

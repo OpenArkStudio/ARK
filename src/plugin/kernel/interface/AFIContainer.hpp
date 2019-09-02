@@ -21,24 +21,34 @@
 #pragma once
 
 #include "base/AFPlatform.hpp"
+#include "base/AFMacros.hpp"
+#include "AFIEntity.hpp"
 
 namespace ark {
 
+class AFIEntity;
 class AFIContainer
 {
 public:
     virtual ~AFIContainer() = default;
 
-    // get object parent unique id
+    // get entity parent unique id
+    virtual const std::string& GetName() const = 0;
     virtual const AFGUID& GetParentID() const = 0;
-    virtual const AFGUID& First() = 0;
-    virtual const AFGUID& Next() = 0;
-    virtual const AFGUID& Find(size_t index) = 0;
-    virtual size_t Find(const AFGUID& id) = 0;
-    virtual bool Place(const AFGUID& guid) = 0;
-    virtual bool Place(size_t index, const AFGUID& guid, AFGUID& replaced_guid) = 0;
-    virtual bool Swap(const AFGUID& src_container, const int src_index, const int dest_index) = 0;
-    virtual bool Swap(const AFGUID& src_container, const AFGUID& src_object, const AFGUID& dest_object) = 0;
+    virtual uint32_t First() = 0;
+    virtual uint32_t Next() = 0;
+    virtual ARK_SHARE_PTR<AFIEntity> Find(uint32_t index) = 0;
+    virtual uint32_t Find(const AFGUID& id) = 0;
+    virtual bool Place(ARK_SHARE_PTR<AFIEntity> pEntity) = 0;
+    virtual bool Place(uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity, ARK_SHARE_PTR<AFIEntity> pEntityReplaced) = 0;
+    virtual bool Swap(const uint32_t src_index, const uint32_t dest_index) = 0;
+    virtual bool Swap(const AFGUID& src_entity, const AFGUID& dest_entity) = 0;
+    virtual bool Swap(
+        ARK_SHARE_PTR<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index) = 0;
+    virtual bool Swap(
+        ARK_SHARE_PTR<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity) = 0;
+
+    virtual bool Remove(const uint32_t index) = 0;
 };
 
 } // namespace ark

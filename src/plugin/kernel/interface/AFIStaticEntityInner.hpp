@@ -52,6 +52,12 @@ public:
 
     virtual const DataList& GetDataList() = 0;
     virtual ARK_SHARE_PTR<AFClassMeta> GetClassMeta() = 0;
+
+    virtual AFINode* FirstNode() = 0;
+    virtual AFINode* NextNode() = 0;
+
+    virtual AFITable* FirstTable() = 0;
+    virtual AFITable* NextTable() = 0;
 };
 
 } // namespace ark

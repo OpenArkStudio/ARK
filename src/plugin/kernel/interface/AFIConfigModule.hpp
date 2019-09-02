@@ -37,7 +37,8 @@ public:
     virtual ARK_SHARE_PTR<AFStaticEntityManager> FindStaticEntityMgr(const std::string& class_name) = 0;
 
     // find config
-    virtual ARK_SHARE_PTR<AFIStaticEntity> FindStaticEntity(const std::string& class_name, const size_t config_id) = 0;
+    virtual ARK_SHARE_PTR<AFIStaticEntity> FindStaticEntity(const std::string& class_name, const ID_TYPE config_id) = 0;
+    virtual ARK_SHARE_PTR<AFIStaticEntity> FindStaticEntity(const ID_TYPE config_id) = 0;
 };
 
 } // namespace ark

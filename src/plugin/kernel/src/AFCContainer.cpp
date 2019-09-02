@@ -22,15 +22,16 @@
 
 namespace ark {
 
-AFCContainer::AFCContainer(const uint32_t index, ARK_SHARE_PTR<AFClassMeta> pClassMeta)
+AFCContainer::AFCContainer(ARK_SHARE_PTR<AFContainerMeta> container_meta, const uint32_t index, const AFGUID& parent_id)
     : index_(index)
+    , parent_(parent_id)
 {
-    class_meta_ = pClassMeta;
+    container_meta_ = container_meta;
 }
 
 AFCContainer::~AFCContainer()
 {
-    object_data_list_.clear();
+    entity_data_list_.clear();
 }
 
 // get parent unique id
@@ -39,46 +40,46 @@ const AFGUID& AFCContainer::GetParentID() const
     return parent_;
 }
 
-const AFGUID& AFCContainer::First()
+uint32_t AFCContainer::First()
 {
-    iter_ = object_data_list_.begin();
-    if (object_data_list_.end() == iter_)
+    iter_ = entity_data_list_.begin();
+    if (entity_data_list_.end() == iter_)
     {
-        return NULL_GUID;
+        return NULL_INT;
     }
 
-    return iter_->second;
+    return iter_->first;
 }
 
-const AFGUID& AFCContainer::Next()
+uint32_t AFCContainer::Next()
 {
-    if (object_data_list_.end() == iter_)
+    if (entity_data_list_.end() == iter_)
     {
-        return NULL_GUID;
+        return NULL_INT;
     }
 
     ++iter_;
-    if (object_data_list_.end() == iter_)
+    if (entity_data_list_.end() == iter_)
     {
-        return NULL_GUID;
+        return NULL_INT;
     }
 
-    return iter_->second;
+    return iter_->first;
 }
 
-const AFGUID& AFCContainer::Find(size_t index)
+ARK_SHARE_PTR<AFIEntity> AFCContainer::Find(uint32_t index)
 {
-    auto iter = object_data_list_.find(index);
-    ARK_ASSERT_RET_VAL(iter != object_data_list_.end(), NULL_GUID);
+    auto iter = entity_data_list_.find(index);
+    ARK_ASSERT_RET_VAL(iter != entity_data_list_.end(), nullptr);
 
     return iter->second;
 }
 
-size_t AFCContainer::Find(const AFGUID& id)
+uint32_t AFCContainer::Find(const AFGUID& id)
 {
-    for (auto iter : object_data_list_)
+    for (auto iter : entity_data_list_)
     {
-        if (id == iter.second)
+        if (id == iter.second->GetID())
         {
             return iter.first;
         }
@@ -87,38 +88,150 @@ size_t AFCContainer::Find(const AFGUID& id)
     return NULL_INT;
 }
 
-bool AFCContainer::Place(const AFGUID& guid)
+bool AFCContainer::Place(ARK_SHARE_PTR<AFIEntity> pEntity)
 {
     // should not be in container
-    ARK_ASSERT_RET_VAL(Find(guid) == 0, false);
+    ARK_ASSERT_RET_VAL(pEntity != nullptr, false);
 
-    return object_data_list_.insert(std::make_pair(++current_index, guid)).second;
+    ARK_ASSERT_RET_VAL(Find(pEntity->GetID()) == 0, false);
+
+    return AddEntity(current_index_, pEntity);
 }
 
-bool AFCContainer::Place(size_t index, const AFGUID& guid, AFGUID& replaced_guid)
+bool AFCContainer::Place(uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity, ARK_SHARE_PTR<AFIEntity> pEntityReplaced)
 {
-    auto iter = object_data_list_.find(index);
-    if (iter == object_data_list_.end())
+    auto iter = entity_data_list_.find(index);
+    if (iter == entity_data_list_.end())
     {
-        return object_data_list_.insert(std::make_pair(index, guid)).second;
+        return AddEntity(index, pEntity);
     }
     else
     {
-        replaced_guid = iter->second;
-        iter->second = guid;
+        pEntityReplaced = iter->second;
+        iter->second = pEntity;
     }
 
     return true;
 }
 
-bool AFCContainer::Swap(const AFGUID& src_container, const int src_index, const int dest_index)
+bool AFCContainer::Swap(const uint32_t src_index, const uint32_t dest_index)
 {
+    if (src_index == 0 || dest_index == 0)
+    {
+        return false;
+    }
+
+    auto iter_src = entity_data_list_.find(src_index);
+    if (iter_src == entity_data_list_.end())
+    {
+        // fail if source do not exist
+        return false;
+    }
+
+    auto iter_dest = entity_data_list_.find(dest_index);
+    if (iter_dest == entity_data_list_.end())
+    {
+        if (AddEntity(dest_index, iter_src->second))
+        {
+            entity_data_list_.erase(src_index);
+        }
+    }
+    else
+    {
+        // exchange
+        auto pEntity = iter_src->second;
+        iter_src->second = iter_dest->second;
+        iter_dest->second = pEntity;
+
+        return true;
+    }
+
     return false;
 }
 
-bool AFCContainer::Swap(const AFGUID& src_container, const AFGUID& src_object, const AFGUID& dest_object)
+bool AFCContainer::Swap(const AFGUID& src_entity, const AFGUID& dest_entity)
 {
-    return false;
+    auto src_index = Find(src_entity);
+    auto dest_index = Find(dest_entity);
+
+    return Swap(src_index, dest_index);
+}
+
+bool AFCContainer::Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index)
+{
+    if (pSrcContainer == nullptr || src_index == 0 || dest_index == 0)
+    {
+        return false;
+    }
+
+    auto pSrcEntity = pSrcContainer->Find(src_index);
+    if (pSrcEntity == nullptr)
+    {
+        return false;
+    }
+
+    auto iter_dest = entity_data_list_.find(dest_index);
+    if (iter_dest == entity_data_list_.end())
+    {
+        if (!AddEntity(dest_index, pSrcEntity))
+        {
+            return false;
+        }
+    }
+    else
+    {
+        iter_dest->second = pSrcEntity;
+    }
+
+    return pSrcContainer->Remove(src_index);
+}
+
+bool AFCContainer::Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity)
+{
+    auto src_index = pSrcContainer->Find(src_entity);
+    auto dest_index = Find(dest_entity);
+
+    return Swap(pSrcContainer, src_index, dest_index);
+}
+
+bool AFCContainer::Remove(const uint32_t index)
+{
+    auto pEntity = entity_data_list_.find_value(index);
+    if (nullptr == pEntity)
+    {
+        return false;
+    }
+
+    if (!entity_data_list_.erase(index))
+    {
+        return false;
+    }
+
+    pEntity->SetParentContainer(nullptr);
+
+    return true;
+}
+
+bool AFCContainer::AddEntity(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity)
+{
+    if (!entity_data_list_.insert(index, pEntity).second)
+    {
+        return false;
+    }
+
+    pEntity->SetParentContainer(shared_from_this());
+
+    if (current_index_ < index)
+    {
+        current_index_ = index;
+    }
+
+    return true;
+}
+
+const std::string& AFCContainer::GetName() const
+{
+    return container_meta_->GetName();
 }
 
 } // namespace ark

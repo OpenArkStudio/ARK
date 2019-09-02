@@ -27,3 +27,4 @@
 #include "proto/cpp/AFMsgMysql.pb.h"
 
 #include "proto/cpp/AFCommonMsgNew.pb.h"
+#include "proto/cpp/AFDBMsg.pb.h"

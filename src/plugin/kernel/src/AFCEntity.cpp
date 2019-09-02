@@ -27,7 +27,7 @@
 
 namespace ark {
 
-AFCEntity::AFCEntity(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE_ARG config_id,
+AFCEntity::AFCEntity(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE config_id,
     const int32_t map, const int32_t map_entity_id)
     : guid_(guid)
     , map_id_(map)
@@ -55,27 +55,93 @@ const AFGUID& AFCEntity::GetID() const
     return guid_;
 }
 
-// get parent unique id
-const AFGUID& AFCEntity::GetParentID() const
+ARK_SHARE_PTR<AFIContainer> AFCEntity::GetParentContainer() const
 {
-    return parent_;
+    return parent_container_;
 }
 
-bool AFCEntity::HaveMask(const std::string& name, ArkDataMaskType mask)
+bool AFCEntity::SetParentContainer(ARK_SHARE_PTR<AFIContainer> pContainer)
+{
+    parent_container_ = pContainer;
+    return true;
+}
+
+bool AFCEntity::IsPublic(const std::string& name)
 {
     auto index = m_pStaticObject->GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, false);
 
-    return HaveMask(index, mask);
+    return IsPublic(index);
 }
 
-bool AFCEntity::HaveMask(const uint32_t index, ArkDataMaskType mask)
+bool AFCEntity::IsPublic(const uint32_t index)
+{
+    return HaveFeature(index, AFNodeFeature::PF_PUBLIC);
+}
+
+bool AFCEntity::IsPrivate(const std::string& name)
+{
+    auto index = m_pStaticObject->GetIndex(name);
+    ARK_ASSERT_RET_VAL(index > 0, false);
+
+    return IsPrivate(index);
+}
+
+bool AFCEntity::IsPrivate(const uint32_t index)
+{
+    return HaveFeature(index, AFNodeFeature::PF_PRIVATE);
+}
+
+bool AFCEntity::IsSave(const std::string& name)
+{
+    auto index = m_pStaticObject->GetIndex(name);
+    ARK_ASSERT_RET_VAL(index > 0, false);
+
+    return IsSave(index);
+}
+
+bool AFCEntity::IsSave(const uint32_t index)
+{
+    return HaveFeature(index, AFNodeFeature::PF_SAVE);
+}
+
+bool AFCEntity::IsRealTime(const std::string& name)
+{
+    auto index = m_pStaticObject->GetIndex(name);
+    ARK_ASSERT_RET_VAL(index > 0, false);
+
+    return IsRealTime(index);
+}
+
+bool AFCEntity::IsRealTime(const uint32_t index)
+{
+    return HaveFeature(index, AFNodeFeature::PF_REAL_TIME);
+}
+
+bool AFCEntity::HaveFeature(const std::string& name, AFNodeFeature feature)
+{
+    auto index = m_pStaticObject->GetIndex(name);
+    ARK_ASSERT_RET_VAL(index > 0, false);
+
+    return HaveFeature(index, feature);
+}
+
+bool AFCEntity::HaveFeature(const uint32_t index, AFNodeFeature feature)
 {
     AFINode* p = m_pStaticObject->FindData(index);
 
     ARK_ASSERT_RET_VAL(p != nullptr, false);
 
-    return p->HaveMask(mask);
+    return p->HaveFeature(feature);
+}
+
+AFFeatureType AFCEntity::GetFeature(const uint32_t index) const
+{
+    AFINode* p = m_pStaticObject->FindData(index);
+
+    ARK_ASSERT_RET_VAL(p != nullptr, false);
+
+    return p->GetFeature();
 }
 
 const std::string& AFCEntity::GetClassName() const
@@ -85,7 +151,7 @@ const std::string& AFCEntity::GetClassName() const
     return m_pStaticObject->GetClassName();
 }
 
-const ID_TYPE_ARG AFCEntity::GetConfigID() const
+ID_TYPE AFCEntity::GetConfigID() const
 {
     ARK_ASSERT_RET_VAL(m_pStaticObject != nullptr, NULL_INT);
 
@@ -100,6 +166,18 @@ int32_t AFCEntity::GetMapID() const
 int32_t AFCEntity::GetMapEntityID() const
 {
     return map_entity_id_;
+}
+
+bool AFCEntity::SetMapID(const int32_t value)
+{
+    map_id_ = value;
+    return true;
+}
+
+bool AFCEntity::SetMapEntityID(const int32_t value)
+{
+    map_entity_id_ = value;
+    return true;
 }
 
 bool AFCEntity::InitData(ARK_SHARE_PTR<AFIStaticEntity> pStaticObject)
@@ -158,6 +236,14 @@ bool AFCEntity::SetInt64(const std::string& name, const int64_t value)
     return SetInt64(index, value);
 }
 
+bool AFCEntity::SetUInt64(const std::string& name, const uint64_t value)
+{
+    auto index = m_pStaticObject->GetIndex(name);
+    ARK_ASSERT_RET_VAL(index > 0, false);
+
+    return SetUInt64(index, value);
+}
+
 bool AFCEntity::SetFloat(const std::string& name, const float value)
 {
     auto index = m_pStaticObject->GetIndex(name);
@@ -190,12 +276,12 @@ bool AFCEntity::SetWString(const std::string& name, const std::wstring& value)
     return SetWString(index, value);
 }
 
-bool AFCEntity::SetObject(const std::string& name, const AFGUID& value)
+bool AFCEntity::SetGUID(const std::string& name, const AFGUID& value)
 {
     auto index = m_pStaticObject->GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, false);
 
-    return SetObject(index, value);
+    return SetGUID(index, value);
 }
 
 bool AFCEntity::SetBool(const uint32_t index, bool value)
@@ -271,6 +357,27 @@ bool AFCEntity::SetInt64(const uint32_t index, const int64_t value)
 
     auto old_value = p->GetInt64();
     p->SetInt64(value);
+
+    if (old_value != value)
+    {
+        // data callbacks
+        ArkDataType data_type = p->GetType();
+        OnDataCallBack(p->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
+    }
+
+    return true;
+}
+
+bool AFCEntity::SetUInt64(const uint32_t index, const uint64_t value)
+{
+    AFINode* p = m_pStaticObject->FindData(index, true);
+
+    ARK_ASSERT_RET_VAL(p != nullptr, false);
+
+    ARK_ASSERT_RET_VAL(p->GetType() == ArkDataType::DT_INT64, false);
+
+    auto old_value = p->GetUInt64();
+    p->SetUInt64(value);
 
     if (old_value != value)
     {
@@ -366,13 +473,13 @@ bool AFCEntity::SetWString(const uint32_t index, const std::wstring& value)
     return true;
 }
 
-bool AFCEntity::SetObject(const uint32_t index, const AFGUID& value)
+bool AFCEntity::SetGUID(const uint32_t index, const AFGUID& value)
 {
     AFINode* p = m_pStaticObject->FindData(index, true);
 
     ARK_ASSERT_RET_VAL(p != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(p->GetType() == ArkDataType::DT_OBJECT, false);
+    ARK_ASSERT_RET_VAL(p->GetType() == ArkDataType::DT_GUID, false);
 
     auto old_value = p->GetObject();
     p->SetObject(value);
@@ -428,6 +535,14 @@ int64_t AFCEntity::GetInt64(const std::string& name)
     return GetInt64(index);
 }
 
+uint64_t AFCEntity::GetUInt64(const std::string& name)
+{
+    auto index = m_pStaticObject->GetIndex(name);
+    ARK_ASSERT_RET_VAL(index > 0, NULL_INT64);
+
+    return GetUInt64(index);
+}
+
 float AFCEntity::GetFloat(const std::string& name)
 {
     auto index = m_pStaticObject->GetIndex(name);
@@ -460,12 +575,12 @@ const std::wstring& AFCEntity::GetWString(const std::string& name)
     return GetWString(index);
 }
 
-const AFGUID& AFCEntity::GetObject(const std::string& name)
+const AFGUID& AFCEntity::GetGUID(const std::string& name)
 {
     auto index = m_pStaticObject->GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, NULL_GUID);
 
-    return GetObject(index);
+    return GetGUID(index);
 }
 
 AFINode* AFCEntity::GetNode(const uint32_t index)
@@ -509,6 +624,15 @@ int64_t AFCEntity::GetInt64(const uint32_t index)
     return p->GetInt64();
 }
 
+uint64_t AFCEntity::GetUInt64(const uint32_t index)
+{
+    AFINode* p = m_pStaticObject->FindData(index);
+
+    ARK_ASSERT_RET_VAL(p != nullptr, NULL_INT64);
+
+    return p->GetUInt64();
+}
+
 float AFCEntity::GetFloat(const uint32_t index)
 {
     AFINode* p = m_pStaticObject->FindData(index);
@@ -545,7 +669,7 @@ const std::wstring& AFCEntity::GetWString(const uint32_t index)
     return p->GetWString();
 }
 
-const AFGUID& AFCEntity::GetObject(const uint32_t index)
+const AFGUID& AFCEntity::GetGUID(const uint32_t index)
 {
     AFINode* p = m_pStaticObject->FindData(index);
 
@@ -570,9 +694,9 @@ ARK_SHARE_PTR<AFIContainer> AFCEntity::FindContainer(const uint32_t index)
     auto pContainer = m_pContainerManager->FindContainer(index);
     if (pContainer == nullptr)
     {
-        // check if need create a new container
+        // create a new container
         auto pClassMeta = m_pStaticObject->GetClassMeta();
-        pContainer = m_pContainerManager->CreateContainer(index, pClassMeta);
+        pContainer = m_pContainerManager->CreateContainer(pClassMeta, index, guid_);
     }
 
     return pContainer;
@@ -701,7 +825,7 @@ bool AFCEntity::AddCustomWString(const std::string& name, const std::wstring& va
     return false;
 }
 
-bool AFCEntity::AddCustomObject(const std::string& name, const AFGUID& value)
+bool AFCEntity::AddCustomGUID(const std::string& name, const AFGUID& value)
 {
     return false;
 }
@@ -788,7 +912,7 @@ bool AFCEntity::SetCustomWString(const std::string& name, const std::wstring& va
     return false;
 }
 
-bool AFCEntity::SetCustomObject(const std::string& name, const AFGUID& value)
+bool AFCEntity::SetCustomGUID(const std::string& name, const AFGUID& value)
 {
     return false;
 }
@@ -838,10 +962,10 @@ double AFCEntity::GetCustomDouble(const std::string& name)
     return pData->GetDouble();
 }
 
-const std::string& AFCEntity::GetCustomString(const std::string& name)
+const char* AFCEntity::GetCustomString(const std::string& name)
 {
     auto pData = custom_data_list_.find_value(name);
-    ARK_ASSERT_RET_VAL(pData != nullptr, NULL_STR);
+    ARK_ASSERT_RET_VAL(pData != nullptr, NULL_STR.c_str());
 
     return pData->GetString();
 }
@@ -851,7 +975,7 @@ const std::wstring& AFCEntity::GetCustomWString(const std::string& name)
     return NULL_WIDESTR;
 }
 
-const AFGUID& AFCEntity::GetCustomObject(const std::string& name)
+const AFGUID& AFCEntity::GetCustomGUID(const std::string& name)
 {
     return NULL_GUID;
 }
@@ -864,6 +988,36 @@ bool AFCEntity::FindCustomData(const std::string& name)
 bool AFCEntity::RemoveCustomData(const std::string& name)
 {
     return custom_data_list_.remove(name);
+}
+
+AFINode* AFCEntity::FirstNode()
+{
+    return m_pStaticObject->FirstNode();
+}
+
+AFINode* AFCEntity::NextNode()
+{
+    return m_pStaticObject->NextNode();
+}
+
+AFITable* AFCEntity::FirstTable()
+{
+    return m_pStaticObject->FirstTable();
+}
+
+AFITable* AFCEntity::NextTable()
+{
+    return m_pStaticObject->NextTable();
+}
+
+ARK_SHARE_PTR<AFIContainer> AFCEntity::FirstContainer()
+{
+    return m_pContainerManager->First();
+}
+
+ARK_SHARE_PTR<AFIContainer> AFCEntity::NextContainer()
+{
+    return m_pContainerManager->Next();
 }
 
 } // namespace ark

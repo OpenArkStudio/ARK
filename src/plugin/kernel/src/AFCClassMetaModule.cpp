@@ -105,11 +105,12 @@ bool AFCClassMetaModule::LoadConfigMeta(const std::string& schema_path, ARK_SHAR
         return false;
     }
 
+    const std::string& class_name = pClassMeta->GetName();
     for (auto meta_node = root_node.FindNode("meta"); meta_node.IsValid(); meta_node.NextNode())
     {
         std::string name = meta_node.GetString("field");
         std::string type_name = meta_node.GetString("type");
-        uint32_t index = meta_node.GetUint32("field_index");
+        uint32_t index = AFMetaNameIndex::GetIndex(class_name, name);
 
         ArkDataType data_type = ConvertDataType(type_name);
         ARK_ASSERT_RET_VAL(data_type != ArkDataType::DT_EMPTY, false);
@@ -137,18 +138,49 @@ bool AFCClassMetaModule::LoadEntity()
         return false;
     }
 
+    for (auto meta_node = root_node.FindNode("config"); meta_node.IsValid(); meta_node.NextNode())
+    {
+        std::string schema_path = meta_node.GetString("meta");
+
+        if (!LoadEntityMeta(schema_path))
+        {
+            return false;
+        }
+    }
+
+    // exact table meta and object meta of a class meta after all loaded
+    ARK_ASSERT_RET_VAL(m_pClassMetaManager->AfterLoaded(), false);
+
+    return true;
+}
+
+bool AFCClassMetaModule::LoadEntityMeta(const std::string& schema_path)
+{
+    std::string file_path = GetPluginManager()->GetResPath() + schema_path;
+
+    ARK_LOG_INFO("Load entity class files: {}", file_path);
+
+    AFXml xml_doc(file_path);
+    auto root_node = xml_doc.GetRootNode();
+    if (!root_node.IsValid())
+    {
+        ARK_ASSERT_NO_EFFECT(0);
+        return false;
+    }
+
     for (auto meta_node = root_node.FindNode("meta"); meta_node.IsValid(); meta_node.NextNode())
     {
         std::string class_name = meta_node.GetString("class");
         std::string data_name = meta_node.GetString("field_name");
         std::string type_name = meta_node.GetString("type");
         std::string type_class = meta_node.GetString("type_class");
-        uint32_t index = meta_node.GetUint32("field_index");
+        uint32_t index = AFMetaNameIndex::GetIndex(class_name, data_name);
 
         // data mask
-        uint32_t mask_save = meta_node.GetUint32("save");
-        uint32_t mask_sync_self = meta_node.GetUint32("sync_self");
-        // uint32_t mask_real_time = meta_node.GetUint32("real_time");
+        uint32_t feature_sync_view = meta_node.GetUint32("sync_view");
+        uint32_t feature_sync_self = meta_node.GetUint32("sync_self");
+        uint32_t feature_save = meta_node.GetUint32("save");
+        uint32_t feature_real_time = meta_node.GetUint32("real_time");
 
         // class meta
         auto pClassMeta = m_pClassMetaManager->CreateMeta(class_name);
@@ -156,14 +188,11 @@ bool AFCClassMetaModule::LoadEntity()
 
         if (type_name == "class")
         {
-            // parent or child class type
-            pClassMeta->AddClass(type_class);
-            m_pClassMetaManager->AddTypeClassMeta(type_class);
             continue;
         }
         else if (type_name == "container")
         {
-            pClassMeta->AddContainer(data_name, type_class);
+            pClassMeta->CreateContainerMeta(data_name, index, type_class);
             continue;
         }
 
@@ -179,17 +208,15 @@ bool AFCClassMetaModule::LoadEntity()
 
             pTableMeta->SetTypeName(type_class);
 
-            if (mask_save > 0)
-            {
-                pTableMeta->SetFeatureType(ArkTableNodeFeature::PF_SAVE);
-            }
+            AFFeatureType feature;
+            feature[(size_t)ArkTableNodeFeature::PF_PUBLIC] = (feature_sync_view > 0 ? 1 : 0);
+            feature[(size_t)ArkTableNodeFeature::PF_PRIVATE] = (feature_sync_self > 0 ? 1 : 0);
+            feature[(size_t)ArkTableNodeFeature::PF_SAVE] = (feature_save > 0 ? 1 : 0);
+            feature[(size_t)ArkTableNodeFeature::PF_REAL_TIME] = (feature_real_time > 0 ? 1 : 0);
 
-            if (mask_sync_self > 0)
-            {
-                pTableMeta->SetFeatureType(ArkTableNodeFeature::PF_PRIVATE);
-            }
+            pTableMeta->SetFeature(feature);
 
-            m_pClassMetaManager->AddTypeClassMeta(type_class);
+            // m_pClassMetaManager->AddTypeClassMeta(type_class);
         }
         else
         {
@@ -197,22 +224,16 @@ bool AFCClassMetaModule::LoadEntity()
             auto pDataMeta = pClassMeta->CreateDataMeta(data_name, index);
             ARK_ASSERT_RET_VAL(pDataMeta != nullptr, false);
 
-            if (mask_save > 0)
-            {
-                pDataMeta->SetMask(ArkDataMaskType::DMT_SAVE_DB);
-            }
-
-            if (mask_sync_self > 0)
-            {
-                pDataMeta->SetMask(ArkDataMaskType::DMT_SYNC_SELF);
-            }
+            AFFeatureType feature;
+            feature[(size_t)AFNodeFeature::PF_PUBLIC] = (feature_sync_view > 0 ? 1 : 0);
+            feature[(size_t)AFNodeFeature::PF_PRIVATE] = (feature_sync_self > 0 ? 1 : 0);
+            feature[(size_t)AFNodeFeature::PF_SAVE] = (feature_save > 0 ? 1 : 0);
+            feature[(size_t)AFNodeFeature::PF_REAL_TIME] = (feature_real_time > 0 ? 1 : 0);
+            pDataMeta->SetFeature(feature);
 
             pDataMeta->SetType(data_type);
         }
     }
-
-    // exact table meta and object meta of a class meta after all loaded
-    ARK_ASSERT_RET_VAL(m_pClassMetaManager->AfterLoaded(), false);
 
     return true;
 }
@@ -262,7 +283,7 @@ ArkDataType AFCClassMetaModule::ConvertDataType(const std::string& type_name)
     }
     else if (type_name == "object")
     {
-        data_type = ArkDataType::DT_OBJECT;
+        data_type = ArkDataType::DT_GUID;
     }
 
     return data_type;

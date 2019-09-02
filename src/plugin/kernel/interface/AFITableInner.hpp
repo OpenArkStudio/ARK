@@ -33,6 +33,8 @@ public:
         uint32_t row, const uint32_t index, const AFIData& old_data, const AFIData& new_data) const = 0;
 
     virtual ARK_SHARE_PTR<AFTableMeta> GetMeta() const = 0;
+
+    virtual uint32_t GetIndex(const std::string& name) = 0;
 };
 
 } // namespace ark

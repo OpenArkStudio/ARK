@@ -24,7 +24,7 @@
 #include "base/AFPluginManager.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
 #include "kernel/interface/AFIConfigModule.hpp"
-#include "kernel/interface/AFIMetaClassModule.hpp"
+#include "kernel/interface/AFIClassMetaModule.hpp"
 #include "kernel/interface/AFIMapModule.hpp"
 #include "log/interface/AFILogModule.hpp"
 #include "utility/interface/AFIGUIDModule.hpp"
@@ -60,7 +60,7 @@ protected:
 
 private:
     AFIConfigModule* m_pConfigModule;
-    AFIMetaClassModule* m_pClassModule;
+    AFIClassMetaModule* m_pClassModule;
     AFIKernelModule* m_pKernelModule;
     AFIMapModule* m_pMapModule;
     AFILogModule* m_pLogModule;

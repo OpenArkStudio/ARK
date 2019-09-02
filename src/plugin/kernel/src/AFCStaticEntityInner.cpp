@@ -25,7 +25,7 @@
 
 namespace ark {
 
-AFCStaticEntityInner::AFCStaticEntityInner(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const ID_TYPE_ARG config_id)
+AFCStaticEntityInner::AFCStaticEntityInner(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const ID_TYPE config_id)
     : config_id_(config_id)
 {
     class_meta_ = pClassMeta;
@@ -49,7 +49,7 @@ const std::string& AFCStaticEntityInner::GetClassName() const
     return class_meta_->GetName();
 }
 
-const ID_TYPE_ARG AFCStaticEntityInner::GetConfigID() const
+ID_TYPE AFCStaticEntityInner::GetConfigID() const
 {
     return config_id_;
 }
@@ -289,6 +289,42 @@ const AFCStaticEntityInner::DataList& AFCStaticEntityInner::GetDataList()
 ARK_SHARE_PTR<AFClassMeta> AFCStaticEntityInner::GetClassMeta()
 {
     return class_meta_;
+}
+
+AFINode* AFCStaticEntityInner::FirstNode()
+{
+    iter_data_ = data_list_.begin();
+    ARK_ASSERT_RET_VAL(iter_data_ != data_list_.end(), nullptr);
+
+    return iter_data_->second;
+}
+
+AFINode* AFCStaticEntityInner::NextNode()
+{
+    ARK_ASSERT_RET_VAL(iter_data_ != data_list_.end(), nullptr);
+
+    iter_data_++;
+    ARK_ASSERT_RET_VAL(iter_data_ != data_list_.end(), nullptr);
+
+    return iter_data_->second;
+}
+
+AFITable* AFCStaticEntityInner::FirstTable()
+{
+    iter_table_ = table_list_.begin();
+    ARK_ASSERT_RET_VAL(iter_table_ != table_list_.end(), nullptr);
+
+    return iter_table_->second;
+}
+
+AFITable* AFCStaticEntityInner::NextTable()
+{
+    ARK_ASSERT_RET_VAL(iter_table_ != table_list_.end(), nullptr);
+
+    iter_table_++;
+    ARK_ASSERT_RET_VAL(iter_table_ != table_list_.end(), nullptr);
+
+    return iter_table_->second;
 }
 
 } // namespace ark

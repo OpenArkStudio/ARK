@@ -35,7 +35,7 @@ class AFCEntity final : public AFIEntity
 public:
     AFCEntity() = delete;
 
-    explicit AFCEntity(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE_ARG config_id,
+    explicit AFCEntity(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE config_id,
         const int32_t map, const int32_t map_entity_id);
 
     ~AFCEntity() override;
@@ -46,15 +46,28 @@ public:
     const AFGUID& GetID() const override;
 
     // get parent unique id
-    const AFGUID& GetParentID() const override;
+    ARK_SHARE_PTR<AFIContainer> GetParentContainer() const override;
+    bool SetParentContainer(ARK_SHARE_PTR<AFIContainer> pContainer) override;
 
-    bool HaveMask(const std::string& name, ArkDataMaskType mask) override;
-    bool HaveMask(const uint32_t index, ArkDataMaskType mask) override;
+    bool IsPublic(const std::string& name) override;
+    bool IsPublic(const uint32_t index) override;
+    bool IsPrivate(const std::string& name) override;
+    bool IsPrivate(const uint32_t index) override;
+    bool IsSave(const std::string& name) override;
+    bool IsSave(const uint32_t index) override;
+    bool IsRealTime(const std::string& name) override;
+    bool IsRealTime(const uint32_t index) override;
+    bool HaveFeature(const std::string& name, AFNodeFeature feature) override;
+    bool HaveFeature(const uint32_t index, AFNodeFeature feature) override;
+
+    AFFeatureType GetFeature(const uint32_t index) const override;
 
     const std::string& GetClassName() const override;
-    const ID_TYPE_ARG GetConfigID() const override;
+    ID_TYPE GetConfigID() const override;
     int32_t GetMapID() const override;
     int32_t GetMapEntityID() const override;
+    bool SetMapID(const int32_t value) override;
+    bool SetMapEntityID(const int32_t value) override;
 
     bool InitData(ARK_SHARE_PTR<AFIStaticEntity> pStaticObject) override;
 
@@ -63,21 +76,23 @@ public:
     bool SetInt32(const std::string& name, const int32_t value) override;
     bool SetUInt32(const std::string& name, const uint32_t value) override;
     bool SetInt64(const std::string& name, const int64_t value) override;
+    bool SetUInt64(const std::string& name, const uint64_t value) override;
     bool SetFloat(const std::string& name, const float value) override;
     bool SetDouble(const std::string& name, const double value) override;
     bool SetString(const std::string& name, const std::string& value) override;
     bool SetWString(const std::string& name, const std::wstring& value) override;
-    bool SetObject(const std::string& name, const AFGUID& value) override;
+    bool SetGUID(const std::string& name, const AFGUID& value) override;
 
     bool SetBool(const uint32_t index, bool value) override;
     bool SetInt32(const uint32_t index, const int32_t value) override;
     bool SetUInt32(const uint32_t index, const uint32_t value) override;
     bool SetInt64(const uint32_t index, const int64_t value) override;
+    bool SetUInt64(const uint32_t index, const uint64_t value) override;
     bool SetFloat(const uint32_t index, const float value) override;
     bool SetDouble(const uint32_t index, const double value) override;
     bool SetString(const uint32_t index, const std::string& value) override;
     bool SetWString(const uint32_t index, const std::wstring& value) override;
-    bool SetObject(const uint32_t index, const AFGUID& value) override;
+    bool SetGUID(const uint32_t index, const AFGUID& value) override;
 
     // get data
     AFINode* GetNode(const std::string& name) override;
@@ -85,22 +100,24 @@ public:
     int32_t GetInt32(const std::string& name) override;
     uint32_t GetUInt32(const std::string& name) override;
     int64_t GetInt64(const std::string& name) override;
+    uint64_t GetUInt64(const std::string& name) override;
     float GetFloat(const std::string& name) override;
     double GetDouble(const std::string& name) override;
     const std::string& GetString(const std::string& name) override;
     const std::wstring& GetWString(const std::string& name) override;
-    const AFGUID& GetObject(const std::string& name) override;
+    const AFGUID& GetGUID(const std::string& name) override;
 
     AFINode* GetNode(const uint32_t index) override;
     bool GetBool(const uint32_t index) override;
     int32_t GetInt32(const uint32_t index) override;
     uint32_t GetUInt32(const uint32_t index) override;
     int64_t GetInt64(const uint32_t index) override;
+    uint64_t GetUInt64(const uint32_t index) override;
     float GetFloat(const uint32_t index) override;
     double GetDouble(const uint32_t index) override;
     const std::string& GetString(const uint32_t index) override;
     const std::wstring& GetWString(const uint32_t index) override;
-    const AFGUID& GetObject(const uint32_t index) override;
+    const AFGUID& GetGUID(const uint32_t index) override;
 
     // container operation
     ARK_SHARE_PTR<AFIContainer> FindContainer(const std::string& name) override;
@@ -121,7 +138,7 @@ public:
     bool AddCustomDouble(const std::string& name, const double value) override;
     bool AddCustomString(const std::string& name, const std::string& value) override;
     bool AddCustomWString(const std::string& name, const std::wstring& value) override;
-    bool AddCustomObject(const std::string& name, const AFGUID& value) override;
+    bool AddCustomGUID(const std::string& name, const AFGUID& value) override;
 
     bool SetCustomBool(const std::string& name, bool value) override;
     bool SetCustomInt32(const std::string& name, const int32_t value) override;
@@ -131,7 +148,7 @@ public:
     bool SetCustomDouble(const std::string& name, const double value) override;
     bool SetCustomString(const std::string& name, const std::string& value) override;
     bool SetCustomWString(const std::string& name, const std::wstring& value) override;
-    bool SetCustomObject(const std::string& name, const AFGUID& value) override;
+    bool SetCustomGUID(const std::string& name, const AFGUID& value) override;
 
     bool GetCustomBool(const std::string& name) override;
     int32_t GetCustomInt32(const std::string& name) override;
@@ -139,12 +156,20 @@ public:
     int64_t GetCustomInt64(const std::string& name) override;
     float GetCustomFloat(const std::string& name) override;
     double GetCustomDouble(const std::string& name) override;
-    const std::string& GetCustomString(const std::string& name) override;
+    const char* GetCustomString(const std::string& name) override;
     const std::wstring& GetCustomWString(const std::string& name) override;
-    const AFGUID& GetCustomObject(const std::string& name) override;
+    const AFGUID& GetCustomGUID(const std::string& name) override;
 
     bool FindCustomData(const std::string& name) override;
     bool RemoveCustomData(const std::string& name) override;
+
+    AFINode* FirstNode() override;
+    AFINode* NextNode() override;
+    ARK_SHARE_PTR<AFIContainer> FirstContainer() override;
+
+    AFITable* FirstTable() override;
+    AFITable* NextTable() override;
+    ARK_SHARE_PTR<AFIContainer> NextContainer() override;
 
 private:
     // create data new and copy data arg
@@ -157,14 +182,14 @@ private:
     // object unique id
     AFGUID guid_{NULL_GUID};
 
+    // parent container
+    ARK_SHARE_PTR<AFIContainer> parent_container_{nullptr};
+
     // map id
     int32_t map_id_{NULL_INT};
 
     // map obj id
     int32_t map_entity_id_{NULL_INT};
-
-    // parent guid
-    AFGUID parent_{NULL_GUID};
 
     // custom data
     using CustomDataList = AFNewHashmap<std::string, AFIData>;

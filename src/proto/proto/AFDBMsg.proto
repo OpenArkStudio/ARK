@@ -1,0 +1,37 @@
+syntax = "proto3";
+package AFMsg;
+
+message pb_db_array {
+  repeated pb_db_entity_data datas_value = 1;
+}
+
+message pb_db_table {
+  map<uint32, pb_db_entity_data> datas_value = 1;
+}
+
+message pb_db_container {
+  map<uint32, pb_db_entity> datas_value = 1;
+}
+
+message pb_db_entity_data {
+  map<string, bool> datas_bool              = 1;     // bool
+  map<string, sint32> datas_int32           = 2;     // int32
+  map<string, uint32> datas_uint32          = 3;     // uint32
+  map<string, sint64> datas_int64           = 4;     // int64
+  map<string, uint64> datas_uint64          = 5;     // uint64
+  map<string, float> datas_float            = 6;     // float
+  map<string, double> datas_double          = 7;     // double
+  map<string, bytes> datas_string           = 8;     // string
+  map<string, pb_db_array> datas_array      = 9;     // array
+  map<string, pb_db_table> datas_table      = 10;    // table
+  map<string, pb_db_container> datas_entity = 11;    // multi-data
+}
+
+message pb_db_entity{
+  int64 id               = 1;
+  uint32 config_id       = 2;
+  int32 map_id           = 3;
+  int32 map_inst_id      = 4;
+  string class_name      = 5;
+  pb_db_entity_data data = 6;
+}

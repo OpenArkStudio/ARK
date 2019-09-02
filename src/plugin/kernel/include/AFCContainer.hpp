@@ -22,50 +22,62 @@
 
 #include "plugin/kernel/interface/AFIContainer.hpp"
 #include "base/AFMap.hpp"
-#include "AFCEntity.hpp"
+#include "AFClassMeta.hpp"
 
 namespace ark {
 
-class AFCContainer final : public AFIContainer
+class AFCContainer final : public AFIContainer, public std::enable_shared_from_this<AFCContainer>
 {
 public:
-    using ObjectDataList = std::map<size_t, AFGUID>;
+    using EntityDataList = AFNewSmartPtrMap<uint32_t, AFIEntity>;
 
-    explicit AFCContainer(const uint32_t index, ARK_SHARE_PTR<AFClassMeta> pClassMeta);
+    AFCContainer() = delete;
+
+    explicit AFCContainer(ARK_SHARE_PTR<AFContainerMeta> container_meta, const uint32_t index, const AFGUID& parent_id);
 
     ~AFCContainer() override;
+
+    const std::string& GetName() const override;
 
     // get parent unique id
     const AFGUID& GetParentID() const override;
 
-    const AFGUID& First() override;
-    const AFGUID& Next() override;
+    uint32_t First() override;
+    uint32_t Next() override;
 
-    const AFGUID& Find(size_t index) override;
-    size_t Find(const AFGUID& id) override;
+    ARK_SHARE_PTR<AFIEntity> Find(uint32_t index) override;
+    uint32_t Find(const AFGUID& id) override;
 
-    bool Place(const AFGUID& guid) override;
-    bool Place(size_t index, const AFGUID& guid, AFGUID& replaced_guid) override;
+    bool Place(ARK_SHARE_PTR<AFIEntity> pEntity) override;
+    bool Place(uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity, ARK_SHARE_PTR<AFIEntity> pEntityReplaced) override;
 
-    bool Swap(const AFGUID& src_container, const int src_index, const int dest_index) override;
-    bool Swap(const AFGUID& src_container, const AFGUID& src_object, const AFGUID& dest_object) override;
+    bool Swap(const uint32_t src_index, const uint32_t dest_index) override;
+    bool Swap(const AFGUID& src_entity, const AFGUID& dest_entity) override;
+
+    bool Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index) override;
+    bool Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity) override;
+
+    bool Remove(const uint32_t index) override;
+
+private:
+    bool AddEntity(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity);
 
 private:
     // name
     uint32_t index_;
 
-    // contain object class meta
-    ARK_SHARE_PTR<AFClassMeta> class_meta_;
+    // contain entity class meta
+    ARK_SHARE_PTR<AFContainerMeta> container_meta_;
 
     // index start
-    size_t current_index{0u};
+    uint32_t current_index_{0u};
 
     // parent id
     AFGUID parent_{NULL_GUID};
 
-    // object data
-    ObjectDataList::iterator iter_;
-    ObjectDataList object_data_list_;
+    // entity data
+    EntityDataList::iterator iter_;
+    EntityDataList entity_data_list_;
 };
 
 } // namespace ark

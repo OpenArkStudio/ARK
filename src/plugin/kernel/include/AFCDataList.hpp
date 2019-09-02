@@ -58,7 +58,9 @@ private:
         {
             bool mbValue;
             int mnValue;
+            uint32_t mnUValue;
             int64_t mn64Value;
+            uint64_t mnU64Value;
             float mfValue;
             double mdValue;
             size_t mnstrValue;
@@ -303,6 +305,22 @@ public:
         return true;
     }
 
+    bool AddUInt(uint32_t value) override
+    {
+        dynamic_data_t* p = AddDynamicData();
+        p->nType = ArkDataType::DT_UINT32;
+        p->mnUValue = value;
+        return true;
+    }
+
+    bool AddUInt64(uint64_t value) override
+    {
+        dynamic_data_t* p = AddDynamicData();
+        p->nType = ArkDataType::DT_UINT64;
+        p->mnU64Value = value;
+        return true;
+    }
+
     bool AddFloat(float value) override
     {
         dynamic_data_t* p = AddDynamicData();
@@ -365,33 +383,33 @@ public:
         return true;
     }
 
-    //bool AddPointer(void* value) override
-    //{
-    //    dynamic_data_t* p = AddDynamicData();
-    //    p->nType = DT_POINTER;
-    //    p->mpVaule = value;
-    //    return true;
-    //}
+    bool AddPointer(void* value) override
+    {
+        dynamic_data_t* p = AddDynamicData();
+        p->nType = ArkDataType::DT_POINTER;
+        p->mpVaule = value;
+        return true;
+    }
 
-    //bool AddUserData(const void* pData, size_t size) override
-    //{
-    //    assert(pData != nullptr);
+    bool AddUserData(const void* pData, size_t size) override
+    {
+        assert(pData != nullptr);
 
-    //    dynamic_data_t* p = AddDynamicData();
-    //    p->nType = DT_USERDATA;
-    //    p->mnUserData = mnBufferUsed;
+        dynamic_data_t* p = AddDynamicData();
+        p->nType = ArkDataType::DT_USERDATA;
+        p->mnUserData = mnBufferUsed;
 
-    //    const size_t value_size = AFIData::GetRawUserDataSize(size);
-    //    char* value = AddBuffer(value_size);
-    //    AFIData::InitRawUserData(value, pData, size);
+        const size_t value_size = AFIData::GetRawUserDataSize(size);
+        char* value = AddBuffer(value_size);
+        AFIData::InitRawUserData(value, pData, size);
 
-    //    return true;
-    //}
+        return true;
+    }
 
-    //bool AddRawUserData(void* value) override
-    //{
-    //    return AddUserData(AFIData::GetUserData(value), AFIData::GetUserDataSize(value));
-    //}
+    bool AddRawUserData(void* value) override
+    {
+        return AddUserData(AFIData::GetUserData(value), AFIData::GetUserDataSize(value));
+    }
 
     // get data
     bool Bool(size_t index) const override
@@ -438,6 +456,40 @@ public:
         if (mpData[index].nType == ArkDataType::DT_INT64)
         {
             return mpData[index].mn64Value;
+        }
+        else
+        {
+            return NULL_INT64;
+        }
+    }
+
+    uint32_t UInt(size_t index) const override
+    {
+        if (index > mnDataUsed)
+        {
+            return NULL_INT;
+        }
+
+        if (mpData[index].nType == ArkDataType::DT_UINT32)
+        {
+            return mpData[index].mnUValue;
+        }
+        else
+        {
+            return NULL_INT;
+        }
+    }
+
+    uint64_t UInt64(size_t index) const override
+    {
+        if (index > mnDataUsed)
+        {
+            return NULL_INT64;
+        }
+
+        if (mpData[index].nType == ArkDataType::DT_UINT64)
+        {
+            return mpData[index].mnU64Value;
         }
         else
         {
@@ -496,60 +548,60 @@ public:
         }
     }
 
-    //void* Pointer(size_t index) const override
-    //{
-    //    if (index > mnDataUsed)
-    //    {
-    //        return nullptr;
-    //    }
+    void* Pointer(size_t index) const override
+    {
+        if (index > mnDataUsed)
+        {
+            return nullptr;
+        }
 
-    //    if (mpData[index].nType == DT_POINTER)
-    //    {
-    //        return mpData[index].mpVaule;
-    //    }
-    //    else
-    //    {
-    //        return nullptr;
-    //    }
-    //}
+        if (mpData[index].nType == ArkDataType::DT_POINTER)
+        {
+            return mpData[index].mpVaule;
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
 
-    //const void* UserData(size_t index, size_t& size) const override
-    //{
-    //    if (index > mnDataUsed)
-    //    {
-    //        size = 0;
-    //        return nullptr;
-    //    }
+    const void* UserData(size_t index, size_t& size) const override
+    {
+        if (index > mnDataUsed)
+        {
+            size = 0;
+            return nullptr;
+        }
 
-    //    if (mpData[index].nType == DT_USERDATA)
-    //    {
-    //        char* p = mpBuffer + mpData[index].mnUserData;
-    //        size = AFIData::GetUserDataSize(p);
-    //        return AFIData::GetUserData(p);
-    //    }
-    //    else
-    //    {
-    //        size = 0;
-    //        return nullptr;
-    //    }
-    //}
+        if (mpData[index].nType == ArkDataType::DT_USERDATA)
+        {
+            char* p = mpBuffer + mpData[index].mnUserData;
+            size = AFIData::GetUserDataSize(p);
+            return AFIData::GetUserData(p);
+        }
+        else
+        {
+            size = 0;
+            return nullptr;
+        }
+    }
 
-    //void* RawUserData(size_t index) const override
-    //{
-    //    if (index > mnDataUsed)
-    //    {
-    //        return nullptr;
-    //    }
+    void* RawUserData(size_t index) const override
+    {
+        if (index > mnDataUsed)
+        {
+            return nullptr;
+        }
 
-    //    if (mpData[index].nType == DT_USERDATA)
-    //    {
-    //        return mpBuffer + mpData[index].mnUserData;
-    //    }
-    //    else
-    //    {
-    //        return nullptr;
-    //    }
-    //}
+        if (mpData[index].nType == ArkDataType::DT_USERDATA)
+        {
+            return mpBuffer + mpData[index].mnUserData;
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
 
     virtual bool SetBool(size_t index, bool value)
     {
@@ -601,6 +653,42 @@ public:
         else
         {
             mpData[index].mn64Value = value;
+            return true;
+        }
+    }
+
+    virtual bool SetUInt(size_t index, uint32_t value)
+    {
+        if (index >= mnDataUsed)
+        {
+            return false;
+        }
+
+        if (mpData[index].nType != ArkDataType::DT_UINT32)
+        {
+            return false;
+        }
+        else
+        {
+            mpData[index].mnUValue = value;
+            return true;
+        }
+    }
+
+    virtual bool SetUInt64(size_t index, uint64_t value)
+    {
+        if (index >= mnDataUsed)
+        {
+            return false;
+        }
+
+        if (mpData[index].nType != ArkDataType::DT_UINT64)
+        {
+            return false;
+        }
+        else
+        {
+            mpData[index].mnU64Value = value;
             return true;
         }
     }
@@ -672,23 +760,23 @@ public:
         return true;
     }
 
-    //virtual bool SetPointer(size_t index, void* value)
-    //{
-    //    if (index >= mnDataUsed)
-    //    {
-    //        return false;
-    //    }
+    virtual bool SetPointer(size_t index, void* value)
+    {
+        if (index >= mnDataUsed)
+        {
+            return false;
+        }
 
-    //    if (mpData[index].nType != DT_POINTER)
-    //    {
-    //        return false;
-    //    }
-    //    else
-    //    {
-    //        mpData[index].mpVaule = value;
-    //        return true;
-    //    }
-    //}
+        if (mpData[index].nType != ArkDataType::DT_POINTER)
+        {
+            return false;
+        }
+        else
+        {
+            mpData[index].mpVaule = value;
+            return true;
+        }
+    }
 
     const std::string ToString(size_t index) override
     {
@@ -700,31 +788,37 @@ public:
         std::string data;
         switch (mpData[index].nType)
         {
-        case ArkDataType::DT_BOOLEAN:
-            data = ARK_TO_STRING(mpData[index].mbValue);
-            break;
-        case ArkDataType::DT_INT32:
-            data = ARK_TO_STRING(mpData[index].mnValue);
-            break;
-        case ArkDataType::DT_INT64:
-            data = ARK_TO_STRING(mpData[index].mn64Value);
-            break;
-        case ArkDataType::DT_FLOAT:
-            data = ARK_TO_STRING(mpData[index].mfValue);
-            break;
-        case ArkDataType::DT_DOUBLE:
-            data = ARK_TO_STRING(mpData[index].mdValue);
-            break;
-        case ArkDataType::DT_STRING:
-            data = String(index);
-            break;
-        //case DT_POINTER:
-        //    break;
-        //case DT_USERDATA:
-        //    break;
-        default:
-            assert(0);
-            break;
+            case ArkDataType::DT_BOOLEAN:
+                data = ARK_TO_STRING(mpData[index].mbValue);
+                break;
+            case ArkDataType::DT_INT32:
+                data = ARK_TO_STRING(mpData[index].mnValue);
+                break;
+            case ArkDataType::DT_INT64:
+                data = ARK_TO_STRING(mpData[index].mn64Value);
+                break;
+            case ArkDataType::DT_UINT32:
+                data = ARK_TO_STRING(mpData[index].mnUValue);
+                break;
+            case ArkDataType::DT_UINT64:
+                data = ARK_TO_STRING(mpData[index].mnU64Value);
+                break;
+            case ArkDataType::DT_FLOAT:
+                data = ARK_TO_STRING(mpData[index].mfValue);
+                break;
+            case ArkDataType::DT_DOUBLE:
+                data = ARK_TO_STRING(mpData[index].mdValue);
+                break;
+            case ArkDataType::DT_STRING:
+                data = String(index);
+                break;
+            case ArkDataType::DT_POINTER:
+                break;
+            case ArkDataType::DT_USERDATA:
+                break;
+            default:
+                assert(0);
+                break;
         }
 
         return data;
@@ -804,37 +898,43 @@ protected:
 
         switch (data.GetType())
         {
-        case ArkDataType::DT_BOOLEAN:
-            bRet = AddBool(data.GetBool());
+            case ArkDataType::DT_BOOLEAN:
+                bRet = AddBool(data.GetBool());
+                break;
+            case ArkDataType::DT_INT32:
+                bRet = AddInt(data.GetInt());
+                break;
+            case ArkDataType::DT_INT64:
+                bRet = AddInt64(data.GetInt64());
+                break;
+            case ArkDataType::DT_UINT32:
+                bRet = AddUInt(data.GetUInt());
+                break;
+            case ArkDataType::DT_UINT64:
+                bRet = AddUInt64(data.GetUInt64());
+                break;
+            case ArkDataType::DT_FLOAT:
+                bRet = AddFloat(data.GetFloat());
+                break;
+            case ArkDataType::DT_DOUBLE:
+                bRet = AddDouble(data.GetDouble());
+                break;
+            case ArkDataType::DT_STRING:
+                bRet = AddString(data.GetString());
+                break;
+            case ArkDataType::DT_POINTER:
+                bRet = AddPointer(data.GetPointer());
+                break;
+            case ArkDataType::DT_USERDATA:
+            {
+                size_t size;
+                const void* pData = data.GetUserData(size);
+                bRet = AddUserData(pData, size);
+            }
             break;
-        case ArkDataType::DT_INT32:
-            bRet = AddInt(data.GetInt());
-            break;
-        case ArkDataType::DT_INT64:
-            bRet = AddInt64(data.GetInt64());
-            break;
-        case ArkDataType::DT_FLOAT:
-            bRet = AddFloat(data.GetFloat());
-            break;
-        case ArkDataType::DT_DOUBLE:
-            bRet = AddDouble(data.GetDouble());
-            break;
-        case ArkDataType::DT_STRING:
-            bRet = AddString(data.GetString());
-            break;
-        //case DT_POINTER:
-        //    bRet = AddPointer(data.GetPointer());
-        //    break;
-        //case DT_USERDATA:
-        //{
-        //    size_t size;
-        //    const void* pData = data.GetUserData(size);
-        //    bRet = AddUserData(pData, size);
-        //}
-        //break;
-        default:
-            ARK_ASSERT_NO_EFFECT(0);
-            break;
+            default:
+                ARK_ASSERT_NO_EFFECT(0);
+                break;
         }
 
         ARK_ASSERT_NO_EFFECT(bRet);
@@ -848,37 +948,43 @@ protected:
         {
             switch (src.GetType(i))
             {
-            case ArkDataType::DT_BOOLEAN:
-                bRet = AddBool(src.Bool(i));
+                case ArkDataType::DT_BOOLEAN:
+                    bRet = AddBool(src.Bool(i));
+                    break;
+                case ArkDataType::DT_INT32:
+                    bRet = AddInt(src.Int(i));
+                    break;
+                case ArkDataType::DT_INT64:
+                    bRet = AddInt64(src.Int64(i));
+                    break;
+                case ArkDataType::DT_UINT32:
+                    bRet = AddUInt(src.UInt(i));
+                    break;
+                case ArkDataType::DT_UINT64:
+                    bRet = AddUInt64(src.UInt64(i));
+                    break;
+                case ArkDataType::DT_FLOAT:
+                    bRet = AddFloat(src.Float(i));
+                    break;
+                case ArkDataType::DT_DOUBLE:
+                    bRet = AddDouble(src.Double(i));
+                    break;
+                case ArkDataType::DT_STRING:
+                    bRet = AddString(src.String(i));
+                    break;
+                case ArkDataType::DT_POINTER:
+                    bRet = AddPointer(src.Pointer(i));
+                    break;
+                case ArkDataType::DT_USERDATA:
+                {
+                    size_t size;
+                    const void* pData = src.UserData(i, size);
+                    bRet = AddUserData(pData, size);
+                }
                 break;
-            case ArkDataType::DT_INT32:
-                bRet = AddInt(src.Int(i));
-                break;
-            case ArkDataType::DT_INT64:
-                bRet = AddInt64(src.Int64(i));
-                break;
-            case ArkDataType::DT_FLOAT:
-                bRet = AddFloat(src.Float(i));
-                break;
-            case ArkDataType::DT_DOUBLE:
-                bRet = AddDouble(src.Double(i));
-                break;
-            case ArkDataType::DT_STRING:
-                bRet = AddString(src.String(i));
-                break;
-            //case DT_POINTER:
-            //    bRet = AddPointer(src.Pointer(i));
-            //    break;
-            //case DT_USERDATA:
-            //{
-            //    size_t size;
-            //    const void* pData = src.UserData(i, size);
-            //    bRet = AddUserData(pData, size);
-            //}
-            //break;
-            default:
-                ARK_ASSERT_NO_EFFECT(0);
-                break;
+                default:
+                    ARK_ASSERT_NO_EFFECT(0);
+                    break;
             }
         }
 

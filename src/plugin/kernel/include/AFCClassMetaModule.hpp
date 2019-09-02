@@ -20,8 +20,9 @@
 
 #pragma once
 
-#include "log/interface/AFILogModule.hpp"
 #include "kernel/interface/AFIClassMetaModule.hpp"
+#include "base/AFPluginManager.hpp"
+#include "log/interface/AFILogModule.hpp"
 #include "base/AFMap.hpp"
 #include "AFClassMeta.hpp"
 #include "AFClassMetaManager.hpp"
@@ -56,6 +57,8 @@ protected:
 
     // load config meta
     bool LoadConfigMeta(const std::string& schema_path, ARK_SHARE_PTR<AFClassMeta> pClassMeta);
+
+    bool LoadEntityMeta(const std::string& schema_path);
 
     ArkDataType ConvertDataType(const std::string& type_name);
 

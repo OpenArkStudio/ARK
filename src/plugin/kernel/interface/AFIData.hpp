@@ -23,6 +23,7 @@
 #include "base/AFMacros.hpp"
 #include "base/AFEnum.hpp"
 #include "base/AFDefine.hpp"
+#include "AFINode.hpp"
 
 namespace ark {
 
@@ -62,27 +63,38 @@ public:
         bool bRet = false;
         switch (this->GetType())
         {
-        case ArkDataType::DT_BOOLEAN:
-            bRet = (GetBool() == src.GetBool());
-            break;
-        case ArkDataType::DT_INT32:
-            bRet = (GetInt() == src.GetInt());
-            break;
-        case ArkDataType::DT_INT64:
-            bRet = (GetInt64() == src.GetInt64());
-            break;
-        case ArkDataType::DT_FLOAT:
-            bRet = (GetFloat() == src.GetFloat());
-            break;
-        case ArkDataType::DT_DOUBLE:
-            bRet = (GetDouble() == src.GetDouble());
-            break;
-        case ArkDataType::DT_STRING:
-            bRet = (GetString() == src.GetString());
-            break;
-        default:
-            ARK_ASSERT_NO_EFFECT(false);
-            break;
+            case ArkDataType::DT_BOOLEAN:
+                bRet = (GetBool() == src.GetBool());
+                break;
+            case ArkDataType::DT_INT32:
+                bRet = (GetInt() == src.GetInt());
+                break;
+            case ArkDataType::DT_INT64:
+                bRet = (GetInt64() == src.GetInt64());
+                break;
+            case ArkDataType::DT_UINT32:
+                bRet = (GetUInt() == src.GetUInt());
+                break;
+            case ArkDataType::DT_UINT64:
+                bRet = (GetUInt64() == src.GetUInt64());
+                break;
+            case ArkDataType::DT_FLOAT:
+                bRet = (GetFloat() == src.GetFloat());
+                break;
+            case ArkDataType::DT_DOUBLE:
+                bRet = (GetDouble() == src.GetDouble());
+                break;
+            case ArkDataType::DT_STRING:
+                bRet = (GetString() == src.GetString());
+                break;
+            case ArkDataType::DT_POINTER:
+                bRet = (GetPointer() == src.GetPointer());
+                break;
+            case ArkDataType::DT_USERDATA:
+                break;
+            default:
+                ARK_ASSERT_NO_EFFECT(false);
+                break;
         }
 
         return bRet;
@@ -148,6 +160,16 @@ public:
         return GetString() == value;
     }
 
+	bool equal(const void* value)
+    {
+        if (this->GetType() != ArkDataType::DT_POINTER)
+        {
+            return false;
+        }
+
+        return GetPointer() == value;
+    }
+
     virtual ArkDataType GetType() const = 0;
 
     virtual void SetDefaultValue(ArkDataType type) = 0;
@@ -157,23 +179,35 @@ public:
     virtual bool GetBool() const = 0;
     virtual int GetInt() const = 0;
     virtual int64_t GetInt64() const = 0;
+    virtual uint32_t GetUInt() const = 0;
+    virtual uint64_t GetUInt64() const = 0;
     virtual float GetFloat() const = 0;
     virtual double GetDouble() const = 0;
     virtual const char* GetString() const = 0;
+    virtual void* GetPointer() const = 0;
+    virtual const void* GetUserData(size_t& size) const = 0;
+    virtual void* GetRawUserData() const = 0;
 
     // Set data
     virtual void SetUnknown() = 0;
     virtual void SetBool(bool value) = 0;
     virtual void SetInt(int value) = 0;
     virtual void SetInt64(int64_t value) = 0;
+    virtual void SetUInt(uint32_t value) = 0;
+    virtual void SetUInt64(uint64_t value) = 0;
     virtual void SetFloat(float value) = 0;
     virtual void SetDouble(double value) = 0;
     virtual void SetString(const char* value) = 0;
+    virtual void SetPointer(void* value) = 0;
+    virtual void SetUserData(const void* value, size_t size) = 0;
+    virtual void SetRawUserData(void* value) = 0;
 
     virtual void Assign(const AFIData& src) = 0;
     virtual size_t GetMemUsage() const = 0;
-    virtual std::string ToString() = 0;
+    virtual std::string ToString() const = 0;
     virtual ~AFIData() = default;
+
+    virtual bool From(const AFINode* pData) = 0;
 };
 
 } // namespace ark
