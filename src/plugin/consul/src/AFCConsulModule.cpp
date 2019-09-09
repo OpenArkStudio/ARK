@@ -23,11 +23,18 @@ bool AFCConsulModule::GetHealthServices(
     return ctx_->HealthCheck(service_name, tag_filter, services);
 }
 
+bool AFCConsulModule::GetHealthServices(const std::string& service_name,
+    const std::vector<std::string>& tag_filter_list, consulpp::ConsulServiceSet& services)
+{
+    return ctx_->MultiHealthCheck(service_name, tag_filter_list, services);
+}
+
 const std::string AFCConsulModule::GetKeyValue(const std::string& key)
 {
     if (key.empty())
     {
-        return "";
+        const static std::string& null_str = {};
+        return null_str;
     }
     else
     {
@@ -35,14 +42,24 @@ const std::string AFCConsulModule::GetKeyValue(const std::string& key)
     }
 }
 
-void AFCConsulModule::SetKeyValue(const std::string& key, const std::string& value)
+bool AFCConsulModule::SetKeyValue(const std::string& key, const std::string& value)
 {
     if (key.empty() || value.empty())
     {
-        return;
+        return false;
     }
 
-    ctx_->SetValue(key, value);
+    return ctx_->SetValue(key, value);
+}
+
+bool AFCConsulModule::DelKeyValue(const std::string& key)
+{
+    if (key.empty())
+    {
+        return true;
+    }
+
+    return ctx_->DeleteValue(key);
 }
 
 //////////////////////////////////////////////////////////////////////////

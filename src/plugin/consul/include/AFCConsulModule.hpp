@@ -20,8 +20,12 @@ public:
     bool GetHealthServices(
         const std::string& service_name, const std::string& tag_filter, consulpp::ConsulServiceSet& services) override;
 
+    bool GetHealthServices(const std::string& service_name, const std::vector<std::string>& tag_filter_list,
+        consulpp::ConsulServiceSet& services) override;
+
     const std::string GetKeyValue(const std::string& key) override;
-    void SetKeyValue(const std::string& key, const std::string& value) override;
+    bool SetKeyValue(const std::string& key, const std::string& value) override;
+    bool DelKeyValue(const std::string& key) override;
 
 protected:
     // bool Test();

@@ -24,7 +24,8 @@
 #include "base/AFPluginManager.hpp"
 #include "bus/interface/AFIBusModule.hpp"
 #include "log/interface/AFILogModule.hpp"
-//#include "consul/interface/AFIConsulModule.hpp"
+#include "consul/interface/AFIConsulModule.hpp"
+#include "utility/interface/AFITimerModule.hpp"
 #include "net/interface/AFINetServiceManagerModule.hpp"
 #include "net/interface/AFINetServerService.hpp"
 
@@ -35,14 +36,15 @@ class AFCNetServiceManagerModule : public AFINetServiceManagerModule
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
+    bool PostInit() override;
     bool Update() override;
     bool Shut() override;
 
     int CreateServer(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
     AFINetServerService* GetSelfNetServer() override;
 
-    int CreateClusterClients(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
-    int CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url) override;
+    //int CreateClusterClients(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
+    //int CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url) override;
 
     AFINetClientService* GetNetClientService(const ARK_APP_TYPE& app_type) override;
     AFINetClientService* GetNetClientServiceByBusID(const int bus_id) override;
@@ -51,19 +53,26 @@ public:
     bool RemoveNetConnectionBus(int client_bus_id) override;
     AFINet* GetNetConnectionBus(int src_bus, int target_bus) override;
 
-    // protected:
-    //    int RegisterToConsul(const AFServerConfig* config);
-    //    int DeregisterFromConsul(const int bus_id);
+protected:
+    int RegisterToConsul(const int bus_id);
+    int DeregisterFromConsul(const int bus_id);
+
+    void HealthCheck(const std::string& name, const AFGUID& entity_id);
+
+    bool CreateClientService(const AFBusAddr& bus_addr, const std::string& ip, uint16_t port);
 
 private:
-    AFMap<int, AFINetServerService> net_servers_;
-    AFMap<ARK_APP_TYPE, AFINetClientService> net_clients_; // app_type -> net_client_service
+    // bus_id -> net_server_service - support multi-server in the same app
+    AFMap<int, AFINetServerService> server_services_;
 
-    AFMap<std::pair<int, int>, AFINet> net_bus_relations_;
+    // target_app_type -> net_client_service
+    // the NetClientService have target multi-client info.
+    AFMap<ARK_APP_TYPE, AFINetClientService> net_clients_;
 
     AFIBusModule* m_pBusModule;
     AFILogModule* m_pLogModule;
-    // AFIConsulModule* m_pConsulModule;
+    AFIConsulModule* m_pConsulModule;
+    AFITimerModule* m_pTimerModule;
 };
 
 } // namespace ark

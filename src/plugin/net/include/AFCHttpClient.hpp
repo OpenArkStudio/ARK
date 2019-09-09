@@ -37,11 +37,13 @@ public:
     virtual ~AFCHttpClient();
 
     void AsyncPost(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params, const std::string& post_data,
-        std::function<void(const std::string&)>&& callback) override;
+        std::map<std::string, std::string>& params, const std::string& post_data, HTTP_CALLBACK&& callback) override;
 
     void AsyncGet(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params, std::function<void(const std::string&)>&& callback) override;
+        std::map<std::string, std::string>& params, HTTP_CALLBACK&& callback) override;
+
+    void AsyncPut(const std::string& ip, const uint16_t port, const std::string& url,
+        std::map<std::string, std::string>& params, const std::string& put_data, HTTP_CALLBACK&& callback) override;
 
 protected:
     brynet::net::TcpService::Ptr GetTcpService() override

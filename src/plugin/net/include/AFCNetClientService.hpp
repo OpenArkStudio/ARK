@@ -58,7 +58,7 @@ protected:
 
     AFINet* CreateNet(const proto_type proto);
 
-    void RegisterToServer(const AFGUID& session_id, const int bus_id);
+    //void RegisterToServer(const AFGUID& session_id, const int bus_id);
     int OnConnect(const AFNetEvent* event);
     int OnDisconnect(const AFNetEvent* event);
 
@@ -80,8 +80,8 @@ protected:
 
     void RemoveServerWeightData(ARK_SHARE_PTR<AFConnectionData>& xInfo);
 
-    // recv other server infos
-    void OnServerNotify(const AFNetMsg* msg, const int64_t session_id);
+    //// recv other server infos
+    //void OnServerNotify(const AFNetMsg* msg, const int64_t session_id);
 
 private:
     AFPluginManager* m_pPluginManager;
@@ -91,6 +91,8 @@ private:
     AFILogModule* m_pLogModule;
 
     AFMapEx<int, AFConnectionData> target_servers_;
+    AFMap<int, AFINet> bus_to_net_;
+
     AFCConsistentHash consistent_hashmap_;
 
     std::list<AFConnectionData> tmp_nets_;
@@ -98,7 +100,7 @@ private:
     std::map<int, NET_MSG_FUNCTOR_PTR> net_msg_callbacks_;
     std::list<NET_EVENT_FUNCTOR_PTR> net_event_callbacks_;
 
-    // forward to other processes
+    // [NOT USE now] - forward to other processes
     std::list<NET_MSG_FUNCTOR_PTR> net_msg_forward_callbacks_;
 
     std::map<int, std::map<int, AFMsg::msg_ss_server_report>> reg_servers_;

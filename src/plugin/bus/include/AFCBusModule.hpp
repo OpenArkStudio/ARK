@@ -34,11 +34,7 @@ public:
     const std::string& GetAppName(const ARK_APP_TYPE& app_type) override;
     ARK_APP_TYPE GetAppType(const std::string& name) override;
 
-    const AFServerConfig* GetAppServerInfo() override;
-    const std::string GetAppHost(const int bus_id) override;
-
-    bool GetDirectBusRelations(std::vector<AFServerConfig>& target_list) override;
-    ArkBusRelationType GetBusRelationType(const int bus_id) override;
+    const AFProcConfig& GetSelfProc() override;
 
     ARK_APP_TYPE GetSelfAppType() override;
     int GetSelfBusID() override;
@@ -46,17 +42,22 @@ public:
 
     int CombineBusID(const ARK_APP_TYPE app_type, const uint8_t inst_id) override;
 
-protected:
-    bool LoadProcConfig();
-    bool LoadBusRelation();
-    uint16_t CalcProcPort(const AFBusAddr& bus_addr);
+    //uint16_t CalcProcPort(const int bus_id) override;
 
-    const AFServerConfig* GetAppServerInfo(const AFBusAddr& bus_addr);
-    const std::string& GetHost(const std::string& host);
+    const AFRegCenter& GetRegCenter() override
+    {
+        return app_config_.reg_center;
+    }
+
+    bool GetTargetBusRelations(std::vector<ARK_APP_TYPE>& target_list) override;
+
+protected:
+    bool LoadBusRelationConfig();
+    bool LoadRegCenterConfig();
+    bool LoadProcConfig();
 
 private:
-    AFProcConfig proc_config_;
-    std::map<ARK_APP_TYPE, std::map<ARK_APP_TYPE, ArkBusRelationType>> bus_relations_;
+    AFAppConfig app_config_;
 };
 
 } // namespace ark

@@ -45,5 +45,5 @@ add_subdirectory(bus)
 add_subdirectory(net)
 add_subdirectory(utility)
 add_subdirectory(log)
-#add_subdirectory(consul)
+add_subdirectory(consul)
 

@@ -28,17 +28,84 @@ bool AFCNetServiceManagerModule::Init()
 {
     m_pBusModule = FindModule<AFIBusModule>();
     m_pLogModule = FindModule<AFILogModule>();
-    // m_pConsulModule = FindModule<AFIConsulModule>();
-
-    //// Todo: test address, will add configuration
-    // m_pConsulModule->SetRegisterCenter("172.26.230.87", 8500);
+    m_pConsulModule = FindModule<AFIConsulModule>();
+    m_pTimerModule = FindModule<AFITimerModule>();
 
     return true;
 }
 
+bool AFCNetServiceManagerModule::PostInit()
+{
+    // set reg center info
+    auto reg_center = m_pBusModule->GetRegCenter();
+    m_pConsulModule->SetRegisterCenter(reg_center.ip, reg_center.port);
+
+    // start health check timer
+    m_pTimerModule->AddForeverTimer("service_discovery_health_check", 0, 20, this, &AFCNetServiceManagerModule::HealthCheck);
+
+    return true;
+}
+
+void AFCNetServiceManagerModule::HealthCheck(const std::string& name, const AFGUID& entity_id)
+{
+    // check if I need to connect other servers from consul center.
+    std::vector<ARK_APP_TYPE> target_list;
+    m_pBusModule->GetTargetBusRelations(target_list);
+
+    if (target_list.empty())
+    {
+        return;
+    }
+
+    std::vector<std::string> tag_filter_list;
+    for (auto target : target_list)
+    {
+        auto& name = m_pBusModule->GetAppName(target);
+        if (name.empty())
+        {
+            continue;
+        }
+
+        tag_filter_list.emplace_back(name);
+    }
+
+    if (tag_filter_list.empty())
+    {
+        return;
+    }
+
+    auto reg_center = m_pBusModule->GetRegCenter();
+
+    consulpp::ConsulServiceSet service_list;
+    auto ret = m_pConsulModule->GetHealthServices(reg_center.service_name, tag_filter_list, service_list);
+    if (!ret)
+    {
+        return;
+    }
+
+    // start clients
+    for (auto service : service_list)
+    {
+        auto& metas = service.GetMeta();
+        auto iter = metas.find("busid");
+        if (iter == metas.end())
+        {
+            ARK_LOG_ERROR("service={} do not have Meta=busid, please check it.", service.GetName());
+            continue;
+        }
+
+        AFBusAddr bus_addr;
+        bus_addr.FromString(iter->second);
+
+        // TODO: check if connected
+
+        CreateClientService(bus_addr, service.GetAddress(), service.GetPort());
+    }
+}
+
 bool AFCNetServiceManagerModule::Update()
 {
-    for (auto iter : net_servers_)
+    for (auto iter : server_services_)
     {
         auto pServerData = iter.second;
         if (pServerData != nullptr)
@@ -56,19 +123,17 @@ bool AFCNetServiceManagerModule::Update()
         }
     }
 
-    // Todo: health checks
-    // create a timer to check health from consul; 20s once
-
     return true;
 }
 
 bool AFCNetServiceManagerModule::Shut()
 {
-    for (auto iter : net_servers_)
+    for (auto iter : server_services_)
     {
         auto pServerData = iter.second;
-        //// unregister from consul
-        // DeregisterFromConsul(iter.first);
+
+        // unregister from consul
+        DeregisterFromConsul(iter.first);
 
         ARK_DELETE(pServerData);
     }
@@ -84,103 +149,93 @@ bool AFCNetServiceManagerModule::Shut()
 
 int AFCNetServiceManagerModule::CreateServer(const AFHeadLength head_len /* = AFHeadLength::SS_HEAD_LENGTH*/)
 {
-    const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
-    if (server_config == nullptr)
-    {
-        ARK_LOG_ERROR(
-            "Cannot get process server info, bus id = {}", AFBusAddr(m_pBusModule->GetSelfBusID()).ToString());
-        ARK_ASSERT_NO_EFFECT(0);
-        return -1;
-    }
-
+    const AFProcConfig& self_proc = m_pBusModule->GetSelfProc();
+    //TODO: change to shared_ptr
     AFINetServerService* pServer = ARK_NEW AFCNetServerService(GetPluginManager());
-    net_servers_.insert(m_pBusModule->GetSelfBusID(), pServer);
-
-    bool ret = pServer->Start(head_len, m_pBusModule->GetSelfBusID(), server_config->public_ep_,
-        server_config->thread_num, server_config->max_connection);
+    bool ret = pServer->Start(head_len, self_proc.bus_id, self_proc.server_ep, self_proc.thread_num, self_proc.max_connection);
     if (ret)
     {
-        ARK_LOG_INFO("Start net server successful, url = {}", server_config->public_ep_.ToString());
+        ARK_LOG_INFO("Start net server successful, url = {}", self_proc.server_ep.ToString());
     }
     else
     {
-        ARK_LOG_ERROR("Cannot start server net, url = {}", server_config->public_ep_.ToString());
+        ARK_LOG_ERROR("Cannot start server net, url = {}", self_proc.server_ep.ToString());
         ARK_ASSERT_NO_EFFECT(0);
         return -2;
     }
 
-    //// Todo:Register self to service discovery center
-    // return RegisterToConsul(server_config);
+    server_services_.insert(m_pBusModule->GetSelfBusID(), pServer);
 
-    return 0;
+    // Register self to service discovery center(consul)
+    return RegisterToConsul(m_pBusModule->GetSelfBusID());
 }
 
 AFINetServerService* AFCNetServiceManagerModule::GetSelfNetServer()
 {
-    return net_servers_.find_value(m_pBusModule->GetSelfBusID());
+    return server_services_.find_value(m_pBusModule->GetSelfBusID());
 }
 
-int AFCNetServiceManagerModule::CreateClusterClients(const AFHeadLength head_len /* = AFHeadLength::SS_HEAD_LENGTH*/)
-{
-    std::vector<AFServerConfig> target_list;
-    if (!m_pBusModule->GetDirectBusRelations(target_list))
-    {
-        return -1;
-    }
+//int AFCNetServiceManagerModule::CreateClusterClients(const AFHeadLength head_len /* = AFHeadLength::SS_HEAD_LENGTH*/)
+//{
+//    //std::vector<AFServerConfig> target_list;
+//    //if (!m_pBusModule->GetDirectBusRelations(target_list))
+//    //{
+//    //    return -1;
+//    //}
+//
+//    //if (target_list.empty())
+//    //{
+//    //    return 0;
+//    //}
+//
+//    //for (auto& target : target_list)
+//    //{
+//    //    ARK_APP_TYPE app_type = ARK_APP_TYPE(AFBusAddr(target.self_id).app_type);
+//    //    AFINetClientService* pClient = net_clients_.find_value(app_type);
+//    //    if (pClient == nullptr)
+//    //    {
+//    //        pClient = ARK_NEW AFCNetClientService(GetPluginManager());
+//    //        net_clients_.insert(app_type, pClient);
+//    //    }
+//    //    bool ret = pClient->StartClient(head_len, target.self_id, target.intranet_ep_);
+//    //    if (!ret)
+//    //    {
+//    //        ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", m_pBusModule->GetSelfBusName(), target.intranet_ep_.ToString());
+//    //        return ret;
+//    //    }
+//    //}
+//
+//    return 0;
+//}
 
-    if (target_list.empty())
-    {
-        return 0;
-    }
-
-    for (auto& target : target_list)
-    {
-        ARK_APP_TYPE app_type = ARK_APP_TYPE(AFBusAddr(target.self_id).app_type);
-        AFINetClientService* pClient = net_clients_.find_value(app_type);
-        if (pClient == nullptr)
-        {
-            pClient = ARK_NEW AFCNetClientService(GetPluginManager());
-            net_clients_.insert(app_type, pClient);
-        }
-        bool ret = pClient->StartClient(head_len, target.self_id, target.intranet_ep_);
-        if (!ret)
-        {
-            ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", m_pBusModule->GetSelfBusName(),
-                target.intranet_ep_.ToString());
-            return ret;
-        }
-    }
-
-    return 0;
-}
-
-int AFCNetServiceManagerModule::CreateClusterClient(
-    const AFHeadLength head_len, const int bus_id, const std::string& url)
-{
-    ArkBusRelationType relation_type = m_pBusModule->GetBusRelationType(bus_id);
-    if (relation_type != ArkBusRelationType::BRT_DIRECT)
-    {
-        return 0;
-    }
-
-    ARK_APP_TYPE app_type = ARK_APP_TYPE(AFBusAddr(bus_id).app_type);
-    AFINetClientService* pClient = net_clients_.find_value(app_type);
-    if (pClient == nullptr)
-    {
-        pClient = ARK_NEW AFCNetClientService(GetPluginManager());
-        net_clients_.insert(app_type, pClient);
-    }
-
-    std::error_code ec;
-    AFEndpoint target_ep = AFEndpoint::FromString(url, ec);
-    bool ret = pClient->StartClient(head_len, bus_id, target_ep);
-    if (!ret)
-    {
-        ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", m_pBusModule->GetSelfBusName(), url);
-    }
-
-    return ret;
-}
+//int AFCNetServiceManagerModule::CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url)
+//{
+//    //ArkConnectionType connection_type = m_pBusModule->GetConnectionType(bus_id);
+//    //if (connection_type != ArkConnectionType::BRT_DIRECT)
+//    //{
+//    //    return 0;
+//    //}
+//
+//    //ARK_APP_TYPE app_type = ARK_APP_TYPE(AFBusAddr(bus_id).app_type);
+//    //AFINetClientService* pClient = net_clients_.find_value(app_type);
+//    //if (pClient == nullptr)
+//    //{
+//    //    pClient = ARK_NEW AFCNetClientService(GetPluginManager());
+//    //    net_clients_.insert(app_type, pClient);
+//    //}
+//
+//    //std::error_code ec;
+//    //AFEndpoint target_ep = AFEndpoint::FromString(url, ec);
+//    //bool ret = pClient->StartClient(head_len, bus_id, target_ep);
+//    //if (!ret)
+//    //{
+//    //    ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", m_pBusModule->GetSelfBusName(), url);
+//    //}
+//
+//    //return ret;
+//
+//    return 0;
+//}
 
 AFINetClientService* AFCNetServiceManagerModule::GetNetClientService(const ARK_APP_TYPE& app_type)
 {
@@ -221,39 +276,60 @@ AFINet* AFCNetServiceManagerModule::GetNetConnectionBus(int src_bus, int target_
     return net_bus_relations_.find_value(std::make_pair(src_bus, target_bus));
 }
 
-// int AFCNetServiceManagerModule::RegisterToConsul(const AFServerConfig* config)
-//{
-//    if (config == nullptr)
-//    {
-//        return -1;
-//    }
-//
-//    const std::string app_name = m_pBusModule->GetAppWholeName(config->self_id);
-//    consulpp::ConsulService service;
-//    service.SetId(app_name);
-//    service.SetName("ark_service");
-//    service.SetAddress(config->public_ep_.GetIP());
-//    service.SetPort(config->public_ep_.GetPort());
-//    // multi-tag
-//    service.SetTag(app_name);
-//    service.SetTag(bus.ToString());
-//    // multi-meta
-//    service.SetMeta("version", "0.9.5");
-//
-//    consulpp::ConsulCheck check;
-//    check.SetId(app_name + "_check");
-//    check.SetName(app_name + "_check");
-//    check.SetTcp(config->public_ep_.GetIP() + ":" + ARK_TO_STRING(config->public_ep_.GetPort()));
-//    check.SetInterval("10s");
-//    check.SetTimeout("3s");
-//    service.SetCheck(check);
-//
-//    return m_pConsulModule->RegisterService(service) ? 0 : -2;
-//}
-//
-// int AFCNetServiceManagerModule::DeregisterFromConsul(const int bus_id)
-//{
-//    return m_pConsulModule->DeregisterService(m_pBusModule->GetAppWholeName(bus_id));
-//}
+int AFCNetServiceManagerModule::RegisterToConsul(const int bus_id)
+{
+    auto reg_center = m_pBusModule->GetRegCenter();
+    AFBusAddr bus(bus_id);
+    auto bus_name = bus.ToString();
+
+    const std::string app_whole_name = m_pBusModule->GetAppWholeName(bus.bus_id);
+    const std::string app_name = m_pBusModule->GetAppName(static_cast<ARK_APP_TYPE>(bus.app_type));
+
+    const AFProcConfig& self_proc = m_pBusModule->GetSelfProc();
+
+    consulpp::ConsulService service;
+    service.SetId(app_whole_name);
+    service.SetName(reg_center.service_name);
+    service.SetAddress(self_proc.intranet_ep.GetIP());
+    service.SetPort(self_proc.intranet_ep.GetPort());
+    // multi-tag
+    service.SetTag(app_name);
+    service.SetTag(bus_name);
+    // multi-meta
+    service.SetMeta("busid", bus_name);
+
+    consulpp::ConsulCheck check;
+    check.SetId(app_whole_name + "_check");
+    check.SetName(app_whole_name);
+    check.SetTcp(self_proc.intranet_ep.GetIP() + ":" + ARK_TO_STRING(self_proc.intranet_ep.GetPort()));
+    check.SetInterval(reg_center.check_interval);
+    check.SetTimeout(reg_center.check_timeout);
+    service.SetCheck(check);
+
+    return m_pConsulModule->RegisterService(service) ? 0 : -2;
+}
+
+int AFCNetServiceManagerModule::DeregisterFromConsul(const int bus_id)
+{
+    return m_pConsulModule->DeregisterService(m_pBusModule->GetAppWholeName(bus_id));
+}
+
+bool AFCNetServiceManagerModule::CreateClientService(const AFBusAddr& bus_addr, const std::string& ip, uint16_t port)
+{
+    //    ARK_APP_TYPE app_type = ARK_APP_TYPE(AFBusAddr(target.self_id).app_type);
+    //    AFINetClientService* pClient = net_clients_.find_value(app_type);
+    //    if (pClient == nullptr)
+    //    {
+    //        pClient = ARK_NEW AFCNetClientService(GetPluginManager());
+    //        net_clients_.insert(app_type, pClient);
+    //    }
+    //    bool ret = pClient->StartClient(head_len, target.self_id, target.intranet_ep_);
+    //    if (!ret)
+    //    {
+    //        ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", m_pBusModule->GetSelfBusName(), target.intranet_ep_.ToString());
+    //        return ret;
+    //    }
+    return true;
+}
 
 } // namespace ark

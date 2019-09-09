@@ -23,8 +23,7 @@
 
 namespace ark {
 
-AFCTCPClient::AFCTCPClient(const brynet::net::TcpService::Ptr& service /* = nullptr*/,
-    const brynet::net::AsyncConnector::Ptr& connector /* = nullptr*/)
+AFCTCPClient::AFCTCPClient(const brynet::net::TcpService::Ptr& service /* = nullptr*/, const brynet::net::AsyncConnector::Ptr& connector /* = nullptr*/)
 {
     using namespace brynet::net;
     base::InitSocket();
@@ -46,8 +45,7 @@ void AFCTCPClient::Update()
     UpdateNetSession();
 }
 
-bool AFCTCPClient::StartClient(
-    AFHeadLength head_len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 /* = false*/)
+bool AFCTCPClient::StartClient(AFHeadLength head_len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 /* = false*/)
 {
     using namespace brynet::net;
 
@@ -120,13 +118,11 @@ bool AFCTCPClient::StartClient(
 
     connection_builder_.configureService(tcp_service_)
         .configureConnector(connector_)
-        .configureConnectionOptions({TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback),
-            TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE)})
-        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
-            AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
+        .configureConnectionOptions(
+            {TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback), TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE)})
+        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port), AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
             AsyncConnector::ConnectOptions::WithFailedCallback(failedCallback),
-            AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback(
-                [](TcpSocket& socket) { socket.setNodelay(); })})
+            AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback([](TcpSocket& socket) { socket.setNodelay(); })})
         .asyncConnect();
 
     SetWorking(true);
@@ -179,11 +175,11 @@ void AFCTCPClient::UpdateNetSession()
         UpdateNetMsg(client_session_ptr_.get());
     }
 
-    if (client_session_ptr_ != nullptr && client_session_ptr_->NeedRemove())
+    if (client_session_ptr_->NeedRemove())
     {
         AFScopeWLock guard(rw_lock_);
         CloseSession(client_session_ptr_->GetSessionId());
-        client_session_ptr_.reset(nullptr);
+        client_session_ptr_.release();
     }
 }
 

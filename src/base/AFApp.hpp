@@ -26,35 +26,28 @@ namespace ark {
 
 enum class ARK_APP_TYPE : uint8_t
 {
-    ARK_APP_DEFAULT = 0, // none
-    // cluster level
-    ARK_APP_MASTER = 1, // master
-    ARK_APP_DIR = 2,    // dir
-    ARK_APP_LOG = 3,    // log
-    ARK_APP_ROUTER = 4, // router, world & cluster middle layer
-    ARK_PROC_OSS = 5,   // oss
-    // ARK_PROC_CLUTER_RANK    = 6,    //cluster rank
-    // ARK_PROC_CLUSTER_MAIL   = 7,    //cluster mail
-    // ARK_PROC_CLUSTER_PUB    = 8,    //cluster public
-
-    ARK_APP_CLUSTER_MAX = 99, // max of cluster
-    // world level
-    ARK_APP_WORLD = 100, // world
-    ARK_APP_GAME = 101,  // game
-    ARK_APP_LOGIN = 102, // login
-    ARK_APP_PROXY = 103, // proxy
-    ARK_APP_DB = 104,    // db-proxy
-    // ARK_APP_RANK           = 105,  //rank
-    // ARK_APP_PUB            = 106,  //public
-    // ARK_APP_CS_PROXY       = 107,  //cs_proxy, produce cross-server things
-
+    ARK_APP_DEFAULT, // none
+    ARK_APP_MASTER,  // master //cluster level start
+    ARK_APP_ROUTER,  // router, world & cluster middle layer
+    //ARK_APP_OSS,              // oss
+    //ARK_APP_DIR,              // dir
+    //ARK_APP_LOG,              // log
+    //ARK_APP_CLUTER_RANK,      //cluster rank
+    //ARK_APP_CLUSTER_MAIL,     //cluster mail
+    //ARK_PROC_CLUSTER_PUB,     //cluster public
+    ARK_APP_CLUSTER_MAX = 29, // max of cluster
+    ARK_APP_WORLD,            // world // zone level start
+    ARK_APP_GAME,             // game
+    ARK_APP_LOGIN,            // login
+    ARK_APP_PROXY,            // proxy
+    ARK_APP_DB,               // db-proxy
+    //ARK_APP_RANK,             // rank
+    //ARK_APP_PUB,              // public
+    //ARK_APP_CS_PROXY,         // cs_proxy, produce cross-server things
     ARK_APP_WORLD_MAX = 199, // max of world
-
-    // db
-    ARK_APP_REDIS = 200, // Redis server
-    ARK_APP_MYSQL = 201, // MySQL server
-
-    ARK_APP_MAX = 255, // max of all processes
+    ARK_APP_REDIS,           // Redis server // others start
+    ARK_APP_MYSQL,           // MySQL server
+    ARK_APP_MAX = 255,       // max of all processes
 };
 
 } // namespace ark

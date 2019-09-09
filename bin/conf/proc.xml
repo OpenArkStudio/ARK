@@ -1,0 +1,9 @@
+<processes>
+    <proc busid="1.0.1.1" endpoint_server="tcp://0.0.0.0:8001" endpoint_intranet="tcp://127.0.0.1:9001" max_connection="5000" thread_num="2"/>
+    <proc busid="1.0.2.1" endpoint_server="tcp://0.0.0.0:8002" endpoint_intranet="tcp://127.0.0.1:9002" max_connection="5000" thread_num="2"/>
+    <proc busid="1.1.30.1" endpoint_server="tcp://0.0.0.0:8003" endpoint_intranet="tcp://127.0.0.1:10001" max_connection="5000" thread_num="2"/>
+    <proc busid="1.1.31.1" endpoint_server="tcp://0.0.0.0:8001" endpoint_intranet="tcp://127.0.0.1:10002" max_connection="5000" thread_num="2"/>
+    <proc busid="1.1.32.1" endpoint_server="tcp://0.0.0.0:8001" endpoint_intranet="tcp://127.0.0.1:10003" max_connection="5000" thread_num="2"/>
+    <proc busid="1.1.33.1" endpoint_server="tcp://0.0.0.0:8001" endpoint_intranet="tcp://127.0.0.1:10004" max_connection="5000" thread_num="2"/>
+    <!-- <proc busid="1.1.34.3" endpoint_server="tcp://0.0.0.0:8001" endpoint_intranet="tcp://127.0.0.1:10005" max_connection="5000" thread_num="2"/> -->
+</processes>

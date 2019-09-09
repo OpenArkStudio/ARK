@@ -37,21 +37,19 @@ public:
     // get app type
     virtual ARK_APP_TYPE GetAppType(const std::string& name) = 0;
 
-    // get a process info which act a server
-    virtual const AFServerConfig* GetAppServerInfo() = 0;
-
-    // get the host and port of a process
-    virtual const std::string GetAppHost(const int bus_id) = 0;
-
-    // get bus relations
-    virtual bool GetDirectBusRelations(std::vector<AFServerConfig>& target_list) = 0;
-    virtual ArkBusRelationType GetBusRelationType(const int bus_id) = 0;
+    //// get a process info which act a server
+    virtual const AFProcConfig& GetSelfProc() = 0;
 
     virtual ARK_APP_TYPE GetSelfAppType() = 0;
     virtual int GetSelfBusID() = 0;
     virtual const std::string GetSelfBusName() = 0;
 
     virtual int CombineBusID(const ARK_APP_TYPE app_type, const uint8_t inst_id) = 0;
+    virtual const AFRegCenter& GetRegCenter() = 0;
+
+    //virtual uint16_t CalcProcPort(const int bus_id) = 0;
+
+    virtual bool GetTargetBusRelations(std::vector<ARK_APP_TYPE>& target_list) = 0;
 };
 
 } // namespace ark

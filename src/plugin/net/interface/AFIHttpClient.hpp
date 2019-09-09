@@ -29,15 +29,15 @@ namespace ark {
 class AFIHttpClient
 {
 public:
-    virtual void AsyncPost(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params, const std::string& post_data,
-        std::function<void(const std::string&)>&& callback) = 0;
+    using HTTP_CALLBACK = std::function<void(const std::string&)>;
+
+    virtual void AsyncPost(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+        const std::string& post_data, HTTP_CALLBACK&& callback) = 0;
 
     // Response - the type pf response protobuf message
     template<typename Response>
-    int AsyncJsonPost(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params, const google::protobuf::Message& post_msg,
-        std::function<void(const Response&)>&& callback)
+    void AsyncJsonPost(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+        const google::protobuf::Message& post_msg, std::function<void(const Response&)>&& callback)
     {
         std::string post_body;
         google::protobuf::util::MessageToJsonString(post_msg, &post_body);
@@ -46,8 +46,7 @@ public:
             auto status = google::protobuf::util::JsonStringToMessage(response_body, response);
             if (!status.ok())
             {
-                CONSOLE_ERROR_LOG << "google::protobuf::util::JsonStringToMessage failed, "
-                                  << status.error_message().ToString() << std::endl;
+                CONSOLE_ERROR_LOG << "google::protobuf::util::JsonStringToMessage failed, " << status.error_message().ToString() << std::endl;
                 return;
             }
 
@@ -67,21 +66,20 @@ public:
         });
     }
 
-    virtual void AsyncGet(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params, std::function<void(const std::string&)>&& callback) = 0;
+    virtual void AsyncGet(
+        const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params, HTTP_CALLBACK&& callback) = 0;
 
     // Response - the type pf response protobuf message
     template<typename Response>
-    void AsyncJsonGet(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params, std::function<void(const Response&)>&& callback)
+    void AsyncJsonGet(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+        std::function<void(const Response&)>&& callback)
     {
         AsyncGet(ip, port, url, params, [=](const std::string& response_body) {
             Response response;
             auto status = google::protobuf::util::JsonStringToMessage(response_body, response);
             if (!status.ok())
             {
-                CONSOLE_ERROR_LOG << "google::protobuf::util::JsonStringToMessage failed, "
-                                  << status.error_message().ToString() << std::endl;
+                CONSOLE_ERROR_LOG << "google::protobuf::util::JsonStringToMessage failed, " << status.error_message().ToString() << std::endl;
                 return;
             }
 
@@ -100,6 +98,9 @@ public:
             });
         });
     }
+
+    virtual void AsyncPut(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+        const std::string& put_data, HTTP_CALLBACK&& callback) = 0;
 
 protected:
     virtual brynet::net::TcpService::Ptr GetTcpService() = 0;

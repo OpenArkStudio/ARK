@@ -68,7 +68,7 @@ enum class ArkDataMaskType : uint32_t
     DMT_LOG,        // log when changed
 };
 
-enum class ArkBusRelationType : uint32_t
+enum class ArkConnectionType : uint32_t
 {
     BRT_UNKNOWN,     // unknown
     BRT_DIRECT,      // directly

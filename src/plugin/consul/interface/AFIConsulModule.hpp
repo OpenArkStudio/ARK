@@ -21,9 +21,13 @@ public:
     virtual bool GetHealthServices(
         const std::string& service_name, const std::string& tag_filter, consulpp::ConsulServiceSet& services) = 0;
 
+    virtual bool GetHealthServices(const std::string& service_name, const std::vector<std::string>& tag_filter_list,
+        consulpp::ConsulServiceSet& services) = 0;
+
     // Get/Set value
     virtual const std::string GetKeyValue(const std::string& key) = 0;
-    virtual void SetKeyValue(const std::string& key, const std::string& value) = 0;
+    virtual bool SetKeyValue(const std::string& key, const std::string& value) = 0;
+    virtual bool DelKeyValue(const std::string& key) = 0;
 };
 
 } // namespace ark

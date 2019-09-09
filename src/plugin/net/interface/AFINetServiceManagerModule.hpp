@@ -34,8 +34,8 @@ public:
     virtual AFINetServerService* GetSelfNetServer() = 0;
 
     // client
-    virtual int CreateClusterClients(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) = 0;
-    virtual int CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url) = 0;
+    //virtual int CreateClusterClients(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) = 0;
+    //virtual int CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url) = 0;
 
     virtual AFINetClientService* GetNetClientService(const ARK_APP_TYPE& app_type) = 0;
     virtual AFINetClientService* GetNetClientServiceByBusID(const int bus_id) = 0;

@@ -27,8 +27,7 @@ AFCHttpClient::~AFCHttpClient()
 }
 
 void AFCHttpClient::AsyncPost(const std::string& ip, const uint16_t port, const std::string& url,
-    std::map<std::string, std::string>& params, const std::string& post_data,
-    std::function<void(const std::string&)>&& callback)
+    std::map<std::string, std::string>& params, const std::string& post_data, HTTP_CALLBACK&& callback)
 {
     using namespace brynet::net;
     using namespace brynet::net::http;
@@ -80,13 +79,13 @@ void AFCHttpClient::AsyncPost(const std::string& ip, const uint16_t port, const 
 }
 
 void AFCHttpClient::AsyncGet(const std::string& ip, const uint16_t port, const std::string& url,
-    std::map<std::string, std::string>& params, std::function<void(const std::string&)>&& callback)
+    std::map<std::string, std::string>& params, HTTP_CALLBACK&& callback)
 {
     using namespace brynet::net;
     using namespace brynet::net::http;
 
     http::HttpRequest request;
-    request.setMethod(HttpRequest::HTTP_METHOD::HTTP_METHOD_POST);
+    request.setMethod(HttpRequest::HTTP_METHOD::HTTP_METHOD_GET);
     request.setUrl(url);
     request.addHeadValue("Host", std::string(ip) + std::string(":") + ARK_TO_STRING(port));
 
@@ -94,6 +93,57 @@ void AFCHttpClient::AsyncGet(const std::string& ip, const uint16_t port, const s
     for (auto iter : params)
     {
         query_params.add(iter.first, iter.second);
+    }
+
+    request.setQuery(query_params.getResult());
+    std::string req_url = request.getResult();
+
+    // start to connect
+    connection_builder_.configureConnector(connector_)
+        .configureService(tcp_service_)
+        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
+            AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
+            AsyncConnector::ConnectOptions::WithFailedCallback([]() { std::cout << "Connect failed" << std::endl; })})
+        .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE),
+            TcpService::AddSocketOption::AddEnterCallback(
+                [](const TcpConnection::Ptr& session) { std::cout << "Connect successfully" << std::endl; })})
+        .configureEnterCallback([&](HttpSession::Ptr session) {
+            session->send(req_url.c_str(), req_url.size());
+            session->setHttpCallback([&](const HTTPParser& httpParser, const HttpSession::Ptr& session) {
+                auto event_loop = tcp_service_->getRandomEventLoop();
+                event_loop->runAsyncFunctor([=] {
+                    if (callback != nullptr)
+                    {
+                        callback(httpParser.getBody());
+                    }
+                });
+            });
+            session->setClosedCallback(
+                [req_url](const HttpSession::Ptr& session) { std::cout << "Disconnect" << std::endl; });
+        })
+        .asyncConnect();
+}
+
+void AFCHttpClient::AsyncPut(const std::string& ip, const uint16_t port, const std::string& url,
+    std::map<std::string, std::string>& params, const std::string& put_data, HTTP_CALLBACK&& callback)
+{
+    using namespace brynet::net;
+    using namespace brynet::net::http;
+
+    http::HttpRequest request;
+    request.setMethod(HttpRequest::HTTP_METHOD::HTTP_METHOD_PUT);
+    request.setUrl(url);
+    request.addHeadValue("Host", std::string(ip) + std::string(":") + ARK_TO_STRING(port));
+
+    HttpQueryParameter query_params;
+    for (auto iter : params)
+    {
+        query_params.add(iter.first, iter.second);
+    }
+
+    if (!put_data.empty())
+    {
+        request.setBody(put_data);
     }
 
     request.setQuery(query_params.getResult());

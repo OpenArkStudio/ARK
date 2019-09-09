@@ -20,10 +20,12 @@
 
 #pragma once
 
-#include "base/AFApp.hpp"
 #include "base/AFPlatform.hpp"
 #include "base/AFMacros.hpp"
+#include "base/AFApp.hpp"
 #include "base/AFSocketFunc.hpp"
+#include "base/AFSlice.hpp"
+#include "base/AFStringUtils.hpp"
 
 namespace ark {
 
@@ -57,6 +59,22 @@ union AFBusAddr
         return bus_name;
     }
 
+    bool FromString(const std::string& bus_name)
+    {
+        ARK_ASSERT_RET_VAL(!bus_name.empty(), false);
+
+        std::vector<AFSlice> slices;
+        AFStringUtils::Split(slices, bus_name, ".");
+        ARK_ASSERT_RET_VAL(slices.size() >= 4, false);
+
+        channel_id = ARK_LEXICAL_CAST<uint8_t>(slices[0].data());
+        zone_id = ARK_LEXICAL_CAST<uint8_t>(slices[1].data());
+        app_type = ARK_LEXICAL_CAST<uint8_t>(slices[2].data());
+        inst_id = ARK_LEXICAL_CAST<uint8_t>(slices[3].data());
+
+        return true;
+    }
+
     int bus_id{0};
     struct
     {
@@ -71,31 +89,43 @@ union AFBusAddr
 class AFBusRelation
 {
 public:
-    AFBusRelation() = default;
-
     uint8_t app_type{std::underlying_type<ARK_APP_TYPE>::type(ARK_APP_TYPE::ARK_APP_DEFAULT)};
     uint8_t target_app_type{std::underlying_type<ARK_APP_TYPE>::type(ARK_APP_TYPE::ARK_APP_DEFAULT)};
     bool connection_type{false};
 };
 
-class AFServerConfig
-{
-public:
-    int self_id{0};
-    uint32_t max_connection{0};
-    uint8_t thread_num{0};
-    AFEndpoint intranet_ep_;
-    AFEndpoint public_ep_;
-    // to add other fields
-};
-
 class AFProcConfig
 {
 public:
-    std::map<std::string, std::string> hosts;                      // name -> intranet_ip
-    std::map<std::string, ARK_APP_TYPE> app_name_types;            // app_name -> app_type
-    std::map<ARK_APP_TYPE, std::string> app_type_names;            // app_type -> app_name
-    std::map<ARK_APP_TYPE, std::vector<AFServerConfig>> instances; // app_type -> app_instances
+    int bus_id{0};
+    uint32_t max_connection{0};
+    uint8_t thread_num{0};
+    AFEndpoint intranet_ep;
+    AFEndpoint server_ep;
+    // to add other fields
+};
+
+class AFRegCenter
+{
+public:
+    std::string ip{};
+    uint16_t port{8500};
+    std::string service_name{};
+    std::string check_interval{"10s"};
+    std::string check_timeout{"3s"};
+};
+
+class AFAppConfig
+{
+public:
+    AFRegCenter reg_center; // register center
+
+    std::map<std::string, ARK_APP_TYPE> name2types; // app_name -> app_type
+    std::map<ARK_APP_TYPE, std::string> type2names; // app_type -> app_name
+
+    std::map<ARK_APP_TYPE, std::vector<ARK_APP_TYPE>> connection_relations; // app_type -> target_types
+
+    AFProcConfig self_proc; // self process info
 };
 
 } // namespace ark

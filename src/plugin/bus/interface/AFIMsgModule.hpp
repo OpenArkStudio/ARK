@@ -95,27 +95,27 @@ public:
 
         switch (DataVar.GetType())
         {
-        case DT_BOOLEAN:
-            variantData->set_bool_value(DataVar.GetBool());
-            break;
-        case DT_INT:
-            variantData->set_int_value(DataVar.GetInt());
-            break;
-        case DT_INT64:
-            variantData->set_int64_value(DataVar.GetInt64());
-            break;
-        case DT_FLOAT:
-            variantData->set_float_value(DataVar.GetFloat());
-            break;
-        case DT_DOUBLE:
-            variantData->set_double_value(DataVar.GetDouble());
-            break;
-        case DT_STRING:
-            variantData->set_str_value(DataVar.GetString());
-            break;
-        default:
-            ARK_ASSERT_RET_VAL(0, false);
-            break;
+            case DT_BOOLEAN:
+                variantData->set_bool_value(DataVar.GetBool());
+                break;
+            case DT_INT:
+                variantData->set_int_value(DataVar.GetInt());
+                break;
+            case DT_INT64:
+                variantData->set_int64_value(DataVar.GetInt64());
+                break;
+            case DT_FLOAT:
+                variantData->set_float_value(DataVar.GetFloat());
+                break;
+            case DT_DOUBLE:
+                variantData->set_double_value(DataVar.GetDouble());
+                break;
+            case DT_STRING:
+                variantData->set_str_value(DataVar.GetString());
+                break;
+            default:
+                ARK_ASSERT_RET_VAL(0, false);
+                break;
         }
 
         return true;
@@ -154,27 +154,27 @@ public:
 
         switch (DataList.GetType(nCol))
         {
-        case DT_BOOLEAN:
-            variantData->set_bool_value(DataList.Bool(nCol));
-            break;
-        case DT_INT:
-            variantData->set_int_value(DataList.Int(nCol));
-            break;
-        case DT_INT64:
-            variantData->set_int64_value(DataList.Int64(nCol));
-            break;
-        case DT_FLOAT:
-            variantData->set_float_value(DataList.Float(nCol));
-            break;
-        case DT_DOUBLE:
-            variantData->set_double_value(DataList.Double(nCol));
-            break;
-        case DT_STRING:
-            variantData->set_str_value(DataList.String(nCol));
-            break;
-        default:
-            ARK_ASSERT_RET_VAL(0, false);
-            break;
+            case DT_BOOLEAN:
+                variantData->set_bool_value(DataList.Bool(nCol));
+                break;
+            case DT_INT:
+                variantData->set_int_value(DataList.Int(nCol));
+                break;
+            case DT_INT64:
+                variantData->set_int64_value(DataList.Int64(nCol));
+                break;
+            case DT_FLOAT:
+                variantData->set_float_value(DataList.Float(nCol));
+                break;
+            case DT_DOUBLE:
+                variantData->set_double_value(DataList.Double(nCol));
+                break;
+            case DT_STRING:
+                variantData->set_str_value(DataList.String(nCol));
+                break;
+            default:
+                ARK_ASSERT_RET_VAL(0, false);
+                break;
         }
 
         return true;

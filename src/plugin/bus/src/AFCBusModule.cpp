@@ -28,12 +28,17 @@ namespace ark {
 
 bool AFCBusModule::Init()
 {
-    if (!LoadProcConfig())
+    if (!LoadBusRelationConfig())
     {
         return false;
     }
 
-    if (!LoadBusRelation())
+    if (!LoadRegCenterConfig())
+    {
+        return false;
+    }
+
+    if (!LoadProcConfig())
     {
         return false;
     }
@@ -43,7 +48,7 @@ bool AFCBusModule::Init()
 
 bool AFCBusModule::LoadProcConfig()
 {
-    static std::string proc_file = "../bus_conf/proc.xml";
+    static std::string proc_file = "../conf/proc.xml";
     AFXml xml_doc(proc_file);
 
     auto root_node = xml_doc.GetRootNode();
@@ -53,187 +58,145 @@ bool AFCBusModule::LoadProcConfig()
         return false;
     }
 
-    auto host_nodes = root_node.FindNode("hosts");
-    if (!host_nodes.IsValid())
+    auto proc_nodes = root_node.FindNode("processes");
+    ARK_ASSERT_RET_VAL(proc_nodes.IsValid(), false);
+
+    for (auto proc_node = proc_nodes.FindNode("proc"); proc_node.IsValid(); proc_node.NextNode())
     {
-        ARK_ASSERT_NO_EFFECT(0);
-        return false;
-    }
+        std::string bus_name = proc_node.GetString("busid");
+        std::string endpoint_server = proc_node.GetString("endpoint_server");
+        std::string endpoint_intranet = proc_node.GetString("endpoint_intranet");
+        uint32_t max_connection = proc_node.GetUint32("max_connection");
+        uint8_t thread_num = static_cast<uint8_t>(proc_node.GetUint32("thread_num"));
 
-    for (auto host_node = host_nodes.FindNode("host"); host_node.IsValid(); host_node.NextNode())
-    {
-        std::string name = host_node.GetString("name");
-        std::string intranet_ip = host_node.GetString("intranet_ip");
-        proc_config_.hosts.insert(std::make_pair(name, intranet_ip));
-    }
+        AFBusAddr bus_addr;
+        ARK_ASSERT_CONTINUE(bus_addr.FromString(bus_name));
 
-    auto server_nodes = root_node.FindNode("servers");
-    if (!server_nodes.IsValid())
-    {
-        ARK_ASSERT_NO_EFFECT(0);
-        return false;
-    }
-
-    // self bus address
-    AFBusAddr self_bus_id(GetSelfBusID());
-
-    for (auto server_node = server_nodes.FindNode("server"); server_node.IsValid(); server_node.NextNode())
-    {
-        std::string name = server_node.GetString("name");
-        ARK_APP_TYPE app_type = ARK_APP_TYPE(server_node.GetUint32("app_type"));
-        std::string protocol = server_node.GetString("protocol");
-        uint32_t max_connection = server_node.GetUint32("max_connection");
-        uint8_t thread_num = static_cast<uint8_t>(server_node.GetUint32("thread_num"));
-
-        std::vector<AFServerConfig> instances;
-        for (auto proc_node = server_node.FindNode("proc"); proc_node.IsValid(); proc_node.NextNode())
+        // just load self process configuration
+        if (bus_addr.bus_id != GetSelfBusID())
         {
-            uint8_t start = static_cast<uint8_t>(proc_node.GetUint32("start"));
-            uint8_t end = static_cast<uint8_t>(proc_node.GetUint32("end"));
-            std::string host_name = proc_node.GetString("host");
-
-            auto iter = proc_config_.hosts.find(host_name);
-            ARK_ASSERT_RET_VAL(iter != proc_config_.hosts.end(), false);
-            const std::string& intranet_ip = iter->second;
-
-            for (uint8_t i = start; i <= end; ++i)
-            {
-                AFServerConfig server_config;
-                AFBusAddr server_bus(self_bus_id.channel_id, self_bus_id.zone_id, static_cast<uint8_t>(app_type), i);
-                server_config.self_id = server_bus.bus_id;
-                server_config.max_connection = max_connection;
-                server_config.thread_num = thread_num;
-                uint16_t port = CalcProcPort(server_bus);
-
-                std::error_code ec;
-                server_config.intranet_ep_ = AFEndpoint::FromString(AFSocket::MakeUrl(protocol, intranet_ip, port), ec);
-                server_config.public_ep_ = AFEndpoint::FromString(AFSocket::MakeUrl(protocol, "0.0.0.0", port), ec);
-                instances.emplace_back(server_config);
-            }
+            continue;
         }
 
-        proc_config_.instances.insert(std::make_pair(app_type, instances));
-        proc_config_.app_name_types.insert(std::make_pair(name, app_type));
-        proc_config_.app_type_names.insert(std::make_pair(app_type, name));
+        app_config_.self_proc.bus_id = bus_addr.bus_id;
+        app_config_.self_proc.thread_num = thread_num;
+        app_config_.self_proc.max_connection = max_connection;
+
+        std::error_code ec;
+        app_config_.self_proc.server_ep = AFEndpoint::FromString(endpoint_server, ec);
+        app_config_.self_proc.intranet_ep = AFEndpoint::FromString(endpoint_intranet, ec);
+
+        break;
     }
 
     return true;
 }
 
-bool AFCBusModule::LoadBusRelation()
+bool AFCBusModule::LoadBusRelationConfig()
 {
     // load bus relation files
-    std::string bus_file = "../bus_conf/bus_relation.xml";
+    std::string bus_file = "../conf/bus_relation.xml";
     AFXml xml_doc(bus_file);
 
     auto root_node = xml_doc.GetRootNode();
-    if (!root_node.IsValid())
+    ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
+
+    auto application_nodes = root_node.FindNode("applications");
+    ARK_ASSERT_RET_VAL(application_nodes.IsValid(), false);
+    for (auto app_node = application_nodes.FindNode("application"); app_node.IsValid(); app_node.NextNode())
     {
-        ARK_ASSERT_NO_EFFECT(0);
-        return false;
+        std::string app_name = app_node.GetString("name");
+        uint32_t app_type = app_node.GetUint32("type");
+
+        app_config_.name2types.insert(std::make_pair(app_name, static_cast<ARK_APP_TYPE>(app_type)));
+        app_config_.type2names.insert(std::make_pair(static_cast<ARK_APP_TYPE>(app_type), app_name));
     }
 
-    auto relation_nodes = root_node.FindNode("bus_relations");
+    auto relation_nodes = root_node.FindNode("relations");
     for (auto relation_node = relation_nodes.FindNode("relation"); relation_node.IsValid(); relation_node.NextNode())
     {
-        std::string proc = relation_node.GetString("proc");
-        std::string target_proc = relation_node.GetString("target_proc");
-        ArkBusRelationType connection_type = ArkBusRelationType(relation_node.GetUint32("connect_type"));
+        std::string source_app = relation_node.GetString("source");
+        std::string target_app = relation_node.GetString("target");
 
-        const ARK_APP_TYPE proc_type = GetAppType(proc);
-        const ARK_APP_TYPE target_proc_type = GetAppType(target_proc);
+        const ARK_APP_TYPE source_type = GetAppType(source_app);
+        const ARK_APP_TYPE target_type = GetAppType(target_app);
 
-        auto iter = bus_relations_.find(proc_type);
-        if (iter != bus_relations_.end())
+        ARK_ASSERT_CONTINUE(source_type > ARK_APP_TYPE::ARK_APP_DEFAULT && source_type < ARK_APP_TYPE::ARK_APP_MAX);
+        ARK_ASSERT_CONTINUE(target_type > ARK_APP_TYPE::ARK_APP_DEFAULT && target_type < ARK_APP_TYPE::ARK_APP_MAX);
+
+        auto iter = app_config_.connection_relations.find(source_type);
+        if (iter != app_config_.connection_relations.end())
         {
-            auto& target_process = iter->second;
-            target_process.insert(std::make_pair(target_proc_type, connection_type));
+            iter->second.emplace_back(target_type);
         }
         else
         {
-            std::map<ARK_APP_TYPE, ArkBusRelationType> target_process;
-            target_process.insert(std::make_pair(target_proc_type, connection_type));
-
-            bus_relations_.insert(std::make_pair(proc_type, target_process));
+            std::vector<ARK_APP_TYPE> target_list;
+            target_list.emplace_back(target_type);
+            app_config_.connection_relations.insert(std::make_pair(source_type, target_list));
         }
     }
+
+    return true;
+}
+
+bool AFCBusModule::LoadRegCenterConfig()
+{
+    // load reg center files
+    std::string reg_file = "../conf/reg_center.xml";
+    AFXml xml_doc(reg_file);
+
+    auto root_node = xml_doc.GetRootNode();
+    ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
+
+    auto node = root_node.FindNode("reg_center");
+    ARK_ASSERT_RET_VAL(node.IsValid(), false);
+
+    app_config_.reg_center.ip = node.GetString("ip");
+    app_config_.reg_center.port = node.GetUint32("port");
+    app_config_.reg_center.service_name = node.GetString("service_name");
+    app_config_.reg_center.check_interval = node.GetString("check_interval");
+    app_config_.reg_center.check_timeout = node.GetString("check_timeout");
 
     return true;
 }
 
 const std::string& AFCBusModule::GetAppName(const ARK_APP_TYPE& app_type)
 {
-    auto iter = proc_config_.app_type_names.find(app_type);
-    return ((iter != proc_config_.app_type_names.end()) ? iter->second : NULL_STR);
+    auto iter = app_config_.type2names.find(app_type);
+    return ((iter != app_config_.type2names.end()) ? iter->second : NULL_STR);
 }
 
 ARK_APP_TYPE AFCBusModule::GetAppType(const std::string& name)
 {
-    auto iter = proc_config_.app_name_types.find(name);
-    return ((iter != proc_config_.app_name_types.end()) ? iter->second : ARK_APP_TYPE::ARK_APP_DEFAULT);
+    auto iter = app_config_.name2types.find(name);
+    return ((iter != app_config_.name2types.end()) ? iter->second : ARK_APP_TYPE::ARK_APP_DEFAULT);
 }
 
-uint16_t AFCBusModule::CalcProcPort(const AFBusAddr& bus_addr)
+//uint16_t AFCBusModule::CalcProcPort(const int bus_id)
+//{
+//    AFBusAddr bus_addr(bus_id);
+//    const ARK_APP_TYPE& app_type = ARK_APP_TYPE(bus_addr.app_type);
+//    if (app_type <= ARK_APP_TYPE::ARK_APP_DEFAULT || app_type >= ARK_APP_TYPE::ARK_APP_WORLD_MAX)
+//    {
+//        ARK_ASSERT_NO_EFFECT(0);
+//        return 0;
+//    }
+//
+//    // need check if valid
+//    if (app_type > ARK_APP_TYPE::ARK_APP_DEFAULT && app_type < ARK_APP_TYPE::ARK_APP_CLUSTER_MAX)
+//    {
+//        return (10000 + bus_addr.app_type * 100 + bus_addr.inst_id);
+//    }
+//    else
+//    {
+//        return (20000 + bus_addr.app_type * 100 + bus_addr.inst_id);
+//    }
+//}
+
+const AFProcConfig& AFCBusModule::GetSelfProc()
 {
-    const ARK_APP_TYPE& app_type = ARK_APP_TYPE(bus_addr.app_type);
-    if (app_type <= ARK_APP_TYPE::ARK_APP_DEFAULT || app_type >= ARK_APP_TYPE::ARK_APP_WORLD_MAX)
-    {
-        ARK_ASSERT_NO_EFFECT(0);
-        return 0;
-    }
-
-    if (app_type > ARK_APP_TYPE::ARK_APP_DEFAULT && app_type < ARK_APP_TYPE::ARK_APP_CLUSTER_MAX)
-    {
-        return (10000 + bus_addr.app_type * 100 + bus_addr.inst_id);
-    }
-    else
-    {
-        return (20000 + bus_addr.app_type * 100 + bus_addr.inst_id);
-    }
-}
-
-const AFServerConfig* AFCBusModule::GetAppServerInfo()
-{
-    AFBusAddr bus_addr(GetSelfBusID());
-    return GetAppServerInfo(bus_addr);
-}
-
-const AFServerConfig* AFCBusModule::GetAppServerInfo(const AFBusAddr& bus_addr)
-{
-    auto iter = proc_config_.instances.find(ARK_APP_TYPE(bus_addr.app_type));
-    if (iter != proc_config_.instances.end())
-    {
-        for (auto& server : iter->second)
-        {
-            AFBusAddr server_bus(server.self_id);
-            if (server_bus.inst_id == bus_addr.inst_id)
-            {
-                return &server;
-            }
-        }
-    }
-
-    return nullptr;
-}
-
-const std::string& AFCBusModule::GetHost(const std::string& host)
-{
-    auto iter = proc_config_.hosts.find(host);
-    if (iter != proc_config_.hosts.end())
-    {
-        return iter->second;
-    }
-    else
-    {
-        return NULL_STR;
-    }
-}
-
-const std::string AFCBusModule::GetAppHost(const int bus_id)
-{
-    AFBusAddr bus_addr(bus_id);
-    const AFServerConfig* server_config = GetAppServerInfo(bus_addr);
-    return (server_config == nullptr) ? NULL_STR : server_config->intranet_ep_.ToString();
+    return app_config_.self_proc;
 }
 
 int AFCBusModule::GetSelfBusID()
@@ -260,54 +223,6 @@ const std::string AFCBusModule::GetAppWholeName(const int bus_id)
     return (name + "-" + addr.ToString());
 }
 
-bool AFCBusModule::GetDirectBusRelations(std::vector<AFServerConfig>& target_list)
-{
-    const ARK_APP_TYPE app_type = GetSelfAppType();
-    auto iter = bus_relations_.find(app_type);
-    if (iter != bus_relations_.end())
-    {
-        for (auto it : iter->second)
-        {
-            if (it.second != ArkBusRelationType::BRT_DIRECT)
-            {
-                // undirected
-                continue;
-            }
-
-            auto target_app_type = it.first;
-            auto proc_conf_iter = proc_config_.instances.find(target_app_type);
-            target_list.insert(target_list.end(), proc_conf_iter->second.begin(), proc_conf_iter->second.end());
-        }
-    }
-
-    // If someone haven't any directly connection relationship, it's OK.
-    return true;
-}
-
-ArkBusRelationType AFCBusModule::GetBusRelationType(const int bus_id)
-{
-    if (bus_id == GetSelfBusID())
-    {
-        return ArkBusRelationType::BRT_UNKNOWN;
-    }
-
-    AFBusAddr target_bus(bus_id);
-    const ARK_APP_TYPE app_type = GetSelfAppType();
-    auto iter = bus_relations_.find(app_type);
-    if (iter != bus_relations_.end())
-    {
-        for (auto it : iter->second)
-        {
-            if (it.first == ARK_APP_TYPE(target_bus.app_type))
-            {
-                return it.second;
-            }
-        }
-    }
-
-    return ArkBusRelationType::BRT_UNKNOWN;
-}
-
 int AFCBusModule::CombineBusID(const ARK_APP_TYPE app_type, const uint8_t inst_id)
 {
     ARK_ASSERT_RET_VAL(app_type > ARK_APP_TYPE::ARK_APP_DEFAULT && app_type < ARK_APP_TYPE::ARK_APP_MAX, 0);
@@ -316,6 +231,18 @@ int AFCBusModule::CombineBusID(const ARK_APP_TYPE app_type, const uint8_t inst_i
     AFBusAddr self_bus_addr(self_bus);
     AFBusAddr target_bus_addr(self_bus_addr.channel_id, self_bus_addr.zone_id, static_cast<uint8_t>(app_type), inst_id);
     return target_bus_addr.bus_id;
+}
+
+bool AFCBusModule::GetTargetBusRelations(std::vector<ARK_APP_TYPE>& target_list)
+{
+    AFBusAddr bus_addr(GetSelfBusID());
+    auto iter = app_config_.connection_relations.find(static_cast<ARK_APP_TYPE>(bus_addr.app_type));
+    if (iter != app_config_.connection_relations.end())
+    {
+        target_list = iter->second;
+    }
+
+    return true;
 }
 
 } // namespace ark

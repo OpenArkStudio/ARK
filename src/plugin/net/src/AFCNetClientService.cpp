@@ -32,8 +32,7 @@ AFCNetClientService::AFCNetClientService(AFPluginManager* p)
     m_pMsgModule = m_pPluginManager->FindModule<AFIMsgModule>();
     m_pLogModule = m_pPluginManager->FindModule<AFILogModule>();
 
-    ARK_ASSERT_RET_NONE(m_pNetServiceManagerModule != nullptr && m_pBusModule != nullptr && m_pMsgModule != nullptr &&
-                        m_pLogModule != nullptr);
+    ARK_ASSERT_RET_NONE(m_pNetServiceManagerModule != nullptr && m_pBusModule != nullptr && m_pMsgModule != nullptr && m_pLogModule != nullptr);
 }
 
 bool AFCNetClientService::StartClient(const AFHeadLength head_len, const int& target_bus_id, const AFEndpoint& endpoint)
@@ -99,68 +98,67 @@ void AFCNetClientService::ProcessUpdate()
         auto connection_data = iter.second;
         switch (connection_data->net_state_)
         {
-        case AFConnectionData::DISCONNECT:
-        {
-            // TO CHECK & TEST:do not need to release net_client_ptr_
-            connection_data->net_state_ = AFConnectionData::RECONNECT;
-            if (connection_data->net_client_ptr_ != nullptr)
+            case AFConnectionData::DISCONNECT:
             {
-                connection_data->net_client_ptr_->Shutdown();
-                // ARK_DELETE(connection_data->_net_client_ptr);
-            }
-        }
-        break;
-        case AFConnectionData::CONNECTING:
-        {
-            if (connection_data->net_client_ptr_ != nullptr)
-            {
-                connection_data->net_client_ptr_->Update();
-            }
-        }
-        break;
-        case AFConnectionData::CONNECTED:
-        {
-            if (connection_data->net_client_ptr_ != nullptr)
-            {
-                connection_data->net_client_ptr_->Update();
-
-                KeepAlive(connection_data);
-            }
-        }
-        break;
-        case AFConnectionData::RECONNECT:
-        {
-            // RECONNECT 30s/time
-            if ((connection_data->last_active_time_ + 30 * AFTimespan::SECOND_MS) >= m_pPluginManager->GetNowTime())
-            {
-                break;
-            }
-
-            connection_data->last_active_time_ = m_pPluginManager->GetNowTime();
-
-            if (connection_data->net_client_ptr_ != nullptr)
-            {
-                connection_data->net_client_ptr_->Shutdown();
-                // ARK_DELETE(connection_data->_net_client_ptr);
-            }
-
-            // based on protocol to create a new client
-            // connection_data->_net_client_ptr = CreateNet(connection_data->_protocol);
-            bool ret = connection_data->net_client_ptr_->StartClient(connection_data->head_len_,
-                connection_data->server_bus_id_, connection_data->endpoint_.GetIP(),
-                connection_data->endpoint_.GetPort(), connection_data->endpoint_.IsV6());
-            if (!ret)
-            {
+                // TO CHECK & TEST:do not need to release net_client_ptr_
                 connection_data->net_state_ = AFConnectionData::RECONNECT;
+                if (connection_data->net_client_ptr_ != nullptr)
+                {
+                    connection_data->net_client_ptr_->Shutdown();
+                    // ARK_DELETE(connection_data->_net_client_ptr);
+                }
             }
-            else
-            {
-                connection_data->net_state_ = AFConnectionData::CONNECTING;
-            }
-        }
-        break;
-        default:
             break;
+            case AFConnectionData::CONNECTING:
+            {
+                if (connection_data->net_client_ptr_ != nullptr)
+                {
+                    connection_data->net_client_ptr_->Update();
+                }
+            }
+            break;
+            case AFConnectionData::CONNECTED:
+            {
+                if (connection_data->net_client_ptr_ != nullptr)
+                {
+                    connection_data->net_client_ptr_->Update();
+
+                    KeepAlive(connection_data);
+                }
+            }
+            break;
+            case AFConnectionData::RECONNECT:
+            {
+                // RECONNECT 30s/time
+                if ((connection_data->last_active_time_ + 30 * AFTimespan::SECOND_MS) >= m_pPluginManager->GetNowTime())
+                {
+                    break;
+                }
+
+                connection_data->last_active_time_ = m_pPluginManager->GetNowTime();
+
+                if (connection_data->net_client_ptr_ != nullptr)
+                {
+                    connection_data->net_client_ptr_->Shutdown();
+                    // ARK_DELETE(connection_data->_net_client_ptr);
+                }
+
+                // based on protocol to create a new client
+                // connection_data->_net_client_ptr = CreateNet(connection_data->_protocol);
+                bool ret = connection_data->net_client_ptr_->StartClient(connection_data->head_len_, connection_data->server_bus_id_,
+                    connection_data->endpoint_.GetIP(), connection_data->endpoint_.GetPort(), connection_data->endpoint_.IsV6());
+                if (!ret)
+                {
+                    connection_data->net_state_ = AFConnectionData::RECONNECT;
+                }
+                else
+                {
+                    connection_data->net_state_ = AFConnectionData::CONNECTING;
+                }
+            }
+            break;
+            default:
+                break;
         }
     }
 }
@@ -193,8 +191,8 @@ void AFCNetClientService::LogServerInfo()
         auto connection_data = iter.second;
         if (connection_data != nullptr)
         {
-            std::string info = ARK_FORMAT("TargetBusID={} State={} url={}", connection_data->server_bus_id_,
-                connection_data->net_state_, connection_data->endpoint_.ToString());
+            std::string info = ARK_FORMAT(
+                "TargetBusID={} State={} url={}", connection_data->server_bus_id_, connection_data->net_state_, connection_data->endpoint_.ToString());
             LogServerInfo(info);
         }
     }
@@ -252,8 +250,7 @@ void AFCNetClientService::RemoveServerWeightData(ARK_SHARE_PTR<AFConnectionData>
 
 int AFCNetClientService::OnConnect(const AFNetEvent* event)
 {
-    ARK_LOG_INFO("Connected [{}] successfully, ip={} session_id={}", AFBusAddr(event->GetBusId()).ToString(),
-        event->GetIP(), event->GetId());
+    ARK_LOG_INFO("Connected [{}] successfully, ip={} session_id={}", AFBusAddr(event->GetBusId()).ToString(), event->GetIP(), event->GetId());
 
     ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(event->GetBusId());
 
@@ -264,8 +261,8 @@ int AFCNetClientService::OnConnect(const AFNetEvent* event)
 
         // add server-bus-id -> client-bus-id
         m_pNetServiceManagerModule->AddNetConnectionBus(event->GetBusId(), pServerInfo->net_client_ptr_);
-        // register to this server
-        RegisterToServer(event->GetId(), event->GetBusId());
+        //// register to this server
+        //RegisterToServer(event->GetId(), event->GetBusId());
     }
 
     return 0;
@@ -273,8 +270,7 @@ int AFCNetClientService::OnConnect(const AFNetEvent* event)
 
 int AFCNetClientService::OnDisconnect(const AFNetEvent* event)
 {
-    ARK_LOG_ERROR("Disconnect [{}] successfully, ip={} session_id={}", AFBusAddr(event->GetBusId()).ToString(),
-        event->GetIP(), event->GetId());
+    ARK_LOG_ERROR("Disconnect [{}] successfully, ip={} session_id={}", AFBusAddr(event->GetBusId()).ToString(), event->GetIP(), event->GetId());
 
     ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(event->GetBusId());
 
@@ -290,33 +286,32 @@ int AFCNetClientService::OnDisconnect(const AFNetEvent* event)
     return 0;
 }
 
-void AFCNetClientService::RegisterToServer(const AFGUID& session_id, const int bus_id)
-{
-    const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
-    if (server_config == nullptr)
-    {
-        ARK_ASSERT_NO_EFFECT(0);
-        return;
-    }
-
-    AFMsg::msg_ss_server_report msg;
-    msg.set_bus_id(server_config->self_id);
-    msg.set_cur_online(0);
-    msg.set_url(server_config->intranet_ep_.ToString());
-    msg.set_max_online(server_config->max_connection);
-    msg.set_logic_status(AFMsg::E_ST_NARMAL);
-
-    m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_REPORT, msg, session_id);
-    ARK_LOG_INFO("Register self server_id = {}, target_id = {}", server_config->self_id, bus_id);
-}
+//void AFCNetClientService::RegisterToServer(const AFGUID& session_id, const int bus_id)
+//{
+//    const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
+//    if (server_config == nullptr)
+//    {
+//        ARK_ASSERT_NO_EFFECT(0);
+//        return;
+//    }
+//
+//    AFMsg::msg_ss_server_report msg;
+//    msg.set_bus_id(server_config->self_id);
+//    msg.set_cur_online(0);
+//    msg.set_url(server_config->intranet_ep_.ToString());
+//    msg.set_max_online(server_config->max_connection);
+//    msg.set_logic_status(AFMsg::E_ST_NARMAL);
+//
+//    m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_REPORT, msg, session_id);
+//    ARK_LOG_INFO("Register self server_id = {}, target_id = {}", server_config->self_id, bus_id);
+//}
 
 void AFCNetClientService::ProcessAddNewNetClient()
 {
     for (auto& iter : tmp_nets_)
     {
         const AFConnectionData& connection_data = iter;
-        ARK_SHARE_PTR<AFConnectionData> target_connection_data =
-            target_servers_.find_value(connection_data.server_bus_id_);
+        ARK_SHARE_PTR<AFConnectionData> target_connection_data = target_servers_.find_value(connection_data.server_bus_id_);
         if (nullptr == target_connection_data)
         {
             // add new server
@@ -327,9 +322,8 @@ void AFCNetClientService::ProcessAddNewNetClient()
 
             // based on protocol to create a new client
             target_connection_data->net_client_ptr_ = CreateNet(target_connection_data->endpoint_.proto());
-            int ret = target_connection_data->net_client_ptr_->StartClient(target_connection_data->head_len_,
-                target_connection_data->server_bus_id_, target_connection_data->endpoint_.GetIP(),
-                target_connection_data->endpoint_.GetPort());
+            int ret = target_connection_data->net_client_ptr_->StartClient(target_connection_data->head_len_, target_connection_data->server_bus_id_,
+                target_connection_data->endpoint_.GetIP(), target_connection_data->endpoint_.GetPort());
             if (!ret)
             {
                 target_connection_data->net_state_ = AFConnectionData::RECONNECT;
@@ -340,8 +334,7 @@ void AFCNetClientService::ProcessAddNewNetClient()
             }
 
             target_servers_.insert(target_connection_data->server_bus_id_, target_connection_data);
-            AFINetClientService::RegMsgCallback(
-                AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, this, &AFCNetClientService::OnServerNotify);
+            //AFINetClientService::RegMsgCallback(AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, this, &AFCNetClientService::OnServerNotify);
         }
     }
 
@@ -372,14 +365,14 @@ void AFCNetClientService::OnNetEvent(const AFNetEvent* event)
 {
     switch (event->GetType())
     {
-    case AFNetEventType::CONNECTED:
-        OnConnect(event);
-        break;
-    case AFNetEventType::DISCONNECTED:
-        OnDisconnect(event);
-        break;
-    default:
-        break;
+        case AFNetEventType::CONNECTED:
+            OnConnect(event);
+            break;
+        case AFNetEventType::DISCONNECTED:
+            OnDisconnect(event);
+            break;
+        default:
+            break;
     }
 
     for (const auto& it : net_event_callbacks_)
@@ -398,38 +391,38 @@ AFMapEx<int, AFConnectionData>& AFCNetClientService::GetServerList()
     return target_servers_;
 }
 
-void AFCNetClientService::OnServerNotify(const AFNetMsg* msg, const int64_t session_id)
-{
-    ARK_PROCESS_MSG(msg, AFMsg::msg_ss_server_notify);
-
-    for (int i = 0; i < pb_msg.server_list_size(); ++i)
-    {
-        const AFMsg::msg_ss_server_report& report = pb_msg.server_list(i);
-        ArkBusRelationType relation_type = m_pBusModule->GetBusRelationType(report.bus_id());
-        if (relation_type != ArkBusRelationType::BRT_WAIT_NOTIFY)
-        {
-            continue;
-        }
-
-        // Create single cluster client with bus id and URL
-        m_pNetServiceManagerModule->CreateClusterClient(AFHeadLength::SS_HEAD_LENGTH, report.bus_id(), report.url());
-
-        // manage save zone by channel & zone & process
-        AFBusAddr bus_addr(report.bus_id());
-        bus_addr.inst_id = 0; // same zone when three front number is same
-
-        auto iter = reg_servers_.find(bus_addr.bus_id);
-        if (iter != reg_servers_.end())
-        {
-            iter->second.insert(std::make_pair(report.bus_id(), report));
-        }
-        else
-        {
-            std::map<int, AFMsg::msg_ss_server_report> others;
-            others.insert(std::make_pair(report.bus_id(), report));
-            reg_servers_.insert(std::make_pair(bus_addr.bus_id, others));
-        }
-    }
-}
+//void AFCNetClientService::OnServerNotify(const AFNetMsg* msg, const int64_t session_id)
+//{
+//    ARK_PROCESS_MSG(msg, AFMsg::msg_ss_server_notify);
+//
+//    for (int i = 0; i < pb_msg.server_list_size(); ++i)
+//    {
+//        const AFMsg::msg_ss_server_report& report = pb_msg.server_list(i);
+//        ArkConnectionType connection_type = m_pBusModule->GetConnectionType(report.bus_id());
+//        if (connection_type != ArkConnectionType::BRT_WAIT_NOTIFY)
+//        {
+//            continue;
+//        }
+//
+//        // Create single cluster client with bus id and URL
+//        m_pNetServiceManagerModule->CreateClusterClient(AFHeadLength::SS_HEAD_LENGTH, report.bus_id(), report.url());
+//
+//        // manage save zone by channel & zone & process
+//        AFBusAddr bus_addr(report.bus_id());
+//        bus_addr.inst_id = 0; // same zone when three front number is same
+//
+//        auto iter = reg_servers_.find(bus_addr.bus_id);
+//        if (iter != reg_servers_.end())
+//        {
+//            iter->second.insert(std::make_pair(report.bus_id(), report));
+//        }
+//        else
+//        {
+//            std::map<int, AFMsg::msg_ss_server_report> others;
+//            others.insert(std::make_pair(report.bus_id(), report));
+//            reg_servers_.insert(std::make_pair(bus_addr.bus_id, others));
+//        }
+//    }
+//}
 
 } // namespace ark

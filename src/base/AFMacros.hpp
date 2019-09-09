@@ -465,6 +465,12 @@ private:                                                                        
     AFPluginManager* plugin_manager_{nullptr};                                                                         \
     std::string name_{};
 //////////////////////////////////////////////////////////////////////////
-
-// clear player data time
+//#ifndef ARK_DEPRECATED
+//// cpp14
+//#define ARK_DEPRECATED(Version, Message)                                                                               \
+//    [[deprecated(Message " Please update your code to the new API before upgrading to the next release, otherwise "    \
+//                         "your project will no longer compile.")]]
+//#endif // #ifndef ARK_DEPRECATED
+////////////////////////////////////////////////////////////////////////////
+//// clear player data time
 #define CLEAR_HOUR 5
