@@ -23,7 +23,7 @@
 #include "base/AFPluginManager.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
 #include "kernel/interface/AFIConfigModule.hpp"
-#include "kernel/interface/AFIMetaClassModule.hpp"
+#include "kernel/interface/AFIClassMetaModule.hpp"
 #include "game/interface/AFIPropertyConfigModule.hpp"
 #include "game/interface/AFIPropertyModule.hpp"
 #include "game/interface/AFILevelModule.hpp"
@@ -70,7 +70,7 @@ protected:
         const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var);
 
     int OnObjectLevelEvent(
-        const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
+        const AFGUID& self, const std::string& strPropertyName, const uint32_t index, const AFIData& oldVar, const AFIData& newVar);
 
     int OnPropertyTableEvent(
         const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
@@ -82,7 +82,7 @@ private:
     AFIKernelModule* m_pKernelModule;
     AFIPropertyConfigModule* m_pPropertyConfigModule;
     AFIConfigModule* m_pConfigModule;
-    AFIMetaClassModule* m_pClassModule;
+    AFIClassMetaModule* m_pClassModule;
     AFILevelModule* m_pLevelModule;
     std::map<std::string, int> mNameToCol;
     std::vector<std::string> mColToName;

@@ -18,7 +18,6 @@
  *
  */
 
-#include "kernel/include/AFDataNode.hpp"
 #include "world/include/AFCWorldNetModule.hpp"
 
 namespace ark {
@@ -437,17 +436,22 @@ int AFCWorldNetModule::OnObjectListEnter(const AFIDataList& self, const AFIDataL
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOld = argVar.Int64(i);
+        auto pEntity = m_pKernelModule->GetEntity(identOld);
+		if (pEntity == nullptr)
+		{
+            continue;
+		}
 
         //排除空对象
         if (identOld != 0)
         {
             AFMsg::EntityEnterInfo* pEnter = xEntityEnterList.add_entity_list();
             pEnter->set_object_guid(identOld);
-            pEnter->set_career_type(m_pKernelModule->GetNodeInt(identOld, "Job"));
-            pEnter->set_player_state(m_pKernelModule->GetNodeInt(identOld, "State"));
-            pEnter->set_config_id(m_pKernelModule->GetNodeString(identOld, "ConfigID"));
-            pEnter->set_scene_id(m_pKernelModule->GetNodeInt(identOld, "SceneID"));
-            pEnter->set_class_id(m_pKernelModule->GetNodeString(identOld, "ClassName"));
+            pEnter->set_career_type(pEntity->GetInt32("Job"));
+            pEnter->set_player_state(pEntity->GetInt32("State"));
+            pEnter->set_config_id(pEntity->GetConfigID());
+            pEnter->set_scene_id(pEntity->GetInt32("SceneID"));
+            pEnter->set_class_id(pEntity->GetString("ClassName"));
         }
     }
 
@@ -511,18 +515,19 @@ int AFCWorldNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFID
         return 1;
     }
 
-    AFMsg::MultiEntityDataNodeList xPublicMsg;
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
-
     if (nullptr == pEntity)
     {
         return 1;
     }
 
-    ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
+	AFMsg::multi_entity_data_list msg;
+    AFMsg::pb_entity* entity = msg.add_data_list();
+    entity->set_id(self);
+
     AFFeatureType nFeature;
-    nFeature[AFDataNode::PF_PUBLIC] = 1;
-    AFIMsgModule::NodeListToPB(self, pNodeManager, *xPublicMsg.add_multi_entity_data_node_list(), nFeature);
+    nFeature[(size_t)AFNodeFeature::PF_PUBLIC] = 1;
+    AFIMsgModule::NodeToPBDataByFeature(pEntity, nFeature, entity->mutable_data());
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
@@ -531,7 +536,7 @@ int AFCWorldNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFID
 
         if (self != identOther)
         {
-            SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, xPublicMsg, identOther);
+            SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, msg, identOther);
         }
     }
 
@@ -554,13 +559,15 @@ int AFCWorldNetModule::OnSelfDataNodeEnter(const AFGUID& self, const AFIDataList
         return 1;
     }
 
-    AFMsg::MultiEntityDataNodeList xPrivateMsg;
-    ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
-    AFFeatureType nFeature;
-    nFeature[AFDataNode::PF_PRIVATE] = 1;
-    AFIMsgModule::NodeListToPB(self, pNodeManager, *xPrivateMsg.add_multi_entity_data_node_list(), nFeature);
+	AFMsg::multi_entity_data_list msg;
+    AFMsg::pb_entity* entity = msg.add_data_list();
+    entity->set_id(self);
 
-    SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, xPrivateMsg, self);
+    AFFeatureType nFeature;
+    nFeature[(size_t)AFNodeFeature::PF_PRIVATE] = 1;
+    AFIMsgModule::NodeToPBDataByFeature(pEntity, nFeature, entity->mutable_data());
+
+    SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, msg, self);
     return 0;
 }
 
@@ -571,21 +578,23 @@ int AFCWorldNetModule::OnSelfDataTableEnter(const AFGUID& self, const AFIDataLis
         return 1;
     }
 
-    const int64_t nGameID = argGameID.Int(0);
-    AFMsg::MultiEntityDataTableList xPrivateMsg;
-
-    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
-
+    auto pEntity = m_pKernelModule->GetEntity(self);
     if (nullptr == pEntity)
     {
         return 1;
     }
 
+	AFMsg::multi_entity_data_list msg;
+    AFMsg::pb_entity* entity = msg.add_data_list();
+    entity->set_id(self);
+
     AFFeatureType nFeature;
-    nFeature[AFDataNode::PF_PRIVATE] = 1;
-    ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
-    AFIMsgModule::TableListToPB(self, pTableManager, *xPrivateMsg.add_multi_entity_data_table_list(), nFeature);
-    SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, xPrivateMsg, self);
+    nFeature[(size_t)ArkTableNodeFeature::PF_PRIVATE] = 1;
+    AFIMsgModule::TableToPBDataByFeature(pEntity, nFeature, entity->mutable_data());
+
+	const int64_t nGameID = argGameID.Int(0);
+    SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, msg, self);
+
     return 0;
 }
 
@@ -596,29 +605,28 @@ int AFCWorldNetModule::OnViewDataTableEnter(const AFIDataList& argVar, const AFI
         return 1;
     }
 
-    AFMsg::MultiEntityDataTableList xPublicMsg;
-
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
-
     if (nullptr == pEntity)
     {
         return 1;
     }
 
-    ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
+	AFMsg::multi_entity_data_list msg;
+    AFMsg::pb_entity* entity = msg.add_data_list();
+    entity->set_id(self);
 
     AFFeatureType nFeature;
-    nFeature[AFDataNode::PF_PUBLIC] = 1;
-    AFIMsgModule::TableListToPB(self, pTableManager, *xPublicMsg.add_multi_entity_data_table_list(), nFeature);
+    nFeature[(size_t)ArkTableNodeFeature::PF_PUBLIC] = 1;
+    AFIMsgModule::TableToPBDataByFeature(pEntity, nFeature, entity->mutable_data());
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOther = argVar.Int64(i);
         const int64_t nGameID = argGameID.Int(i);
 
-        if (self != identOther && xPublicMsg.multi_entity_data_table_list_size() > 0)
+        if (self != identOther && msg.data_list_size() > 0)
         {
-            SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, xPublicMsg, identOther);
+            SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, msg, identOther);
         }
     }
 

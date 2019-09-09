@@ -18,8 +18,9 @@
  *
  */
 
-#include "kernel/include/AFDataNode.hpp"
+#include "kernel/include/AFCNode.hpp"
 #include "kernel/include/AFCMapModule.hpp"
+#include "kernel/include/AFCDataList.hpp"
 
 namespace ark {
 
@@ -47,7 +48,7 @@ bool AFCMapModule::IsInMapInstance(const AFGUID& self)
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if (pEntity != nullptr)
     {
-        return (pEntity->GetNodeInt(AFEntityMetaBaseEntity::map_inst_id()) < 0);
+        return (pEntity->GetInt32(AFEntityMetaBaseEntity::map_inst_id()) < 0);
     }
     else
     {
@@ -72,8 +73,8 @@ bool AFCMapModule::SwitchMap(const AFGUID& self, const int target_map, const int
         return false;
     }
 
-    int32_t old_map = pEntity->GetNodeInt(AFEntityMetaBaseEntity::map_id());
-    int32_t old_inst = pEntity->GetNodeInt(AFEntityMetaBaseEntity::map_inst_id());
+    int32_t old_map = pEntity->GetInt32(AFEntityMetaBaseEntity::map_id());
+    int32_t old_inst = pEntity->GetInt32(AFEntityMetaBaseEntity::map_inst_id());
 
     ARK_SHARE_PTR<AFMapInfo> pOldMapInfo = map_infos_.find_value(old_map);
     ARK_SHARE_PTR<AFMapInfo> pNewMapInfo = map_infos_.find_value(target_map);
@@ -100,15 +101,15 @@ bool AFCMapModule::SwitchMap(const AFGUID& self, const int target_map, const int
 
     if (target_map != old_map)
     {
-        pEntity->SetNodeInt(AFEntityMetaBaseEntity::map_id(), 0);
-        pEntity->SetNodeInt(AFEntityMetaBaseEntity::map_id(), target_map);
+        pEntity->SetInt32(AFEntityMetaBaseEntity::map_id(), 0);
+        pEntity->SetInt32(AFEntityMetaBaseEntity::map_id(), target_map);
     }
 
-    pEntity->SetNodeInt(AFEntityMetaBaseEntity::map_inst_id(), target_inst);
+    pEntity->SetInt32(AFEntityMetaBaseEntity::map_inst_id(), target_inst);
 
-    pEntity->SetNodeDouble("X", pos.x);
-    pEntity->SetNodeDouble("Y", pos.y);
-    pEntity->SetNodeDouble("Z", pos.z);
+    pEntity->SetDouble("X", pos.x);
+    pEntity->SetDouble("Y", pos.y);
+    pEntity->SetDouble("Z", pos.z);
 
     return pNewMapInfo->AddEntityToInstance(target_inst, self, true);
 }
@@ -340,17 +341,11 @@ int AFCMapModule::GetEntityByDataNode(
             continue;
         }
 
-        ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager = pEntity->GetNodeManager();
-        if (pNodeManager == nullptr)
-        {
-            continue;
-        }
-
-        AFDataNode* pDataNode = pNodeManager->GetNode(name.c_str());
-        if (pDataNode != nullptr && value_args.Equal(0, pDataNode->value))
-        {
-            list.AddInt64(ident);
-        }
+        auto pNode = pEntity->GetNode(name);
+        //if (pNode != nullptr && value_args.Equal(0, pNode->value))
+        //{
+        //    list.AddInt64(ident);
+        //}
     }
 
     return list.GetCount();

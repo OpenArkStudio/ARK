@@ -1,24 +1,78 @@
 syntax = "proto3";
 package AFMsg;
 
-message PBArray {
-  map<uint32, uint64> pb_uint64 = 1;
+message pb_array {
+  repeated pb_entity_data datas_value = 1;
 }
 
-message PBDataEx {
-  map<uint32, bool> pb_bool = 1;       // bool
-  map<uint32, sint32> pb_int32 = 2;    // int32
-  map<uint32, uint32> pb_uint32 = 3;   // uint32
-  map<uint32, sint64> pb_int64 = 4;    // int64
-  map<uint32, uint64> pb_uint64 = 5;   // uint64
-  map<uint32, float> pb_float = 6;     // float
-  map<uint32, double> pb_double = 7;   // double
-  map<uint32, bytes> pb_string = 8;    // string
-  map<uint32, PBArray> pb_array = 9;   // array
-  map<uint32, PBTable> pb_table = 10;  // table
-  map<uint32, PBDataEx> pb_data = 11;  // multi-data
+message pb_table {
+  map<uint32, pb_entity_data> datas_value = 1;
 }
 
-message PBTable {
-  map<uint32, PBDataEx> pb_datas = 1;
+message pb_entity_data {
+  map<uint32, bool> datas_bool             = 1;     // bool
+  map<uint32, sint32> datas_int32          = 2;     // int32
+  map<uint32, uint32> datas_uint32         = 3;     // uint32
+  map<uint32, sint64> datas_int64          = 4;     // int64
+  map<uint32, uint64> datas_uint64         = 5;     // uint64
+  map<uint32, float> datas_float           = 6;     // float
+  map<uint32, double> datas_double         = 7;     // double
+  map<uint32, bytes> datas_string          = 8;     // string
+  map<uint32, pb_array> datas_array        = 9;     // array
+  map<uint32, pb_table> datas_table        = 10;    // table
+  map<uint32, pb_entity_data> datas_entity = 11;    // multi-data
+}
+
+message pb_entity{
+  int64 id            = 1;
+  pb_entity_data data = 2;
+}
+
+message pb_entity_table_delete{
+  int64 id           = 1;
+  uint32 table_index = 2;
+  uint32 delete_row  = 3;
+}
+
+message pb_entity_table_swap{
+  int64 id                  = 1;
+  uint32 origin_table_index = 2;
+  uint32 target_table_index = 3;
+  uint32 origin_row         = 4;
+  uint32 target_row         = 5;
+}
+
+message pb_entity_table_update{
+  int64 id            = 1;
+  pb_entity_data data = 2;
+}
+
+message pb_entity_table_add{
+  int64 id            = 1;
+  pb_entity_data data = 2;
+}
+
+//多人玩家全部表数据，可直接发送--统一发,为节约包
+message multi_entity_data_list {
+  repeated pb_entity data_list = 1;
+}
+
+// variant data
+message pb_variant_data {
+  oneof pb_af_data {
+    bool bool_value     = 1;
+    int32 int_value     = 2;
+    uint32 uint_value   = 3;
+    int64 int64_value   = 4;
+    uint64 uint64_value = 5;
+    float float_value   = 6;
+    double double_value = 7;
+    string str_value    = 8;
+  }
+}
+
+// custom message
+message pb_custom_message {
+  uint32 message_id                  = 1;
+  repeated pb_variant_data data_list = 2;
 }

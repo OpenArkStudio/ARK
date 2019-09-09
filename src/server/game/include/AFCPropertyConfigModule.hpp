@@ -21,7 +21,7 @@
 #pragma once
 
 #include "base/AFPluginManager.hpp"
-#include "kernel/interface/AFIMetaClassModule.hpp"
+#include "kernel/interface/AFIClassMetaModule.hpp"
 #include "kernel/interface/AFIConfigModule.hpp"
 #include "game/interface/AFIPropertyConfigModule.hpp"
 
@@ -45,7 +45,7 @@ private:
     // different job, different PropertyID[Level->EffectData]
     AFMapEx<int, AFMapEx<int, std::string>> mhtCoefficienData;
 
-    AFIMetaClassModule* m_pClassModule;
+    AFIClassMetaModule* m_pClassModule;
     AFIConfigModule* m_pConfigModule;
 };
 

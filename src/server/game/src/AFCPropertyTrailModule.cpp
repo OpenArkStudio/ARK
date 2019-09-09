@@ -19,8 +19,8 @@
  */
 
 #include "kernel/include/AFCDataList.hpp"
-#include "kernel/include/AFDataNode.hpp"
-#include "kernel/include/AFDataTable.hpp"
+#include "kernel/include/AFCNode.hpp"
+#include "kernel/include/AFCTableInner.hpp"
 #include "game/include/AFCPropertyTrailModule.hpp"
 
 namespace ark {
@@ -29,7 +29,7 @@ bool AFCPropertyTrailModule::Init()
 {
     m_pKernelModule = FindModule<AFIKernelModule>();
     m_pConfigModule = FindModule<AFIConfigModule>();
-    m_pClassModule = FindModule<AFIMetaClassModule>();
+    m_pClassModule = FindModule<AFIClassMetaModule>();
     m_pLogModule = FindModule<AFILogModule>();
 
     return true;
@@ -54,47 +54,20 @@ int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
         return -1;
     }
 
-    ARK_SHARE_PTR<AFIDataNodeManager> xNodeManager = xEntity->GetNodeManager();
-
-    if (nullptr != xNodeManager)
+    for (auto pData = xEntity->FirstNode(); pData != nullptr; pData = xEntity->NextNode())
     {
-        size_t nodeCount = xNodeManager->GetNodeCount();
-
-        for (size_t i = 0; i < nodeCount; ++i)
-        {
-            AFDataNode* pNode = xNodeManager->GetNodeByIndex(i);
-            ARK_LOG_TRACE("Player[{}] Node[{}] Value[{}]", self, pNode->GetName(), pNode->ToString());
-        }
+        ARK_LOG_TRACE("Player[{}] Node[{}] Value[{}]", self, pData->GetName(), pData->ToString());
     }
 
-    ARK_SHARE_PTR<AFIDataTableManager> xTableManager = xEntity->GetTableManager();
-
-    if (nullptr != xTableManager)
+    for (auto pTable = xEntity->FirstTable(); pTable != nullptr; pTable = xEntity->NextTable())
     {
-        size_t tableCount = xTableManager->GetCount();
-
-        for (size_t i = 0; i < tableCount; ++i)
-        {
-            AFDataTable* pTable = xTableManager->GetTableByIndex(i);
-            size_t rowCount = pTable->GetRowCount();
-
-            for (size_t j = 0; j < rowCount; ++j)
-            {
-                AFCDataList xDataList;
-                bool ret = pTable->QueryRow(j, xDataList);
-
-                if (!ret)
-                {
-                    continue;
-                }
-
-                for (size_t k = 0; k < xDataList.GetCount(); ++k)
-                {
-                    ARK_LOG_TRACE("Player[{}] Table[{}] Row[{}] Col[{}] Value[{}]", self, pTable->GetName(), j, k,
-                        xDataList.ToString(k));
-                }
-            }
-        }
+		for (auto pRow = pTable->First(); pRow != nullptr; pRow = pTable->Next())
+		{
+			for (auto pNode = pRow->First(); pNode != nullptr; pNode = pRow->Next())
+			{
+                ARK_LOG_TRACE("Player[{}] Table[{}] Row[{}] Col[{}] Value[{}]", self, pTable->GetName(), pRow->GetRow(), pNode->GetName(), pNode->ToString());
+			}
+		}
     }
 
     return 0;

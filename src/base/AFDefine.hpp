@@ -36,13 +36,19 @@ const static int64_t NULL_INT64 = 0L;
 const static float NULL_FLOAT = 0.0F;
 const static double NULL_DOUBLE = 0.0;
 const static std::string NULL_STR = "";
+const static std::wstring NULL_WIDESTR = L"";
 const static AFGUID NULL_GUID = 0;
 const static nullptr_t NULL_POINT = nullptr;
 const static AFVector3D NULL_VECTOR3D = AFVector3D(0.0f, 0.0f, 0.0f);
 
 static const std::string config_class_file = "meta/config_class.config";
 
-using AFFeatureType = std::bitset<8>;
+static const std::string entity_class_file = "meta/entity_class.config";
+
+//data define(only support based integer type)
+using ID_TYPE = uint32_t;
+
+using AFFeatureType = std::bitset<16>;
 
 class DATA_TABLE_EVENT_DATA
 {
@@ -54,6 +60,25 @@ public:
     int16_t nCol{-1};
     DataTableName strName{""};
 };
+
+//----record new call back------
+class TABLE_EVENT_DATA
+{
+public:
+    TABLE_EVENT_DATA() = default;
+
+    uint8_t op_type_{0u};
+    size_t row_{0u};
+    uint32_t data_index_{0u};
+    uint32_t table_index_{0u};
+    std::string table_name_{NULL_STR};
+};
+
+using TABLE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
+
+using DATA_EVENT_FUNCTOR =
+    std::function<int(const AFGUID&, const std::string&, const uint32_t, const AFIData&, const AFIData&)>;
+//------------------------------
 
 using DATA_NODE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)>;
 using DATA_TABLE_EVENT_FUNCTOR =

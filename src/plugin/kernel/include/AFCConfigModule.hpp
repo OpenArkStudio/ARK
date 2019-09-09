@@ -20,50 +20,14 @@
 
 #pragma once
 
-#include "base/AFArrayMap.hpp"
-#include "base/AFPluginManager.hpp"
 #include "kernel/interface/AFIConfigModule.hpp"
-#include "kernel/include/AFCDataList.hpp"
-#include "kernel/include/AFDataTable.hpp"
-#include "kernel/include/AFCDataNodeManager.hpp"
-#include "kernel/include/AFCDataTableManager.hpp"
-#include "kernel/include/AFCMetaClassModule.hpp"
+#include "base/AFPluginManager.hpp"
+#include "log/interface/AFILogModule.hpp"
+#include "kernel/interface/AFIClassMetaModule.hpp"
 
 namespace ark {
 
-class AFCMetaClass;
-
-class AFConfigInfo
-{
-public:
-    AFConfigInfo()
-    {
-        m_pNodeManager = std::make_shared<AFCDataNodeManager>(NULL_GUID);
-        m_pTableManager = std::make_shared<AFCDataTableManager>(NULL_GUID);
-    }
-
-    ~AFConfigInfo()
-    {
-        m_pNodeManager->Clear();
-        m_pTableManager->Clear();
-    }
-
-    ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager()
-    {
-        return m_pNodeManager;
-    }
-
-    ARK_SHARE_PTR<AFIDataTableManager> GetTableManager()
-    {
-        return m_pTableManager;
-    }
-
-private:
-    ARK_SHARE_PTR<AFIDataNodeManager> m_pNodeManager;
-    ARK_SHARE_PTR<AFIDataTableManager> m_pTableManager;
-};
-
-class AFCConfigModule : public AFIConfigModule
+class AFCConfigModule final : public AFIConfigModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
@@ -74,27 +38,24 @@ public:
     bool Save() override;
     bool Clear() override;
 
-    bool ExistConfig(const std::string& config_id) override;
-    bool ExistConfig(const std::string& class_name, const std::string& config_id) override;
+    // find config static object manager
+    ARK_SHARE_PTR<AFStaticEntityManager> FindStaticEntityMgr(const std::string& class_name) override;
 
-    ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& config_id) override;
-    ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& config_id) override;
-
-    bool GetNodeBool(const std::string& config_id, const std::string& node_name) override;
-    int32_t GetNodeInt(const std::string& config_id, const std::string& node_name) override;
-    int64_t GetNodeInt64(const std::string& config_id, const std::string& node_name) override;
-    float GetNodeFloat(const std::string& config_id, const std::string& node_name) override;
-    double GetNodeDouble(const std::string& config_id, const std::string& node_name) override;
-    const char* GetNodeString(const std::string& config_id, const std::string& node_name) override;
+    ARK_SHARE_PTR<AFIStaticEntity> FindStaticEntity(const std::string& class_name, const ID_TYPE config_id) override;
+    ARK_SHARE_PTR<AFIStaticEntity> FindStaticEntity(const ID_TYPE config_id) override;
 
 protected:
-    AFDataNode* GetNode(const std::string& config_id, const std::string& node_name);
-    bool Load(rapidxml::xml_node<>* attr_node, ARK_SHARE_PTR<AFIMetaClass> pMetaClass);
+    bool LoadConfig(ARK_SHARE_PTR<AFClassMeta> pClassMeta);
+
+    ARK_SHARE_PTR<AFStaticEntityManager> CreateStaticObjectManager(const std::string& name);
 
 private:
-    AFIMetaClassModule* m_pMetaClassModule{nullptr};
     bool loaded_{false};
-    AFArrayMap<std::string, AFConfigInfo> all_configs_;
+
+    AFILogModule* m_pLogModule{nullptr};
+    AFIClassMetaModule* m_pClassModule{nullptr};
+
+    AFNewSmartPtrHashmap<std::string, AFStaticEntityManager> static_entity_mgr_list_;
 };
 
 } // namespace ark

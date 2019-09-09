@@ -20,10 +20,9 @@
 
 #pragma once
 
-#include "kernel/include/AFCDataList.hpp"
 #include "interface/AFIModule.hpp"
-#include "kernel/interface/AFIDataNodeManager.hpp"
-#include "kernel/interface/AFIDataTableManager.hpp"
+#include "AFIStaticEntity.hpp"
+#include "kernel/include/AFStaticEntityManager.hpp"
 
 namespace ark {
 
@@ -33,18 +32,13 @@ public:
     virtual bool Load() = 0;
     virtual bool Save() = 0;
     virtual bool Clear() = 0;
-    virtual bool ExistConfig(const std::string& config_id) = 0;
-    virtual bool ExistConfig(const std::string& class_name, const std::string& config_id) = 0;
 
-    virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& config_id) = 0;
-    virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& config_id) = 0;
+    // find config static object manager
+    virtual ARK_SHARE_PTR<AFStaticEntityManager> FindStaticEntityMgr(const std::string& class_name) = 0;
 
-    virtual bool GetNodeBool(const std::string& config_id, const std::string& node_name) = 0;
-    virtual int32_t GetNodeInt(const std::string& config_id, const std::string& node_name) = 0;
-    virtual int64_t GetNodeInt64(const std::string& config_id, const std::string& node_name) = 0;
-    virtual float GetNodeFloat(const std::string& config_id, const std::string& node_name) = 0;
-    virtual double GetNodeDouble(const std::string& config_id, const std::string& node_name) = 0;
-    virtual const char* GetNodeString(const std::string& config_id, const std::string& node_name) = 0;
+    // find config
+    virtual ARK_SHARE_PTR<AFIStaticEntity> FindStaticEntity(const std::string& class_name, const ID_TYPE config_id) = 0;
+    virtual ARK_SHARE_PTR<AFIStaticEntity> FindStaticEntity(const ID_TYPE config_id) = 0;
 };
 
 } // namespace ark

@@ -14,24 +14,26 @@ macro(BUILD_SERVER_MACRO project_name)
         target_link_libraries(${project_name} 
             debug :AFProto_d.a
             debug protobuf
-            debug brynet
-            debug pthread
-            debug dl
+            #debug brynet
+            #debug pthread
+            #debug dl
             
             optimized :AFProto.a
             optimized protobuf
-            optimized brynet
-            optimized pthread
-            optimized dl)
-    else(UNIX)
+            #optimized brynet
+            #optimized pthread
+            #optimized dl
+            )
+    else(WIN32)
         add_definitions(-D_USRDLL)
 
         target_link_libraries(${project_name} 
             debug brynetd.lib
             debug AFProto_d.lib
             
-            optimized brynet.lib
-            optimized AFProto.lib)
+            #optimized brynet.lib
+            optimized AFProto.lib
+            )
     endif(UNIX)
 
     set_target_properties(${project_name} PROPERTIES PREFIX "")

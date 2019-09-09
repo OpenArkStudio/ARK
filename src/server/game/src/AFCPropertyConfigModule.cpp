@@ -24,7 +24,7 @@ namespace ark {
 
 bool AFCPropertyConfigModule::Init()
 {
-    m_pClassModule = FindModule<AFIMetaClassModule>();
+    m_pClassModule = FindModule<AFIClassMetaModule>();
     m_pConfigModule = FindModule<AFIConfigModule>();
 
     return true;
@@ -46,7 +46,8 @@ int AFCPropertyConfigModule::CalculateBaseValue(const int nJob, const int nLevel
 
         if (xRefPropertyIDName)
         {
-            return m_pConfigModule->GetNodeInt(*xRefPropertyIDName, strProperty);
+            //auto pConfig = m_pConfigModule->FindStaticEntity(*xRefPropertyIDName);
+            //return pConfig->GetInt32(strProperty);
         }
     }
 

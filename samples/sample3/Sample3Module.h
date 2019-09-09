@@ -23,9 +23,9 @@
 #include "base/AFPluginManager.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
 #include "kernel/interface/AFIConfigModule.hpp"
-#include "kernel/interface/AFIMetaClassModule.hpp"
-#include "kernel/interface/AFIMapModule.hpp"
 #include "log/interface/AFILogModule.hpp"
+#include "kernel/interface/AFIClassMetaModule.hpp"
+#include "kernel/interface/AFIMapModule.hpp"
 
 namespace ark {
 
@@ -41,22 +41,44 @@ public:
     bool Shut() override;
 
 protected:
-    int OnEvent(const AFGUID& self, const int event, const AFIDataList& arg);
+    // create test
+    void CreateEntityTest();
+
+    // query test
+    void DataTest();
+    void TableTest();
+    void DestroyTest();
+
+    // call back test
+    void CalssCallBackTest();
+    void DataCallBackTest();
+    void TableCallBackTest();
+
+    // event test
+    void EventTest();
+
+    //------------inner interface----------------
+    ARK_SHARE_PTR<AFIEntity> CreateAnPlayerAndInit();
+    void QueryStringTest(const AFGUID& guid, size_t count, const uint32_t index);
+    void QueryIntTest(const AFGUID& guid, size_t count, const uint32_t index);
+    void SetDataTest(const AFGUID& guid, size_t count, const uint32_t index);
+    void CustomDataTest(const AFGUID& guid, size_t count, const uint32_t index);
+
+    //------------callback----------------------
     int OnClassCallBackEvent(
         const AFGUID& self, const std::string& strClassName, const ArkEntityEvent event, const AFIDataList& arg);
-    int OnIntDataNodeCB(
-        const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
-    int OnStrDataNodeCB(
-        const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
 
-protected:
-    int64_t mLastTime{0};
+    int OnDataCallBackEvent(const AFGUID& self, const std::string& data_name, const uint32_t index,
+        const AFIData& old_value, const AFIData& new_value);
+
+    int OnTableCallBackEvent(
+        const AFGUID& self, const TABLE_EVENT_DATA& data, const AFIData& old_value, const AFIData& new_value);
 
 protected:
     AFIKernelModule* m_pKernelModule;
     AFIConfigModule* m_pConfigModule;
     AFILogModule* m_pLogModule;
-    AFIMetaClassModule* m_pClassModule;
+    AFIClassMetaModule* m_pClassModule;
     AFIMapModule* m_pMapModule;
 };
 

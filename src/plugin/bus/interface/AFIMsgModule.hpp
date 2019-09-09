@@ -23,11 +23,11 @@
 #include "base/AFVector3D.hpp"
 #include "proto/AFProtoCPP.hpp"
 #include "interface/AFIModule.hpp"
-#include "net/interface/AFINet.hpp"
-#include "kernel/interface/AFIDataNodeManager.hpp"
-#include "kernel/interface/AFIDataTableManager.hpp"
-#include "kernel/include/AFDataNode.hpp"
-#include "kernel/include/AFDataTable.hpp"
+#include "kernel/include/AFCNode.hpp"
+#include "kernel/include/AFCTableInner.hpp"
+#include "kernel/include/AFCData.hpp"
+#include "kernel/interface/AFIEntity.hpp"
+#include "net/include/AFNetMsg.hpp"
 
 namespace ark {
 
@@ -86,32 +86,36 @@ public:
         return xPoint;
     }
 
-    static bool AFData2PBVariant(const AFIData& DataVar, AFMsg::VariantData* variantData)
+    static bool NodeToPBData(AFINode* pNode, AFMsg::pb_entity_data* pb_data)
     {
-        if (variantData == nullptr)
-        {
-            return false;
-        }
+        ARK_ASSERT_RET_VAL(pNode != nullptr && pb_data != nullptr, false);
 
-        switch (DataVar.GetType())
+        auto index = pNode->GetIndex();
+        switch (pNode->GetType())
         {
-            case DT_BOOLEAN:
-                variantData->set_bool_value(DataVar.GetBool());
+            case ArkDataType::DT_BOOLEAN:
+                pb_data->mutable_datas_bool()->insert({index, pNode->GetBool()});
                 break;
-            case DT_INT:
-                variantData->set_int_value(DataVar.GetInt());
+            case ArkDataType::DT_INT32:
+                pb_data->mutable_datas_int32()->insert({index, pNode->GetInt32()});
                 break;
-            case DT_INT64:
-                variantData->set_int64_value(DataVar.GetInt64());
+            case ArkDataType::DT_UINT32:
+                pb_data->mutable_datas_uint32()->insert({index, pNode->GetUInt32()});
                 break;
-            case DT_FLOAT:
-                variantData->set_float_value(DataVar.GetFloat());
+            case ArkDataType::DT_INT64:
+                pb_data->mutable_datas_int64()->insert({index, pNode->GetInt64()});
                 break;
-            case DT_DOUBLE:
-                variantData->set_double_value(DataVar.GetDouble());
+            case ArkDataType::DT_UINT64:
+                pb_data->mutable_datas_uint64()->insert({index, pNode->GetUInt64()});
                 break;
-            case DT_STRING:
-                variantData->set_str_value(DataVar.GetString());
+            case ArkDataType::DT_FLOAT:
+                pb_data->mutable_datas_float()->insert({index, pNode->GetFloat()});
+                break;
+            case ArkDataType::DT_DOUBLE:
+                pb_data->mutable_datas_double()->insert({index, pNode->GetDouble()});
+                break;
+            case ArkDataType::DT_STRING:
+                pb_data->mutable_datas_string()->insert({index, pNode->GetString()});
                 break;
             default:
                 ARK_ASSERT_RET_VAL(0, false);
@@ -121,56 +125,35 @@ public:
         return true;
     }
 
-    static bool DataNodeToPBNode(const AFIData& DataVar, const char* name, AFMsg::PBNodeData& xMsg)
+    static bool NodeToPBData(const uint32_t index, const AFIData& data, AFMsg::pb_entity_data* pb_data)
     {
-        if (nullptr == name)
+        ARK_ASSERT_RET_VAL(index > 0 && pb_data != nullptr, false);
+
+        switch (data.GetType())
         {
-            return false;
-        }
-
-        xMsg.set_node_name(name);
-        xMsg.set_data_type(DataVar.GetType());
-        AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
-
-        return AFData2PBVariant(DataVar, variantData);
-    }
-
-    static bool TableCellToPBCell(const AFIData& DataVar, const int nRow, const int nCol, AFMsg::PBCellData& xMsg)
-    {
-        xMsg.set_col(nCol);
-        xMsg.set_row(nRow);
-        xMsg.set_data_type(DataVar.GetType());
-        AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
-
-        return AFData2PBVariant(DataVar, variantData);
-    }
-
-    static bool TableCellToPBCell(const AFIDataList& DataList, const int nRow, const int nCol, AFMsg::PBCellData& xMsg)
-    {
-        xMsg.set_col(nCol);
-        xMsg.set_row(nRow);
-        xMsg.set_data_type(DataList.GetType(nCol));
-        AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
-
-        switch (DataList.GetType(nCol))
-        {
-            case DT_BOOLEAN:
-                variantData->set_bool_value(DataList.Bool(nCol));
+            case ArkDataType::DT_BOOLEAN:
+                pb_data->mutable_datas_bool()->insert({index, data.GetBool()});
                 break;
-            case DT_INT:
-                variantData->set_int_value(DataList.Int(nCol));
+            case ArkDataType::DT_INT32:
+                pb_data->mutable_datas_int32()->insert({index, data.GetInt()});
                 break;
-            case DT_INT64:
-                variantData->set_int64_value(DataList.Int64(nCol));
+            case ArkDataType::DT_UINT32:
+                pb_data->mutable_datas_uint32()->insert({index, data.GetUInt()});
                 break;
-            case DT_FLOAT:
-                variantData->set_float_value(DataList.Float(nCol));
+            case ArkDataType::DT_INT64:
+                pb_data->mutable_datas_int64()->insert({index, data.GetInt64()});
                 break;
-            case DT_DOUBLE:
-                variantData->set_double_value(DataList.Double(nCol));
+            case ArkDataType::DT_UINT64:
+                pb_data->mutable_datas_uint64()->insert({index, data.GetUInt64()});
                 break;
-            case DT_STRING:
-                variantData->set_str_value(DataList.String(nCol));
+            case ArkDataType::DT_FLOAT:
+                pb_data->mutable_datas_float()->insert({index, data.GetFloat()});
+                break;
+            case ArkDataType::DT_DOUBLE:
+                pb_data->mutable_datas_double()->insert({index, data.GetDouble()});
+                break;
+            case ArkDataType::DT_STRING:
+                pb_data->mutable_datas_string()->insert({index, data.GetString()});
                 break;
             default:
                 ARK_ASSERT_RET_VAL(0, false);
@@ -180,111 +163,156 @@ public:
         return true;
     }
 
-    static bool PackTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableBase* pEntityTableBase)
+    static bool TableToPBData(AFITable* pTable, const uint32_t index, AFMsg::pb_table* pb_data)
     {
-        if (pTable == nullptr || pEntityTableBase == nullptr)
+        ARK_ASSERT_RET_VAL(pTable != nullptr && index > 0 && pb_data != nullptr, false);
+
+        for (AFIRow* pRow = pTable->First(); pRow != nullptr; pRow = pTable->Next())
         {
-            return false;
-        }
-
-        for (size_t i = 0; i < pTable->GetRowCount(); i++)
-        {
-            AFMsg::DataTableAddRow* pAddRowStruct = pEntityTableBase->add_row();
-            pAddRowStruct->set_row(i);
-
-            for (size_t j = 0; j < pTable->GetColCount(); j++)
-            {
-                AFMsg::PBCellData* pAddData = pAddRowStruct->add_cell_list();
-
-                AFCData xRowColData;
-
-                if (!pTable->GetValue(i, j, xRowColData))
-                {
-                    continue;
-                }
-
-                TableCellToPBCell(xRowColData, i, j, *pAddData);
-            }
-        }
-
-        return true;
-    }
-
-    static bool AddTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableList* pPBData)
-    {
-        if (!pTable || !pPBData)
-        {
-            return false;
-        }
-
-        AFMsg::EntityDataTableBase* pTableBase = pPBData->add_data_table_list();
-        pTableBase->set_table_name(pTable->GetName());
-
-        if (!PackTableToPB(pTable, pTableBase))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    static bool TableListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataTableManager>& pTableManager,
-        AFMsg::EntityDataTableList& xPBData, const AFFeatureType nFeature)
-    {
-        AFMsg::EntityDataTableList* pPBData = &xPBData;
-        pPBData->set_entity_id(self);
-
-        if (pTableManager == nullptr)
-        {
-            return false;
-        }
-
-        size_t nTableCount = pTableManager->GetCount();
-
-        for (size_t i = 0; i < nTableCount; ++i)
-        {
-            AFDataTable* pTable = pTableManager->GetTableByIndex(i);
-
-            if (pTable == nullptr)
+            AFMsg::pb_entity_data row_data;
+            if (!RowToPBData(pRow, pRow->GetRow(), &row_data))
             {
                 continue;
             }
 
-            AFFeatureType xResult = (pTable->GetFeature() & nFeature);
-
-            if (xResult.any())
-            {
-                AddTableToPB(pTable, pPBData);
-            }
+            pb_data->mutable_datas_value()->insert({index, row_data});
         }
 
         return true;
     }
 
-    static bool NodeListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager,
-        AFMsg::EntityDataNodeList& xPBData, const AFFeatureType nFeature)
+    static bool RowToPBData(AFIRow* pRow, const uint32_t index, AFMsg::pb_entity_data* pb_data)
     {
-        if (pNodeManager == nullptr)
+        ARK_ASSERT_RET_VAL(pRow != nullptr && index > 0 && pb_data != nullptr, false);
+
+        for (auto pNode = pRow->First(); pNode != nullptr; pNode = pRow->Next())
+        {
+            NodeToPBData(pNode, pb_data);
+        }
+
+        return true;
+    }
+
+    static bool TableRowDataToPBData(
+        const uint32_t index, uint32_t row, const uint32_t col, const AFIData& data, AFMsg::pb_entity_data* pb_data)
+    {
+        ARK_ASSERT_RET_VAL(index > 0 && row > 0 && col > 0 && pb_data != nullptr, false);
+
+        AFMsg::pb_entity_data row_data;
+        if (!NodeToPBData(col, data, &row_data))
         {
             return false;
         }
 
-        for (size_t i = 0; i < pNodeManager->GetNodeCount(); i++)
-        {
-            AFDataNode* pNode = pNodeManager->GetNodeByIndex(i);
+        AFMsg::pb_table table_data;
+        table_data.mutable_datas_value()->insert({row, row_data});
 
-            if (pNode == nullptr)
+        pb_data->mutable_datas_table()->insert({index, table_data});
+
+        return true;
+    }
+
+    //node all to pb data
+    static bool NodeAllToPBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data)
+    {
+        ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
+
+        for (auto pNode = pEntity->FirstNode(); pNode != nullptr; pNode = pEntity->NextNode())
+        {
+            NodeToPBData(pNode, pb_data);
+        }
+
+        return true;
+    }
+
+    //table all to pb data
+    static bool TableAllToPBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data)
+    {
+        ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
+        for (AFITable* pTable = pEntity->FirstTable(); pTable != nullptr; pTable = pEntity->NextTable())
+        {
+            const auto index = pTable->GetIndex();
+
+            AFMsg::pb_table table_data;
+            if (!TableToPBData(pTable, index, &table_data))
             {
                 continue;
             }
 
-            AFFeatureType xResult = (pNode->GetFeature() & nFeature);
+            pb_data->mutable_datas_table()->insert({index, table_data});
+        }
 
-            if (pNode->Changed() && xResult.any())
+        return true;
+    }
+
+    static bool EntityToPBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_entity* pb_data)
+    {
+        ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
+
+        pb_data->set_id(pEntity->GetID());
+
+        NodeAllToPBData(pEntity, pb_data->mutable_data());
+
+        TableAllToPBData(pEntity, pb_data->mutable_data());
+
+        return true;
+    }
+
+    static bool EntityToPBDataByFeature(
+        ARK_SHARE_PTR<AFIEntity> pEntity, AFFeatureType feature, AFMsg::pb_entity* pb_data)
+    {
+        ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
+
+        pb_data->set_id(pEntity->GetID());
+
+        NodeToPBDataByFeature(pEntity, feature, pb_data->mutable_data());
+
+        TableToPBDataByFeature(pEntity, feature, pb_data->mutable_data());
+
+        return true;
+    }
+
+    //node all to pb data
+    static bool NodeToPBDataByFeature(
+        ARK_SHARE_PTR<AFIEntity> pEntity, const AFFeatureType feature, AFMsg::pb_entity_data* pb_data)
+    {
+        ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
+
+        for (auto pNode = pEntity->FirstNode(); pNode != nullptr; pNode = pEntity->NextNode())
+        {
+            auto result = (pNode->GetFeature() & feature);
+            if (!result.any())
             {
-                AFMsg::PBNodeData* pData = xPBData.add_data_node_list();
-                DataNodeToPBNode(pNode->GetValue(), pNode->GetName(), *pData);
+                continue;
             }
+
+            NodeToPBData(pNode, pb_data);
+        }
+
+        return true;
+    }
+
+    static bool TableToPBDataByFeature(
+        ARK_SHARE_PTR<AFIEntity> pEntity, const AFFeatureType feature, AFMsg::pb_entity_data* pb_data)
+    {
+        ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
+        for (AFITable* pTable = pEntity->FirstTable(); pTable != nullptr; pTable = pEntity->NextTable())
+        {
+            auto result = (pTable->GetFeature() & feature);
+            if (!result.any())
+            {
+                continue;
+            }
+
+            const auto index = pTable->GetIndex();
+
+            AFMsg::pb_table table_data;
+            if (!TableToPBData(pTable, index, &table_data))
+            {
+                continue;
+            }
+
+            pb_data->mutable_datas_table()->insert({index, table_data});
         }
 
         return true;

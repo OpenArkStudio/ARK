@@ -20,33 +20,41 @@
 
 #pragma once
 
-#include "interface/AFIClassMeta.h"
-#include "AFMap.hpp"
-#include "AFCDataMeta.hpp"
-
 namespace ark {
 
-class AFCEntityClassMeta : public AFIClassMeta
+class AFContainerMeta final
 {
 public:
-    AFIDataMeta* FindDataMeta(const std::string& name) const
+    AFContainerMeta() = delete;
+
+    explicit AFContainerMeta(const std::string& name, const uint32_t index, const std::string& class_name)
+        : name_(name)
+        , index_(index)
+        , class_name_(class_name)
     {
-        return entity_data_metas_.find_value(name);
+        //
+    }
+
+    virtual ~AFContainerMeta() = default;
+
+    const std::string& GetName() const
+    {
+        return name_;
+    }
+
+    const std::string& GetClassName() const
+    {
+        return class_name_;
     }
 
 private:
-    AFNewHashmap<std::string, AFCEntityDataMeta> entity_data_metas_;
+    // container name
+    std::string name_{NULL_STR};
+
+    // container index
+    uint32_t index_{0u};
+
+    std::string class_name_{NULL_STR};
 };
 
-class AFCConfigClassMeta : public AFIClassMeta
-{
-public:
-    AFIDataMeta* FindDataMeta(const std::string& name) const
-    {
-        return config_data_metas_.find_value(name);
-    }
-
-private:
-    AFNewHashmap<std::string, AFCConfigDataMeta> config_data_metas_;
-};
 } // namespace ark

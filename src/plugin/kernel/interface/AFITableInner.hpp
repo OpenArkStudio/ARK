@@ -20,30 +20,21 @@
 
 #pragma once
 
+#include "AFITable.hpp"
+#include "AFIData.hpp"
+#include "kernel/include/AFTableMeta.hpp"
+
 namespace ark {
 
-class AFIClassMeta
+class AFITableInner : public AFITable
 {
 public:
-    bool IsChildDataMeta(const std::string& name) const
-    {
-        return FindDataMeta(name) != nullptr;
-    }
+    virtual bool OnRowDataChanged(
+        uint32_t row, const uint32_t index, const AFIData& old_data, const AFIData& new_data) const = 0;
 
-    virtual AFIDataMeta* FindDataMeta(const std::string& name) const = 0;
+    virtual ARK_SHARE_PTR<AFTableMeta> GetMeta() const = 0;
 
-    void SetClassMetaName(const std::string& value)
-    {
-        class_meta_name_ = value;
-    }
-
-    const std::string& GetClassMetaName() const
-    {
-        return class_meta_name_;
-    }
-
-private:
-    std::string class_meta_name_{};
+    virtual uint32_t GetIndex(const std::string& name) = 0;
 };
 
 } // namespace ark

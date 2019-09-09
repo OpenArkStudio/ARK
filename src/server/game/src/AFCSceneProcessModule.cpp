@@ -25,6 +25,7 @@
 #include "base/AFEventDefine.hpp"
 #include "base/AFDateTime.hpp"
 #include "game/include/AFCSceneProcessModule.hpp"
+#include "kernel/include/AFCDataList.hpp"
 
 namespace ark {
 
@@ -32,7 +33,7 @@ bool AFCSceneProcessModule::Init()
 {
     m_pKernelModule = FindModule<AFIKernelModule>();
     m_pConfigModule = FindModule<AFIConfigModule>();
-    m_pClassModule = FindModule<AFIMetaClassModule>();
+    m_pClassModule = FindModule<AFIClassMetaModule>();
     m_pMapModule = FindModule<AFIMapModule>();
     m_pLogModule = FindModule<AFILogModule>();
     m_pGameNetModule = FindModule<AFIGameNetModule>();
@@ -112,17 +113,23 @@ int AFCSceneProcessModule::CreateMapInstance(const int& map_id)
 
 int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEventID, const AFIDataList& var)
 {
-    if (var.GetCount() != 4 || !var.TypeEx(AF_DATA_TYPE::DT_INT64, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT,
-                                   AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_UNKNOWN))
+    if (var.GetCount() != 4 || !var.TypeEx(ArkDataType::DT_INT64, ArkDataType::DT_INT32, ArkDataType::DT_INT32,
+                                   ArkDataType::DT_INT32, ArkDataType::DT_EMPTY))
     {
         return 0;
     }
 
+	auto pEntity = m_pKernelModule->GetEntity(self);
+	if (pEntity == nullptr)
+	{
+        return 0;
+	}
+
     const AFGUID ident = var.Int64(0);
     const int target_map = var.Int(2);
     const int target_inst = var.Int(3);
-    const int cur_map = m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::map_id());
-    const int cur_inst = m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::map_inst_id());
+    const int cur_map = pEntity->GetInt32(AFEntityMetaPlayer::map_id());
+    const int cur_inst = pEntity->GetInt32(AFEntityMetaPlayer::map_inst_id());
 
     if (self != ident)
     {
@@ -158,8 +165,14 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     // get the position.
     AFVector3D xRelivePos;
-    const std::string strSceneID = ARK_LEXICAL_CAST<std::string>(target_map);
-    const std::string& strRelivePosList = m_pConfigModule->GetNodeString(strSceneID, AFConfigMetaMap::RelivePos());
+    //const std::string strSceneID = ARK_LEXICAL_CAST<std::string>(target_map);
+    auto pSceneConfig = m_pConfigModule->FindStaticEntity(target_map);
+	if (pSceneConfig == nullptr)
+	{
+        return 0;
+	}
+
+    const std::string& strRelivePosList = pSceneConfig->GetString(AFConfigMetaMap::RelivePos());
 
     AFCDataList valueRelivePosList(strRelivePosList.c_str(), strRelivePosList.length(), ';');
 
@@ -189,7 +202,13 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
 int AFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
-    if (1 != var.GetCount() || !var.TypeEx(AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_UNKNOWN))
+    if (1 != var.GetCount() || !var.TypeEx(ArkDataType::DT_INT32, ArkDataType::DT_EMPTY))
+    {
+        return -1;
+    }
+
+	auto pEntity = m_pKernelModule->GetEntity(object);
+    if (pEntity == nullptr)
     {
         return -1;
     }
@@ -198,7 +217,7 @@ int AFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEv
 
     if (nOldGroupID > 0)
     {
-        int nSceneID = m_pKernelModule->GetNodeInt(object, AFEntityMetaPlayer::map_id());
+        int nSceneID = pEntity->GetInt32(AFEntityMetaPlayer::map_id());
 
         if (GetMapInstanceType(nSceneID) == SCENE_TYPE_CLONE_SCENE)
         {
@@ -215,12 +234,18 @@ int AFCSceneProcessModule::OnObjectClassEvent(
 {
     if (ArkEntityEvent::ENTITY_EVT_DESTROY == eClassEvent)
     {
+        auto pEntity = m_pKernelModule->GetEntity(self);
+        if (pEntity == nullptr)
+        {
+            return 0;
+        }
+
         //如果在副本中,则删除他的那个副本
-        int map_id = m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::map_id());
+        int map_id = pEntity->GetInt32(AFEntityMetaPlayer::map_id());
 
         if (GetMapInstanceType(map_id) == SCENE_TYPE_CLONE_SCENE)
         {
-            int nGroupID = m_pKernelModule->GetNodeInt(self, AFEntityMetaPlayer::map_inst_id());
+            int nGroupID = pEntity->GetInt32(AFEntityMetaPlayer::map_inst_id());
             m_pMapModule->ReleaseMapInstance(map_id, nGroupID);
             ARK_LOG_INFO("DestroyCloneSceneGroup, id  = {} scene_id  = {} group_id = {}", self, map_id, nGroupID);
         }
@@ -238,10 +263,11 @@ int AFCSceneProcessModule::OnObjectClassEvent(
 
 E_SCENE_TYPE AFCSceneProcessModule::GetMapInstanceType(const int nSceneID)
 {
-    std::string scene_id = ARK_TO_STRING(nSceneID);
-    if (m_pConfigModule->ExistConfig(scene_id))
+    //std::string scene_id = ARK_TO_STRING(nSceneID);
+    auto pConfig = m_pConfigModule->FindStaticEntity(nSceneID);
+    if (pConfig != nullptr)
     {
-        return (E_SCENE_TYPE)m_pConfigModule->GetNodeInt(scene_id, AFConfigMetaMap::instance_type());
+        return (E_SCENE_TYPE)pConfig->GetInt32(AFConfigMetaMap::instance_type());
     }
 
     return SCENE_TYPE_ERROR;

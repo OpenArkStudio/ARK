@@ -19,10 +19,8 @@
  */
 
 #include "base/AFDefine.hpp"
-#include "kernel/include/AFCEntity.hpp"
-#include "kernel/include/AFDataNode.hpp"
-#include "kernel/include/AFDataTable.hpp"
 #include "kernel/include/AFCKernelModule.hpp"
+#include "kernel/include/AFCEntity.hpp"
 
 namespace ark {
 
@@ -36,13 +34,7 @@ AFCKernelModule::AFCKernelModule()
 
 AFCKernelModule::~AFCKernelModule()
 {
-    for (size_t i = 0; i < inner_nodes_.GetCount(); ++i)
-    {
-        int32_t* pInnerProperty = inner_nodes_[i];
-        ARK_DELETE(pInnerProperty);
-    }
-
-    entities_.clear();
+    objects_.clear();
 }
 
 bool AFCKernelModule::Init()
@@ -50,7 +42,7 @@ bool AFCKernelModule::Init()
     delete_list_.clear();
 
     m_pMapModule = FindModule<AFIMapModule>();
-    m_pClassModule = FindModule<AFIMetaClassModule>();
+    m_pClassModule = FindModule<AFIClassMetaModule>();
     m_pConfigModule = FindModule<AFIConfigModule>();
     m_pLogModule = FindModule<AFILogModule>();
     m_pGUIDModule = FindModule<AFIGUIDModule>();
@@ -60,7 +52,7 @@ bool AFCKernelModule::Init()
 
 bool AFCKernelModule::Update()
 {
-    cur_exec_entity_ = NULL_GUID;
+    cur_exec_object_ = NULL_GUID;
 
     if (!delete_list_.empty())
     {
@@ -72,7 +64,7 @@ bool AFCKernelModule::Update()
         delete_list_.clear();
     }
 
-    for (auto iter : entities_)
+    for (auto iter : objects_)
     {
         auto pEntity = iter.second;
         if (pEntity == nullptr)
@@ -92,11 +84,11 @@ bool AFCKernelModule::PreShut()
 }
 
 ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const int map_id, const int map_instance_id,
-    const std::string& class_name, const std::string& config_index, const AFIDataList& args)
+    const std::string& class_name, const ID_TYPE config_id, const AFIDataList& args)
 {
-    AFGUID entity_id = self;
+    AFGUID object_id = self;
 
-    ARK_SHARE_PTR<AFMapInfo> pMapInfo = m_pMapModule->GetMapInfo(map_id);
+    auto pMapInfo = m_pMapModule->GetMapInfo(map_id);
     if (pMapInfo == nullptr)
     {
         ARK_LOG_ERROR("There is no scene, scene = {}", map_id);
@@ -109,109 +101,214 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
         return nullptr;
     }
 
-    if (entity_id == NULL_GUID)
+    auto pClassMeta = m_pClassModule->FindMeta(class_name);
+    if (nullptr == pClassMeta)
     {
-        entity_id = m_pGUIDModule->CreateGUID();
-    }
-
-    // Check if the entity exists
-    if (GetEntity(entity_id) != nullptr)
-    {
-        ARK_LOG_ERROR("The entity has existed, id = {}", entity_id);
+        ARK_LOG_ERROR("There is no class meta, name = {}", class_name);
         return nullptr;
     }
 
-    ARK_SHARE_PTR<AFIEntity> pEntity = std::make_shared<AFCEntity>(entity_id);
-    entities_.insert(entity_id, pEntity);
+    // check args num
+    size_t arg_count = args.GetCount();
+    if (arg_count % 2 != 0)
+    {
+        ARK_LOG_ERROR("Args count is wrong, count = {}", arg_count);
+        return nullptr;
+    }
+
+    if (object_id == NULL_GUID)
+    {
+        object_id = m_pGUIDModule->CreateGUID();
+    }
+
+    // Check if the entity exists
+    if (GetEntity(object_id) != nullptr)
+    {
+        ARK_LOG_ERROR("The entity has existed, id = {}", object_id);
+        return nullptr;
+    }
+
+    ARK_SHARE_PTR<AFIEntity> pEntity =
+        std::make_shared<AFCEntity>(pClassMeta, object_id, config_id, map_id, map_instance_id);
+
+    objects_.insert(object_id, pEntity);
+
     pMapInfo->AddEntityToInstance(
-        map_instance_id, entity_id, ((class_name == AFEntityMetaPlayer::self_name()) ? true : false));
+        map_instance_id, object_id, ((class_name == AFEntityMetaPlayer::self_name()) ? true : false));
 
-    ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager = pEntity->GetNodeManager();
-    ARK_SHARE_PTR<AFIDataTableManager>& pTableManager = pEntity->GetTableManager();
-    m_pClassModule->InitDataNodeManager(class_name, pNodeManager);
-    m_pClassModule->InitDataTableManager(class_name, pTableManager);
-
-    ARK_SHARE_PTR<AFIDataNodeManager> pConfigNodeManager = m_pConfigModule->GetNodeManager(config_index);
-
-    if (pConfigNodeManager != nullptr)
+    if (config_id > 0)
     {
-        size_t configNodeCount = pConfigNodeManager->GetNodeCount();
-
-        for (size_t i = 0; i < configNodeCount; ++i)
+        auto pStaticEntity = m_pConfigModule->FindStaticEntity(config_id);
+        if (pStaticEntity != nullptr)
         {
-            AFDataNode* pConfigNode = pConfigNodeManager->GetNodeByIndex(i);
-            if (pConfigNode != nullptr && pConfigNode->Changed())
-            {
-                pNodeManager->SetNode(pConfigNode->GetName(), pConfigNode->GetValue());
-            }
+            pEntity->InitData(pStaticEntity);
         }
     }
 
-    DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_PRE_LOAD_DATA, args);
+    DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_PRE_LOAD_DATA, args);
 
-    for (size_t i = 0; (i + 1) < args.GetCount(); i += 2)
+    for (size_t i = 0; i < arg_count; i += 2)
     {
-        const std::string& node_name = args.String(i);
-        if (!inner_nodes_.ExistElement(node_name))
+        auto data_type = args.GetType(i);
+        auto index = args.UInt(i + 1);
+        switch (data_type)
         {
-            AFDataNode* pArgNode = pNodeManager->GetNode(node_name.c_str());
-            if (pArgNode != nullptr)
-            {
-                args.ToAFIData(i + 1, pArgNode->value);
-            }
+            case ark::ArkDataType::DT_BOOLEAN:
+                pEntity->SetBool(index, args.Bool(i));
+                break;
+            case ark::ArkDataType::DT_INT32:
+                pEntity->SetInt32(index, args.Int(i));
+                break;
+            case ark::ArkDataType::DT_UINT32:
+                pEntity->SetUInt32(index, args.UInt(i));
+                break;
+            case ark::ArkDataType::DT_INT64:
+                pEntity->SetInt64(index, args.Int64(i));
+                break;
+            case ark::ArkDataType::DT_UINT64:
+                pEntity->SetUInt64(index, args.UInt64(i));
+                break;
+            case ark::ArkDataType::DT_FLOAT:
+                pEntity->SetFloat(index, args.Float(i));
+                break;
+            case ark::ArkDataType::DT_DOUBLE:
+                pEntity->SetDouble(index, args.Double(i));
+                break;
+            case ark::ArkDataType::DT_STRING:
+                pEntity->SetString(index, args.String(i));
+                break;
+            default:
+                break;
         }
     }
 
-    pEntity->SetNodeString(AFEntityMetaBaseEntity::config_id(), config_index);
-    pEntity->SetNodeString(AFEntityMetaBaseEntity::class_name(), class_name);
-    pEntity->SetNodeInt(AFEntityMetaBaseEntity::map_id(), map_id);
-    pEntity->SetNodeInt(AFEntityMetaBaseEntity::map_inst_id(), map_instance_id);
-
-    DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_LOAD_DATA, args);
-    DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_PRE_EFFECT_DATA, args);
-    DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_EFFECT_DATA, args);
-    DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_POST_EFFECT_DATA, args);
-    DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_DATA_FINISHED, args);
+    DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_LOAD_DATA, args);
+    DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_PRE_EFFECT_DATA, args);
+    DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_EFFECT_DATA, args);
+    DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_POST_EFFECT_DATA, args);
+    DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_DATA_FINISHED, args);
 
     return pEntity;
 }
 
+ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateContainerEntity(
+    const AFGUID& self, const uint32_t container_index, const std::string& class_name, const ID_TYPE config_id)
+{
+    auto pEntity = GetEntity(self);
+    if (pEntity == nullptr)
+    {
+        ARK_LOG_ERROR("There is no object, object = {}", self);
+        return nullptr;
+    }
+
+    auto pContainer = pEntity->FindContainer(container_index);
+    if (pContainer == nullptr)
+    {
+        ARK_LOG_ERROR("There is no container, container = {}", container_index);
+        return nullptr;
+    }
+
+    auto map_id = pEntity->GetMapID();
+    ARK_SHARE_PTR<AFMapInfo> pMapInfo = m_pMapModule->GetMapInfo(map_id);
+    if (pMapInfo == nullptr)
+    {
+        ARK_LOG_ERROR("There is no scene, scene = {}", map_id);
+        return nullptr;
+    }
+
+    auto map_instance_id = pEntity->GetMapEntityID();
+    if (!pMapInfo->ExistInstance(map_instance_id))
+    {
+        ARK_LOG_ERROR("There is no group, scene = {} group = {}", map_id, map_instance_id);
+        return nullptr;
+    }
+
+    auto pClassMeta = m_pClassModule->FindMeta(class_name);
+    if (nullptr == pClassMeta)
+    {
+        ARK_LOG_ERROR("There is no class meta, name = {}", class_name);
+        return nullptr;
+    }
+
+    AFGUID object_id = m_pGUIDModule->CreateGUID();
+
+    // Check if the entity exists
+    if (GetEntity(object_id) != nullptr)
+    {
+        ARK_LOG_ERROR("The entity has existed, id = {}", object_id);
+        return nullptr;
+    }
+
+    ARK_SHARE_PTR<AFIEntity> pContainerEntity =
+        std::make_shared<AFCEntity>(pClassMeta, object_id, config_id, map_id, map_instance_id);
+
+    objects_.insert(object_id, pContainerEntity);
+
+    pMapInfo->AddEntityToInstance(
+        map_instance_id, object_id, ((class_name == AFEntityMetaPlayer::self_name()) ? true : false));
+
+    if (config_id > 0)
+    {
+        auto pStaticEntity = m_pConfigModule->FindStaticEntity(config_id);
+        if (pStaticEntity != nullptr)
+        {
+            pContainerEntity->InitData(pStaticEntity);
+        }
+    }
+
+    pContainer->Place(pContainerEntity);
+
+    AFCDataList args;
+    DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_PRE_LOAD_DATA, args);
+
+    DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_LOAD_DATA, args);
+    DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_PRE_EFFECT_DATA, args);
+    DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_EFFECT_DATA, args);
+    DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_POST_EFFECT_DATA, args);
+    DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_DATA_FINISHED, args);
+
+    return pContainerEntity;
+}
+
 ARK_SHARE_PTR<AFIEntity> AFCKernelModule::GetEntity(const AFGUID& self)
 {
-    return entities_.find_value(self);
+    return objects_.find_value(self);
 }
 
 bool AFCKernelModule::DestroyAll()
 {
-    for (auto iter : entities_)
+    for (auto iter : objects_)
     {
-        delete_list_.push_back(iter.second->Self());
+        delete_list_.push_back(iter.second->GetID());
     }
 
     // run another frame
     Update();
-
-    common_class_callbacks_.clear();
-    common_data_node_callbacks_.clear();
-    common_data_table_callbacks_.clear();
 
     return true;
 }
 
 bool AFCKernelModule::DestroyEntity(const AFGUID& self)
 {
-    if (self == cur_exec_entity_ && self != NULL_GUID)
+    if (self == cur_exec_object_ && self != NULL_GUID)
     {
         return DestroySelf(self);
     }
 
-    int32_t map_id = GetNodeInt(self, AFEntityMetaBaseEntity::map_id());
-    int32_t inst_id = GetNodeInt(self, AFEntityMetaBaseEntity::map_inst_id());
+    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
+    if (pEntity == nullptr)
+    {
+        ARK_LOG_ERROR("Cannot find this object, self={}", self);
+        return false;
+    }
+
+    int32_t map_id = pEntity->GetMapID();
+    int32_t inst_id = pEntity->GetMapEntityID();
 
     ARK_SHARE_PTR<AFMapInfo> pMapInfo = m_pMapModule->GetMapInfo(map_id);
     if (pMapInfo != nullptr)
     {
-        const std::string& class_name = GetNodeString(self, AFEntityMetaBaseEntity::class_name());
+        const std::string& class_name = pEntity->GetClassName();
 
         pMapInfo->RemoveEntityFromInstance(
             inst_id, self, ((class_name == AFEntityMetaPlayer::self_name()) ? true : false));
@@ -219,433 +316,12 @@ bool AFCKernelModule::DestroyEntity(const AFGUID& self)
         DoEvent(self, class_name, ArkEntityEvent::ENTITY_EVT_PRE_DESTROY, AFCDataList());
         DoEvent(self, class_name, ArkEntityEvent::ENTITY_EVT_DESTROY, AFCDataList());
 
-        return entities_.erase(self);
+        return objects_.erase(self);
     }
     else
     {
-        ARK_LOG_ERROR("Cannot find this map, entity_id={} map={} inst={}", self, map_id, inst_id);
+        ARK_LOG_ERROR("Cannot find this map, object_id={} map={} inst={}", self, map_id, inst_id);
         return false;
-    }
-}
-
-bool AFCKernelModule::FindNode(const AFGUID& self, const std::string& name)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->CheckNodeExist(name);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return false;
-    }
-}
-
-bool AFCKernelModule::SetNodeBool(const AFGUID& self, const std::string& name, const bool value)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->SetNodeBool(name, value);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return false;
-    }
-}
-
-bool AFCKernelModule::SetNodeInt(const AFGUID& self, const std::string& name, const int32_t value)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->SetNodeInt(name, value);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return false;
-    }
-}
-
-bool AFCKernelModule::SetNodeInt64(const AFGUID& self, const std::string& name, const int64_t value)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->SetNodeInt64(name, value);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return false;
-    }
-}
-
-bool AFCKernelModule::SetNodeFloat(const AFGUID& self, const std::string& name, const float value)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->SetNodeFloat(name, value);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return false;
-    }
-}
-
-bool AFCKernelModule::SetNodeDouble(const AFGUID& self, const std::string& name, const double value)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->SetNodeDouble(name, value);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return false;
-    }
-}
-
-bool AFCKernelModule::SetNodeString(const AFGUID& self, const std::string& name, const std::string& value)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->SetNodeString(name, value);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return false;
-    }
-}
-
-bool AFCKernelModule::GetNodeBool(const AFGUID& self, const std::string& name)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->GetNodeBool(name);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return NULL_BOOLEAN;
-    }
-}
-
-int32_t AFCKernelModule::GetNodeInt(const AFGUID& self, const std::string& name)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->GetNodeInt(name);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return NULL_INT;
-    }
-}
-
-int64_t AFCKernelModule::GetNodeInt64(const AFGUID& self, const std::string& name)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->GetNodeInt64(name);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return NULL_INT64;
-    }
-}
-
-float AFCKernelModule::GetNodeFloat(const AFGUID& self, const std::string& name)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->GetNodeFloat(name);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return NULL_FLOAT;
-    }
-}
-
-double AFCKernelModule::GetNodeDouble(const AFGUID& self, const std::string& name)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->GetNodeDouble(name);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return NULL_DOUBLE;
-    }
-}
-
-const char* AFCKernelModule::GetNodeString(const AFGUID& self, const std::string& name)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->GetNodeString(name);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return nullptr;
-    }
-}
-
-AFDataTable* AFCKernelModule::FindTable(const AFGUID& self, const std::string& name)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->GetTableManager()->GetTable(name.c_str());
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return nullptr;
-    }
-}
-
-bool AFCKernelModule::ClearTable(const AFGUID& self, const std::string& name)
-{
-    AFDataTable* pTable = FindTable(self, name);
-    if (pTable != nullptr)
-    {
-        pTable->Clear();
-        return true;
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return false;
-    }
-}
-
-bool AFCKernelModule::SetTableBool(
-    const AFGUID& self, const std::string& name, const int row, const int col, const bool value)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        if (!pEntity->SetTableBool(name, row, col, value))
-        {
-            ARK_LOG_ERROR("error for row or col, id = {}", self);
-            return false;
-        }
-
-        return true;
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return false;
-    }
-}
-
-bool AFCKernelModule::SetTableInt(
-    const AFGUID& self, const std::string& name, const int row, const int col, const int32_t value)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        if (!pEntity->SetTableInt(name, row, col, value))
-        {
-            ARK_LOG_ERROR("error for row or col, id = {}", self);
-            return false;
-        }
-
-        return true;
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return false;
-    }
-}
-
-bool AFCKernelModule::SetTableInt64(
-    const AFGUID& self, const std::string& name, const int row, const int col, const int64_t value)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        if (!pEntity->SetTableInt64(name, row, col, value))
-        {
-            ARK_LOG_ERROR("error for row or col, id = {}", self);
-            return false;
-        }
-
-        return true;
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return false;
-    }
-}
-
-bool AFCKernelModule::SetTableFloat(
-    const AFGUID& self, const std::string& name, const int row, const int col, const float value)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        if (!pEntity->SetTableFloat(name, row, col, value))
-        {
-            ARK_LOG_ERROR("error for row or col, id = {}", self);
-            return false;
-        }
-
-        return true;
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return false;
-    }
-}
-
-bool AFCKernelModule::SetTableDouble(
-    const AFGUID& self, const std::string& name, const int row, const int col, const double value)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        if (!pEntity->SetTableDouble(name, row, col, value))
-        {
-            ARK_LOG_ERROR("error for row or col, id = {}", self);
-            return false;
-        }
-
-        return true;
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return false;
-    }
-}
-
-bool AFCKernelModule::SetTableString(
-    const AFGUID& self, const std::string& name, const int row, const int col, const std::string& value)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        if (!pEntity->SetTableString(name, row, col, value))
-        {
-            ARK_LOG_ERROR("error for row or col, id = {}", self);
-            return false;
-        }
-
-        return true;
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return false;
-    }
-}
-
-bool AFCKernelModule::GetTableBool(const AFGUID& self, const std::string& name, const int row, const int col)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->GetTableBool(name, row, col);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return NULL_BOOLEAN;
-    }
-}
-
-int32_t AFCKernelModule::GetTableInt(const AFGUID& self, const std::string& name, const int row, const int col)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->GetTableInt(name, row, col);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return NULL_INT;
-    }
-}
-
-int64_t AFCKernelModule::GetTableInt64(const AFGUID& self, const std::string& name, const int row, const int col)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->GetTableInt64(name, row, col);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return NULL_INT64;
-    }
-}
-
-float AFCKernelModule::GetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->GetTableFloat(name, row, col);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return NULL_FLOAT;
-    }
-}
-
-double AFCKernelModule::GetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->GetTableDouble(name, row, col);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return NULL_DOUBLE;
-    }
-}
-
-const char* AFCKernelModule::GetTableString(const AFGUID& self, const std::string& name, const int row, const int col)
-{
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    if (pEntity != nullptr)
-    {
-        return pEntity->GetTableString(name, row, col);
-    }
-    else
-    {
-        ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-        return NULL_STR.c_str();
     }
 }
 
@@ -655,50 +331,155 @@ bool AFCKernelModule::DestroySelf(const AFGUID& self)
     return true;
 }
 
-bool AFCKernelModule::RegCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb)
-{
-    auto all_classes = m_pClassModule->GetAllMetaClass();
-    for (auto iter : all_classes)
-    {
-        AddClassCallBack(iter.second->GetClassName(), std::forward<CLASS_EVENT_FUNCTOR>(cb));
-    }
-
-    return true;
-}
-
-bool AFCKernelModule::RegCommonDataNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb)
-{
-    auto all_classes = m_pClassModule->GetAllMetaClass();
-    for (auto iter : all_classes)
-    {
-        iter.second->AddCommonNodeCallback(std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
-    }
-
-    return true;
-}
-
-bool AFCKernelModule::RegCommonDataTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb)
-{
-    auto all_classes = m_pClassModule->GetAllMetaClass();
-    for (auto iter : all_classes)
-    {
-        iter.second->AddCommonTableCallback(std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
-    }
-
-    return true;
-}
-
 bool AFCKernelModule::AddEventCallBack(const AFGUID& self, const int nEventID, EVENT_PROCESS_FUNCTOR&& cb)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    return ((pEntity != nullptr)
-                ? pEntity->GetEventManager()->AddEventCallBack(nEventID, std::forward<EVENT_PROCESS_FUNCTOR>(cb))
-                : false);
+    ARK_ASSERT_RET_VAL(pEntity != nullptr, false);
+
+    return pEntity->GetEventManager()->AddEventCallBack(nEventID, std::forward<EVENT_PROCESS_FUNCTOR>(cb));
 }
 
 bool AFCKernelModule::AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb)
 {
     return m_pClassModule->AddClassCallBack(class_name, std::forward<CLASS_EVENT_FUNCTOR>(cb));
+}
+
+bool AFCKernelModule::AddDataCallBack(const std::string& class_name, const std::string& name, DATA_EVENT_FUNCTOR&& cb)
+{
+    auto pClassMeta = m_pClassModule->FindMeta(class_name);
+    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
+
+    auto index = pClassMeta->GetIndex(name);
+    if (index == 0)
+    {
+        return false;
+    }
+
+    AddDataCallBack(class_name, index, std::forward<DATA_EVENT_FUNCTOR>(cb));
+
+    return true;
+}
+
+bool AFCKernelModule::AddTableCallBack(const std::string& class_name, const std::string& name, TABLE_EVENT_FUNCTOR&& cb)
+{
+    auto pClassMeta = m_pClassModule->FindMeta(class_name);
+    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
+
+    auto index = pClassMeta->GetIndex(name);
+    if (index == 0)
+    {
+        return false;
+    }
+
+    AddTableCallBack(class_name, index, std::forward<TABLE_EVENT_FUNCTOR>(cb));
+
+    return true;
+}
+
+bool AFCKernelModule::AddDataCallBack(const std::string& class_name, const uint32_t index, DATA_EVENT_FUNCTOR&& cb)
+{
+    auto pClassMeta = m_pClassModule->FindMeta(class_name);
+    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
+
+    auto pDataMeta = pClassMeta->FindDataMeta(index);
+    ARK_ASSERT_RET_VAL(pDataMeta != nullptr, false);
+
+    auto pCallBack = pClassMeta->GetClassCallBackManager();
+    ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
+
+    pCallBack->AddDataCallBack(index, std::forward<DATA_EVENT_FUNCTOR>(cb));
+
+    return true;
+}
+
+bool AFCKernelModule::AddTableCallBack(const std::string& class_name, const uint32_t index, TABLE_EVENT_FUNCTOR&& cb)
+{
+    auto pClassMeta = m_pClassModule->FindMeta(class_name);
+    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
+
+    auto pTableMeta = pClassMeta->FindTableMeta(index);
+    ARK_ASSERT_RET_VAL(pTableMeta != nullptr, false);
+
+    auto pCallBack = pClassMeta->GetClassCallBackManager();
+    ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
+
+    pCallBack->AddTableCallBack(index, std::forward<TABLE_EVENT_FUNCTOR>(cb));
+
+    return true;
+}
+
+bool AFCKernelModule::AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb)
+{
+    auto& class_meta_list = m_pClassModule->GetMetaList();
+    for (auto iter : class_meta_list)
+    {
+        auto pClassMeta = iter.second;
+        if (nullptr == pClassMeta)
+        {
+            continue;
+        }
+
+        if (!pClassMeta->IsEntityMeta())
+        {
+            continue;
+        }
+
+        AddClassCallBack(iter.first, std::forward<CLASS_EVENT_FUNCTOR>(cb));
+    }
+
+    return true;
+}
+
+bool AFCKernelModule::AddCommonNodeEvent(DATA_EVENT_FUNCTOR&& cb)
+{
+    auto& class_meta_list = m_pClassModule->GetMetaList();
+    for (auto iter : class_meta_list)
+    {
+        auto pClassMeta = iter.second;
+        if (nullptr == pClassMeta)
+        {
+            continue;
+        }
+
+        if (!pClassMeta->IsEntityMeta())
+        {
+            continue;
+        }
+
+        auto& data_meta_list = pClassMeta->GetDataMetaList();
+        for (auto iter_data : data_meta_list)
+        {
+            AddDataCallBack(iter.first, iter_data.first, std::forward<DATA_EVENT_FUNCTOR>(cb));
+        }
+    }
+
+    return true;
+}
+
+bool AFCKernelModule::AddCommonTableEvent(TABLE_EVENT_FUNCTOR&& cb)
+{
+    auto& class_meta_list = m_pClassModule->GetMetaList();
+    for (auto iter : class_meta_list)
+    {
+        auto pClassMeta = iter.second;
+        if (nullptr == pClassMeta)
+        {
+            continue;
+        }
+
+        if (!pClassMeta->IsEntityMeta())
+        {
+            continue;
+        }
+
+        auto& table_meta_list = pClassMeta->GetTableMetaList();
+        for (auto iter_data : table_meta_list)
+        {
+            AddTableCallBack(iter.first, iter_data.first, std::forward<TABLE_EVENT_FUNCTOR>(cb));
+        }
+    }
+
+    return true;
 }
 
 bool AFCKernelModule::DoEvent(
@@ -710,7 +491,19 @@ bool AFCKernelModule::DoEvent(
 bool AFCKernelModule::DoEvent(const AFGUID& self, const int event_id, const AFIDataList& args)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-    return ((pEntity != nullptr) ? pEntity->GetEventManager()->DoEvent(event_id, args) : false);
+    ARK_ASSERT_RET_VAL(pEntity != nullptr, false);
+
+    return pEntity->GetEventManager()->DoEvent(event_id, args);
+}
+
+bool AFCKernelModule::Exist(const AFGUID& self)
+{
+    return (objects_.find_value(self) != nullptr);
+}
+
+bool AFCKernelModule::LogSelfInfo(const AFGUID& id)
+{
+    return false;
 }
 
 bool AFCKernelModule::LogInfo(const AFGUID& id)
@@ -724,7 +517,7 @@ bool AFCKernelModule::LogInfo(const AFGUID& id)
 
     if (m_pMapModule->IsInMapInstance(id))
     {
-        int map_id = GetNodeInt(id, AFEntityMetaBaseEntity::map_id());
+        int map_id = pEntity->GetMapID();
 
         ARK_LOG_INFO("----------child object list-------- , id = {} mapid = {}", id, map_id);
         AFCDataList entity_list;
@@ -744,9 +537,367 @@ bool AFCKernelModule::LogInfo(const AFGUID& id)
     return true;
 }
 
-bool AFCKernelModule::LogSelfInfo(const AFGUID& id)
+bool AFCKernelModule::EntityToDBData(const AFGUID& self, AFMsg::pb_db_entity& pb_data)
 {
-    return false;
+    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
+    return EntityToDBData(pEntity, pb_data);
+}
+
+bool AFCKernelModule::EntityToDBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_db_entity& pb_data)
+{
+    ARK_ASSERT_RET_VAL(pEntity != nullptr, false);
+
+    pb_data.set_id(pEntity->GetID());
+    pb_data.set_config_id(pEntity->GetConfigID());
+    pb_data.set_map_id(pEntity->GetMapID());
+    pb_data.set_map_inst_id(pEntity->GetMapEntityID());
+    pb_data.set_class_name(pEntity->GetClassName());
+
+    // node to db
+    for (auto pNode = pEntity->FirstNode(); pNode != nullptr; pNode = pEntity->NextNode())
+    {
+        if (!pNode->HaveFeature(AFNodeFeature::PF_SAVE))
+        {
+            continue;
+        }
+
+        NodeToDBData(pNode, *pb_data.mutable_data());
+    }
+
+    // table to db
+    for (auto pTable = pEntity->FirstTable(); pTable != nullptr; pTable = pEntity->NextTable())
+    {
+        if (!pTable->HaveFeature(ArkTableNodeFeature::PF_SAVE))
+        {
+            continue;
+        }
+
+        AFMsg::pb_db_table pb_table;
+        if (!TableToDBData(pTable, pb_table))
+        {
+            continue;
+        }
+
+        pb_data.mutable_data()->mutable_datas_table()->insert({pTable->GetName(), pb_table});
+    }
+
+    // container to db
+    for (auto pContainer = pEntity->FirstContainer(); pContainer != nullptr; pContainer = pEntity->NextContainer())
+    {
+        AFMsg::pb_db_container pb_container;
+        for (auto index = pContainer->First(); index > 0; index = pContainer->Next())
+        {
+            auto pSubEntity = pContainer->Find(index);
+            if (!pSubEntity)
+            {
+                continue;
+            }
+
+            AFMsg::pb_db_entity pb_container_entity;
+            if (!EntityToDBData(pSubEntity, pb_container_entity))
+            {
+                continue;
+            }
+
+            pb_container.mutable_datas_value()->insert({index, pb_container_entity});
+        }
+
+        if (pb_container.datas_value_size() > 0)
+        {
+            pb_data.mutable_data()->mutable_datas_entity()->insert({pContainer->GetName(), pb_container});
+        }
+    }
+
+    return true;
+}
+
+ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFMsg::pb_db_entity& pb_data)
+{
+    auto entity_id = pb_data.id();
+    auto pEntity = GetEntity(entity_id);
+    if (pEntity != nullptr)
+    {
+        ARK_LOG_ERROR("entity already exists, object = {}", entity_id);
+        return nullptr;
+    }
+
+    const std::string& class_name = pb_data.class_name();
+    auto pClassMeta = m_pClassModule->FindMeta(class_name);
+    if (nullptr == pClassMeta)
+    {
+        ARK_LOG_ERROR("There is no class meta, name = {}", class_name);
+        return nullptr;
+    }
+
+    auto map_id = pb_data.map_id();
+    auto pMapInfo = m_pMapModule->GetMapInfo(map_id);
+    if (pMapInfo == nullptr)
+    {
+        ARK_LOG_ERROR("There is no scene, scene = {}", map_id);
+        return nullptr;
+    }
+
+    auto map_inst_id = pb_data.map_inst_id();
+    if (!pMapInfo->ExistInstance(map_inst_id))
+    {
+        ARK_LOG_ERROR("There is no group, scene = {} group = {}", map_id, map_inst_id);
+        return nullptr;
+    }
+
+    pEntity = std::make_shared<AFCEntity>(pClassMeta, entity_id, NULL_INT, map_id, map_inst_id);
+
+    objects_.insert(entity_id, pEntity);
+
+    // init data
+    auto& pb_db_entity_data = pb_data.data();
+
+    DBDataToNode(pEntity, pb_db_entity_data);
+
+    //array data(todo : whether we need this?)
+    //for (auto iter : pb_db_entity_data.datas_bool())
+    //{
+    //    pEntity->SetBool(iter.first, iter.second);
+    //}
+
+    //table data
+    for (auto iter : pb_db_entity_data.datas_table())
+    {
+        DBDataToTable(pEntity, iter.first, iter.second);
+    }
+
+    //container data
+    for (auto iter : pb_db_entity_data.datas_entity())
+    {
+        DBDataToContainer(pEntity, iter.first, iter.second);
+    }
+
+    pMapInfo->AddEntityToInstance(map_inst_id, entity_id, true);
+
+    // todo : add new event?
+    AFCDataList args;
+    DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_PRE_LOAD_DATA, args);
+
+    DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_LOAD_DATA, args);
+    DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_PRE_EFFECT_DATA, args);
+    DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_EFFECT_DATA, args);
+    DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_POST_EFFECT_DATA, args);
+    DoEvent(entity_id, class_name, ArkEntityEvent::ENTITY_EVT_DATA_FINISHED, args);
+
+    return pEntity;
+}
+
+bool AFCKernelModule::SendCustomMessage(const AFGUID& target, const uint32_t msg_id, const AFIDataList& args)
+{
+    ARK_ASSERT_RET_VAL(Exist(target) && msg_id > 0, false);
+
+    AFMsg::pb_custom_message custom_message;
+    custom_message.set_message_id(msg_id);
+
+    size_t count = args.GetCount();
+    for (size_t i = 0; i < count; i++)
+    {
+        auto data_type = args.GetType(i);
+        switch (data_type)
+        {
+            case ark::ArkDataType::DT_BOOLEAN:
+                custom_message.add_data_list()->set_bool_value(args.Bool(i));
+                break;
+            case ark::ArkDataType::DT_INT32:
+                custom_message.add_data_list()->set_int_value(args.Int(i));
+                break;
+            case ark::ArkDataType::DT_UINT32:
+                custom_message.add_data_list()->set_uint_value(args.UInt(i));
+                break;
+            case ark::ArkDataType::DT_INT64:
+                custom_message.add_data_list()->set_int64_value(args.Int64(i));
+                break;
+            case ark::ArkDataType::DT_UINT64:
+                custom_message.add_data_list()->set_uint64_value(args.UInt64(i));
+                break;
+            case ark::ArkDataType::DT_FLOAT:
+                custom_message.add_data_list()->set_float_value(args.Float(i));
+                break;
+            case ark::ArkDataType::DT_DOUBLE:
+                custom_message.add_data_list()->set_double_value(args.Double(i));
+                break;
+            case ark::ArkDataType::DT_STRING:
+                custom_message.add_data_list()->set_str_value(args.String(i));
+                break;
+            default:
+                break;
+        }
+    }
+
+    // send message
+
+    return true;
+}
+
+// pb table to entity table
+bool AFCKernelModule::DBDataToTable(
+    ARK_SHARE_PTR<AFIEntity> pEntityData, const std::string& name, const AFMsg::pb_db_table& pb_table)
+{
+    ARK_ASSERT_RET_VAL(pEntityData != nullptr, false);
+
+    auto pTable = pEntityData->FindTable(name);
+    ARK_ASSERT_RET_VAL(pTable != nullptr, false);
+
+    for (auto iter : pb_table.datas_value())
+    {
+        auto row_index = iter.first;
+        if (row_index == NULL_INT)
+        {
+            continue;
+        }
+
+        auto& pb_db_entity_data = iter.second;
+        auto pRow = pTable->AddRow(row_index);
+        if (pRow == nullptr)
+        {
+            continue;
+        }
+
+        DBDataToNode(pRow, pb_db_entity_data);
+    }
+
+    return true;
+}
+
+bool AFCKernelModule::DBDataToContainer(
+    ARK_SHARE_PTR<AFIEntity> pEntity, const std::string& name, const AFMsg::pb_db_container& pb_data)
+{
+    ARK_ASSERT_RET_VAL(pEntity != nullptr, false);
+
+    for (auto iter : pb_data.datas_value())
+    {
+        auto pContainer = pEntity->FindContainer(iter.first);
+        if (nullptr == pContainer)
+        {
+            continue;
+        }
+
+        auto pContainerEntity = CreateEntity(iter.second);
+        if (nullptr == pContainerEntity)
+        {
+            continue;
+        }
+
+        pContainer->Place(pContainerEntity);
+    }
+
+    return true;
+}
+
+template<typename T>
+bool AFCKernelModule::DBDataToNode(T pData, const AFMsg::pb_db_entity_data& pb_db_entity_data)
+{
+    //bool data
+    for (auto iter : pb_db_entity_data.datas_bool())
+    {
+        pData->SetBool(iter.first, iter.second);
+    }
+
+    //int32 data
+    for (auto iter : pb_db_entity_data.datas_int32())
+    {
+        pData->SetInt32(iter.first, iter.second);
+    }
+
+    //uint32 data
+    for (auto iter : pb_db_entity_data.datas_uint32())
+    {
+        pData->SetUInt32(iter.first, iter.second);
+    }
+
+    //int64 data
+    for (auto iter : pb_db_entity_data.datas_int64())
+    {
+        pData->SetInt64(iter.first, iter.second);
+    }
+
+    //uint64 data
+    for (auto iter : pb_db_entity_data.datas_uint64())
+    {
+        pData->SetUInt64(iter.first, iter.second);
+    }
+
+    //float data
+    for (auto iter : pb_db_entity_data.datas_float())
+    {
+        pData->SetFloat(iter.first, iter.second);
+    }
+
+    //double data
+    for (auto iter : pb_db_entity_data.datas_double())
+    {
+        pData->SetDouble(iter.first, iter.second);
+    }
+
+    //string data
+    for (auto iter : pb_db_entity_data.datas_string())
+    {
+        pData->SetString(iter.first, iter.second);
+    }
+
+    return true;
+}
+
+//-----------------------------
+bool AFCKernelModule::NodeToDBData(AFINode* pNode, AFMsg::pb_db_entity_data& pb_data)
+{
+    ARK_ASSERT_RET_VAL(pNode != nullptr, false);
+
+    auto& name = pNode->GetName();
+    switch (pNode->GetType())
+    {
+        case ArkDataType::DT_BOOLEAN:
+            pb_data.mutable_datas_bool()->insert({name, pNode->GetBool()});
+            break;
+        case ArkDataType::DT_INT32:
+            pb_data.mutable_datas_int32()->insert({name, pNode->GetInt32()});
+            break;
+        case ArkDataType::DT_UINT32:
+            pb_data.mutable_datas_uint32()->insert({name, pNode->GetUInt32()});
+            break;
+        case ArkDataType::DT_INT64:
+            pb_data.mutable_datas_int64()->insert({name, pNode->GetInt64()});
+            break;
+        case ArkDataType::DT_UINT64:
+            pb_data.mutable_datas_uint64()->insert({name, pNode->GetUInt64()});
+            break;
+        case ArkDataType::DT_FLOAT:
+            pb_data.mutable_datas_float()->insert({name, pNode->GetFloat()});
+            break;
+        case ArkDataType::DT_DOUBLE:
+            pb_data.mutable_datas_double()->insert({name, pNode->GetDouble()});
+            break;
+        case ArkDataType::DT_STRING:
+            pb_data.mutable_datas_string()->insert({name, pNode->GetString()});
+            break;
+        default:
+            ARK_ASSERT_RET_VAL(0, false);
+            break;
+    }
+
+    return true;
+}
+
+bool AFCKernelModule::TableToDBData(AFITable* pTable, AFMsg::pb_db_table& pb_data)
+{
+    ARK_ASSERT_RET_VAL(pTable != nullptr, false);
+
+    for (auto pRow = pTable->First(); pRow != nullptr; pRow = pTable->Next())
+    {
+        AFMsg::pb_db_entity_data row_data;
+        for (auto pNode = pRow->First(); pNode != nullptr; pNode = pRow->Next())
+        {
+            NodeToDBData(pNode, row_data);
+        }
+
+        pb_data.mutable_datas_value()->insert({pRow->GetRow(), row_data});
+    }
+
+    return true;
 }
 
 } // namespace ark

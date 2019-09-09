@@ -23,6 +23,7 @@
 #include "base/AFMacros.hpp"
 #include "base/AFEnum.hpp"
 #include "base/AFDefine.hpp"
+#include "AFINode.hpp"
 
 namespace ark {
 
@@ -62,32 +63,38 @@ public:
         bool bRet = false;
         switch (this->GetType())
         {
-        case DT_BOOLEAN:
-            bRet = (GetBool() == src.GetBool());
-            break;
-        case DT_INT:
-            bRet = (GetInt() == src.GetInt());
-            break;
-        case DT_INT64:
-            bRet = (GetInt64() == src.GetInt64());
-            break;
-        case DT_FLOAT:
-            bRet = (GetFloat() == src.GetFloat());
-            break;
-        case DT_DOUBLE:
-            bRet = (GetDouble() == src.GetDouble());
-            break;
-        case DT_STRING:
-            bRet = (GetString() == src.GetString());
-            break;
-        case DT_POINTER:
-            bRet = (GetPointer() == src.GetPointer());
-            break;
-        case DT_USERDATA:
-            break;
-        default:
-            ARK_ASSERT_NO_EFFECT(false);
-            break;
+            case ArkDataType::DT_BOOLEAN:
+                bRet = (GetBool() == src.GetBool());
+                break;
+            case ArkDataType::DT_INT32:
+                bRet = (GetInt() == src.GetInt());
+                break;
+            case ArkDataType::DT_INT64:
+                bRet = (GetInt64() == src.GetInt64());
+                break;
+            case ArkDataType::DT_UINT32:
+                bRet = (GetUInt() == src.GetUInt());
+                break;
+            case ArkDataType::DT_UINT64:
+                bRet = (GetUInt64() == src.GetUInt64());
+                break;
+            case ArkDataType::DT_FLOAT:
+                bRet = (GetFloat() == src.GetFloat());
+                break;
+            case ArkDataType::DT_DOUBLE:
+                bRet = (GetDouble() == src.GetDouble());
+                break;
+            case ArkDataType::DT_STRING:
+                bRet = (GetString() == src.GetString());
+                break;
+            case ArkDataType::DT_POINTER:
+                bRet = (GetPointer() == src.GetPointer());
+                break;
+            case ArkDataType::DT_USERDATA:
+                break;
+            default:
+                ARK_ASSERT_NO_EFFECT(false);
+                break;
         }
 
         return bRet;
@@ -95,7 +102,7 @@ public:
 
     bool equal(const bool value)
     {
-        if (this->GetType() != DT_BOOLEAN)
+        if (this->GetType() != ArkDataType::DT_BOOLEAN)
         {
             return false;
         }
@@ -105,7 +112,7 @@ public:
 
     bool equal(const int value)
     {
-        if (this->GetType() != DT_INT)
+        if (this->GetType() != ArkDataType::DT_INT32)
         {
             return false;
         }
@@ -115,7 +122,7 @@ public:
 
     bool equal(const int64_t value)
     {
-        if (this->GetType() != DT_INT64)
+        if (this->GetType() != ArkDataType::DT_INT64)
         {
             return false;
         }
@@ -125,7 +132,7 @@ public:
 
     bool equal(const float value)
     {
-        if (this->GetType() != DT_FLOAT)
+        if (this->GetType() != ArkDataType::DT_FLOAT)
         {
             return false;
         }
@@ -135,7 +142,7 @@ public:
 
     bool equal(const double value)
     {
-        if (this->GetType() != DT_DOUBLE)
+        if (this->GetType() != ArkDataType::DT_DOUBLE)
         {
             return false;
         }
@@ -145,7 +152,7 @@ public:
 
     bool equal(const char* value)
     {
-        if (this->GetType() != DT_STRING)
+        if (this->GetType() != ArkDataType::DT_STRING)
         {
             return false;
         }
@@ -153,9 +160,9 @@ public:
         return GetString() == value;
     }
 
-    bool equal(const void* value)
+	bool equal(const void* value)
     {
-        if (this->GetType() != DT_POINTER)
+        if (this->GetType() != ArkDataType::DT_POINTER)
         {
             return false;
         }
@@ -163,15 +170,17 @@ public:
         return GetPointer() == value;
     }
 
-    virtual int GetType() const = 0;
+    virtual ArkDataType GetType() const = 0;
 
-    virtual void SetDefaultValue(int type) = 0;
+    virtual void SetDefaultValue(ArkDataType type) = 0;
     virtual bool IsNullValue() const = 0;
 
     // Get data
     virtual bool GetBool() const = 0;
     virtual int GetInt() const = 0;
     virtual int64_t GetInt64() const = 0;
+    virtual uint32_t GetUInt() const = 0;
+    virtual uint64_t GetUInt64() const = 0;
     virtual float GetFloat() const = 0;
     virtual double GetDouble() const = 0;
     virtual const char* GetString() const = 0;
@@ -184,6 +193,8 @@ public:
     virtual void SetBool(bool value) = 0;
     virtual void SetInt(int value) = 0;
     virtual void SetInt64(int64_t value) = 0;
+    virtual void SetUInt(uint32_t value) = 0;
+    virtual void SetUInt64(uint64_t value) = 0;
     virtual void SetFloat(float value) = 0;
     virtual void SetDouble(double value) = 0;
     virtual void SetString(const char* value) = 0;
@@ -193,7 +204,10 @@ public:
 
     virtual void Assign(const AFIData& src) = 0;
     virtual size_t GetMemUsage() const = 0;
-    virtual std::string ToString() = 0;
+    virtual std::string ToString() const = 0;
+    virtual ~AFIData() = default;
+
+    virtual bool From(const AFINode* pData) = 0;
 };
 
 } // namespace ark

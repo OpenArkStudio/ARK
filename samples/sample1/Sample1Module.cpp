@@ -51,14 +51,14 @@ void TestBasicData()
     AFGUID test_id = AFGUID(1);
 
     // test GUID type
-    AFCData guid_data1(DT_INT64, AFGUID(1));
-    AFCData guid_data2(DT_INT64, AFGUID(0));
+    AFCData guid_data1(ArkDataType::DT_INT64, AFGUID(1));
+    AFCData guid_data2(ArkDataType::DT_INT64, AFGUID(0));
     guid_data1 = guid_data2;
     AFGUID guid = guid_data1.GetInt64();
 
     // test string type
-    AFCData data1(DT_STRING, "test1");
-    AFCData data2(DT_STRING, "test2");
+    AFCData data1(ArkDataType::DT_STRING, "test1");
+    AFCData data2(ArkDataType::DT_STRING, "test2");
     data1 = data2;
     const char* str1 = data1.GetString();
 }
