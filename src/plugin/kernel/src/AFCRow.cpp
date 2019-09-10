@@ -31,11 +31,6 @@ AFCRow::AFCRow(AFITableInner* pTableInner, uint32_t row)
     table_inner_ = pTableInner;
 }
 
-AFCRow::~AFCRow()
-{
-    data_.removeall();
-}
-
 // get row
 uint32_t AFCRow::GetRow() const
 {

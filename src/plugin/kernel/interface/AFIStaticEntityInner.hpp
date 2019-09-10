@@ -43,7 +43,6 @@ public:
     virtual AFITable* FindTable(const uint32_t index) = 0;
 
     // data op
-    virtual void Reset() = 0;
     virtual AFINode* CreateData(ARK_SHARE_PTR<AFNodeMeta> pDataMeta) = 0;
 
     virtual AFINode* FindData(const uint32_t index, bool bCreate = false) = 0;
