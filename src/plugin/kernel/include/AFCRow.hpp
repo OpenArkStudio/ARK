@@ -35,8 +35,6 @@ public:
     // constructor
     explicit AFCRow(AFITableInner* pTableInner, uint32_t row);
 
-    ~AFCRow() override;
-
     // get row
     uint32_t GetRow() const override;
 

@@ -155,7 +155,7 @@ bool AFCTableInner::RemoveRow(uint32_t row)
     // call back
     OnRowDataChanged(row, ArkTableOpType::TABLE_DELETE);
 
-    data_.remove(row);
+    data_.erase(row);
 
     return true;
 }
@@ -166,8 +166,6 @@ void AFCTableInner::Clear()
     {
         OnRowDataChanged(iter.first, ArkTableOpType::TABLE_DELETE);
     }
-
-    data_.removeall();
 }
 
 // ex interface

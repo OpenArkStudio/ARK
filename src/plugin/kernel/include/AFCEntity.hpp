@@ -38,8 +38,6 @@ public:
     explicit AFCEntity(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE config_id,
         const int32_t map, const int32_t map_entity_id);
 
-    ~AFCEntity() override;
-
     void Update() override;
 
     // get unique id

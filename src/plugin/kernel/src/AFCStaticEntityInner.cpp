@@ -31,11 +31,6 @@ AFCStaticEntityInner::AFCStaticEntityInner(ARK_SHARE_PTR<AFClassMeta> pClassMeta
     class_meta_ = pClassMeta;
 }
 
-AFCStaticEntityInner::~AFCStaticEntityInner()
-{
-    Reset();
-}
-
 uint32_t AFCStaticEntityInner::GetIndex(const std::string& name)
 {
     ARK_ASSERT_RET_VAL(class_meta_ != nullptr, NULL_INT);
@@ -262,13 +257,6 @@ AFITable* AFCStaticEntityInner::FindTable(const uint32_t index)
     }
 
     return iter->second;
-}
-
-void AFCStaticEntityInner::Reset()
-{
-    // clear data
-    data_list_.removeall();
-    table_list_.removeall();
 }
 
 bool AFCStaticEntityInner::IsEmpty() const

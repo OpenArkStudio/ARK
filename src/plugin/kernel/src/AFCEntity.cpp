@@ -39,11 +39,6 @@ AFCEntity::AFCEntity(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const AFGUID& guid, 
     m_pCallBackManager = pClassMeta->GetClassCallBackManager();
 }
 
-AFCEntity::~AFCEntity()
-{
-    custom_data_list_.removeall();
-}
-
 void AFCEntity::Update()
 {
     //
@@ -987,7 +982,7 @@ bool AFCEntity::FindCustomData(const std::string& name)
 
 bool AFCEntity::RemoveCustomData(const std::string& name)
 {
-    return custom_data_list_.remove(name);
+    return custom_data_list_.erase(name);
 }
 
 AFINode* AFCEntity::FirstNode()

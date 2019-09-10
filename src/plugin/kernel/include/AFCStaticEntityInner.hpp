@@ -34,8 +34,6 @@ public:
 
     explicit AFCStaticEntityInner(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const ID_TYPE config_id);
 
-    ~AFCStaticEntityInner() override;
-
     uint32_t GetIndex(const std::string& name) override;
 
     // query data
@@ -68,7 +66,6 @@ public:
 
     AFITable* FindTable(const uint32_t index) override;
 
-    void Reset() override;
     bool IsEmpty() const override;
     const DataList& GetDataList() override;
     ARK_SHARE_PTR<AFClassMeta> GetClassMeta() override;

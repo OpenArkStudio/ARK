@@ -35,9 +35,6 @@ public:
     virtual ~AFClassCallBackManager()
     {
         class_events_.clear();
-
-        data_call_backs_list_.removeall();
-        table_call_backs_list_.removeall();
     }
 
     bool AddClassCallBack(CLASS_EVENT_FUNCTOR&& cb)

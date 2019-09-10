@@ -138,33 +138,19 @@ using AFMapEx = AFMapBase<KEY, VALUE, true>;
 
 //////////////////////////////////////////////////////////////////////////
 // new map
-template<typename VALUE, bool is_smart_ptr>
+template<typename VALUE>
 class AFNewMapValueType
 {
 public:
     using value_type = VALUE*;
 };
 
-template<typename VALUE>
-class AFNewMapValueType<VALUE, false>
-{
-public:
-    using value_type = VALUE*;
-};
-
-template<typename VALUE>
-class AFNewMapValueType<VALUE, true>
-{
-public:
-    using value_type = std::shared_ptr<VALUE>;
-};
-
-template<typename KEY, typename VALUE, typename MAP_TYPE, bool is_smart_ptr>
+template<typename KEY, typename VALUE, typename MAP_TYPE>
 class AFNewMapBase
 {
 public:
     using k_type = KEY;
-    using v_type = typename AFNewMapValueType<VALUE, is_smart_ptr>::value_type;
+    using v_type = typename AFNewMapValueType<VALUE>::value_type;
     using map_type = MAP_TYPE;
     using value_type = typename map_type::value_type;
     using reference = value_type&;
@@ -174,6 +160,138 @@ public:
 
     AFNewMapBase() = default;
     ~AFNewMapBase()
+    {
+        clear();
+    }
+
+    std::size_t size() const
+    {
+        return nodes_.size();
+    }
+
+    bool empty() const
+    {
+        return nodes_.empty();
+    }
+
+    std::pair<iterator, bool> insert(const k_type& key, const v_type& value)
+    {
+        return nodes_.insert(value_type(key, value));
+    }
+
+    // will delete allocated memory
+    iterator erase(iterator it)
+    {
+        if (it != nodes_.end())
+        {
+            ARK_DELETE(it->second);
+
+            return nodes_.erase(it);
+        }
+
+        return it;
+    }
+
+    // will delete allocated memory
+    bool erase(const k_type& key)
+    {
+        auto iter = nodes_.find(key);
+        if (iter == nodes_.end())
+        {
+            return false;
+        }
+
+        ARK_DELETE(iter->second);
+
+        erase(iter);
+        return true;
+    }
+
+    iterator find(const k_type& key)
+    {
+        return nodes_.find(key);
+    }
+
+    iterator begin() noexcept
+    {
+        return nodes_.begin();
+    }
+
+    iterator end() noexcept
+    {
+        return nodes_.end();
+    }
+
+    const_iterator begin() const noexcept
+    {
+        return nodes_.cbegin();
+    }
+
+    const_iterator end() const noexcept
+    {
+        return nodes_.cend();
+    }
+
+    const_iterator cbegin() const noexcept
+    {
+        return nodes_.cbegin();
+    }
+
+    const_iterator cend() const noexcept
+    {
+        return nodes_.cbegin();
+    }
+
+    // will delete allocated memory
+    void clear()
+    {
+        for (auto iter : nodes_)
+        {
+            ARK_DELETE(iter.second);
+        }
+
+        nodes_.clear();
+    }
+
+    v_type find_value(const k_type& key)
+    {
+        auto iter = find(key);
+        if (iter != end())
+        {
+            return iter->second;
+        }
+
+        return nullptr;
+    }
+
+private:
+    map_type nodes_;
+};
+
+//////////////////////////////////////////////////////////////////////////
+// smart ptr map
+template<typename VALUE>
+class AFSmartPtrMapValueType
+{
+public:
+    using value_type = std::shared_ptr<VALUE>;
+};
+
+template<typename KEY, typename VALUE, typename MAP_TYPE>
+class AFSmartPtrMapBase
+{
+public:
+    using k_type = KEY;
+    using v_type = typename AFSmartPtrMapValueType<VALUE>::value_type;
+    using map_type = MAP_TYPE;
+    using value_type = typename map_type::value_type;
+    using reference = value_type&;
+    using const_reference = const value_type&;
+    using iterator = typename map_type::iterator;
+    using const_iterator = typename map_type::const_iterator;
+
+    AFSmartPtrMapBase() = default;
+    ~AFSmartPtrMapBase()
     {
         clear();
     }
@@ -238,35 +356,8 @@ public:
         return nodes_.cbegin();
     }
 
-    bool remove(const k_type& key, bool need_delete = true)
-    {
-        auto iter = nodes_.find(key);
-        if (iter == nodes_.end())
-        {
-            return false;
-        }
-
-        if (need_delete)
-        {
-            ARK_DELETE(iter->second);
-        }
-
-        erase(iter);
-        return true;
-    }
-
     void clear()
     {
-        nodes_.clear();
-    }
-
-    void removeall()
-    {
-        for (auto iter : nodes_)
-        {
-            ARK_DELETE(iter.second);
-        }
-
         nodes_.clear();
     }
 
@@ -286,15 +377,15 @@ private:
 };
 
 template<typename KEY, typename VALUE>
-using AFNewMap = AFNewMapBase<KEY, VALUE, std::map<KEY, VALUE*>, false>;
+using AFNewMap = AFNewMapBase<KEY, VALUE, std::map<KEY, VALUE*>>;
 
 template<typename KEY, typename VALUE>
-using AFNewSmartPtrMap = AFNewMapBase<KEY, VALUE, std::map<KEY, std::shared_ptr<VALUE>>, true>;
+using AFNewSmartPtrMap = AFSmartPtrMapBase<KEY, VALUE, std::map<KEY, std::shared_ptr<VALUE>>>;
 
 template<typename KEY, typename VALUE>
-using AFNewHashmap = AFNewMapBase<KEY, VALUE, std::unordered_map<KEY, VALUE*>, false>;
+using AFNewHashmap = AFNewMapBase<KEY, VALUE, std::unordered_map<KEY, VALUE*>>;
 
 template<typename KEY, typename VALUE>
-using AFNewSmartPtrHashmap = AFNewMapBase<KEY, VALUE, std::unordered_map<KEY, std::shared_ptr<VALUE>>, true>;
+using AFNewSmartPtrHashmap = AFSmartPtrMapBase<KEY, VALUE, std::unordered_map<KEY, std::shared_ptr<VALUE>>>;
 
 } // namespace ark
