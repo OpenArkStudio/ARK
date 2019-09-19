@@ -4,12 +4,14 @@ function(BUILD_PLUGIN_MACRO project_name)
         SET(CMAKE_INSTALL_RPATH ".")
         SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
     endif(UNIX)
-
+    
     file(GLOB_RECURSE PLUGIN_SRC *.h *.hpp *.cpp *.cc *.c)
     add_library(${project_name} SHARED ${PLUGIN_SRC})
     set_target_properties(${project_name} PROPERTIES PREFIX "")
     set_target_properties(${project_name} PROPERTIES
         FOLDER "plugins")
+
+    add_dependencies(${project_name} AFProto)
     target_link_libraries(${project_name} ${ARGN})
 endfunction(BUILD_PLUGIN_MACRO)
 
