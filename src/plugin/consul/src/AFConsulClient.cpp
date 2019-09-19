@@ -58,7 +58,8 @@ void AFConsulClient::SetConsulCenter(const std::string& ip, const uint16_t port)
 ananas::Future<std::pair<bool, std::string>> AFConsulClient::RegisterService(const consul::service_data& service)
 {
     std::map<std::string, std::string> params;
-    return _AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_PUT, consul_ip_, consul_port_, REGISTER_API, params, service);
+    return _AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_PUT, consul_ip_, consul_port_,
+        REGISTER_API, params, service);
 }
 
 ananas::Future<std::pair<bool, std::string>> AFConsulClient::DeregisterService(const std::string& service_id)
@@ -74,7 +75,8 @@ ananas::Future<std::pair<bool, std::string>> AFConsulClient::DeregisterService(c
     return _AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_PUT, consul_ip_, consul_port_, url);
 }
 
-ananas::Future<std::pair<bool, std::string>> AFConsulClient::SetKeyValue(const std::string& key, const std::string& value)
+ananas::Future<std::pair<bool, std::string>> AFConsulClient::SetKeyValue(
+    const std::string& key, const std::string& value)
 {
     ananas::Promise<std::pair<bool, std::string>> promise;
     if (key.empty())
@@ -84,7 +86,8 @@ ananas::Future<std::pair<bool, std::string>> AFConsulClient::SetKeyValue(const s
     }
 
     std::map<std::string, std::string> params;
-    return _AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_PUT, consul_ip_, consul_port_, KV_API, params, value);
+    return _AsyncRequest(
+        brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_PUT, consul_ip_, consul_port_, KV_API, params, value);
 }
 
 std::string AFConsulClient::GetValue(const std::string& key)
@@ -104,14 +107,16 @@ bool AFConsulClient::DeleteValue(const std::string& key)
     return true;
 }
 
-bool AFConsulClient::HealthCheck(const std::string& service_name, const std::string& tag_filter, consul::service_set& services)
+bool AFConsulClient::HealthCheck(
+    const std::string& service_name, const std::string& tag_filter, consul::service_set& services)
 {
     //TODO
 
     return true;
 }
 
-bool AFConsulClient::MultiHealthCheck(const std::string& service_name, const std::vector<std::string>& tag_filter_list, consul::service_set& services)
+bool AFConsulClient::MultiHealthCheck(
+    const std::string& service_name, const std::vector<std::string>& tag_filter_list, consul::service_set& services)
 {
     //TODO
 
@@ -119,8 +124,9 @@ bool AFConsulClient::MultiHealthCheck(const std::string& service_name, const std
 }
 
 //////////////////////////////////////////////////////////////////////////
-ananas::Future<std::pair<bool, std::string>> AFConsulClient::_AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip,
-    const uint16_t port, const std::string& url, std::map<std::string, std::string>& params, const std::string& http_doby)
+ananas::Future<std::pair<bool, std::string>> AFConsulClient::_AsyncRequest(
+    brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
+    const std::string& url, std::map<std::string, std::string>& params, const std::string& http_doby)
 {
     using namespace brynet::net;
     using namespace brynet::net::http;
@@ -159,14 +165,17 @@ ananas::Future<std::pair<bool, std::string>> AFConsulClient::_AsyncRequest(bryne
     // start to connect
     connection_builder_.configureConnector(connector_)
         .configureService(tcp_service_)
-        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port), AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
-            AsyncConnector::ConnectOptions::WithFailedCallback([=]() mutable { promise.SetValue(std::make_pair(false, std::string())); })})
+        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
+            AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
+            AsyncConnector::ConnectOptions::WithFailedCallback(
+                [=]() mutable { promise.SetValue(std::make_pair(false, std::string())); })})
         .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE),
             TcpService::AddSocketOption::AddEnterCallback([](const TcpConnection::Ptr& session) { /*DO NOTHING*/ })})
-        .configureEnterCallback([=](HttpSession::Ptr session) {
+        .configureEnterCallback([=](HttpSession::Ptr session) mutable {
             session->send(req_url.c_str(), req_url.size());
-            session->setHttpCallback(
-                [=](const HTTPParser& httpParser, const HttpSession::Ptr& session) mutable { promise.SetValue(std::make_pair(true, httpParser.getBody())); });
+            session->setHttpCallback([=](const HTTPParser& httpParser, const HttpSession::Ptr& session) mutable {
+                promise.SetValue(std::make_pair(true, httpParser.getBody()));
+            });
             session->setClosedCallback([](const HttpSession::Ptr& session) { /*DO NOTHING*/ });
         })
         .asyncConnect();
@@ -174,8 +183,9 @@ ananas::Future<std::pair<bool, std::string>> AFConsulClient::_AsyncRequest(bryne
     return promise.GetFuture();
 }
 
-ananas::Future<std::pair<bool, std::string>> AFConsulClient::_AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip,
-    const uint16_t port, const std::string& url, std::map<std::string, std::string>& params, const google::protobuf::Message& http_msg)
+ananas::Future<std::pair<bool, std::string>> AFConsulClient::_AsyncRequest(
+    brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
+    const std::string& url, std::map<std::string, std::string>& params, const google::protobuf::Message& http_msg)
 {
     ananas::Promise<std::pair<bool, std::string>> promise;
 
@@ -191,7 +201,8 @@ ananas::Future<std::pair<bool, std::string>> AFConsulClient::_AsyncRequest(bryne
 }
 
 ananas::Future<std::pair<bool, std::string>> AFConsulClient::_AsyncRequest(
-    brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port, const std::string& url)
+    brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
+    const std::string& url)
 {
     std::map<std::string, std::string> params;
     return _AsyncRequest(http_method, ip, port, url, params, "");
