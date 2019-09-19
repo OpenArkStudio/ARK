@@ -208,7 +208,7 @@ bool AFCClassMetaModule::LoadEntityMeta(const std::string& schema_path)
 
             pTableMeta->SetTypeName(type_class);
 
-            AFMaskType mask;
+            ArkMaskType mask;
             mask[(size_t)ArkTableNodeMask::PF_PUBLIC] = (feature_sync_view > 0 ? 1 : 0);
             mask[(size_t)ArkTableNodeMask::PF_PRIVATE] = (feature_sync_self > 0 ? 1 : 0);
             mask[(size_t)ArkTableNodeMask::PF_SAVE] = (feature_save > 0 ? 1 : 0);
@@ -224,7 +224,7 @@ bool AFCClassMetaModule::LoadEntityMeta(const std::string& schema_path)
             auto pDataMeta = pClassMeta->CreateDataMeta(data_name, index);
             ARK_ASSERT_RET_VAL(pDataMeta != nullptr, false);
 
-            AFMaskType mask;
+            ArkMaskType mask;
             mask[(size_t)ArkNodeMask::PF_PUBLIC] = (feature_sync_view > 0 ? 1 : 0);
             mask[(size_t)ArkNodeMask::PF_PRIVATE] = (feature_sync_self > 0 ? 1 : 0);
             mask[(size_t)ArkNodeMask::PF_SAVE] = (feature_save > 0 ? 1 : 0);

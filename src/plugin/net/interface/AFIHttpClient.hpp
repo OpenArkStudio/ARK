@@ -22,8 +22,6 @@
 
 #include "base/AFPlatform.hpp"
 #include "proto/AFProtoCPP.hpp"
-//#include "ananas/future/Future.h"
-#include "var_future/future.h"
 
 namespace ark {
 
@@ -35,17 +33,19 @@ public:
 
     using HTTP_CALLBACK = std::function<void(const std::string&)>;
 
-    virtual aom::Future<bool> AsyncPost(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+    virtual bool AsyncPost(const std::string& ip, const uint16_t port, const std::string& url,
+        std::map<std::string, std::string>& params,
         const std::string& post_data, HTTP_CALLBACK&& callback) = 0;
 
     // Response - the type pf response protobuf message
     template<typename Response>
-    aom::Future<bool> AsyncJsonPost(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+    bool AsyncJsonPost(const std::string& ip, const uint16_t port, const std::string& url,
+        std::map<std::string, std::string>& params,
         const google::protobuf::Message& post_msg, std::function<void(const Response&)>&& callback)
     {
         std::string post_body;
         google::protobuf::util::MessageToJsonString(post_msg, &post_body);
-        AsyncPost(ip, port, url, params, post_body, [=](const std::string& response_body) {
+        return AsyncPost(ip, port, url, params, post_body, [=](const std::string& response_body) {
             Response response;
             auto status = google::protobuf::util::JsonStringToMessage(response_body, response);
             if (!status.ok())
@@ -70,15 +70,16 @@ public:
         });
     }
 
-    virtual aom::Future<std::string> AsyncGet(
+    virtual bool AsyncGet(
         const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params, HTTP_CALLBACK&& callback) = 0;
 
     // Response - the type pf response protobuf message
     template<typename Response>
-    aom::Future<std::string> AsyncJsonGet(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+    bool AsyncJsonGet(const std::string& ip, const uint16_t port, const std::string& url,
+        std::map<std::string, std::string>& params,
         std::function<void(const Response&)>&& callback)
     {
-        AsyncGet(ip, port, url, params, [=](const std::string& response_body) {
+        return AsyncGet(ip, port, url, params, [=](const std::string& response_body) {
             Response response;
             auto status = google::protobuf::util::JsonStringToMessage(response_body, response);
             if (!status.ok())
@@ -103,7 +104,8 @@ public:
         });
     }
 
-    virtual aom::Future<bool> AsyncPut(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+    virtual bool AsyncPut(const std::string& ip, const uint16_t port, const std::string& url,
+        std::map<std::string, std::string>& params,
         const std::string& put_data, HTTP_CALLBACK&& callback) = 0;
 
 protected:

@@ -20,7 +20,7 @@
 
 #include "kernel/include/AFCDataList.hpp"
 #include "kernel/include/AFCNode.hpp"
-#include "kernel/include/AFCTableInner.hpp"
+#include "kernel/include/AFCTable.hpp"
 #include "game/include/AFCDataTraceModule.hpp"
 
 namespace ark {

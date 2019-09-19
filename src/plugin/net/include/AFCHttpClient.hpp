@@ -38,13 +38,15 @@ public:
     AFCHttpClient();
     ~AFCHttpClient() override;
 
-    aom::Future<bool> AsyncPost(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+    bool AsyncPost(const std::string& ip, const uint16_t port, const std::string& url,
+        std::map<std::string, std::string>& params,
         const std::string& post_data, HTTP_CALLBACK&& callback) override;
 
-    aom::Future<std::string> AsyncGet(
+    bool AsyncGet(
         const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params, HTTP_CALLBACK&& callback) override;
 
-    aom::Future<bool> AsyncPut(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+    bool AsyncPut(const std::string& ip, const uint16_t port, const std::string& url,
+        std::map<std::string, std::string>& params,
         const std::string& put_data, HTTP_CALLBACK&& callback) override;
 
 protected:

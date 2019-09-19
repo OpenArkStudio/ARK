@@ -47,6 +47,11 @@ public:
         return class_name_;
     }
 
+    uint32_t GetIndex() const
+    {
+        return index_;
+    }
+
 private:
     // container name
     std::string name_{NULL_STR};

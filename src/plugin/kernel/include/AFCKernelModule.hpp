@@ -46,6 +46,7 @@ public:
     bool PreShut() override;
 
     ///////////////////////////////////////////////////////////////////////
+    ARK_SHARE_PTR<AFIStaticEntity> GetStaticEntity(const ID_TYPE config_id) override;
     ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& self) override;
     ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int nSceneID, const int nGroupID,
         const std::string& strClassName, const ID_TYPE config_id, const AFIDataList& arg) override;
@@ -84,6 +85,10 @@ protected:
     bool AddDataCallBack(const std::string& class_name, const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb) override;
     bool AddTableCallBack(const std::string& class_name, const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb) override;
 
+    bool AddContainerCallBack(
+        const std::string& class_name, const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb) override;
+    bool AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb) override;
+
     bool AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb) override;
     bool AddCommonNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb) override;
     bool AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb) override;
@@ -99,6 +104,10 @@ protected:
         ARK_SHARE_PTR<AFIEntity> pEntityData, const std::string& name, const AFMsg::pb_db_table& pb_table);
     bool DBDataToContainer(
         ARK_SHARE_PTR<AFIEntity> pEntity, const std::string& name, const AFMsg::pb_db_container& pb_data);
+
+    // call back
+    int OnContainerCallBack(const AFGUID& self, const uint32_t index, const ArkContainerOpType op_type,
+        const uint32_t src_index, const uint32_t dest_index);
 
 private:
     std::list<AFGUID> delete_list_;

@@ -54,7 +54,7 @@ public:
         return type_;
     }
 
-    void SetMask(AFMaskType mask)
+    void SetMask(ArkMaskType mask)
     {
         mask_ = mask;
     }
@@ -69,7 +69,7 @@ public:
         return index_;
     }
 
-    AFMaskType GetMask() const
+    ArkMaskType GetMask() const
     {
         return mask_;
     }
@@ -85,7 +85,7 @@ private:
     uint32_t index_{0u};
 
     // data mask
-    AFMaskType mask_{0};
+    ArkMaskType mask_{0};
 };
 
 } // namespace ark

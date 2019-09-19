@@ -234,9 +234,9 @@ int AFCGameNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFGUI
     AFMsg::pb_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
-    AFMaskType nFeature;
-    nFeature[(size_t)ArkNodeMask::PF_PUBLIC] = 1;
-    AFIMsgModule::NodeToPBDataByMask(pEntity, nFeature, entity->mutable_data());
+    ArkMaskType mask;
+    mask[(size_t)ArkNodeMask::PF_PUBLIC] = 1;
+    AFIMsgModule::NodeToPBDataByMask(pEntity, mask, entity->mutable_data());
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
@@ -268,9 +268,9 @@ int AFCGameNetModule::OnSelfDataNodeEnter(const AFGUID& self)
     AFMsg::pb_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
-    AFMaskType nFeature;
-    nFeature[(size_t)ArkNodeMask::PF_PRIVATE] = 1;
-    AFIMsgModule::NodeToPBDataByMask(pEntity, nFeature, entity->mutable_data());
+    ArkMaskType mask;
+    mask[(size_t)ArkNodeMask::PF_PRIVATE] = 1;
+    AFIMsgModule::NodeToPBDataByMask(pEntity, mask, entity->mutable_data());
 
     SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, msg, self);
     return 0;
@@ -294,9 +294,9 @@ int AFCGameNetModule::OnSelfDataTableEnter(const AFGUID& self)
     AFMsg::pb_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
-    AFMaskType nFeature;
-    nFeature[(size_t)ArkTableNodeMask::PF_PRIVATE] = 1;
-    AFIMsgModule::TableToPBDataByMask(pEntity, nFeature, entity->mutable_data());
+    ArkMaskType mask;
+    mask[(size_t)ArkTableNodeMask::PF_PRIVATE] = 1;
+    AFIMsgModule::TableToPBDataByMask(pEntity, mask, entity->mutable_data());
 
     SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, msg, self);
     return 0;
@@ -320,9 +320,9 @@ int AFCGameNetModule::OnViewDataTableEnter(const AFIDataList& argVar, const AFGU
     AFMsg::pb_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
-    AFMaskType nFeature;
-    nFeature[(size_t)ArkTableNodeMask::PF_PUBLIC] = 1;
-    AFIMsgModule::TableToPBDataByMask(pEntity, nFeature, entity->mutable_data());
+    ArkMaskType mask;
+    mask[(size_t)ArkTableNodeMask::PF_PUBLIC] = 1;
+    AFIMsgModule::TableToPBDataByMask(pEntity, mask, entity->mutable_data());
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {

@@ -89,10 +89,11 @@ public:
     virtual ~AFITable() = default;
 
     // table meta interface
+    virtual uint32_t GetIndex(const std::string& name) = 0;
     virtual const std::string& GetName() const = 0;
     virtual uint32_t GetColCount() const = 0;
     virtual ArkDataType GetColType(const uint32_t index) const = 0;
-    virtual const AFMaskType GetMask() const = 0;
+    virtual const ArkMaskType GetMask() const = 0;
     virtual bool HaveMask(const ArkTableNodeMask feature) const = 0;
     virtual bool IsPublic() const = 0;
     virtual bool IsPrivate() const = 0;
@@ -118,6 +119,7 @@ public:
 
     // table set
     virtual AFIRow* AddRow(uint32_t row = 0u) = 0;
+    virtual AFIRow* AddRow(uint32_t row, const AFIDataList& args) = 0;
     virtual AFIRow* FindRow(uint32_t row) = 0;
     virtual bool RemoveRow(uint32_t row) = 0;
     virtual void Clear() = 0;

@@ -65,19 +65,6 @@ include_directories(
     ${ROOT_DIR}/src/plugin
     ${ROOT_DIR}/src/server)
 
-# Try to put debug/release in different dir, but in Visual Studio(IDE), I don't know how to set it.
-# if(UNIX)
-#     string(TOLOWER ${CMAKE_BUILD_TYPE} _type)
-
-#     if(${_type} STREQUAL "debug")
-#         set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/debug)
-#     else()
-#         set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/bin)
-#     endif()
-# else(WIN32)
-#     set(BIN_OUTPUT_DIR $<$<CONFIG:Debug>:${ROOT_DIR}/bin/debug> $<$<CONFIG:Release>:${ROOT_DIR}/bin/bin>)
-# endif()
-
 set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/bin)
 set(DEP_LIB_DIR ${ROOT_DIR}/dep/lib/ ${BIN_OUTPUT_DIR})
 

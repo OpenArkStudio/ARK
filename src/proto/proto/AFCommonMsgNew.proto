@@ -52,6 +52,39 @@ message pb_entity_table_add{
   pb_entity_data data = 2;
 }
 
+//container change
+message pb_container_create{
+  int64 id            = 1;
+  uint32 index        = 2;
+  uint32 entity_index = 3;
+  pb_entity_data data = 4;
+}
+
+message pb_container_place{
+  int64 id            = 1;
+  uint32 index        = 2;
+  uint32 entity_index = 3;
+}
+
+message pb_container_remove{
+  int64 id            = 1;
+  uint32 index        = 2;
+  uint32 entity_index = 3;
+}
+
+message pb_container_swap{
+  int64 id            = 1;
+  uint32 index        = 2;
+  uint32 src_index    = 3;
+  uint32 dest_index   = 4;
+}
+
+message pb_container_destroy{
+  int64 id            = 1;
+  uint32 index        = 2;
+  uint32 entity_index = 3;
+}
+
 //多人玩家全部表数据，可直接发送--统一发,为节约包
 message multi_entity_data_list {
   repeated pb_entity data_list = 1;

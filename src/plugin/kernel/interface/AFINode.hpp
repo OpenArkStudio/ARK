@@ -36,8 +36,8 @@ public:
     virtual void CopyFrom(AFINode* other) = 0;
     virtual void SaveTo(AFINode* other) = 0;
     virtual bool HaveMask(ArkNodeMask mask) = 0;
-    virtual AFMaskType GetMask() const = 0;
-    virtual ID_TYPE GetID() const = 0;
+    virtual ArkMaskType GetMask() const = 0;
+    virtual ID_TYPE GetValue() const = 0;
 
     // Get data
     virtual bool GetBool() const

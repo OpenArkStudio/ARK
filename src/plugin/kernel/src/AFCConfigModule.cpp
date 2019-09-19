@@ -24,10 +24,11 @@
 #include "log/interface/AFILogModule.hpp"
 #include "base/AFPluginManager.hpp"
 #include "base/AFMacros.hpp"
-#include "kernel/include/AFCStaticEntityInner.hpp"
+#include "kernel/include/AFCStaticEntity.hpp"
 #include "kernel/include/AFCNode.hpp"
 #include "kernel/include/AFClassMetaManager.hpp"
 #include "base/AFXml.hpp"
+#include "kernel/include/AFNodeManager.hpp"
 
 namespace ark {
 
@@ -35,6 +36,8 @@ bool AFCConfigModule::Init()
 {
     m_pLogModule = FindModule<AFILogModule>();
     m_pClassModule = FindModule<AFIClassMetaModule>();
+
+    m_pStaticEntityManager = ARK_NEW AFStaticEntityManager();
 
     return Load();
 }
@@ -70,7 +73,7 @@ bool AFCConfigModule::Save()
 
 bool AFCConfigModule::Clear()
 {
-    static_entity_mgr_list_.clear();
+    ARK_DELETE(m_pStaticEntityManager);
     return true;
 }
 
@@ -96,9 +99,6 @@ bool AFCConfigModule::LoadConfig(ARK_SHARE_PTR<AFClassMeta> pClassMeta)
         return false;
     }
 
-    // create static object manager by name
-    auto pStaticObjMgr = CreateStaticObjectManager(pClassMeta->GetName());
-
     auto data_meta_list = pClassMeta->GetDataMetaList();
     for (auto data_node = root_node.FindNode("data"); data_node.IsValid(); data_node.NextNode())
     {
@@ -113,14 +113,14 @@ bool AFCConfigModule::LoadConfig(ARK_SHARE_PTR<AFClassMeta> pClassMeta)
         pIDData->FromString(data_node.GetString(pIDData->GetName().c_str()));
 
         // create a new object
-        auto pObjBase = pStaticObjMgr->CreateObject(pIDData->GetID(), pClassMeta);
-        ARK_ASSERT_RET_VAL(pObjBase != nullptr, false);
+        auto pNodeComponent = std::make_shared<AFNodeManager>(pClassMeta);
+        ARK_ASSERT_RET_VAL(pNodeComponent != nullptr, false);
+
+        auto pObj = m_pStaticEntityManager->CreateObject(pIDData->GetValue(), pNodeComponent);
+        ARK_ASSERT_RET_VAL(pObj != nullptr, false);
 
         // delete id data do not need it
         ARK_DELETE(pIDData);
-
-        auto pObj = std::dynamic_pointer_cast<AFCStaticEntityInner>(pObjBase);
-        ARK_ASSERT_RET_VAL(pObj != nullptr, false);
 
         // read by class meta
         for (auto iter : data_meta_list)
@@ -129,7 +129,7 @@ bool AFCConfigModule::LoadConfig(ARK_SHARE_PTR<AFClassMeta> pClassMeta)
             auto pDataMeta = iter.second;
             ARK_ASSERT_RET_VAL(pDataMeta != nullptr, false);
 
-            AFINode* pData = pObj->CreateData(pDataMeta);
+            AFINode* pData = pNodeComponent->CreateData(pDataMeta);
             ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
             pData->FromString(data_node.GetString(pDataMeta->GetName().c_str()));
@@ -139,56 +139,11 @@ bool AFCConfigModule::LoadConfig(ARK_SHARE_PTR<AFClassMeta> pClassMeta)
     return true;
 }
 
-ARK_SHARE_PTR<AFStaticEntityManager> AFCConfigModule::CreateStaticObjectManager(const std::string& name)
-{
-    ARK_SHARE_PTR<AFStaticEntityManager> pObjectManager = nullptr;
-    auto iter = static_entity_mgr_list_.find(name);
-    if (iter == static_entity_mgr_list_.end())
-    {
-        // create new class meta
-        pObjectManager = std::make_shared<AFStaticEntityManager>();
-        static_entity_mgr_list_.insert(name, pObjectManager);
-    }
-    else
-    {
-        pObjectManager = iter->second;
-    }
-
-    return pObjectManager;
-}
-
-ARK_SHARE_PTR<AFStaticEntityManager> AFCConfigModule::FindStaticEntityMgr(const std::string& class_name)
-{
-    return static_entity_mgr_list_.find_value(class_name);
-}
-
-ARK_SHARE_PTR<AFIStaticEntity> AFCConfigModule::FindStaticEntity(const std::string& class_name, const ID_TYPE config_id)
-{
-    auto pObjectManger = static_entity_mgr_list_.find_value(class_name);
-    ARK_ASSERT_RET_VAL(pObjectManger != nullptr, nullptr);
-
-    auto pStaticObject = pObjectManger->FindObject(config_id);
-    return pStaticObject;
-}
-
 ARK_SHARE_PTR<AFIStaticEntity> AFCConfigModule::FindStaticEntity(const ID_TYPE config_id)
 {
-    for (auto& iter : static_entity_mgr_list_)
-    {
-        auto pMgr = iter.second;
-        if (nullptr == pMgr)
-        {
-            continue;
-        }
+    ARK_ASSERT_RET_VAL(m_pStaticEntityManager != nullptr, nullptr);
 
-        auto pStaticEntity = pMgr->FindObject(config_id);
-        if (pStaticEntity)
-        {
-            return pStaticEntity;
-        }
-    }
-
-    return nullptr;
+    return m_pStaticEntityManager->FindObject(config_id);
 }
 
 } // namespace ark

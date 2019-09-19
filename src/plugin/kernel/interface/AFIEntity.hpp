@@ -58,7 +58,7 @@ public:
     virtual bool HaveMask(const std::string& name, ArkNodeMask feature) = 0;
     virtual bool HaveMask(const uint32_t index, ArkNodeMask feature) = 0;
 
-    virtual AFMaskType GetMask(const uint32_t index) const = 0;
+    virtual ArkMaskType GetMask(const uint32_t index) const = 0;
 
     virtual const std::string& GetClassName() const = 0;
     virtual ID_TYPE GetConfigID() const = 0;
@@ -166,6 +166,9 @@ public:
     virtual AFITable* FirstTable() = 0;
     virtual AFITable* NextTable() = 0;
     virtual ARK_SHARE_PTR<AFIContainer> NextContainer() = 0;
+
+    virtual bool IsSent() const = 0;
+    virtual void UpdateSent() = 0;
 };
 
 } // namespace ark

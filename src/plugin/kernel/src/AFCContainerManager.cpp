@@ -48,7 +48,10 @@ ARK_SHARE_PTR<AFIContainer> AFCContainerManager::CreateContainer(
     auto pContainerClassMeta = pClassMeta->FindContainerMeta(index);
     ARK_ASSERT_RET_VAL(pContainerClassMeta != nullptr, nullptr);
 
-    pContainer = std::make_shared<AFCContainer>(pContainerClassMeta, index, parent_id);
+    auto pCallBack = pClassMeta->GetClassCallBackManager();
+    ARK_ASSERT_RET_VAL(pCallBack != nullptr, nullptr);
+
+    pContainer = std::make_shared<AFCContainer>(pContainerClassMeta, parent_id, pCallBack);
     ARK_ASSERT_RET_VAL(pContainer != nullptr, nullptr);
 
     container_data_.insert(index, pContainer);

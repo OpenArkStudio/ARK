@@ -24,7 +24,7 @@
 #include "proto/AFProtoCPP.hpp"
 #include "interface/AFIModule.hpp"
 #include "kernel/include/AFCNode.hpp"
-#include "kernel/include/AFCTableInner.hpp"
+#include "kernel/include/AFCTable.hpp"
 #include "kernel/include/AFCData.hpp"
 #include "kernel/interface/AFIEntity.hpp"
 #include "net/include/AFNetMsg.hpp"
@@ -258,22 +258,22 @@ public:
         return true;
     }
 
-    static bool EntityToPBDataByMask(ARK_SHARE_PTR<AFIEntity> pEntity, AFMaskType feature, AFMsg::pb_entity* pb_data)
+    static bool EntityToPBDataByMask(ARK_SHARE_PTR<AFIEntity> pEntity, ArkMaskType mask, AFMsg::pb_entity* pb_data)
     {
         ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
 
         pb_data->set_id(pEntity->GetID());
 
-        NodeToPBDataByMask(pEntity, feature, pb_data->mutable_data());
+        NodeToPBDataByMask(pEntity, mask, pb_data->mutable_data());
 
-        TableToPBDataByMask(pEntity, feature, pb_data->mutable_data());
+        TableToPBDataByMask(pEntity, mask, pb_data->mutable_data());
 
         return true;
     }
 
     //node all to pb data
     static bool NodeToPBDataByMask(
-        ARK_SHARE_PTR<AFIEntity> pEntity, const AFMaskType mask, AFMsg::pb_entity_data* pb_data)
+        ARK_SHARE_PTR<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data)
     {
         ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
 
@@ -292,7 +292,7 @@ public:
     }
 
     static bool TableToPBDataByMask(
-        ARK_SHARE_PTR<AFIEntity> pEntity, const AFMaskType mask, AFMsg::pb_entity_data* pb_data)
+        ARK_SHARE_PTR<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data)
     {
         ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
         for (AFITable* pTable = pEntity->FirstTable(); pTable != nullptr; pTable = pEntity->NextTable())

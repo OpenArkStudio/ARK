@@ -29,6 +29,22 @@ namespace ark {
 
 class AFClassCallBackManager final
 {
+private:
+    // class event list
+    AFList<CLASS_EVENT_FUNCTOR> class_events_;
+
+    // data call backs list
+    using DataCallBacks = std::vector<DATA_NODE_EVENT_FUNCTOR>;
+    AFHashmap<uint32_t, DataCallBacks> data_call_backs_list_;
+
+    // table call backs list
+    using TableCallBacks = std::vector<DATA_TABLE_EVENT_FUNCTOR>;
+    AFHashmap<uint32_t, TableCallBacks> table_call_backs_list_;
+
+    // container call backs list
+    using ContainerCallBacks = std::vector<CONTAINER_EVENT_FUNCTOR>;
+    AFHashmap<uint32_t, ContainerCallBacks> container_call_backs_list_;
+
 public:
     explicit AFClassCallBackManager() = default;
 
@@ -81,6 +97,36 @@ public:
         return true;
     }
 
+    bool AddContainerCallBack(const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb)
+    {
+        auto iter = container_call_backs_list_.find(index);
+        if (iter == container_call_backs_list_.end())
+        {
+            ContainerCallBacks* pContainerCBs = ARK_NEW ContainerCallBacks;
+            ARK_ASSERT_RET_VAL(pContainerCBs != nullptr, false);
+
+            pContainerCBs->push_back(std::forward<CONTAINER_EVENT_FUNCTOR>(cb));
+            container_call_backs_list_.insert(index, pContainerCBs);
+        }
+        else
+        {
+            iter->second->push_back(cb);
+        }
+
+        return true;
+    }
+
+    bool DoEvent(
+        const AFGUID& id, const std::string& class_name, const ArkEntityEvent eClassEvent, const AFIDataList& valueList)
+    {
+        for (auto iter : class_events_)
+        {
+            iter(id, class_name, eClassEvent, valueList);
+        }
+
+        return true;
+    }
+
     bool OnDataCallBack(
         const AFGUID& self, const std::string& name, uint32_t index, const AFIData& old_data, const AFIData& new_data)
     {
@@ -93,17 +139,6 @@ public:
         for (auto& cb : *data_call_backs)
         {
             cb(self, name, index, old_data, new_data);
-        }
-
-        return true;
-    }
-
-    bool DoEvent(
-        const AFGUID& id, const std::string& class_name, const ArkEntityEvent eClassEvent, const AFIDataList& valueList)
-    {
-        for (auto iter : class_events_)
-        {
-            iter(id, class_name, eClassEvent, valueList);
         }
 
         return true;
@@ -126,17 +161,22 @@ public:
         return true;
     }
 
-private:
-    // class event list
-    AFList<CLASS_EVENT_FUNCTOR> class_events_;
+    bool OnContainerCallBack(const AFGUID& self, const uint32_t index, const ArkContainerOpType op_type,
+        uint32_t src_index, uint32_t dest_index)
+    {
+        auto container_call_backs = container_call_backs_list_.find_value(index);
+        if (container_call_backs == nullptr)
+        {
+            return false;
+        }
 
-    // data call backs list
-    using DataCallBacks = std::vector<DATA_NODE_EVENT_FUNCTOR>;
-    AFHashmap<uint32_t, DataCallBacks> data_call_backs_list_;
+        for (auto& cb : *container_call_backs)
+        {
+            cb(self, index, op_type, src_index, dest_index);
+        }
 
-    // table call backs list
-    using TableCallBacks = std::vector<DATA_TABLE_EVENT_FUNCTOR>;
-    AFHashmap<uint32_t, TableCallBacks> table_call_backs_list_;
+        return true;
+    }
 };
 
 } // namespace ark

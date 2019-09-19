@@ -208,21 +208,6 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateContainerEntity(
         return nullptr;
     }
 
-    auto map_id = pEntity->GetMapID();
-    ARK_SHARE_PTR<AFMapInfo> pMapInfo = m_pMapModule->GetMapInfo(map_id);
-    if (pMapInfo == nullptr)
-    {
-        ARK_LOG_ERROR("There is no scene, scene = {}", map_id);
-        return nullptr;
-    }
-
-    auto map_instance_id = pEntity->GetMapEntityID();
-    if (!pMapInfo->ExistInstance(map_instance_id))
-    {
-        ARK_LOG_ERROR("There is no group, scene = {} group = {}", map_id, map_instance_id);
-        return nullptr;
-    }
-
     auto pClassMeta = m_pClassModule->FindMeta(class_name);
     if (nullptr == pClassMeta)
     {
@@ -239,13 +224,9 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateContainerEntity(
         return nullptr;
     }
 
-    ARK_SHARE_PTR<AFIEntity> pContainerEntity =
-        std::make_shared<AFCEntity>(pClassMeta, object_id, config_id, map_id, map_instance_id);
+    ARK_SHARE_PTR<AFIEntity> pContainerEntity = std::make_shared<AFCEntity>(pClassMeta, object_id, config_id, 0, 0);
 
-    objects_.insert(object_id, pContainerEntity);
-
-    pMapInfo->AddEntityToInstance(
-        map_instance_id, object_id, ((class_name == AFEntityMetaPlayer::self_name()) ? true : false));
+    // objects_.insert(object_id, pContainerEntity);
 
     if (config_id > 0)
     {
@@ -268,6 +249,11 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateContainerEntity(
     DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_DATA_FINISHED, args);
 
     return pContainerEntity;
+}
+
+ARK_SHARE_PTR<AFIStaticEntity> AFCKernelModule::GetStaticEntity(const ID_TYPE config_id)
+{
+    return m_pConfigModule->FindStaticEntity(config_id);
 }
 
 ARK_SHARE_PTR<AFIEntity> AFCKernelModule::GetEntity(const AFGUID& self)
@@ -407,6 +393,44 @@ bool AFCKernelModule::AddTableCallBack(
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
     pCallBack->AddTableCallBack(index, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
+
+    return true;
+}
+
+bool AFCKernelModule::AddContainerCallBack(
+    const std::string& class_name, const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb)
+{
+    auto pClassMeta = m_pClassModule->FindMeta(class_name);
+    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
+
+    auto pContainerMeta = pClassMeta->FindContainerMeta(index);
+    ARK_ASSERT_RET_VAL(pContainerMeta != nullptr, false);
+
+    auto pCallBack = pClassMeta->GetClassCallBackManager();
+    ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
+
+    pCallBack->AddContainerCallBack(index, std::forward<CONTAINER_EVENT_FUNCTOR>(cb));
+
+    return true;
+}
+
+bool AFCKernelModule::AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb)
+{
+    auto pClassMeta = m_pClassModule->FindMeta(AFEntityMetaPlayer::self_name());
+    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
+
+    auto& meta_list = pClassMeta->GetContainerMetaList();
+    for (auto iter : meta_list)
+    {
+        auto pMeta = iter.second;
+        if (!pMeta)
+        {
+            continue;
+        }
+
+        AddContainerCallBack(
+            AFEntityMetaPlayer::self_name(), pMeta->GetIndex(), std::forward<CONTAINER_EVENT_FUNCTOR>(cb));
+    }
 
     return true;
 }
@@ -633,19 +657,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFMsg::pb_db_entity
     }
 
     auto map_id = pb_data.map_id();
-    auto pMapInfo = m_pMapModule->GetMapInfo(map_id);
-    if (pMapInfo == nullptr)
-    {
-        ARK_LOG_ERROR("There is no scene, scene = {}", map_id);
-        return nullptr;
-    }
-
     auto map_inst_id = pb_data.map_inst_id();
-    if (!pMapInfo->ExistInstance(map_inst_id))
-    {
-        ARK_LOG_ERROR("There is no group, scene = {} group = {}", map_id, map_inst_id);
-        return nullptr;
-    }
 
     pEntity = std::make_shared<AFCEntity>(pClassMeta, entity_id, NULL_INT, map_id, map_inst_id);
 
@@ -662,19 +674,19 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFMsg::pb_db_entity
     //    pEntity->SetBool(iter.first, iter.second);
     //}
 
-    //table data
+    // table data
     for (auto iter : pb_db_entity_data.datas_table())
     {
         DBDataToTable(pEntity, iter.first, iter.second);
     }
 
-    //container data
+    // container data
     for (auto iter : pb_db_entity_data.datas_entity())
     {
         DBDataToContainer(pEntity, iter.first, iter.second);
     }
 
-    pMapInfo->AddEntityToInstance(map_inst_id, entity_id, true);
+    // pMapInfo->AddEntityToInstance(map_inst_id, entity_id, true);
 
     // todo : add new event?
     AFCDataList args;
@@ -789,6 +801,27 @@ bool AFCKernelModule::DBDataToContainer(
     }
 
     return true;
+}
+
+int AFCKernelModule::OnContainerCallBack(const AFGUID& self, const uint32_t index, const ArkContainerOpType op_type,
+    const uint32_t src_index, const uint32_t dest_index)
+{
+    if (op_type == ArkContainerOpType::OP_DESTROY)
+    {
+        // remove entity
+        auto pEntity = GetEntity(self);
+        ARK_ASSERT_RET_VAL(pEntity != nullptr, 0);
+
+        auto pContainer = pEntity->FindContainer(index);
+        ARK_ASSERT_RET_VAL(pContainer != nullptr, 0);
+
+        auto pContainerEntity = pContainer->Find(src_index);
+        ARK_ASSERT_RET_VAL(pContainerEntity != nullptr, 0);
+
+        DestroyEntity(pContainerEntity->GetID());
+    }
+
+    return 0;
 }
 
 template<typename T>

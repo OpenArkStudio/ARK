@@ -18,14 +18,15 @@
  *
  */
 
-#include "kernel/include/AFCTableInner.hpp"
+#include "kernel/include/AFCTable.hpp"
 #include "kernel/include/AFCData.hpp"
 #include "kernel/include/AFCRow.hpp"
+#include "kernel/include/AFCDataList.hpp"
 
 namespace ark {
 
 // constructor
-AFCTableInner::AFCTableInner(
+AFCTable::AFCTable(
     ARK_SHARE_PTR<AFTableMeta> pTableMeta, ARK_SHARE_PTR<AFClassCallBackManager> pCallBackManager, const AFGUID& guid)
     : guid_(guid)
 {
@@ -33,68 +34,68 @@ AFCTableInner::AFCTableInner(
     m_pCallBackManager = pCallBackManager;
 }
 
-AFCTableInner::~AFCTableInner()
+AFCTable::~AFCTable()
 {
     Clear();
 }
 
-const std::string& AFCTableInner::GetName() const
+const std::string& AFCTable::GetName() const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_STR);
 
     return table_meta_->GetName();
 }
 
-uint32_t AFCTableInner::GetColCount() const
+uint32_t AFCTable::GetColCount() const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, (uint32_t)NULL_INT);
 
     return table_meta_->GetColCount();
 }
 
-ArkDataType AFCTableInner::GetColType(const uint32_t index) const
+ArkDataType AFCTable::GetColType(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, ArkDataType::DT_EMPTY);
 
     return table_meta_->GetColType(index);
 }
 
-const AFMaskType AFCTableInner::GetMask() const
+const ArkMaskType AFCTable::GetMask() const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_INT);
 
-    return table_meta_->GetFeature();
+    return table_meta_->GetMask();
 }
 
-bool AFCTableInner::HaveMask(const ArkTableNodeMask feature) const
+bool AFCTable::HaveMask(const ArkTableNodeMask mask) const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, false);
 
-    return table_meta_->HaveFeature(feature);
+    return table_meta_->HaveMask(mask);
 }
 
-bool AFCTableInner::IsPublic() const
+bool AFCTable::IsPublic() const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, false);
 
     return table_meta_->IsPublic();
 }
 
-bool AFCTableInner::IsPrivate() const
+bool AFCTable::IsPrivate() const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, false);
 
     return table_meta_->IsPrivate();
 }
 
-bool AFCTableInner::IsRealTime() const
+bool AFCTable::IsRealTime() const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, false);
 
     return table_meta_->IsRealTime();
 }
 
-bool AFCTableInner::IsSave() const
+bool AFCTable::IsSave() const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, false);
 
@@ -102,21 +103,28 @@ bool AFCTableInner::IsSave() const
 }
 
 // table get
-uint32_t AFCTableInner::GetRowCount() const
+uint32_t AFCTable::GetRowCount() const
 {
     return data_.size();
 }
 
 // table set
-AFIRow* AFCTableInner::AddRow(uint32_t row /* = 0u*/)
+AFIRow* AFCTable::AddRow(uint32_t row /* = 0u*/)
 {
-    ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr && table_meta_ != nullptr, nullptr);
+    return AddRow(row, AFCDataList());
+}
+
+AFIRow* AFCTable::AddRow(uint32_t row, const AFIDataList& args)
+{
+    ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr, nullptr);
+
+    ARK_ASSERT_RET_VAL(args.GetCount() % 2 == 0, nullptr);
 
     AFIRow* pRowData = nullptr;
     if (row == 0)
     {
         row = ++current_row;
-        pRowData = ARK_NEW AFCRow(this, row);
+        pRowData = CreateRow(row, args);
     }
     else
     {
@@ -128,71 +136,43 @@ AFIRow* AFCTableInner::AddRow(uint32_t row /* = 0u*/)
             current_row = row;
         }
 
-        pRowData = ARK_NEW AFCRow(this, row);
+        pRowData = CreateRow(row, args);
     }
 
     ARK_ASSERT_RET_VAL(pRowData != nullptr, nullptr);
 
-    data_.insert(pRowData->GetRow(), pRowData);
-
     // call back
-    OnRowDataChanged(row, ArkTableOpType::TABLE_ADD);
+    OnTableChanged(row, ArkTableOpType::TABLE_ADD);
 
     return pRowData;
 }
 
-AFIRow* AFCTableInner::FindRow(uint32_t row)
+AFIRow* AFCTable::FindRow(uint32_t row)
 {
     ARK_ASSERT_RET_VAL(row != 0, nullptr);
 
     return data_.find_value(row);
 }
 
-bool AFCTableInner::RemoveRow(uint32_t row)
+bool AFCTable::RemoveRow(uint32_t row)
 {
     ARK_ASSERT_RET_VAL(data_.find_value(row) != nullptr, false);
 
     // call back
-    OnRowDataChanged(row, ArkTableOpType::TABLE_DELETE);
+    OnTableChanged(row, ArkTableOpType::TABLE_DELETE);
 
     data_.erase(row);
 
     return true;
 }
 
-void AFCTableInner::Clear()
+void AFCTable::Clear()
 {
-    for (auto iter : data_)
-    {
-        OnRowDataChanged(iter.first, ArkTableOpType::TABLE_DELETE);
-    }
-}
-
-// ex interface
-bool AFCTableInner::OnRowDataChanged(
-    uint32_t row, const uint32_t index, const AFIData& old_data, const AFIData& new_data) const
-{
-    ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr || table_meta_ != nullptr, false);
-
-    TABLE_EVENT_DATA xData;
-    xData.table_name_ = table_meta_->GetName();
-    xData.table_index_ = table_meta_->GetIndex();
-    xData.data_index_ = index;
-    xData.row_ = row;
-    xData.op_type_ = (size_t)ArkTableOpType::TABLE_UPDATE;
-
-    m_pCallBackManager->OnTableCallBack(guid_, xData, old_data, new_data);
-
-    return true;
-}
-
-ARK_SHARE_PTR<AFTableMeta> AFCTableInner::GetMeta() const
-{
-    return table_meta_;
+    OnTableChanged(0u, ArkTableOpType::TABLE_CLEAR);
 }
 
 // find
-uint32_t AFCTableInner::FindInt32(const uint32_t index, const int32_t value)
+uint32_t AFCTable::FindInt32(const uint32_t index, const int32_t value)
 {
     for (auto iter : data_)
     {
@@ -208,7 +188,7 @@ uint32_t AFCTableInner::FindInt32(const uint32_t index, const int32_t value)
     return 0u;
 }
 
-uint32_t AFCTableInner::FindInt64(const uint32_t index, const int64_t value)
+uint32_t AFCTable::FindInt64(const uint32_t index, const int64_t value)
 {
     for (auto iter : data_)
     {
@@ -224,7 +204,7 @@ uint32_t AFCTableInner::FindInt64(const uint32_t index, const int64_t value)
     return 0u;
 }
 
-uint32_t AFCTableInner::FindBool(const uint32_t index, bool value)
+uint32_t AFCTable::FindBool(const uint32_t index, bool value)
 {
     for (auto iter : data_)
     {
@@ -240,7 +220,7 @@ uint32_t AFCTableInner::FindBool(const uint32_t index, bool value)
     return 0u;
 }
 
-uint32_t AFCTableInner::FindFloat(const uint32_t index, float value)
+uint32_t AFCTable::FindFloat(const uint32_t index, float value)
 {
     for (auto iter : data_)
     {
@@ -256,7 +236,7 @@ uint32_t AFCTableInner::FindFloat(const uint32_t index, float value)
     return 0u;
 }
 
-uint32_t AFCTableInner::FindDouble(const uint32_t index, double value)
+uint32_t AFCTable::FindDouble(const uint32_t index, double value)
 {
     for (auto iter : data_)
     {
@@ -272,7 +252,7 @@ uint32_t AFCTableInner::FindDouble(const uint32_t index, double value)
     return 0u;
 }
 
-uint32_t AFCTableInner::FindString(const uint32_t index, const std::string& value)
+uint32_t AFCTable::FindString(const uint32_t index, const std::string& value)
 {
     for (auto iter : data_)
     {
@@ -288,7 +268,7 @@ uint32_t AFCTableInner::FindString(const uint32_t index, const std::string& valu
     return 0u;
 }
 
-uint32_t AFCTableInner::FindWString(const uint32_t index, const std::wstring& value)
+uint32_t AFCTable::FindWString(const uint32_t index, const std::wstring& value)
 {
     for (auto iter : data_)
     {
@@ -304,7 +284,7 @@ uint32_t AFCTableInner::FindWString(const uint32_t index, const std::wstring& va
     return 0u;
 }
 
-uint32_t AFCTableInner::FindGUID(const uint32_t index, const AFGUID& value)
+uint32_t AFCTable::FindGUID(const uint32_t index, const AFGUID& value)
 {
     for (auto iter : data_)
     {
@@ -320,7 +300,7 @@ uint32_t AFCTableInner::FindGUID(const uint32_t index, const AFGUID& value)
     return 0u;
 }
 
-AFIRow* AFCTableInner::First()
+AFIRow* AFCTable::First()
 {
     iter_ = data_.begin();
     ARK_ASSERT_RET_VAL(iter_ != data_.end(), nullptr);
@@ -328,7 +308,7 @@ AFIRow* AFCTableInner::First()
     return iter_->second;
 }
 
-AFIRow* AFCTableInner::Next()
+AFIRow* AFCTable::Next()
 {
     ARK_ASSERT_RET_VAL(iter_ != data_.end(), nullptr);
 
@@ -338,26 +318,26 @@ AFIRow* AFCTableInner::Next()
     return iter_->second;
 }
 
-uint32_t AFCTableInner::GetIndex()
+uint32_t AFCTable::GetIndex()
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_INT);
 
     return table_meta_->GetIndex();
 }
 
-uint32_t AFCTableInner::GetIndex(const std::string& name)
+uint32_t AFCTable::GetIndex(const std::string& name)
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_INT);
 
     return table_meta_->GetIndex(name);
 }
 
-void AFCTableInner::ReleaseRow(AFIRow* row_data)
+void AFCTable::ReleaseRow(AFIRow* row_data)
 {
     ARK_DELETE(row_data);
 }
 
-void AFCTableInner::OnRowDataChanged(uint32_t row, ArkTableOpType op_type)
+void AFCTable::OnTableChanged(uint32_t row, ArkTableOpType op_type)
 {
     TABLE_EVENT_DATA xData;
     xData.table_name_ = table_meta_->GetName();
@@ -367,6 +347,42 @@ void AFCTableInner::OnRowDataChanged(uint32_t row, ArkTableOpType op_type)
 
     m_pCallBackManager->OnTableCallBack(
         guid_, xData, AFCData(ArkDataType::DT_BOOLEAN, false), AFCData(ArkDataType::DT_BOOLEAN, false));
+}
+
+int AFCTable::OnRowDataChanged(uint32_t row, const uint32_t index, const AFIData& old_data, const AFIData& new_data)
+{
+    ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr || table_meta_ != nullptr, false);
+
+    TABLE_EVENT_DATA xData;
+    xData.table_name_ = table_meta_->GetName();
+    xData.table_index_ = table_meta_->GetIndex();
+    xData.data_index_ = index;
+    xData.row_ = row;
+    xData.op_type_ = (size_t)ArkTableOpType::TABLE_UPDATE;
+
+    m_pCallBackManager->OnTableCallBack(guid_, xData, old_data, new_data);
+
+    return 0;
+}
+
+AFIRow* AFCTable::CreateRow(uint32_t row, const AFIDataList& args)
+{
+    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, nullptr);
+
+    auto pClassMeta = table_meta_->GetClassMeta();
+    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, nullptr);
+
+    auto func = std::bind(&AFCTable::OnRowDataChanged, this, std::placeholders::_1, std::placeholders::_2,
+        std::placeholders::_3, std::placeholders::_4);
+
+    auto pRow = ARK_NEW AFCRow(pClassMeta, row, args, std::move(func));
+    if (!data_.insert(row, pRow).second)
+    {
+        ARK_DELETE(pRow);
+        return nullptr;
+    }
+
+    return pRow;
 }
 
 } // namespace ark
