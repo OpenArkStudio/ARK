@@ -78,15 +78,15 @@ protected:
 
     bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb) override;
     bool AddEventCallBack(const AFGUID& self, const int event_id, EVENT_PROCESS_FUNCTOR&& cb) override;
-    bool AddDataCallBack(const std::string& class_name, const std::string& name, DATA_EVENT_FUNCTOR&& cb) override;
-    bool AddTableCallBack(const std::string& class_name, const std::string& name, TABLE_EVENT_FUNCTOR&& cb) override;
+    bool AddDataCallBack(const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb) override;
+    bool AddTableCallBack(const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb) override;
 
-    bool AddDataCallBack(const std::string& class_name, const uint32_t index, DATA_EVENT_FUNCTOR&& cb) override;
-    bool AddTableCallBack(const std::string& class_name, const uint32_t index, TABLE_EVENT_FUNCTOR&& cb) override;
+    bool AddDataCallBack(const std::string& class_name, const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb) override;
+    bool AddTableCallBack(const std::string& class_name, const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb) override;
 
     bool AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb) override;
-    bool AddCommonNodeEvent(DATA_EVENT_FUNCTOR&& cb) override;
-    bool AddCommonTableEvent(TABLE_EVENT_FUNCTOR&& cb) override;
+    bool AddCommonNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb) override;
+    bool AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb) override;
 
     // convert db data and entity
     bool EntityToDBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_db_entity& pb_data);
@@ -112,7 +112,7 @@ private:
     AFIClassMetaModule* m_pClassModule{nullptr};
 
     AFArrayMap<std::string, int32_t> inner_nodes_;
-    AFNewSmartPtrMap<AFGUID, AFIEntity> objects_;
+    AFSmartPtrMap<AFGUID, AFIEntity> objects_;
 };
 
 } // namespace ark

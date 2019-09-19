@@ -28,6 +28,7 @@
 #include "utility/interface/AFITimerModule.hpp"
 #include "net/interface/AFINetServiceManagerModule.hpp"
 #include "net/interface/AFINetServerService.hpp"
+#include "net/interface/AFINetClientService.hpp"
 
 namespace ark {
 
@@ -40,34 +41,41 @@ public:
     bool Update() override;
     bool Shut() override;
 
-    int CreateServer(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
-    AFINetServerService* GetSelfNetServer() override;
+    ananas::Future<std::pair<bool, std::string>> CreateServer(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
+
+    std::shared_ptr<AFINetServerService> GetSelfNetServer() override;
 
     //int CreateClusterClients(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
     //int CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url) override;
 
-    AFINetClientService* GetNetClientService(const ARK_APP_TYPE& app_type) override;
-    AFINetClientService* GetNetClientServiceByBusID(const int bus_id) override;
+    //AFINetClientService* GetNetClientService(const ARK_APP_TYPE& app_type) override;
+    //AFINetClientService* GetNetClientServiceByBusID(const int bus_id) override;
 
     bool AddNetConnectionBus(int client_bus_id, AFINet* net_server_ptr) override;
     bool RemoveNetConnectionBus(int client_bus_id) override;
     AFINet* GetNetConnectionBus(int src_bus, int target_bus) override;
 
 protected:
-    int RegisterToConsul(const int bus_id);
+    ananas::Future<std::pair<bool, std::string>> RegisterToConsul(const int bus_id);
     int DeregisterFromConsul(const int bus_id);
 
     void HealthCheck(const std::string& name, const AFGUID& entity_id);
 
     bool CreateClientService(const AFBusAddr& bus_addr, const std::string& ip, uint16_t port);
 
+    bool CheckConnectedTargetServer(const AFBusAddr& bus_addr);
+    std::shared_ptr<AFConnectionData> GetTargetClientConnection(const AFBusAddr& bus_addr);
+
 private:
     // bus_id -> net_server_service - support multi-server in the same app
-    AFMap<int, AFINetServerService> server_services_;
+    AFSmartPtrMap<int, AFINetServerService> server_services_;
 
     // target_app_type -> net_client_service
     // the NetClientService have target multi-client info.
-    AFMap<ARK_APP_TYPE, AFINetClientService> net_clients_;
+    AFSmartPtrMap<ARK_APP_TYPE, AFINetClientService> client_services_;
+
+    // All net relations, for finding AFINet
+    AFMap<std::pair<int, int>, AFINet> net_bus_relations_;
 
     AFIBusModule* m_pBusModule;
     AFILogModule* m_pLogModule;

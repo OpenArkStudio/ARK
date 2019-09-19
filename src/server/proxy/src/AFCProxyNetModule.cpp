@@ -34,76 +34,73 @@ bool AFCProxyNetModule::Init()
 
 bool AFCProxyNetModule::PostInit()
 {
-
-    int ret = StartServer();
-    if (ret != 0)
-    {
-        exit(0);
-        return false;
-    }
+    StartServer();
 
     return true;
 }
 
 int AFCProxyNetModule::StartServer()
 {
-    int ret = m_pNetServiceManagerModule->CreateServer();
-    if (ret != 0)
-    {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        ARK_ASSERT_NO_EFFECT(0);
-        return ret;
-    }
+    auto ret = m_pNetServiceManagerModule->CreateServer();
+    ret.Then([=](const std::pair<bool, std::string>& resp) {
+        if (!resp.first)
+        {
+            ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), resp.second);
+            ARK_ASSERT_NO_EFFECT(0);
+            exit(0);
+        }
+        else
+        {
+            m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
+            if (m_pNetServer == nullptr)
+            {
+                ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+                exit(0);
+            }
 
-    m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
-    if (m_pNetServer == nullptr)
-    {
-        ret = -3;
-        ARK_LOG_ERROR("Cannot find server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        return ret;
-    }
-
-    m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_KEY, this, &AFCProxyNetModule::OnConnectKeyProcess);
-    m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCProxyNetModule::OnReqServerListProcess);
-    m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_SELECT_SERVER, this, &AFCProxyNetModule::OnSelectServerProcess);
-    m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_ROLE_LIST, this, &AFCProxyNetModule::OnReqRoleListProcess);
-    m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCProxyNetModule::OnReqCreateRoleProcess);
-    m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCProxyNetModule::OnReqDelRoleProcess);
-    m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCProxyNetModule::OnReqEnterGameServer);
-
-    return 0;
-}
-
-bool AFCProxyNetModule::PreUpdate()
-{
-    int ret = StartClient();
-    return (ret == 0);
-}
-
-int AFCProxyNetModule::StartClient()
-{
-    int ret = m_pNetServiceManagerModule->CreateClusterClients();
-    if (ret != 0)
-    {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        ARK_ASSERT_NO_EFFECT(0);
-        return ret;
-    }
-
-    // If need to add a member
-    AFINetClientService* pNetClientWorld = m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_WORLD);
-    if (pNetClientWorld == nullptr)
-    {
-        return -1;
-    }
-
-    pNetClientWorld->RegMsgCallback(
-        AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCProxyNetModule::OnSelectServerResultProcess);
-    pNetClientWorld->RegMsgCallback(AFMsg::EGMI_STS_NET_INFO, this, &AFCProxyNetModule::OnServerInfoProcess);
-    pNetClientWorld->RegMsgCallback(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyNetModule::OnBrocastmsg);
+            m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_KEY, this, &AFCProxyNetModule::OnConnectKeyProcess);
+            m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCProxyNetModule::OnReqServerListProcess);
+            m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_SELECT_SERVER, this, &AFCProxyNetModule::OnSelectServerProcess);
+            m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_ROLE_LIST, this, &AFCProxyNetModule::OnReqRoleListProcess);
+            m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCProxyNetModule::OnReqCreateRoleProcess);
+            m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCProxyNetModule::OnReqDelRoleProcess);
+            m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCProxyNetModule::OnReqEnterGameServer);
+        }
+    });
 
     return 0;
 }
+
+//bool AFCProxyNetModule::PreUpdate()
+//{
+//    int ret = StartClient();
+//    return (ret == 0);
+//}
+
+//int AFCProxyNetModule::StartClient()
+//{
+//    int ret = m_pNetServiceManagerModule->CreateClusterClients();
+//    if (ret != 0)
+//    {
+//        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
+//        ARK_ASSERT_NO_EFFECT(0);
+//        return ret;
+//    }
+//
+//    // If need to add a member
+//    AFINetClientService* pNetClientWorld = m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_WORLD);
+//    if (pNetClientWorld == nullptr)
+//    {
+//        return -1;
+//    }
+//
+//    pNetClientWorld->RegMsgCallback(
+//        AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCProxyNetModule::OnSelectServerResultProcess);
+//    pNetClientWorld->RegMsgCallback(AFMsg::EGMI_STS_NET_INFO, this, &AFCProxyNetModule::OnServerInfoProcess);
+//    pNetClientWorld->RegMsgCallback(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyNetModule::OnBrocastmsg);
+//
+//    return 0;
+//}
 
 void AFCProxyNetModule::OnServerInfoProcess(const AFNetMsg* msg, const int64_t session_id) {}
 
@@ -176,20 +173,20 @@ void AFCProxyNetModule::OnSocketEvent(const AFNetEvent* event)
 {
     switch (event->GetType())
     {
-    case AFNetEventType::CONNECTED:
-    {
-        ARK_LOG_INFO("Connected success, id = {}", event->GetId());
-        OnClientConnected(event->GetId());
-    }
-    break;
-    case AFNetEventType::DISCONNECTED:
-    {
-        ARK_LOG_INFO("Connection closed, id = {}", event->GetId());
-        OnClientDisconnect(event->GetId());
-    }
-    break;
-    default:
+        case AFNetEventType::CONNECTED:
+        {
+            ARK_LOG_INFO("Connected success, id = {}", event->GetId());
+            OnClientConnected(event->GetId());
+        }
         break;
+        case AFNetEventType::DISCONNECTED:
+        {
+            ARK_LOG_INFO("Connection closed, id = {}", event->GetId());
+            OnClientDisconnect(event->GetId());
+        }
+        break;
+        default:
+            break;
     }
 }
 
@@ -210,8 +207,7 @@ void AFCProxyNetModule::OnClientDisconnect(const AFGUID& conn_id)
         {
             AFMsg::ReqLeaveGameServer xData;
             // send to game, notify actor leaving game
-            m_pMsgModule->SendParticularSSMsg(
-                pSessionData->game_id_, AFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, xData, 0, pSessionData->actor_id_);
+            m_pMsgModule->SendParticularSSMsg(pSessionData->game_id_, AFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, xData, 0, pSessionData->actor_id_);
         }
 
         client_connections_.erase(conn_id);
@@ -298,8 +294,7 @@ int AFCProxyNetModule::Transpond(const AFNetMsg* msg)
     return 0;
 }
 
-int AFCProxyNetModule::SendToPlayerClient(
-    const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientD, const AFGUID& nPlayer)
+int AFCProxyNetModule::SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientD, const AFGUID& nPlayer)
 {
     // m_N etServer->GetNet()->SenR awMsg(nMsgID, msg, nLen, nClientID, nPlayer);
 
@@ -345,19 +340,19 @@ int AFCProxyNetModule::EnterGameSuccessEvent(const AFGUID conn_id, const AFGUID 
 
 bool AFCProxyNetModule::CheckSessionState(const int nGameID, const AFGUID& xClientID, const std::string& strAccount)
 {
-    AFINetClientService* pWorldNetService = m_pNetServiceManagerModule->GetNetClientServiceByBusID(nGameID);
-    ARK_SHARE_PTR<AFConnectionData> pServerData = pWorldNetService->GetServerNetInfo(nGameID);
-    if (pServerData != nullptr && AFConnectionData::CONNECTED == pServerData->net_state_)
-    {
-        //数据匹配
-        ARK_SHARE_PTR<AFClientConnectionData> pSessionData = client_connections_.find_value(xClientID);
+    //AFINetClientService* pWorldNetService = m_pNetServiceManagerModule->GetNetClientServiceByBusID(nGameID);
+    //ARK_SHARE_PTR<AFConnectionData> pServerData = pWorldNetService->GetServerNetInfo(nGameID);
+    //if (pServerData != nullptr && AFConnectionData::CONNECTED == pServerData->net_state_)
+    //{
+    //    //数据匹配
+    //    ARK_SHARE_PTR<AFClientConnectionData> pSessionData = client_connections_.find_value(xClientID);
 
-        if (pSessionData != nullptr && pSessionData->logic_state_ > 0 && pSessionData->game_id_ == nGameID &&
-            pSessionData->account_ == strAccount)
-        {
-            return true;
-        }
-    }
+    //    if (pSessionData != nullptr && pSessionData->logic_state_ > 0 && pSessionData->game_id_ == nGameID &&
+    //        pSessionData->account_ == strAccount)
+    //    {
+    //        return true;
+    //    }
+    //}
 
     return false;
 }

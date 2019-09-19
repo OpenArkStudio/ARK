@@ -258,29 +258,28 @@ public:
         return true;
     }
 
-    static bool EntityToPBDataByFeature(
-        ARK_SHARE_PTR<AFIEntity> pEntity, AFFeatureType feature, AFMsg::pb_entity* pb_data)
+    static bool EntityToPBDataByMask(ARK_SHARE_PTR<AFIEntity> pEntity, AFMaskType feature, AFMsg::pb_entity* pb_data)
     {
         ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
 
         pb_data->set_id(pEntity->GetID());
 
-        NodeToPBDataByFeature(pEntity, feature, pb_data->mutable_data());
+        NodeToPBDataByMask(pEntity, feature, pb_data->mutable_data());
 
-        TableToPBDataByFeature(pEntity, feature, pb_data->mutable_data());
+        TableToPBDataByMask(pEntity, feature, pb_data->mutable_data());
 
         return true;
     }
 
     //node all to pb data
-    static bool NodeToPBDataByFeature(
-        ARK_SHARE_PTR<AFIEntity> pEntity, const AFFeatureType feature, AFMsg::pb_entity_data* pb_data)
+    static bool NodeToPBDataByMask(
+        ARK_SHARE_PTR<AFIEntity> pEntity, const AFMaskType mask, AFMsg::pb_entity_data* pb_data)
     {
         ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
 
         for (auto pNode = pEntity->FirstNode(); pNode != nullptr; pNode = pEntity->NextNode())
         {
-            auto result = (pNode->GetFeature() & feature);
+            auto result = (pNode->GetMask() & mask);
             if (!result.any())
             {
                 continue;
@@ -292,13 +291,13 @@ public:
         return true;
     }
 
-    static bool TableToPBDataByFeature(
-        ARK_SHARE_PTR<AFIEntity> pEntity, const AFFeatureType feature, AFMsg::pb_entity_data* pb_data)
+    static bool TableToPBDataByMask(
+        ARK_SHARE_PTR<AFIEntity> pEntity, const AFMaskType mask, AFMsg::pb_entity_data* pb_data)
     {
         ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
         for (AFITable* pTable = pEntity->FirstTable(); pTable != nullptr; pTable = pEntity->NextTable())
         {
-            auto result = (pTable->GetFeature() & feature);
+            auto result = (pTable->GetMask() & mask);
             if (!result.any())
             {
                 continue;

@@ -59,14 +59,14 @@ ArkDataType AFCTableInner::GetColType(const uint32_t index) const
     return table_meta_->GetColType(index);
 }
 
-const AFFeatureType AFCTableInner::GetFeature() const
+const AFMaskType AFCTableInner::GetMask() const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_INT);
 
     return table_meta_->GetFeature();
 }
 
-bool AFCTableInner::HaveFeature(const ArkTableNodeFeature feature) const
+bool AFCTableInner::HaveMask(const ArkTableNodeMask feature) const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, false);
 

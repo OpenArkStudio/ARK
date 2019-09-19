@@ -25,30 +25,30 @@
 #include "kernel/interface/AFIKernelModule.hpp"
 #include "kernel/interface/AFIConfigModule.hpp"
 #include "kernel/interface/AFIClassMetaModule.hpp"
-#include "game/interface/AFIPropertyModule.hpp"
+#include "game/interface/AFIAttributeModule.hpp"
 #include "game/interface/AFIPropertyConfigModule.hpp"
-#include "game/interface/AFIPropertyTrailModule.hpp"
+#include "game/interface/AFIDataTraceModule.hpp"
 
 namespace ark {
 
-class AFCPropertyTrailModule : public AFIPropertyTrailModule
+class AFCDataTraceModule : public AFIDataTraceModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
 
-    virtual void StartTrail(const AFGUID self);
-    virtual void EndTrail(const AFGUID self);
+    virtual void StartTracing(const AFGUID self);
+    virtual void EndTracing(const AFGUID self);
 
 protected:
     int LogObjectData(const AFGUID& self);
-    int TrailObjectData(const AFGUID& self);
+    int TraceEntityData(const AFGUID& self);
 
-    int OnObjectPropertyEvent(
+    int OnEntityNodeEvent(
         const AFGUID& self, const std::string& nodeName, const AFIData& oldVar, const AFIData& newVar);
 
     int OnEntityTableEvent(
-        const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
+        const AFGUID& self, const TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
 private:
     AFIKernelModule* m_pKernelModule;

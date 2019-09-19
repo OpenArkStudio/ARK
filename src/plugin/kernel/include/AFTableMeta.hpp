@@ -32,7 +32,7 @@ namespace ark {
 class AFTableMeta final
 {
 public:
-    using ColMetaList = AFNewSmartPtrMap<uint32_t, AFNodeMeta>;
+    using ColMetaList = AFSmartPtrMap<uint32_t, AFNodeMeta>;
 
     AFTableMeta() = delete;
 
@@ -83,39 +83,39 @@ public:
         return pMeta->GetType();
     }
 
-    const AFFeatureType GetFeature() const
+    const AFMaskType GetFeature() const
     {
         return feature_;
     }
 
-    bool HaveFeature(const ArkTableNodeFeature feature) const
+    bool HaveFeature(const ArkTableNodeMask feature) const
     {
         return feature_.test((size_t)feature);
     }
 
-    void SetFeature(const AFFeatureType& feature)
+    void SetMask(const AFMaskType& feature)
     {
         feature_ = feature;
     }
 
     bool IsPublic() const
     {
-        return feature_.test((size_t)ArkTableNodeFeature::PF_PUBLIC);
+        return feature_.test((size_t)ArkTableNodeMask::PF_PUBLIC);
     }
 
     bool IsPrivate() const
     {
-        return feature_.test((size_t)ArkTableNodeFeature::PF_PRIVATE);
+        return feature_.test((size_t)ArkTableNodeMask::PF_PRIVATE);
     }
 
     bool IsRealTime() const
     {
-        return feature_.test((size_t)ArkTableNodeFeature::PF_REAL_TIME);
+        return feature_.test((size_t)ArkTableNodeMask::PF_REAL_TIME);
     }
 
     bool IsSave() const
     {
-        return feature_.test((size_t)ArkTableNodeFeature::PF_SAVE);
+        return feature_.test((size_t)ArkTableNodeMask::PF_SAVE);
     }
 
     void SetTypeName(const std::string& value)
@@ -162,7 +162,7 @@ private:
     ColMetaList col_meta_list_;
 
     // feature type
-    AFFeatureType feature_;
+    AFMaskType feature_;
 };
 
 } // namespace ark

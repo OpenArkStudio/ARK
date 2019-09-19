@@ -29,7 +29,7 @@ namespace ark {
 class AFClassMetaManager final
 {
 public:
-    using ClassMetaList = AFNewSmartPtrHashmap<std::string, AFClassMeta>;
+    using ClassMetaList = AFSmartPtrHashmap<std::string, AFClassMeta>;
 
     AFClassMetaManager() = default;
     virtual ~AFClassMetaManager()

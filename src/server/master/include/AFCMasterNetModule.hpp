@@ -89,7 +89,7 @@ private:
     AFITimerModule* m_pTimerModule;
     AFIMsgModule* m_pMsgModule;
 
-    AFINetServerService* m_pNetServer{nullptr};
+    std::shared_ptr<AFINetServerService> m_pNetServer{nullptr};
 };
 
 } // namespace ark

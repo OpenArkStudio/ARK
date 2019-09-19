@@ -28,7 +28,7 @@ namespace ark {
 class AFStaticEntityManager final
 {
 public:
-    using StaticObjectList = AFNewSmartPtrMap<ID_TYPE, AFIStaticEntity>;
+    using StaticObjectList = AFSmartPtrMap<ID_TYPE, AFIStaticEntity>;
 
     AFStaticEntityManager() = default;
     virtual ~AFStaticEntityManager()

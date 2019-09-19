@@ -300,22 +300,22 @@ public:
             int pf_family = answer->ai_family;
             switch (pf_family)
             {
-            case PF_INET:
-            {
-                is_ip_v6 = false;
-                inet_ntop(AF_INET, &(((struct sockaddr_in*)(curr->ai_addr))->sin_addr), ip_v4, sizeof(ip_v4));
-                ip = ip_v4;
-            }
-            break;
-            case PF_INET6:
-            {
-                is_ip_v6 = true;
-                inet_ntop(AF_INET6, &(((struct sockaddr_in6*)(curr->ai_addr))->sin6_addr), ip_v6, sizeof(ip_v6));
-                ip = ip_v6;
-            }
-            break;
-            default:
+                case PF_INET:
+                {
+                    is_ip_v6 = false;
+                    inet_ntop(AF_INET, &(((struct sockaddr_in*)(curr->ai_addr))->sin_addr), ip_v4, sizeof(ip_v4));
+                    ip = ip_v4;
+                }
                 break;
+                case PF_INET6:
+                {
+                    is_ip_v6 = true;
+                    inet_ntop(AF_INET6, &(((struct sockaddr_in6*)(curr->ai_addr))->sin6_addr), ip_v6, sizeof(ip_v6));
+                    ip = ip_v6;
+                }
+                break;
+                default:
+                    break;
             }
         }
 
@@ -407,23 +407,23 @@ public:
             return AFEndpoint();
         }
 
-        std::string host(result[3].str());
-        bool need_intranet_ip = (host == "0.0.0.0" || host == "[::]") ? false : true; // check if we need intranet ip
+        //std::string host(result[3].str());
+        //bool need_intranet_ip = (host == "0.0.0.0" || host == "[::]") ? false : true; // check if we need intranet ip
 
-        bool is_ipv6{false};
-        std::string ip{};
-        if (!AFSocket::GetHost(need_intranet_ip, host, is_ipv6, ip))
-        {
-            ec = AFErrorCategory::MakeErrorCode(-3);
-            return AFEndpoint();
-        }
+        //bool is_ipv6{false};
+        //std::string ip{};
+        //if (!AFSocket::GetHost(need_intranet_ip, host, is_ipv6, ip))
+        //{
+        //    ec = AFErrorCategory::MakeErrorCode(-3);
+        //    return AFEndpoint();
+        //}
 
         AFEndpoint ep;
-        ep.SetIP(ip);
-        ep.SetPort(atoi(result[5].str().c_str()));
+        ep.SetIP(result[3].str());
+        ep.SetPort(ARK_LEXICAL_CAST<uint16_t>(result[5].str()));
         ep.SetProtocol(AFSocket::str2proto(result[2].str()));
         ep.SetPath(result[6].str());
-        ep.SetIsV6(is_ipv6);
+        ep.SetIsV6(false);
 
         return ep;
     }

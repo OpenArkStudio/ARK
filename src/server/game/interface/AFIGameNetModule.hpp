@@ -53,7 +53,7 @@ public:
         std::map<AFGUID, AFGUID> xRoleInfo;
     };
 
-    virtual AFINetServerService* GetNetServerService() = 0;
+    virtual std::shared_ptr<AFINetServerService> GetNetServerService() = 0;
     virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self) = 0;
     virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self) = 0;
     virtual bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID) = 0;

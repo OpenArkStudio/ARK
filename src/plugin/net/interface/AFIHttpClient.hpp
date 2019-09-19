@@ -22,6 +22,8 @@
 
 #include "base/AFPlatform.hpp"
 #include "proto/AFProtoCPP.hpp"
+//#include "ananas/future/Future.h"
+#include "var_future/future.h"
 
 namespace ark {
 
@@ -29,14 +31,16 @@ namespace ark {
 class AFIHttpClient
 {
 public:
+    virtual ~AFIHttpClient() = default;
+
     using HTTP_CALLBACK = std::function<void(const std::string&)>;
 
-    virtual void AsyncPost(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+    virtual aom::Future<bool> AsyncPost(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
         const std::string& post_data, HTTP_CALLBACK&& callback) = 0;
 
     // Response - the type pf response protobuf message
     template<typename Response>
-    void AsyncJsonPost(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+    aom::Future<bool> AsyncJsonPost(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
         const google::protobuf::Message& post_msg, std::function<void(const Response&)>&& callback)
     {
         std::string post_body;
@@ -66,12 +70,12 @@ public:
         });
     }
 
-    virtual void AsyncGet(
+    virtual aom::Future<std::string> AsyncGet(
         const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params, HTTP_CALLBACK&& callback) = 0;
 
     // Response - the type pf response protobuf message
     template<typename Response>
-    void AsyncJsonGet(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+    aom::Future<std::string> AsyncJsonGet(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
         std::function<void(const Response&)>&& callback)
     {
         AsyncGet(ip, port, url, params, [=](const std::string& response_body) {
@@ -99,7 +103,7 @@ public:
         });
     }
 
-    virtual void AsyncPut(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+    virtual aom::Future<bool> AsyncPut(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
         const std::string& put_data, HTTP_CALLBACK&& callback) = 0;
 
 protected:

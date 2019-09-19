@@ -44,7 +44,7 @@ public:
 
 private:
     // container
-    using ContainerList = AFNewSmartPtrMap<uint32_t, AFIContainer>;
+    using ContainerList = AFSmartPtrMap<uint32_t, AFIContainer>;
     ContainerList container_data_;
     ContainerList::const_iterator iter_;
 };

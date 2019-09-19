@@ -43,7 +43,7 @@ protected:
 private:
     //
     // different job, different PropertyID[Level->EffectData]
-    AFMapEx<int, AFMapEx<int, std::string>> mhtCoefficienData;
+    AFSmartPtrMap<int, AFSmartPtrMap<int, std::string>> mhtCoefficienData;
 
     AFIClassMetaModule* m_pClassModule;
     AFIConfigModule* m_pConfigModule;

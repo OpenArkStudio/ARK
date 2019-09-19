@@ -344,7 +344,8 @@ bool AFCKernelModule::AddClassCallBack(const std::string& class_name, CLASS_EVEN
     return m_pClassModule->AddClassCallBack(class_name, std::forward<CLASS_EVENT_FUNCTOR>(cb));
 }
 
-bool AFCKernelModule::AddDataCallBack(const std::string& class_name, const std::string& name, DATA_EVENT_FUNCTOR&& cb)
+bool AFCKernelModule::AddDataCallBack(
+    const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb)
 {
     auto pClassMeta = m_pClassModule->FindMeta(class_name);
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
@@ -355,12 +356,13 @@ bool AFCKernelModule::AddDataCallBack(const std::string& class_name, const std::
         return false;
     }
 
-    AddDataCallBack(class_name, index, std::forward<DATA_EVENT_FUNCTOR>(cb));
+    AddDataCallBack(class_name, index, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
 
     return true;
 }
 
-bool AFCKernelModule::AddTableCallBack(const std::string& class_name, const std::string& name, TABLE_EVENT_FUNCTOR&& cb)
+bool AFCKernelModule::AddTableCallBack(
+    const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb)
 {
     auto pClassMeta = m_pClassModule->FindMeta(class_name);
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
@@ -371,12 +373,12 @@ bool AFCKernelModule::AddTableCallBack(const std::string& class_name, const std:
         return false;
     }
 
-    AddTableCallBack(class_name, index, std::forward<TABLE_EVENT_FUNCTOR>(cb));
+    AddTableCallBack(class_name, index, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
 
     return true;
 }
 
-bool AFCKernelModule::AddDataCallBack(const std::string& class_name, const uint32_t index, DATA_EVENT_FUNCTOR&& cb)
+bool AFCKernelModule::AddDataCallBack(const std::string& class_name, const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb)
 {
     auto pClassMeta = m_pClassModule->FindMeta(class_name);
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
@@ -387,12 +389,13 @@ bool AFCKernelModule::AddDataCallBack(const std::string& class_name, const uint3
     auto pCallBack = pClassMeta->GetClassCallBackManager();
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
-    pCallBack->AddDataCallBack(index, std::forward<DATA_EVENT_FUNCTOR>(cb));
+    pCallBack->AddDataCallBack(index, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
 
     return true;
 }
 
-bool AFCKernelModule::AddTableCallBack(const std::string& class_name, const uint32_t index, TABLE_EVENT_FUNCTOR&& cb)
+bool AFCKernelModule::AddTableCallBack(
+    const std::string& class_name, const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb)
 {
     auto pClassMeta = m_pClassModule->FindMeta(class_name);
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
@@ -403,7 +406,7 @@ bool AFCKernelModule::AddTableCallBack(const std::string& class_name, const uint
     auto pCallBack = pClassMeta->GetClassCallBackManager();
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
-    pCallBack->AddTableCallBack(index, std::forward<TABLE_EVENT_FUNCTOR>(cb));
+    pCallBack->AddTableCallBack(index, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
 
     return true;
 }
@@ -430,7 +433,7 @@ bool AFCKernelModule::AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb)
     return true;
 }
 
-bool AFCKernelModule::AddCommonNodeEvent(DATA_EVENT_FUNCTOR&& cb)
+bool AFCKernelModule::AddCommonNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb)
 {
     auto& class_meta_list = m_pClassModule->GetMetaList();
     for (auto iter : class_meta_list)
@@ -449,14 +452,14 @@ bool AFCKernelModule::AddCommonNodeEvent(DATA_EVENT_FUNCTOR&& cb)
         auto& data_meta_list = pClassMeta->GetDataMetaList();
         for (auto iter_data : data_meta_list)
         {
-            AddDataCallBack(iter.first, iter_data.first, std::forward<DATA_EVENT_FUNCTOR>(cb));
+            AddDataCallBack(iter.first, iter_data.first, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
         }
     }
 
     return true;
 }
 
-bool AFCKernelModule::AddCommonTableEvent(TABLE_EVENT_FUNCTOR&& cb)
+bool AFCKernelModule::AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb)
 {
     auto& class_meta_list = m_pClassModule->GetMetaList();
     for (auto iter : class_meta_list)
@@ -475,7 +478,7 @@ bool AFCKernelModule::AddCommonTableEvent(TABLE_EVENT_FUNCTOR&& cb)
         auto& table_meta_list = pClassMeta->GetTableMetaList();
         for (auto iter_data : table_meta_list)
         {
-            AddTableCallBack(iter.first, iter_data.first, std::forward<TABLE_EVENT_FUNCTOR>(cb));
+            AddTableCallBack(iter.first, iter_data.first, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
         }
     }
 
@@ -556,7 +559,7 @@ bool AFCKernelModule::EntityToDBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb
     // node to db
     for (auto pNode = pEntity->FirstNode(); pNode != nullptr; pNode = pEntity->NextNode())
     {
-        if (!pNode->HaveFeature(AFNodeFeature::PF_SAVE))
+        if (!pNode->HaveMask(ArkNodeMask::PF_SAVE))
         {
             continue;
         }
@@ -567,7 +570,7 @@ bool AFCKernelModule::EntityToDBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb
     // table to db
     for (auto pTable = pEntity->FirstTable(); pTable != nullptr; pTable = pEntity->NextTable())
     {
-        if (!pTable->HaveFeature(ArkTableNodeFeature::PF_SAVE))
+        if (!pTable->HaveMask(ArkTableNodeMask::PF_SAVE))
         {
             continue;
         }

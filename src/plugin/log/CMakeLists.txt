@@ -1,9 +1,10 @@
 if(WIN32)
-    if (_type STREQUAL debug)
-        BUILD_PLUGIN_MACRO(AFLogPlugin AFProto brynetd.lib libprotobufd.lib)
-    else()
-        BUILD_PLUGIN_MACRO(AFLogPlugin AFProto brynet.lib libprotobuf.lib)
-    endif()
+    BUILD_PLUGIN_MACRO(AFLogPlugin
+        debug AFProto_d.lib
+        debug libprotobufd.lib
+        
+        optimized AFProto.lib
+        optimized libprotobuf.lib)
 else(UNIX)
     BUILD_PLUGIN_MACRO(AFLogPlugin protobuf)
 endif()

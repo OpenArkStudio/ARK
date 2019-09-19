@@ -47,7 +47,7 @@ private:
     spdlogger dev_logger_{nullptr};
     spd_threadpool dev_tp_{nullptr};
 
-    // AFNewSmartPtrMap<std::string, spdlog::async_logger> test_loggers_;
+    // AFSmartPtrMap<std::string, spdlog::async_logger> test_loggers_;
     std::map<std::string, spdlogger> oss_loggers_;
     spd_threadpool oss_tp_{nullptr};
 };

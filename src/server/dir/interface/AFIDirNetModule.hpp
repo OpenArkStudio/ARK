@@ -29,7 +29,7 @@ class AFINetServerService;
 class AFIDirNetModule : public AFIModule
 {
 public:
-    virtual AFINetServerService* GetNetServer() = 0;
+    virtual std::shared_ptr<AFINetServerService> GetNetServer() = 0;
 };
 
 } // namespace ark

@@ -43,7 +43,7 @@ public:
         return true;
     }
 
-    bool AddDataCallBack(const uint32_t index, DATA_EVENT_FUNCTOR&& cb)
+    bool AddDataCallBack(const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb)
     {
         auto iter = data_call_backs_list_.find(index);
         if (iter == data_call_backs_list_.end())
@@ -51,7 +51,7 @@ public:
             DataCallBacks* pDataCBs = ARK_NEW DataCallBacks;
             ARK_ASSERT_RET_VAL(pDataCBs != nullptr, false);
 
-            pDataCBs->push_back(std::forward<DATA_EVENT_FUNCTOR>(cb));
+            pDataCBs->push_back(std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
             data_call_backs_list_.insert(index, pDataCBs);
         }
         else
@@ -62,7 +62,7 @@ public:
         return true;
     }
 
-    bool AddTableCallBack(const uint32_t index, TABLE_EVENT_FUNCTOR&& cb)
+    bool AddTableCallBack(const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb)
     {
         auto iter = table_call_backs_list_.find(index);
         if (iter == table_call_backs_list_.end())
@@ -70,7 +70,7 @@ public:
             TableCallBacks* pTableCBs = ARK_NEW TableCallBacks;
             ARK_ASSERT_RET_VAL(pTableCBs != nullptr, false);
 
-            pTableCBs->push_back(std::forward<TABLE_EVENT_FUNCTOR>(cb));
+            pTableCBs->push_back(std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
             table_call_backs_list_.insert(index, pTableCBs);
         }
         else
@@ -131,12 +131,12 @@ private:
     AFList<CLASS_EVENT_FUNCTOR> class_events_;
 
     // data call backs list
-    using DataCallBacks = std::vector<DATA_EVENT_FUNCTOR>;
-    AFNewHashmap<uint32_t, DataCallBacks> data_call_backs_list_;
+    using DataCallBacks = std::vector<DATA_NODE_EVENT_FUNCTOR>;
+    AFHashmap<uint32_t, DataCallBacks> data_call_backs_list_;
 
     // table call backs list
-    using TableCallBacks = std::vector<TABLE_EVENT_FUNCTOR>;
-    AFNewHashmap<uint32_t, TableCallBacks> table_call_backs_list_;
+    using TableCallBacks = std::vector<DATA_TABLE_EVENT_FUNCTOR>;
+    AFHashmap<uint32_t, TableCallBacks> table_call_backs_list_;
 };
 
 } // namespace ark

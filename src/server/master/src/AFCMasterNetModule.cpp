@@ -51,44 +51,47 @@ bool AFCMasterNetModule::PostInit()
 
 int AFCMasterNetModule::StartServer()
 {
-    int ret = m_pNetServiceManagerModule->CreateServer();
-    if (ret != 0)
-    {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        ARK_ASSERT_NO_EFFECT(0);
-        return ret;
-    }
+    auto ret = m_pNetServiceManagerModule->CreateServer();
+    ret.Then([=](const std::pair<bool, std::string>& resp) {
+        if (!resp.first)
+        {
+            ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), resp.second);
+            ARK_ASSERT_NO_EFFECT(0);
+            exit(0);
+        }
+        else
+        {
+            m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
+            if (m_pNetServer == nullptr)
+            {
+                ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+                exit(0);
+            }
 
-    m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
-    if (m_pNetServer == nullptr)
-    {
-        ret = -3;
-        ARK_LOG_ERROR("Cannot find server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        return ret;
-    }
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCMasterNetServerModule::OnHeartBeat);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_MTL_WORLD_REGISTERED, this,
+            // &AFCMasterNetServerModule::OnWorldRegisteredProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_MTL_WORLD_UNREGISTERED, this,
+            // &AFCMasterNetServerModule::OnWorldUnRegisteredProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_MTL_WORLD_REFRESH, this,
+            // &AFCMasterNetServerModule::OnRefreshWorldInfoProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_LTM_LOGIN_REGISTERED, this,
+            // &AFCMasterNetServerModule::OnLoginRegisteredProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_LTM_LOGIN_UNREGISTERED, this,
+            // &AFCMasterNetServerModule::OnLoginUnRegisteredProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_LTM_LOGIN_REFRESH, this,
+            // &AFCMasterNetServerModule::OnRefreshLoginInfoProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this,
+            // &AFCMasterNetServerModule::OnSelectWorldProcess); m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_CONNECT_WORLD,
+            // this, &AFCMasterNetServerModule::OnSelectServerResultProcess);
 
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCMasterNetServerModule::OnHeartBeat);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_MTL_WORLD_REGISTERED, this,
-    // &AFCMasterNetServerModule::OnWorldRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_MTL_WORLD_UNREGISTERED, this,
-    // &AFCMasterNetServerModule::OnWorldUnRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_MTL_WORLD_REFRESH, this,
-    // &AFCMasterNetServerModule::OnRefreshWorldInfoProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_LTM_LOGIN_REGISTERED, this,
-    // &AFCMasterNetServerModule::OnLoginRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_LTM_LOGIN_UNREGISTERED, this,
-    // &AFCMasterNetServerModule::OnLoginUnRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_LTM_LOGIN_REFRESH, this,
-    // &AFCMasterNetServerModule::OnRefreshLoginInfoProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this,
-    // &AFCMasterNetServerModule::OnSelectWorldProcess); m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_CONNECT_WORLD,
-    // this, &AFCMasterNetServerModule::OnSelectServerResultProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::E_SS_MSG_ID_SERVER_REPORT, this, &AFCMasterNetServerModule::OnServerReport);
 
-    // m_pNetServer->RegMsgCallback(AFMsg::E_SS_MSG_ID_SERVER_REPORT, this, &AFCMasterNetServerModule::OnServerReport);
+            // m_pNetServer->RegMsgCallback(this, &AFCMasterNetServerModule::InvalidMessage);
 
-    // m_pNetServer->RegMsgCallback(this, &AFCMasterNetServerModule::InvalidMessage);
-
-    // m_pNetServer->AddEventCallBack(this, &AFCMasterNetServerModule::OnSocketEvent);
+            // m_pNetServer->AddEventCallBack(this, &AFCMasterNetServerModule::OnSocketEvent);
+        }
+    });
 
     return 0;
 }
@@ -117,7 +120,7 @@ int AFCMasterNetModule::StartServer()
 
 // void AFCMasterNetServerModule::OnClientConnected(const AFGUID& conn_id)
 //{
-//    //连接上来啥都不做
+//
 //}
 
 // void AFCMasterNetServerModule::OnClientDisconnect(int bus_id, const AFGUID& conn_id)

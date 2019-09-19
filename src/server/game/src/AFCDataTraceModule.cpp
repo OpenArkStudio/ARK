@@ -21,11 +21,11 @@
 #include "kernel/include/AFCDataList.hpp"
 #include "kernel/include/AFCNode.hpp"
 #include "kernel/include/AFCTableInner.hpp"
-#include "game/include/AFCPropertyTrailModule.hpp"
+#include "game/include/AFCDataTraceModule.hpp"
 
 namespace ark {
 
-bool AFCPropertyTrailModule::Init()
+bool AFCDataTraceModule::Init()
 {
     m_pKernelModule = FindModule<AFIKernelModule>();
     m_pConfigModule = FindModule<AFIConfigModule>();
@@ -35,31 +35,31 @@ bool AFCPropertyTrailModule::Init()
     return true;
 }
 
-void AFCPropertyTrailModule::StartTrail(const AFGUID self)
+void AFCDataTraceModule::StartTracing(const AFGUID self)
 {
     LogObjectData(self);
 }
 
-void AFCPropertyTrailModule::EndTrail(const AFGUID self)
+void AFCDataTraceModule::EndTracing(const AFGUID self)
 {
     // Will complete this
 }
 
-int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
+int AFCDataTraceModule::LogObjectData(const AFGUID& self)
 {
-    ARK_SHARE_PTR<AFIEntity> xEntity = m_pKernelModule->GetEntity(self);
+    auto entity = m_pKernelModule->GetEntity(self);
 
-    if (nullptr == xEntity)
+    if (entity == nullptr)
     {
         return -1;
     }
 
-    for (auto pData = xEntity->FirstNode(); pData != nullptr; pData = xEntity->NextNode())
+    for (auto pData = entity->FirstNode(); pData != nullptr; pData = entity->NextNode())
     {
         ARK_LOG_TRACE("Player[{}] Node[{}] Value[{}]", self, pData->GetName(), pData->ToString());
     }
 
-    for (auto pTable = xEntity->FirstTable(); pTable != nullptr; pTable = xEntity->NextTable())
+    for (auto pTable = entity->FirstTable(); pTable != nullptr; pTable = entity->NextTable())
     {
 		for (auto pRow = pTable->First(); pRow != nullptr; pRow = pTable->Next())
 		{
@@ -73,21 +73,21 @@ int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
     return 0;
 }
 
-int AFCPropertyTrailModule::OnObjectPropertyEvent(
+int AFCDataTraceModule::OnEntityNodeEvent(
     const AFGUID& self, const std::string& nodeName, const AFIData& oldVar, const AFIData& newVar)
 {
     ARK_LOG_INFO("Trace id[{}] Name[{}] Old[{}] New[{}]", self, nodeName, oldVar.GetString(), newVar.GetString());
     return 0;
 }
 
-int AFCPropertyTrailModule::OnEntityTableEvent(
-    const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
+int AFCDataTraceModule::OnEntityTableEvent(
+    const AFGUID& self, const TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
     // will add
     return 0;
 }
 
-int AFCPropertyTrailModule::TrailObjectData(const AFGUID& self)
+int AFCDataTraceModule::TraceEntityData(const AFGUID& self)
 {
     // will add
     return 0;

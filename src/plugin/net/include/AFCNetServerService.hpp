@@ -35,22 +35,21 @@ public:
     explicit AFCNetServerService(AFPluginManager* p);
     ~AFCNetServerService() override;
 
-    bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count,
-        const uint32_t max_connection) override;
+    bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) override;
     bool Update() override;
 
     AFINet* GetNet() override;
 
-    bool RegMsgCallback(const int msg_id, const NET_MSG_FUNCTOR_PTR& cb) override;
-    bool RegForwardMsgCallback(const NET_MSG_FUNCTOR_PTR& cb) override;
-    bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) override;
+    bool RegMsgCallback(const int msg_id, NET_MSG_FUNCTOR&& cb) override;
+    bool RegForwardMsgCallback(NET_MSG_FUNCTOR&& cb) override;
+    bool RegNetEventCallback(NET_EVENT_FUNCTOR&& cb) override;
 
 protected:
     void OnNetMsg(const AFNetMsg* msg, const int64_t session_id);
     void OnNetEvent(const AFNetEvent* event);
 
-    void OnClientRegister(const AFNetMsg* msg, const int64_t session_id);
-    void SyncToAllClient(const int bus_id, const AFGUID& session_id);
+    //void OnClientRegister(const AFNetMsg* msg, const int64_t session_id);
+    //void SyncToAllClient(const int bus_id, const AFGUID& session_id);
 
 private:
     AFPluginManager* m_pPluginManager;
@@ -60,11 +59,11 @@ private:
 
     AFINet* m_pNet{nullptr};
 
-    std::map<int, NET_MSG_FUNCTOR_PTR> net_msg_callbacks_;
-    std::list<NET_MSG_FUNCTOR_PTR> net_forward_msg_callbacks_;
-    std::list<NET_EVENT_FUNCTOR_PTR> net_event_callbacks_;
+    std::map<int, NET_MSG_FUNCTOR> net_msg_callbacks_;
+    std::list<NET_MSG_FUNCTOR> net_forward_msg_callbacks_;
+    std::list<NET_EVENT_FUNCTOR> net_event_callbacks_;
 
-    AFMapEx<int, AFServerData> reg_clients_;
+    //AFMapEx<int, AFServerData> reg_clients_;
 };
 
 } // namespace ark

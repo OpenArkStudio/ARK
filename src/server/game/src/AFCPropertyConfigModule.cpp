@@ -38,13 +38,13 @@ bool AFCPropertyConfigModule::PostInit()
 
 int AFCPropertyConfigModule::CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty)
 {
-    ARK_SHARE_PTR<AFMapEx<int, std::string>> xPropertyMap = mhtCoefficienData.find_value(nJob);
+    auto xPropertyMap = mhtCoefficienData.find_value(nJob);
 
     if (xPropertyMap != nullptr)
     {
-        ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->find_value(nLevel);
+        auto xRefPropertyIDName = xPropertyMap->find_value(nLevel);
 
-        if (xRefPropertyIDName)
+        if (xRefPropertyIDName != nullptr)
         {
             //auto pConfig = m_pConfigModule->FindStaticEntity(*xRefPropertyIDName);
             //return pConfig->GetInt32(strProperty);
@@ -95,10 +95,10 @@ void AFCPropertyConfigModule::Load()
 
 bool AFCPropertyConfigModule::LegalLevel(const int nJob, const int nLevel)
 {
-    ARK_SHARE_PTR<AFMapEx<int, std::string>> xPropertyMap = mhtCoefficienData.find_value(nJob);
+    auto xPropertyMap = mhtCoefficienData.find_value(nJob);
     if (xPropertyMap != nullptr)
     {
-        ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->find_value(nLevel);
+        auto xRefPropertyIDName = xPropertyMap->find_value(nLevel);
 
         if (xRefPropertyIDName != nullptr)
         {

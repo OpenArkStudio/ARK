@@ -3,5 +3,5 @@
 		<plugin name="AFUtilityPlugin" />
 		<plugin name="AFLogPlugin" />
 	</plugins>
-	<res path="../resource/" />
+	<res path="resource/" />
 </xml>

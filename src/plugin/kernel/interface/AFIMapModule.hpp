@@ -23,8 +23,8 @@
 #include "base/AFList.hpp"
 #include "base/AFMap.hpp"
 #include "base/AFVector3D.hpp"
-#include "kernel/interface/AFIDataList.hpp"
 #include "interface/AFIModule.hpp"
+#include "kernel/interface/AFIDataList.hpp"
 
 namespace ark {
 
@@ -37,8 +37,8 @@ public:
     {
     }
 
-    AFMapEx<AFGUID, bool> player_entities_;
-    AFMapEx<AFGUID, bool> other_entities_;
+    AFSmartPtrMap<AFGUID, bool> player_entities_;
+    AFSmartPtrMap<AFGUID, bool> other_entities_;
     int inst_id_;
 };
 
@@ -58,10 +58,7 @@ public:
     {
     }
 
-    virtual ~AFMapInfo()
-    {
-        map_instances_.clear();
-    }
+    virtual ~AFMapInfo() = default;
 
     int CreateInstanceID()
     {
@@ -83,7 +80,7 @@ public:
         return (map_instances_.find_value(inst_id) != nullptr);
     }
 
-    AFMapEx<int, AFMapInstance>& GetAllInstance()
+    AFSmartPtrMap<int, AFMapInstance>& GetAllInstance()
     {
         return map_instances_;
     }
@@ -143,7 +140,7 @@ private:
     int instance_id_;
     int map_id_;
     int width_; // will separate the grid
-    AFMapEx<int, AFMapInstance> map_instances_;
+    AFSmartPtrMap<int, AFMapInstance> map_instances_;
 };
 
 class AFIMapModule : public AFIModule

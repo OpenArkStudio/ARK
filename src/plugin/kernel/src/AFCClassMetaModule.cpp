@@ -59,7 +59,7 @@ bool AFCClassMetaModule::Load()
 
 bool AFCClassMetaModule::LoadConfig()
 {
-    std::string file_path = GetPluginManager()->GetResPath() + config_class_file;
+    std::string file_path = GetPluginManager()->GetResPath() + CONFIG_CLASS_FILE_PATH;
 
     ARK_LOG_INFO("Load config class files: {}", file_path);
 
@@ -126,7 +126,7 @@ bool AFCClassMetaModule::LoadConfigMeta(const std::string& schema_path, ARK_SHAR
 
 bool AFCClassMetaModule::LoadEntity()
 {
-    std::string file_path = GetPluginManager()->GetResPath() + entity_class_file;
+    std::string file_path = GetPluginManager()->GetResPath() + ENTITY_CLASS_FILE_PATH;
 
     ARK_LOG_INFO("Load entity class files: {}", file_path);
 
@@ -208,13 +208,13 @@ bool AFCClassMetaModule::LoadEntityMeta(const std::string& schema_path)
 
             pTableMeta->SetTypeName(type_class);
 
-            AFFeatureType feature;
-            feature[(size_t)ArkTableNodeFeature::PF_PUBLIC] = (feature_sync_view > 0 ? 1 : 0);
-            feature[(size_t)ArkTableNodeFeature::PF_PRIVATE] = (feature_sync_self > 0 ? 1 : 0);
-            feature[(size_t)ArkTableNodeFeature::PF_SAVE] = (feature_save > 0 ? 1 : 0);
-            feature[(size_t)ArkTableNodeFeature::PF_REAL_TIME] = (feature_real_time > 0 ? 1 : 0);
+            AFMaskType mask;
+            mask[(size_t)ArkTableNodeMask::PF_PUBLIC] = (feature_sync_view > 0 ? 1 : 0);
+            mask[(size_t)ArkTableNodeMask::PF_PRIVATE] = (feature_sync_self > 0 ? 1 : 0);
+            mask[(size_t)ArkTableNodeMask::PF_SAVE] = (feature_save > 0 ? 1 : 0);
+            mask[(size_t)ArkTableNodeMask::PF_REAL_TIME] = (feature_real_time > 0 ? 1 : 0);
 
-            pTableMeta->SetFeature(feature);
+            pTableMeta->SetMask(mask);
 
             // m_pClassMetaManager->AddTypeClassMeta(type_class);
         }
@@ -224,12 +224,12 @@ bool AFCClassMetaModule::LoadEntityMeta(const std::string& schema_path)
             auto pDataMeta = pClassMeta->CreateDataMeta(data_name, index);
             ARK_ASSERT_RET_VAL(pDataMeta != nullptr, false);
 
-            AFFeatureType feature;
-            feature[(size_t)AFNodeFeature::PF_PUBLIC] = (feature_sync_view > 0 ? 1 : 0);
-            feature[(size_t)AFNodeFeature::PF_PRIVATE] = (feature_sync_self > 0 ? 1 : 0);
-            feature[(size_t)AFNodeFeature::PF_SAVE] = (feature_save > 0 ? 1 : 0);
-            feature[(size_t)AFNodeFeature::PF_REAL_TIME] = (feature_real_time > 0 ? 1 : 0);
-            pDataMeta->SetFeature(feature);
+            AFMaskType mask;
+            mask[(size_t)ArkNodeMask::PF_PUBLIC] = (feature_sync_view > 0 ? 1 : 0);
+            mask[(size_t)ArkNodeMask::PF_PRIVATE] = (feature_sync_self > 0 ? 1 : 0);
+            mask[(size_t)ArkNodeMask::PF_SAVE] = (feature_save > 0 ? 1 : 0);
+            mask[(size_t)ArkNodeMask::PF_REAL_TIME] = (feature_real_time > 0 ? 1 : 0);
+            pDataMeta->SetMask(mask);
 
             pDataMeta->SetType(data_type);
         }

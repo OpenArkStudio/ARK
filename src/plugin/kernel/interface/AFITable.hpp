@@ -92,8 +92,8 @@ public:
     virtual const std::string& GetName() const = 0;
     virtual uint32_t GetColCount() const = 0;
     virtual ArkDataType GetColType(const uint32_t index) const = 0;
-    virtual const AFFeatureType GetFeature() const = 0;
-    virtual bool HaveFeature(const ArkTableNodeFeature feature) const = 0;
+    virtual const AFMaskType GetMask() const = 0;
+    virtual bool HaveMask(const ArkTableNodeMask feature) const = 0;
     virtual bool IsPublic() const = 0;
     virtual bool IsPrivate() const = 0;
     virtual bool IsRealTime() const = 0;

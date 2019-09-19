@@ -33,69 +33,66 @@ bool AFCRouterNetModule::Init()
 
 bool AFCRouterNetModule::PostInit()
 {
-    int ret = StartServer();
-    if (ret != 0)
-    {
-        exit(0);
-        return false;
-    }
-
+    StartServer();
     return true;
 }
 
 int AFCRouterNetModule::StartServer()
 {
-    int ret = m_pNetServiceManagerModule->CreateServer();
-    if (ret != 0)
-    {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        ARK_ASSERT_NO_EFFECT(0);
-        return ret;
-    }
+    auto ret = m_pNetServiceManagerModule->CreateServer();
+    ret.Then([=](const std::pair<bool, std::string>& resp) {
+        if (!resp.first)
+        {
+            ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), resp.second);
+            ARK_ASSERT_NO_EFFECT(0);
+            exit(0);
+        }
+        else
+        {
+            m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
+            if (m_pNetServer == nullptr)
+            {
+                ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+                exit(0);
+            }
 
-    m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
-    if (m_pNetServer == nullptr)
-    {
-        ret = -3;
-        ARK_LOG_ERROR("Cannot find server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        return ret;
-    }
-
-    // add msg process
-
-    return 0;
-}
-
-bool AFCRouterNetModule::PreUpdate()
-{
-    int ret = StartClient();
-    return (ret == 0);
-}
-
-int AFCRouterNetModule::StartClient()
-{
-    //创建所有与对端链接的client
-    int ret = m_pNetServiceManagerModule->CreateClusterClients();
-    if (ret != 0)
-    {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        ARK_ASSERT_NO_EFFECT(0);
-        return ret;
-    }
-
-    AFINetClientService* pNetClientWorld =
-        m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
-    if (pNetClientWorld == nullptr)
-    {
-        return 0;
-    }
-
-    // add msg process
+            // add msg process
+        }
+    });
 
     return 0;
 }
+//
+//bool AFCRouterNetModule::PreUpdate()
+//{
+//    int ret = StartClient();
+//    return (ret == 0);
+//}
+//
+//int AFCRouterNetModule::StartClient()
+//{
+//    //创建所有与对端链接的client
+//    int ret = m_pNetServiceManagerModule->CreateClusterClients();
+//    if (ret != 0)
+//    {
+//        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
+//        ARK_ASSERT_NO_EFFECT(0);
+//        return ret;
+//    }
+//
+//    AFINetClientService* pNetClientWorld =
+//        m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
+//    if (pNetClientWorld == nullptr)
+//    {
+//        return 0;
+//    }
+//
+//    // add msg process
+//
+//    return 0;
+//}
 
-AFINetServerService* AFCRouterNetModule::GetNetServer()
+std::shared_ptr<AFINetServerService> AFCRouterNetModule::GetNetServer()
 {
     return m_pNetServer;
 }

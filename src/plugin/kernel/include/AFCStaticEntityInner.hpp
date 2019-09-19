@@ -28,7 +28,7 @@ namespace ark {
 class AFCStaticEntityInner final : public AFIStaticEntityInner
 {
 public:
-    using TableList = AFNewMap<uint32_t, AFITable>;
+    using TableList = AFMap<uint32_t, AFITable>;
 
     AFCStaticEntityInner() = delete;
 

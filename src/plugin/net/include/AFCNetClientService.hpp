@@ -45,16 +45,16 @@ public:
     void Update() override;
     void Shutdown() override;
 
-    bool RegMsgCallback(const int msg_id, const NET_MSG_FUNCTOR_PTR& cb) override;
-    bool RegForwardMsgCallback(const NET_MSG_FUNCTOR_PTR& cb) override;
-    bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) override;
+    bool RegMsgCallback(const int msg_id, const NET_MSG_FUNCTOR&& cb) override;
+    bool RegForwardMsgCallback(const NET_MSG_FUNCTOR&& cb) override;
+    bool RegNetEventCallback(const NET_EVENT_FUNCTOR&& cb) override;
 
-    ARK_SHARE_PTR<AFConnectionData> GetServerNetInfo(const int nServerID) override;
-    AFMapEx<int, AFConnectionData>& GetServerList() override;
+    ARK_SHARE_PTR<AFConnectionData> GetConnectionInfo(const int bus_id) override;
+    //AFMapEx<int, AFConnectionData>& GetServerList() override;
 
 protected:
     void ProcessUpdate();
-    void ProcessAddNewNetClient();
+    void ProcessAddConnection();
 
     AFINet* CreateNet(const proto_type proto);
 
@@ -66,10 +66,12 @@ protected:
     void OnNetEvent(const AFNetEvent* event);
 
     void KeepReport(ARK_SHARE_PTR<AFConnectionData>& connection_data)
-    { /*Will add*/
+    {
+        // TODO
     }
     void LogServerInfo(const std::string& strServerInfo)
-    { /*Will add*/
+    {
+        // TODO
     }
 
     void LogServerInfo();
@@ -80,9 +82,6 @@ protected:
 
     void RemoveServerWeightData(ARK_SHARE_PTR<AFConnectionData>& xInfo);
 
-    //// recv other server infos
-    //void OnServerNotify(const AFNetMsg* msg, const int64_t session_id);
-
 private:
     AFPluginManager* m_pPluginManager;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
@@ -90,20 +89,20 @@ private:
     AFIMsgModule* m_pMsgModule;
     AFILogModule* m_pLogModule;
 
-    AFMapEx<int, AFConnectionData> target_servers_;
-    AFMap<int, AFINet> bus_to_net_;
+    // Connected connections(may the ConnectState is different)
+    AFSmartPtrMap<int, AFConnectionData> real_connections_;
+    //AFMap<int, AFINet> bus_to_net_; // TODO: check if delete
 
+    // TODO: change to AFConsistentHashmap
     AFCConsistentHash consistent_hashmap_;
 
-    std::list<AFConnectionData> tmp_nets_;
+    std::list<AFConnectionData> tmp_connections_;
 
-    std::map<int, NET_MSG_FUNCTOR_PTR> net_msg_callbacks_;
-    std::list<NET_EVENT_FUNCTOR_PTR> net_event_callbacks_;
+    std::map<int, NET_MSG_FUNCTOR> net_msg_callbacks_;
+    std::list<NET_EVENT_FUNCTOR> net_event_callbacks_;
 
     // [NOT USE now] - forward to other processes
-    std::list<NET_MSG_FUNCTOR_PTR> net_msg_forward_callbacks_;
-
-    std::map<int, std::map<int, AFMsg::msg_ss_server_report>> reg_servers_;
+    std::list<NET_MSG_FUNCTOR> net_msg_forward_callbacks_;
 };
 
 } // namespace ark

@@ -23,14 +23,6 @@
 #include "base/AFPlatform.hpp"
 #include "spdlog/fmt/fmt.h"
 
-#ifdef min
-#undef min
-#endif // min
-
-#ifdef max
-#undef max
-#endif // max
-
 // Input param type
 #ifndef IN
 #define IN
@@ -134,17 +126,17 @@ static size_t strlcpy(char* dst, const char* src, size_t siz)
 #define ARK_STRICMP _stricmp
 #define ARK_SLEEP(s) Sleep(s)
 #define ARK_STRNCPY strlcpy
-#define ARK_ASSERT(exp_, msg_, file_, func_)                                                                           \
-    do                                                                                                                 \
-    {                                                                                                                  \
-        if (!(exp_))                                                                                                   \
-        {                                                                                                              \
-            std::string strInfo("Message:");                                                                           \
-            strInfo += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") +                 \
-                       std::string(file_) + std::string("\n Function:") + func_;                                       \
-            MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_" #exp_), MB_RETRYCANCEL | MB_ICONERROR);                 \
-        }                                                                                                              \
-        assert(exp_);                                                                                                  \
+#define ARK_ASSERT(exp_, msg_, file_, func_)                                                                                                                   \
+    do                                                                                                                                                         \
+    {                                                                                                                                                          \
+        if (!(exp_))                                                                                                                                           \
+        {                                                                                                                                                      \
+            std::string strInfo("Message:");                                                                                                                   \
+            strInfo +=                                                                                                                                         \
+                msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") + std::string(file_) + std::string("\n Function:") + func_;      \
+            MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_" #exp_), MB_RETRYCANCEL | MB_ICONERROR);                                                         \
+        }                                                                                                                                                      \
+        assert(exp_);                                                                                                                                          \
     } while (false);
 
 #define ARK_EXPORT_FUNC extern "C" __declspec(dllexport)
@@ -169,12 +161,12 @@ typedef struct HINSTANCE__* hInstance;
 #define ARK_STRICMP strcasecmp
 #define ARK_SLEEP(s) usleep(s * 1000)
 #define ARK_STRNCPY strlcpy
-#define ARK_ASSERT(exp_, msg_, file_, func_)                                                                           \
-    do                                                                                                                 \
-    {                                                                                                                  \
-        if ((exp_))                                                                                                    \
-            break;                                                                                                     \
-        assert(exp_);                                                                                                  \
+#define ARK_ASSERT(exp_, msg_, file_, func_)                                                                                                                   \
+    do                                                                                                                                                         \
+    {                                                                                                                                                          \
+        if ((exp_))                                                                                                                                            \
+            break;                                                                                                                                             \
+        assert(exp_);                                                                                                                                          \
     } while (0);
 
 #define ARK_EXPORT_FUNC extern "C" __attribute((visibility("default")))
@@ -198,58 +190,58 @@ typedef struct HINSTANCE__* hInstance;
 
 #endif
 
-#define ARK_ASSERT_RET_VAL(exp_, val)                                                                                  \
-    do                                                                                                                 \
-    {                                                                                                                  \
-        if ((exp_))                                                                                                    \
-            break;                                                                                                     \
-        assert(exp_);                                                                                                  \
-        return val;                                                                                                    \
+#define ARK_ASSERT_RET_VAL(exp_, val)                                                                                                                          \
+    do                                                                                                                                                         \
+    {                                                                                                                                                          \
+        if ((exp_))                                                                                                                                            \
+            break;                                                                                                                                             \
+        assert(exp_);                                                                                                                                          \
+        return val;                                                                                                                                            \
     } while (false);
 
-#define ARK_ASSERT_RET_VAL_NO_EFFECT(exp_, val)                                                                        \
-    do                                                                                                                 \
-    {                                                                                                                  \
-        if ((exp_))                                                                                                    \
-            break;                                                                                                     \
-        return val;                                                                                                    \
+#define ARK_ASSERT_RET_VAL_NO_EFFECT(exp_, val)                                                                                                                \
+    do                                                                                                                                                         \
+    {                                                                                                                                                          \
+        if ((exp_))                                                                                                                                            \
+            break;                                                                                                                                             \
+        return val;                                                                                                                                            \
     } while (false);
 
-#define ARK_ASSERT_BREAK(exp_)                                                                                         \
-    if (!(exp_))                                                                                                       \
-    {                                                                                                                  \
-        assert(exp_);                                                                                                  \
-        break;                                                                                                         \
-    }                                                                                                                  \
-    else                                                                                                               \
-    {                                                                                                                  \
+#define ARK_ASSERT_BREAK(exp_)                                                                                                                                 \
+    if (!(exp_))                                                                                                                                               \
+    {                                                                                                                                                          \
+        assert(exp_);                                                                                                                                          \
+        break;                                                                                                                                                 \
+    }                                                                                                                                                          \
+    else                                                                                                                                                       \
+    {                                                                                                                                                          \
     }
 
-#define ARK_ASSERT_CONTINUE(exp_)                                                                                      \
-    if (!(exp_))                                                                                                       \
-    {                                                                                                                  \
-        assert(exp_);                                                                                                  \
-        continue;                                                                                                      \
-    }                                                                                                                  \
-    else                                                                                                               \
-    {                                                                                                                  \
+#define ARK_ASSERT_CONTINUE(exp_)                                                                                                                              \
+    if (!(exp_))                                                                                                                                               \
+    {                                                                                                                                                          \
+        assert(exp_);                                                                                                                                          \
+        continue;                                                                                                                                              \
+    }                                                                                                                                                          \
+    else                                                                                                                                                       \
+    {                                                                                                                                                          \
     }
 
-#define ARK_ASSERT_RET_NONE(exp_)                                                                                      \
-    do                                                                                                                 \
-    {                                                                                                                  \
-        if ((exp_))                                                                                                    \
-            break;                                                                                                     \
-        assert(exp_);                                                                                                  \
-        return;                                                                                                        \
+#define ARK_ASSERT_RET_NONE(exp_)                                                                                                                              \
+    do                                                                                                                                                         \
+    {                                                                                                                                                          \
+        if ((exp_))                                                                                                                                            \
+            break;                                                                                                                                             \
+        assert(exp_);                                                                                                                                          \
+        return;                                                                                                                                                \
     } while (false);
 
-#define ARK_ASSERT_NO_EFFECT(exp_)                                                                                     \
-    do                                                                                                                 \
-    {                                                                                                                  \
-        if (exp_)                                                                                                      \
-            break;                                                                                                     \
-        assert(exp_);                                                                                                  \
+#define ARK_ASSERT_NO_EFFECT(exp_)                                                                                                                             \
+    do                                                                                                                                                         \
+    {                                                                                                                                                          \
+        if (exp_)                                                                                                                                              \
+            break;                                                                                                                                             \
+        assert(exp_);                                                                                                                                          \
     } while (false)
 
 #include "common/lexical_cast.hpp"
@@ -297,35 +289,35 @@ using ARK_SHARE_PTR = std::shared_ptr<T>;
 #endif
 
 #ifndef ARK_NEW_ARRAY_RET
-#define ARK_NEW_ARRAY_RET(T, size)                                                                                     \
-    do                                                                                                                 \
-    {                                                                                                                  \
-        return new (nothrow) T[size];                                                                                  \
+#define ARK_NEW_ARRAY_RET(T, size)                                                                                                                             \
+    do                                                                                                                                                         \
+    {                                                                                                                                                          \
+        return new (nothrow) T[size];                                                                                                                          \
     } while (false);
 #endif //! ARK_NEW_ARRAY_RET
 
 #ifndef ARK_DELETE
-#define ARK_DELETE(p)                                                                                                  \
-    do                                                                                                                 \
-    {                                                                                                                  \
-        if (p != nullptr)                                                                                              \
-        {                                                                                                              \
-            delete p;                                                                                                  \
-            p = nullptr;                                                                                               \
-        }                                                                                                              \
+#define ARK_DELETE(p)                                                                                                                                          \
+    do                                                                                                                                                         \
+    {                                                                                                                                                          \
+        if (p != nullptr)                                                                                                                                      \
+        {                                                                                                                                                      \
+            delete p;                                                                                                                                          \
+            p = nullptr;                                                                                                                                       \
+        }                                                                                                                                                      \
     } while (false);
 #endif
 
 #ifndef ARK_DELETE_ARRAY
-#define ARK_DELETE_ARRAY(T, p)                                                                                         \
-    do                                                                                                                 \
-    {                                                                                                                  \
-        if (p != nullptr)                                                                                              \
-        {                                                                                                              \
-            T* t_ptr = static_cast<T*>(p);                                                                             \
-            delete[] t_ptr;                                                                                            \
-            t_ptr = nullptr;                                                                                           \
-        }                                                                                                              \
+#define ARK_DELETE_ARRAY(T, p)                                                                                                                                 \
+    do                                                                                                                                                         \
+    {                                                                                                                                                          \
+        if (p != nullptr)                                                                                                                                      \
+        {                                                                                                                                                      \
+            T* t_ptr = static_cast<T*>(p);                                                                                                                     \
+            delete[] t_ptr;                                                                                                                                    \
+            t_ptr = nullptr;                                                                                                                                   \
+        }                                                                                                                                                      \
     } while (false);
 #endif
 
@@ -342,127 +334,127 @@ using ARK_SHARE_PTR = std::shared_ptr<T>;
 #define GET_CLASS_NAME(class_name) (typeid(class_name).name())
 //////////////////////////////////////////////////////////////////////////
 // Plugin macros
-#define ARK_DECLARE_PLUGIN(PLUGIN_CLASS)                                                                               \
-    class PLUGIN_CLASS : public AFIPlugin                                                                              \
-    {                                                                                                                  \
-    public:                                                                                                            \
-        int GetPluginVersion()                                                                                         \
-        {                                                                                                              \
-            return 0;                                                                                                  \
-        }                                                                                                              \
-        const std::string GetPluginName()                                                                              \
-        {                                                                                                              \
-            return GET_CLASS_NAME(PLUGIN_CLASS);                                                                       \
-        }                                                                                                              \
-        void Install() override;                                                                                       \
-        void Uninstall() override;                                                                                     \
-        AFPluginManager* GetPluginManager() const override                                                             \
-        {                                                                                                              \
-            return plugin_manager_;                                                                                    \
-        }                                                                                                              \
-        void SetPluginManager(AFPluginManager* p)                                                                      \
-        {                                                                                                              \
-            ARK_ASSERT_RET_NONE(p != nullptr);                                                                         \
-            plugin_manager_ = p;                                                                                       \
-        }                                                                                                              \
-                                                                                                                       \
-    private:                                                                                                           \
-        AFMap<std::string, AFIModule> modules_;                                                                        \
-        AFPluginManager* plugin_manager_{nullptr};                                                                     \
+#define ARK_DECLARE_PLUGIN(PLUGIN_CLASS)                                                                                                                       \
+    class PLUGIN_CLASS : public AFIPlugin                                                                                                                      \
+    {                                                                                                                                                          \
+    public:                                                                                                                                                    \
+        int GetPluginVersion()                                                                                                                                 \
+        {                                                                                                                                                      \
+            return 0;                                                                                                                                          \
+        }                                                                                                                                                      \
+        const std::string GetPluginName()                                                                                                                      \
+        {                                                                                                                                                      \
+            return GET_CLASS_NAME(PLUGIN_CLASS);                                                                                                               \
+        }                                                                                                                                                      \
+        void Install() override;                                                                                                                               \
+        void Uninstall() override;                                                                                                                             \
+        AFPluginManager* GetPluginManager() const override                                                                                                     \
+        {                                                                                                                                                      \
+            return plugin_manager_;                                                                                                                            \
+        }                                                                                                                                                      \
+        void SetPluginManager(AFPluginManager* p)                                                                                                              \
+        {                                                                                                                                                      \
+            ARK_ASSERT_RET_NONE(p != nullptr);                                                                                                                 \
+            plugin_manager_ = p;                                                                                                                               \
+        }                                                                                                                                                      \
+                                                                                                                                                               \
+    private:                                                                                                                                                   \
+        std::unordered_map<std::string, AFIModule*> modules_;                                                                                                  \
+        AFPluginManager* plugin_manager_{nullptr};                                                                                                             \
     };
 
-#define ARK_DECLARE_PLUGIN_DLL_FUNCTION(PLUGIN_CLASS)                                                                  \
-    ARK_EXPORT_FUNC void DllEntryPlugin(AFPluginManager* pPluginManager)                                               \
-    {                                                                                                                  \
-        pPluginManager->Register<PLUGIN_CLASS>();                                                                      \
-    }                                                                                                                  \
-    ARK_EXPORT_FUNC void DllExitPlugin(AFPluginManager* pPluginManager)                                                \
-    {                                                                                                                  \
-        pPluginManager->Deregister<PLUGIN_CLASS>();                                                                    \
+#define ARK_DECLARE_PLUGIN_DLL_FUNCTION(PLUGIN_CLASS)                                                                                                          \
+    ARK_EXPORT_FUNC void DllEntryPlugin(AFPluginManager* pPluginManager)                                                                                       \
+    {                                                                                                                                                          \
+        pPluginManager->Register<PLUGIN_CLASS>();                                                                                                              \
+    }                                                                                                                                                          \
+    ARK_EXPORT_FUNC void DllExitPlugin(AFPluginManager* pPluginManager)                                                                                        \
+    {                                                                                                                                                          \
+        pPluginManager->Deregister<PLUGIN_CLASS>();                                                                                                            \
     }
 
 #ifdef ARK_PLATFORM_WIN
-#define ARK_REGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                    \
-    {                                                                                                                  \
-        ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                              \
-        ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                         \
-        AFIModule* pRegModule = ARK_NEW DERIVED_MODULE();                                                              \
-        pRegModule->SetPluginManager(GetPluginManager());                                                              \
-        pRegModule->SetName(GET_CLASS_NAME(MODULE));                                                                   \
-        GetPluginManager()->AddModule(pRegModule->GetName(), pRegModule);                                              \
-        modules_.insert(pRegModule->GetName(), pRegModule);                                                            \
-        std::string base_name = GET_CLASS_NAME(&AFIModule::Update);                                                    \
-        std::string child_name = GET_CLASS_NAME(&DERIVED_MODULE::Update);                                              \
-        if (base_name != child_name)                                                                                   \
-        {                                                                                                              \
-            GetPluginManager()->AddUpdateModule(pRegModule);                                                           \
-        }                                                                                                              \
+#define ARK_REGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                                                            \
+    {                                                                                                                                                          \
+        ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                                                                      \
+        ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                                                                 \
+        AFIModule* pRegModule = ARK_NEW DERIVED_MODULE();                                                                                                      \
+        pRegModule->SetPluginManager(GetPluginManager());                                                                                                      \
+        pRegModule->SetName(GET_CLASS_NAME(MODULE));                                                                                                           \
+        GetPluginManager()->AddModule(pRegModule->GetName(), pRegModule);                                                                                      \
+        modules_.insert(std::make_pair(pRegModule->GetName(), pRegModule));                                                                                    \
+        std::string base_name = GET_CLASS_NAME(&AFIModule::Update);                                                                                            \
+        std::string child_name = GET_CLASS_NAME(&DERIVED_MODULE::Update);                                                                                      \
+        if (base_name != child_name)                                                                                                                           \
+        {                                                                                                                                                      \
+            GetPluginManager()->AddUpdateModule(pRegModule);                                                                                                   \
+        }                                                                                                                                                      \
     }
 #else
-#define ARK_REGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                    \
-    {                                                                                                                  \
-        ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                              \
-        ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                         \
-        AFIModule* pRegModule = ARK_NEW DERIVED_MODULE();                                                              \
-        pRegModule->SetPluginManager(GetPluginManager());                                                              \
-        pRegModule->SetName(GET_CLASS_NAME(MODULE));                                                                   \
-        GetPluginManager()->AddModule(pRegModule->GetName(), pRegModule);                                              \
-        modules_.insert(pRegModule->GetName(), pRegModule);                                                            \
-        AFIModule base;                                                                                                \
-        bool (AFIModule::*mfp)() = &AFIModule::Update;                                                                 \
-        bool (DERIVED_MODULE::*child_mfp)() = &DERIVED_MODULE::Update;                                                 \
-        void* base_update_mfp = (void*)(base.*mfp);                                                                    \
-        void* derived_update_mfp = (void*)(static_cast<DERIVED_MODULE*>(pRegModule)->*child_mfp);                      \
-        if (base_update_mfp == derived_update_mfp)                                                                     \
-        {                                                                                                              \
-            GetPluginManager()->AddUpdateModule(pRegModule);                                                           \
-        }                                                                                                              \
+#define ARK_REGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                                                            \
+    {                                                                                                                                                          \
+        ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                                                                      \
+        ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                                                                 \
+        AFIModule* pRegModule = ARK_NEW DERIVED_MODULE();                                                                                                      \
+        pRegModule->SetPluginManager(GetPluginManager());                                                                                                      \
+        pRegModule->SetName(GET_CLASS_NAME(MODULE));                                                                                                           \
+        GetPluginManager()->AddModule(pRegModule->GetName(), pRegModule);                                                                                      \
+        modules_.insert(std::make_pair(pRegModule->GetName(), pRegModule));                                                                                    \
+        AFIModule base;                                                                                                                                        \
+        bool (AFIModule::*mfp)() = &AFIModule::Update;                                                                                                         \
+        bool (DERIVED_MODULE::*child_mfp)() = &DERIVED_MODULE::Update;                                                                                         \
+        void* base_update_mfp = (void*)(base.*mfp);                                                                                                            \
+        void* derived_update_mfp = (void*)(static_cast<DERIVED_MODULE*>(pRegModule)->*child_mfp);                                                              \
+        if (base_update_mfp == derived_update_mfp)                                                                                                             \
+        {                                                                                                                                                      \
+            GetPluginManager()->AddUpdateModule(pRegModule);                                                                                                   \
+        }                                                                                                                                                      \
     }
 #endif
 
-#define ARK_DEREGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                  \
-    {                                                                                                                  \
-        ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                              \
-        ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                         \
-        AFIModule* pDeregModule = dynamic_cast<AFIModule*>(GetPluginManager()->template FindModule<MODULE>());         \
-        ARK_ASSERT_RET_NONE(pDeregModule != nullptr);                                                                  \
-        GetPluginManager()->RemoveModule(pDeregModule->GetName());                                                     \
-        GetPluginManager()->RemoveUpdateModule(pDeregModule->GetName());                                               \
-        modules_.erase(pDeregModule->GetName());                                                                       \
-        ARK_DELETE(pDeregModule);                                                                                      \
+#define ARK_DEREGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                                                          \
+    {                                                                                                                                                          \
+        ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                                                                      \
+        ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                                                                 \
+        AFIModule* pDeregModule = dynamic_cast<AFIModule*>(GetPluginManager()->template FindModule<MODULE>());                                                 \
+        ARK_ASSERT_RET_NONE(pDeregModule != nullptr);                                                                                                          \
+        GetPluginManager()->RemoveModule(pDeregModule->GetName());                                                                                             \
+        GetPluginManager()->RemoveUpdateModule(pDeregModule->GetName());                                                                                       \
+        modules_.erase(pDeregModule->GetName());                                                                                                               \
+        ARK_DELETE(pDeregModule);                                                                                                                              \
     }
 
 //////////////////////////////////////////////////////////////////////////
 // Module macros
-#define ARK_DECLARE_MODULE_FUNCTIONS                                                                                   \
-public:                                                                                                                \
-    AFPluginManager* GetPluginManager() const override                                                                 \
-    {                                                                                                                  \
-        return plugin_manager_;                                                                                        \
-    }                                                                                                                  \
-    void SetPluginManager(AFPluginManager* p) override                                                                 \
-    {                                                                                                                  \
-        ARK_ASSERT_RET_NONE(p != nullptr);                                                                             \
-        plugin_manager_ = p;                                                                                           \
-    }                                                                                                                  \
-    const std::string& GetName() const override                                                                        \
-    {                                                                                                                  \
-        return name_;                                                                                                  \
-    }                                                                                                                  \
-    void SetName(const std::string& value) override                                                                    \
-    {                                                                                                                  \
-        name_ = value;                                                                                                 \
-    }                                                                                                                  \
-                                                                                                                       \
-protected:                                                                                                             \
-    template<typename MODULE>                                                                                          \
-    MODULE* FindModule()                                                                                               \
-    {                                                                                                                  \
-        return GetPluginManager()->template FindModule<MODULE>();                                                      \
-    }                                                                                                                  \
-                                                                                                                       \
-private:                                                                                                               \
-    AFPluginManager* plugin_manager_{nullptr};                                                                         \
+#define ARK_DECLARE_MODULE_FUNCTIONS                                                                                                                           \
+public:                                                                                                                                                        \
+    AFPluginManager* GetPluginManager() const override                                                                                                         \
+    {                                                                                                                                                          \
+        return plugin_manager_;                                                                                                                                \
+    }                                                                                                                                                          \
+    void SetPluginManager(AFPluginManager* p) override                                                                                                         \
+    {                                                                                                                                                          \
+        ARK_ASSERT_RET_NONE(p != nullptr);                                                                                                                     \
+        plugin_manager_ = p;                                                                                                                                   \
+    }                                                                                                                                                          \
+    const std::string& GetName() const override                                                                                                                \
+    {                                                                                                                                                          \
+        return name_;                                                                                                                                          \
+    }                                                                                                                                                          \
+    void SetName(const std::string& value) override                                                                                                            \
+    {                                                                                                                                                          \
+        name_ = value;                                                                                                                                         \
+    }                                                                                                                                                          \
+                                                                                                                                                               \
+protected:                                                                                                                                                     \
+    template<typename MODULE>                                                                                                                                  \
+    MODULE* FindModule()                                                                                                                                       \
+    {                                                                                                                                                          \
+        return GetPluginManager()->template FindModule<MODULE>();                                                                                              \
+    }                                                                                                                                                          \
+                                                                                                                                                               \
+private:                                                                                                                                                       \
+    AFPluginManager* plugin_manager_{nullptr};                                                                                                                 \
     std::string name_{};
 //////////////////////////////////////////////////////////////////////////
 //#ifndef ARK_DEPRECATED

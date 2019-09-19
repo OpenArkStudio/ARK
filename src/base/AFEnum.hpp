@@ -87,15 +87,7 @@ enum class ArkTableOpType : uint16_t // table operate type
     TABLE_SWAP,     // swap two whole row data
 };
 
-enum class ArkTableNodeFeature : uint16_t
-{
-    PF_PUBLIC = 0,    // send to others
-    PF_PRIVATE = 1,   // send to self
-    PF_REAL_TIME = 2, // send real-time when changed
-    PF_SAVE = 3,      // if need save to database
-};
-
-enum class AFNodeFeature : uint16_t
+enum class ArkNodeMask : uint16_t
 {
     PF_PUBLIC = 0,     // send to others
     PF_PRIVATE = 1,    // send to self
@@ -107,6 +99,24 @@ enum class AFNodeFeature : uint16_t
     PF_SYNC_GUILD = 7, // sync to guild member
     PF_SYNC_MAP = 8,   // sync to all player in same map
     PF_LOG = 9,        // log when changed
+};
+
+enum class ArkTableNodeMask : uint16_t
+{
+    PF_PUBLIC = 0,    // send to others
+    PF_PRIVATE = 1,   // send to self
+    PF_REAL_TIME = 2, // send real-time when changed
+    PF_SAVE = 3,      // if need save to database
+};
+
+enum class ArkHttpMethod : uint8_t
+{
+    HTTP_METHOD_HEAD,
+    HTTP_METHOD_GET,
+    HTTP_METHOD_POST,
+    HTTP_METHOD_PUT,
+    HTTP_METHOD_DELETE,
+    HTTP_METHOD_MAX
 };
 
 } // namespace ark

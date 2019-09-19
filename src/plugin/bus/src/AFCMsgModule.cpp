@@ -87,11 +87,12 @@ bool AFCMsgModule::SendSSMsg(const int src_bus, const int target_bus, const int 
     head.src_bus_ = src_bus;
     head.dst_bus_ = target_bus;
 
-    AFINet* net_ptr = m_pNetServiceManagerModule->GetNetConnectionBus(src_bus, target_bus);
-    if (net_ptr != nullptr)
-    {
-        return net_ptr->SendMsg(&head, msg_data, session_id);
-    }
+    // TODO: NickYang
+    //AFINet* net_ptr = m_pNetServiceManagerModule->GetNetConnectionBus(src_bus, target_bus);
+    //if (net_ptr != nullptr)
+    //{
+    //    return net_ptr->SendMsg(&head, msg_data, session_id);
+    //}
 
     ARK_LOG_ERROR("send ss msg error, src_bus={} target_bus={} msg_id={} conn_id={} target_role_id={}", src_bus,
         target_bus, msg_id, session_id, actor_id);

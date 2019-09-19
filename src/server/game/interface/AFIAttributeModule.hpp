@@ -24,10 +24,10 @@
 
 namespace ark {
 
-class AFIPropertyModule : public AFIModule
+class AFIAttributeModule : public AFIModule
 {
 public:
-    enum ArkPropertyGroup
+    enum ArkAttributeGroup
     {
         APG_JOBLEVEL,    //职业等级基础
         APG_EFFECTVALUE, //一级属性影响二级属性的部分(直接用公式计算，其他部分不用动)
@@ -41,15 +41,15 @@ public:
         APG_ALL,
     };
 
-    virtual int RefreshBaseProperty(const AFGUID& self) = 0;
-    virtual int GetPropertyValue(
-        const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType) = 0;
-    virtual int SetPropertyValue(const AFGUID& self, const std::string& strPropertyName,
-        const ArkPropertyGroup eGroupType, const int32_t nValue) = 0;
-    virtual int AddPropertyValue(const AFGUID& self, const std::string& strPropertyName,
-        const ArkPropertyGroup eGroupType, const int32_t nValue) = 0;
-    virtual int SubPropertyValue(const AFGUID& self, const std::string& strPropertyName,
-        const ArkPropertyGroup eGroupType, const int32_t nValue) = 0;
+    virtual int RefreshBaseAttribute(const AFGUID& self) = 0;
+    virtual int GetAttributeValue(
+        const AFGUID& self, const std::string& strPropertyName, const ArkAttributeGroup eGroupType) = 0;
+    virtual int SetAttributeValue(const AFGUID& self, const std::string& strPropertyName,
+        const ArkAttributeGroup eGroupType, const int32_t nValue) = 0;
+    virtual int AddAttributeValue(const AFGUID& self, const std::string& strPropertyName,
+        const ArkAttributeGroup eGroupType, const int32_t nValue) = 0;
+    virtual int SubAttributeValue(const AFGUID& self, const std::string& strPropertyName,
+        const ArkAttributeGroup eGroupType, const int32_t nValue) = 0;
 
     virtual bool FullHPMP(const AFGUID& self) = 0;
     virtual bool AddHP(const AFGUID& self, const int32_t& nValue) = 0;

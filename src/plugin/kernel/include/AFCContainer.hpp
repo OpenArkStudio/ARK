@@ -29,7 +29,7 @@ namespace ark {
 class AFCContainer final : public AFIContainer, public std::enable_shared_from_this<AFCContainer>
 {
 public:
-    using EntityDataList = AFNewSmartPtrMap<uint32_t, AFIEntity>;
+    using EntityDataList = AFSmartPtrMap<uint32_t, AFIEntity>;
 
     AFCContainer() = delete;
 

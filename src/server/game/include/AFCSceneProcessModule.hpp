@@ -29,7 +29,7 @@
 #include "log/interface/AFILogModule.hpp"
 #include "utility/interface/AFIGUIDModule.hpp"
 #include "game/interface/AFISceneProcessModule.hpp"
-#include "game/interface/AFIPropertyModule.hpp"
+#include "game/interface/AFIAttributeModule.hpp"
 #include "game/interface/AFIGameNetModule.hpp"
 
 namespace ark {
@@ -77,7 +77,7 @@ private:
     };
 
     // SceneID,(SeedID,SeedData)
-    AFMapEx<int, AFMapEx<std::string, MapSeedResource>> map_res_;
+    AFSmartPtrMap<int, AFSmartPtrMap<std::string, MapSeedResource>> map_res_;
 };
 
 } // namespace ark

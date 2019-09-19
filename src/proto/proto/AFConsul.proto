@@ -17,8 +17,14 @@ message service_data {
   int32 port = 4;
   repeated string tags = 5;
   map<string, string> metas = 6;
+  repeated check_data checks = 7;
 }
 
-message service {
+message service_set {
   repeated service_data services = 1;
+}
+
+message kv {
+  string key = 1;
+  string value = 2;
 }

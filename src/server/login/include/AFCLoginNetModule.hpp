@@ -36,14 +36,14 @@ class AFCLoginNetModule : public AFILoginNetModule
 public:
     bool Init() override;
     bool PostInit() override;
-    bool PreUpdate() override;
+    //bool PreUpdate() override;
 
     // int OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const
     // std::string& strAccount, const std::string& strWorldURL, const std::string& strKey) override;
 
 protected:
     int StartServer();
-    int StartClient();
+    //int StartClient();
 
     // AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap();
 
@@ -73,13 +73,13 @@ protected:
     // void SynWorldToClient(const AFGUID& xClientID);
 
 private:
-    AFMapEx<AFGUID, AFClientConnectionData> mmClientSessionData;
+    AFSmartPtrMap<AFGUID, AFClientConnectionData> mmClientSessionData;
 
     AFILogModule* m_pLogModule;
     AFIBusModule* m_pBusModule;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
 
-    AFINetServerService* m_pNetServer;
+    std::shared_ptr<AFINetServerService> m_pNetServer;
 };
 
 } // namespace ark

@@ -55,7 +55,7 @@ private:
     AFILogModule* m_pLogModule{nullptr};
     AFIClassMetaModule* m_pClassModule{nullptr};
 
-    AFNewSmartPtrHashmap<std::string, AFStaticEntityManager> static_entity_mgr_list_;
+    AFSmartPtrHashmap<std::string, AFStaticEntityManager> static_entity_mgr_list_;
 };
 
 } // namespace ark

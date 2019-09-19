@@ -48,20 +48,12 @@ bool AFCBusModule::Init()
 
 bool AFCBusModule::LoadProcConfig()
 {
-    static std::string proc_file = "../conf/proc.xml";
-    AFXml xml_doc(proc_file);
+    AFXml xml_doc(PROC_CONFIG_FILE_PATH);
 
     auto root_node = xml_doc.GetRootNode();
-    if (!root_node.IsValid())
-    {
-        ARK_ASSERT_NO_EFFECT(0);
-        return false;
-    }
+    ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
 
-    auto proc_nodes = root_node.FindNode("processes");
-    ARK_ASSERT_RET_VAL(proc_nodes.IsValid(), false);
-
-    for (auto proc_node = proc_nodes.FindNode("proc"); proc_node.IsValid(); proc_node.NextNode())
+    for (auto proc_node = root_node.FindNode("proc"); proc_node.IsValid(); proc_node.NextNode())
     {
         std::string bus_name = proc_node.GetString("busid");
         std::string endpoint_server = proc_node.GetString("endpoint_server");
@@ -95,8 +87,7 @@ bool AFCBusModule::LoadProcConfig()
 bool AFCBusModule::LoadBusRelationConfig()
 {
     // load bus relation files
-    std::string bus_file = "../conf/bus_relation.xml";
-    AFXml xml_doc(bus_file);
+    AFXml xml_doc(BUS_RELATION_CONFIG_FILE_PATH);
 
     auto root_node = xml_doc.GetRootNode();
     ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
@@ -143,13 +134,12 @@ bool AFCBusModule::LoadBusRelationConfig()
 bool AFCBusModule::LoadRegCenterConfig()
 {
     // load reg center files
-    std::string reg_file = "../conf/reg_center.xml";
-    AFXml xml_doc(reg_file);
+    AFXml xml_doc(REG_CENTER_CONFIG_FILE_PATH);
 
     auto root_node = xml_doc.GetRootNode();
     ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
 
-    auto node = root_node.FindNode("reg_center");
+    auto node = root_node.FindNode("center");
     ARK_ASSERT_RET_VAL(node.IsValid(), false);
 
     app_config_.reg_center.ip = node.GetString("ip");

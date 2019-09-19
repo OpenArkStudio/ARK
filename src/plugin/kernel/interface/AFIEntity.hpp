@@ -55,10 +55,10 @@ public:
     virtual bool IsSave(const uint32_t index) = 0;
     virtual bool IsRealTime(const std::string& name) = 0;
     virtual bool IsRealTime(const uint32_t index) = 0;
-    virtual bool HaveFeature(const std::string& name, AFNodeFeature feature) = 0;
-    virtual bool HaveFeature(const uint32_t index, AFNodeFeature feature) = 0;
+    virtual bool HaveMask(const std::string& name, ArkNodeMask feature) = 0;
+    virtual bool HaveMask(const uint32_t index, ArkNodeMask feature) = 0;
 
-    virtual AFFeatureType GetFeature(const uint32_t index) const = 0;
+    virtual AFMaskType GetMask(const uint32_t index) const = 0;
 
     virtual const std::string& GetClassName() const = 0;
     virtual ID_TYPE GetConfigID() const = 0;
@@ -90,7 +90,7 @@ public:
     virtual bool SetWString(const uint32_t index, const std::wstring& value) = 0;
     virtual bool SetGUID(const uint32_t index, const AFGUID& value) = 0;
 
-    // get data
+    // Get data by field name
     virtual AFINode* GetNode(const std::string& name) = 0;
     virtual bool GetBool(const std::string& name) = 0;
     virtual int32_t GetInt32(const std::string& name) = 0;
@@ -103,6 +103,7 @@ public:
     virtual const std::wstring& GetWString(const std::string& name) = 0;
     virtual const AFGUID& GetGUID(const std::string& name) = 0;
 
+    // Get data by field index
     virtual AFINode* GetNode(const uint32_t index) = 0;
     virtual bool GetBool(const uint32_t index) = 0;
     virtual int32_t GetInt32(const uint32_t index) = 0;

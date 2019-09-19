@@ -35,7 +35,6 @@ public:
         : name_(name)
         , index_(index)
     {
-        //
     }
 
     virtual ~AFNodeMeta() = default;
@@ -55,14 +54,14 @@ public:
         return type_;
     }
 
-    void SetFeature(AFFeatureType feature)
+    void SetMask(AFMaskType mask)
     {
-        feature_ = feature;
+        mask_ = mask;
     }
 
-    bool HaveFeature(AFNodeFeature feature) const
+    bool HaveMask(ArkNodeMask mask) const
     {
-        return feature_.test((size_t)feature);
+        return mask_.test((size_t)mask);
     }
 
     uint32_t GetIndex() const
@@ -70,9 +69,9 @@ public:
         return index_;
     }
 
-    AFFeatureType GetFeature() const
+    AFMaskType GetMask() const
     {
-        return feature_;
+        return mask_;
     }
 
 private:
@@ -86,7 +85,7 @@ private:
     uint32_t index_{0u};
 
     // data mask
-    AFFeatureType feature_{0};
+    AFMaskType mask_{0};
 };
 
 } // namespace ark

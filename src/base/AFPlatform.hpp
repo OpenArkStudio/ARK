@@ -62,7 +62,17 @@
 #if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64)
 // only windows include
 
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif // NOMINMAX
+
+#ifdef min
+#undef min
+#endif // min
+
+#ifdef max
+#undef max
+#endif // max
 
 #ifndef WIN32_LEAN_AND_MEAN
 #include <WinSock2.h>
@@ -82,6 +92,7 @@
 
 #include <Dbghelp.h>
 #pragma comment(lib, "DbgHelp")
+#pragma comment(lib, "ws2_32")
 
 #else
 // only other Unix/Linux include

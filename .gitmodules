@@ -18,7 +18,3 @@
 	path = dep/brynet
 	url = https://github.com/IronsDu/brynet.git
 	branch = master
-[submodule "cpprestsdk"]
-	path = dep/cpprestsdk
-	url = https://github.com/microsoft/cpprestsdk.git
-	branch = master

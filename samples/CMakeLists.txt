@@ -1,5 +1,5 @@
 #Define server plugin building macro
-macro(BUILD_PLUGIN_MACRO project_name)
+function(BUILD_PLUGIN_MACRO project_name)
     aux_source_directory(. PLUGIN_SRC)
 
     if(UNIX)
@@ -28,17 +28,16 @@ macro(BUILD_PLUGIN_MACRO project_name)
 
         target_link_libraries(${project_name} 
             debug AFProto_d.lib
-            
-            optimized AFProto.lib)
+            debug libprotobufd.lib
+
+            optimized AFProto.lib
+            optimized libprotobuf.lib)
     endif(UNIX)
 
     set_target_properties(${project_name} PROPERTIES PREFIX "")
     set_target_properties(${project_name} PROPERTIES
-        FOLDER "samples"
-        ARCHIVE_OUTPUT_DIRECTORY ${LIB_OUTPUT_DIR}
-        RUNTIME_OUTPUT_DIRECTORY ${LIB_OUTPUT_DIR}
-        LIBRARY_OUTPUT_DIRECTORY ${LIB_OUTPUT_DIR})
-endmacro(BUILD_PLUGIN_MACRO project_name)
+        FOLDER "samples")
+endfunction(BUILD_PLUGIN_MACRO project_name)
 
 ###################################################################################################
 add_subdirectory(sample1)

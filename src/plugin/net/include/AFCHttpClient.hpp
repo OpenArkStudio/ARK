@@ -24,6 +24,8 @@
 #include <brynet/net/Connector.h>
 #include <brynet/net/EventLoop.h>
 #include <brynet/net/http/HttpFormat.h>
+#include <brynet/net/Wrapper.h>
+
 #include "base/AFPlatform.hpp"
 #include "net/interface/AFIHttpClient.hpp"
 
@@ -34,16 +36,16 @@ class AFCHttpClient final : public AFIHttpClient
 
 public:
     AFCHttpClient();
-    virtual ~AFCHttpClient();
+    ~AFCHttpClient() override;
 
-    void AsyncPost(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params, const std::string& post_data, HTTP_CALLBACK&& callback) override;
+    aom::Future<bool> AsyncPost(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+        const std::string& post_data, HTTP_CALLBACK&& callback) override;
 
-    void AsyncGet(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params, HTTP_CALLBACK&& callback) override;
+    aom::Future<std::string> AsyncGet(
+        const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params, HTTP_CALLBACK&& callback) override;
 
-    void AsyncPut(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params, const std::string& put_data, HTTP_CALLBACK&& callback) override;
+    aom::Future<bool> AsyncPut(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+        const std::string& put_data, HTTP_CALLBACK&& callback) override;
 
 protected:
     brynet::net::TcpService::Ptr GetTcpService() override

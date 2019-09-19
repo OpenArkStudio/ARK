@@ -71,7 +71,7 @@ bool AFCEntity::IsPublic(const std::string& name)
 
 bool AFCEntity::IsPublic(const uint32_t index)
 {
-    return HaveFeature(index, AFNodeFeature::PF_PUBLIC);
+    return HaveMask(index, ArkNodeMask::PF_PUBLIC);
 }
 
 bool AFCEntity::IsPrivate(const std::string& name)
@@ -84,7 +84,7 @@ bool AFCEntity::IsPrivate(const std::string& name)
 
 bool AFCEntity::IsPrivate(const uint32_t index)
 {
-    return HaveFeature(index, AFNodeFeature::PF_PRIVATE);
+    return HaveMask(index, ArkNodeMask::PF_PRIVATE);
 }
 
 bool AFCEntity::IsSave(const std::string& name)
@@ -97,7 +97,7 @@ bool AFCEntity::IsSave(const std::string& name)
 
 bool AFCEntity::IsSave(const uint32_t index)
 {
-    return HaveFeature(index, AFNodeFeature::PF_SAVE);
+    return HaveMask(index, ArkNodeMask::PF_SAVE);
 }
 
 bool AFCEntity::IsRealTime(const std::string& name)
@@ -110,33 +110,33 @@ bool AFCEntity::IsRealTime(const std::string& name)
 
 bool AFCEntity::IsRealTime(const uint32_t index)
 {
-    return HaveFeature(index, AFNodeFeature::PF_REAL_TIME);
+    return HaveMask(index, ArkNodeMask::PF_REAL_TIME);
 }
 
-bool AFCEntity::HaveFeature(const std::string& name, AFNodeFeature feature)
+bool AFCEntity::HaveMask(const std::string& name, ArkNodeMask feature)
 {
     auto index = m_pStaticObject->GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, false);
 
-    return HaveFeature(index, feature);
+    return HaveMask(index, feature);
 }
 
-bool AFCEntity::HaveFeature(const uint32_t index, AFNodeFeature feature)
+bool AFCEntity::HaveMask(const uint32_t index, ArkNodeMask feature)
 {
     AFINode* p = m_pStaticObject->FindData(index);
 
     ARK_ASSERT_RET_VAL(p != nullptr, false);
 
-    return p->HaveFeature(feature);
+    return p->HaveMask(feature);
 }
 
-AFFeatureType AFCEntity::GetFeature(const uint32_t index) const
+AFMaskType AFCEntity::GetMask(const uint32_t index) const
 {
     AFINode* p = m_pStaticObject->FindData(index);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, false);
+    ARK_ASSERT_RET_VAL(p != nullptr, 0);
 
-    return p->GetFeature();
+    return p->GetMask();
 }
 
 const std::string& AFCEntity::GetClassName() const

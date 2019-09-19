@@ -38,14 +38,42 @@ struct Converter<uint8_t, From>
 };
 
 template<typename From>
-struct Converter<int, From>
+struct Converter<int16_t, From>
 {
-    static uint32_t convert(const string& from)
+    static int16_t convert(const string& from)
     {
         return std::atoi(from.c_str());
     }
 
-    static uint32_t convert(const char* from)
+    static int16_t convert(const char* from)
+    {
+        return std::atoi(from);
+    }
+};
+
+template<typename From>
+struct Converter<uint16_t, From>
+{
+    static uint16_t convert(const string& from)
+    {
+        return std::atoi(from.c_str());
+    }
+
+    static uint16_t convert(const char* from)
+    {
+        return std::atoi(from);
+    }
+};
+
+template<typename From>
+struct Converter<int32_t, From>
+{
+    static int32_t convert(const string& from)
+    {
+        return std::atoi(from.c_str());
+    }
+
+    static int32_t convert(const char* from)
     {
         return std::atoi(from);
     }
@@ -54,12 +82,12 @@ struct Converter<int, From>
 template<typename From>
 struct Converter<uint32_t, From>
 {
-    static int convert(const string& from)
+    static uint32_t convert(const string& from)
     {
         return std::atoi(from.c_str());
     }
 
-    static int convert(const char* from)
+    static uint32_t convert(const char* from)
     {
         return std::atoi(from);
     }

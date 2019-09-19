@@ -10,25 +10,25 @@ set ZONE_ID=1
 cd Release
 
 echo Starting master...
-start "master" app.exe -x --busid=%CHANNEL_ID%.0.1.1 --name=master_server --plugin=../plugin_conf/master.plugin --logpath=../binlog
+start "master" bin/app.exe -x --busid=1.0.1.1 --name=master_server --plugin=plugin_conf/master.plugin --logpath=binlog
 choice /t 5 /d y /n >nul
 
 echo Starting world...
-start "world" app.exe -x --busid=%CHANNEL_ID%.%ZONE_ID%.100.1 --name=world_server --plugin=../plugin_conf/world.plugin --logpath=../binlog
+start "world" bin/app.exe -x --busid=1.1.30.1 --name=world_server --plugin=plugin_conf/world.plugin --logpath=binlog
 choice /t 5 /d y /n >nul
 
 echo Starting login...
-start "login" app.exe -x --busid=%CHANNEL_ID%.%ZONE_ID%.102.1 --name=login_server --plugin=../plugin_conf/login.plugin --logpath=../binlog
+start "login" bin/app.exe -x --busid=1.1.31.1 --name=login_server --plugin=plugin_conf/login.plugin --logpath=binlog
 choice /t 5 /d y /n >nul
 
 echo Starting proxy...
-start "proxy" app.exe -x --busid=%CHANNEL_ID%.%ZONE_ID%.103.1 --name=proxy_server --plugin=../plugin_conf/proxy.plugin --logpath=../binlog
+start "proxy" bin/app.exe -x --busid=1.1.32.1 --name=proxy_server --plugin=plugin_conf/proxy.plugin --logpath=binlog
 choice /t 5 /d y /n >nul
 
 echo Starting game...
-start "game" app.exe -x --busid=%CHANNEL_ID%.%ZONE_ID%.101.1 --name=game_server --plugin=../plugin_conf/game.plugin --logpath=../binlog
+start "game" bin/app.exe -x --busid=1.1.33.1 --name=game_server --plugin=plugin_conf/game.plugin --logpath=binlog
 choice /t 5 /d y /n >nul
 
 echo All processes are launching...
 
-cd ../
+cd 

@@ -24,11 +24,11 @@
 
 namespace ark {
 
-class AFIPropertyTrailModule : public AFIModule
+class AFIDataTraceModule : public AFIModule
 {
 public:
-    virtual void StartTrail(const AFGUID self) = 0;
-    virtual void EndTrail(const AFGUID self) = 0;
+    virtual void StartTracing(const AFGUID self) = 0;
+    virtual void EndTracing(const AFGUID self) = 0;
 };
 
 } // namespace ark

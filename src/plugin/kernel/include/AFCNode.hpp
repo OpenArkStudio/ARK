@@ -49,18 +49,18 @@ namespace ark {
         return data_meta_->GetIndex();                                                                                 \
     }                                                                                                                  \
                                                                                                                        \
-    AFFeatureType GetFeature() const override                                                                          \
+    AFMaskType GetMask() const override                                                                                \
     {                                                                                                                  \
         ARK_ASSERT_RET_VAL(data_meta_ != nullptr, 0);                                                                  \
                                                                                                                        \
-        return data_meta_->GetFeature();                                                                               \
+        return data_meta_->GetMask();                                                                                  \
     }                                                                                                                  \
                                                                                                                        \
-    bool HaveFeature(AFNodeFeature feature) override                                                                   \
+    bool HaveMask(ArkNodeMask mask) override                                                                           \
     {                                                                                                                  \
         ARK_ASSERT_RET_VAL(data_meta_ != nullptr, false);                                                              \
                                                                                                                        \
-        return data_meta_->HaveFeature(feature);                                                                       \
+        return data_meta_->HaveMask(mask);                                                                             \
     }                                                                                                                  \
                                                                                                                        \
 private:                                                                                                               \

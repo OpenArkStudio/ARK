@@ -1,5 +1,6 @@
 #include <brynet/net/Wrapper.h>
 #include <brynet/net/http/HttpService.h>
+
 #include "base/AFMacros.hpp"
 #include "net/include/AFCHttpClient.hpp"
 #include "net/include/AFNetMsg.hpp"
@@ -26,8 +27,8 @@ AFCHttpClient::~AFCHttpClient()
     base::DestroySocket();
 }
 
-void AFCHttpClient::AsyncPost(const std::string& ip, const uint16_t port, const std::string& url,
-    std::map<std::string, std::string>& params, const std::string& post_data, HTTP_CALLBACK&& callback)
+aom::Future<bool> AFCHttpClient::AsyncPost(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+    const std::string& post_data, HTTP_CALLBACK&& callback)
 {
     using namespace brynet::net;
     using namespace brynet::net::http;
@@ -51,35 +52,39 @@ void AFCHttpClient::AsyncPost(const std::string& ip, const uint16_t port, const 
     request.setQuery(query_params.getResult());
     std::string req_url = request.getResult();
 
+    aom::Promise<bool> promise;
+
     // start to connect
     connection_builder_.configureConnector(connector_)
         .configureService(tcp_service_)
-        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
-            AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
-            AsyncConnector::ConnectOptions::WithFailedCallback([]() { std::cout << "Connect failed" << std::endl; })})
+        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port), AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
+            AsyncConnector::ConnectOptions::WithFailedCallback([&]() {
+                std::cout << "Connect failed" << std::endl;
+                promise.set_value(false);
+            })})
         .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE),
-            TcpService::AddSocketOption::AddEnterCallback(
-                [](const TcpConnection::Ptr& session) { std::cout << "Connect successfully" << std::endl; })})
-        .configureEnterCallback([service = tcp_service_, callback, req_url](HttpSession::Ptr session) {
+            TcpService::AddSocketOption::AddEnterCallback([](const TcpConnection::Ptr& session) { std::cout << "Connect successfully" << std::endl; })})
+        .configureEnterCallback([service = tcp_service_, callback, req_url, &promise](HttpSession::Ptr session) {
             session->send(req_url.c_str(), req_url.size());
-            session->setHttpCallback(
-                [service, callback, req_url](const HTTPParser& httpParser, const HttpSession::Ptr& session) {
-                    auto event_loop = service->getRandomEventLoop();
-                    event_loop->runAsyncFunctor([=] {
-                        if (callback != nullptr)
-                        {
-                            callback(httpParser.getBody());
-                        }
-                    });
+            session->setHttpCallback([&](const HTTPParser& httpParser, const HttpSession::Ptr& session) {
+                promise.set_value(true);
+                auto event_loop = service->getRandomEventLoop();
+                event_loop->runAsyncFunctor([=] {
+                    if (callback != nullptr)
+                    {
+                        callback(httpParser.getBody());
+                    }
                 });
-            session->setClosedCallback(
-                [req_url](const HttpSession::Ptr& session) { std::cout << "Disconnect" << std::endl; });
+            });
+            session->setClosedCallback([req_url](const HttpSession::Ptr& session) { std::cout << "Disconnect" << std::endl; });
         })
         .asyncConnect();
+
+    return promise.get_future();
 }
 
-void AFCHttpClient::AsyncGet(const std::string& ip, const uint16_t port, const std::string& url,
-    std::map<std::string, std::string>& params, HTTP_CALLBACK&& callback)
+aom::Future<std::string> AFCHttpClient::AsyncGet(
+    const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params, HTTP_CALLBACK&& callback)
 {
     using namespace brynet::net;
     using namespace brynet::net::http;
@@ -98,18 +103,22 @@ void AFCHttpClient::AsyncGet(const std::string& ip, const uint16_t port, const s
     request.setQuery(query_params.getResult());
     std::string req_url = request.getResult();
 
+    aom::Promise<std::string> promise;
+
     // start to connect
     connection_builder_.configureConnector(connector_)
         .configureService(tcp_service_)
-        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
-            AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
-            AsyncConnector::ConnectOptions::WithFailedCallback([]() { std::cout << "Connect failed" << std::endl; })})
+        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port), AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
+            AsyncConnector::ConnectOptions::WithFailedCallback([&]() {
+                std::cout << "Connect failed" << std::endl;
+                promise.set_value("");
+            })})
         .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE),
-            TcpService::AddSocketOption::AddEnterCallback(
-                [](const TcpConnection::Ptr& session) { std::cout << "Connect successfully" << std::endl; })})
+            TcpService::AddSocketOption::AddEnterCallback([](const TcpConnection::Ptr& session) { std::cout << "Connect successfully" << std::endl; })})
         .configureEnterCallback([&](HttpSession::Ptr session) {
             session->send(req_url.c_str(), req_url.size());
             session->setHttpCallback([&](const HTTPParser& httpParser, const HttpSession::Ptr& session) {
+                promise.set_value(httpParser.getBody());
                 auto event_loop = tcp_service_->getRandomEventLoop();
                 event_loop->runAsyncFunctor([=] {
                     if (callback != nullptr)
@@ -118,14 +127,18 @@ void AFCHttpClient::AsyncGet(const std::string& ip, const uint16_t port, const s
                     }
                 });
             });
-            session->setClosedCallback(
-                [req_url](const HttpSession::Ptr& session) { std::cout << "Disconnect" << std::endl; });
+            session->setClosedCallback([&](const HttpSession::Ptr& session) {
+                std::cout << "Disconnect" << std::endl;
+                promise.set_value(std::string());
+            });
         })
         .asyncConnect();
+
+    return promise.get_future();
 }
 
-void AFCHttpClient::AsyncPut(const std::string& ip, const uint16_t port, const std::string& url,
-    std::map<std::string, std::string>& params, const std::string& put_data, HTTP_CALLBACK&& callback)
+aom::Future<bool> AFCHttpClient::AsyncPut(const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+    const std::string& put_data, HTTP_CALLBACK&& callback)
 {
     using namespace brynet::net;
     using namespace brynet::net::http;
@@ -149,18 +162,22 @@ void AFCHttpClient::AsyncPut(const std::string& ip, const uint16_t port, const s
     request.setQuery(query_params.getResult());
     std::string req_url = request.getResult();
 
+    aom::Promise<bool> promise;
+
     // start to connect
     connection_builder_.configureConnector(connector_)
         .configureService(tcp_service_)
-        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
-            AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
-            AsyncConnector::ConnectOptions::WithFailedCallback([]() { std::cout << "Connect failed" << std::endl; })})
+        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port), AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
+            AsyncConnector::ConnectOptions::WithFailedCallback([&]() {
+                std::cout << "Connect failed" << std::endl;
+                promise.set_value(false);
+            })})
         .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE),
-            TcpService::AddSocketOption::AddEnterCallback(
-                [](const TcpConnection::Ptr& session) { std::cout << "Connect successfully" << std::endl; })})
+            TcpService::AddSocketOption::AddEnterCallback([](const TcpConnection::Ptr& session) { std::cout << "Connect successfully" << std::endl; })})
         .configureEnterCallback([&](HttpSession::Ptr session) {
             session->send(req_url.c_str(), req_url.size());
             session->setHttpCallback([&](const HTTPParser& httpParser, const HttpSession::Ptr& session) {
+                promise.set_value(true);
                 auto event_loop = tcp_service_->getRandomEventLoop();
                 event_loop->runAsyncFunctor([=] {
                     if (callback != nullptr)
@@ -169,10 +186,11 @@ void AFCHttpClient::AsyncPut(const std::string& ip, const uint16_t port, const s
                     }
                 });
             });
-            session->setClosedCallback(
-                [req_url](const HttpSession::Ptr& session) { std::cout << "Disconnect" << std::endl; });
+            session->setClosedCallback([req_url](const HttpSession::Ptr& session) { std::cout << "Disconnect" << std::endl; });
         })
         .asyncConnect();
+
+    return promise.get_future();
 }
 
 } // namespace ark

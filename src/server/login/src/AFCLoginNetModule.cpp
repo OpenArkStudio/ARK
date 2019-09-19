@@ -33,51 +33,48 @@ bool AFCLoginNetModule::Init()
 
 bool AFCLoginNetModule::PostInit()
 {
-    int ret = StartServer();
-    if (ret != 0)
-    {
-        exit(0);
-        return false;
-    }
-
+    StartServer();
     return true;
 }
 
 int AFCLoginNetModule::StartServer()
 {
-    int ret = m_pNetServiceManagerModule->CreateServer();
-    if (ret != 0)
-    {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        ARK_ASSERT_NO_EFFECT(0);
-        return ret;
-    }
+    auto ret = m_pNetServiceManagerModule->CreateServer();
+    ret.Then([=](const std::pair<bool, std::string>& resp) {
+        if (!resp.first)
+        {
+            ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), resp.second);
+            ARK_ASSERT_NO_EFFECT(0);
+            exit(0);
+        }
+        else
+        {
+            m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
+            if (m_pNetServer == nullptr)
+            {
+                ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+                exit(0);
+            }
 
-    m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
-    if (m_pNetServer == nullptr)
-    {
-        ret = -3;
-        ARK_LOG_ERROR("Cannot find server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        return ret;
-    }
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNetModule::OnHeartBeat);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNetModule::OnLoginProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNetModule::OnLogOut);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNetModule::OnSelectWorldProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNetModule::OnViewWorldProcess);
+            // m_pNetServer->RegMsgCallback(this, &AFCLoginNetServerModule::InvalidMessage);
 
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNetModule::OnHeartBeat);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNetModule::OnLoginProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNetModule::OnLogOut);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNetModule::OnSelectWorldProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNetModule::OnViewWorldProcess);
-    // m_pNetServer->RegMsgCallback(this, &AFCLoginNetServerModule::InvalidMessage);
-
-    // m_pNetServer->AddNetEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
+            // m_pNetServer->AddNetEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
+        }
+    });
 
     return 0;
 }
 
-bool AFCLoginNetModule::PreUpdate()
-{
-    int ret = StartClient();
-    return (ret == 0);
-}
+//bool AFCLoginNetModule::PreUpdate()
+//{
+//    int ret = StartClient();
+//    return (ret == 0);
+//}
 
 // void AFCLoginNetModule::OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg,
 // const uint32_t msg_len, const AFGUID& conn_id)
@@ -87,28 +84,28 @@ bool AFCLoginNetModule::PreUpdate()
 //    x_msg.account(), x_msg.world_url(), x_msg.world_key());
 //}
 
-int AFCLoginNetModule::StartClient()
-{
-    //创建所有与对端链接的client
-    int ret = m_pNetServiceManagerModule->CreateClusterClients();
-    if (ret != 0)
-    {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        ARK_ASSERT_NO_EFFECT(0);
-        return ret;
-    }
-
-    // if need to add a member
-    AFINetClientService* pNetClient = m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_WORLD);
-    if (pNetClient == nullptr)
-    {
-        return -1;
-    }
-
-    // pNetClient->AddNetEventCallBack(this, &AFCLoginNetClientModule::OnSocketEvent);
-
-    return 0;
-}
+//int AFCLoginNetModule::StartClient()
+//{
+//    //创建所有与对端链接的client
+//    int ret = m_pNetServiceManagerModule->CreateClusterClients();
+//    if (ret != 0)
+//    {
+//        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
+//        ARK_ASSERT_NO_EFFECT(0);
+//        return ret;
+//    }
+//
+//    // if need to add a member
+//    AFINetClientService* pNetClient = m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_WORLD);
+//    if (pNetClient == nullptr)
+//    {
+//        return -1;
+//    }
+//
+//    // pNetClient->AddNetEventCallBack(this, &AFCLoginNetClientModule::OnSocketEvent);
+//
+//    return 0;
+//}
 
 // int AFCLoginNetModule::OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID,
 // const std::string& strAccount, const std::string& strWorldURL, const std::string& strWorldKey)

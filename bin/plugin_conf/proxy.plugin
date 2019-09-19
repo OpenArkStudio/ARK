@@ -3,9 +3,10 @@
 		<plugin name="AFKernelPlugin" />
 		<plugin name="AFUtilityPlugin" />
 		<plugin name="AFLogPlugin" />
+		<plugin name="AFConsulPlugin" />
 		<plugin name="AFBusPlugin" />
 		<plugin name="AFNetPlugin" />
 		<plugin name="AFProxyPlugin" />
 	</plugins>
-	<res path="../resource/" />
+	<res path="resource/" />
 </xml>

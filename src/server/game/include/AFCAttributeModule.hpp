@@ -25,28 +25,28 @@
 #include "kernel/interface/AFIConfigModule.hpp"
 #include "kernel/interface/AFIClassMetaModule.hpp"
 #include "game/interface/AFIPropertyConfigModule.hpp"
-#include "game/interface/AFIPropertyModule.hpp"
+#include "game/interface/AFIAttributeModule.hpp"
 #include "game/interface/AFILevelModule.hpp"
 
 namespace ark {
 
-class AFCPropertyModule : public AFIPropertyModule
+class AFCAttributeModule : public AFIAttributeModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
 
-    virtual int RefreshBaseProperty(const AFGUID& self);
+    virtual int RefreshBaseAttribute(const AFGUID& self);
 
-    virtual int GetPropertyValue(
-        const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType);
-    virtual int SetPropertyValue(const AFGUID& self, const std::string& strPropertyName,
-        const ArkPropertyGroup eGroupType, const int32_t nValue);
+    virtual int GetAttributeValue(
+        const AFGUID& self, const std::string& strPropertyName, const ArkAttributeGroup eGroupType);
+    virtual int SetAttributeValue(const AFGUID& self, const std::string& strPropertyName,
+        const ArkAttributeGroup eGroupType, const int32_t nValue);
 
-    virtual int AddPropertyValue(const AFGUID& self, const std::string& strPropertyName,
-        const ArkPropertyGroup eGroupType, const int32_t nValue);
-    virtual int SubPropertyValue(const AFGUID& self, const std::string& strPropertyName,
-        const ArkPropertyGroup eGroupType, const int32_t nValue);
+    virtual int AddAttributeValue(const AFGUID& self, const std::string& strPropertyName,
+        const ArkAttributeGroup eGroupType, const int32_t nValue);
+    virtual int SubAttributeValue(const AFGUID& self, const std::string& strPropertyName,
+        const ArkAttributeGroup eGroupType, const int32_t nValue);
 
     virtual bool FullHPMP(const AFGUID& self);
     virtual bool AddHP(const AFGUID& self, const int32_t& nValue);
@@ -67,16 +67,16 @@ public:
 
 protected:
     int OnObjectClassEvent(
-        const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var);
+        const AFGUID& self, const std::string& class_name, const ArkEntityEvent eClassEvent, const AFIDataList& var);
 
     int OnObjectLevelEvent(
         const AFGUID& self, const std::string& strPropertyName, const uint32_t index, const AFIData& oldVar, const AFIData& newVar);
 
-    int OnPropertyTableEvent(
-        const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
+    int OnAttributeTableEvent(
+        const AFGUID& self, const TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
-    const std::string& ColToPropertyName(const size_t nCol);
-    int PropertyNameToCol(const std::string& strClassName);
+    const std::string& ColToAttributeName(const size_t nCol);
+    int AttributeNameToCol(const std::string& strClassName);
 
 private:
     AFIKernelModule* m_pKernelModule;
@@ -84,8 +84,8 @@ private:
     AFIConfigModule* m_pConfigModule;
     AFIClassMetaModule* m_pClassModule;
     AFILevelModule* m_pLevelModule;
-    std::map<std::string, int> mNameToCol;
-    std::vector<std::string> mColToName;
+    std::map<std::string, int> name2col_;
+    std::vector<std::string> col2names_;
 };
 
 } // namespace ark

@@ -31,7 +31,7 @@ namespace ark {
 class AFCTableInner final : public AFITableInner
 {
 public:
-    using TableData = AFNewMap<uint32_t, AFIRow>;
+    using TableData = AFMap<uint32_t, AFIRow>;
 
     AFCTableInner() = delete;
 
@@ -47,8 +47,8 @@ public:
 
     ArkDataType GetColType(const uint32_t index) const override;
 
-    const AFFeatureType GetFeature() const override;
-    bool HaveFeature(const ArkTableNodeFeature feature) const override;
+    const AFMaskType GetMask() const override;
+    bool HaveMask(const ArkTableNodeMask feature) const override;
     bool IsPublic() const override;
     bool IsPrivate() const override;
     bool IsRealTime() const override;

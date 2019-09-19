@@ -42,11 +42,11 @@ class AFCGameNetModule : public AFIGameNetModule
 public:
     bool Init() override;
     bool PostInit() override;
-    bool PreUpdate() override;
+    //bool PreUpdate() override;
 
     virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self);
     virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self);
-    virtual AFINetServerService* GetNetServerService();
+    virtual std::shared_ptr<AFINetServerService> GetNetServerService();
 
     virtual bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID);
     virtual bool RemovePlayerGateInfo(const AFGUID& nRoleID);
@@ -107,7 +107,7 @@ public:
 
 protected:
     int StartServer();
-    int StartClient();
+    //int StartClient();
 
     void CommonDataTableAddEvent(
         const AFGUID& self, const uint32_t index, uint32_t nRow, const AFIDataList& valueBroadCaseList);
@@ -121,10 +121,10 @@ protected:
     int CommonClassDestoryEvent(const AFGUID& self);
 
 private:
-    //<角色id,角色网关基础信息>//其实可以在object系统中被代替
-    AFMapEx<AFGUID, GateBaseInfo> mRoleBaseData;
+    //<PlayerID, GateBaseInfo>//其实可以在object系统中被代替
+    AFSmartPtrMap<AFGUID, GateBaseInfo> mRoleBaseData;
     // gate id,data
-    AFMapEx<int, GateServerInfo> mProxyMap;
+    AFSmartPtrMap<int, GateServerInfo> mProxyMap;
     //////////////////////////////////////////////////////////////////////////
     AFIGUIDModule* m_pUUIDModule;
     AFIKernelModule* m_pKernelModule;
@@ -136,9 +136,9 @@ private:
     //////////////////////////////////////////////////////////////////////////
     AFISceneProcessModule* m_pSceneProcessModule;
     AFIAccountModule* m_AccountModule;
-
-    AFINetServerService* m_pNetServerService;
     AFIMsgModule* m_pMsgModule;
+
+    std::shared_ptr<AFINetServerService> m_pNetServerService;
 };
 
 } // namespace ark

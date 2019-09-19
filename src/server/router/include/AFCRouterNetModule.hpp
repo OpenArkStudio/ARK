@@ -36,20 +36,20 @@ class AFCRouterNetModule : public AFIRouterNetModule
 public:
     bool Init() override;
     bool PostInit() override;
-    bool PreUpdate() override;
+    //bool PreUpdate() override;
 
-    virtual AFINetServerService* GetNetServer();
+    std::shared_ptr<AFINetServerService> GetNetServer() override;
 
 protected:
     int StartServer();
-    int StartClient();
+    //int StartClient();
 
 private:
     AFILogModule* m_pLogModule;
     AFIBusModule* m_pBusModule;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
 
-    AFINetServerService* m_pNetServer;
+    std::shared_ptr<AFINetServerService> m_pNetServer;
 };
 
 } // namespace ark

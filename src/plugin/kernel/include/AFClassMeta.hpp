@@ -37,9 +37,9 @@ public:
     using ClassList = std::vector<std::string>;
     using ContainerList = std::map<uint32_t, std::string>;
     using NameIndexList = std::unordered_map<std::string, uint32_t>;
-    using DataMetaList = AFNewSmartPtrMap<uint32_t, AFNodeMeta>;
-    using TableMetaList = AFNewSmartPtrMap<uint32_t, AFTableMeta>;
-    using ContainerMetaList = AFNewSmartPtrMap<uint32_t, AFContainerMeta>;
+    using DataMetaList = AFSmartPtrMap<uint32_t, AFNodeMeta>;
+    using TableMetaList = AFSmartPtrMap<uint32_t, AFTableMeta>;
+    using ContainerMetaList = AFSmartPtrMap<uint32_t, AFContainerMeta>;
 
     AFClassMeta() = delete;
 

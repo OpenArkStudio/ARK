@@ -23,134 +23,20 @@
 #include "base/AFMacros.hpp"
 
 namespace ark {
-// TO DELETE
-template<typename VALUE, bool is_smart_ptr>
+
+template<typename VALUE>
 class AFMapValueType
 {
 public:
     using value_type = VALUE*;
 };
 
-template<typename VALUE>
-class AFMapValueType<VALUE, false>
-{
-public:
-    using value_type = VALUE*;
-};
-
-template<typename VALUE>
-class AFMapValueType<VALUE, true>
-{
-public:
-    using value_type = std::shared_ptr<VALUE>;
-};
-
-template<typename KEY, typename VALUE, bool is_smart_ptr>
+template<typename KEY, typename VALUE, typename MAP_TYPE>
 class AFMapBase
 {
 public:
     using k_type = KEY;
-    using v_type = typename AFMapValueType<VALUE, is_smart_ptr>::value_type;
-    using map_type = std::map<k_type, v_type>;
-    using value_type = typename map_type::value_type;
-    using reference = value_type&;
-    using const_reference = const value_type&;
-    using iterator = typename map_type::iterator;
-    using const_iterator = typename map_type::const_iterator;
-    using reverse_iterator = typename map_type::reverse_iterator;
-    using const_reverse_iterator = typename map_type::const_reverse_iterator;
-
-    std::size_t size() const
-    {
-        return nodes_.size();
-    }
-
-    bool empty() const
-    {
-        return nodes_.empty();
-    }
-
-    std::pair<iterator, bool> insert(const k_type& key, const v_type& value)
-    {
-        return nodes_.insert(value_type(key, value));
-    }
-
-    iterator erase(iterator it)
-    {
-        return nodes_.erase(it);
-    }
-
-    std::size_t erase(const k_type& key)
-    {
-        return nodes_.erase(key);
-    }
-
-    iterator find(const k_type& key)
-    {
-        return nodes_.find(key);
-    }
-
-    iterator begin()
-    {
-        return nodes_.begin();
-    }
-
-    iterator end()
-    {
-        return nodes_.end();
-    }
-
-    reverse_iterator rbegin()
-    {
-        return nodes_.rbegin();
-    }
-
-    reverse_iterator rend()
-    {
-        return nodes_.rend();
-    }
-
-    void clear()
-    {
-        nodes_.clear();
-    }
-
-    v_type find_value(const k_type& key)
-    {
-        auto iter = find(key);
-        if (iter != end())
-        {
-            return iter->second;
-        }
-
-        return nullptr;
-    }
-
-private:
-    map_type nodes_;
-};
-
-template<typename KEY, typename VALUE>
-using AFMap = AFMapBase<KEY, VALUE, false>;
-
-template<typename KEY, typename VALUE>
-using AFMapEx = AFMapBase<KEY, VALUE, true>;
-
-//////////////////////////////////////////////////////////////////////////
-// new map
-template<typename VALUE>
-class AFNewMapValueType
-{
-public:
-    using value_type = VALUE*;
-};
-
-template<typename KEY, typename VALUE, typename MAP_TYPE>
-class AFNewMapBase
-{
-public:
-    using k_type = KEY;
-    using v_type = typename AFNewMapValueType<VALUE>::value_type;
+    using v_type = typename AFMapValueType<VALUE>::value_type;
     using map_type = MAP_TYPE;
     using value_type = typename map_type::value_type;
     using reference = value_type&;
@@ -158,8 +44,8 @@ public:
     using iterator = typename map_type::iterator;
     using const_iterator = typename map_type::const_iterator;
 
-    AFNewMapBase() = default;
-    ~AFNewMapBase()
+    AFMapBase() = default;
+    ~AFMapBase()
     {
         clear();
     }
@@ -377,15 +263,15 @@ private:
 };
 
 template<typename KEY, typename VALUE>
-using AFNewMap = AFNewMapBase<KEY, VALUE, std::map<KEY, VALUE*>>;
+using AFMap = AFMapBase<KEY, VALUE, std::map<KEY, VALUE*>>;
 
 template<typename KEY, typename VALUE>
-using AFNewSmartPtrMap = AFSmartPtrMapBase<KEY, VALUE, std::map<KEY, std::shared_ptr<VALUE>>>;
+using AFSmartPtrMap = AFSmartPtrMapBase<KEY, VALUE, std::map<KEY, std::shared_ptr<VALUE>>>;
 
 template<typename KEY, typename VALUE>
-using AFNewHashmap = AFNewMapBase<KEY, VALUE, std::unordered_map<KEY, VALUE*>>;
+using AFHashmap = AFMapBase<KEY, VALUE, std::unordered_map<KEY, VALUE*>>;
 
 template<typename KEY, typename VALUE>
-using AFNewSmartPtrHashmap = AFSmartPtrMapBase<KEY, VALUE, std::unordered_map<KEY, std::shared_ptr<VALUE>>>;
+using AFSmartPtrHashmap = AFSmartPtrMapBase<KEY, VALUE, std::unordered_map<KEY, std::shared_ptr<VALUE>>>;
 
 } // namespace ark

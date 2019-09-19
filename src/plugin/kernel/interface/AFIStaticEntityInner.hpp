@@ -31,7 +31,7 @@ namespace ark {
 class AFIStaticEntityInner : public AFIStaticEntity
 {
 public:
-    using DataList = AFNewMap<uint32_t, AFINode>;
+    using DataList = AFMap<uint32_t, AFINode>;
 
     virtual ~AFIStaticEntityInner() = default;
 

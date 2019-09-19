@@ -100,7 +100,7 @@ private:
     AFITableInner* table_inner_{nullptr};
 
     // data
-    using DataList = AFNewMap<uint32_t, AFINode>;
+    using DataList = AFMap<uint32_t, AFINode>;
     DataList data_;
     DataList::iterator iter_;
 };

@@ -36,13 +36,14 @@ class AFCDirNetModule : public AFIDirNetModule
 public:
     bool Init() override;
     bool PostInit() override;
-    bool PreUpdate() override;
+    //bool PreUpdate() override;
 
-    virtual AFINetServerService* GetNetServer();
+    std::shared_ptr<AFINetServerService> GetNetServer() override;
 
 protected:
     int StartServer();
-    int StartClient();
+    //int StartClient();
+
     // void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
 
     // void OnClientConnected(const AFGUID& conn_id);
@@ -53,7 +54,7 @@ private:
     AFIBusModule* m_pBusModule;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
 
-    AFINetServerService* m_pNetServer;
+    std::shared_ptr<AFINetServerService> m_pNetServer;
 };
 
 } // namespace ark

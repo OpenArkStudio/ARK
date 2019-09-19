@@ -64,7 +64,7 @@ private:
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
 
-    AFMapEx<int, AFMapInfo> map_infos_;
+    AFSmartPtrMap<int, AFMapInfo> map_infos_;
 };
 
 } // namespace ark

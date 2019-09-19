@@ -109,7 +109,7 @@ public:
     {
         ARK_ASSERT_RET_NONE(FindModule(module_name) == nullptr);
 
-        if (module_instances_.insert(module_name, module_ptr).second)
+        if (module_instances_.insert(std::make_pair(module_name, module_ptr)).second)
         {
             ordered_module_instances_.push_back(module_ptr);
         }
@@ -136,11 +136,17 @@ public:
     bool AddUpdateModule(AFIModule* pModule)
     {
         ARK_ASSERT_RET_VAL(pModule != nullptr, false);
-        return module_updates_.insert(pModule->GetName(), pModule).second;
+        return module_updates_.insert(std::make_pair(pModule->GetName(), pModule)).second;
     }
 
     void RemoveUpdateModule(const std::string& module_name)
     {
+        //auto iter = module_updates_.find(module_name);
+        //if (iter != module_updates_.end())
+        //{
+        //    module_updates_.erase(iter);
+        //}
+
         module_updates_.erase(module_name);
     }
 
@@ -199,7 +205,7 @@ protected:
 
         ARK_ASSERT_RET_NONE(FindPlugin(plugin_name) == nullptr);
         plugin->SetPluginManager(this);
-        plugin_instances_.insert(plugin_name, plugin);
+        plugin_instances_.insert(std::make_pair(plugin_name, plugin));
         plugin->Install();
     }
 
@@ -217,7 +223,16 @@ protected:
 
     AFIPlugin* FindPlugin(const std::string& plugin_name)
     {
-        return plugin_instances_.find_value(plugin_name);
+
+        auto iter = plugin_instances_.find(plugin_name);
+        if (iter != plugin_instances_.end())
+        {
+            return iter->second;
+        }
+        else
+        {
+            return nullptr;
+        }
     }
 
     AFIModule* FindModule(const std::string& module_name)
@@ -319,8 +334,6 @@ protected:
             UnloadPluginLibrary(it.first);
         }
 
-        plugin_instances_.clear();
-        plugin_names_.clear();
         return true;
     }
 
@@ -364,7 +377,7 @@ protected:
         bool load_ret = pLib->Load(plugin_path_);
         if (load_ret)
         {
-            plugin_libs_.insert(plugin_name, pLib);
+            plugin_libs_.insert(std::make_pair(plugin_name, pLib));
             auto func = (DLL_ENTRY_PLUGIN_FUNC)pLib->GetSymbol("DllEntryPlugin");
             ARK_ASSERT_RET_VAL(func != nullptr, false);
             func(this);
@@ -374,8 +387,7 @@ protected:
         else
         {
 #ifdef ARK_PLATFORM_WIN
-            CONSOLE_LOG << "Load dynamic library[" << pLib->GetName() << "] failed, ErrorNo=[" << GetLastError() << "]"
-                        << std::endl;
+            CONSOLE_LOG << "Load dynamic library[" << pLib->GetName() << "] failed, ErrorNo=[" << GetLastError() << "]" << std::endl;
             CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
             assert(0);
             return false;
@@ -383,8 +395,7 @@ protected:
             char* error = dlerror();
             if (error)
             {
-                CONSOLE_LOG << stderr << " Load shared library[" << pLib->GetName() << "] failed, ErrorNo=[" << error
-                            << "]" << std::endl;
+                CONSOLE_LOG << stderr << " Load shared library[" << pLib->GetName() << "] failed, ErrorNo=[" << error << "]" << std::endl;
                 CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
                 assert(0);
                 return false;
@@ -433,14 +444,14 @@ private:
     using DLL_ENTRY_PLUGIN_FUNC = void (*)(AFPluginManager* p);
     using DLL_EXIT_PLUGIN_FUNC = void (*)(AFPluginManager* p);
 
-    std::map<std::string, bool> plugin_names_;
+    std::unordered_map<std::string, bool> plugin_names_;
     std::vector<std::string> ordered_plugin_names_; // order
-    AFMap<std::string, AFDynLib> plugin_libs_;
-    AFMap<std::string, AFIPlugin> plugin_instances_;
-    AFMap<std::string, AFIModule> module_instances_;
+    std::unordered_map<std::string, AFDynLib*> plugin_libs_;
+    std::unordered_map<std::string, AFIPlugin*> plugin_instances_;
+    std::unordered_map<std::string, AFIModule*> module_instances_;
     std::vector<AFIModule*> ordered_module_instances_; // order
 
-    AFMap<std::string, AFIModule> module_updates_;
+    std::unordered_map<std::string, AFIModule*> module_updates_;
 };
 
 } // namespace ark

@@ -19,11 +19,11 @@
  */
 
 #include "base/AFDateTime.hpp"
-#include "game/include/AFCPropertyModule.hpp"
+#include "game/include/AFCAttributeModule.hpp"
 
 namespace ark {
 
-bool AFCPropertyModule::Init()
+bool AFCAttributeModule::Init()
 {
     m_pKernelModule = FindModule<AFIKernelModule>();
     m_pConfigModule = FindModule<AFIConfigModule>();
@@ -31,19 +31,19 @@ bool AFCPropertyModule::Init()
     m_pPropertyConfigModule = FindModule<AFIPropertyConfigModule>();
     m_pLevelModule = FindModule<AFILevelModule>();
 
-    m_pKernelModule->AddClassCallBack(AFEntityMetaPlayer::self_name(), this, &AFCPropertyModule::OnObjectClassEvent);
+    m_pKernelModule->AddClassCallBack(AFEntityMetaPlayer::self_name(), this, &AFCAttributeModule::OnObjectClassEvent);
     m_pKernelModule->AddDataCallBack(
-        AFEntityMetaPlayer::self_name(), AFEntityMetaPlayer::level(), this, &AFCPropertyModule::OnObjectLevelEvent);
+        AFEntityMetaPlayer::self_name(), AFEntityMetaPlayer::level(), this, &AFCAttributeModule::OnObjectLevelEvent);
     // m_pClassModule->AddTableCallBack(AFEntityMetaPlayer::self_name(), ark::Player::R_CommPropertyValue(), this,
     // &AFCPropertyModule::OnPropertyTableEvent);
 
     return true;
 }
 
-int AFCPropertyModule::GetPropertyValue(
-    const AFGUID& self, const std::string& attr_name, const ArkPropertyGroup eGroupType)
+int AFCAttributeModule::GetAttributeValue(
+    const AFGUID& self, const std::string& attr_name, const ArkAttributeGroup eGroupType)
 {
-    if (ArkPropertyGroup::APG_ALL != eGroupType)
+    if (ArkAttributeGroup::APG_ALL != eGroupType)
     {
         // return m_pKernelModule->GetTableInt(self, ark::Player::R_CommPropertyValue(), eGroupType,
         // PropertyNameToCol(strPropertyName));
@@ -58,8 +58,8 @@ int AFCPropertyModule::GetPropertyValue(
     return pEntity->GetInt32(attr_name);
 }
 
-int AFCPropertyModule::SetPropertyValue(
-    const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int32_t nValue)
+int AFCAttributeModule::SetAttributeValue(
+    const AFGUID& self, const std::string& strPropertyName, const ArkAttributeGroup eGroupType, const int32_t nValue)
 {
     // if (ArkPropertyGroup::APG_ALL != eGroupType)
     //{
@@ -82,8 +82,8 @@ int AFCPropertyModule::SetPropertyValue(
     return 0;
 }
 
-int AFCPropertyModule::AddPropertyValue(
-    const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int32_t nValue)
+int AFCAttributeModule::AddAttributeValue(
+    const AFGUID& self, const std::string& strPropertyName, const ArkAttributeGroup eGroupType, const int32_t nValue)
 {
     // if (ArkPropertyGroup::APG_ALL != eGroupType)
     //{
@@ -104,8 +104,8 @@ int AFCPropertyModule::AddPropertyValue(
     return 0;
 }
 
-int AFCPropertyModule::SubPropertyValue(
-    const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int32_t nValue)
+int AFCAttributeModule::SubAttributeValue(
+    const AFGUID& self, const std::string& strPropertyName, const ArkAttributeGroup eGroupType, const int32_t nValue)
 {
     // if (ArkPropertyGroup::APG_ALL != eGroupType)
     //{
@@ -127,18 +127,18 @@ int AFCPropertyModule::SubPropertyValue(
     return 0;
 }
 
-int AFCPropertyModule::OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const uint32_t index,
+int AFCAttributeModule::OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const uint32_t index,
     const AFIData& oldVar, const AFIData& newVar)
 {
-    RefreshBaseProperty(self);
+    RefreshBaseAttribute(self);
 
     FullHPMP(self);
 
     return 0;
 }
 
-int AFCPropertyModule::OnPropertyTableEvent(
-    const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
+int AFCAttributeModule::OnAttributeTableEvent(
+    const AFGUID& self, const TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
     ////计算总值
     // const int nOpType = xEventData.nOpType;
@@ -159,21 +159,21 @@ int AFCPropertyModule::OnPropertyTableEvent(
     return 0;
 }
 
-const std::string& AFCPropertyModule::ColToPropertyName(const size_t nCol)
+const std::string& AFCAttributeModule::ColToAttributeName(const size_t nCol)
 {
-    if (nCol > mColToName.size())
+    if (nCol > col2names_.size())
     {
         return NULL_STR;
     }
 
-    return mColToName[nCol];
+    return col2names_[nCol];
 }
 
-int AFCPropertyModule::PropertyNameToCol(const std::string& strPropertyName)
+int AFCAttributeModule::AttributeNameToCol(const std::string& strPropertyName)
 {
-    auto iter = mNameToCol.find(strPropertyName);
+    auto iter = name2col_.find(strPropertyName);
 
-    if (iter != mNameToCol.end())
+    if (iter != name2col_.end())
     {
         return iter->second;
     }
@@ -181,7 +181,7 @@ int AFCPropertyModule::PropertyNameToCol(const std::string& strPropertyName)
     return -1;
 }
 
-int AFCPropertyModule::OnObjectClassEvent(
+int AFCAttributeModule::OnObjectClassEvent(
     const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var)
 {
     // if (ArkEntityEvent::ENTITY_EVT_PRE_LOAD_DATA == eClassEvent)
@@ -216,7 +216,7 @@ int AFCPropertyModule::OnObjectClassEvent(
     return 0;
 }
 
-int AFCPropertyModule::RefreshBaseProperty(const AFGUID& self)
+int AFCAttributeModule::RefreshBaseAttribute(const AFGUID& self)
 {
     // AFDataTable* pTable = m_pKernelModule->FindTable(self, ark::Player::R_CommPropertyValue());
 
@@ -239,7 +239,7 @@ int AFCPropertyModule::RefreshBaseProperty(const AFGUID& self)
     return 0;
 }
 
-bool AFCPropertyModule::FullHPMP(const AFGUID& self)
+bool AFCAttributeModule::FullHPMP(const AFGUID& self)
 {
     // int32_t nMaxHP = m_pKernelModule->GetNodeInt(self, ark::Player::HP());
 
@@ -258,7 +258,7 @@ bool AFCPropertyModule::FullHPMP(const AFGUID& self)
     return true;
 }
 
-bool AFCPropertyModule::AddHP(const AFGUID& self, const int32_t& nValue)
+bool AFCAttributeModule::AddHP(const AFGUID& self, const int32_t& nValue)
 {
     // if (nValue <= 0)
     //{
@@ -283,7 +283,7 @@ bool AFCPropertyModule::AddHP(const AFGUID& self, const int32_t& nValue)
     return true;
 }
 
-bool AFCPropertyModule::EnoughHP(const AFGUID& self, const int32_t& nValue)
+bool AFCAttributeModule::EnoughHP(const AFGUID& self, const int32_t& nValue)
 {
     // int32_t nCurValue = m_pKernelModule->GetNodeInt(self, ark::Player::HP());
 
@@ -295,7 +295,7 @@ bool AFCPropertyModule::EnoughHP(const AFGUID& self, const int32_t& nValue)
     return false;
 }
 
-bool AFCPropertyModule::ConsumeHP(const AFGUID& self, const int32_t& nValue)
+bool AFCAttributeModule::ConsumeHP(const AFGUID& self, const int32_t& nValue)
 {
     // int32_t nCurValue = m_pKernelModule->GetNodeInt(self, ark::Player::HP());
 
@@ -310,7 +310,7 @@ bool AFCPropertyModule::ConsumeHP(const AFGUID& self, const int32_t& nValue)
     return false;
 }
 
-bool AFCPropertyModule::AddMP(const AFGUID& self, const int32_t& nValue)
+bool AFCAttributeModule::AddMP(const AFGUID& self, const int32_t& nValue)
 {
     // if (nValue <= 0)
     //{
@@ -332,7 +332,7 @@ bool AFCPropertyModule::AddMP(const AFGUID& self, const int32_t& nValue)
     return true;
 }
 
-bool AFCPropertyModule::ConsumeMP(const AFGUID& self, const int32_t& nValue)
+bool AFCAttributeModule::ConsumeMP(const AFGUID& self, const int32_t& nValue)
 {
     // int32_t nCurValue = m_pKernelModule->GetNodeInt(self, ark::Player::MP());
 
@@ -347,7 +347,7 @@ bool AFCPropertyModule::ConsumeMP(const AFGUID& self, const int32_t& nValue)
     return false;
 }
 
-bool AFCPropertyModule::EnoughMP(const AFGUID& self, const int32_t& nValue)
+bool AFCAttributeModule::EnoughMP(const AFGUID& self, const int32_t& nValue)
 {
     // int32_t nCurValue = m_pKernelModule->GetNodeInt(self, ark::Player::MP());
 
@@ -359,7 +359,7 @@ bool AFCPropertyModule::EnoughMP(const AFGUID& self, const int32_t& nValue)
     return false;
 }
 
-bool AFCPropertyModule::AddMoney(const AFGUID& self, const int32_t& nValue)
+bool AFCAttributeModule::AddMoney(const AFGUID& self, const int32_t& nValue)
 {
     if (nValue <= 0)
     {
@@ -373,7 +373,7 @@ bool AFCPropertyModule::AddMoney(const AFGUID& self, const int32_t& nValue)
     return false;
 }
 
-bool AFCPropertyModule::ConsumeMoney(const AFGUID& self, const int32_t& nValue)
+bool AFCAttributeModule::ConsumeMoney(const AFGUID& self, const int32_t& nValue)
 {
     if (nValue <= 0)
     {
@@ -393,7 +393,7 @@ bool AFCPropertyModule::ConsumeMoney(const AFGUID& self, const int32_t& nValue)
     return false;
 }
 
-bool AFCPropertyModule::EnoughMoney(const AFGUID& self, const int32_t& nValue)
+bool AFCAttributeModule::EnoughMoney(const AFGUID& self, const int32_t& nValue)
 {
     // int32_t nCurValue = m_pKernelModule->GetNodeInt(self, ark::Player::Gold());
 
@@ -405,7 +405,7 @@ bool AFCPropertyModule::EnoughMoney(const AFGUID& self, const int32_t& nValue)
     return false;
 }
 
-bool AFCPropertyModule::AddDiamond(const AFGUID& self, const int32_t& nValue)
+bool AFCAttributeModule::AddDiamond(const AFGUID& self, const int32_t& nValue)
 {
     // if (nValue <= 0)
     //{
@@ -419,7 +419,7 @@ bool AFCPropertyModule::AddDiamond(const AFGUID& self, const int32_t& nValue)
     return false;
 }
 
-bool AFCPropertyModule::ConsumeDiamond(const AFGUID& self, const int32_t& nValue)
+bool AFCAttributeModule::ConsumeDiamond(const AFGUID& self, const int32_t& nValue)
 {
     // if (nValue <= 0)
     //{
@@ -439,7 +439,7 @@ bool AFCPropertyModule::ConsumeDiamond(const AFGUID& self, const int32_t& nValue
     return false;
 }
 
-bool AFCPropertyModule::EnoughDiamond(const AFGUID& self, const int32_t& nValue)
+bool AFCAttributeModule::EnoughDiamond(const AFGUID& self, const int32_t& nValue)
 {
     // int32_t nCurValue = m_pKernelModule->GetNodeInt(self, ark::Player::Money());
     // if ((nCurValue > 0) && (nCurValue - nValue >= 0))

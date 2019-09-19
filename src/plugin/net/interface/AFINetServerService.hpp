@@ -58,25 +58,24 @@ public:
     bool RegMsgCallback(const int msg_id, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t))
     {
         NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
-        return RegMsgCallback(msg_id, std::make_shared<NET_MSG_FUNCTOR>(functor));
+        return RegMsgCallback(msg_id, std::move(functor));
     }
 
     template<typename BaseType>
     bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t))
     {
         NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
-        return RegForwardMsgCallback(std::make_shared<NET_MSG_FUNCTOR>(functor));
+        return RegForwardMsgCallback(std::move(functor));
     }
 
     template<typename BaseType>
     bool RegNetEventCallback(BaseType* pBase, void (BaseType::*handler)(const AFNetEvent*))
     {
         NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1);
-        return RegNetEventCallback(std::make_shared<NET_EVENT_FUNCTOR>(functor));
+        return RegNetEventCallback(std::move(functor));
     }
 
-    virtual bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count,
-        const uint32_t max_connection) = 0;
+    virtual bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) = 0;
     virtual bool Update() = 0;
 
     // virtual bool SendBroadcastMsg(const int nMsgID, const std::string& msg, const AFGUID& player_id) = 0;
@@ -87,9 +86,9 @@ public:
     // std::vector<AFGUID>* target_list = nullptr) = 0;
     virtual AFINet* GetNet() = 0;
 
-    virtual bool RegMsgCallback(const int nMsgID, const NET_MSG_FUNCTOR_PTR& cb) = 0;
-    virtual bool RegForwardMsgCallback(const NET_MSG_FUNCTOR_PTR& cb) = 0;
-    virtual bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) = 0;
+    virtual bool RegMsgCallback(const int msg_id, NET_MSG_FUNCTOR&& cb) = 0;
+    virtual bool RegForwardMsgCallback(NET_MSG_FUNCTOR&& cb) = 0;
+    virtual bool RegNetEventCallback(NET_EVENT_FUNCTOR&& cb) = 0;
 };
 
 } // namespace ark

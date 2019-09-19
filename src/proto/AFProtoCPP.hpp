@@ -28,3 +28,5 @@
 
 #include "proto/cpp/AFCommonMsgNew.pb.h"
 #include "proto/cpp/AFDBMsg.pb.h"
+
+#include "proto/cpp/AFConsul.pb.h"

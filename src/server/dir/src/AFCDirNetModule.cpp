@@ -33,66 +33,63 @@ bool AFCDirNetModule::Init()
 
 bool AFCDirNetModule::PostInit()
 {
-    int ret = StartServer();
-    if (ret != 0)
-    {
-        exit(0);
-        return false;
-    }
-
+    StartServer();
     return true;
 }
 
 int AFCDirNetModule::StartServer()
 {
-    int ret = m_pNetServiceManagerModule->CreateServer();
-    if (ret != 0)
-    {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        ARK_ASSERT_NO_EFFECT(0);
-        return ret;
-    }
-
-    m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
-    if (m_pNetServer == nullptr)
-    {
-        ret = -3;
-        ARK_LOG_ERROR("Cannot find server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        return ret;
-    }
-
-    return 0;
-}
-
-bool AFCDirNetModule::PreUpdate()
-{
-    int ret = StartClient();
-    return (ret == 0);
-}
-
-int AFCDirNetModule::StartClient()
-{
-    // Create all clients that need to connect the target endpoint
-    int ret = m_pNetServiceManagerModule->CreateClusterClients();
-    if (ret != 0)
-    {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        ARK_ASSERT_NO_EFFECT(0);
-        return ret;
-    }
-
-    // Check the master connection
-    AFINetClientService* pNetClientMaster =
-        m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
-    if (pNetClientMaster == nullptr)
-    {
-        return -1;
-    }
+    auto ret = m_pNetServiceManagerModule->CreateServer();
+    ret.Then([=](const std::pair<bool, std::string>& resp) {
+        if (!resp.first)
+        {
+            ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), resp.second);
+            ARK_ASSERT_NO_EFFECT(0);
+            exit(0);
+        }
+        else
+        {
+            m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
+            if (m_pNetServer == nullptr)
+            {
+                ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+                exit(0);
+            }
+        }
+    });
 
     return 0;
 }
 
-AFINetServerService* AFCDirNetModule::GetNetServer()
+//bool AFCDirNetModule::PreUpdate()
+//{
+//    int ret = StartClient();
+//    return (ret == 0);
+//}
+
+//int AFCDirNetModule::StartClient()
+//{
+//    // Create all clients that need to connect the target endpoint
+//    int ret = m_pNetServiceManagerModule->CreateClusterClients();
+//    if (ret != 0)
+//    {
+//        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
+//        ARK_ASSERT_NO_EFFECT(0);
+//        return ret;
+//    }
+//
+//    // Check the master connection
+//    AFINetClientService* pNetClientMaster =
+//        m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
+//    if (pNetClientMaster == nullptr)
+//    {
+//        return -1;
+//    }
+//
+//    return 0;
+//}
+
+std::shared_ptr<AFINetServerService> AFCDirNetModule::GetNetServer()
 {
     return m_pNetServer;
 }

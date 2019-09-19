@@ -49,75 +49,78 @@ bool AFCWorldNetModule::PostInit()
 
 int AFCWorldNetModule::StartServer()
 {
-    int ret = m_pNetServiceManagerModule->CreateServer();
-    if (ret != 0)
-    {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        ARK_ASSERT_NO_EFFECT(0);
-        return ret;
-    }
+    auto ret = m_pNetServiceManagerModule->CreateServer();
+    ret.Then([=](const std::pair<bool, std::string>& resp) {
+        if (!resp.first)
+        {
+            ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), resp.second);
+            ARK_ASSERT_NO_EFFECT(0);
+            exit(0);
+        }
+        else
+        {
+            m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
+            if (m_pNetServer == nullptr)
+            {
+                ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+                exit(0);
+            }
 
-    m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
-    if (m_pNetServer == nullptr)
-    {
-        ret = -3;
-        ARK_LOG_ERROR("Cannot find server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        return ret;
-    }
-
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this,
-    // &AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this,
-    // &AFCWorldNetServerModule::OnProxyServerRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this,
-    // &AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_REGISTERED, this,
-    // &AFCWorldNetServerModule::OnGameServerRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_UNREGISTERED, this,
-    // &AFCWorldNetServerModule::OnGameServerUnRegisteredProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_REFRESH, this,
-    // &AFCWorldNetServerModule::OnRefreshGameServerInfoProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_ONLINE_NOTIFY, this, &AFCWorldNetModule::OnOnlineProcess);
-    // m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_OFFLINE_NOTIFY, this, &AFCWorldNetModule::OnOfflineProcess);
-
-    return 0;
-}
-
-bool AFCWorldNetModule::PreUpdate()
-{
-    int ret = StartClient();
-    return (ret == 0);
-}
-
-int AFCWorldNetModule::StartClient()
-{
-    //创建所有与对端链接的client
-    int ret = m_pNetServiceManagerModule->CreateClusterClients();
-    if (ret != 0)
-    {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        ARK_ASSERT_NO_EFFECT(0);
-        return ret;
-    }
-
-    // if need to add a member
-    AFINetClientService* pNetClientWorld =
-        m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
-    if (pNetClientWorld == nullptr)
-    {
-        return 0;
-    }
-
-    // pNetClientWorld->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this,
-    // &AFCWorldNetClientModule::OnSelectServerProcess);
-    // pNetClientWorld->RegMsgCallback(AFMsg::EGMI_REQ_KICK_CLIENT_INWORLD, this,
-    // &AFCWorldNetClientModule::OnKickClientProcess); pNetClientWorld->RegMsgCallback(this,
-    // &AFCWorldNetClientModule::InvalidMessage);
-
-    // pNetClientWorld->AddNetEventCallBack(this, &AFCWorldNetClientModule::OnSocketEvent);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this,
+            // &AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this,
+            // &AFCWorldNetServerModule::OnProxyServerRegisteredProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this,
+            // &AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_REGISTERED, this,
+            // &AFCWorldNetServerModule::OnGameServerRegisteredProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_UNREGISTERED, this,
+            // &AFCWorldNetServerModule::OnGameServerUnRegisteredProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_REFRESH, this,
+            // &AFCWorldNetServerModule::OnRefreshGameServerInfoProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_ONLINE_NOTIFY, this, &AFCWorldNetModule::OnOnlineProcess);
+            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_OFFLINE_NOTIFY, this, &AFCWorldNetModule::OnOfflineProcess);
+        }
+    });
 
     return 0;
 }
+
+//bool AFCWorldNetModule::PreUpdate()
+//{
+//    int ret = StartClient();
+//    return (ret == 0);
+//}
+//
+//int AFCWorldNetModule::StartClient()
+//{
+//    //创建所有与对端链接的client
+//    int ret = m_pNetServiceManagerModule->CreateClusterClients();
+//    if (ret != 0)
+//    {
+//        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
+//        ARK_ASSERT_NO_EFFECT(0);
+//        return ret;
+//    }
+//
+//    // if need to add a member
+//    AFINetClientService* pNetClientWorld =
+//        m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
+//    if (pNetClientWorld == nullptr)
+//    {
+//        return 0;
+//    }
+//
+//    // pNetClientWorld->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this,
+//    // &AFCWorldNetClientModule::OnSelectServerProcess);
+//    // pNetClientWorld->RegMsgCallback(AFMsg::EGMI_REQ_KICK_CLIENT_INWORLD, this,
+//    // &AFCWorldNetClientModule::OnKickClientProcess); pNetClientWorld->RegMsgCallback(this,
+//    // &AFCWorldNetClientModule::InvalidMessage);
+//
+//    // pNetClientWorld->AddNetEventCallBack(this, &AFCWorldNetClientModule::OnSocketEvent);
+//
+//    return 0;
+//}
 
 // void AFCWorldNetServerModule::OnGameServerRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const
 // char* msg, const uint32_t msg_len, const AFGUID& conn_id)
@@ -525,9 +528,9 @@ int AFCWorldNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFID
     AFMsg::pb_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
-    AFFeatureType nFeature;
-    nFeature[(size_t)AFNodeFeature::PF_PUBLIC] = 1;
-    AFIMsgModule::NodeToPBDataByFeature(pEntity, nFeature, entity->mutable_data());
+    AFMaskType mask;
+    mask[(size_t)ArkNodeMask::PF_PUBLIC] = 1;
+    AFIMsgModule::NodeToPBDataByMask(pEntity, mask, entity->mutable_data());
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
@@ -563,9 +566,9 @@ int AFCWorldNetModule::OnSelfDataNodeEnter(const AFGUID& self, const AFIDataList
     AFMsg::pb_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
-    AFFeatureType nFeature;
-    nFeature[(size_t)AFNodeFeature::PF_PRIVATE] = 1;
-    AFIMsgModule::NodeToPBDataByFeature(pEntity, nFeature, entity->mutable_data());
+    AFMaskType nFeature;
+    nFeature[(size_t)ArkNodeMask::PF_PRIVATE] = 1;
+    AFIMsgModule::NodeToPBDataByMask(pEntity, nFeature, entity->mutable_data());
 
     SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, msg, self);
     return 0;
@@ -588,9 +591,9 @@ int AFCWorldNetModule::OnSelfDataTableEnter(const AFGUID& self, const AFIDataLis
     AFMsg::pb_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
-    AFFeatureType nFeature;
-    nFeature[(size_t)ArkTableNodeFeature::PF_PRIVATE] = 1;
-    AFIMsgModule::TableToPBDataByFeature(pEntity, nFeature, entity->mutable_data());
+    AFMaskType nFeature;
+    nFeature[(size_t)ArkTableNodeMask::PF_PRIVATE] = 1;
+    AFIMsgModule::TableToPBDataByMask(pEntity, nFeature, entity->mutable_data());
 
 	const int64_t nGameID = argGameID.Int(0);
     SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, msg, self);
@@ -615,9 +618,9 @@ int AFCWorldNetModule::OnViewDataTableEnter(const AFIDataList& argVar, const AFI
     AFMsg::pb_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
-    AFFeatureType nFeature;
-    nFeature[(size_t)ArkTableNodeFeature::PF_PUBLIC] = 1;
-    AFIMsgModule::TableToPBDataByFeature(pEntity, nFeature, entity->mutable_data());
+    AFMaskType nFeature;
+    nFeature[(size_t)ArkTableNodeMask::PF_PUBLIC] = 1;
+    AFIMsgModule::TableToPBDataByMask(pEntity, nFeature, entity->mutable_data());
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
@@ -638,7 +641,7 @@ ARK_SHARE_PTR<AFServerData> AFCWorldNetModule::GetSuitProxyForEnter()
     return mProxyMap.begin()->second;
 }
 
-AFINetServerService* AFCWorldNetModule::GetNetServer()
+std::shared_ptr<AFINetServerService> AFCWorldNetModule::GetNetServer()
 {
     return m_pNetServer;
 }

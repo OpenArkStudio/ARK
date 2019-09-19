@@ -55,10 +55,10 @@ public:
     bool IsSave(const uint32_t index) override;
     bool IsRealTime(const std::string& name) override;
     bool IsRealTime(const uint32_t index) override;
-    bool HaveFeature(const std::string& name, AFNodeFeature feature) override;
-    bool HaveFeature(const uint32_t index, AFNodeFeature feature) override;
+    bool HaveMask(const std::string& name, ArkNodeMask feature) override;
+    bool HaveMask(const uint32_t index, ArkNodeMask feature) override;
 
-    AFFeatureType GetFeature(const uint32_t index) const override;
+    AFMaskType GetMask(const uint32_t index) const override;
 
     const std::string& GetClassName() const override;
     ID_TYPE GetConfigID() const override;
@@ -190,7 +190,7 @@ private:
     int32_t map_entity_id_{NULL_INT};
 
     // custom data
-    using CustomDataList = AFNewHashmap<std::string, AFIData>;
+    using CustomDataList = AFHashmap<std::string, AFIData>;
     CustomDataList custom_data_list_;
 
     // static object

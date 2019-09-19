@@ -39,7 +39,7 @@ class AFCWorldNetModule : public AFIWorldNetModule
 public:
     bool Init() override;
     bool PostInit() override;
-    bool PreUpdate() override;
+    //bool PreUpdate() override;
 
     virtual bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData,
         const AFGUID nPlayer = AFGUID());
@@ -57,13 +57,13 @@ public:
     virtual int OnSelfDataTableEnter(const AFGUID& self, const AFIDataList& argGameID);
 
     virtual ARK_SHARE_PTR<AFServerData> GetSuitProxyForEnter();
-    virtual AFINetServerService* GetNetServer();
+    std::shared_ptr<AFINetServerService> GetNetServer() override;
 
     virtual int GetPlayerGameID(const AFGUID self);
 
 protected:
     int StartServer();
-    int StartClient();
+    //int StartClient();
 
     // void OnGameServerRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const
     // uint32_t nLen, const AFGUID& xClientID); void OnGameServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead,
@@ -97,13 +97,13 @@ protected:
     void OnKickClientProcess(const AFNetMsg* msg);
 
 private:
-    AFMapEx<int, AFServerData> reg_servers_;
+    AFSmartPtrMap<int, AFServerData> reg_servers_;
 
     int64_t mnLastCheckTime;
 
     // server id, data
-    AFMapEx<int, AFServerData> mGameMap;
-    AFMapEx<int, AFServerData> mProxyMap;
+    AFSmartPtrMap<int, AFServerData> mGameMap;
+    AFSmartPtrMap<int, AFServerData> mProxyMap;
 
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
@@ -112,7 +112,7 @@ private:
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
     AFITimerModule* m_pTimerModule;
 
-    AFINetServerService* m_pNetServer;
+    std::shared_ptr<AFINetServerService> m_pNetServer;
 };
 
 } // namespace ark

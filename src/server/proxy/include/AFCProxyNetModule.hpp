@@ -37,7 +37,7 @@ class AFCProxyNetModule : public AFIProxyNetModule
 public:
     bool Init() override;
     bool PostInit() override;
-    bool PreUpdate() override;
+    //bool PreUpdate() override;
 
     int Transpond(const AFNetMsg* msg) override;
     int SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID,
@@ -51,7 +51,7 @@ public:
 protected:
     int StartServer();
 
-    int StartClient();
+    //int StartClient();
 
     void OnSelectServerResultProcess(const AFNetMsg* msg, const int64_t session_id);
     void OnServerInfoProcess(const AFNetMsg* msg, const int64_t session_id);
@@ -103,10 +103,10 @@ protected:
         std::string strConnectKey{};
     };
 
-    AFMapEx<std::string, ClientConnectData> mxWantToConnectMap;
+    AFSmartPtrMap<std::string, ClientConnectData> mxWantToConnectMap;
 
 private:
-    AFMapEx<AFGUID, AFClientConnectionData> client_connections_; // net_conn_id <--> SessionData
+    AFSmartPtrMap<AFGUID, AFClientConnectionData> client_connections_; // net_conn_id <--> SessionData
     AFCConsistentHash mxConsistentHash;
 
     AFILogModule* m_pLogModule;
@@ -114,7 +114,7 @@ private:
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
     AFIMsgModule* m_pMsgModule;
 
-    AFINetServerService* m_pNetServer{nullptr};
+    std::shared_ptr<AFINetServerService> m_pNetServer{nullptr};
 };
 
 } // namespace ark

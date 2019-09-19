@@ -40,7 +40,6 @@ public:
 
     void Update() override
     {
-        int event_id = 0;
         for (auto iter : need_remove_events_)
         {
             event_callbacks_.erase(iter);
@@ -54,9 +53,9 @@ public:
         auto pEventInfo = event_callbacks_.find_value(event_id);
         if (pEventInfo == nullptr)
         {
-            auto pEventInfo = std::make_shared<AFList<EVENT_PROCESS_FUNCTOR>>();
-            pEventInfo->emplace_back(cb);
-            return event_callbacks_.insert(event_id, pEventInfo).second;
+            auto event_info = std::make_shared<AFList<EVENT_PROCESS_FUNCTOR>>();
+            event_info->emplace_back(cb);
+            return event_callbacks_.insert(event_id, event_info).second;
         }
         else
         {
@@ -106,7 +105,7 @@ private:
     AFGUID self_;
 
     AFList<int> need_remove_events_;
-    AFMapEx<int, AFList<EVENT_PROCESS_FUNCTOR>> event_callbacks_;
+    AFSmartPtrMap<int, AFList<EVENT_PROCESS_FUNCTOR>> event_callbacks_;
 };
 
 } // namespace ark
