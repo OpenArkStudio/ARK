@@ -34,7 +34,10 @@ function(BUILD_SERVER_MACRO project_name)
 
     set_target_properties(${project_name} PROPERTIES PREFIX "")
     set_target_properties(${project_name} PROPERTIES
-        FOLDER "server")
+        FOLDER "server"
+        ARCHIVE_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
+        RUNTIME_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
+        LIBRARY_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR})
 endfunction(BUILD_SERVER_MACRO)
 
 #---------------------------------------------------------------------------------------

@@ -10,7 +10,10 @@ endif()
 add_library(${project_name} STATIC ${SDK_SRC})
 set_target_properties(${project_name} PROPERTIES PREFIX "")
 set_target_properties(${project_name} PROPERTIES
-    FOLDER "proto")
+    FOLDER "proto"
+	ARCHIVE_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
+    RUNTIME_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
+    LIBRARY_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR})
 if(UNIX)
     target_link_libraries(${project_name})
 else(UNIX)

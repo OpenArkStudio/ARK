@@ -36,7 +36,10 @@ function(BUILD_PLUGIN_MACRO project_name)
 
     set_target_properties(${project_name} PROPERTIES PREFIX "")
     set_target_properties(${project_name} PROPERTIES
-        FOLDER "samples")
+        FOLDER "samples"
+        ARCHIVE_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
+        RUNTIME_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
+        LIBRARY_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR})
 endfunction(BUILD_PLUGIN_MACRO project_name)
 
 ###################################################################################################
