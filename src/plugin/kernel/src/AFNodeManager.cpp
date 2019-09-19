@@ -18,8 +18,6 @@
  *
  */
 
-#pragma once
-
 #include "kernel/include/AFCNode.hpp"
 #include "kernel/include/AFCData.hpp"
 #include "kernel/include/AFNodeManager.hpp"

@@ -139,6 +139,8 @@ AFIRow* AFCTable::AddRow(uint32_t row, const AFIDataList& args)
         pRowData = CreateRow(row, args);
     }
 
+    ARK_ASSERT_RET_VAL(pRowData != nullptr, nullptr);
+
     // call back
     OnTableChanged(row, ArkTableOpType::TABLE_ADD);
 
@@ -373,7 +375,14 @@ AFIRow* AFCTable::CreateRow(uint32_t row, const AFIDataList& args)
     auto func = std::bind(&AFCTable::OnRowDataChanged, this, std::placeholders::_1, std::placeholders::_2,
         std::placeholders::_3, std::placeholders::_4);
 
-    return ARK_NEW AFCRow(pClassMeta, row, args, std::move(func));
+    auto pRow = ARK_NEW AFCRow(pClassMeta, row, args, std::move(func));
+    if (!data_.insert(row, pRow).second)
+    {
+        ARK_DELETE(pRow);
+        return nullptr;
+    }
+
+    return pRow;
 }
 
 } // namespace ark

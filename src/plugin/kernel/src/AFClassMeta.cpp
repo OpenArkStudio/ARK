@@ -18,8 +18,6 @@
  *
  */
 
-#pragma once
-
 #include "kernel/include/AFClassMeta.hpp"
 
 namespace ark {

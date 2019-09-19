@@ -18,8 +18,6 @@
  *
  */
 
-#pragma once
-
 #include "kernel/include/AFTableMeta.hpp"
 #include "kernel/include/AFNodeMeta.hpp"
 
