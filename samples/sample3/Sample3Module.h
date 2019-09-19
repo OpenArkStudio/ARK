@@ -53,6 +53,7 @@ protected:
     void CalssCallBackTest();
     void DataCallBackTest();
     void TableCallBackTest();
+    void ContainerCallBackTest();
 
     // event test
     void EventTest();
@@ -73,6 +74,9 @@ protected:
 
     int OnTableCallBackEvent(
         const AFGUID& self, const TABLE_EVENT_DATA& data, const AFIData& old_value, const AFIData& new_value);
+
+    int OnContainerCallBackEvent(const AFGUID& self, const uint32_t index, const ArkContainerOpType op_type,
+        const uint32_t src_index, const uint32_t dest_index);
 
 protected:
     AFIKernelModule* m_pKernelModule;

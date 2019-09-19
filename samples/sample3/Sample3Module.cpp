@@ -55,11 +55,12 @@ bool Sample3Module::PostInit()
     // Create scene, all entity need in scene
     m_pMapModule->CreateMap(MPA_ID);
 
-    DestroyTest();
+    //DestroyTest();
     //CalssCallBackTest();
     //DataCallBackTest();
     //TableCallBackTest();
     //EventTest();
+    ContainerCallBackTest();
 
     CreateEntityTest();
     DataTest();
@@ -206,6 +207,16 @@ void Sample3Module::TableCallBackTest()
     pRowData->SetInt32(col_count, 22);
 
     pRowData->SetInt32(col_count, 33);
+}
+
+void Sample3Module::ContainerCallBackTest()
+{
+    std::cout << GET_CLASS_NAME(Sample3Module) << ", ContainerTest" << std::endl;
+
+    m_pKernelModule->AddContainerCallBack(
+        AFEntityMetaPlayer::self_name(), BAG, this, &Sample3Module::OnContainerCallBackEvent);
+
+    CreateEntityTest();
 }
 
 void Sample3Module::EventTest()
@@ -519,6 +530,19 @@ int Sample3Module::OnTableCallBackEvent(
     }
 
     std::cout << "---------- OnTableCallBackEvent end----------" << std::endl;
+
+    return 0;
+}
+
+int Sample3Module::OnContainerCallBackEvent(const AFGUID& self, const uint32_t index, const ArkContainerOpType op_type,
+    const uint32_t src_index, const uint32_t dest_index)
+{
+    std::cout << "---------- OnContainerCallBackEvent start----------" << std::endl;
+
+    std::cout << "container index: " << index << " op : " << (size_t)op_type << " src index : " << src_index
+              << " dest index : " << dest_index << std::endl;
+
+    std::cout << "---------- OnContainerCallBackEvent end----------" << std::endl;
 
     return 0;
 }

@@ -20,26 +20,47 @@
 
 #pragma once
 
-#include "kernel/interface/AFITableInner.hpp"
 #include "kernel/interface/AFIData.hpp"
 #include "base/AFMacros.hpp"
 #include "base/AFMap.hpp"
 #include "AFClassCallBackManager.hpp"
+#include "kernel/interface/AFITable.hpp"
+#include "AFTableMeta.hpp"
 
 namespace ark {
 
-class AFCTableInner final : public AFITableInner
+class AFCTable final : public AFITable
 {
 public:
     using TableData = AFNewMap<uint32_t, AFIRow>;
 
-    AFCTableInner() = delete;
+private:
+    // object unique guid
+    AFGUID guid_{NULL_GUID};
+
+    // table meta
+    ARK_SHARE_PTR<AFTableMeta> table_meta_{nullptr};
+
+    // current row
+    uint32_t current_row{0u};
+
+    // table data
+    TableData data_;
+
+    // table iterator
+    TableData::const_iterator iter_;
+
+    // call back
+    ARK_SHARE_PTR<AFClassCallBackManager> m_pCallBackManager{nullptr};
+
+public:
+    AFCTable() = delete;
 
     // constructor
-    explicit AFCTableInner(ARK_SHARE_PTR<AFTableMeta> pTableMeta,
-        ARK_SHARE_PTR<AFClassCallBackManager> pCallBackManager, const AFGUID& guid);
+    explicit AFCTable(ARK_SHARE_PTR<AFTableMeta> pTableMeta, ARK_SHARE_PTR<AFClassCallBackManager> pCallBackManager,
+        const AFGUID& guid);
 
-    ~AFCTableInner() override;
+    ~AFCTable() override;
 
     const std::string& GetName() const override;
 
@@ -59,17 +80,12 @@ public:
 
     // table set
     AFIRow* AddRow(uint32_t row = 0u) override;
+    AFIRow* AddRow(uint32_t row, const AFIDataList& args) override;
     AFIRow* FindRow(uint32_t row) override;
 
     bool RemoveRow(uint32_t row) override;
 
     void Clear() override;
-
-    // ex interface
-    bool OnRowDataChanged(
-        uint32_t row, const uint32_t index, const AFIData& old_data, const AFIData& new_data) const override;
-
-    ARK_SHARE_PTR<AFTableMeta> GetMeta() const override;
 
     // find
     uint32_t FindInt32(const uint32_t index, const int32_t value) override;
@@ -90,26 +106,12 @@ public:
 private:
     void ReleaseRow(AFIRow* row_data);
 
-    void OnRowDataChanged(uint32_t row, ArkTableOpType op_type);
+    void OnTableChanged(uint32_t row, ArkTableOpType op_type);
 
-private:
-    // object unique guid
-    AFGUID guid_{NULL_GUID};
+    // ex interface
+    int OnRowDataChanged(uint32_t row, const uint32_t index, const AFIData& old_data, const AFIData& new_data);
 
-    // table meta
-    ARK_SHARE_PTR<AFTableMeta> table_meta_{nullptr};
-
-    // current row
-    uint32_t current_row{0u};
-
-    // table data
-    TableData data_;
-
-    //table iterator
-    TableData::const_iterator iter_;
-
-    // call back
-    ARK_SHARE_PTR<AFClassCallBackManager> m_pCallBackManager{nullptr};
+    AFIRow* CreateRow(uint32_t row, const AFIDataList& args);
 };
 
 } // namespace ark

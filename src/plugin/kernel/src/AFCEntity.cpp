@@ -21,7 +21,7 @@
 #include "kernel/include/AFCEntity.hpp"
 #include "kernel/include/AFCData.hpp"
 #include "kernel/include/AFCContainer.hpp"
-#include "kernel/include/AFCStaticEntityInner.hpp"
+#include "kernel/include/AFCStaticEntity.hpp"
 #include "kernel/include/AFCEventManager.hpp"
 #include "kernel/include/AFCContainerManager.hpp"
 
@@ -30,10 +30,18 @@ namespace ark {
 AFCEntity::AFCEntity(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE config_id,
     const int32_t map, const int32_t map_entity_id)
     : guid_(guid)
+    , config_id_(config_id)
     , map_id_(map)
     , map_entity_id_(map_entity_id)
 {
-    m_pStaticObject = std::make_shared<AFCStaticEntityInner>(pClassMeta, config_id);
+    // data node
+    auto func = std::bind(&AFCEntity::OnDataCallBack, this, std::placeholders::_1, std::placeholders::_2,
+        std::placeholders::_3, std::placeholders::_4);
+    m_pNodeManager = std::make_shared<AFNodeManager>(pClassMeta, std::move(func));
+
+    // data table
+    m_pTableManager = std::make_shared<AFTableManager>(pClassMeta);
+
     m_pContainerManager = std::make_shared<AFCContainerManager>();
     m_pEventManager = std::make_shared<AFCEventManager>(guid_);
     m_pCallBackManager = pClassMeta->GetClassCallBackManager();
@@ -63,7 +71,7 @@ bool AFCEntity::SetParentContainer(ARK_SHARE_PTR<AFIContainer> pContainer)
 
 bool AFCEntity::IsPublic(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
+    auto index = m_pNodeManager->GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, false);
 
     return IsPublic(index);
@@ -76,7 +84,7 @@ bool AFCEntity::IsPublic(const uint32_t index)
 
 bool AFCEntity::IsPrivate(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
+    auto index = m_pNodeManager->GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, false);
 
     return IsPrivate(index);
@@ -89,7 +97,7 @@ bool AFCEntity::IsPrivate(const uint32_t index)
 
 bool AFCEntity::IsSave(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
+    auto index = m_pNodeManager->GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, false);
 
     return IsSave(index);
@@ -102,7 +110,7 @@ bool AFCEntity::IsSave(const uint32_t index)
 
 bool AFCEntity::IsRealTime(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
+    auto index = m_pNodeManager->GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, false);
 
     return IsRealTime(index);
@@ -115,7 +123,7 @@ bool AFCEntity::IsRealTime(const uint32_t index)
 
 bool AFCEntity::HaveFeature(const std::string& name, AFNodeFeature feature)
 {
-    auto index = m_pStaticObject->GetIndex(name);
+    auto index = m_pNodeManager->GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, false);
 
     return HaveFeature(index, feature);
@@ -123,7 +131,7 @@ bool AFCEntity::HaveFeature(const std::string& name, AFNodeFeature feature)
 
 bool AFCEntity::HaveFeature(const uint32_t index, AFNodeFeature feature)
 {
-    AFINode* p = m_pStaticObject->FindData(index);
+    AFINode* p = m_pNodeManager->GetNode(index);
 
     ARK_ASSERT_RET_VAL(p != nullptr, false);
 
@@ -132,7 +140,7 @@ bool AFCEntity::HaveFeature(const uint32_t index, AFNodeFeature feature)
 
 AFFeatureType AFCEntity::GetFeature(const uint32_t index) const
 {
-    AFINode* p = m_pStaticObject->FindData(index);
+    AFINode* p = m_pNodeManager->GetNode(index);
 
     ARK_ASSERT_RET_VAL(p != nullptr, false);
 
@@ -141,16 +149,14 @@ AFFeatureType AFCEntity::GetFeature(const uint32_t index) const
 
 const std::string& AFCEntity::GetClassName() const
 {
-    ARK_ASSERT_RET_VAL(m_pStaticObject != nullptr, NULL_STR);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_STR);
 
-    return m_pStaticObject->GetClassName();
+    return m_pNodeManager->GetClassName();
 }
 
 ID_TYPE AFCEntity::GetConfigID() const
 {
-    ARK_ASSERT_RET_VAL(m_pStaticObject != nullptr, NULL_INT);
-
-    return m_pStaticObject->GetConfigID();
+    return config_id_;
 }
 
 int32_t AFCEntity::GetMapID() const
@@ -177,18 +183,21 @@ bool AFCEntity::SetMapEntityID(const int32_t value)
 
 bool AFCEntity::InitData(ARK_SHARE_PTR<AFIStaticEntity> pStaticObject)
 {
-    ARK_ASSERT_RET_VAL(m_pStaticObject != nullptr && pStaticObject != nullptr, false);
-
-    auto pStaticObjectEx = std::dynamic_pointer_cast<AFCStaticEntityInner>(pStaticObject);
-    ARK_ASSERT_RET_VAL(pStaticObjectEx != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr && pStaticObject != nullptr, false);
 
     // static object should be empty
-    ARK_ASSERT_RET_VAL(m_pStaticObject->IsEmpty(), false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager->IsEmpty(), false);
 
     // should be a same class
-    ARK_ASSERT_RET_VAL(m_pStaticObject->GetClassMeta() == pStaticObjectEx->GetClassMeta(), false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager->GetClassName() == pStaticObject->GetClassName(), false);
 
-    auto& data_list = pStaticObjectEx->GetDataList();
+    auto pStaticEntity = std::dynamic_pointer_cast<AFCStaticEntity>(pStaticObject);
+    ARK_ASSERT_RET_VAL(pStaticEntity != nullptr, false);
+
+    auto pStaticComponent = pStaticEntity->m_pNodeManager;
+    ARK_ASSERT_RET_VAL(pStaticComponent != nullptr, false);
+
+    auto& data_list = pStaticComponent->GetDataList();
     for (auto iter : data_list)
     {
         auto pData = iter.second;
@@ -201,482 +210,303 @@ bool AFCEntity::InitData(ARK_SHARE_PTR<AFIStaticEntity> pStaticObject)
 // set data
 bool AFCEntity::SetBool(const std::string& name, bool value)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    return SetBool(index, value);
+    return m_pNodeManager->SetBool(name, value);
 }
 
 bool AFCEntity::SetInt32(const std::string& name, const int32_t value)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    return SetInt32(index, value);
+    return m_pNodeManager->SetInt32(name, value);
 }
 
 bool AFCEntity::SetUInt32(const std::string& name, const uint32_t value)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    return SetUInt32(index, value);
+    return m_pNodeManager->SetUInt32(name, value);
 }
 
 bool AFCEntity::SetInt64(const std::string& name, const int64_t value)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    return SetInt64(index, value);
+    return m_pNodeManager->SetInt64(name, value);
 }
 
 bool AFCEntity::SetUInt64(const std::string& name, const uint64_t value)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    return SetUInt64(index, value);
+    return m_pNodeManager->SetUInt64(name, value);
 }
 
 bool AFCEntity::SetFloat(const std::string& name, const float value)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    return SetFloat(index, value);
+    return m_pNodeManager->SetFloat(name, value);
 }
 
 bool AFCEntity::SetDouble(const std::string& name, const double value)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    return SetDouble(index, value);
+    return m_pNodeManager->SetDouble(name, value);
 }
 
 bool AFCEntity::SetString(const std::string& name, const std::string& value)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    return SetString(index, value);
+    return m_pNodeManager->SetString(name, value);
 }
 
 bool AFCEntity::SetWString(const std::string& name, const std::wstring& value)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    return SetWString(index, value);
+    return m_pNodeManager->SetWString(name, value);
 }
 
 bool AFCEntity::SetGUID(const std::string& name, const AFGUID& value)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    return SetGUID(index, value);
+    return m_pNodeManager->SetGUID(name, value);
 }
 
 bool AFCEntity::SetBool(const uint32_t index, bool value)
 {
-    AFINode* p = m_pStaticObject->FindData(index, true);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, false);
-
-    ARK_ASSERT_RET_VAL(p->GetType() == ArkDataType::DT_BOOLEAN, false);
-
-    auto old_value = p->GetBool();
-    p->SetBool(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = p->GetType();
-        OnDataCallBack(p->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetBool(index, value);
 }
 
 bool AFCEntity::SetInt32(const uint32_t index, const int32_t value)
 {
-    AFINode* p = m_pStaticObject->FindData(index, true);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, false);
-
-    ARK_ASSERT_RET_VAL(p->GetType() == ArkDataType::DT_INT32, false);
-
-    auto old_value = p->GetInt32();
-    p->SetInt32(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = p->GetType();
-        OnDataCallBack(p->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetInt32(index, value);
 }
 
 bool AFCEntity::SetUInt32(const uint32_t index, const uint32_t value)
 {
-    AFINode* p = m_pStaticObject->FindData(index, true);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, false);
-
-    ARK_ASSERT_RET_VAL(p->GetType() == ArkDataType::DT_UINT32, false);
-
-    auto old_value = p->GetUInt32();
-    p->SetUInt32(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = p->GetType();
-        OnDataCallBack(p->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetUInt32(index, value);
 }
 
 bool AFCEntity::SetInt64(const uint32_t index, const int64_t value)
 {
-    AFINode* p = m_pStaticObject->FindData(index, true);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, false);
-
-    ARK_ASSERT_RET_VAL(p->GetType() == ArkDataType::DT_INT64, false);
-
-    auto old_value = p->GetInt64();
-    p->SetInt64(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = p->GetType();
-        OnDataCallBack(p->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetInt64(index, value);
 }
 
 bool AFCEntity::SetUInt64(const uint32_t index, const uint64_t value)
 {
-    AFINode* p = m_pStaticObject->FindData(index, true);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, false);
-
-    ARK_ASSERT_RET_VAL(p->GetType() == ArkDataType::DT_INT64, false);
-
-    auto old_value = p->GetUInt64();
-    p->SetUInt64(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = p->GetType();
-        OnDataCallBack(p->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetUInt64(index, value);
 }
 
 bool AFCEntity::SetFloat(const uint32_t index, const float value)
 {
-    AFINode* p = m_pStaticObject->FindData(index, true);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, false);
-
-    ARK_ASSERT_RET_VAL(p->GetType() == ArkDataType::DT_FLOAT, false);
-
-    auto old_value = p->GetFloat();
-    p->SetFloat(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = p->GetType();
-        OnDataCallBack(p->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetFloat(index, value);
 }
 
 bool AFCEntity::SetDouble(const uint32_t index, const double value)
 {
-    AFINode* p = m_pStaticObject->FindData(index, true);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, false);
-
-    ARK_ASSERT_RET_VAL(p->GetType() == ArkDataType::DT_DOUBLE, false);
-
-    auto old_value = p->GetDouble();
-    p->SetDouble(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = p->GetType();
-        OnDataCallBack(p->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetDouble(index, value);
 }
 
 bool AFCEntity::SetString(const uint32_t index, const std::string& value)
 {
-    AFINode* p = m_pStaticObject->FindData(index, true);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, false);
-
-    ARK_ASSERT_RET_VAL(p->GetType() == ArkDataType::DT_STRING, false);
-
-    auto old_value = p->GetString();
-    p->SetString(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = p->GetType();
-        OnDataCallBack(p->GetName(), index, AFCData(data_type, old_value.c_str()), AFCData(data_type, value.c_str()));
-    }
-
-    return true;
+    return m_pNodeManager->SetString(index, value);
 }
 
 bool AFCEntity::SetWString(const uint32_t index, const std::wstring& value)
 {
-    AFINode* p = m_pStaticObject->FindData(index, true);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, false);
-
-    ARK_ASSERT_RET_VAL(p->GetType() == ArkDataType::DT_WSTRING, false);
-
-    auto old_value = p->GetWString();
-    p->SetWString(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = p->GetType();
-        OnDataCallBack(p->GetName(), index, AFCData(data_type, old_value.c_str()), AFCData(data_type, value.c_str()));
-    }
-
-    return true;
+    return m_pNodeManager->SetWString(index, value);
 }
 
 bool AFCEntity::SetGUID(const uint32_t index, const AFGUID& value)
 {
-    AFINode* p = m_pStaticObject->FindData(index, true);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, false);
-
-    ARK_ASSERT_RET_VAL(p->GetType() == ArkDataType::DT_GUID, false);
-
-    auto old_value = p->GetObject();
-    p->SetObject(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = p->GetType();
-        OnDataCallBack(p->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetGUID(index, value);
 }
 
 AFINode* AFCEntity::GetNode(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, nullptr);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, nullptr);
 
-    return GetNode(index);
+    return m_pNodeManager->GetNode(name);
 }
 
 // get data
 bool AFCEntity::GetBool(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_BOOLEAN);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_BOOLEAN);
 
-    return GetBool(index);
+    return m_pNodeManager->GetBool(name);
 }
 
 int32_t AFCEntity::GetInt32(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_INT);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
-    return GetInt32(index);
+    return m_pNodeManager->GetInt32(name);
 }
 
 uint32_t AFCEntity::GetUInt32(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_INT);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
-    return GetUInt32(index);
+    return m_pNodeManager->GetUInt32(name);
 }
 
 int64_t AFCEntity::GetInt64(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_INT64);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
 
-    return GetInt64(index);
+    return m_pNodeManager->GetInt64(name);
 }
 
 uint64_t AFCEntity::GetUInt64(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_INT64);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
 
-    return GetUInt64(index);
+    return m_pNodeManager->GetUInt64(name);
 }
 
 float AFCEntity::GetFloat(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_FLOAT);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_FLOAT);
 
-    return GetFloat(index);
+    return m_pNodeManager->GetFloat(name);
 }
 
 double AFCEntity::GetDouble(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_DOUBLE);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_DOUBLE);
 
-    return GetDouble(index);
+    return m_pNodeManager->GetDouble(name);
 }
 
 const std::string& AFCEntity::GetString(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_STR);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_STR);
 
-    return GetString(index);
+    return m_pNodeManager->GetString(name);
 }
 
 const std::wstring& AFCEntity::GetWString(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_WIDESTR);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_WIDESTR);
 
-    return GetWString(index);
+    return m_pNodeManager->GetWString(name);
 }
 
 const AFGUID& AFCEntity::GetGUID(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_GUID);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_GUID);
 
-    return GetGUID(index);
+    return m_pNodeManager->GetGUID(name);
 }
 
 AFINode* AFCEntity::GetNode(const uint32_t index)
 {
-    return m_pStaticObject->FindData(index);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, nullptr);
+
+    return m_pNodeManager->GetNode(index);
 }
 
 bool AFCEntity::GetBool(const uint32_t index)
 {
-    AFINode* p = m_pStaticObject->FindData(index);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_BOOLEAN);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, NULL_BOOLEAN);
-
-    return p->GetBool();
+    return m_pNodeManager->GetBool(index);
 }
 
 int32_t AFCEntity::GetInt32(const uint32_t index)
 {
-    AFINode* p = m_pStaticObject->FindData(index);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, NULL_INT);
-
-    return p->GetInt32();
+    return m_pNodeManager->GetInt32(index);
 }
 
 uint32_t AFCEntity::GetUInt32(const uint32_t index)
 {
-    AFINode* p = m_pStaticObject->FindData(index);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, NULL_INT);
-
-    return p->GetUInt32();
+    return m_pNodeManager->GetUInt32(index);
 }
 
 int64_t AFCEntity::GetInt64(const uint32_t index)
 {
-    AFINode* p = m_pStaticObject->FindData(index);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, NULL_INT64);
-
-    return p->GetInt64();
+    return m_pNodeManager->GetInt64(index);
 }
 
 uint64_t AFCEntity::GetUInt64(const uint32_t index)
 {
-    AFINode* p = m_pStaticObject->FindData(index);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, NULL_INT64);
-
-    return p->GetUInt64();
+    return m_pNodeManager->GetUInt64(index);
 }
 
 float AFCEntity::GetFloat(const uint32_t index)
 {
-    AFINode* p = m_pStaticObject->FindData(index);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_FLOAT);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, NULL_FLOAT);
-
-    return p->GetFloat();
+    return m_pNodeManager->GetFloat(index);
 }
 
 double AFCEntity::GetDouble(const uint32_t index)
 {
-    AFINode* p = m_pStaticObject->FindData(index);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_DOUBLE);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, NULL_DOUBLE);
-
-    return p->GetDouble();
+    return m_pNodeManager->GetDouble(index);
 }
 
 const std::string& AFCEntity::GetString(const uint32_t index)
 {
-    AFINode* p = m_pStaticObject->FindData(index);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_STR);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, NULL_STR);
-
-    return p->GetString();
+    return m_pNodeManager->GetString(index);
 }
 
 const std::wstring& AFCEntity::GetWString(const uint32_t index)
 {
-    AFINode* p = m_pStaticObject->FindData(index);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_WIDESTR);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, NULL_WIDESTR);
-
-    return p->GetWString();
+    return m_pNodeManager->GetWString(index);
 }
 
 const AFGUID& AFCEntity::GetGUID(const uint32_t index)
 {
-    AFINode* p = m_pStaticObject->FindData(index);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_GUID);
 
-    ARK_ASSERT_RET_VAL(p != nullptr, NULL_GUID);
-
-    return p->GetObject();
+    return m_pNodeManager->GetGUID(index);
 }
 
 // container operation
 ARK_SHARE_PTR<AFIContainer> AFCEntity::FindContainer(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
+    auto index = m_pNodeManager->GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, nullptr);
 
     return FindContainer(index);
@@ -690,7 +520,7 @@ ARK_SHARE_PTR<AFIContainer> AFCEntity::FindContainer(const uint32_t index)
     if (pContainer == nullptr)
     {
         // create a new container
-        auto pClassMeta = m_pStaticObject->GetClassMeta();
+        auto pClassMeta = m_pNodeManager->GetClassMeta();
         pContainer = m_pContainerManager->CreateContainer(pClassMeta, index, guid_);
     }
 
@@ -700,7 +530,7 @@ ARK_SHARE_PTR<AFIContainer> AFCEntity::FindContainer(const uint32_t index)
 // table data
 AFITable* AFCEntity::FindTable(const std::string& name)
 {
-    auto index = m_pStaticObject->GetIndex(name);
+    auto index = m_pNodeManager->GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, nullptr);
 
     return FindTable(index);
@@ -708,10 +538,10 @@ AFITable* AFCEntity::FindTable(const std::string& name)
 
 AFITable* AFCEntity::FindTable(const uint32_t index)
 {
-    auto pTable = m_pStaticObject->FindTable(index);
+    auto pTable = m_pTableManager->FindTable(index);
     if (nullptr == pTable)
     {
-        pTable = m_pStaticObject->AddTable(guid_, index);
+        pTable = m_pTableManager->AddTable(guid_, index);
     }
 
     return pTable;
@@ -728,7 +558,7 @@ bool AFCEntity::CopyData(AFINode* pData)
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     // do not need check
-    auto pNewData = m_pStaticObject->CreateData(pData->GetMeta());
+    auto pNewData = m_pNodeManager->CreateData(pData->GetMeta());
     ARK_ASSERT_RET_VAL(pNewData != nullptr, false);
 
     pNewData->CopyFrom(pData);
@@ -736,12 +566,14 @@ bool AFCEntity::CopyData(AFINode* pData)
     return true;
 }
 
-void AFCEntity::OnDataCallBack(
+int AFCEntity::OnDataCallBack(
     const std::string& name, const uint32_t index, const AFIData& old_data, const AFIData& new_data)
 {
-    ARK_ASSERT_RET_NONE(m_pCallBackManager != nullptr);
+    ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr, 0);
 
     m_pCallBackManager->OnDataCallBack(guid_, name, index, old_data, new_data);
+
+    return 0;
 }
 
 bool AFCEntity::AddCustomBool(const std::string& name, bool value)
@@ -987,32 +819,54 @@ bool AFCEntity::RemoveCustomData(const std::string& name)
 
 AFINode* AFCEntity::FirstNode()
 {
-    return m_pStaticObject->FirstNode();
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, nullptr);
+
+    return m_pNodeManager->First();
 }
 
 AFINode* AFCEntity::NextNode()
 {
-    return m_pStaticObject->NextNode();
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, nullptr);
+
+    return m_pNodeManager->Next();
 }
 
 AFITable* AFCEntity::FirstTable()
 {
-    return m_pStaticObject->FirstTable();
+    ARK_ASSERT_RET_VAL(m_pTableManager != nullptr, nullptr);
+
+    return m_pTableManager->First();
 }
 
 AFITable* AFCEntity::NextTable()
 {
-    return m_pStaticObject->NextTable();
+    ARK_ASSERT_RET_VAL(m_pTableManager != nullptr, nullptr);
+
+    return m_pTableManager->Next();
 }
 
 ARK_SHARE_PTR<AFIContainer> AFCEntity::FirstContainer()
 {
+    ARK_ASSERT_RET_VAL(m_pContainerManager != nullptr, nullptr);
+
     return m_pContainerManager->First();
 }
 
 ARK_SHARE_PTR<AFIContainer> AFCEntity::NextContainer()
 {
+    ARK_ASSERT_RET_VAL(m_pContainerManager != nullptr, nullptr);
+
     return m_pContainerManager->Next();
+}
+
+bool AFCEntity::IsSent() const
+{
+    return is_sent_;
+}
+
+void AFCEntity::UpdateSent()
+{
+    is_sent_ = true;
 }
 
 } // namespace ark

@@ -39,8 +39,10 @@ public:
     virtual uint32_t Next() = 0;
     virtual ARK_SHARE_PTR<AFIEntity> Find(uint32_t index) = 0;
     virtual uint32_t Find(const AFGUID& id) = 0;
+    virtual bool Exist(uint32_t index) = 0;
+    virtual bool Exist(const AFGUID& id) = 0;
     virtual bool Place(ARK_SHARE_PTR<AFIEntity> pEntity) = 0;
-    virtual bool Place(uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity, ARK_SHARE_PTR<AFIEntity> pEntityReplaced) = 0;
+    virtual bool Place(uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity) = 0;
     virtual bool Swap(const uint32_t src_index, const uint32_t dest_index) = 0;
     virtual bool Swap(const AFGUID& src_entity, const AFGUID& dest_entity) = 0;
     virtual bool Swap(
@@ -49,6 +51,10 @@ public:
         ARK_SHARE_PTR<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity) = 0;
 
     virtual bool Remove(const uint32_t index) = 0;
+    virtual bool Remove(const AFGUID& id) = 0;
+
+    virtual bool Destroy(const uint32_t index) = 0;
+    virtual bool Destroy(const AFGUID& id) = 0;
 };
 
 } // namespace ark

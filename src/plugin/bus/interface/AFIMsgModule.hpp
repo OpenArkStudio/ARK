@@ -24,7 +24,7 @@
 #include "proto/AFProtoCPP.hpp"
 #include "interface/AFIModule.hpp"
 #include "kernel/include/AFCNode.hpp"
-#include "kernel/include/AFCTableInner.hpp"
+#include "kernel/include/AFCTable.hpp"
 #include "kernel/include/AFCData.hpp"
 #include "kernel/interface/AFIEntity.hpp"
 #include "net/include/AFNetMsg.hpp"

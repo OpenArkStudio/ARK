@@ -129,7 +129,7 @@ public:
         data_ = AFMisc::FromString<int32_t>(value);
     }
 
-    ID_TYPE GetID() const override
+    ID_TYPE GetValue() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -203,7 +203,7 @@ public:
         data_ = AFMisc::FromString<uint32_t>(value);
     }
 
-    ID_TYPE GetID() const override
+    ID_TYPE GetValue() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -277,7 +277,7 @@ public:
         data_ = value;
     }
 
-    ID_TYPE GetID() const override
+    ID_TYPE GetValue() const override
     {
         return AFMisc::FromString<ID_TYPE>(data_);
     }
@@ -351,7 +351,7 @@ public:
         data_ = AFMisc::FromString<bool>(value);
     }
 
-    ID_TYPE GetID() const override
+    ID_TYPE GetValue() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -425,7 +425,7 @@ public:
         data_ = AFMisc::FromString<int64_t>(value);
     }
 
-    ID_TYPE GetID() const override
+    ID_TYPE GetValue() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -499,7 +499,7 @@ public:
         data_ = AFMisc::FromString<uint64_t>(value);
     }
 
-    ID_TYPE GetID() const override
+    ID_TYPE GetValue() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -573,7 +573,7 @@ public:
         data_ = AFMisc::FromString<float>(value);
     }
 
-    ID_TYPE GetID() const override
+    ID_TYPE GetValue() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -647,7 +647,7 @@ public:
         data_ = AFMisc::FromString<double>(value);
     }
 
-    ID_TYPE GetID() const override
+    ID_TYPE GetValue() const override
     {
         return static_cast<ID_TYPE>(data_);
     }
@@ -721,7 +721,7 @@ public:
         data_ = AFMisc::FromString<AFGUID>(value);
     }
 
-    ID_TYPE GetID() const override
+    ID_TYPE GetValue() const override
     {
         return static_cast<ID_TYPE>(data_);
     }

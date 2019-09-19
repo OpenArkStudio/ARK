@@ -22,11 +22,12 @@
 
 namespace ark {
 
-AFCContainer::AFCContainer(ARK_SHARE_PTR<AFContainerMeta> container_meta, const uint32_t index, const AFGUID& parent_id)
-    : index_(index)
-    , parent_(parent_id)
+AFCContainer::AFCContainer(ARK_SHARE_PTR<AFContainerMeta> container_meta, const AFGUID& parent_id,
+    ARK_SHARE_PTR<AFClassCallBackManager> call_back_mgr)
+    : parent_(parent_id)
 {
     container_meta_ = container_meta;
+    call_back_mgr_ = call_back_mgr;
 }
 
 AFCContainer::~AFCContainer()
@@ -69,10 +70,7 @@ uint32_t AFCContainer::Next()
 
 ARK_SHARE_PTR<AFIEntity> AFCContainer::Find(uint32_t index)
 {
-    auto iter = entity_data_list_.find(index);
-    ARK_ASSERT_RET_VAL(iter != entity_data_list_.end(), nullptr);
-
-    return iter->second;
+    return entity_data_list_.find_value(index);
 }
 
 uint32_t AFCContainer::Find(const AFGUID& id)
@@ -88,6 +86,16 @@ uint32_t AFCContainer::Find(const AFGUID& id)
     return NULL_INT;
 }
 
+bool AFCContainer::Exist(uint32_t index)
+{
+    return (entity_data_list_.find(index) != entity_data_list_.end());
+}
+
+bool AFCContainer::Exist(const AFGUID& id)
+{
+    return (Find(id) > 0);
+}
+
 bool AFCContainer::Place(ARK_SHARE_PTR<AFIEntity> pEntity)
 {
     // should not be in container
@@ -95,31 +103,31 @@ bool AFCContainer::Place(ARK_SHARE_PTR<AFIEntity> pEntity)
 
     ARK_ASSERT_RET_VAL(Find(pEntity->GetID()) == 0, false);
 
-    return AddEntity(current_index_, pEntity);
+    current_index_ += 1;
+    return Place(current_index_, pEntity);
 }
 
-bool AFCContainer::Place(uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity, ARK_SHARE_PTR<AFIEntity> pEntityReplaced)
+bool AFCContainer::Place(uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity)
 {
     auto iter = entity_data_list_.find(index);
-    if (iter == entity_data_list_.end())
+    if (iter != entity_data_list_.end())
     {
-        return AddEntity(index, pEntity);
-    }
-    else
-    {
-        pEntityReplaced = iter->second;
-        iter->second = pEntity;
+        // has exist other entity
+        return false;
     }
 
+    if (!PlaceEntity(index, pEntity))
+    {
+        return false;
+    }
+
+    OnContainerPlace(index, pEntity);
     return true;
 }
 
 bool AFCContainer::Swap(const uint32_t src_index, const uint32_t dest_index)
 {
-    if (src_index == 0 || dest_index == 0)
-    {
-        return false;
-    }
+    ARK_ASSERT_RET_VAL(src_index > 0u && dest_index > 0u && src_index != dest_index, false);
 
     auto iter_src = entity_data_list_.find(src_index);
     if (iter_src == entity_data_list_.end())
@@ -128,25 +136,31 @@ bool AFCContainer::Swap(const uint32_t src_index, const uint32_t dest_index)
         return false;
     }
 
+    auto pSrcEntity = iter_src->second;
+    ARK_ASSERT_RET_VAL(pSrcEntity != nullptr, false);
+
     auto iter_dest = entity_data_list_.find(dest_index);
     if (iter_dest == entity_data_list_.end())
     {
-        if (AddEntity(dest_index, iter_src->second))
+        entity_data_list_.erase(src_index);
+        if (!PlaceEntity(dest_index, iter_src->second))
         {
-            entity_data_list_.erase(src_index);
+            return false;
         }
+
+        OnContainerSwap(src_index, dest_index);
     }
     else
     {
         // exchange
-        auto pEntity = iter_src->second;
-        iter_src->second = iter_dest->second;
-        iter_dest->second = pEntity;
+        auto pDestEntity = iter_dest->second;
+        iter_src->second = pDestEntity;
+        iter_dest->second = pSrcEntity;
 
-        return true;
+        OnContainerSwap(src_index, dest_index);
     }
 
-    return false;
+    return true;
 }
 
 bool AFCContainer::Swap(const AFGUID& src_entity, const AFGUID& dest_entity)
@@ -170,20 +184,38 @@ bool AFCContainer::Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const uint32_
         return false;
     }
 
+    if (!pSrcContainer->Remove(src_index))
+    {
+        return false;
+    }
+
     auto iter_dest = entity_data_list_.find(dest_index);
     if (iter_dest == entity_data_list_.end())
     {
-        if (!AddEntity(dest_index, pSrcEntity))
+        if (!PlaceEntity(dest_index, pSrcEntity))
         {
             return false;
         }
+
+        OnContainerPlace(dest_index, pSrcEntity);
     }
     else
     {
-        iter_dest->second = pSrcEntity;
+        if (!Remove(dest_index))
+        {
+            return false;
+        }
+
+        auto pDestSrcEntity = iter_dest->second;
+        if (!pSrcContainer->Place(src_index, pDestSrcEntity) || !PlaceEntity(dest_index, pSrcEntity))
+        {
+            return false;
+        }
+
+        OnContainerPlace(dest_index, pSrcEntity);
     }
 
-    return pSrcContainer->Remove(src_index);
+    return true;
 }
 
 bool AFCContainer::Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity)
@@ -202,24 +234,44 @@ bool AFCContainer::Remove(const uint32_t index)
         return false;
     }
 
-    if (!entity_data_list_.erase(index))
-    {
-        return false;
-    }
-
-    pEntity->SetParentContainer(nullptr);
+    entity_data_list_.erase(index);
+    OnContainerRemove(index, pEntity);
 
     return true;
 }
 
-bool AFCContainer::AddEntity(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity)
+bool AFCContainer::Remove(const AFGUID& id)
+{
+    auto index = Find(id);
+    return Remove(index);
+}
+
+bool AFCContainer::Destroy(const uint32_t index)
+{
+    auto pEntity = entity_data_list_.find_value(index);
+    if (nullptr == pEntity)
+    {
+        return false;
+    }
+
+    OnContainerDestroy(index, pEntity);
+    entity_data_list_.erase(index);
+
+    return true;
+}
+
+bool AFCContainer::Destroy(const AFGUID& id)
+{
+    auto index = Find(id);
+    return Destroy(index);
+}
+
+bool AFCContainer::PlaceEntity(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity)
 {
     if (!entity_data_list_.insert(index, pEntity).second)
     {
         return false;
     }
-
-    pEntity->SetParentContainer(shared_from_this());
 
     if (current_index_ < index)
     {
@@ -227,6 +279,50 @@ bool AFCContainer::AddEntity(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEnt
     }
 
     return true;
+}
+
+void AFCContainer::OnContainerPlace(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity)
+{
+    ARK_ASSERT_RET_NONE(pEntity != nullptr);
+    pEntity->SetParentContainer(shared_from_this());
+
+    ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr);
+
+    if (pEntity->IsSent())
+    {
+        call_back_mgr_->OnContainerCallBack(
+            parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_PLACE, index, 0u);
+    }
+    else
+    {
+        pEntity->UpdateSent();
+        call_back_mgr_->OnContainerCallBack(
+            parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_CREATE, index, 0u);
+    }
+}
+
+void AFCContainer::OnContainerSwap(const uint32_t index, const uint32_t swap_index)
+{
+    ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr);
+    call_back_mgr_->OnContainerCallBack(
+        parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_SWAP, index, swap_index);
+}
+
+void AFCContainer::OnContainerRemove(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity)
+{
+    pEntity->SetParentContainer(nullptr);
+
+    ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr);
+    call_back_mgr_->OnContainerCallBack(parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_REMOVE, index, 0u);
+}
+
+void AFCContainer::OnContainerDestroy(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity)
+{
+    pEntity->SetParentContainer(nullptr);
+
+    ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr);
+    call_back_mgr_->OnContainerCallBack(
+        parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_DESTROY, index, 0u);
 }
 
 const std::string& AFCContainer::GetName() const

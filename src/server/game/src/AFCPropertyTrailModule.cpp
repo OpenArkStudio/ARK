@@ -20,7 +20,7 @@
 
 #include "kernel/include/AFCDataList.hpp"
 #include "kernel/include/AFCNode.hpp"
-#include "kernel/include/AFCTableInner.hpp"
+#include "kernel/include/AFCTable.hpp"
 #include "game/include/AFCPropertyTrailModule.hpp"
 
 namespace ark {
@@ -61,13 +61,14 @@ int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
 
     for (auto pTable = xEntity->FirstTable(); pTable != nullptr; pTable = xEntity->NextTable())
     {
-		for (auto pRow = pTable->First(); pRow != nullptr; pRow = pTable->Next())
-		{
-			for (auto pNode = pRow->First(); pNode != nullptr; pNode = pRow->Next())
-			{
-                ARK_LOG_TRACE("Player[{}] Table[{}] Row[{}] Col[{}] Value[{}]", self, pTable->GetName(), pRow->GetRow(), pNode->GetName(), pNode->ToString());
-			}
-		}
+        for (auto pRow = pTable->First(); pRow != nullptr; pRow = pTable->Next())
+        {
+            for (auto pNode = pRow->First(); pNode != nullptr; pNode = pRow->Next())
+            {
+                ARK_LOG_TRACE("Player[{}] Table[{}] Row[{}] Col[{}] Value[{}]", self, pTable->GetName(), pRow->GetRow(),
+                    pNode->GetName(), pNode->ToString());
+            }
+        }
     }
 
     return 0;

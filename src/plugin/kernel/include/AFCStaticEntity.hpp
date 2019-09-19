@@ -20,19 +20,21 @@
 
 #pragma once
 
-#include "kernel/interface/AFIStaticEntityInner.hpp"
 #include "base/AFMap.hpp"
+#include "kernel/interface/AFIStaticEntity.hpp"
+#include "kernel/interface/AFITable.hpp"
+#include "AFCEntity.hpp"
 
 namespace ark {
 
-class AFCStaticEntityInner final : public AFIStaticEntityInner
+class AFCStaticEntity final : public AFIStaticEntity
 {
 public:
     using TableList = AFNewMap<uint32_t, AFITable>;
 
-    AFCStaticEntityInner() = delete;
+    AFCStaticEntity() = delete;
 
-    explicit AFCStaticEntityInner(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const ID_TYPE config_id);
+    explicit AFCStaticEntity(ARK_SHARE_PTR<AFNodeManager> pNodeComponent, const ID_TYPE config_id);
 
     uint32_t GetIndex(const std::string& name) override;
 
@@ -57,39 +59,13 @@ public:
     const std::string& GetString(const uint32_t index) override;
     const std::wstring& GetWString(const uint32_t index) override;
 
-    // data operation
-    AFINode* CreateData(ARK_SHARE_PTR<AFNodeMeta> pDataMeta) override;
-    AFINode* FindData(const uint32_t index, bool bCreate = false) override;
-
-    // table meta operation
-    AFITable* AddTable(const AFGUID& guid, const uint32_t index) override;
-
-    AFITable* FindTable(const uint32_t index) override;
-
-    bool IsEmpty() const override;
-    const DataList& GetDataList() override;
-    ARK_SHARE_PTR<AFClassMeta> GetClassMeta() override;
-
-    AFINode* FirstNode() override;
-    AFINode* NextNode() override;
-
-    AFITable* FirstTable() override;
-    AFITable* NextTable() override;
-
 private:
-    // class meta
-    ARK_SHARE_PTR<AFClassMeta> class_meta_{nullptr};
+    friend class AFCEntity;
 
     // config id
     ID_TYPE config_id_{0};
 
-    // data list
-    DataList data_list_;
-    DataList::const_iterator iter_data_;
-
-    // table list
-    TableList table_list_;
-    TableList::const_iterator iter_table_;
+    ARK_SHARE_PTR<AFNodeManager> m_pNodeManager{nullptr};
 };
 
 } // namespace ark

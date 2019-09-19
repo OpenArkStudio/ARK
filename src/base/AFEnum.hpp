@@ -85,6 +85,7 @@ enum class ArkTableOpType : uint16_t // table operate type
     TABLE_UPDATE,   // update row & col cell data
     TABLE_COVERAGE, // coverage whole row data
     TABLE_SWAP,     // swap two whole row data
+    TABLE_CLEAR,    // clear all rows
 };
 
 enum class ArkTableNodeFeature : uint16_t
@@ -107,6 +108,15 @@ enum class AFNodeFeature : uint16_t
     PF_SYNC_GUILD = 7, // sync to guild member
     PF_SYNC_MAP = 8,   // sync to all player in same map
     PF_LOG = 9,        // log when changed
+};
+
+enum class ArkContainerOpType : uint32_t
+{
+    OP_CREATE = 0,
+    OP_PLACE = 1,
+    OP_REMOVE = 2,
+    OP_SWAP = 3,
+    OP_DESTROY = 4,
 };
 
 } // namespace ark

@@ -22,6 +22,7 @@
 
 #include "base/AFPlatform.hpp"
 #include "base/AFDefine.hpp"
+#include "kernel/include/AFNodeManager.hpp"
 
 namespace ark {
 
@@ -31,6 +32,7 @@ public:
     virtual ~AFIStaticEntity() = default;
 
     // query data
+    virtual uint32_t GetIndex(const std::string& name) = 0;
     virtual const std::string& GetClassName() const = 0;
     virtual ID_TYPE GetConfigID() const = 0;
     virtual bool GetBool(const std::string& name) = 0;

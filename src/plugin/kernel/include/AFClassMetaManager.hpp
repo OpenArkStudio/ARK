@@ -116,13 +116,7 @@ public:
                 auto pClassMeta = FindMeta(type_name);
                 ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
 
-                auto data_meta_list = pClassMeta->GetDataMetaList();
-                for (auto iter_data : data_meta_list)
-                {
-                    auto& name = iter_data.first;
-                    auto pDataMeta = iter_data.second;
-                    pTableMeta->AddColMeta(name, pDataMeta);
-                }
+                pTableMeta->SetClassMeta(pClassMeta);
             }
         }
 

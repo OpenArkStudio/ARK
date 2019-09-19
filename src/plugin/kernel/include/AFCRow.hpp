@@ -20,20 +20,34 @@
 
 #pragma once
 
-#include "kernel/interface/AFITableInner.hpp"
 #include "kernel/interface/AFIData.hpp"
 #include "base/AFMacros.hpp"
 #include "base/AFMap.hpp"
+#include "AFNodeManager.hpp"
+#include "kernel/interface/AFITable.hpp"
+#include "kernel/interface/AFIDataList.hpp"
 
 namespace ark {
 
 class AFCRow final : public AFIRow
 {
+private:
+    // row
+    uint32_t row_{0u};
+
+    // table call back
+    using TABLE_COMPONENT_FUNCTOR = std::function<int(const uint32_t, const uint32_t, const AFIData&, const AFIData&)>;
+    TABLE_COMPONENT_FUNCTOR func_;
+
+    // data
+    ARK_SHARE_PTR<AFNodeManager> m_pNodeManager{nullptr};
+
 public:
     AFCRow() = delete;
 
     // constructor
-    explicit AFCRow(AFITableInner* pTableInner, uint32_t row);
+    explicit AFCRow(
+        ARK_SHARE_PTR<AFClassMeta> pClassMeta, uint32_t row, const AFIDataList& args, TABLE_COMPONENT_FUNCTOR&& func);
 
     // get row
     uint32_t GetRow() const override;
@@ -88,21 +102,9 @@ public:
     AFINode* Next() override;
 
 private:
-    // find data
-    AFINode* FindData(const uint32_t index, bool bCreate = false);
-    bool OnTableCallBack(const uint32_t index, const AFIData& old_data, const AFIData& new_data);
+    void InitData(const AFIDataList& args);
 
-private:
-    // row
-    uint32_t row_{0u};
-
-    // table ex
-    AFITableInner* table_inner_{nullptr};
-
-    // data
-    using DataList = AFNewMap<uint32_t, AFINode>;
-    DataList data_;
-    DataList::iterator iter_;
+    int OnDataCallBack(const std::string& name, const uint32_t index, const AFIData& old_data, const AFIData& new_data);
 };
 
 } // namespace ark

@@ -21,7 +21,7 @@
 #pragma once
 
 #include "base/AFMap.hpp"
-#include "AFCStaticEntityInner.hpp"
+#include "AFCStaticEntity.hpp"
 
 namespace ark {
 
@@ -31,22 +31,22 @@ public:
     using StaticObjectList = AFNewSmartPtrMap<ID_TYPE, AFIStaticEntity>;
 
     AFStaticEntityManager() = default;
-    virtual ~AFStaticEntityManager()
-    {
-        static_object_list_.clear();
-    }
+    virtual ~AFStaticEntityManager() = default;
 
-    ARK_SHARE_PTR<AFIStaticEntity> CreateObject(const ID_TYPE config_id, ARK_SHARE_PTR<AFClassMeta> pClassMeta)
+    ARK_SHARE_PTR<AFIStaticEntity> CreateObject(const ID_TYPE config_id, ARK_SHARE_PTR<AFNodeManager> pNodeComponent)
     {
-        ARK_ASSERT_RET_VAL(pClassMeta != nullptr, nullptr);
+        ARK_ASSERT_RET_VAL(pNodeComponent != nullptr, nullptr);
 
         // return nullptr if existed
         auto iter = static_object_list_.find(config_id);
         ARK_ASSERT_RET_VAL(iter == static_object_list_.end(), nullptr);
 
         // create new class
-        auto pObject = std::make_shared<AFCStaticEntityInner>(pClassMeta, config_id);
-        static_object_list_.insert(config_id, pObject);
+        auto pObject = std::make_shared<AFCStaticEntity>(pNodeComponent, config_id);
+        if (!static_object_list_.insert(config_id, pObject).second)
+        {
+            return nullptr;
+        }
 
         return pObject;
     }

@@ -165,6 +165,9 @@ public:
     virtual AFITable* FirstTable() = 0;
     virtual AFITable* NextTable() = 0;
     virtual ARK_SHARE_PTR<AFIContainer> NextContainer() = 0;
+
+    virtual bool IsSent() const = 0;
+    virtual void UpdateSent() = 0;
 };
 
 } // namespace ark

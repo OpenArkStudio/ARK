@@ -23,6 +23,7 @@
 #include "interface/AFIModule.hpp"
 #include "kernel/interface/AFIEntity.hpp"
 #include "proto/AFProtoCPP.hpp"
+#include "AFIStaticEntity.hpp"
 
 namespace ark {
 
@@ -110,6 +111,26 @@ public:
                 std::placeholders::_4)));
     }
 
+    // container call back
+    template<typename BaseType>
+    bool AddContainerCallBack(const std::string& class_name, const uint32_t index, BaseType* pBase,
+        int (BaseType::*handler)(
+            const AFGUID&, const uint32_t, const ArkContainerOpType, const uint32_t, const uint32_t))
+    {
+        return AddContainerCallBack(class_name, index,
+            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+                std::placeholders::_4, std::placeholders::_5)));
+    }
+
+    // only for player
+    template<typename BaseType>
+    bool AddCommonContainerCallBack(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const uint32_t,
+                                                         const ArkContainerOpType, const uint32_t, const uint32_t))
+    {
+        return AddCommonContainerCallBack(std::move(std::bind(handler, pBase, std::placeholders::_1,
+            std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5)));
+    }
+
     //////////////////////////////////////////////////////////////////////////
 
     virtual bool DoEvent(
@@ -124,6 +145,7 @@ public:
         const AFGUID& self, const uint32_t container_index, const std::string& class_name, const ID_TYPE config_id) = 0;
 
     virtual ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& self) = 0;
+    virtual ARK_SHARE_PTR<AFIStaticEntity> GetStaticEntity(const ID_TYPE config_id) = 0;
 
     virtual bool DestroyEntity(const AFGUID& self) = 0;
     virtual bool DestroyAll() = 0;
@@ -148,6 +170,10 @@ protected:
 
     virtual bool AddDataCallBack(const std::string& class_name, const uint32_t index, DATA_EVENT_FUNCTOR&& cb) = 0;
     virtual bool AddTableCallBack(const std::string& class_name, const uint32_t index, TABLE_EVENT_FUNCTOR&& cb) = 0;
+
+    virtual bool AddContainerCallBack(
+        const std::string& class_name, const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb) = 0;
+    virtual bool AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb) = 0;
 
     virtual bool AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb) = 0;
     virtual bool AddCommonNodeEvent(DATA_EVENT_FUNCTOR&& cb) = 0;

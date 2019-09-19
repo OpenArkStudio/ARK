@@ -25,10 +25,18 @@
 namespace ark {
 
 // constructor
-AFCRow::AFCRow(AFITableInner* pTableInner, uint32_t row)
+AFCRow::AFCRow(
+    ARK_SHARE_PTR<AFClassMeta> pClassMeta, uint32_t row, const AFIDataList& args, TABLE_COMPONENT_FUNCTOR&& func)
     : row_(row)
 {
-    table_inner_ = pTableInner;
+    // data node
+    auto function = std::bind(&AFCRow::OnDataCallBack, this, std::placeholders::_1, std::placeholders::_2,
+        std::placeholders::_3, std::placeholders::_4);
+    m_pNodeManager = std::make_shared<AFNodeManager>(pClassMeta, std::move(function));
+
+    func_ = std::forward<TABLE_COMPONENT_FUNCTOR>(func);
+
+    InitData(args);
 }
 
 // get row
@@ -40,536 +48,349 @@ uint32_t AFCRow::GetRow() const
 // get row data
 bool AFCRow::GetBool(const uint32_t index)
 {
-    AFINode* pData = FindData(index);
-    ARK_ASSERT_RET_VAL(pData != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_BOOLEAN);
 
-    return pData->GetBool();
+    return m_pNodeManager->GetBool(index);
 }
 
 int32_t AFCRow::GetInt32(const uint32_t index)
 {
-    AFINode* pData = FindData(index);
-    ARK_ASSERT_RET_VAL(pData != nullptr, NULL_INT);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
-    return pData->GetInt32();
+    return m_pNodeManager->GetInt32(index);
 }
 
 int64_t AFCRow::GetInt64(const uint32_t index)
 {
-    AFINode* pData = FindData(index);
-    ARK_ASSERT_RET_VAL(pData != nullptr, NULL_INT64);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
 
-    return pData->GetInt64();
+    return m_pNodeManager->GetInt64(index);
 }
 
 uint32_t AFCRow::GetUInt32(const uint32_t index)
 {
-    AFINode* pData = FindData(index);
-    ARK_ASSERT_RET_VAL(pData != nullptr, NULL_INT);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
-    return pData->GetUInt32();
+    return m_pNodeManager->GetUInt32(index);
 }
 
 uint64_t AFCRow::GetUInt64(const uint32_t index)
 {
-    AFINode* pData = FindData(index);
-    ARK_ASSERT_RET_VAL(pData != nullptr, NULL_INT64);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
 
-    return pData->GetUInt64();
+    return m_pNodeManager->GetUInt64(index);
 }
 
 float AFCRow::GetFloat(const uint32_t index)
 {
-    AFINode* pData = FindData(index);
-    ARK_ASSERT_RET_VAL(pData != nullptr, NULL_FLOAT);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_FLOAT);
 
-    return pData->GetFloat();
+    return m_pNodeManager->GetFloat(index);
 }
 
 double AFCRow::GetDouble(const uint32_t index)
 {
-    AFINode* pData = FindData(index);
-    ARK_ASSERT_RET_VAL(pData != nullptr, NULL_DOUBLE);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_DOUBLE);
 
-    return pData->GetDouble();
+    return m_pNodeManager->GetDouble(index);
 }
 
 const std::string& AFCRow::GetString(const uint32_t index)
 {
-    AFINode* pData = FindData(index);
-    ARK_ASSERT_RET_VAL(pData != nullptr, NULL_STR);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_STR);
 
-    return pData->GetString();
+    return m_pNodeManager->GetString(index);
 }
 
 const std::wstring& AFCRow::GetWString(const uint32_t index)
 {
-    AFINode* pData = FindData(index);
-    ARK_ASSERT_RET_VAL(pData != nullptr, NULL_WIDESTR);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_WIDESTR);
 
-    return pData->GetWString();
+    return m_pNodeManager->GetWString(index);
 }
 
 const AFGUID& AFCRow::GetGUID(const uint32_t index)
 {
-    AFINode* pData = FindData(index);
-    ARK_ASSERT_RET_VAL(pData != nullptr, NULL_GUID);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_GUID);
 
-    return pData->GetObject();
+    return m_pNodeManager->GetGUID(index);
 }
 
 bool AFCRow::GetBool(const std::string& name)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_BOOLEAN);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, false);
-
-    return GetBool(index);
+    return m_pNodeManager->GetBool(name);
 }
 
 int32_t AFCRow::GetInt32(const std::string& name)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_INT);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_INT);
-
-    return GetInt32(index);
+    return m_pNodeManager->GetInt32(name);
 }
 
 int64_t AFCRow::GetInt64(const std::string& name)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_INT64);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_INT64);
-
-    return GetInt64(index);
+    return m_pNodeManager->GetInt64(name);
 }
 
 uint32_t AFCRow::GetUInt32(const std::string& name)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_INT);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_INT);
-
-    return GetUInt32(index);
+    return m_pNodeManager->GetUInt32(name);
 }
 
 uint64_t AFCRow::GetUInt64(const std::string& name)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_INT64);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_INT64);
-
-    return GetUInt64(index);
+    return m_pNodeManager->GetUInt64(name);
 }
 
 float AFCRow::GetFloat(const std::string& name)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_FLOAT);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_FLOAT);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_FLOAT);
-
-    return GetFloat(index);
+    return m_pNodeManager->GetFloat(name);
 }
 
 double AFCRow::GetDouble(const std::string& name)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_DOUBLE);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_DOUBLE);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_FLOAT);
-
-    return GetDouble(index);
+    return m_pNodeManager->GetDouble(name);
 }
 
 const std::string& AFCRow::GetString(const std::string& name)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_STR);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_STR);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_STR);
-
-    return GetString(index);
+    return m_pNodeManager->GetString(name);
 }
 
 const std::wstring& AFCRow::GetWString(const std::string& name)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_WIDESTR);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_WIDESTR);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_WIDESTR);
-
-    return GetWString(index);
+    return m_pNodeManager->GetWString(name);
 }
 
 const AFGUID& AFCRow::GetGUID(const std::string& name)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_GUID);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_GUID);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_GUID);
-
-    return GetGUID(index);
+    return m_pNodeManager->GetGUID(name);
 }
 
 // set row data
 bool AFCRow::SetBool(const uint32_t index, bool value)
 {
-    AFINode* pData = FindData(index, true);
-    ARK_ASSERT_RET_VAL(pData != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_BOOLEAN, false);
-
-    auto old_value = pData->GetBool();
-    pData->SetBool(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = pData->GetType();
-        OnTableCallBack(index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetBool(index, value);
 }
 
 bool AFCRow::SetInt32(const uint32_t index, int32_t value)
 {
-    AFINode* pData = FindData(index, true);
-    ARK_ASSERT_RET_VAL(pData != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_INT32, false);
-
-    auto old_value = pData->GetInt32();
-    pData->SetInt32(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = pData->GetType();
-        OnTableCallBack(index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetInt32(index, value);
 }
 
 bool AFCRow::SetInt64(const uint32_t index, int64_t value)
 {
-    AFINode* pData = FindData(index, true);
-    ARK_ASSERT_RET_VAL(pData != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_INT64, false);
-
-    auto old_value = pData->GetInt64();
-    pData->SetInt64(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = pData->GetType();
-        OnTableCallBack(index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetInt64(index, value);
 }
 
 bool AFCRow::SetUInt32(const uint32_t index, uint32_t value)
 {
-    AFINode* pData = FindData(index, true);
-    ARK_ASSERT_RET_VAL(pData != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_UINT32, false);
-
-    auto old_value = pData->GetUInt32();
-    pData->SetUInt32(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = pData->GetType();
-        OnTableCallBack(index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetUInt32(index, value);
 }
 
 bool AFCRow::SetUInt64(const uint32_t index, uint64_t value)
 {
-    AFINode* pData = FindData(index, true);
-    ARK_ASSERT_RET_VAL(pData != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_UINT64, false);
-
-    auto old_value = pData->GetUInt64();
-    pData->SetUInt64(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = pData->GetType();
-        OnTableCallBack(index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetUInt64(index, value);
 }
 
 bool AFCRow::SetFloat(const uint32_t index, float value)
 {
-    AFINode* pData = FindData(index, true);
-    ARK_ASSERT_RET_VAL(pData != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_FLOAT, false);
-
-    auto old_value = pData->GetFloat();
-    pData->SetFloat(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = pData->GetType();
-        OnTableCallBack(index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetFloat(index, value);
 }
 
 bool AFCRow::SetDouble(const uint32_t index, double value)
 {
-    AFINode* pData = FindData(index, true);
-    ARK_ASSERT_RET_VAL(pData != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_DOUBLE, false);
-
-    auto old_value = pData->GetDouble();
-    pData->SetDouble(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = pData->GetType();
-        OnTableCallBack(index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetDouble(index, value);
 }
 
 bool AFCRow::SetString(const uint32_t index, const std::string& value)
 {
-    AFINode* pData = FindData(index, true);
-    ARK_ASSERT_RET_VAL(pData != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_STRING, false);
-
-    auto old_value = pData->GetString();
-    pData->SetString(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = pData->GetType();
-        OnTableCallBack(index, AFCData(data_type, old_value.c_str()), AFCData(data_type, value.c_str()));
-    }
-
-    return true;
+    return m_pNodeManager->SetString(index, value);
 }
 
 bool AFCRow::SetWString(const uint32_t index, const std::wstring& value)
 {
-    AFINode* pData = FindData(index, true);
-    ARK_ASSERT_RET_VAL(pData != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_WSTRING, false);
-
-    auto old_value = pData->GetWString();
-    pData->SetWString(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = pData->GetType();
-        OnTableCallBack(index, AFCData(data_type, old_value.c_str()), AFCData(data_type, value.c_str()));
-    }
-
-    return true;
+    return m_pNodeManager->SetWString(index, value);
 }
 
 bool AFCRow::SetGUID(const uint32_t index, const AFGUID& value)
 {
-    AFINode* pData = FindData(index, true);
-    ARK_ASSERT_RET_VAL(pData != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_GUID, false);
-
-    auto old_value = pData->GetObject();
-    pData->SetObject(value);
-
-    if (old_value != value)
-    {
-        // data callbacks
-        ArkDataType data_type = pData->GetType();
-        OnTableCallBack(index, AFCData(data_type, old_value), AFCData(data_type, value));
-    }
-
-    return true;
+    return m_pNodeManager->SetGUID(index, value);
 }
 
 bool AFCRow::SetBool(const std::string& name, bool value)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_BOOLEAN);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_BOOLEAN);
-
-    return SetBool(index, value);
+    return m_pNodeManager->SetBool(name, value);
 }
 
 bool AFCRow::SetInt32(const std::string& name, int32_t value)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_BOOLEAN);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_BOOLEAN);
-
-    return SetInt32(index, value);
+    return m_pNodeManager->SetInt32(name, value);
 }
 
 bool AFCRow::SetInt64(const std::string& name, int64_t value)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_BOOLEAN);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_BOOLEAN);
-
-    return SetInt64(index, value);
+    return m_pNodeManager->SetInt64(name, value);
 }
 
 bool AFCRow::SetUInt32(const std::string& name, uint32_t value)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_BOOLEAN);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_BOOLEAN);
-
-    return SetUInt32(index, value);
+    return m_pNodeManager->SetUInt32(name, value);
 }
 
 bool AFCRow::SetUInt64(const std::string& name, uint64_t value)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_BOOLEAN);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_BOOLEAN);
-
-    return SetUInt64(index, value);
+    return m_pNodeManager->SetUInt64(name, value);
 }
 
 bool AFCRow::SetFloat(const std::string& name, float value)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_BOOLEAN);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_BOOLEAN);
-
-    return SetFloat(index, value);
+    return m_pNodeManager->SetFloat(name, value);
 }
 
 bool AFCRow::SetDouble(const std::string& name, double value)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_BOOLEAN);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_BOOLEAN);
-
-    return SetDouble(index, value);
+    return m_pNodeManager->SetDouble(name, value);
 }
 
 bool AFCRow::SetString(const std::string& name, const std::string& value)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_BOOLEAN);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_BOOLEAN);
-
-    return SetString(index, value);
+    return m_pNodeManager->SetString(name, value);
 }
 
 bool AFCRow::SetWString(const std::string& name, const std::wstring& value)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_BOOLEAN);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_BOOLEAN);
-
-    return SetWString(index, value);
+    return m_pNodeManager->SetWString(name, value);
 }
 
 bool AFCRow::SetGUID(const std::string& name, const AFGUID& value)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, NULL_BOOLEAN);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    auto index = table_inner_->GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, NULL_BOOLEAN);
-
-    return SetGUID(index, value);
+    return m_pNodeManager->SetGUID(name, value);
 }
 
 AFINode* AFCRow::First()
 {
-    iter_ = data_.begin();
-    ARK_ASSERT_RET_VAL(iter_ != data_.end(), nullptr);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, nullptr);
 
-    return iter_->second;
+    return m_pNodeManager->First();
 }
 
 AFINode* AFCRow::Next()
 {
-    ARK_ASSERT_RET_VAL(iter_ != data_.end(), nullptr);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, nullptr);
 
-    iter_++;
-    ARK_ASSERT_RET_VAL(iter_ != data_.end(), nullptr);
-
-    return iter_->second;
+    return m_pNodeManager->Next();
 }
 
-// find data
-AFINode* AFCRow::FindData(const uint32_t index, bool bCreate /* = false*/)
+void AFCRow::InitData(const AFIDataList& args)
 {
-    auto pData = data_.find_value(index);
+    size_t count = args.GetCount();
+    ARK_ASSERT_RET_NONE(count % 2 == 0);
 
-    if (nullptr == pData && bCreate)
+    for (size_t i = 0; i < count; i += 2)
     {
-        ARK_ASSERT_RET_VAL(table_inner_ != nullptr, nullptr);
-
-        auto pTableMeta = table_inner_->GetMeta();
-        ARK_ASSERT_RET_VAL(pTableMeta != nullptr, nullptr);
-
-        auto pDataMeta = pTableMeta->FindMeta(index);
-        ARK_ASSERT_RET_VAL(pDataMeta != nullptr, nullptr);
-
-        pData = CreateDataByMeta(pDataMeta);
-        if (!data_.insert(index, pData).second)
+        auto data_type = args.GetType(i);
+        auto index = args.UInt(i + 1);
+        switch (data_type)
         {
-            ARK_DELETE(pData);
-            return nullptr;
+            case ark::ArkDataType::DT_BOOLEAN:
+                SetBool(index, args.Bool(i));
+                break;
+            case ark::ArkDataType::DT_INT32:
+                SetInt32(index, args.Int(i));
+                break;
+            case ark::ArkDataType::DT_UINT32:
+                SetUInt32(index, args.UInt(i));
+                break;
+            case ark::ArkDataType::DT_INT64:
+                SetInt64(index, args.Int64(i));
+                break;
+            case ark::ArkDataType::DT_UINT64:
+                SetUInt64(index, args.UInt64(i));
+                break;
+            case ark::ArkDataType::DT_FLOAT:
+                SetFloat(index, args.Float(i));
+                break;
+            case ark::ArkDataType::DT_DOUBLE:
+                SetDouble(index, args.Double(i));
+                break;
+            case ark::ArkDataType::DT_STRING:
+                SetString(index, args.String(i));
+                break;
+            default:
+                break;
         }
     }
-
-    return pData;
 }
 
-bool AFCRow::OnTableCallBack(const uint32_t index, const AFIData& old_data, const AFIData& new_data)
+int AFCRow::OnDataCallBack(
+    const std::string& name, const uint32_t index, const AFIData& old_data, const AFIData& new_data)
 {
-    ARK_ASSERT_RET_VAL(table_inner_ != nullptr, false);
+    if (func_)
+    {
+        func_(row_, index, old_data, new_data);
+    }
 
-    table_inner_->OnRowDataChanged(row_, index, old_data, new_data);
-
-    return true;
+    return 0;
 }
 
 } // namespace ark

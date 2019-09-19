@@ -31,9 +31,28 @@ class AFCContainer final : public AFIContainer, public std::enable_shared_from_t
 public:
     using EntityDataList = AFNewSmartPtrMap<uint32_t, AFIEntity>;
 
+private:
+    // contain entity class meta
+    ARK_SHARE_PTR<AFContainerMeta> container_meta_{nullptr};
+
+    // index start
+    uint32_t current_index_{0u};
+
+    // parent id
+    AFGUID parent_{NULL_GUID};
+
+    // entity data
+    EntityDataList::iterator iter_;
+    EntityDataList entity_data_list_;
+
+    // call back
+    ARK_SHARE_PTR<AFClassCallBackManager> call_back_mgr_{nullptr};
+
+public:
     AFCContainer() = delete;
 
-    explicit AFCContainer(ARK_SHARE_PTR<AFContainerMeta> container_meta, const uint32_t index, const AFGUID& parent_id);
+    explicit AFCContainer(ARK_SHARE_PTR<AFContainerMeta> container_meta, const AFGUID& parent_id,
+        ARK_SHARE_PTR<AFClassCallBackManager> class_meta);
 
     ~AFCContainer() override;
 
@@ -48,8 +67,11 @@ public:
     ARK_SHARE_PTR<AFIEntity> Find(uint32_t index) override;
     uint32_t Find(const AFGUID& id) override;
 
+    bool Exist(uint32_t index) override;
+    bool Exist(const AFGUID& id) override;
+
     bool Place(ARK_SHARE_PTR<AFIEntity> pEntity) override;
-    bool Place(uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity, ARK_SHARE_PTR<AFIEntity> pEntityReplaced) override;
+    bool Place(uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity) override;
 
     bool Swap(const uint32_t src_index, const uint32_t dest_index) override;
     bool Swap(const AFGUID& src_entity, const AFGUID& dest_entity) override;
@@ -58,26 +80,18 @@ public:
     bool Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity) override;
 
     bool Remove(const uint32_t index) override;
+    bool Remove(const AFGUID& id) override;
+
+    bool Destroy(const uint32_t index) override;
+    bool Destroy(const AFGUID& id) override;
 
 private:
-    bool AddEntity(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity);
+    bool PlaceEntity(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity);
 
-private:
-    // name
-    uint32_t index_;
-
-    // contain entity class meta
-    ARK_SHARE_PTR<AFContainerMeta> container_meta_;
-
-    // index start
-    uint32_t current_index_{0u};
-
-    // parent id
-    AFGUID parent_{NULL_GUID};
-
-    // entity data
-    EntityDataList::iterator iter_;
-    EntityDataList entity_data_list_;
+    void OnContainerPlace(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity);
+    void OnContainerSwap(const uint32_t index, const uint32_t swap_index);
+    void OnContainerRemove(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity);
+    void OnContainerDestroy(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity);
 };
 
 } // namespace ark

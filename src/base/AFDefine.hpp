@@ -78,6 +78,9 @@ using TABLE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const TABLE_EVENT_D
 
 using DATA_EVENT_FUNCTOR =
     std::function<int(const AFGUID&, const std::string&, const uint32_t, const AFIData&, const AFIData&)>;
+
+using CONTAINER_EVENT_FUNCTOR =
+    std::function<int(const AFGUID&, const uint32_t, const ArkContainerOpType, const uint32_t, const uint32_t)>;
 //------------------------------
 
 using DATA_NODE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)>;

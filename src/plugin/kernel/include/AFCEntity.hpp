@@ -24,14 +24,53 @@
 #include "base/AFMap.hpp"
 #include "base/AFList.hpp"
 #include "kernel/interface/AFIData.hpp"
-#include "kernel/interface/AFIStaticEntityInner.hpp"
 #include "AFClassCallBackManager.hpp"
 #include "kernel/interface/AFIContainerManager.hpp"
+#include "AFNodeManager.hpp"
+#include "AFTableManager.hpp"
 
 namespace ark {
 
 class AFCEntity final : public AFIEntity
 {
+private:
+    // object unique id
+    AFGUID guid_{NULL_GUID};
+
+    // config id
+    ID_TYPE config_id_{0};
+
+    // parent container
+    ARK_SHARE_PTR<AFIContainer> parent_container_{nullptr};
+
+    // map id
+    int32_t map_id_{NULL_INT};
+
+    // map obj id
+    int32_t map_entity_id_{NULL_INT};
+
+    // is sent to client(for container use)
+    bool is_sent_{false};
+
+    // custom data
+    using CustomDataList = AFNewHashmap<std::string, AFIData>;
+    CustomDataList custom_data_list_;
+
+    // node data
+    ARK_SHARE_PTR<AFNodeManager> m_pNodeManager{nullptr};
+
+    // table data
+    ARK_SHARE_PTR<AFTableManager> m_pTableManager{nullptr};
+
+    // container manager
+    ARK_SHARE_PTR<AFIContainerManager> m_pContainerManager{nullptr};
+
+    // event manager
+    ARK_SHARE_PTR<AFIEventManager> m_pEventManager{nullptr};
+
+    // call back manager
+    ARK_SHARE_PTR<AFClassCallBackManager> m_pCallBackManager{nullptr};
+
 public:
     AFCEntity() = delete;
 
@@ -169,41 +208,14 @@ public:
     AFITable* NextTable() override;
     ARK_SHARE_PTR<AFIContainer> NextContainer() override;
 
+    bool IsSent() const override;
+    void UpdateSent() override;
+
 private:
     // create data new and copy data arg
     bool CopyData(AFINode* pData);
 
-    void OnDataCallBack(
-        const std::string& name, const uint32_t index, const AFIData& old_data, const AFIData& new_data);
-
-private:
-    // object unique id
-    AFGUID guid_{NULL_GUID};
-
-    // parent container
-    ARK_SHARE_PTR<AFIContainer> parent_container_{nullptr};
-
-    // map id
-    int32_t map_id_{NULL_INT};
-
-    // map obj id
-    int32_t map_entity_id_{NULL_INT};
-
-    // custom data
-    using CustomDataList = AFNewHashmap<std::string, AFIData>;
-    CustomDataList custom_data_list_;
-
-    // static object
-    ARK_SHARE_PTR<AFIStaticEntityInner> m_pStaticObject{nullptr};
-
-    // container manager
-    ARK_SHARE_PTR<AFIContainerManager> m_pContainerManager{nullptr};
-
-    // event manager
-    ARK_SHARE_PTR<AFIEventManager> m_pEventManager{nullptr};
-
-    // call back manager
-    ARK_SHARE_PTR<AFClassCallBackManager> m_pCallBackManager{nullptr};
+    int OnDataCallBack(const std::string& name, const uint32_t index, const AFIData& old_data, const AFIData& new_data);
 };
 
 } // namespace ark

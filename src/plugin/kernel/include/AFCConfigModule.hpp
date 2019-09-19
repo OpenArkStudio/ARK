@@ -38,16 +38,10 @@ public:
     bool Save() override;
     bool Clear() override;
 
-    // find config static object manager
-    ARK_SHARE_PTR<AFStaticEntityManager> FindStaticEntityMgr(const std::string& class_name) override;
-
-    ARK_SHARE_PTR<AFIStaticEntity> FindStaticEntity(const std::string& class_name, const ID_TYPE config_id) override;
     ARK_SHARE_PTR<AFIStaticEntity> FindStaticEntity(const ID_TYPE config_id) override;
 
 protected:
     bool LoadConfig(ARK_SHARE_PTR<AFClassMeta> pClassMeta);
-
-    ARK_SHARE_PTR<AFStaticEntityManager> CreateStaticObjectManager(const std::string& name);
 
 private:
     bool loaded_{false};
@@ -55,7 +49,7 @@ private:
     AFILogModule* m_pLogModule{nullptr};
     AFIClassMetaModule* m_pClassModule{nullptr};
 
-    AFNewSmartPtrHashmap<std::string, AFStaticEntityManager> static_entity_mgr_list_;
+    AFStaticEntityManager* m_pStaticEntityManager{nullptr};
 };
 
 } // namespace ark

@@ -31,6 +31,8 @@
 
 namespace ark {
 
+class AFTableMeta;
+
 class AFClassMeta final
 {
 public:
@@ -40,139 +42,6 @@ public:
     using DataMetaList = AFNewSmartPtrMap<uint32_t, AFNodeMeta>;
     using TableMetaList = AFNewSmartPtrMap<uint32_t, AFTableMeta>;
     using ContainerMetaList = AFNewSmartPtrMap<uint32_t, AFContainerMeta>;
-
-    AFClassMeta() = delete;
-
-    explicit AFClassMeta(const std::string& name)
-        : name_(name)
-    {
-        class_meta_call_back_ = std::make_shared<AFClassCallBackManager>();
-    }
-
-    virtual ~AFClassMeta()
-    {
-        container_meta_list_.clear();
-        data_meta_list_.clear();
-        table_meta_list_.clear();
-        name_index_list_.clear();
-    }
-
-    const std::string& GetName() const
-    {
-        return name_;
-    }
-
-    void SetResPath(const std::string& value)
-    {
-        res_path_ = value;
-    }
-
-    const std::string& GetResPath() const
-    {
-        return res_path_;
-    }
-
-    // create data meta
-    ARK_SHARE_PTR<AFNodeMeta> CreateDataMeta(const std::string& name, const uint32_t index)
-    {
-        // check arg
-        ARK_ASSERT_RET_VAL(!name.empty() && index > 0, nullptr);
-
-        ARK_ASSERT_RET_VAL(data_meta_list_.find(index) == data_meta_list_.end(), nullptr);
-
-        ARK_ASSERT_RET_VAL(NameIndexInsert(name, index), nullptr);
-
-        // create new data meta
-        ARK_SHARE_PTR<AFNodeMeta> pMeta = std::make_shared<AFNodeMeta>(name, index);
-        data_meta_list_.insert(index, pMeta);
-
-        return pMeta;
-    }
-
-    ARK_SHARE_PTR<AFNodeMeta> FindDataMeta(const uint32_t index)
-    {
-        return data_meta_list_.find_value(index);
-    }
-
-    // create table meta
-    ARK_SHARE_PTR<AFTableMeta> CreateTableMeta(const std::string& name, const uint32_t index)
-    {
-        // check arg
-        ARK_ASSERT_RET_VAL(!name.empty() && index > 0, nullptr);
-
-        ARK_ASSERT_RET_VAL(table_meta_list_.find(index) == table_meta_list_.end(), nullptr);
-
-        ARK_ASSERT_RET_VAL(NameIndexInsert(name, index), nullptr);
-
-        ARK_SHARE_PTR<AFTableMeta> pMeta = std::make_shared<AFTableMeta>(name, index);
-        table_meta_list_.insert(index, pMeta);
-
-        return pMeta;
-    }
-
-    ARK_SHARE_PTR<AFTableMeta> FindTableMeta(const uint32_t index)
-    {
-        return table_meta_list_.find_value(index);
-    }
-
-    // create table meta
-    ARK_SHARE_PTR<AFContainerMeta> CreateContainerMeta(
-        const std::string& name, const uint32_t index, const std::string& class_name)
-    {
-        // check arg
-        ARK_ASSERT_RET_VAL(!name.empty() && index > 0, nullptr);
-
-        ARK_ASSERT_RET_VAL(container_meta_list_.find(index) == container_meta_list_.end(), nullptr);
-
-        ARK_ASSERT_RET_VAL(NameIndexInsert(name, index), nullptr);
-
-        ARK_SHARE_PTR<AFContainerMeta> pMeta = std::make_shared<AFContainerMeta>(name, index, class_name);
-        container_meta_list_.insert(index, pMeta);
-
-        return pMeta;
-    }
-
-    ARK_SHARE_PTR<AFContainerMeta> FindContainerMeta(const uint32_t index)
-    {
-        return container_meta_list_.find_value(index);
-    }
-
-    const DataMetaList& GetDataMetaList() const
-    {
-        return data_meta_list_;
-    }
-
-    const TableMetaList& GetTableMetaList() const
-    {
-        return table_meta_list_;
-    }
-
-    ARK_SHARE_PTR<AFClassCallBackManager> GetClassCallBackManager() const
-    {
-        return class_meta_call_back_;
-    }
-
-    uint32_t GetIndex(const std::string& name)
-    {
-        auto iter = name_index_list_.find(name);
-        if (iter == name_index_list_.end())
-        {
-            return NULL_INT;
-        }
-
-        return iter->second;
-    }
-
-    bool IsEntityMeta() const
-    {
-        return res_path_.empty();
-    }
-
-private:
-    bool NameIndexInsert(const std::string& name, const uint32_t index)
-    {
-        return name_index_list_.insert(std::make_pair(name, index)).second;
-    }
 
 private:
     // class name
@@ -195,6 +64,44 @@ private:
 
     // class meta call back
     ARK_SHARE_PTR<AFClassCallBackManager> class_meta_call_back_;
+
+public:
+    AFClassMeta() = delete;
+
+    explicit AFClassMeta(const std::string& name);
+    virtual ~AFClassMeta();
+
+    size_t GetNodeCount() const;
+    const std::string& GetName() const;
+
+    void SetResPath(const std::string& value);
+    const std::string& GetResPath() const;
+
+    // create data meta
+    ARK_SHARE_PTR<AFNodeMeta> CreateDataMeta(const std::string& name, const uint32_t index);
+    ARK_SHARE_PTR<AFNodeMeta> FindDataMeta(const uint32_t index);
+
+    // create table meta
+    ARK_SHARE_PTR<AFTableMeta> CreateTableMeta(const std::string& name, const uint32_t index);
+    ARK_SHARE_PTR<AFTableMeta> FindTableMeta(const uint32_t index);
+
+    // create table meta
+    ARK_SHARE_PTR<AFContainerMeta> CreateContainerMeta(
+        const std::string& name, const uint32_t index, const std::string& class_name);
+    ARK_SHARE_PTR<AFContainerMeta> FindContainerMeta(const uint32_t index);
+
+    const DataMetaList& GetDataMetaList() const;
+    const TableMetaList& GetTableMetaList() const;
+    const ContainerMetaList& GetContainerMetaList() const;
+
+    ARK_SHARE_PTR<AFClassCallBackManager> GetClassCallBackManager() const;
+
+    uint32_t GetIndex(const std::string& name);
+
+    bool IsEntityMeta() const;
+
+private:
+    bool NameIndexInsert(const std::string& name, const uint32_t index);
 };
 
 } // namespace ark

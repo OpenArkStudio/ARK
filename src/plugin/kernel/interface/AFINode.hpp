@@ -37,7 +37,7 @@ public:
     virtual void SaveTo(AFINode* other) = 0;
     virtual bool HaveFeature(AFNodeFeature feature) = 0;
     virtual AFFeatureType GetFeature() const = 0;
-    virtual ID_TYPE GetID() const = 0;
+    virtual ID_TYPE GetValue() const = 0;
 
     // Get data
     virtual bool GetBool() const
