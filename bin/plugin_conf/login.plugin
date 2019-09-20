@@ -6,5 +6,5 @@
 		<plugin name="AFNetPlugin" />
 		<plugin name="AFLoginPlugin" />
 	</plugins>
-	<res path="resource/" />
+	<res path="../resource/" />
 </xml>

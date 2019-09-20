@@ -6,5 +6,5 @@
 		<plugin name="AFNetPlugin" />
 		<plugin name="AFMasterPlugin" />
 	</plugins>
-	<res path="resource/" />
+	<res path="../resource/" />
 </xml>

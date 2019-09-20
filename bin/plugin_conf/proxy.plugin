@@ -8,5 +8,5 @@
 		<plugin name="AFNetPlugin" />
 		<plugin name="AFProxyPlugin" />
 	</plugins>
-	<res path="resource/" />
+	<res path="../resource/" />
 </xml>

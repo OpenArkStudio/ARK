@@ -5,5 +5,5 @@
 		<plugin name="AFBusPlugin" />
 		<plugin name="AFNetPlugin" />
 	</plugins>
-	<res path="resource/" />
+	<res path="../resource/" />
 </xml>
