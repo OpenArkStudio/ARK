@@ -24,6 +24,7 @@ import config_param
 import config_xml
 import config_excel
 import importlib
+from openpyxl import load_workbook
 
 importlib.reload(sys)
 # coding=utf-8
@@ -33,7 +34,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--path', type=str,
                         required=True, help="excel file path")
-
+    
     return vars(parser.parse_args())
 
 def write_entity_enum_head(file, name,cpp_or_cs=True):
@@ -169,8 +170,7 @@ def write_entity(file, name, entity_dict, cpp_or_cs=True):
             sub_class_name = member_list[k + 2]
             write_entity_cs_member(
                 file, name,field_name, type_name, sub_class_name)
-        write_entity_cs_end(file)
-
+        write_entity_cs_end(file)    
 
 # generate entity_class meta and config
 def generate_entity_meta(res_path):
@@ -336,8 +336,9 @@ def generate_entity_meta(res_path):
     
     
 # generate single config
-def genrate_single_config(res_path, filepath, filename):
-    excel = config_excel.my_excel(filepath)
+def genrate_single_config(res_path, excel_list, classname):
+    path = excel_list[0]
+    excel = config_excel.my_excel(path)
     excel.set_sheet_by_index(0)  # set default sheet
     min_row_no = excel.get_min_row_no()
     max_row_no = excel.get_max_row_no()+1
@@ -359,71 +360,84 @@ def genrate_single_config(res_path, filepath, filename):
                     continue
             data_node.setAttribute(
                 config_param.config_form_head_list[row - min_row_no + 1], excel.get_cell_content(row, col))
-        #data_node.setAttribute(config_param.field_index,filename+"."+excel.get_cell_content(min_row_no, col))
+        # data_node.setAttribute(config_param.field_index,filename+"."+excel.get_cell_content(min_row_no, col))
         if data_node.hasAttributes():
             meta_root_node.appendChild(data_node)
-    with open(os.path.join(res_path, config_param.meta_path, filename + config_param.meta_ext), 'w', encoding='utf-8') as f:
+    with open(os.path.join(res_path, config_param.meta_path, classname + config_param.meta_ext), 'w', encoding='utf-8') as f:
         meta_doc.writexml(f, indent="\n", addindent="\t", encoding='utf-8')
 
     '''config data xml'''
     config_doc = Document()
     config_root_node = config_doc.createElement('data')
     config_doc.appendChild(config_root_node)
-    for row in range(min_row_no + config_param.config_form_head_row, max_row_no):
-        data_node = config_doc.createElement('data')
-        config_root_node.appendChild(data_node)
-        for col in range(min_col_no, max_col_no):
-            # ignore empty cell in first row
-            if excel.get_cell_content(min_row_no, col) == None:
-                continue
-            data_node.setAttribute(str(excel.get_cell_content(min_row_no, col)),
+    for filepath in excel_list:
+        excel = config_excel.my_excel(filepath)
+        excel.set_sheet_by_index(0)  # set default sheet
+        min_row_no = excel.get_min_row_no()
+        max_row_no = excel.get_max_row_no()+1
+        min_col_no = excel.get_min_col_no()
+        max_col_no = excel.get_max_col_no()+1
+        for row in range(min_row_no + config_param.config_form_head_row, max_row_no):
+            data_node = config_doc.createElement('data')
+            config_root_node.appendChild(data_node)
+            for col in range(min_col_no, max_col_no):
+                # ignore empty cell in first row
+                if excel.get_cell_content(min_row_no, col) == None:
+                    continue
+                data_node.setAttribute(str(excel.get_cell_content(min_row_no, col)),
                                    str(excel.get_cell_content(row, col)))
 
-    with open(os.path.join(res_path, config_param.server_res_path, filename + config_param.config_ext), 'w', encoding='utf-8') as f:
-        config_doc.writexml(
-            f, indent="\n", addindent="\t", encoding='utf-8')
+        with open(os.path.join(res_path, config_param.server_res_path, classname + config_param.config_ext), 'w', encoding='utf-8') as f:
+            config_doc.writexml(
+                f, indent="\n", addindent="\t", encoding='utf-8')
 
     # open meta define file
     cpp_file = open(os.path.join(res_path, config_param.cpp_meta_file), 'a', encoding='utf-8')
     cs_file = open(os.path.join(res_path, config_param.cs_meta_file), 'a', encoding='utf-8')
-    cpp_file.write(u"\tenum class %s : std::uint32_t\n\t{\n\t\tmeta_empty,\n" %(filename)) 
-    cs_file.write(u"\tenum %s\n\t{\n\t\tmeta_empty,\n" % (filename))
+    cpp_file.write(u"\tenum class %s : std::uint32_t\n\t{\n\t\tmeta_empty,\n" %(classname)) 
+    cs_file.write(u"\tenum %s\n\t{\n\t\tmeta_empty,\n" % (classname))
+    excel = config_excel.my_excel(excel_list[0])
+    excel.set_sheet_by_index(0)  # set default sheet
+    min_row_no = excel.get_min_row_no()
+    max_row_no = excel.get_max_row_no()+1
+    min_col_no = excel.get_min_col_no()
+    max_col_no = excel.get_max_col_no()+1
     for col in range(min_col_no, max_col_no):
         field_name = str(excel.get_cell_content(min_row_no, col))
         cpp_file.write(u"\t\t%s,\n" % (field_name))
         cs_file.write(u"\t\t%s,\n" % (field_name))
     cpp_file.write(u"\t};\n\n")
-    cpp_file.write(u"\tusing " + filename + "_rep_type = std::underlying_type<"+ filename +">::type;\n\n")
+    cpp_file.write(u"\tusing " + classname + "_rep_type = std::underlying_type<"+ classname +">::type;\n\n")
     cs_file.write(u"\t}\n")
 
     cpp_file.write(u"\tclass AFConfigMeta" +
-                   filename.capitalize() + "\n\t{\n\tpublic:\n")
+                   classname.capitalize() + "\n\t{\n\tpublic:\n")
     cpp_file.write(
         u'''\t\tstatic const std::string& self_name() { static const std::string meta_%s_ = "%s"; return meta_%s_; }\n\n''' %
-        (filename, filename, filename))
+        (classname, classname, classname))
 
     cs_file.write(u"\tpublic class AFConfigMeta" +
-                  filename.capitalize() + "\n\t{\n")
+                  classname.capitalize() + "\n\t{\n")
     cs_file.write(
-        u'''\t\tpublic static readonly String self_name = "%s";\n\n''' % filename)
+        u'''\t\tpublic static readonly String self_name = "%s";\n\n''' % classname)
     
-    if(not entity_dict.__contains__(filename)):
-        entity_dict[filename]=[]
+    if(not entity_dict.__contains__(classname)):
+        entity_dict[classname]=[]
     for col in range(min_col_no, max_col_no):
         field_name = str(excel.get_cell_content(min_row_no, col))
         type_name = str(excel.get_cell_content(min_row_no + 1, col))
-        entity_dict[filename].append(field_name)
-        entity_dict[filename].append(type_name)
-        entity_dict[filename].append("")
+        entity_dict[classname].append(field_name)
+        entity_dict[classname].append(type_name)
+        entity_dict[classname].append("")
         cpp_file.write(u'''\t\tstatic const std::string& %s() { static const std::string %s_ = "%s"; return %s_; } // %s\n''' %
                        (field_name, field_name, field_name, field_name, type_name))
         cpp_file.write(u'''\t\tstatic uint32_t %s_index() { static const int %s_index_ = static_cast<%s_rep_type>(%s::%s); return %s_index_; } // %s\n''' %
-                   (field_name, field_name, filename,filename, field_name, field_name,field_name))
+                   (field_name, field_name, classname,classname, field_name, field_name,field_name))
 
         cs_file.write(u'''\t\tpublic static readonly String %s = "%s"; // %s\n''' %
                       (field_name, field_name, type_name))
         cs_file.write(u'''\t\tpublic static UInt32 %s_index = (UInt32)%s.%s; // %s\n''' %
-                      (field_name, filename,field_name, field_name))
+                      (field_name, classname,field_name, field_name))
 
     cpp_file.write(u"\t};\n\n")
     cs_file.write(u"\t}\n\n")
@@ -431,8 +445,7 @@ def genrate_single_config(res_path, filepath, filename):
     cpp_file.close()
     cs_file.close()
     return True
-
-
+        
 # generate excel to config
 def generate_config(res_path):
     print("Start to generate config...")
@@ -441,6 +454,8 @@ def generate_config(res_path):
     meta_root_node = meta_doc.createElement('configs')
     meta_doc.appendChild(meta_root_node)
     file_list = os.listdir(os.path.join(res_path, config_param.excel_path))
+    
+    filename_dict={}
     for i in range(0, len(file_list)):
         file_path = os.path.join(
             res_path, config_param.excel_path, file_list[i])
@@ -453,24 +468,30 @@ def generate_config(res_path):
         if filename.startswith("~$"):
             continue
         else:
-            ret = genrate_single_config(res_path, file_path, filename)
-            if ret == True:
-                # insert into config_class.config
-                config_node = meta_doc.createElement('config')
-                config_node.setAttribute("id", filename)
-                config_node.setAttribute("meta", os.path.join(
-                    config_param.meta_path, filename + config_param.meta_ext))
-                config_node.setAttribute("res", os.path.join(
-                    config_param.server_res_path, filename + config_param.config_ext))
-                meta_root_node.appendChild(config_node)
-                print("generate file = [%s] success" % file_path)
-            else:
-                raise Exception("generate file = [%s] failed" % file_path)
+            classname = os.path.splitext(filename)[0]
+            if not filename_dict.__contains__(classname):
+                filename_dict[classname] = []
+            filename_dict[classname].append(file_path)
 
-            with open(os.path.join(res_path, config_param.config_class_file), 'w', encoding='utf-8') as f:
+    for classname in filename_dict:
+        ret = genrate_single_config(res_path, filename_dict[classname], classname)
+        if ret == True:
+            # insert into config_class.config
+            config_node = meta_doc.createElement('config')
+            config_node.setAttribute("id", classname)
+            config_node.setAttribute("meta", os.path.join(
+                config_param.meta_path, classname + config_param.meta_ext))
+            config_node.setAttribute("res", os.path.join(
+                config_param.server_res_path, classname + config_param.config_ext))
+            meta_root_node.appendChild(config_node)
+            print("generate file = [%s] success" % file_path)
+        else:
+            raise Exception("generate file = [%s] failed" % file_path)
+
+    with open(os.path.join(res_path, config_param.config_class_file), 'w', encoding='utf-8') as f:
               meta_doc.writexml(f, indent="\n", addindent="\t", encoding='utf-8')
-        print("---------------------------------------")
-        print("generate config finished")
+    print("---------------------------------------")
+    print("generate config finished")
 
 def field_name_map_index(file,enum_class_name,field_name,cpp_or_cs=True):
     if cpp_or_cs:
@@ -622,3 +643,4 @@ if __name__ == "__main__":
     field_name_map_index_head_and_end(res_path,entity_dict,True)
     field_name_map_index_head_and_end(res_path,entity_dict,False)
     write_meta_define_end(res_path)
+   

@@ -46,3 +46,6 @@ entity_unused_flag = 'unused'
 entity_field_name_col = 2
 entity_field_type_col = 3
 entity_field_sub_class_col = 4
+
+nonentity_form_head_row = 5
+ 
