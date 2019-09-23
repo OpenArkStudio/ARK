@@ -251,18 +251,18 @@ def generate_entity_meta(res_path):
                     data_node.setAttribute(str(excel.get_cell_content(min_row_no, col)),
                                            str(excel.get_cell_content(row, col)))
 
-        with open(os.path.join(res_path, config_param.meta_path, sheet_name + config_param.meta_ext), 'w') as f:
+        with open(os.path.join(res_path, config_param.meta_path, sheet_name + config_param.meta_ext), 'w', encoding='utf-8') as f:
             meta_doc.writexml(f, indent="\n",
                               addindent="\t", encoding='utf-8')
 
         # open meta define file
-    cpp_file = open(os.path.join(res_path, config_param.cpp_meta_file), 'a')
+    cpp_file = open(os.path.join(res_path, config_param.cpp_meta_file), 'a', encoding='utf-8')
     cpp_file.write(u"\t//////////////////////////////////\n\t//Entity meta\n")
-    cs_file = open(os.path.join(res_path, config_param.cs_meta_file), 'a')
+    cs_file = open(os.path.join(res_path, config_param.cs_meta_file), 'a', encoding='utf-8')
     cs_file.write(u"\t//////////////////////////////////\n\t//Entity meta\n")
         
     #generate config                  
-    with open(os.path.join(res_path, config_param.entity_class_file), 'w') as f:
+    with open(os.path.join(res_path, config_param.entity_class_file), 'w', encoding='utf-8') as f:
               config_doc.writexml(f, indent="\n", addindent="\t", encoding='utf-8')            
 
     # print entity_dict
@@ -362,7 +362,7 @@ def genrate_single_config(res_path, filepath, filename):
         #data_node.setAttribute(config_param.field_index,filename+"."+excel.get_cell_content(min_row_no, col))
         if data_node.hasAttributes():
             meta_root_node.appendChild(data_node)
-    with open(os.path.join(res_path, config_param.meta_path, filename + config_param.meta_ext), 'w') as f:
+    with open(os.path.join(res_path, config_param.meta_path, filename + config_param.meta_ext), 'w', encoding='utf-8') as f:
         meta_doc.writexml(f, indent="\n", addindent="\t", encoding='utf-8')
 
     '''config data xml'''
@@ -379,13 +379,13 @@ def genrate_single_config(res_path, filepath, filename):
             data_node.setAttribute(str(excel.get_cell_content(min_row_no, col)),
                                    str(excel.get_cell_content(row, col)))
 
-    with open(os.path.join(res_path, config_param.server_res_path, filename + config_param.config_ext), 'w') as f:
+    with open(os.path.join(res_path, config_param.server_res_path, filename + config_param.config_ext), 'w', encoding='utf-8') as f:
         config_doc.writexml(
             f, indent="\n", addindent="\t", encoding='utf-8')
 
     # open meta define file
-    cpp_file = open(os.path.join(res_path, config_param.cpp_meta_file), 'a')
-    cs_file = open(os.path.join(res_path, config_param.cs_meta_file), 'a')
+    cpp_file = open(os.path.join(res_path, config_param.cpp_meta_file), 'a', encoding='utf-8')
+    cs_file = open(os.path.join(res_path, config_param.cs_meta_file), 'a', encoding='utf-8')
     cpp_file.write(u"\tenum class %s : std::uint32_t\n\t{\n\t\tmeta_empty,\n" %(filename)) 
     cs_file.write(u"\tenum %s\n\t{\n\t\tmeta_empty,\n" % (filename))
     for col in range(min_col_no, max_col_no):
@@ -467,7 +467,7 @@ def generate_config(res_path):
             else:
                 raise Exception("generate file = [%s] failed" % file_path)
 
-            with open(os.path.join(res_path, config_param.config_class_file), 'w') as f:
+            with open(os.path.join(res_path, config_param.config_class_file), 'w', encoding='utf-8') as f:
               meta_doc.writexml(f, indent="\n", addindent="\t", encoding='utf-8')
         print("---------------------------------------")
         print("generate config finished")
@@ -502,7 +502,7 @@ def field_name_map_index_all(file,enum_class_name,class_name,entity_dict,cpp_or_
 
 def field_name_map_index_head_and_end(res_path,entity_dict,cpp_or_cs=True):
     if cpp_or_cs:
-        cpp_file = open(os.path.join(res_path, config_param.cpp_meta_file), 'a')
+        cpp_file = open(os.path.join(res_path, config_param.cpp_meta_file), 'a', encoding='utf-8')
         cpp_file.write(u"\tclass AFMetaNameIndex\n\t{\n")
         cpp_file.write(u"\tpublic:\n")
         cpp_file.write(u"\t\tstatic uint32_t GetIndex(const std::string& class_name, const std::string& field_name)\n\t\t{\n")
@@ -521,7 +521,7 @@ def field_name_map_index_head_and_end(res_path,entity_dict,cpp_or_cs=True):
         cpp_file.write(u"\t};\n")
         cpp_file.close()
     else:
-        cs_file = open(os.path.join(res_path, config_param.cs_meta_file), 'a')
+        cs_file = open(os.path.join(res_path, config_param.cs_meta_file), 'a', encoding='utf-8')
         cs_file.write(u"\tclass AFMetaNameIndex{\n")
         cs_file.write(u"\t\tDictionary<string, Dictionary<string,UInt32>> class_name_index = new Dictionary<string, Dictionary<string,UInt32>>{\n")
         for class_name in entity_dict:
@@ -535,7 +535,7 @@ def field_name_map_index_head_and_end(res_path,entity_dict,cpp_or_cs=True):
 
 # write meta define files for cpp and c#
 def write_meta_define_begin(res_path):
-    with open(os.path.join(res_path, config_param.cpp_meta_file), 'w') as cpp_file:
+    with open(os.path.join(res_path, config_param.cpp_meta_file), 'w', encoding='utf-8') as cpp_file:
         cpp_file.write(u'''/*
 * This source file is part of ARK
 * For the latest info, see https://github.com/ArkNX
@@ -564,7 +564,7 @@ def write_meta_define_begin(res_path):
 namespace ark
 {\n''')
 
-    with open(os.path.join(res_path, config_param.cs_meta_file), 'w') as cs_file:
+    with open(os.path.join(res_path, config_param.cs_meta_file), 'w', encoding='utf-8') as cs_file:
         cs_file.write(u'''/*
 * This source file is part of ARK
 * For the latest info, see https://github.com/ArkNX
@@ -597,10 +597,10 @@ namespace ark
 
 # write meta define files
 def write_meta_define_end(res_path):
-    with open(os.path.join(res_path, config_param.cpp_meta_file), 'a') as cpp_file:
+    with open(os.path.join(res_path, config_param.cpp_meta_file), 'a', encoding='utf-8') as cpp_file:
         cpp_file.write(u"}")
 
-    with open(os.path.join(res_path, config_param.cs_meta_file), 'a') as cs_file:
+    with open(os.path.join(res_path, config_param.cs_meta_file), 'a', encoding='utf-8') as cs_file:
         cs_file.write(u"}")
 
 
