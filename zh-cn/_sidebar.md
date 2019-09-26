@@ -9,7 +9,7 @@
 
 - 进阶
 
-  - [数据管理](/zh-cn/data-structuret.md)
+  - [数据管理](/zh-cn/data-structure.md)
   - [数据驱动](/zh-cn/data-driven.md)
   - [应用架构](/zh-cn/app-architecture.md)
   - [Kernel插件](/zh-cn/kernel-plugin.md)
