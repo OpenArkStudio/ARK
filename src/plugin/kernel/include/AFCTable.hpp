@@ -42,7 +42,7 @@ private:
     ARK_SHARE_PTR<AFTableMeta> table_meta_{nullptr};
 
     // current row
-    uint32_t current_row{0u};
+    uint32_t current_row_{0u};
 
     // table data
     TableData data_;

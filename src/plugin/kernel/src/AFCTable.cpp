@@ -123,7 +123,7 @@ AFIRow* AFCTable::AddRow(uint32_t row, const AFIDataList& args)
     AFIRow* pRowData = nullptr;
     if (row == 0)
     {
-        row = ++current_row;
+        row = ++current_row_;
         pRowData = CreateRow(row, args);
     }
     else
@@ -131,9 +131,9 @@ AFIRow* AFCTable::AddRow(uint32_t row, const AFIDataList& args)
         pRowData = data_.find_value(row);
         ARK_ASSERT_RET_VAL(pRowData == nullptr, nullptr); // return if found
 
-        if (current_row < row)
+        if (current_row_ < row)
         {
-            current_row = row;
+            current_row_ = row;
         }
 
         pRowData = CreateRow(row, args);
