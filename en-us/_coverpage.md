@@ -1,4 +1,4 @@
-![logo](_images/ark_logo.svg ':size=233x108')
+![logo](../_images/ark_logo.svg ":size=233x108")
 
 # <small>0.9.6 release</small>
 
@@ -8,4 +8,5 @@
 [Getting Started](#ARK)
 
 <!-- background image -->
-![background](_images/bg.jpg)
+
+![background](../_images/bg.jpg)
