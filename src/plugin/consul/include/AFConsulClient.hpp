@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <ananas/future/future.h>
+#include <ananas/future/Future.h>
 #include <brynet/net/TCPService.h>
 #include <brynet/net/Connector.h>
 #include <brynet/net/Wrapper.h>

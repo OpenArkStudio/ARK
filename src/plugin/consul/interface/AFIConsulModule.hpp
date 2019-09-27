@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ananas/future/future.h>
+#include <ananas/future/Future.h>
 #include "interface/AFIModule.hpp"
 #include "proto/cpp/AFConsul.pb.h"
 
