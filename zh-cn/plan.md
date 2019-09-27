@@ -11,12 +11,14 @@
 - [x] 所有的基础数据结构向C++容器看齐
 - [ ] 服务中心注册(考虑etcd/consul来做)
 - [ ] 定时log和心跳改为timer方式，不要再是用update和HeartBeat了
-- [ ] 修改配置打包工具(用Excel编辑，生成`csv`来给工程读取。为解决多人协作冲突, excel可以用名字后缀区分，类如Item.A.xlsx Item.B.xlsx)
+- [x] 修改配置打包工具(用Excel编辑，生成`xml`来给工程读取。为解决多人协作冲突, excel可以用名字后缀区分，类如Item.A.xlsx Item.B.xlsx)
 - [ ] ~~插件加载顺序(通过配置中的字段, 或者通过配置的顺序)~~
 - [x] 修改xml不再直接用rapidxml，用封装后的AFXml
 - [x] 接口类重新设计纯粹化
 - [ ] 增加生成器来生成重复代码(_插件类和模块类_)
 - [ ] 使用`std::chrono`改造`AFDateTime`
+- [ ] 升级至C++17
+- [ ] `std::string_veiw`/`discard`/...
 
 ## Low priority
 
