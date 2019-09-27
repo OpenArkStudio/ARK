@@ -234,7 +234,7 @@ bool AFCTCPServer::CloseSession(AFTCPSessionPtr& session)
     ARK_ASSERT_RET_VAL(session != nullptr, false);
 
     auto session_id = session->GetSessionId();
-    session->GetSession()->postDisConnect();
+    session->GetSession()->postShutdown();
     ARK_DELETE(session);
     sessions_.erase(session_id);
     return true;
@@ -295,7 +295,7 @@ bool AFCTCPServer::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t 
     auto session = GetNetSession(session_id);
     ARK_ASSERT_RET_VAL(session != nullptr, false);
 
-    uint32_t head_length = session->GetHeadLen();
+    AFHeadLength head_length = static_cast<AFHeadLength>(session->GetHeadLen());
     ARK_ASSERT_RET_VAL(
         (head_length == AFHeadLength::CS_HEAD_LENGTH) || (head_length == AFHeadLength::SS_HEAD_LENGTH), false);
 

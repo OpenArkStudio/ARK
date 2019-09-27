@@ -379,6 +379,7 @@ using ARK_SHARE_PTR = std::shared_ptr<T>;
         ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                              \
         ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                         \
         AFIModule* pRegModule = ARK_NEW DERIVED_MODULE();                                                              \
+        ARK_ASSERT_RET_NONE(pRegModule != nullptr);                                                                    \
         pRegModule->SetPluginManager(GetPluginManager());                                                              \
         pRegModule->SetName(GET_CLASS_NAME(MODULE));                                                                   \
         GetPluginManager()->AddModule(pRegModule->GetName(), pRegModule);                                              \
@@ -396,6 +397,7 @@ using ARK_SHARE_PTR = std::shared_ptr<T>;
         ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                              \
         ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                         \
         AFIModule* pRegModule = ARK_NEW DERIVED_MODULE();                                                              \
+        ARK_ASSERT_RET_NONE(pRegModule != nullptr);                                                                    \
         pRegModule->SetPluginManager(GetPluginManager());                                                              \
         pRegModule->SetName(GET_CLASS_NAME(MODULE));                                                                   \
         GetPluginManager()->AddModule(pRegModule->GetName(), pRegModule);                                              \

@@ -2,6 +2,7 @@
 	<plugins path="./">
 		<plugin name="AFUtilityPlugin" />
 		<plugin name="AFLogPlugin" />
+		<plugin name="AFConsulPlugin" />
 		<plugin name="AFBusPlugin" />
 		<plugin name="AFNetPlugin" />
 	</plugins>

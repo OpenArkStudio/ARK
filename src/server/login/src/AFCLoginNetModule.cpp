@@ -47,24 +47,22 @@ int AFCLoginNetModule::StartServer()
             ARK_ASSERT_NO_EFFECT(0);
             exit(0);
         }
-        else
+
+        m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
+        if (m_pNetServer == nullptr)
         {
-            m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
-            if (m_pNetServer == nullptr)
-            {
-                ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
-                exit(0);
-            }
-
-            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNetModule::OnHeartBeat);
-            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNetModule::OnLoginProcess);
-            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNetModule::OnLogOut);
-            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNetModule::OnSelectWorldProcess);
-            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNetModule::OnViewWorldProcess);
-            // m_pNetServer->RegMsgCallback(this, &AFCLoginNetServerModule::InvalidMessage);
-
-            // m_pNetServer->AddNetEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
+            ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+            exit(0);
         }
+
+        // m_pNetServer->RegMsgCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNetModule::OnHeartBeat);
+        // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNetModule::OnLoginProcess);
+        // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNetModule::OnLogOut);
+        // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNetModule::OnSelectWorldProcess);
+        // m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNetModule::OnViewWorldProcess);
+        // m_pNetServer->RegMsgCallback(this, &AFCLoginNetServerModule::InvalidMessage);
+
+        // m_pNetServer->AddNetEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
     });
 
     return 0;

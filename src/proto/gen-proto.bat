@@ -1,4 +1,4 @@
-echo "generate protobuff files"
+echo generate protobuff files
 
 set proto_path=proto
 

@@ -49,23 +49,21 @@ int AFCProxyNetModule::StartServer()
             ARK_ASSERT_NO_EFFECT(0);
             exit(0);
         }
-        else
-        {
-            m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
-            if (m_pNetServer == nullptr)
-            {
-                ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
-                exit(0);
-            }
 
-            m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_KEY, this, &AFCProxyNetModule::OnConnectKeyProcess);
-            m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCProxyNetModule::OnReqServerListProcess);
-            m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_SELECT_SERVER, this, &AFCProxyNetModule::OnSelectServerProcess);
-            m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_ROLE_LIST, this, &AFCProxyNetModule::OnReqRoleListProcess);
-            m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCProxyNetModule::OnReqCreateRoleProcess);
-            m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCProxyNetModule::OnReqDelRoleProcess);
-            m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCProxyNetModule::OnReqEnterGameServer);
+        m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
+        if (m_pNetServer == nullptr)
+        {
+            ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+            exit(0);
         }
+
+        m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_KEY, this, &AFCProxyNetModule::OnConnectKeyProcess);
+        m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCProxyNetModule::OnReqServerListProcess);
+        m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_SELECT_SERVER, this, &AFCProxyNetModule::OnSelectServerProcess);
+        m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_ROLE_LIST, this, &AFCProxyNetModule::OnReqRoleListProcess);
+        m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCProxyNetModule::OnReqCreateRoleProcess);
+        m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCProxyNetModule::OnReqDelRoleProcess);
+        m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCProxyNetModule::OnReqEnterGameServer);
     });
 
     return 0;
@@ -146,7 +144,6 @@ void AFCProxyNetModule::OnConnectKeyProcess(const AFNetMsg* msg, const int64_t s
 
     // if (bRet)
     //{
-    //    //可以进入,设置标志，选单服,心跳延迟,进入gs创建角色和删除角色,这里只是转发
     //    ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
     //    if (pSessionData)
@@ -156,8 +153,7 @@ void AFCProxyNetModule::OnConnectKeyProcess(const AFNetMsg* msg, const int64_t s
 
     //        AFMsg::AckEventResult xSendMsg;
     //        xSendMsg.set_event_code(AFMsg::EGEC_VERIFY_KEY_SUCCESS);
-    //        *xSendMsg.mutable_event_client() = AFIMsgModule::GUIDToPB(pSessionD
-    //        ta->mnClientID);//让前端记得自己的fd，后面有一些验证
+    //        *xSendMsg.mutable_event_client() = AFIMsgModule::GUIDToPB(pSessionData->mnClientID);
     //        *xSendMsg.mutable_event_object() = AFIMsgModule::GUIDToPB(nPlayerID);
 
     //        m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_KEY, xSendMsg, xClientID, nPlayerID);
@@ -207,7 +203,8 @@ void AFCProxyNetModule::OnClientDisconnect(const AFGUID& conn_id)
         {
             AFMsg::ReqLeaveGameServer xData;
             // send to game, notify actor leaving game
-            m_pMsgModule->SendParticularSSMsg(pSessionData->game_id_, AFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, xData, 0, pSessionData->actor_id_);
+            m_pMsgModule->SendParticularSSMsg(
+                pSessionData->game_id_, AFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, xData, 0, pSessionData->actor_id_);
         }
 
         client_connections_.erase(conn_id);
@@ -294,7 +291,8 @@ int AFCProxyNetModule::Transpond(const AFNetMsg* msg)
     return 0;
 }
 
-int AFCProxyNetModule::SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientD, const AFGUID& nPlayer)
+int AFCProxyNetModule::SendToPlayerClient(
+    const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientD, const AFGUID& nPlayer)
 {
     // m_N etServer->GetNet()->SenR awMsg(nMsgID, msg, nLen, nClientID, nPlayer);
 

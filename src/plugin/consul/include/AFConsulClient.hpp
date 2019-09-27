@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <ananas/future/Future.h>
+#include <ananas/future/future.h>
 #include <brynet/net/TCPService.h>
 #include <brynet/net/Connector.h>
 #include <brynet/net/Wrapper.h>
@@ -40,25 +40,31 @@ public:
     AFConsulClient(const std::string& ip, const uint16_t port);
     ~AFConsulClient();
 
+    void Update();
+
     void SetConsulCenter(const std::string& ip, const uint16_t port);
 
     ananas::Future<std::pair<bool, std::string>> RegisterService(const consul::service_data& service);
     ananas::Future<std::pair<bool, std::string>> DeregisterService(const std::string& service_id);
 
     ananas::Future<std::pair<bool, std::string>> SetKeyValue(const std::string& key, const std::string& value);
-    std::string GetValue(const std::string& key);
-    bool DeleteValue(const std::string& key);
+    ananas::Future<std::pair<bool, std::string>> GetValue(const std::string& key);
+    ananas::Future<std::pair<bool, std::string>> DeleteValue(const std::string& key);
 
-    bool HealthCheck(const std::string& service_name, const std::string& tag_filter, consul::service_set& services);
-    bool MultiHealthCheck(const std::string& service_name, const std::vector<std::string>& tag_filter_list, consul::service_set& services);
+    ananas::Future<std::pair<bool, std::string>> HealthCheck(
+        const std::string& service_name, const std::string& tag_filter);
+    bool MultiHealthCheck(const std::string& service_name, const std::vector<std::string>& tag_filter_list,
+        consul::service_set& services);
 
 protected:
-    ananas::Future<std::pair<bool, std::string>> _AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip,
-        const uint16_t port, const std::string& url, std::map<std::string, std::string>& params, const google::protobuf::Message& http_msg);
-    ananas::Future<std::pair<bool, std::string>> _AsyncRequest(
-        brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port, const std::string& url);
-    ananas::Future<std::pair<bool, std::string>> _AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip,
-        const uint16_t port, const std::string& url, std::map<std::string, std::string>& params, const std::string& http_doby);
+    ananas::Future<std::pair<bool, std::string>> _AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method,
+        const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+        const google::protobuf::Message& http_msg);
+    ananas::Future<std::pair<bool, std::string>> _AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method,
+        const std::string& ip, const uint16_t port, const std::string& url);
+    ananas::Future<std::pair<bool, std::string>> _AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method,
+        const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+        const std::string& http_doby);
 
 private:
     brynet::net::AsyncConnector::Ptr connector_{nullptr};
@@ -68,6 +74,8 @@ private:
 private:
     std::string consul_ip_{};
     uint16_t consul_port_{8500};
+
+    brynet::timer::TimerMgr::Ptr timer_mgr_;
 };
 
 } // namespace ark

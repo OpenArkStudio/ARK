@@ -141,12 +141,6 @@ public:
 
     void RemoveUpdateModule(const std::string& module_name)
     {
-        //auto iter = module_updates_.find(module_name);
-        //if (iter != module_updates_.end())
-        //{
-        //    module_updates_.erase(iter);
-        //}
-
         module_updates_.erase(module_name);
     }
 
@@ -321,7 +315,7 @@ protected:
 
     bool Shut()
     {
-        for (const auto& iter : ordered_module_instances_)
+        for (auto& iter : ordered_module_instances_)
         {
             AFIModule* pModule = iter;
             ARK_ASSERT_CONTINUE(pModule != nullptr);
@@ -329,9 +323,15 @@ protected:
             pModule->Shut();
         }
 
-        for (auto it : plugin_names_)
+        for (auto& it : plugin_names_)
         {
             UnloadPluginLibrary(it.first);
+        }
+
+        for (auto& iter : plugin_libs_)
+        {
+            iter.second->UnLoad();
+            ARK_DELETE(iter.second);
         }
 
         return true;
@@ -387,7 +387,8 @@ protected:
         else
         {
 #ifdef ARK_PLATFORM_WIN
-            CONSOLE_LOG << "Load dynamic library[" << pLib->GetName() << "] failed, ErrorNo=[" << GetLastError() << "]" << std::endl;
+            CONSOLE_LOG << "Load dynamic library[" << pLib->GetName() << "] failed, ErrorNo=[" << GetLastError() << "]"
+                        << std::endl;
             CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
             assert(0);
             return false;
@@ -395,7 +396,8 @@ protected:
             char* error = dlerror();
             if (error)
             {
-                CONSOLE_LOG << stderr << " Load shared library[" << pLib->GetName() << "] failed, ErrorNo=[" << error << "]" << std::endl;
+                CONSOLE_LOG << stderr << " Load shared library[" << pLib->GetName() << "] failed, ErrorNo=[" << error
+                            << "]" << std::endl;
                 CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
                 assert(0);
                 return false;
@@ -418,10 +420,6 @@ protected:
         ARK_ASSERT_RET_VAL(func != nullptr, false);
         func(this);
 
-        pDynLib->UnLoad();
-        ARK_DELETE(pDynLib);
-
-        plugin_libs_.erase(plugin_name);
         return true;
     }
 

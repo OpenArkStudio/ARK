@@ -41,7 +41,7 @@ class AFNetSession : public AFNoncopyable
 {
 public:
     AFNetSession(AFHeadLength head_len, int64_t session_id, const SessionPTR session)
-        : head_len_(head_len)
+        : head_len_(static_cast<uint32_t>(head_len))
         , session_id_(session_id)
         , session_(session)
     {

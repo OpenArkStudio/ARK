@@ -41,7 +41,8 @@ public:
     bool Update() override;
     bool Shut() override;
 
-    ananas::Future<std::pair<bool, std::string>> CreateServer(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
+    ananas::Future<std::pair<bool, std::string>> CreateServer(
+        const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
 
     std::shared_ptr<AFINetServerService> GetSelfNetServer() override;
 

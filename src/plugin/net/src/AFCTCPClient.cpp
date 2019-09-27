@@ -23,7 +23,8 @@
 
 namespace ark {
 
-AFCTCPClient::AFCTCPClient(const brynet::net::TcpService::Ptr& service /* = nullptr*/, const brynet::net::AsyncConnector::Ptr& connector /* = nullptr*/)
+AFCTCPClient::AFCTCPClient(const brynet::net::TcpService::Ptr& service /* = nullptr*/,
+    const brynet::net::AsyncConnector::Ptr& connector /* = nullptr*/)
 {
     using namespace brynet::net;
     base::InitSocket();
@@ -45,7 +46,8 @@ void AFCTCPClient::Update()
     UpdateNetSession();
 }
 
-bool AFCTCPClient::StartClient(AFHeadLength head_len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 /* = false*/)
+bool AFCTCPClient::StartClient(
+    AFHeadLength head_len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 /* = false*/)
 {
     using namespace brynet::net;
 
@@ -118,11 +120,13 @@ bool AFCTCPClient::StartClient(AFHeadLength head_len, const int dst_busid, const
 
     connection_builder_.configureService(tcp_service_)
         .configureConnector(connector_)
-        .configureConnectionOptions(
-            {TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback), TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE)})
-        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port), AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
+        .configureConnectionOptions({TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback),
+            TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE)})
+        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
+            AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
             AsyncConnector::ConnectOptions::WithFailedCallback(failedCallback),
-            AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback([](TcpSocket& socket) { socket.setNodelay(); })})
+            AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback(
+                [](TcpSocket& socket) { socket.setNodelay(); })})
         .asyncConnect();
 
     SetWorking(true);
@@ -140,7 +144,7 @@ bool AFCTCPClient::CloseAllSession()
 {
     if (client_session_ptr_ != nullptr)
     {
-        client_session_ptr_->GetSession()->postDisConnect();
+        client_session_ptr_->GetSession()->postShutdown();
     }
 
     return true;
@@ -219,19 +223,12 @@ bool AFCTCPClient::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t 
     ARK_ASSERT_RET_VAL(head != nullptr && msg_data != nullptr, false);
     ARK_ASSERT_RET_VAL(client_session_ptr_ != nullptr, false);
 
+    AFHeadLength head_length = static_cast<AFHeadLength>(client_session_ptr_->GetHeadLen());
+    ARK_ASSERT_RET_VAL(
+        (head_length == AFHeadLength::CS_HEAD_LENGTH) || (head_length == AFHeadLength::SS_HEAD_LENGTH), false);
+
     std::string buffer;
-    switch (client_session_ptr_->GetHeadLen())
-    {
-        case AFHeadLength::CS_HEAD_LENGTH:
-            buffer.append(reinterpret_cast<char*>(head), AFHeadLength::CS_HEAD_LENGTH);
-            break;
-        case AFHeadLength::SS_HEAD_LENGTH:
-            buffer.append(reinterpret_cast<char*>(head), AFHeadLength::SS_HEAD_LENGTH);
-            break;
-        default:
-            return false;
-            break;
-    }
+    buffer.append(reinterpret_cast<char*>(head), client_session_ptr_->GetHeadLen());
 
     if (buffer.empty())
     {

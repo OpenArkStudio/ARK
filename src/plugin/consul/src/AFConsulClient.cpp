@@ -40,6 +40,8 @@ AFConsulClient::AFConsulClient(const std::string& ip, const uint16_t port)
     tcp_service_->startWorkerThread(1);
     connector_->startWorkerThread();
 
+    timer_mgr_ = std::make_shared<brynet::timer::TimerMgr>();
+
     SetConsulCenter(ip, port);
 }
 
@@ -90,35 +92,62 @@ ananas::Future<std::pair<bool, std::string>> AFConsulClient::SetKeyValue(
         brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_PUT, consul_ip_, consul_port_, KV_API, params, value);
 }
 
-std::string AFConsulClient::GetValue(const std::string& key)
+ananas::Future<std::pair<bool, std::string>> AFConsulClient::GetValue(const std::string& key)
 {
+    ananas::Promise<std::pair<bool, std::string>> promise;
     if (key.empty())
     {
-        return "";
+        promise.SetValue(std::make_pair(false, std::string()));
+        return promise.GetFuture();
     }
 
-    return "";
+    std::string url = KV_API + key;
+    return _AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_GET, consul_ip_, consul_port_, url);
 }
 
-bool AFConsulClient::DeleteValue(const std::string& key)
+ananas::Future<std::pair<bool, std::string>> AFConsulClient::DeleteValue(const std::string& key)
 {
-    //TODO
+    ananas::Promise<std::pair<bool, std::string>> promise;
+    if (key.empty())
+    {
+        promise.SetValue(std::make_pair(false, std::string()));
+        return promise.GetFuture();
+    }
 
-    return true;
+    std::string url = KV_API + key;
+    return _AsyncRequest(
+        brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_DELETE, consul_ip_, consul_port_, url);
 }
 
-bool AFConsulClient::HealthCheck(
-    const std::string& service_name, const std::string& tag_filter, consul::service_set& services)
+ananas::Future<std::pair<bool, std::string>> AFConsulClient::HealthCheck(
+    const std::string& service_name, const std::string& tag_filter)
 {
-    //TODO
+    ananas::Promise<std::pair<bool, std::string>> promise;
+    if (service_name.empty())
+    {
+        promise.SetValue(std::make_pair(false, std::string()));
+        return promise.GetFuture();
+    }
 
-    return true;
+    std::string url = HEALTH_CHECK_API + service_name;
+    std::map<std::string, std::string> params;
+    params.insert(std::make_pair("tag", tag_filter));
+    params.insert(std::make_pair("passing", "1"));
+
+    return _AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_GET, consul_ip_, consul_port_, url,
+        params, std::string(""));
 }
 
 bool AFConsulClient::MultiHealthCheck(
     const std::string& service_name, const std::vector<std::string>& tag_filter_list, consul::service_set& services)
 {
-    //TODO
+    for (auto tag : tag_filter_list)
+    {
+        auto check_future = HealthCheck(service_name, tag);
+    }
+
+    // TODO:
+    // when all
 
     return true;
 }
@@ -176,7 +205,12 @@ ananas::Future<std::pair<bool, std::string>> AFConsulClient::_AsyncRequest(
             session->setHttpCallback([=](const HTTPParser& httpParser, const HttpSession::Ptr& session) mutable {
                 promise.SetValue(std::make_pair(true, httpParser.getBody()));
             });
-            session->setClosedCallback([](const HttpSession::Ptr& session) { /*DO NOTHING*/ });
+            session->setClosedCallback([](const HttpSession::Ptr& session) { /*DO NOTHING*/
+                //std::cout << "http request closed-----------------" << std::endl;
+            });
+
+            // start a timer to process request timeout and disconnect
+            timer_mgr_->addTimer(ARK_CONNECT_TIMEOUT, [=]() mutable { session->postShutdown(); });
         })
         .asyncConnect();
 
@@ -206,6 +240,11 @@ ananas::Future<std::pair<bool, std::string>> AFConsulClient::_AsyncRequest(
 {
     std::map<std::string, std::string> params;
     return _AsyncRequest(http_method, ip, port, url, params, "");
+}
+
+void AFConsulClient::Update()
+{
+    timer_mgr_->schedule();
 }
 
 } // namespace ark

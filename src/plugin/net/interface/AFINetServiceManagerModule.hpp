@@ -20,10 +20,11 @@
 
 #pragma once
 
+#include <ananas/future/future.h>
+
 #include "interface/AFIModule.hpp"
 #include "net/interface/AFINetServerService.hpp"
 #include "net/interface/AFINetClientService.hpp"
-#include "ananas/future/Future.h"
 
 namespace ark {
 
@@ -31,7 +32,8 @@ class AFINetServiceManagerModule : public AFIModule
 {
 public:
     // server-side net service
-    virtual ananas::Future<std::pair<bool, std::string>> CreateServer(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) = 0;
+    virtual ananas::Future<std::pair<bool, std::string>> CreateServer(
+        const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) = 0;
     virtual std::shared_ptr<AFINetServerService> GetSelfNetServer() = 0;
 
     // client

@@ -20,8 +20,10 @@
 
 #pragma once
 
+#include <ananas/future/future.h>
 #include "base/AFPlatform.hpp"
-#include "proto/AFProtoCPP.hpp"
+// Protobuf header files below platform.hpp cuz the std::min and std::numberic_limit<T>::min;
+#include <google/protobuf/message.h>
 
 namespace ark {
 
@@ -31,85 +33,27 @@ class AFIHttpClient
 public:
     virtual ~AFIHttpClient() = default;
 
-    using HTTP_CALLBACK = std::function<void(const std::string&)>;
+    // Request with parameters and cookies and the http body data is protobuf message.
+    virtual ananas::Future<std::pair<bool, std::string>> AsyncRequest(
+        brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
+        const std::string& url, std::map<std::string, std::string>& params, const std::vector<std::string>& cookies,
+        const google::protobuf::Message& http_msg) = 0;
 
-    virtual bool AsyncPost(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params,
-        const std::string& post_data, HTTP_CALLBACK&& callback) = 0;
+    // Request without parameters and cookies and the http body data is protobuf message.
+    virtual ananas::Future<std::pair<bool, std::string>> AsyncRequest(
+        brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
+        const std::string& url, const google::protobuf::Message& http_msg) = 0;
 
-    // Response - the type pf response protobuf message
-    template<typename Response>
-    bool AsyncJsonPost(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params,
-        const google::protobuf::Message& post_msg, std::function<void(const Response&)>&& callback)
-    {
-        std::string post_body;
-        google::protobuf::util::MessageToJsonString(post_msg, &post_body);
-        return AsyncPost(ip, port, url, params, post_body, [=](const std::string& response_body) {
-            Response response;
-            auto status = google::protobuf::util::JsonStringToMessage(response_body, response);
-            if (!status.ok())
-            {
-                CONSOLE_ERROR_LOG << "google::protobuf::util::JsonStringToMessage failed, " << status.error_message().ToString() << std::endl;
-                return;
-            }
+    // Request without parameters, cookies and http body data.
+    virtual ananas::Future<std::pair<bool, std::string>> AsyncRequest(
+        brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
+        const std::string& url) = 0;
 
-            auto tcp_service = GetTcpService();
-            if (tcp_service == nullptr)
-            {
-                return;
-            }
-
-            auto event_loop = tcp_service->getRandomEventLoop();
-            event_loop->runAsyncFunctor([=]() {
-                if (callback != nullptr)
-                {
-                    callback(response);
-                }
-            });
-        });
-    }
-
-    virtual bool AsyncGet(
-        const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params, HTTP_CALLBACK&& callback) = 0;
-
-    // Response - the type pf response protobuf message
-    template<typename Response>
-    bool AsyncJsonGet(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params,
-        std::function<void(const Response&)>&& callback)
-    {
-        return AsyncGet(ip, port, url, params, [=](const std::string& response_body) {
-            Response response;
-            auto status = google::protobuf::util::JsonStringToMessage(response_body, response);
-            if (!status.ok())
-            {
-                CONSOLE_ERROR_LOG << "google::protobuf::util::JsonStringToMessage failed, " << status.error_message().ToString() << std::endl;
-                return;
-            }
-
-            auto tcp_service = GetTcpService();
-            if (tcp_service == nullptr)
-            {
-                return;
-            }
-
-            auto event_loop = tcp_service->getRandomEventLoop();
-            event_loop->runAsyncFunctor([=]() {
-                if (callback != nullptr)
-                {
-                    callback(response);
-                }
-            });
-        });
-    }
-
-    virtual bool AsyncPut(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params,
-        const std::string& put_data, HTTP_CALLBACK&& callback) = 0;
-
-protected:
-    virtual brynet::net::TcpService::Ptr GetTcpService() = 0;
+    // The final request function.
+    virtual ananas::Future<std::pair<bool, std::string>> AsyncRequest(
+        brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
+        const std::string& url, std::map<std::string, std::string>& params, const std::vector<std::string>& cookies,
+        const std::string& http_doby) = 0;
 };
 
 } // namespace ark

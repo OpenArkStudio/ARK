@@ -43,18 +43,17 @@ int AFCDirNetModule::StartServer()
     ret.Then([=](const std::pair<bool, std::string>& resp) {
         if (!resp.first)
         {
-            ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), resp.second);
+            ARK_LOG_ERROR(
+                "Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), resp.second);
             ARK_ASSERT_NO_EFFECT(0);
             exit(0);
         }
-        else
+
+        m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
+        if (m_pNetServer == nullptr)
         {
-            m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
-            if (m_pNetServer == nullptr)
-            {
-                ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
-                exit(0);
-            }
+            ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+            exit(0);
         }
     });
 

@@ -62,28 +62,28 @@ int AFCGameNetModule::StartServer()
             ARK_ASSERT_NO_EFFECT(0);
             exit(0);
         }
-        else
+
+        m_pNetServerService = m_pNetServiceManagerModule->GetSelfNetServer();
+        if (m_pNetServerService == nullptr)
         {
-            m_pNetServerService = m_pNetServiceManagerModule->GetSelfNetServer();
-            if (m_pNetServerService == nullptr)
-            {
-                ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
-                exit(0);
-            }
-
-            m_pNetServerService->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCGameNetModule::OnRefreshProxyServerInfoProcess);
-            m_pNetServerService->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCGameNetModule::OnProxyServerRegisteredProcess);
-            m_pNetServerService->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCGameNetModule::OnProxyServerUnRegisteredProcess);
-            m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCGameNetModule::OnClienEnterGameProcess);
-            m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_LEAVE_GAME, this, &AFCGameNetModule::OnClientLeaveGameProcess);
-            m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_ROLE_LIST, this, &AFCGameNetModule::OnReqiureRoleListProcess);
-            m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCGameNetModule::OnCreateRoleGameProcess);
-            m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCGameNetModule::OnDeleteRoleGameProcess);
-            m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_RECOVER_ROLE, this, &AFCGameNetModule::OnClienSwapSceneProcess);
-            m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_SWAP_SCENE, this, &AFCGameNetModule::OnClienSwapSceneProcess);
-
-            // m_pNetServerService->RegNetEventCallback(this, &AFCGameNetModule::OnSocketEvent);
+            ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+            exit(0);
         }
+
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCGameNetModule::OnRefreshProxy);
+        m_pNetServerService->RegMsgCallback(
+            AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCGameNetModule::OnRegisteredProxy);
+        m_pNetServerService->RegMsgCallback(
+            AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCGameNetModule::OnUnregisteredProxy);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCGameNetModule::OnEnterGame);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_LEAVE_GAME, this, &AFCGameNetModule::OnLeaveGame);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_ROLE_LIST, this, &AFCGameNetModule::OnReqiureRoleList);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCGameNetModule::OnCreateRole);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCGameNetModule::OnDeleteRole);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_RECOVER_ROLE, this, &AFCGameNetModule::OnRecoverRole);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_SWAP_SCENE, this, &AFCGameNetModule::OnSwapScene);
+
+        // m_pNetServerService->RegNetEventCallback(this, &AFCGameNetModule::OnSocketEvent);
     });
 
     return 0;
@@ -97,7 +97,7 @@ int AFCGameNetModule::StartServer()
 //
 //int AFCGameNetModule::StartClient()
 //{
-//    //创建所有与对端链接的client
+//    //create all clients
 //    // Create all target endpoint clients
 //    int ret = m_pNetServiceManagerModule->CreateClusterClients();
 //    if (ret != 0)
@@ -120,7 +120,7 @@ int AFCGameNetModule::StartServer()
 //    return 0;
 //}
 
-void AFCGameNetModule::OnClienEnterGameProcess(const AFNetMsg* msg, const int64_t session_id)
+void AFCGameNetModule::OnEnterGame(const AFNetMsg* msg, const int64_t session_id)
 {
     ////Before enter game, PlayerID means gate fd
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqEnterGameServer);
@@ -159,7 +159,7 @@ void AFCGameNetModule::OnClienEnterGameProcess(const AFNetMsg* msg, const int64_
     //    return;
     //}
 
-    ////默认1号场景
+    ////default scene id is 1
     // int nSceneID = 1;
     // AFCDataList var;
     // var.AddString("Name");
@@ -176,7 +176,7 @@ void AFCGameNetModule::OnClienEnterGameProcess(const AFNetMsg* msg, const int64_
 
     // if (nullptr == pEntity)
     //{
-    //    //内存泄漏
+    //    //leak
     //    //mRoleBaseData
     //    //mRoleFDData
     //    return;
@@ -197,7 +197,7 @@ void AFCGameNetModule::OnClienEnterGameProcess(const AFNetMsg* msg, const int64_
     // m_pKernelModule->DoEvent(pEntity->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
 }
 
-void AFCGameNetModule::OnClientLeaveGameProcess(const AFNetMsg* msg, const int64_t session_id)
+void AFCGameNetModule::OnLeaveGame(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqLeaveGameServer);
 
@@ -230,7 +230,7 @@ int AFCGameNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFGUI
         return 0;
     }
 
-	AFMsg::multi_entity_data_list msg;
+    AFMsg::multi_entity_data_list msg;
     AFMsg::pb_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
@@ -350,7 +350,7 @@ bool AFCGameNetModule::ProcessLeaveGroup(const AFGUID& self, int map_id, int old
 
     if (valueAllOldObjectList.GetCount() > 0)
     {
-        //自己只需要广播其他玩家
+        //broadcast self to others around
         for (size_t i = 0; i < valueAllOldObjectList.GetCount(); i++)
         {
             AFGUID identBC = valueAllOldObjectList.Int64(i);
@@ -374,7 +374,7 @@ bool AFCGameNetModule::ProcessLeaveGroup(const AFGUID& self, int map_id, int old
 
         OnEntityListLeave(valueAllOldPlayerList, AFCDataList() << self);
 
-        //老的全部要广播删除
+        //broadcast self that leave the map
         OnEntityListLeave(AFCDataList() << self, valueAllOldObjectList);
     }
 
@@ -385,13 +385,13 @@ bool AFCGameNetModule::ProcessLeaveGroup(const AFGUID& self, int map_id, int old
 
 bool AFCGameNetModule::ProcessEnterGroup(const AFGUID& self, int nSceneID, int nNewGroupID)
 {
-    //再广播给别人自己出现(层升或者跃层)
+    // broadcast self enter to others
     if (nNewGroupID <= 0)
     {
         return false;
     }
 
-    //这里需要把自己从广播中排除
+    //exclude myself
     //////////////////////////////////////////////////////////////////////////
     AFCDataList valueAllObjectList;
     AFCDataList valueAllObjectListNoSelf;
@@ -425,7 +425,7 @@ bool AFCGameNetModule::ProcessEnterGroup(const AFGUID& self, int nSceneID, int n
         }
     }
 
-    //广播给别人,自己出现(这里本不应该广播给自己)
+    // broadcast others that I'm here(need exclude self)
     if (valuePlayerListNoSelf.GetCount() > 0)
     {
         auto pEntity = m_pKernelModule->GetEntity(self);
@@ -445,12 +445,10 @@ bool AFCGameNetModule::ProcessEnterGroup(const AFGUID& self, int nSceneID, int n
 
             for (size_t i = 0; i < valueAllObjectListNoSelf.GetCount(); i++)
             {
-                //此时不用再广播自己的属性给自己
-                //把已经存在的人的属性广播给新来的人
+                // broadcast myself data to others
                 AFGUID identOld = valueAllObjectListNoSelf.Int64(i);
 
                 OnViewDataNodeEnter(AFCDataList() << self, identOld);
-                //把已经存在的人的表广播给新来的人
                 OnViewDataTableEnter(AFCDataList() << self, identOld);
             }
         }
@@ -472,13 +470,13 @@ int AFCGameNetModule::OnEntityListEnter(const AFIDataList& self, const AFIDataLi
     {
         AFGUID identOld = argVar.Int64(i);
 
-        //排除空对象
+        // Exclude empty entity
         if (identOld == 0)
         {
             continue;
         }
 
-		auto pEntity = m_pKernelModule->GetEntity(identOld);
+        auto pEntity = m_pKernelModule->GetEntity(identOld);
         if (pEntity == nullptr)
         {
             continue;
@@ -510,7 +508,6 @@ int AFCGameNetModule::OnEntityListEnter(const AFIDataList& self, const AFIDataLi
 
         if (!ident != 0)
         {
-            //可能在不同的网关呢,得到后者所在的网关FD
             SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_ENTER, xEntityEnterList, ident);
         }
     }
@@ -531,7 +528,7 @@ int AFCGameNetModule::OnEntityListLeave(const AFIDataList& self, const AFIDataLi
     {
         AFGUID identOld = argVar.Int64(i);
 
-        //排除空对象
+        // Exclude empty entity
         if (!identOld != 0)
         {
             xEntityLeaveInfoList.add_entity_list(identOld);
@@ -544,7 +541,6 @@ int AFCGameNetModule::OnEntityListLeave(const AFIDataList& self, const AFIDataLi
 
         if (ident != 0)
         {
-            //可能在不同的网关,得到后者所在的网关FD
             SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_LEAVE, xEntityLeaveInfoList, ident);
         }
     }
@@ -557,13 +553,11 @@ int AFCGameNetModule::OnCommonDataNodeEvent(
 {
     if (AFEntityMetaBaseEntity::map_inst_id() == name)
     {
-        //自己还是要知道自己的这个属性变化的,但是别人就不需要知道了
         OnMapInstanceEvent(self, name, oldVar, newVar);
     }
 
     if (AFEntityMetaBaseEntity::map_id() == name)
     {
-        //自己还是要知道自己的这个属性变化的,但是别人就不需要知道了
         OnContainerEvent(self, name, oldVar, newVar);
     }
 
@@ -749,10 +743,10 @@ int AFCGameNetModule::OnCommonDataTableEvent(
 int AFCGameNetModule::CommonClassDestoryEvent(const AFGUID& self)
 {
     auto pEntity = m_pKernelModule->GetEntity(self);
-	if (nullptr == pEntity)
-	{
+    if (nullptr == pEntity)
+    {
         return 0;
-	}
+    }
 
     int map_id = pEntity->GetInt32(AFEntityMetaBaseEntity::map_id());
     int map_inst_id = pEntity->GetInt32(AFEntityMetaBaseEntity::map_inst_id());
@@ -789,7 +783,6 @@ int AFCGameNetModule::CommonClassDestoryEvent(const AFGUID& self)
         }
     }
 
-    //如果是副本的怪，则不需要发送，因为会在离开副本的时候一次性一条消息发送
     OnEntityListLeave(valueBroadListNoSelf, AFCDataList() << self);
     return 0;
 }
@@ -805,11 +798,11 @@ int AFCGameNetModule::OnCommonClassEvent(
 
         case ArkEntityEvent::ENTITY_EVT_PRE_LOAD_DATA:
         {
-            // id和fd,gateid绑定
+            // bind ID fd GateID
             ARK_SHARE_PTR<GateBaseInfo> pDataBase = mRoleBaseData.find_value(self);
             if (pDataBase != nullptr)
             {
-                //回复客户端角色进入游戏世界成功了
+                // response the player enter game
                 AFMsg::AckEventResult xMsg;
                 xMsg.set_event_code(AFMsg::EVC_ENTER_GAME_SUCCESS);
 
@@ -826,7 +819,7 @@ int AFCGameNetModule::OnCommonClassEvent(
 
         case ArkEntityEvent::ENTITY_EVT_DATA_FINISHED:
         {
-            //自己广播给自己就够了
+            // Just broadcast to self
             if (strClassName == AFEntityMetaPlayer::self_name())
             {
                 OnEntityListEnter(AFCDataList() << self, AFCDataList() << self);
@@ -850,17 +843,16 @@ int AFCGameNetModule::OnCommonClassEvent(
 int AFCGameNetModule::OnMapInstanceEvent(
     const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
 {
-    //容器发生变化，只可能从A容器的0层切换到B容器的0层
-    //需要注意的是------------任何层改变的时候，此玩家其实还未进入层，因此，层改变的时候获取的玩家列表，目标层是不包含自己的
-	auto pEntity = m_pKernelModule->GetEntity(self);
-	if (pEntity == nullptr)
-	{
-		return 0;
-	}
+    // When the map changes, should be map A instance 0 to map B instance 0,
+    auto pEntity = m_pKernelModule->GetEntity(self);
+    if (pEntity == nullptr)
+    {
+        return 0;
+    }
 
     int nSceneID = pEntity->GetInt32(AFEntityMetaBaseEntity::map_id());
 
-    //广播给别人自己离去(层降或者跃层)
+    // broadcast myself leaving to others
     int nOldGroupID = oldVar.GetInt();
     ProcessLeaveGroup(self, nSceneID, nOldGroupID);
 
@@ -873,14 +865,11 @@ int AFCGameNetModule::OnMapInstanceEvent(
 int AFCGameNetModule::OnContainerEvent(
     const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
 {
-    //容器发生变化，只可能从A容器的0层切换到B容器的0层
-    //需要注意的是------------任何容器改变的时候，玩家必须是0层
     int nOldSceneID = oldVar.GetInt();
     int nNowSceneID = newVar.GetInt();
 
     ARK_LOG_INFO("Enter Scene, id  = {} scene = {}", self, nNowSceneID);
 
-    //自己消失,玩家不用广播，因为在消失之前，会回到0层，早已广播了玩家
     AFCDataList valueOldAllObjectList;
     AFCDataList valueNewAllObjectList;
     AFCDataList valueAllObjectListNoSelf;
@@ -929,32 +918,23 @@ int AFCGameNetModule::OnContainerEvent(
 
     //////////////////////////////////////////////////////////////////////////
 
-    //但是旧场景0层的NPC需要广播
     OnEntityListLeave(AFCDataList() << self, valueOldAllObjectList);
 
-    //广播给所有人出现对象(如果是玩家，则包括广播给自己)
-    //这里广播的都是0层的
+    // the instance is 0
     if (valuePlayerList.GetCount() > 0)
     {
-        //把self广播给argVar这些人
         OnEntityListEnter(valuePlayerNoSelf, AFCDataList() << self);
     }
 
-    //新层必然是0，把0层NPC广播给自己------------自己广播给自己不在这里广播，因为场景ID在跨场景时会经常变化
-
-    //把valueAllObjectList广播给self
     OnEntityListEnter(AFCDataList() << self, valueAllObjectListNoSelf);
 
-    ////////////////////把已经存在的人的属性广播给新来的人//////////////////////////////////////////////////////
     for (size_t i = 0; i < valueAllObjectListNoSelf.GetCount(); i++)
     {
         AFGUID identOld = valueAllObjectListNoSelf.Int64(i);
         OnViewDataNodeEnter(AFCDataList() << self, identOld);
-        ////////////////////把已经存在的人的表广播给新来的人//////////////////////////////////////////////////////
         OnViewDataTableEnter(AFCDataList() << self, identOld);
     }
 
-    //把新来的人的属性广播给周边的人()
     if (valuePlayerNoSelf.GetCount() > 0)
     {
         OnViewDataNodeEnter(valuePlayerNoSelf, self);
@@ -975,11 +955,9 @@ int AFCGameNetModule::GetNodeBroadcastEntityList(const AFGUID& self, const std::
     int nObjectContainerID = pEntity->GetInt32(AFEntityMetaBaseEntity::map_id());
     int nObjectGroupID = pEntity->GetInt32(AFEntityMetaBaseEntity::map_inst_id());
 
-    //普通场景容器，判断广播属性
     const std::string& class_name = pEntity->GetClassName();
     if (pEntity->HaveMask(name, ArkNodeMask::PF_PUBLIC))
     {
-        //广播给客户端自己和周边人
         GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
     }
 
@@ -1002,7 +980,6 @@ int AFCGameNetModule::GetTableBroadcastEntityList(const AFGUID& self, const std:
     int map_id = pEntity->GetInt32(AFEntityMetaBaseEntity::map_id());
     int map_inst_id = pEntity->GetInt32(AFEntityMetaBaseEntity::map_inst_id());
 
-    //普通场景容器，判断广播属性
     auto pTable = pEntity->FindTable(name);
     if (pTable == nullptr)
     {
@@ -1015,7 +992,7 @@ int AFCGameNetModule::GetTableBroadcastEntityList(const AFGUID& self, const std:
         GetBroadcastEntityList(map_id, map_inst_id, valueObject);
     }
 
-	const std::string& class_name = pEntity->GetClassName();
+    const std::string& class_name = pEntity->GetClassName();
     if (AFEntityMetaPlayer::self_name() == class_name && pTable->IsPrivate())
     {
         valueObject.AddInt64(self);
@@ -1104,7 +1081,7 @@ int AFCGameNetModule::OnSwapSceneResultEvent(const AFGUID& self, const int nEven
     return 0;
 }
 
-void AFCGameNetModule::OnReqiureRoleListProcess(const AFNetMsg* msg, const int64_t session_id)
+void AFCGameNetModule::OnReqiureRoleList(const AFNetMsg* msg, const int64_t session_id)
 {
     ////fd
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqRoleList);
@@ -1119,7 +1096,7 @@ void AFCGameNetModule::OnReqiureRoleListProcess(const AFNetMsg* msg, const int64
     // m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, nGateClientID);
 }
 
-void AFCGameNetModule::OnCreateRoleGameProcess(const AFNetMsg* msg, const int64_t session_id)
+void AFCGameNetModule::OnCreateRole(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqCreateRole);
     // const AFGUID& nGateClientID = actor_id;
@@ -1140,7 +1117,7 @@ void AFCGameNetModule::OnCreateRoleGameProcess(const AFNetMsg* msg, const int64_
     // m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, nGateClientID);
 }
 
-void AFCGameNetModule::OnDeleteRoleGameProcess(const AFNetMsg* msg, const int64_t session_id)
+void AFCGameNetModule::OnDeleteRole(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqDeleteRole);
 
@@ -1154,7 +1131,12 @@ void AFCGameNetModule::OnDeleteRoleGameProcess(const AFNetMsg* msg, const int64_
     // m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, actor_id);
 }
 
-void AFCGameNetModule::OnClienSwapSceneProcess(const AFNetMsg* msg, const int64_t session_id)
+void AFCGameNetModule::OnRecoverRole(const AFNetMsg* msg, const int64_t session_id)
+{
+    //TODO
+}
+
+void AFCGameNetModule::OnSwapScene(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_ACTOR_MSG(head, msg_id, msg, msg_len, AFMsg::ReqAckSwapScene);
 
@@ -1166,7 +1148,7 @@ void AFCGameNetModule::OnClienSwapSceneProcess(const AFNetMsg* msg, const int64_
     // m_pKernelModule->DoEvent(pEntity->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
 }
 
-void AFCGameNetModule::OnProxyServerRegisteredProcess(const AFNetMsg* msg, const int64_t session_id)
+void AFCGameNetModule::OnRegisteredProxy(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 
@@ -1188,7 +1170,7 @@ void AFCGameNetModule::OnProxyServerRegisteredProcess(const AFNetMsg* msg, const
     //}
 }
 
-void AFCGameNetModule::OnProxyServerUnRegisteredProcess(const AFNetMsg* msg, const int64_t session_id)
+void AFCGameNetModule::OnUnregisteredProxy(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 
@@ -1200,7 +1182,7 @@ void AFCGameNetModule::OnProxyServerUnRegisteredProcess(const AFNetMsg* msg, con
     //}
 }
 
-void AFCGameNetModule::OnRefreshProxyServerInfoProcess(const AFNetMsg* msg, const int64_t session_id)
+void AFCGameNetModule::OnRefreshProxy(const AFNetMsg* msg, const int64_t session_id)
 {
     // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 
@@ -1265,7 +1247,6 @@ bool AFCGameNetModule::AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nC
 {
     if (nGateID <= 0)
     {
-        //非法gate
         return false;
     }
 
@@ -1278,7 +1259,6 @@ bool AFCGameNetModule::AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nC
 
     if (nullptr != pBaseData)
     {
-        //已经存在
         ARK_LOG_ERROR("player is already exist, cannot enter game again, id = {}", nClientID);
         return false;
     }

@@ -2,22 +2,22 @@ syntax = "proto3";
 package consul;
 
 message check_data {
-  string id = 1;
-  string name = 2;
-  string note = 3;
-  string timeout = 4;
-  string interval = 5;
-  string tcp = 6;
+  string ID = 1;
+  string Name = 2;
+  string Note = 3;
+  string Timeout = 4;
+  string Interval = 5;
+  string TCP = 6;
 }
 
 message service_data {
-  string id = 1;
-  string name = 2;
-  string ip = 3;
-  int32 port = 4;
-  repeated string tags = 5;
-  map<string, string> metas = 6;
-  repeated check_data checks = 7;
+  string ID = 1;
+  string Name = 2;
+  string Address = 3;
+  int32 Port = 4;
+  repeated string Tags = 5;
+  map<string, string> Meta = 6;
+  check_data Check = 7;
 }
 
 message service_set {

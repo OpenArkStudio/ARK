@@ -38,22 +38,20 @@ public:
     AFCHttpClient();
     ~AFCHttpClient() override;
 
-    bool AsyncPost(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params,
-        const std::string& post_data, HTTP_CALLBACK&& callback) override;
+    ananas::Future<std::pair<bool, std::string>> AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method,
+        const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+        const std::vector<std::string>& cookies, const google::protobuf::Message& http_msg) override;
 
-    bool AsyncGet(
-        const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params, HTTP_CALLBACK&& callback) override;
+    ananas::Future<std::pair<bool, std::string>> AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method,
+        const std::string& ip, const uint16_t port, const std::string& url,
+        const google::protobuf::Message& http_msg) override;
 
-    bool AsyncPut(const std::string& ip, const uint16_t port, const std::string& url,
-        std::map<std::string, std::string>& params,
-        const std::string& put_data, HTTP_CALLBACK&& callback) override;
+    ananas::Future<std::pair<bool, std::string>> AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method,
+        const std::string& ip, const uint16_t port, const std::string& url) override;
 
-protected:
-    brynet::net::TcpService::Ptr GetTcpService() override
-    {
-        return tcp_service_;
-    }
+    ananas::Future<std::pair<bool, std::string>> AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method,
+        const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
+        const std::vector<std::string>& cookies, const std::string& http_doby) override;
 
 private:
     brynet::net::AsyncConnector::Ptr connector_{nullptr};

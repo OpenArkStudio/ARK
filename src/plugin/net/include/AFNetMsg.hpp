@@ -35,7 +35,7 @@ ARK_CONSTEXPR static const std::chrono::seconds ARK_NET_HEART_TIME = std::chrono
 ARK_CONSTEXPR static const int ARK_PROCESS_NET_MSG_COUNT_ONCE = 100;
 ARK_CONSTEXPR static const int ARK_MSG_MAX_LENGTH = 1024 * 5; // 5K
 
-enum AFHeadLength
+enum class AFHeadLength : uint32_t
 {
     CS_HEAD_LENGTH = 6,  // cs head
     SS_HEAD_LENGTH = 22, // ss head

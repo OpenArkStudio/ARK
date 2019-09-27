@@ -57,30 +57,28 @@ int AFCWorldNetModule::StartServer()
             ARK_ASSERT_NO_EFFECT(0);
             exit(0);
         }
-        else
-        {
-            m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
-            if (m_pNetServer == nullptr)
-            {
-                ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
-                exit(0);
-            }
 
-            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this,
-            // &AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess);
-            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this,
-            // &AFCWorldNetServerModule::OnProxyServerRegisteredProcess);
-            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this,
-            // &AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess);
-            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_REGISTERED, this,
-            // &AFCWorldNetServerModule::OnGameServerRegisteredProcess);
-            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_UNREGISTERED, this,
-            // &AFCWorldNetServerModule::OnGameServerUnRegisteredProcess);
-            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_REFRESH, this,
-            // &AFCWorldNetServerModule::OnRefreshGameServerInfoProcess);
-            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_ONLINE_NOTIFY, this, &AFCWorldNetModule::OnOnlineProcess);
-            // m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_OFFLINE_NOTIFY, this, &AFCWorldNetModule::OnOfflineProcess);
+        m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
+        if (m_pNetServer == nullptr)
+        {
+            ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+            exit(0);
         }
+
+        // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this,
+        // &AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess);
+        // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this,
+        // &AFCWorldNetServerModule::OnProxyServerRegisteredProcess);
+        // m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this,
+        // &AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess);
+        // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_REGISTERED, this,
+        // &AFCWorldNetServerModule::OnGameServerRegisteredProcess);
+        // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_UNREGISTERED, this,
+        // &AFCWorldNetServerModule::OnGameServerUnRegisteredProcess);
+        // m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_REFRESH, this,
+        // &AFCWorldNetServerModule::OnRefreshGameServerInfoProcess);
+        // m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_ONLINE_NOTIFY, this, &AFCWorldNetModule::OnOnlineProcess);
+        // m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_OFFLINE_NOTIFY, this, &AFCWorldNetModule::OnOfflineProcess);
     });
 
     return 0;
@@ -94,7 +92,6 @@ int AFCWorldNetModule::StartServer()
 //
 //int AFCWorldNetModule::StartClient()
 //{
-//    //创建所有与对端链接的client
 //    int ret = m_pNetServiceManagerModule->CreateClusterClients();
 //    if (ret != 0)
 //    {
@@ -302,7 +299,6 @@ void AFCWorldNetModule::SynGameToProxy(const AFGUID& xClientID)
 
 // void AFCWorldNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 //{
-//    ////不管是game还是proxy都要找出来,替他反注册
 //    //for (ARK_SHARE_PTR<AFServerData> pServerData = mGameMap.First(); nullptr != pServerData; pServerData =
 //    mGameMap.Next())
 //    //{
@@ -440,12 +436,11 @@ int AFCWorldNetModule::OnObjectListEnter(const AFIDataList& self, const AFIDataL
     {
         AFGUID identOld = argVar.Int64(i);
         auto pEntity = m_pKernelModule->GetEntity(identOld);
-		if (pEntity == nullptr)
-		{
+        if (pEntity == nullptr)
+        {
             continue;
-		}
+        }
 
-        //排除空对象
         if (identOld != 0)
         {
             AFMsg::EntityEnterInfo* pEnter = xEntityEnterList.add_entity_list();
@@ -469,7 +464,6 @@ int AFCWorldNetModule::OnObjectListEnter(const AFIDataList& self, const AFIDataL
 
         if (ident != 0)
         {
-            //可能在不同的网关呢,得到后者所在的网关FD
             SendMsgToPlayer(AFMsg::EGMI_ACK_ENTITY_ENTER, xEntityEnterList, ident);
         }
     }
@@ -490,7 +484,6 @@ int AFCWorldNetModule::OnObjectListLeave(const AFIDataList& self, const AFIDataL
     {
         AFGUID identOld = argVar.Int64(i);
 
-        //排除空对象
         if (!identOld == 0)
         {
             xEntityLeaveList.add_entity_list(identOld);
@@ -503,7 +496,6 @@ int AFCWorldNetModule::OnObjectListLeave(const AFIDataList& self, const AFIDataL
 
         if (ident == 0)
         {
-            //可能在不同的网关呢,得到后者所在的网关FD
             SendMsgToPlayer(AFMsg::EGMI_ACK_ENTITY_LEAVE, xEntityLeaveList, ident);
         }
     }

@@ -67,16 +67,17 @@ public:
     // void OnClientDisconnect(const AFGUID& xClientID);
     // void OnClientConnected(const AFGUID& xClientID);
 
-    void OnProxyServerRegisteredProcess(const AFNetMsg* msg, const int64_t session_id);
-    void OnProxyServerUnRegisteredProcess(const AFNetMsg* msg, const int64_t session_id);
-    void OnRefreshProxyServerInfoProcess(const AFNetMsg* msg, const int64_t session_id);
-    void OnReqiureRoleListProcess(const AFNetMsg* msg, const int64_t session_id);
-    void OnCreateRoleGameProcess(const AFNetMsg* msg, const int64_t session_id);
-    void OnDeleteRoleGameProcess(const AFNetMsg* msg, const int64_t session_id);
+    void OnRegisteredProxy(const AFNetMsg* msg, const int64_t session_id);
+    void OnUnregisteredProxy(const AFNetMsg* msg, const int64_t session_id);
+    void OnRefreshProxy(const AFNetMsg* msg, const int64_t session_id);
+    void OnReqiureRoleList(const AFNetMsg* msg, const int64_t session_id);
+    void OnCreateRole(const AFNetMsg* msg, const int64_t session_id);
+    void OnDeleteRole(const AFNetMsg* msg, const int64_t session_id);
+    void OnRecoverRole(const AFNetMsg* msg, const int64_t session_id);
 
-    void OnClienEnterGameProcess(const AFNetMsg* msg, const int64_t session_id);
-    void OnClientLeaveGameProcess(const AFNetMsg* msg, const int64_t session_id);
-    void OnClienSwapSceneProcess(const AFNetMsg* msg, const int64_t session_id);
+    void OnEnterGame(const AFNetMsg* msg, const int64_t session_id);
+    void OnLeaveGame(const AFNetMsg* msg, const int64_t session_id);
+    void OnSwapScene(const AFNetMsg* msg, const int64_t session_id);
 
     ///////////WORLD_START///////////////////////////////////////////////////////////////
     void OnTransWorld(const AFNetMsg* msg);

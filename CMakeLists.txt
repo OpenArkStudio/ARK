@@ -12,7 +12,7 @@ endif()
 #---------------------------------------------------------------------------------------
 # Compiler config
 #---------------------------------------------------------------------------------------
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -59,8 +59,6 @@ include_directories(
     ${ROOT_DIR}/dep/protobuf/src
     ${ROOT_DIR}/dep/brynet/src
     ${ROOT_DIR}/dep/spdlog/include
-    ${ROOT_DIR}/dep/variadic_future/include
-    #${ROOT_DIR}/dep/cpprestsdk/Release/include
     ${ROOT_DIR}/src
     ${ROOT_DIR}/src/plugin
     ${ROOT_DIR}/src/server)
@@ -71,11 +69,7 @@ set(DEP_LIB_DIR ${ROOT_DIR}/dep/lib/ ${BIN_OUTPUT_DIR})
 if(UNIX)
     SET(CMAKE_CXX_FLAGS_DEBUG   "-O0 -g -ggdb -Wall -Wextra -D_DEBUG -fPIC")
     SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -g -ggdb -Wall -Wextra -DNDEBUG -fPIC")
-    if (CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-    else()
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
-    endif()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
     add_definitions(-Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wno-strict-aliasing -Wno-pmf-conversions -Wignored-qualifiers)
     
     if(ENABLE_COVERAGE)

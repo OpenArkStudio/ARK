@@ -47,17 +47,15 @@ int AFCRouterNetModule::StartServer()
             ARK_ASSERT_NO_EFFECT(0);
             exit(0);
         }
-        else
-        {
-            m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
-            if (m_pNetServer == nullptr)
-            {
-                ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
-                exit(0);
-            }
 
-            // add msg process
+        m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
+        if (m_pNetServer == nullptr)
+        {
+            ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+            exit(0);
         }
+
+        // add msg process
     });
 
     return 0;
