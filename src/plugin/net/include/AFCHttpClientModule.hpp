@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "base/AFPluginManager.hpp"
 #include "net/interface/AFIHttpClient.hpp"
 #include "net/interface/AFIHttpClientModule.hpp"
 
