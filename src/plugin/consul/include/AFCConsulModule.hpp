@@ -1,8 +1,8 @@
 #pragma once
 
 #include "base/AFPluginManager.hpp"
+#include "net/interface/AFIHttpClientModule.hpp"
 #include "consul/interface/AFIConsulModule.hpp"
-#include "consul/include/AFConsulClient.hpp"
 
 namespace ark {
 
@@ -10,8 +10,7 @@ class AFCConsulModule : public AFIConsulModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
-    explicit AFCConsulModule() = default;
-    bool Update() override;
+    bool Init() override;
 
     void SetRegisterCenter(const std::string& center_ip, const uint16_t center_port) override;
 
@@ -30,7 +29,10 @@ public:
     ananas::Future<std::pair<bool, std::string>> DelKeyValue(const std::string& key) override;
 
 private:
-    std::shared_ptr<AFConsulClient> ctx_{nullptr};
+    std::string consul_ip_{};
+    uint16_t consul_port_{8500};
+
+    AFIHttpClientModule* m_pHttpClientModule;
 };
 
 } // namespace ark

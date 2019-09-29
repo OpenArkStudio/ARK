@@ -20,6 +20,8 @@ AFCHttpClient::AFCHttpClient()
 
     tcp_service_->startWorkerThread(1);
     connector_->startWorkerThread();
+
+    timer_mgr_ = std::make_shared<brynet::timer::TimerMgr>();
 }
 
 AFCHttpClient::~AFCHttpClient()
@@ -29,10 +31,16 @@ AFCHttpClient::~AFCHttpClient()
     base::DestroySocket();
 }
 
+bool AFCHttpClient::Update()
+{
+    timer_mgr_->schedule();
+    return true;
+}
+
 ananas::Future<std::pair<bool, std::string>> AFCHttpClient::AsyncRequest(
     brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
     const std::string& url, std::map<std::string, std::string>& params, const std::vector<std::string>& cookies,
-    const std::string& http_doby)
+    const std::string& http_body)
 {
     using namespace brynet::net;
     using namespace brynet::net::http;
@@ -53,9 +61,9 @@ ananas::Future<std::pair<bool, std::string>> AFCHttpClient::AsyncRequest(
     {
         case brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_POST:
         case brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_PUT:
-            if (!http_doby.empty())
+            if (!http_body.empty())
             {
-                request.setBody(http_doby);
+                request.setBody(http_body);
             }
             break;
         default:
@@ -82,55 +90,28 @@ ananas::Future<std::pair<bool, std::string>> AFCHttpClient::AsyncRequest(
             AsyncConnector::ConnectOptions::WithFailedCallback(
                 [=]() mutable { promise.SetValue(std::make_pair(false, std::string())); })})
         .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE),
-            TcpService::AddSocketOption::AddEnterCallback([](const TcpConnection::Ptr& session) { /*DO NOTHING*/ })})
+            TcpService::AddSocketOption::AddEnterCallback([](const TcpConnection::Ptr& session) {
+#ifdef ARK_RUN_MODE_DEBUG
+                CONSOLE_INFO_LOG << "http client connected!" << std::endl;
+#endif
+            })})
         .configureEnterCallback([=](HttpSession::Ptr session) mutable {
             session->send(req_url.c_str(), req_url.size());
             session->setHttpCallback([=](const HTTPParser& httpParser, const HttpSession::Ptr& session) mutable {
                 promise.SetValue(std::make_pair(true, httpParser.getBody()));
             });
-            session->setClosedCallback([](const HttpSession::Ptr& session) { /*DO NOTHING*/ });
+            session->setClosedCallback([](const HttpSession::Ptr& session) {
+#ifdef ARK_RUN_MODE_DEBUG
+                CONSOLE_INFO_LOG << "http client closed!" << std::endl;
+#endif
+            });
 
-            // TODO: timer for request timeout and disconnection
+            // start a timer to process request timeout and disconnect
+            timer_mgr_->addTimer(ARK_CONNECT_TIMEOUT, [=]() mutable { session->postShutdown(); });
         })
         .asyncConnect();
 
     return promise.GetFuture();
-}
-
-ananas::Future<std::pair<bool, std::string>> AFCHttpClient::AsyncRequest(
-    brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
-    const std::string& url, std::map<std::string, std::string>& params, const std::vector<std::string>& cookies,
-    const google::protobuf::Message& http_msg)
-{
-    ananas::Promise<std::pair<bool, std::string>> promise;
-
-    std::string http_body;
-    auto status = google::protobuf::util::MessageToJsonString(http_msg, &http_body);
-    if (!status.ok())
-    {
-        promise.SetValue(std::make_pair(false, std::string()));
-        return promise.GetFuture();
-    }
-
-    return AsyncRequest(http_method, ip, port, url, params, cookies, http_body);
-}
-
-ananas::Future<std::pair<bool, std::string>> AFCHttpClient::AsyncRequest(
-    brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
-    const std::string& url, const google::protobuf::Message& http_msg)
-{
-    std::map<std::string, std::string> params;
-    std::vector<std::string> cookies;
-    return AsyncRequest(http_method, ip, port, url, params, cookies, http_msg);
-}
-
-ananas::Future<std::pair<bool, std::string>> AFCHttpClient::AsyncRequest(
-    brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
-    const std::string& url)
-{
-    std::map<std::string, std::string> params;
-    std::vector<std::string> cookies;
-    return AsyncRequest(http_method, ip, port, url, params, cookies, std::string(""));
 }
 
 } // namespace ark

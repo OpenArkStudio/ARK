@@ -2,140 +2,121 @@
 
 namespace ark {
 
-//void AFCConsulModule::SetRegisterCenter(const std::string& center_ip, const uint16_t center_port)
-//{
-//    ctx_ = std::make_shared<consulpp::Consulpp>(center_ip, center_port);
-//}
-//
-//bool AFCConsulModule::RegisterService(const consulpp::ConsulService& service)
-//{
-//    return ctx_->RegisterService(service);
-//}
-//
-//bool AFCConsulModule::DeregisterService(const std::string& service_id)
-//{
-//    return ctx_->Deregister(service_id);
-//}
-//
-//bool AFCConsulModule::GetHealthServices(const std::string& service_name, const std::string& tag_filter, consulpp::ConsulServiceSet& services)
-//{
-//    return ctx_->HealthCheck(service_name, tag_filter, services);
-//}
-//
-//bool AFCConsulModule::GetHealthServices(const std::string& service_name, const std::vector<std::string>& tag_filter_list, consulpp::ConsulServiceSet& services)
-//{
-//    return ctx_->MultiHealthCheck(service_name, tag_filter_list, services);
-//}
-//
-//const std::string AFCConsulModule::GetKeyValue(const std::string& key)
-//{
-//    if (key.empty())
-//    {
-//        const static std::string& null_str = {};
-//        return null_str;
-//    }
-//    else
-//    {
-//        return ctx_->GetValue(key);
-//    }
-//}
-//
-//bool AFCConsulModule::SetKeyValue(const std::string& key, const std::string& value)
-//{
-//    if (key.empty() || value.empty())
-//    {
-//        return false;
-//    }
-//
-//    return ctx_->SetValue(key, value);
-//}
-//
-//bool AFCConsulModule::DelKeyValue(const std::string& key)
-//{
-//    if (key.empty())
-//    {
-//        return true;
-//    }
-//
-//    return ctx_->DeleteValue(key);
-//}
-//
-//////////////////////////////////////////////////////////////////////////
-//// Test
-//bool AFCServiceDiscoveryModule::Test()
-//{
-//    consulpp::ConsulService service;
-//
-//    service.SetId("test_service_id");
-//    service.SetName("client_test_servie");
-//    service.SetAddress("127.0.0.1");
-//    service.SetPort(22);
-//    //multi-tags
-//    service.SetTag("client");
-//    service.SetTag("test");
-//    //multi-meta
-//    service.SetMeta("version", "1.2.3");
-//    service.SetMeta("test_meta", "test_meta_value");
-//
-//    consulpp::Check check;
-//    check.SetId("client_test_check");
-//    check.SetName("Client test check");
-//    check.SetTcp("127.0.0.1:22");
-//    check.SetInterval("5s");
-//    check.SetTimeout("1s");
-//    check.SetNote("test note");
-//    service.SetCheck(check);
-//
-//    return RegisterService(service);
-//}
+static const std::string REGISTER_API("/v1/agent/service/register");
+static const std::string DEREGISTER_API("/v1/agent/service/deregister/");
+static const std::string KV_API("/v1/kv/");
+static const std::string HEALTH_CHECK_API("/v1/health/service/");
 
-bool AFCConsulModule::Update()
+bool AFCConsulModule::Init()
 {
-    ctx_->Update();
+    m_pHttpClientModule = FindModule<AFIHttpClientModule>();
     return true;
 }
 
 void AFCConsulModule::SetRegisterCenter(const std::string& center_ip, const uint16_t center_port)
 {
-    ctx_ = std::make_shared<AFConsulClient>(center_ip, center_port);
+    consul_ip_ = center_ip;
+    consul_port_ = center_port;
 }
 
 ananas::Future<std::pair<bool, std::string>> AFCConsulModule::RegisterService(const consul::service_data& service)
 {
-    return ctx_->RegisterService(service);
+    std::map<std::string, std::string> params;
+    std::vector<std::string> cookies;
+    return m_pHttpClientModule->AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_PUT, consul_ip_,
+        consul_port_, REGISTER_API, params, cookies, service);
 }
 
 ananas::Future<std::pair<bool, std::string>> AFCConsulModule::DeregisterService(const std::string& service_id)
 {
-    return ctx_->DeregisterService(service_id);
-}
+    ananas::Promise<std::pair<bool, std::string>> promise;
+    if (service_id.empty())
+    {
+        promise.SetValue(std::make_pair(false, std::string()));
+        return promise.GetFuture();
+    }
 
-ananas::Future<std::pair<bool, std::string>> AFCConsulModule::GetHealthServices(
-    const std::string& service_name, const std::string& tag_filter)
-{
-    return ctx_->HealthCheck(service_name, tag_filter);
+    auto url = DEREGISTER_API + service_id;
+    return m_pHttpClientModule->AsyncRequest(
+        brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_PUT, consul_ip_, consul_port_, url);
 }
-
-//bool AFCConsulModule::GetHealthServices(
-//    const std::string& service_name, const std::vector<std::string>& tag_filter_list, consul::service_set& services)
-//{
-//    return ctx_->MultiHealthCheck(service_name, tag_filter_list, services);
-//}
 
 ananas::Future<std::pair<bool, std::string>> AFCConsulModule::GetKeyValue(const std::string& key)
 {
-    return ctx_->GetValue(key);
+    ananas::Promise<std::pair<bool, std::string>> promise;
+    if (key.empty())
+    {
+        promise.SetValue(std::make_pair(false, std::string()));
+        return promise.GetFuture();
+    }
+
+    std::string url = KV_API + key;
+    return m_pHttpClientModule->AsyncRequest(
+        brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_GET, consul_ip_, consul_port_, url);
 }
 
 ananas::Future<std::pair<bool, std::string>> AFCConsulModule::SetKeyValue(
     const std::string& key, const std::string& value)
 {
-    return ctx_->SetKeyValue(key, value);
+    ananas::Promise<std::pair<bool, std::string>> promise;
+    if (key.empty())
+    {
+        promise.SetValue(std::make_pair(false, std::string()));
+        return promise.GetFuture();
+    }
+
+    std::map<std::string, std::string> params;
+    std::vector<std::string> cookies;
+    return m_pHttpClientModule->AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_PUT, consul_ip_,
+        consul_port_, KV_API, params, cookies, value);
 }
 
 ananas::Future<std::pair<bool, std::string>> AFCConsulModule::DelKeyValue(const std::string& key)
 {
-    return ctx_->DeleteValue(key);
+    ananas::Promise<std::pair<bool, std::string>> promise;
+    if (key.empty())
+    {
+        promise.SetValue(std::make_pair(false, std::string()));
+        return promise.GetFuture();
+    }
+
+    std::string url = KV_API + key;
+    return m_pHttpClientModule->AsyncRequest(
+        brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_DELETE, consul_ip_, consul_port_, url);
 }
+
+ananas::Future<std::pair<bool, std::string>> AFCConsulModule::GetHealthServices(
+    const std::string& service_name, const std::string& tag_filter)
+{
+    ananas::Promise<std::pair<bool, std::string>> promise;
+    if (service_name.empty())
+    {
+        promise.SetValue(std::make_pair(false, std::string()));
+        return promise.GetFuture();
+    }
+
+    std::string url = HEALTH_CHECK_API + service_name;
+    std::map<std::string, std::string> params;
+    params.insert(std::make_pair("tag", tag_filter));
+    params.insert(std::make_pair("passing", "1"));
+
+    std::vector<std::string> cookies;
+    return m_pHttpClientModule->AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_GET, consul_ip_,
+        consul_port_, url, params, cookies, std::string(""));
+}
+
+//bool AFCConsulModule::GetHealthServices(
+//    const std::string& service_name, const std::vector<std::string>& tag_filter_list, consul::service_set& services)
+//{
+//    for (auto tag : tag_filter_list)
+//    {
+//        auto check_future = HealthCheck(service_name, tag);
+//    }
+//
+//    // TODO:
+//    // when all
+//
+//    return true;
+//}
 
 } // namespace ark

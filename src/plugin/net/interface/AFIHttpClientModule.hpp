@@ -23,18 +23,30 @@
 #include <ananas/future/Future.h>
 #include <brynet/net/http/HttpFormat.h>
 
-#include "base/AFPlatform.hpp"
+#include "interface/AFIModule.hpp"
 // Protobuf header files below platform.hpp cuz the std::min and std::numberic_limit<T>::min;
 #include <google/protobuf/message.h>
 
 namespace ark {
 
-// http client without DNS resolver
-class AFIHttpClient
+class AFIHttpClientModule : public AFIModule
 {
 public:
-    virtual ~AFIHttpClient() = default;
-    virtual bool Update() = 0;
+    // Request with parameters and cookies and the http body data is protobuf message.
+    virtual ananas::Future<std::pair<bool, std::string>> AsyncRequest(
+        brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
+        const std::string& url, std::map<std::string, std::string>& params, const std::vector<std::string>& cookies,
+        const google::protobuf::Message& http_msg) = 0;
+
+    // Request without parameters and cookies and the http body data is protobuf message.
+    virtual ananas::Future<std::pair<bool, std::string>> AsyncRequest(
+        brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
+        const std::string& url, const google::protobuf::Message& http_msg) = 0;
+
+    // Request without parameters, cookies and http body data.
+    virtual ananas::Future<std::pair<bool, std::string>> AsyncRequest(
+        brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
+        const std::string& url) = 0;
 
     // The final request function.
     virtual ananas::Future<std::pair<bool, std::string>> AsyncRequest(

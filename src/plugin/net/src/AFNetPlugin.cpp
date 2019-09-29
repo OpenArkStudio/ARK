@@ -19,6 +19,7 @@
  */
 
 #include "net/include/AFNetPlugin.hpp"
+#include "net/include/AFCHttpClientModule.hpp"
 #include "net/include/AFCNetServiceManagerModule.hpp"
 
 namespace ark {
@@ -27,12 +28,14 @@ ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFNetPlugin)
 
 void AFNetPlugin::Install()
 {
+    ARK_REGISTER_MODULE(AFIHttpClientModule, AFCHttpClientModule);
     ARK_REGISTER_MODULE(AFINetServiceManagerModule, AFCNetServiceManagerModule);
 }
 
 void AFNetPlugin::Uninstall()
 {
     ARK_DEREGISTER_MODULE(AFINetServiceManagerModule, AFCNetServiceManagerModule);
+    ARK_DEREGISTER_MODULE(AFIHttpClientModule, AFCHttpClientModule);
 }
 
 } // namespace ark
