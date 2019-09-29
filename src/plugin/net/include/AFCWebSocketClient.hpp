@@ -59,7 +59,7 @@ protected:
     void UpdateNetEvent(AFHttpSessionPtr session);
     void UpdateNetMsg(AFHttpSessionPtr session);
 
-    bool CloseAllSession();
+    bool CloseSession();
 
 private:
     std::unique_ptr<AFHttpSession> client_session_ptr_{nullptr};

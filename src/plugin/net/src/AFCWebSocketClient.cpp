@@ -23,7 +23,8 @@
 
 namespace ark {
 
-AFCWebSocketClient::AFCWebSocketClient(brynet::net::TcpService::Ptr service /*= nullptr*/, brynet::net::AsyncConnector::Ptr connector /*= nullptr*/)
+AFCWebSocketClient::AFCWebSocketClient(
+    brynet::net::TcpService::Ptr service /*= nullptr*/, brynet::net::AsyncConnector::Ptr connector /*= nullptr*/)
 {
     using namespace brynet::net;
 
@@ -40,7 +41,8 @@ AFCWebSocketClient::~AFCWebSocketClient()
     base::DestroySocket();
 }
 
-bool AFCWebSocketClient::StartClient(AFHeadLength len, const int target_busid, const std::string& ip, const int port, bool ip_v6)
+bool AFCWebSocketClient::StartClient(
+    AFHeadLength len, const int target_busid, const std::string& ip, const int port, bool ip_v6)
 {
     using namespace brynet::net;
     using namespace brynet::net::http;
@@ -85,7 +87,8 @@ bool AFCWebSocketClient::StartClient(AFHeadLength len, const int target_busid, c
             }
         });
 
-        httpSession->setWSCallback([this](const HttpSession::Ptr& httpSession, WebSocketFormat::WebSocketFrameType opcode, const std::string& payload) {
+        httpSession->setWSCallback([this](const HttpSession::Ptr& httpSession,
+                                       WebSocketFormat::WebSocketFrameType opcode, const std::string& payload) {
             const auto ud = cast<int64_t>(httpSession->getUD());
             int64_t session_id = *ud;
 
@@ -122,8 +125,10 @@ bool AFCWebSocketClient::StartClient(AFHeadLength len, const int target_busid, c
     connection_builder.configureService(tcp_service_ptr_)
         .configureConnector(connector_ptr_)
         .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE)})
-        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port), AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
-            AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback([](TcpSocket& socket) { socket.setNodelay(); })})
+        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
+            AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
+            AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback(
+                [](TcpSocket& socket) { socket.setNodelay(); })})
         .configureEnterCallback(OnEnterCallback)
         .asyncConnect();
 
@@ -132,14 +137,8 @@ bool AFCWebSocketClient::StartClient(AFHeadLength len, const int target_busid, c
 
 bool AFCWebSocketClient::Shutdown()
 {
-    CloseAllSession();
+    CloseSession();
     SetWorking(false);
-    return true;
-}
-
-bool AFCWebSocketClient::CloseAllSession()
-{
-    client_session_ptr_->GetSession()->postClose();
     return true;
 }
 
@@ -164,7 +163,7 @@ void AFCWebSocketClient::UpdateNetSession()
     if (client_session_ptr_->NeedRemove())
     {
         AFScopeWLock guard(rw_lock_);
-        CloseSession(client_session_ptr_->GetSessionId());
+        CloseSession();
         client_session_ptr_.release();
     }
 }
@@ -217,7 +216,17 @@ bool AFCWebSocketClient::SendMsg(const char* msg, const size_t msg_len, const AF
 
 bool AFCWebSocketClient::CloseSession(const AFGUID& session_id)
 {
-    client_session_ptr_->GetSession()->postClose();
+    client_session_ptr_->SetNeedRemove(true);
+    return true;
+}
+
+bool AFCWebSocketClient::CloseSession()
+{
+    if (client_session_ptr_ != nullptr)
+    {
+        client_session_ptr_->GetSession()->postShutdown();
+    }
+
     return true;
 }
 

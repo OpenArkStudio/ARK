@@ -176,11 +176,17 @@ void AFCWebSocketServer::UpdateNetSession()
         }
     }
 
-    for (auto iter : remove_sessions)
+    for (auto& iter : remove_sessions)
     {
         auto& session_id = iter;
+        auto session = GetNetSession(session_id);
+        if (session == nullptr)
+        {
+            continue;
+        }
+
         AFScopeWLock guard(rw_lock_);
-        CloseSession(session_id);
+        CloseSession(session);
     }
 
     remove_sessions.clear();
@@ -289,7 +295,13 @@ bool AFCWebSocketServer::CloseSession(AFHttpSessionPtr session)
 bool AFCWebSocketServer::CloseSession(const AFGUID& session_id)
 {
     auto session = GetNetSession(session_id);
-    return CloseSession(session);
+    if (session == nullptr)
+    {
+        return false;
+    }
+
+    session->SetNeedRemove(true);
+    return true;
 }
 
 bool AFCWebSocketServer::CloseAllSession()

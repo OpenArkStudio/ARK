@@ -152,8 +152,14 @@ void AFCTCPServer::UpdateNetSession()
     for (auto& iter : remove_sessions)
     {
         auto& session_id = iter;
+        auto session = GetNetSession(session_id);
+        if (session == nullptr)
+        {
+            continue;
+        }
+
         AFScopeWLock guard(rw_lock_);
-        CloseSession(session_id);
+        CloseSession(session);
     }
 }
 
@@ -243,7 +249,13 @@ bool AFCTCPServer::CloseSession(AFTCPSessionPtr& session)
 bool AFCTCPServer::CloseSession(const int64_t& session_id)
 {
     AFTCPSessionPtr session = GetNetSession(session_id);
-    return CloseSession(session);
+    if (session == nullptr)
+    {
+        return false;
+    }
+
+    session->SetNeedRemove(true);
+    return true;
 }
 
 bool AFCTCPServer::CloseAllSession()

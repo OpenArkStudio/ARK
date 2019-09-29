@@ -135,18 +135,8 @@ bool AFCTCPClient::StartClient(
 
 bool AFCTCPClient::Shutdown()
 {
-    CloseAllSession();
+    CloseSession();
     SetWorking(false);
-    return true;
-}
-
-bool AFCTCPClient::CloseAllSession()
-{
-    if (client_session_ptr_ != nullptr)
-    {
-        client_session_ptr_->GetSession()->postShutdown();
-    }
-
     return true;
 }
 
@@ -162,7 +152,17 @@ bool AFCTCPClient::SendMsg(const char* msg, const size_t msg_len, const AFGUID& 
 
 bool AFCTCPClient::CloseSession(const AFGUID& session_id)
 {
-    client_session_ptr_->GetSession()->postDisConnect();
+    client_session_ptr_->SetNeedRemove(true);
+    return true;
+}
+
+bool AFCTCPClient::CloseSession()
+{
+    if (client_session_ptr_ != nullptr)
+    {
+        client_session_ptr_->GetSession()->postShutdown();
+    }
+
     return true;
 }
 
@@ -182,7 +182,7 @@ void AFCTCPClient::UpdateNetSession()
     if (client_session_ptr_->NeedRemove())
     {
         AFScopeWLock guard(rw_lock_);
-        CloseSession(client_session_ptr_->GetSessionId());
+        CloseSession();
         client_session_ptr_.release();
     }
 }

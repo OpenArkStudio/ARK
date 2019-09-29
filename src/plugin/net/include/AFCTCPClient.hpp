@@ -63,7 +63,7 @@ protected:
     void UpdateNetEvent(AFTCPSessionPtr session);
     void UpdateNetMsg(AFTCPSessionPtr session);
 
-    bool CloseAllSession();
+    bool CloseSession();
 
 private:
     std::unique_ptr<AFTCPSession> client_session_ptr_{nullptr};
