@@ -24,8 +24,7 @@
 #include "base/AFMap.hpp"
 #include "base/AFList.hpp"
 #include "AFITable.hpp"
-#include "AFIEventManager.hpp"
-#include "AFIStaticEntity.hpp"
+#include "AFIData.hpp"
 
 namespace ark {
 
@@ -43,8 +42,6 @@ public:
     virtual bool SetParentContainer(ARK_SHARE_PTR<AFIContainer> pContainer) = 0;
 
     virtual void Update() = 0;
-
-    virtual bool InitData(ARK_SHARE_PTR<AFIStaticEntity> pStaticObject) = 0;
 
     // get base data
     virtual bool IsPublic(const std::string& name) const = 0;
@@ -92,7 +89,7 @@ public:
     virtual bool SetGUID(const uint32_t index, const AFGUID& value) = 0;
 
     // Get data by field name
-    virtual AFINode* GetNode(const std::string& name) const = 0;
+    virtual bool GetNode(const std::string& name, AFIData& data) const = 0;
     virtual bool GetBool(const std::string& name) const = 0;
     virtual int32_t GetInt32(const std::string& name) const = 0;
     virtual uint32_t GetUInt32(const std::string& name) const = 0;
@@ -105,7 +102,7 @@ public:
     virtual const AFGUID& GetGUID(const std::string& name) const = 0;
 
     // Get data by field index
-    virtual AFINode* GetNode(const uint32_t index) const = 0;
+    virtual bool GetNode(const uint32_t index, AFIData& data) const = 0;
     virtual bool GetBool(const uint32_t index) const = 0;
     virtual int32_t GetInt32(const uint32_t index) const = 0;
     virtual uint32_t GetUInt32(const uint32_t index) const = 0;
@@ -123,8 +120,6 @@ public:
 
     virtual ARK_SHARE_PTR<AFIContainer> FindContainer(const std::string& name) = 0;
     virtual ARK_SHARE_PTR<AFIContainer> FindContainer(const uint32_t index) = 0;
-
-    virtual ARK_SHARE_PTR<AFIEventManager> GetEventManager() const = 0;
 
     // custom data
     virtual bool AddCustomBool(const std::string& name, bool value) = 0;
@@ -159,15 +154,6 @@ public:
 
     virtual bool FindCustomData(const std::string& name) const = 0;
     virtual bool RemoveCustomData(const std::string& name) = 0;
-
-    virtual AFINode* FirstNode() = 0;
-    virtual AFINode* NextNode() = 0;
-
-    virtual AFITable* FirstTable() = 0;
-    virtual AFITable* NextTable() = 0;
-
-    virtual ARK_SHARE_PTR<AFIContainer> FirstContainer() = 0;
-    virtual ARK_SHARE_PTR<AFIContainer> NextContainer() = 0;
 
     virtual bool IsSent() const = 0;
     virtual void UpdateSent() = 0;

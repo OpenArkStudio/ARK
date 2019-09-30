@@ -25,7 +25,6 @@ namespace ark {
 bool AFCAccountModule::Init()
 {
     m_pKernelModule = FindModule<AFIKernelModule>();
-    m_pElementInfoModule = FindModule<AFIConfigModule>();
     m_pUUIDModule = FindModule<AFIGUIDModule>();
     return true;
 }

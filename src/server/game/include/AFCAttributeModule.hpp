@@ -22,8 +22,6 @@
 
 #include "base/AFPluginManager.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
-#include "kernel/interface/AFIConfigModule.hpp"
-#include "kernel/interface/AFIClassMetaModule.hpp"
 #include "game/interface/AFIPropertyConfigModule.hpp"
 #include "game/interface/AFIAttributeModule.hpp"
 #include "game/interface/AFILevelModule.hpp"
@@ -81,8 +79,6 @@ protected:
 private:
     AFIKernelModule* m_pKernelModule;
     AFIPropertyConfigModule* m_pPropertyConfigModule;
-    AFIConfigModule* m_pConfigModule;
-    AFIClassMetaModule* m_pClassModule;
     AFILevelModule* m_pLevelModule;
     std::map<std::string, int> name2col_;
     std::vector<std::string> col2names_;

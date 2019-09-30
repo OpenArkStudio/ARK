@@ -522,7 +522,7 @@ int AFCWorldNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFID
 
     ArkMaskType mask;
     mask[(size_t)ArkNodeMask::PF_PUBLIC] = 1;
-    AFIMsgModule::NodeToPBDataByMask(pEntity, mask, entity->mutable_data());
+    m_pKernelModule->NodeToPBDataByMask(pEntity, mask, entity->mutable_data());
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
@@ -560,7 +560,7 @@ int AFCWorldNetModule::OnSelfDataNodeEnter(const AFGUID& self, const AFIDataList
 
     ArkMaskType mask;
     mask[(size_t)ArkNodeMask::PF_PRIVATE] = 1;
-    AFIMsgModule::NodeToPBDataByMask(pEntity, mask, entity->mutable_data());
+    m_pKernelModule->NodeToPBDataByMask(pEntity, mask, entity->mutable_data());
 
     SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, msg, self);
     return 0;
@@ -585,7 +585,7 @@ int AFCWorldNetModule::OnSelfDataTableEnter(const AFGUID& self, const AFIDataLis
 
     ArkMaskType mask;
     mask[(size_t)ArkTableNodeMask::PF_PRIVATE] = 1;
-    AFIMsgModule::TableToPBDataByMask(pEntity, mask, entity->mutable_data());
+    m_pKernelModule->TableToPBDataByMask(pEntity, mask, entity->mutable_data());
 
 	const int64_t nGameID = argGameID.Int(0);
     SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, msg, self);
@@ -612,7 +612,7 @@ int AFCWorldNetModule::OnViewDataTableEnter(const AFIDataList& argVar, const AFI
 
     ArkMaskType mask;
     mask[(size_t)ArkTableNodeMask::PF_PUBLIC] = 1;
-    AFIMsgModule::TableToPBDataByMask(pEntity, mask, entity->mutable_data());
+    m_pKernelModule->TableToPBDataByMask(pEntity, mask, entity->mutable_data());
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {

@@ -32,6 +32,8 @@ namespace ark {
 class AFCRow final : public AFIRow
 {
 private:
+    friend class AFCKernelModule;
+
     // row
     uint32_t row_{0u};
 
@@ -98,11 +100,10 @@ public:
     bool SetWString(const std::string& name, const std::wstring& value) override;
     bool SetGUID(const std::string& name, const AFGUID& value) override;
 
-    AFINode* First() override;
-    AFINode* Next() override;
-
 private:
     void InitData(const AFIDataList& args);
+
+    ARK_SHARE_PTR<AFNodeManager> GetNodeManager() const;
 
     int OnDataCallBack(const std::string& name, const uint32_t index, const AFIData& old_data, const AFIData& new_data);
 };

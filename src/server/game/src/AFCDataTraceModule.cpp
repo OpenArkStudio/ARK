@@ -28,8 +28,6 @@ namespace ark {
 bool AFCDataTraceModule::Init()
 {
     m_pKernelModule = FindModule<AFIKernelModule>();
-    m_pConfigModule = FindModule<AFIConfigModule>();
-    m_pClassModule = FindModule<AFIClassMetaModule>();
     m_pLogModule = FindModule<AFILogModule>();
 
     return true;
@@ -47,30 +45,7 @@ void AFCDataTraceModule::EndTracing(const AFGUID self)
 
 int AFCDataTraceModule::LogObjectData(const AFGUID& self)
 {
-    auto entity = m_pKernelModule->GetEntity(self);
-
-    if (entity == nullptr)
-    {
-        return -1;
-    }
-
-    for (auto pData = entity->FirstNode(); pData != nullptr; pData = entity->NextNode())
-    {
-        ARK_LOG_TRACE("Player[{}] Node[{}] Value[{}]", self, pData->GetName(), pData->ToString());
-    }
-
-    for (auto pTable = entity->FirstTable(); pTable != nullptr; pTable = entity->NextTable())
-    {
-		for (auto pRow = pTable->First(); pRow != nullptr; pRow = pTable->Next())
-		{
-			for (auto pNode = pRow->First(); pNode != nullptr; pNode = pRow->Next())
-			{
-                ARK_LOG_TRACE("Player[{}] Table[{}] Row[{}] Col[{}] Value[{}]", self, pTable->GetName(), pRow->GetRow(), pNode->GetName(), pNode->ToString());
-			}
-		}
-    }
-
-    return 0;
+    return m_pKernelModule->LogObjectData(self);
 }
 
 int AFCDataTraceModule::OnEntityNodeEvent(

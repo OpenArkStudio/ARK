@@ -62,6 +62,25 @@ AFINode* AFNodeManager::CreateData(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
     return pData;
 }
 
+// this is only called when create new entity so do no need check whether node exist
+bool AFNodeManager::CreateData(AFINode* pData)
+{
+    ARK_ASSERT_RET_VAL(pData != nullptr, nullptr);
+
+    auto pNewData = CreateDataByMeta(pData->GetMeta());
+    ARK_ASSERT_RET_VAL(pNewData != nullptr, nullptr);
+
+    pNewData->CopyFrom(pData);
+
+    if (!data_list_.insert(pNewData->GetIndex(), pNewData).second)
+    {
+        ARK_DELETE(pNewData);
+        return nullptr;
+    }
+
+    return true;
+}
+
 // get node
 AFINode* AFNodeManager::GetNode(const std::string& name) const
 {
@@ -532,24 +551,6 @@ bool AFNodeManager::SetGUID(const uint32_t index, const AFGUID& value)
 const AFNodeManager::DataList& AFNodeManager::GetDataList() const
 {
     return data_list_;
-}
-
-AFINode* AFNodeManager::First()
-{
-    iter_data_ = data_list_.begin();
-    ARK_ASSERT_RET_VAL(iter_data_ != data_list_.end(), nullptr);
-
-    return iter_data_->second;
-}
-
-AFINode* AFNodeManager::Next()
-{
-    ARK_ASSERT_RET_VAL(iter_data_ != data_list_.end(), nullptr);
-
-    iter_data_++;
-    ARK_ASSERT_RET_VAL(iter_data_ != data_list_.end(), nullptr);
-
-    return iter_data_->second;
 }
 
 uint32_t AFNodeManager::GetIndex(const std::string& name) const

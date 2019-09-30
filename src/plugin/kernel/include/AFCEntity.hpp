@@ -28,12 +28,15 @@
 #include "kernel/interface/AFIContainerManager.hpp"
 #include "AFNodeManager.hpp"
 #include "AFTableManager.hpp"
+#include "kernel/interface/AFIEventManager.hpp"
 
 namespace ark {
 
 class AFCEntity final : public AFIEntity
 {
 private:
+    friend class AFCKernelModule;
+
     // object unique id
     AFGUID guid_{NULL_GUID};
 
@@ -110,8 +113,6 @@ public:
     bool SetMapID(const int32_t value) override;
     bool SetMapEntityID(const int32_t value) override;
 
-    bool InitData(ARK_SHARE_PTR<AFIStaticEntity> pStaticObject) override;
-
     // set data
     bool SetBool(const std::string& name, bool value) override;
     bool SetInt32(const std::string& name, const int32_t value) override;
@@ -136,7 +137,7 @@ public:
     bool SetGUID(const uint32_t index, const AFGUID& value) override;
 
     // get data
-    AFINode* GetNode(const std::string& name) const override;
+    bool GetNode(const std::string& name, AFIData& data) const override;
     bool GetBool(const std::string& name) const override;
     int32_t GetInt32(const std::string& name) const override;
     uint32_t GetUInt32(const std::string& name) const override;
@@ -148,7 +149,7 @@ public:
     const std::wstring& GetWString(const std::string& name) const override;
     const AFGUID& GetGUID(const std::string& name) const override;
 
-    AFINode* GetNode(const uint32_t index) const override;
+    bool GetNode(const uint32_t index, AFIData& data) const override;
     bool GetBool(const uint32_t index) const override;
     int32_t GetInt32(const uint32_t index) const override;
     uint32_t GetUInt32(const uint32_t index) const override;
@@ -167,8 +168,6 @@ public:
     // table data
     AFITable* FindTable(const std::string& name) override;
     AFITable* FindTable(const uint32_t index) override;
-
-    ARK_SHARE_PTR<AFIEventManager> GetEventManager() const override;
 
     // custom data
     bool AddCustomBool(const std::string& name, bool value) override;
@@ -204,21 +203,17 @@ public:
     bool FindCustomData(const std::string& name) const override;
     bool RemoveCustomData(const std::string& name) override;
 
-    AFINode* FirstNode() override;
-    AFINode* NextNode() override;
-
-    AFITable* FirstTable() override;
-    AFITable* NextTable() override;
-
-    ARK_SHARE_PTR<AFIContainer> FirstContainer() override;
-    ARK_SHARE_PTR<AFIContainer> NextContainer() override;
-
     bool IsSent() const override;
     void UpdateSent() override;
 
 private:
-    // create data new and copy data arg
-    bool CopyData(AFINode* pData);
+    ARK_SHARE_PTR<AFNodeManager> GetNodeManager() const;
+
+    ARK_SHARE_PTR<AFTableManager> GetTableManager() const;
+
+    ARK_SHARE_PTR<AFIContainerManager> GetContainerManager() const;
+
+    ARK_SHARE_PTR<AFIEventManager> GetEventManager() const;
 
     int OnDataCallBack(const std::string& name, const uint32_t index, const AFIData& old_data, const AFIData& new_data);
 };

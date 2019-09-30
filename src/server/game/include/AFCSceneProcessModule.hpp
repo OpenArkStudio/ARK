@@ -23,8 +23,6 @@
 #include "base/AFList.hpp"
 #include "base/AFPluginManager.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
-#include "kernel/interface/AFIConfigModule.hpp"
-#include "kernel/interface/AFIClassMetaModule.hpp"
 #include "kernel/interface/AFIMapModule.hpp"
 #include "log/interface/AFILogModule.hpp"
 #include "utility/interface/AFIGUIDModule.hpp"
@@ -59,8 +57,6 @@ protected:
     void OnClientSwapMapProcess(const AFNetMsg* msg);
 
 private:
-    AFIConfigModule* m_pConfigModule;
-    AFIClassMetaModule* m_pClassModule;
     AFIKernelModule* m_pKernelModule;
     AFIMapModule* m_pMapModule;
     AFILogModule* m_pLogModule;

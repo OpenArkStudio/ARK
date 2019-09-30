@@ -21,6 +21,8 @@
 #include "kernel/include/AFCNode.hpp"
 #include "kernel/include/AFCMapModule.hpp"
 #include "kernel/include/AFCDataList.hpp"
+#include "kernel/include/AFCData.hpp"
+#include "kernel/include/AFCEntity.hpp"
 
 namespace ark {
 
@@ -342,11 +344,16 @@ int AFCMapModule::GetEntityByDataNode(
             continue;
         }
 
-        auto pNode = pEntity->GetNode(name);
-        //if (pNode != nullptr && value_args.Equal(0, pNode->value))
-        //{
-        //    list.AddInt64(ident);
-        //}
+        AFCData data;
+        if (!pEntity->GetNode(name, data))
+        {
+            continue;
+        }
+
+        if (value_args.Equal(0, data))
+        {
+            list.AddInt64(ident);
+        }
     }
 
     return list.GetCount();

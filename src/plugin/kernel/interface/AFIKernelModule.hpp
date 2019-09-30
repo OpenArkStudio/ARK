@@ -31,39 +31,46 @@ class AFIKernelModule : public AFIModule
 {
 public:
     template<typename BaseType>
-    bool AddCommonClassEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
+    bool AddCommonClassEvent(BaseType* pBase,
+        int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
     {
-        auto functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+        auto functor = std::bind(
+            handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         return AddCommonClassEvent(std::move(functor));
     }
 
     template<typename BaseType>
-    bool AddCommonNodeEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const uint32_t index, const AFIData&, const AFIData&))
+    bool AddCommonNodeEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&,
+                                                 const uint32_t index, const AFIData&, const AFIData&))
     {
-        auto functor =
-            std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
+        auto functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+            std::placeholders::_4, std::placeholders::_5);
         return AddCommonNodeEvent(std::move(functor));
     }
 
     template<typename BaseType>
-    bool AddCommonTableEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
+    bool AddCommonTableEvent(BaseType* pBase,
+        int (BaseType::*handler)(const AFGUID&, const TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
     {
-        auto functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+        auto functor = std::bind(
+            handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         return AddCommonTableEvent(std::move(functor));
     }
     /////////////////////////////////////////////////////////////////
     template<typename BaseType>
-    bool AddEventCallBack(const AFGUID& self, const int nEventID, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const int, const AFIDataList&))
+    bool AddEventCallBack(const AFGUID& self, const int nEventID, BaseType* pBase,
+        int (BaseType::*handler)(const AFGUID&, const int, const AFIDataList&))
     {
         auto functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         return AddEventCallBack(self, nEventID, std::move(functor));
     }
 
     template<typename BaseType>
-    bool AddClassCallBack(
-        const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
+    bool AddClassCallBack(const std::string& name, BaseType* pBase,
+        int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
     {
-        auto functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+        auto functor = std::bind(
+            handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         return AddClassCallBack(name, std::move(functor));
     }
 
@@ -72,16 +79,17 @@ public:
         int (BaseType::*handler)(const AFGUID&, const std::string&, const uint32_t, const AFIData&, const AFIData&))
     {
         return AddDataCallBack(class_name, name,
-            std::move(
-                std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5)));
+            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+                std::placeholders::_4, std::placeholders::_5)));
     }
 
     template<typename BaseType>
     bool AddTableCallBack(const std::string& class_name, const std::string& name, BaseType* pBase,
         int (BaseType::*handler)(const AFGUID&, const TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
     {
-        return AddTableCallBack(
-            class_name, name, std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4)));
+        return AddTableCallBack(class_name, name,
+            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+                std::placeholders::_4)));
     }
 
     // call back by index
@@ -90,8 +98,8 @@ public:
         int (BaseType::*handler)(const AFGUID&, const std::string&, const uint32_t, const AFIData&, const AFIData&))
     {
         return AddDataCallBack(class_name, index,
-            std::move(
-                std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5)));
+            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+                std::placeholders::_4, std::placeholders::_5)));
     }
 
     template<typename BaseType>
@@ -99,7 +107,8 @@ public:
         int (BaseType::*handler)(const AFGUID&, const TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
     {
         return AddTableCallBack(class_name, index,
-            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4)));
+            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+                std::placeholders::_4)));
     }
 
     // container call back
@@ -124,12 +133,13 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    virtual bool DoEvent(const AFGUID& self, const std::string& name, ArkEntityEvent eEvent, const AFIDataList& valueList) = 0;
+    virtual bool DoEvent(
+        const AFGUID& self, const std::string& name, ArkEntityEvent eEvent, const AFIDataList& valueList) = 0;
     virtual bool DoEvent(const AFGUID& self, const int nEventID, const AFIDataList& valueList) = 0;
 
     /////////////////////////////////////////////////////////////////
-    virtual ARK_SHARE_PTR<AFIEntity> CreateEntity(
-        const AFGUID& self, const int map_id, const int map_instance_id, const std::string& class_name, const ID_TYPE config_id, const AFIDataList& args) = 0;
+    virtual ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int map_id, const int map_instance_id,
+        const std::string& class_name, const ID_TYPE config_id, const AFIDataList& args) = 0;
 
     virtual ARK_SHARE_PTR<AFIEntity> CreateContainerEntity(
         const AFGUID& self, const uint32_t container_index, const std::string& class_name, const ID_TYPE config_id) = 0;
@@ -151,15 +161,30 @@ public:
 
     virtual bool LogInfo(const AFGUID& ident) = 0;
 
+    virtual int LogObjectData(const AFGUID& guid) = 0;
+
+    // entity to pb
+    virtual bool NodeToPBData(const uint32_t index, const AFIData& data, AFMsg::pb_entity_data* pb_data) = 0;
+    virtual bool RowToPBData(AFIRow* pRow, const uint32_t index, AFMsg::pb_entity_data* pb_data) = 0;
+    virtual bool TableRowDataToPBData(const uint32_t index, uint32_t row, const uint32_t col, const AFIData& data,
+        AFMsg::pb_entity_data* pb_data) = 0;
+    virtual bool NodeToPBDataByMask(
+        ARK_SHARE_PTR<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data) = 0;
+    virtual bool TableToPBDataByMask(
+        ARK_SHARE_PTR<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data) = 0;
+
 protected:
     virtual bool AddEventCallBack(const AFGUID& self, const int nEventID, EVENT_PROCESS_FUNCTOR&& cb) = 0;
     virtual bool AddClassCallBack(const std::string& strClassName, CLASS_EVENT_FUNCTOR&& cb) = 0;
 
-    virtual bool AddDataCallBack(const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb) = 0;
-    virtual bool AddTableCallBack(const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb) = 0;
+    virtual bool AddDataCallBack(
+        const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb) = 0;
+    virtual bool AddTableCallBack(
+        const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb) = 0;
 
     virtual bool AddDataCallBack(const std::string& class_name, const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb) = 0;
-    virtual bool AddTableCallBack(const std::string& class_name, const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb) = 0;
+    virtual bool AddTableCallBack(
+        const std::string& class_name, const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb) = 0;
 
     virtual bool AddContainerCallBack(
         const std::string& class_name, const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb) = 0;

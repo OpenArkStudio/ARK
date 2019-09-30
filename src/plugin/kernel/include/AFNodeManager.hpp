@@ -40,7 +40,6 @@ private:
 
     // data list
     DataList data_list_;
-    DataList::const_iterator iter_data_;
 
 public:
     AFNodeManager() = delete;
@@ -52,6 +51,7 @@ public:
 
     // data operation
     AFINode* CreateData(ARK_SHARE_PTR<AFNodeMeta> pDataMeta);
+    bool CreateData(AFINode* pData);
 
     // get node
     AFINode* GetNode(const std::string& name) const;
@@ -105,9 +105,6 @@ public:
 
     // other query
     const DataList& GetDataList() const;
-
-    AFINode* First();
-    AFINode* Next();
 
 private:
     uint32_t GetIndex(const std::string& name) const;

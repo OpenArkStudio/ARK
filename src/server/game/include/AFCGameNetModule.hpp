@@ -25,7 +25,6 @@
 #include "log/interface/AFILogModule.hpp"
 #include "utility/interface/AFIGUIDModule.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
-#include "kernel/interface/AFIClassMetaModule.hpp"
 #include "kernel/interface/AFIMapModule.hpp"
 #include "bus/interface/AFIBusModule.hpp"
 #include "bus/interface/AFIMsgModule.hpp"
@@ -129,7 +128,6 @@ private:
     //////////////////////////////////////////////////////////////////////////
     AFIGUIDModule* m_pUUIDModule;
     AFIKernelModule* m_pKernelModule;
-    AFIClassMetaModule* m_pClassModule;
     AFILogModule* m_pLogModule;
     AFIBusModule* m_pBusModule;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;

@@ -110,7 +110,6 @@ private:
 
     void OnTableChanged(uint32_t row, ArkTableOpType op_type);
 
-    // ex interface
     int OnRowDataChanged(uint32_t row, const uint32_t index, const AFIData& old_data, const AFIData& new_data);
 
     AFIRow* CreateRow(uint32_t row, const AFIDataList& args);

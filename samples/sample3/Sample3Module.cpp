@@ -45,9 +45,7 @@ bool Sample3Module::PostInit()
     std::cout << GET_CLASS_NAME(Sample3Module) << ", PostInit" << std::endl;
 
     m_pKernelModule = FindModule<AFIKernelModule>();
-    m_pConfigModule = FindModule<AFIConfigModule>();
     m_pLogModule = FindModule<AFILogModule>();
-    m_pClassModule = FindModule<AFIClassMetaModule>();
     m_pMapModule = FindModule<AFIMapModule>();
 
     ARK_LOG_INFO("Init finished...");

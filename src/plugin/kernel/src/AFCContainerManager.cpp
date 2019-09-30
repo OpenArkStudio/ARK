@@ -59,22 +59,9 @@ bool AFCContainerManager::DestroyContainer(const uint32_t index)
     return container_data_.erase(index);
 }
 
-ARK_SHARE_PTR<AFIContainer> AFCContainerManager::First()
+const AFIContainerManager::ContainerList& AFCContainerManager::GetContainerList() const
 {
-    iter_ = container_data_.begin();
-    ARK_ASSERT_RET_VAL(iter_ != container_data_.end(), nullptr);
-
-    return iter_->second;
-}
-
-ARK_SHARE_PTR<AFIContainer> AFCContainerManager::Next()
-{
-    ARK_ASSERT_RET_VAL(iter_ != container_data_.end(), nullptr);
-
-    iter_++;
-    ARK_ASSERT_RET_VAL(iter_ != container_data_.end(), nullptr);
-
-    return iter_->second;
+    return container_data_;
 }
 
 } // namespace ark

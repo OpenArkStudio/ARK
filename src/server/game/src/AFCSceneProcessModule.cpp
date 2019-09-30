@@ -32,8 +32,6 @@ namespace ark {
 bool AFCSceneProcessModule::Init()
 {
     m_pKernelModule = FindModule<AFIKernelModule>();
-    m_pConfigModule = FindModule<AFIConfigModule>();
-    m_pClassModule = FindModule<AFIClassMetaModule>();
     m_pMapModule = FindModule<AFIMapModule>();
     m_pLogModule = FindModule<AFILogModule>();
     m_pGameNetModule = FindModule<AFIGameNetModule>();
@@ -166,7 +164,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
     // get the position.
     AFVector3D xRelivePos;
     //const std::string strSceneID = ARK_LEXICAL_CAST<std::string>(target_map);
-    auto pSceneConfig = m_pConfigModule->FindStaticEntity(target_map);
+    auto pSceneConfig = m_pKernelModule->GetStaticEntity(target_map);
 	if (pSceneConfig == nullptr)
 	{
         return 0;
@@ -264,7 +262,7 @@ int AFCSceneProcessModule::OnObjectClassEvent(
 E_SCENE_TYPE AFCSceneProcessModule::GetMapInstanceType(const int nSceneID)
 {
     //std::string scene_id = ARK_TO_STRING(nSceneID);
-    auto pConfig = m_pConfigModule->FindStaticEntity(nSceneID);
+    auto pConfig = m_pKernelModule->GetStaticEntity(nSceneID);
     if (pConfig != nullptr)
     {
         return (E_SCENE_TYPE)pConfig->GetInt32(AFConfigMetaMap::instance_type());

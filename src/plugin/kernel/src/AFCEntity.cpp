@@ -193,32 +193,6 @@ bool AFCEntity::SetMapEntityID(const int32_t value)
     return true;
 }
 
-bool AFCEntity::InitData(ARK_SHARE_PTR<AFIStaticEntity> pStaticObject)
-{
-    ARK_ASSERT_RET_VAL(class_meta_ != nullptr && m_pNodeManager != nullptr && pStaticObject != nullptr, false);
-
-    // static object should be empty
-    ARK_ASSERT_RET_VAL(m_pNodeManager->IsEmpty(), false);
-
-    // should be a same class
-    ARK_ASSERT_RET_VAL(class_meta_->GetName() == pStaticObject->GetClassName(), false);
-
-    auto pStaticEntity = std::dynamic_pointer_cast<AFCStaticEntity>(pStaticObject);
-    ARK_ASSERT_RET_VAL(pStaticEntity != nullptr, false);
-
-    auto pStaticManager = pStaticEntity->m_pNodeManager;
-    ARK_ASSERT_RET_VAL(pStaticManager != nullptr, false);
-
-    auto& data_list = pStaticManager->GetDataList();
-    for (auto iter : data_list)
-    {
-        auto pData = iter.second;
-        CopyData(pData);
-    }
-
-    return true;
-}
-
 // set data
 bool AFCEntity::SetBool(const std::string& name, bool value)
 {
@@ -360,11 +334,14 @@ bool AFCEntity::SetGUID(const uint32_t index, const AFGUID& value)
     return m_pNodeManager->SetGUID(index, value);
 }
 
-AFINode* AFCEntity::GetNode(const std::string& name) const
+bool AFCEntity::GetNode(const std::string& name, AFIData& data) const
 {
-    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, nullptr);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    return m_pNodeManager->GetNode(name);
+    auto pNode = m_pNodeManager->GetNode(name);
+    ARK_ASSERT_RET_VAL(pNode != nullptr, false);
+
+    return data.From(pNode);
 }
 
 // get data
@@ -438,11 +415,14 @@ const AFGUID& AFCEntity::GetGUID(const std::string& name) const
     return m_pNodeManager->GetGUID(name);
 }
 
-AFINode* AFCEntity::GetNode(const uint32_t index) const
+bool AFCEntity::GetNode(const uint32_t index, AFIData& data) const
 {
-    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, nullptr);
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
-    return m_pNodeManager->GetNode(index);
+    auto pNode = m_pNodeManager->GetNode(index);
+    ARK_ASSERT_RET_VAL(pNode != nullptr, false);
+
+    return data.From(pNode);
 }
 
 bool AFCEntity::GetBool(const uint32_t index) const
@@ -567,18 +547,19 @@ ARK_SHARE_PTR<AFIEventManager> AFCEntity::GetEventManager() const
     return m_pEventManager;
 }
 
-// create data new and copy data arg
-bool AFCEntity::CopyData(AFINode* pData)
+ARK_SHARE_PTR<AFNodeManager> AFCEntity::GetNodeManager() const
 {
-    ARK_ASSERT_RET_VAL(pData != nullptr, false);
+    return m_pNodeManager;
+}
 
-    // do not need check
-    auto pNewData = m_pNodeManager->CreateData(pData->GetMeta());
-    ARK_ASSERT_RET_VAL(pNewData != nullptr, false);
+ARK_SHARE_PTR<AFTableManager> AFCEntity::GetTableManager() const
+{
+    return m_pTableManager;
+}
 
-    pNewData->CopyFrom(pData);
-
-    return true;
+ARK_SHARE_PTR<AFIContainerManager> AFCEntity::GetContainerManager() const
+{
+    return m_pContainerManager;
 }
 
 int AFCEntity::OnDataCallBack(
@@ -830,48 +811,6 @@ bool AFCEntity::FindCustomData(const std::string& name) const
 bool AFCEntity::RemoveCustomData(const std::string& name)
 {
     return custom_data_list_.erase(name);
-}
-
-AFINode* AFCEntity::FirstNode()
-{
-    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, nullptr);
-
-    return m_pNodeManager->First();
-}
-
-AFINode* AFCEntity::NextNode()
-{
-    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, nullptr);
-
-    return m_pNodeManager->Next();
-}
-
-AFITable* AFCEntity::FirstTable()
-{
-    ARK_ASSERT_RET_VAL(m_pTableManager != nullptr, nullptr);
-
-    return m_pTableManager->First();
-}
-
-AFITable* AFCEntity::NextTable()
-{
-    ARK_ASSERT_RET_VAL(m_pTableManager != nullptr, nullptr);
-
-    return m_pTableManager->Next();
-}
-
-ARK_SHARE_PTR<AFIContainer> AFCEntity::FirstContainer()
-{
-    ARK_ASSERT_RET_VAL(m_pContainerManager != nullptr, nullptr);
-
-    return m_pContainerManager->First();
-}
-
-ARK_SHARE_PTR<AFIContainer> AFCEntity::NextContainer()
-{
-    ARK_ASSERT_RET_VAL(m_pContainerManager != nullptr, nullptr);
-
-    return m_pContainerManager->Next();
 }
 
 bool AFCEntity::IsSent() const

@@ -367,6 +367,8 @@ void AFCContainer::OnContainerDestroy(const uint32_t index, ARK_SHARE_PTR<AFIEnt
 
 const std::string& AFCContainer::GetName() const
 {
+    ARK_ASSERT_RET_VAL(container_meta_ != nullptr, NULL_STR);
+
     return container_meta_->GetName();
 }
 

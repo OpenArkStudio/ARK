@@ -24,7 +24,6 @@
 #include "proto/AFProtoCPP.hpp"
 #include "interface/AFIModule.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
-#include "kernel/interface/AFIConfigModule.hpp"
 #include "utility/interface/AFIGUIDModule.hpp"
 #include "game/interface/AFIAccountModule.hpp"
 
@@ -54,7 +53,6 @@ protected:
 
 private:
     AFIKernelModule* m_pKernelModule;
-    AFIConfigModule* m_pElementInfoModule;
     AFIGUIDModule* m_pUUIDModule;
 };
 

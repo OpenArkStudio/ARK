@@ -23,7 +23,6 @@
 #include "base/AFMap.hpp"
 #include "kernel/interface/AFIStaticEntity.hpp"
 #include "kernel/interface/AFITable.hpp"
-#include "AFCEntity.hpp"
 
 namespace ark {
 
@@ -33,7 +32,7 @@ public:
     using TableList = AFMap<uint32_t, AFITable>;
 
 private:
-    friend class AFCEntity;
+    friend class AFCKernelModule;
 
     // config id
     ID_TYPE config_id_{0};
@@ -72,6 +71,9 @@ public:
     double GetDouble(const uint32_t index) const override;
     const std::string& GetString(const uint32_t index) const override;
     const std::wstring& GetWString(const uint32_t index) const override;
+
+private:
+    ARK_SHARE_PTR<AFNodeManager> GetNodeManager() const;
 };
 
 } // namespace ark

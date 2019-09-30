@@ -27,7 +27,6 @@ namespace ark {
 bool AFCGameNetModule::Init()
 {
     m_pKernelModule = FindModule<AFIKernelModule>();
-    m_pClassModule = FindModule<AFIClassMetaModule>();
     m_pLogModule = FindModule<AFILogModule>();
     m_pUUIDModule = FindModule<AFIGUIDModule>();
     m_pBusModule = FindModule<AFIBusModule>();
@@ -236,7 +235,7 @@ int AFCGameNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFGUI
 
     ArkMaskType mask;
     mask[(size_t)ArkNodeMask::PF_PUBLIC] = 1;
-    AFIMsgModule::NodeToPBDataByMask(pEntity, mask, entity->mutable_data());
+    m_pKernelModule->NodeToPBDataByMask(pEntity, mask, entity->mutable_data());
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
@@ -270,7 +269,7 @@ int AFCGameNetModule::OnSelfDataNodeEnter(const AFGUID& self)
 
     ArkMaskType mask;
     mask[(size_t)ArkNodeMask::PF_PRIVATE] = 1;
-    AFIMsgModule::NodeToPBDataByMask(pEntity, mask, entity->mutable_data());
+    m_pKernelModule->NodeToPBDataByMask(pEntity, mask, entity->mutable_data());
 
     SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, msg, self);
     return 0;
@@ -296,7 +295,7 @@ int AFCGameNetModule::OnSelfDataTableEnter(const AFGUID& self)
 
     ArkMaskType mask;
     mask[(size_t)ArkTableNodeMask::PF_PRIVATE] = 1;
-    AFIMsgModule::TableToPBDataByMask(pEntity, mask, entity->mutable_data());
+    m_pKernelModule->TableToPBDataByMask(pEntity, mask, entity->mutable_data());
 
     SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, msg, self);
     return 0;
@@ -322,7 +321,7 @@ int AFCGameNetModule::OnViewDataTableEnter(const AFIDataList& argVar, const AFGU
 
     ArkMaskType mask;
     mask[(size_t)ArkTableNodeMask::PF_PUBLIC] = 1;
-    AFIMsgModule::TableToPBDataByMask(pEntity, mask, entity->mutable_data());
+    m_pKernelModule->TableToPBDataByMask(pEntity, mask, entity->mutable_data());
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
@@ -583,7 +582,7 @@ int AFCGameNetModule::OnCommonDataNodeEvent(
 
     AFMsg::pb_entity entity;
     entity.set_id(self);
-    AFIMsgModule::NodeToPBData(index, oldVar, entity.mutable_data());
+    m_pKernelModule->NodeToPBData(index, oldVar, entity.mutable_data());
 
     for (size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
     {
@@ -616,7 +615,7 @@ void AFCGameNetModule::CommonDataTableAddEvent(
     }
 
     AFMsg::pb_entity_data row_data;
-    if (!AFIMsgModule::RowToPBData(pRow, nRow, &row_data))
+    if (!m_pKernelModule->RowToPBData(pRow, nRow, &row_data))
     {
         return;
     }
@@ -675,7 +674,7 @@ void AFCGameNetModule::CommonDataTableUpdateEvent(const AFGUID& self, const uint
 {
     AFMsg::pb_entity_table_update table_update;
     table_update.set_id(self);
-    AFIMsgModule::TableRowDataToPBData(index, nRow, nCol, newVar, table_update.mutable_data());
+    m_pKernelModule->TableRowDataToPBData(index, nRow, nCol, newVar, table_update.mutable_data());
 
     for (size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
     {

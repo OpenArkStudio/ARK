@@ -28,14 +28,15 @@ namespace ark {
 class AFIContainerManager
 {
 public:
+    using ContainerList = AFSmartPtrMap<uint32_t, AFIContainer>;
+
     virtual ~AFIContainerManager() = default;
 
     virtual ARK_SHARE_PTR<AFIContainer> FindContainer(const uint32_t index) const = 0;
     virtual ARK_SHARE_PTR<AFIContainer> CreateContainer(
         ARK_SHARE_PTR<AFClassMeta> pClassMeta, const uint32_t index, const AFGUID& parent_id) = 0;
     virtual bool DestroyContainer(const uint32_t index) = 0;
-    virtual ARK_SHARE_PTR<AFIContainer> First() = 0;
-    virtual ARK_SHARE_PTR<AFIContainer> Next() = 0;
+    virtual const ContainerList& GetContainerList() const = 0;
 };
 
 } // namespace ark

@@ -172,4 +172,9 @@ const std::wstring& AFCStaticEntity::GetWString(const uint32_t index) const
     return m_pNodeManager->GetWString(index);
 }
 
+ARK_SHARE_PTR<AFNodeManager> AFCStaticEntity::GetNodeManager() const
+{
+    return m_pNodeManager;
+}
+
 } // namespace ark

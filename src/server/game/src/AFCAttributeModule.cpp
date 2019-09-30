@@ -26,8 +26,6 @@ namespace ark {
 bool AFCAttributeModule::Init()
 {
     m_pKernelModule = FindModule<AFIKernelModule>();
-    m_pConfigModule = FindModule<AFIConfigModule>();
-    m_pClassModule = FindModule<AFIClassMetaModule>();
     m_pPropertyConfigModule = FindModule<AFIPropertyConfigModule>();
     m_pLevelModule = FindModule<AFILevelModule>();
 

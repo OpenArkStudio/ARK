@@ -21,9 +21,8 @@
 #pragma once
 
 #include "base/AFPluginManager.hpp"
-#include "kernel/interface/AFIClassMetaModule.hpp"
-#include "kernel/interface/AFIConfigModule.hpp"
 #include "game/interface/AFIPropertyConfigModule.hpp"
+#include "kernel/interface/AFIKernelModule.hpp"
 
 namespace ark {
 
@@ -45,8 +44,7 @@ private:
     // different job, different PropertyID[Level->EffectData]
     AFSmartPtrMap<int, AFSmartPtrMap<int, std::string>> mhtCoefficienData;
 
-    AFIClassMetaModule* m_pClassModule;
-    AFIConfigModule* m_pConfigModule;
+    AFIKernelModule* m_pKernelModule;
 };
 
 } // namespace ark

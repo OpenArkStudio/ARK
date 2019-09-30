@@ -22,9 +22,7 @@
 
 #include "base/AFPluginManager.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
-#include "kernel/interface/AFIConfigModule.hpp"
 #include "log/interface/AFILogModule.hpp"
-#include "kernel/interface/AFIClassMetaModule.hpp"
 #include "kernel/interface/AFIMapModule.hpp"
 
 namespace ark {
@@ -80,9 +78,7 @@ protected:
 
 protected:
     AFIKernelModule* m_pKernelModule;
-    AFIConfigModule* m_pConfigModule;
     AFILogModule* m_pLogModule;
-    AFIClassMetaModule* m_pClassModule;
     AFIMapModule* m_pMapModule;
 };
 

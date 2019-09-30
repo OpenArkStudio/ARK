@@ -327,20 +327,6 @@ bool AFCRow::SetGUID(const std::string& name, const AFGUID& value)
     return m_pNodeManager->SetGUID(name, value);
 }
 
-AFINode* AFCRow::First()
-{
-    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, nullptr);
-
-    return m_pNodeManager->First();
-}
-
-AFINode* AFCRow::Next()
-{
-    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, nullptr);
-
-    return m_pNodeManager->Next();
-}
-
 void AFCRow::InitData(const AFIDataList& args)
 {
     size_t count = args.GetCount();
@@ -380,6 +366,11 @@ void AFCRow::InitData(const AFIDataList& args)
                 break;
         }
     }
+}
+
+ARK_SHARE_PTR<AFNodeManager> AFCRow::GetNodeManager() const
+{
+    return m_pNodeManager;
 }
 
 int AFCRow::OnDataCallBack(

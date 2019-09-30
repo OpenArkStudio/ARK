@@ -78,9 +78,6 @@ public:
     virtual bool SetString(const std::string& name, const std::string& value) = 0;
     virtual bool SetWString(const std::string& name, const std::wstring& value) = 0;
     virtual bool SetGUID(const std::string& name, const AFGUID& value) = 0;
-
-    virtual AFINode* First() = 0;
-    virtual AFINode* Next() = 0;
 };
 
 class AFITable

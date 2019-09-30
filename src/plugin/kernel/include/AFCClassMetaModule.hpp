@@ -29,7 +29,7 @@
 
 namespace ark {
 
-class AFCClassMetaModule : public AFIClassMetaModule
+class AFCClassMetaModule final : public AFIClassMetaModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

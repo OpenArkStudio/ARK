@@ -37,7 +37,6 @@ private:
 
     // table list
     TableList table_list_;
-    TableList::const_iterator iter_table_;
 
 public:
     AFTableManager() = delete;
@@ -75,22 +74,9 @@ public:
         return table_list_.find_value(index);
     }
 
-    AFITable* First()
+    const TableList& GetTableList() const
     {
-        iter_table_ = table_list_.begin();
-        ARK_ASSERT_RET_VAL(iter_table_ != table_list_.end(), nullptr);
-
-        return iter_table_->second;
-    }
-
-    AFITable* Next()
-    {
-        ARK_ASSERT_RET_VAL(iter_table_ != table_list_.end(), nullptr);
-
-        iter_table_++;
-        ARK_ASSERT_RET_VAL(iter_table_ != table_list_.end(), nullptr);
-
-        return iter_table_->second;
+        return table_list_;
     }
 };
 

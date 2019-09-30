@@ -23,7 +23,6 @@
 #include "base/AFPluginManager.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
 #include "log/interface/AFILogModule.hpp"
-#include "kernel/interface/AFIConfigModule.hpp"
 #include "game/interface/AFILevelModule.hpp"
 #include "game/interface/AFIPropertyConfigModule.hpp"
 
@@ -41,7 +40,6 @@ private:
     AFIPropertyConfigModule* m_pPropertyConfigModule;
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
-    AFIConfigModule* m_pConfigModule;
 };
 
 } // namespace ark

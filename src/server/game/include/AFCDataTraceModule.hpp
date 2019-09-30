@@ -23,8 +23,6 @@
 #include "base/AFPluginManager.hpp"
 #include "log/interface/AFILogModule.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
-#include "kernel/interface/AFIConfigModule.hpp"
-#include "kernel/interface/AFIClassMetaModule.hpp"
 #include "game/interface/AFIAttributeModule.hpp"
 #include "game/interface/AFIPropertyConfigModule.hpp"
 #include "game/interface/AFIDataTraceModule.hpp"
@@ -52,8 +50,6 @@ protected:
 
 private:
     AFIKernelModule* m_pKernelModule;
-    AFIConfigModule* m_pConfigModule;
-    AFIClassMetaModule* m_pClassModule;
     AFILogModule* m_pLogModule;
 };
 

@@ -19,7 +19,6 @@
  */
 
 #include "kernel/include/AFCEntity.hpp"
-#include "kernel/interface/AFIClassMetaModule.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
 #include "Sample2Module.h"
 #include "kernel/include/AFCDataList.hpp"
@@ -43,7 +42,6 @@ int Sample2Module::OnDataNodeCB(
 bool Sample2Module::PostInit()
 {
     AFIKernelModule* pKernelModule = FindModule<AFIKernelModule>();
-    AFIClassMetaModule* pClassModule = FindModule<AFIClassMetaModule>();
 
     AFCDataList xData;
     xData.AddInt(111);
