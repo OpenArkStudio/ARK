@@ -65,17 +65,17 @@ AFINode* AFNodeManager::CreateData(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
 // this is only called when create new entity so do no need check whether node exist
 bool AFNodeManager::CreateData(AFINode* pData)
 {
-    ARK_ASSERT_RET_VAL(pData != nullptr, nullptr);
+    ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     auto pNewData = CreateDataByMeta(pData->GetMeta());
-    ARK_ASSERT_RET_VAL(pNewData != nullptr, nullptr);
+    ARK_ASSERT_RET_VAL(pNewData != nullptr, false);
 
     pNewData->CopyFrom(pData);
 
     if (!data_list_.insert(pNewData->GetIndex(), pNewData).second)
     {
         ARK_DELETE(pNewData);
-        return nullptr;
+        return false;
     }
 
     return true;
