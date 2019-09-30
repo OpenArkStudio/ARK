@@ -28,14 +28,6 @@ AFClassMeta::AFClassMeta(const std::string& name)
     class_meta_call_back_ = std::make_shared<AFClassCallBackManager>();
 }
 
-AFClassMeta::~AFClassMeta()
-{
-    container_meta_list_.clear();
-    data_meta_list_.clear();
-    table_meta_list_.clear();
-    name_index_list_.clear();
-}
-
 size_t AFClassMeta::GetNodeCount() const
 {
     return data_meta_list_.size();
@@ -68,12 +60,12 @@ ARK_SHARE_PTR<AFNodeMeta> AFClassMeta::CreateDataMeta(const std::string& name, c
 
     // create new data meta
     ARK_SHARE_PTR<AFNodeMeta> pMeta = std::make_shared<AFNodeMeta>(name, index);
-    data_meta_list_.insert(index, pMeta);
+    ARK_ASSERT_RET_VAL(data_meta_list_.insert(index, pMeta).second, nullptr);
 
     return pMeta;
 }
 
-ARK_SHARE_PTR<AFNodeMeta> AFClassMeta::FindDataMeta(const uint32_t index)
+ARK_SHARE_PTR<AFNodeMeta> AFClassMeta::FindDataMeta(const uint32_t index) const
 {
     return data_meta_list_.find_value(index);
 }
@@ -89,12 +81,12 @@ ARK_SHARE_PTR<AFTableMeta> AFClassMeta::CreateTableMeta(const std::string& name,
     ARK_ASSERT_RET_VAL(NameIndexInsert(name, index), nullptr);
 
     ARK_SHARE_PTR<AFTableMeta> pMeta = std::make_shared<AFTableMeta>(name, index);
-    table_meta_list_.insert(index, pMeta);
+    ARK_ASSERT_RET_VAL(table_meta_list_.insert(index, pMeta).second, nullptr);
 
     return pMeta;
 }
 
-ARK_SHARE_PTR<AFTableMeta> AFClassMeta::FindTableMeta(const uint32_t index)
+ARK_SHARE_PTR<AFTableMeta> AFClassMeta::FindTableMeta(const uint32_t index) const
 {
     return table_meta_list_.find_value(index);
 }
@@ -111,12 +103,12 @@ ARK_SHARE_PTR<AFContainerMeta> AFClassMeta::CreateContainerMeta(
     ARK_ASSERT_RET_VAL(NameIndexInsert(name, index), nullptr);
 
     ARK_SHARE_PTR<AFContainerMeta> pMeta = std::make_shared<AFContainerMeta>(name, index, class_name);
-    container_meta_list_.insert(index, pMeta);
+    ARK_ASSERT_RET_VAL(container_meta_list_.insert(index, pMeta).second, nullptr);
 
     return pMeta;
 }
 
-ARK_SHARE_PTR<AFContainerMeta> AFClassMeta::FindContainerMeta(const uint32_t index)
+ARK_SHARE_PTR<AFContainerMeta> AFClassMeta::FindContainerMeta(const uint32_t index) const
 {
     return container_meta_list_.find_value(index);
 }
@@ -141,7 +133,7 @@ ARK_SHARE_PTR<AFClassCallBackManager> AFClassMeta::GetClassCallBackManager() con
     return class_meta_call_back_;
 }
 
-uint32_t AFClassMeta::GetIndex(const std::string& name)
+uint32_t AFClassMeta::GetIndex(const std::string& name) const
 {
     auto iter = name_index_list_.find(name);
     if (iter == name_index_list_.end())

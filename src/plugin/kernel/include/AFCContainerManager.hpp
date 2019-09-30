@@ -27,12 +27,17 @@ namespace ark {
 
 class AFCContainerManager final : public AFIContainerManager
 {
+private:
+    // container
+    using ContainerList = AFSmartPtrMap<uint32_t, AFIContainer>;
+    ContainerList container_data_;
+    ContainerList::const_iterator iter_;
+
 public:
     explicit AFCContainerManager() = default;
-    ~AFCContainerManager() override;
 
     // find container
-    ARK_SHARE_PTR<AFIContainer> FindContainer(const uint32_t index) override;
+    ARK_SHARE_PTR<AFIContainer> FindContainer(const uint32_t index) const override;
 
     ARK_SHARE_PTR<AFIContainer> CreateContainer(
         ARK_SHARE_PTR<AFClassMeta> pClassMeta, const uint32_t index, const AFGUID& parent_id) override;
@@ -41,12 +46,6 @@ public:
 
     ARK_SHARE_PTR<AFIContainer> First() override;
     ARK_SHARE_PTR<AFIContainer> Next() override;
-
-private:
-    // container
-    using ContainerList = AFSmartPtrMap<uint32_t, AFIContainer>;
-    ContainerList container_data_;
-    ContainerList::const_iterator iter_;
 };
 
 } // namespace ark

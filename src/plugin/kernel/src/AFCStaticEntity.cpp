@@ -25,25 +25,20 @@
 
 namespace ark {
 
-AFCStaticEntity::AFCStaticEntity(ARK_SHARE_PTR<AFNodeManager> pNodeComponent, const ID_TYPE config_id)
+AFCStaticEntity::AFCStaticEntity(
+    ARK_SHARE_PTR<AFClassMeta> pClassMeta, ARK_SHARE_PTR<AFNodeManager> pNodeManager, const ID_TYPE config_id)
     : config_id_(config_id)
 {
-    m_pNodeManager = pNodeComponent;
-}
-
-uint32_t AFCStaticEntity::GetIndex(const std::string& name)
-{
-    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
-
-    return m_pNodeManager->GetIndex(name);
+    class_meta_ = pClassMeta;
+    m_pNodeManager = pNodeManager;
 }
 
 // query data
 const std::string& AFCStaticEntity::GetClassName() const
 {
-    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_STR);
+    ARK_ASSERT_RET_VAL(class_meta_ != nullptr, NULL_STR);
 
-    return m_pNodeManager->GetClassName();
+    return class_meta_->GetName();
 }
 
 ID_TYPE AFCStaticEntity::GetConfigID() const
@@ -51,112 +46,126 @@ ID_TYPE AFCStaticEntity::GetConfigID() const
     return config_id_;
 }
 
-bool AFCStaticEntity::GetBool(const std::string& name)
+bool AFCStaticEntity::GetBool(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_BOOLEAN);
 
     return m_pNodeManager->GetBool(name);
 }
 
-int32_t AFCStaticEntity::GetInt32(const std::string& name)
+int32_t AFCStaticEntity::GetInt32(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
     return m_pNodeManager->GetInt32(name);
 }
 
-uint32_t AFCStaticEntity::GetUInt32(const std::string& name)
+uint32_t AFCStaticEntity::GetUInt32(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
     return m_pNodeManager->GetUInt32(name);
 }
 
-int64_t AFCStaticEntity::GetInt64(const std::string& name)
+int64_t AFCStaticEntity::GetInt64(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
 
     return m_pNodeManager->GetInt64(name);
 }
 
-float AFCStaticEntity::GetFloat(const std::string& name)
+int64_t AFCStaticEntity::GetUInt64(const std::string& name) const
+{
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
+
+    return m_pNodeManager->GetUInt64(name);
+}
+
+float AFCStaticEntity::GetFloat(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_FLOAT);
 
     return m_pNodeManager->GetFloat(name);
 }
 
-double AFCStaticEntity::GetDouble(const std::string& name)
+double AFCStaticEntity::GetDouble(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_DOUBLE);
 
     return m_pNodeManager->GetDouble(name);
 }
 
-const std::string& AFCStaticEntity::GetString(const std::string& name)
+const std::string& AFCStaticEntity::GetString(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_STR);
 
     return m_pNodeManager->GetString(name);
 }
 
-const std::wstring& AFCStaticEntity::GetWString(const std::string& name)
+const std::wstring& AFCStaticEntity::GetWString(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_WIDESTR);
 
     return m_pNodeManager->GetWString(name);
 }
 
-bool AFCStaticEntity::GetBool(const uint32_t index)
+bool AFCStaticEntity::GetBool(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_BOOLEAN);
 
     return m_pNodeManager->GetBool(index);
 }
 
-int32_t AFCStaticEntity::GetInt32(const uint32_t index)
+int32_t AFCStaticEntity::GetInt32(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
     return m_pNodeManager->GetInt32(index);
 }
 
-uint32_t AFCStaticEntity::GetUInt32(const uint32_t index)
+uint32_t AFCStaticEntity::GetUInt32(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
     return m_pNodeManager->GetUInt32(index);
 }
 
-int64_t AFCStaticEntity::GetInt64(const uint32_t index)
+int64_t AFCStaticEntity::GetInt64(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
 
     return m_pNodeManager->GetInt64(index);
 }
 
-float AFCStaticEntity::GetFloat(const uint32_t index)
+int64_t AFCStaticEntity::GetUInt64(const uint32_t index) const
+{
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
+
+    return m_pNodeManager->GetUInt64(index);
+}
+
+float AFCStaticEntity::GetFloat(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_FLOAT);
 
     return m_pNodeManager->GetFloat(index);
 }
 
-double AFCStaticEntity::GetDouble(const uint32_t index)
+double AFCStaticEntity::GetDouble(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_DOUBLE);
 
     return m_pNodeManager->GetDouble(index);
 }
 
-const std::string& AFCStaticEntity::GetString(const uint32_t index)
+const std::string& AFCStaticEntity::GetString(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_STR);
 
     return m_pNodeManager->GetString(index);
 }
 
-const std::wstring& AFCStaticEntity::GetWString(const uint32_t index)
+const std::wstring& AFCStaticEntity::GetWString(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_WIDESTR);
 

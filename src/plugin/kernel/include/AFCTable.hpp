@@ -81,29 +81,31 @@ public:
     // table set
     AFIRow* AddRow(uint32_t row = 0u) override;
     AFIRow* AddRow(uint32_t row, const AFIDataList& args) override;
-    AFIRow* FindRow(uint32_t row) override;
+    AFIRow* FindRow(uint32_t row) const override;
 
     bool RemoveRow(uint32_t row) override;
 
     void Clear() override;
 
     // find
-    uint32_t FindInt32(const uint32_t index, const int32_t value) override;
-    uint32_t FindInt64(const uint32_t index, const int64_t value) override;
-    uint32_t FindBool(const uint32_t index, bool value) override;
-    uint32_t FindFloat(const uint32_t index, float value) override;
-    uint32_t FindDouble(const uint32_t index, double value) override;
-    uint32_t FindString(const uint32_t index, const std::string& value) override;
-    uint32_t FindWString(const uint32_t index, const std::wstring& value) override;
-    uint32_t FindGUID(const uint32_t index, const AFGUID& value) override;
+    uint32_t FindInt32(const uint32_t index, const int32_t value) const override;
+    uint32_t FindInt64(const uint32_t index, const int64_t value) const override;
+    uint32_t FindBool(const uint32_t index, bool value) const override;
+    uint32_t FindFloat(const uint32_t index, float value) const override;
+    uint32_t FindDouble(const uint32_t index, double value) const override;
+    uint32_t FindString(const uint32_t index, const std::string& value) const override;
+    uint32_t FindWString(const uint32_t index, const std::wstring& value) const override;
+    uint32_t FindGUID(const uint32_t index, const AFGUID& value) const override;
 
     AFIRow* First() override;
     AFIRow* Next() override;
 
-    uint32_t GetIndex() override;
-    uint32_t GetIndex(const std::string& name) override;
+    uint32_t GetIndex() const override;
+    uint32_t GetIndex(const std::string& name) const override;
 
 private:
+    uint32_t SelectRow() const;
+
     void ReleaseRow(AFIRow* row_data);
 
     void OnTableChanged(uint32_t row, ArkTableOpType op_type);

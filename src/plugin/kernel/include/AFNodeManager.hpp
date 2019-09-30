@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "kernel/include/AFClassMeta.hpp"
 #include "kernel/interface/AFINode.hpp"
+#include "AFClassMeta.hpp"
 
 namespace ark {
 
@@ -29,15 +29,14 @@ class AFNodeManager final
 {
 public:
     using DataList = AFMap<uint32_t, AFINode>;
-    using NODE_COMPONENT_FUNCTOR =
-        std::function<int(const std::string&, const uint32_t, const AFIData&, const AFIData&)>;
+    using NODE_MANAGER_FUNCTOR = std::function<int(const std::string&, const uint32_t, const AFIData&, const AFIData&)>;
 
 private:
     // class meta
     ARK_SHARE_PTR<AFClassMeta> class_meta_{nullptr};
 
     // call back
-    NODE_COMPONENT_FUNCTOR func_;
+    NODE_MANAGER_FUNCTOR func_;
 
     // data list
     DataList data_list_;
@@ -47,42 +46,39 @@ public:
     AFNodeManager() = delete;
 
     explicit AFNodeManager(ARK_SHARE_PTR<AFClassMeta> pClassMeta);
-    explicit AFNodeManager(ARK_SHARE_PTR<AFClassMeta> pClassMeta, NODE_COMPONENT_FUNCTOR&& func);
+    explicit AFNodeManager(ARK_SHARE_PTR<AFClassMeta> pClassMeta, NODE_MANAGER_FUNCTOR&& func);
 
-    uint32_t GetIndex(const std::string& name);
-    const std::string& GetClassName() const;
-    ARK_SHARE_PTR<AFClassMeta> GetClassMeta() const;
     bool IsEmpty() const;
 
     // data operation
     AFINode* CreateData(ARK_SHARE_PTR<AFNodeMeta> pDataMeta);
 
     // get node
-    AFINode* GetNode(const std::string& name);
-    AFINode* GetNode(const uint32_t index);
+    AFINode* GetNode(const std::string& name) const;
+    AFINode* GetNode(const uint32_t index) const;
 
     // query data
-    bool GetBool(const std::string& name);
-    int32_t GetInt32(const std::string& name);
-    uint32_t GetUInt32(const std::string& name);
-    int64_t GetInt64(const std::string& name);
-    uint64_t GetUInt64(const std::string& name);
-    float GetFloat(const std::string& name);
-    double GetDouble(const std::string& name);
-    const std::string& GetString(const std::string& name);
-    const std::wstring& GetWString(const std::string& name);
-    const AFGUID& GetGUID(const std::string& name);
+    bool GetBool(const std::string& name) const;
+    int32_t GetInt32(const std::string& name) const;
+    uint32_t GetUInt32(const std::string& name) const;
+    int64_t GetInt64(const std::string& name) const;
+    uint64_t GetUInt64(const std::string& name) const;
+    float GetFloat(const std::string& name) const;
+    double GetDouble(const std::string& name) const;
+    const std::string& GetString(const std::string& name) const;
+    const std::wstring& GetWString(const std::string& name) const;
+    const AFGUID& GetGUID(const std::string& name) const;
 
-    bool GetBool(const uint32_t index);
-    int32_t GetInt32(const uint32_t index);
-    uint32_t GetUInt32(const uint32_t index);
-    int64_t GetInt64(const uint32_t index);
-    uint64_t GetUInt64(const uint32_t index);
-    float GetFloat(const uint32_t index);
-    double GetDouble(const uint32_t index);
-    const std::string& GetString(const uint32_t index);
-    const std::wstring& GetWString(const uint32_t index);
-    const AFGUID& GetGUID(const uint32_t index);
+    bool GetBool(const uint32_t index) const;
+    int32_t GetInt32(const uint32_t index) const;
+    uint32_t GetUInt32(const uint32_t index) const;
+    int64_t GetInt64(const uint32_t index) const;
+    uint64_t GetUInt64(const uint32_t index) const;
+    float GetFloat(const uint32_t index) const;
+    double GetDouble(const uint32_t index) const;
+    const std::string& GetString(const uint32_t index) const;
+    const std::wstring& GetWString(const uint32_t index) const;
+    const AFGUID& GetGUID(const uint32_t index) const;
 
     // set data
     bool SetBool(const std::string& name, bool value);
@@ -108,13 +104,16 @@ public:
     bool SetGUID(const uint32_t index, const AFGUID& value);
 
     // other query
-    const DataList& GetDataList();
+    const DataList& GetDataList() const;
 
     AFINode* First();
     AFINode* Next();
 
 private:
-    AFINode* FindData(const uint32_t index, bool bCreate = false);
+    uint32_t GetIndex(const std::string& name) const;
+
+    AFINode* FindData(const uint32_t index);
+    AFINode* FindData(const uint32_t index) const;
 };
 
 } // namespace ark

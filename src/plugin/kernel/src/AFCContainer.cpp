@@ -68,12 +68,12 @@ uint32_t AFCContainer::Next()
     return iter_->first;
 }
 
-ARK_SHARE_PTR<AFIEntity> AFCContainer::Find(uint32_t index)
+ARK_SHARE_PTR<AFIEntity> AFCContainer::Find(uint32_t index) const
 {
     return entity_data_list_.find_value(index);
 }
 
-uint32_t AFCContainer::Find(const AFGUID& id)
+uint32_t AFCContainer::Find(const AFGUID& id) const
 {
     for (auto iter : entity_data_list_)
     {
@@ -86,12 +86,12 @@ uint32_t AFCContainer::Find(const AFGUID& id)
     return NULL_INT;
 }
 
-bool AFCContainer::Exist(uint32_t index)
+bool AFCContainer::Exist(uint32_t index) const
 {
     return (entity_data_list_.find(index) != entity_data_list_.end());
 }
 
-bool AFCContainer::Exist(const AFGUID& id)
+bool AFCContainer::Exist(const AFGUID& id) const
 {
     return (Find(id) > 0);
 }
@@ -103,12 +103,17 @@ bool AFCContainer::Place(ARK_SHARE_PTR<AFIEntity> pEntity)
 
     ARK_ASSERT_RET_VAL(Find(pEntity->GetID()) == 0, false);
 
-    current_index_ += 1;
-    return Place(current_index_, pEntity);
+    return Place(SelectIndex(), pEntity);
 }
 
 bool AFCContainer::Place(uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity)
 {
+    // class should be same
+    if (!pEntity || !container_meta_ || pEntity->GetClassName() != container_meta_->GetClassName())
+    {
+        return false;
+    }
+
     auto iter = entity_data_list_.find(index);
     if (iter != entity_data_list_.end())
     {
@@ -184,6 +189,12 @@ bool AFCContainer::Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const uint32_
         return false;
     }
 
+    // class should be same
+    if (!container_meta_ || pSrcEntity->GetClassName() != container_meta_->GetClassName())
+    {
+        return false;
+    }
+
     if (!pSrcContainer->Remove(src_index))
     {
         return false;
@@ -220,6 +231,11 @@ bool AFCContainer::Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const uint32_
 
 bool AFCContainer::Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity)
 {
+    if (pSrcContainer == nullptr)
+    {
+        return false;
+    }
+
     auto src_index = pSrcContainer->Find(src_entity);
     auto dest_index = Find(dest_entity);
 
@@ -264,6 +280,30 @@ bool AFCContainer::Destroy(const AFGUID& id)
 {
     auto index = Find(id);
     return Destroy(index);
+}
+
+uint32_t AFCContainer::SelectIndex() const
+{
+    if (entity_data_list_.size() == current_index_)
+    {
+        return current_index_ + 1;
+    }
+    else
+    {
+        // index starts from 1
+        uint32_t index = 1u;
+        for (auto iter : entity_data_list_)
+        {
+            if (iter.first != index)
+            {
+                break;
+            }
+
+            index += 1;
+        }
+
+        return index;
+    }
 }
 
 bool AFCContainer::PlaceEntity(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity)

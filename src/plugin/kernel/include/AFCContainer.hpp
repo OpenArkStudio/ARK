@@ -64,11 +64,11 @@ public:
     uint32_t First() override;
     uint32_t Next() override;
 
-    ARK_SHARE_PTR<AFIEntity> Find(uint32_t index) override;
-    uint32_t Find(const AFGUID& id) override;
+    ARK_SHARE_PTR<AFIEntity> Find(uint32_t index) const override;
+    uint32_t Find(const AFGUID& id) const override;
 
-    bool Exist(uint32_t index) override;
-    bool Exist(const AFGUID& id) override;
+    bool Exist(uint32_t index) const override;
+    bool Exist(const AFGUID& id) const override;
 
     bool Place(ARK_SHARE_PTR<AFIEntity> pEntity) override;
     bool Place(uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity) override;
@@ -86,6 +86,8 @@ public:
     bool Destroy(const AFGUID& id) override;
 
 private:
+    uint32_t SelectIndex() const;
+
     bool PlaceEntity(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity);
 
     void OnContainerPlace(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity);

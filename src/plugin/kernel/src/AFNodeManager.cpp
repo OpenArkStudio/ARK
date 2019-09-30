@@ -29,27 +29,10 @@ AFNodeManager::AFNodeManager(ARK_SHARE_PTR<AFClassMeta> pClassMeta)
     class_meta_ = pClassMeta;
 }
 
-AFNodeManager::AFNodeManager(ARK_SHARE_PTR<AFClassMeta> pClassMeta, NODE_COMPONENT_FUNCTOR&& func)
+AFNodeManager::AFNodeManager(ARK_SHARE_PTR<AFClassMeta> pClassMeta, NODE_MANAGER_FUNCTOR&& func)
 {
     class_meta_ = pClassMeta;
-    func_ = std::forward<NODE_COMPONENT_FUNCTOR>(func);
-}
-
-uint32_t AFNodeManager::GetIndex(const std::string& name)
-{
-    ARK_ASSERT_RET_VAL(class_meta_ != nullptr, NULL_INT);
-
-    return class_meta_->GetIndex(name);
-}
-
-const std::string& AFNodeManager::GetClassName() const
-{
-    return class_meta_->GetName();
-}
-
-ARK_SHARE_PTR<AFClassMeta> AFNodeManager::GetClassMeta() const
-{
-    return class_meta_;
+    func_ = std::forward<NODE_MANAGER_FUNCTOR>(func);
 }
 
 bool AFNodeManager::IsEmpty() const
@@ -80,7 +63,7 @@ AFINode* AFNodeManager::CreateData(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
 }
 
 // get node
-AFINode* AFNodeManager::GetNode(const std::string& name)
+AFINode* AFNodeManager::GetNode(const std::string& name) const
 {
     auto index = GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, nullptr);
@@ -88,13 +71,13 @@ AFINode* AFNodeManager::GetNode(const std::string& name)
     return GetNode(index);
 }
 
-AFINode* AFNodeManager::GetNode(const uint32_t index)
+AFINode* AFNodeManager::GetNode(const uint32_t index) const
 {
     return data_list_.find_value(index);
 }
 
 // query data
-bool AFNodeManager::GetBool(const std::string& name)
+bool AFNodeManager::GetBool(const std::string& name) const
 {
     auto index = GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, NULL_BOOLEAN);
@@ -102,7 +85,7 @@ bool AFNodeManager::GetBool(const std::string& name)
     return GetBool(index);
 }
 
-int32_t AFNodeManager::GetInt32(const std::string& name)
+int32_t AFNodeManager::GetInt32(const std::string& name) const
 {
     auto index = GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, NULL_INT);
@@ -110,7 +93,7 @@ int32_t AFNodeManager::GetInt32(const std::string& name)
     return GetInt32(index);
 }
 
-uint32_t AFNodeManager::GetUInt32(const std::string& name)
+uint32_t AFNodeManager::GetUInt32(const std::string& name) const
 {
     auto index = GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, NULL_INT);
@@ -118,7 +101,7 @@ uint32_t AFNodeManager::GetUInt32(const std::string& name)
     return GetUInt32(index);
 }
 
-int64_t AFNodeManager::GetInt64(const std::string& name)
+int64_t AFNodeManager::GetInt64(const std::string& name) const
 {
     auto index = GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, NULL_INT64);
@@ -126,7 +109,7 @@ int64_t AFNodeManager::GetInt64(const std::string& name)
     return GetInt64(index);
 }
 
-uint64_t AFNodeManager::GetUInt64(const std::string& name)
+uint64_t AFNodeManager::GetUInt64(const std::string& name) const
 {
     auto index = GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, NULL_INT64);
@@ -134,7 +117,7 @@ uint64_t AFNodeManager::GetUInt64(const std::string& name)
     return GetInt64(index);
 }
 
-float AFNodeManager::GetFloat(const std::string& name)
+float AFNodeManager::GetFloat(const std::string& name) const
 {
     auto index = GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, NULL_FLOAT);
@@ -142,7 +125,7 @@ float AFNodeManager::GetFloat(const std::string& name)
     return GetFloat(index);
 }
 
-double AFNodeManager::GetDouble(const std::string& name)
+double AFNodeManager::GetDouble(const std::string& name) const
 {
     auto index = GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, NULL_DOUBLE);
@@ -150,7 +133,7 @@ double AFNodeManager::GetDouble(const std::string& name)
     return GetDouble(index);
 }
 
-const std::string& AFNodeManager::GetString(const std::string& name)
+const std::string& AFNodeManager::GetString(const std::string& name) const
 {
     auto index = GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, NULL_STR);
@@ -158,7 +141,7 @@ const std::string& AFNodeManager::GetString(const std::string& name)
     return GetString(index);
 }
 
-const std::wstring& AFNodeManager::GetWString(const std::string& name)
+const std::wstring& AFNodeManager::GetWString(const std::string& name) const
 {
     auto index = GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, NULL_WIDESTR);
@@ -166,7 +149,7 @@ const std::wstring& AFNodeManager::GetWString(const std::string& name)
     return GetWString(index);
 }
 
-const AFGUID& AFNodeManager::GetGUID(const std::string& name)
+const AFGUID& AFNodeManager::GetGUID(const std::string& name) const
 {
     auto index = GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, NULL_GUID);
@@ -174,7 +157,7 @@ const AFGUID& AFNodeManager::GetGUID(const std::string& name)
     return GetGUID(index);
 }
 
-bool AFNodeManager::GetBool(const uint32_t index)
+bool AFNodeManager::GetBool(const uint32_t index) const
 {
     auto pData = FindData(index);
     ARK_ASSERT_RET_VAL(pData != nullptr, NULL_BOOLEAN);
@@ -182,7 +165,7 @@ bool AFNodeManager::GetBool(const uint32_t index)
     return pData->GetBool();
 }
 
-int32_t AFNodeManager::GetInt32(const uint32_t index)
+int32_t AFNodeManager::GetInt32(const uint32_t index) const
 {
     auto pData = FindData(index);
     ARK_ASSERT_RET_VAL(pData != nullptr, NULL_INT);
@@ -190,7 +173,7 @@ int32_t AFNodeManager::GetInt32(const uint32_t index)
     return pData->GetInt32();
 }
 
-uint32_t AFNodeManager::GetUInt32(const uint32_t index)
+uint32_t AFNodeManager::GetUInt32(const uint32_t index) const
 {
     auto pData = FindData(index);
     ARK_ASSERT_RET_VAL(pData != nullptr, NULL_INT);
@@ -198,7 +181,7 @@ uint32_t AFNodeManager::GetUInt32(const uint32_t index)
     return pData->GetUInt32();
 }
 
-int64_t AFNodeManager::GetInt64(const uint32_t index)
+int64_t AFNodeManager::GetInt64(const uint32_t index) const
 {
     auto pData = FindData(index);
     ARK_ASSERT_RET_VAL(pData != nullptr, NULL_INT64);
@@ -206,7 +189,7 @@ int64_t AFNodeManager::GetInt64(const uint32_t index)
     return pData->GetInt64();
 }
 
-uint64_t AFNodeManager::GetUInt64(const uint32_t index)
+uint64_t AFNodeManager::GetUInt64(const uint32_t index) const
 {
     auto pData = FindData(index);
     ARK_ASSERT_RET_VAL(pData != nullptr, NULL_INT64);
@@ -214,7 +197,7 @@ uint64_t AFNodeManager::GetUInt64(const uint32_t index)
     return pData->GetUInt64();
 }
 
-float AFNodeManager::GetFloat(const uint32_t index)
+float AFNodeManager::GetFloat(const uint32_t index) const
 {
     auto pData = FindData(index);
     ARK_ASSERT_RET_VAL(pData != nullptr, NULL_FLOAT);
@@ -222,7 +205,7 @@ float AFNodeManager::GetFloat(const uint32_t index)
     return pData->GetFloat();
 }
 
-double AFNodeManager::GetDouble(const uint32_t index)
+double AFNodeManager::GetDouble(const uint32_t index) const
 {
     auto pData = FindData(index);
     ARK_ASSERT_RET_VAL(pData != nullptr, NULL_DOUBLE);
@@ -230,7 +213,7 @@ double AFNodeManager::GetDouble(const uint32_t index)
     return pData->GetDouble();
 }
 
-const std::string& AFNodeManager::GetString(const uint32_t index)
+const std::string& AFNodeManager::GetString(const uint32_t index) const
 {
     auto pData = FindData(index);
     ARK_ASSERT_RET_VAL(pData != nullptr, NULL_STR);
@@ -238,7 +221,7 @@ const std::string& AFNodeManager::GetString(const uint32_t index)
     return pData->GetString();
 }
 
-const std::wstring& AFNodeManager::GetWString(const uint32_t index)
+const std::wstring& AFNodeManager::GetWString(const uint32_t index) const
 {
     auto pData = FindData(index);
     ARK_ASSERT_RET_VAL(pData != nullptr, NULL_WIDESTR);
@@ -246,7 +229,7 @@ const std::wstring& AFNodeManager::GetWString(const uint32_t index)
     return pData->GetWString();
 }
 
-const AFGUID& AFNodeManager::GetGUID(const uint32_t index)
+const AFGUID& AFNodeManager::GetGUID(const uint32_t index) const
 {
     auto pData = FindData(index);
     ARK_ASSERT_RET_VAL(pData != nullptr, NULL_GUID);
@@ -337,7 +320,7 @@ bool AFNodeManager::SetGUID(const std::string& name, const AFGUID& value)
 
 bool AFNodeManager::SetBool(const uint32_t index, bool value)
 {
-    AFINode* pData = FindData(index, true);
+    AFINode* pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
@@ -358,7 +341,7 @@ bool AFNodeManager::SetBool(const uint32_t index, bool value)
 
 bool AFNodeManager::SetInt32(const uint32_t index, const int32_t value)
 {
-    AFINode* pData = FindData(index, true);
+    AFINode* pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
@@ -379,7 +362,7 @@ bool AFNodeManager::SetInt32(const uint32_t index, const int32_t value)
 
 bool AFNodeManager::SetUInt32(const uint32_t index, const uint32_t value)
 {
-    AFINode* pData = FindData(index, true);
+    AFINode* pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
@@ -400,7 +383,7 @@ bool AFNodeManager::SetUInt32(const uint32_t index, const uint32_t value)
 
 bool AFNodeManager::SetInt64(const uint32_t index, const int64_t value)
 {
-    AFINode* pData = FindData(index, true);
+    AFINode* pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
@@ -421,7 +404,7 @@ bool AFNodeManager::SetInt64(const uint32_t index, const int64_t value)
 
 bool AFNodeManager::SetUInt64(const uint32_t index, const uint64_t value)
 {
-    AFINode* pData = FindData(index, true);
+    AFINode* pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
@@ -442,7 +425,7 @@ bool AFNodeManager::SetUInt64(const uint32_t index, const uint64_t value)
 
 bool AFNodeManager::SetFloat(const uint32_t index, const float value)
 {
-    AFINode* pData = FindData(index, true);
+    AFINode* pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
@@ -463,7 +446,7 @@ bool AFNodeManager::SetFloat(const uint32_t index, const float value)
 
 bool AFNodeManager::SetDouble(const uint32_t index, const double value)
 {
-    AFINode* pData = FindData(index, true);
+    AFINode* pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
@@ -484,7 +467,7 @@ bool AFNodeManager::SetDouble(const uint32_t index, const double value)
 
 bool AFNodeManager::SetString(const uint32_t index, const std::string& value)
 {
-    AFINode* pData = FindData(index, true);
+    AFINode* pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
@@ -505,7 +488,7 @@ bool AFNodeManager::SetString(const uint32_t index, const std::string& value)
 
 bool AFNodeManager::SetWString(const uint32_t index, const std::wstring& value)
 {
-    AFINode* pData = FindData(index, true);
+    AFINode* pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
@@ -526,7 +509,7 @@ bool AFNodeManager::SetWString(const uint32_t index, const std::wstring& value)
 
 bool AFNodeManager::SetGUID(const uint32_t index, const AFGUID& value)
 {
-    AFINode* pData = FindData(index, true);
+    AFINode* pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
@@ -546,7 +529,7 @@ bool AFNodeManager::SetGUID(const uint32_t index, const AFGUID& value)
 }
 
 // other query
-const AFNodeManager::DataList& AFNodeManager::GetDataList()
+const AFNodeManager::DataList& AFNodeManager::GetDataList() const
 {
     return data_list_;
 }
@@ -569,10 +552,17 @@ AFINode* AFNodeManager::Next()
     return iter_data_->second;
 }
 
-AFINode* AFNodeManager::FindData(const uint32_t index, bool bCreate /* = false*/)
+uint32_t AFNodeManager::GetIndex(const std::string& name) const
+{
+    ARK_ASSERT_RET_VAL(class_meta_ != nullptr, NULL_INT);
+
+    return class_meta_->GetIndex(name);
+}
+
+AFINode* AFNodeManager::FindData(const uint32_t index)
 {
     auto pData = data_list_.find_value(index);
-    if (nullptr == pData && bCreate)
+    if (nullptr == pData)
     {
         auto pDataMeta = class_meta_->FindDataMeta(index);
         ARK_ASSERT_RET_VAL(pDataMeta != nullptr, nullptr);
@@ -588,6 +578,11 @@ AFINode* AFNodeManager::FindData(const uint32_t index, bool bCreate /* = false*/
     }
 
     return pData;
+}
+
+AFINode* AFNodeManager::FindData(const uint32_t index) const
+{
+    return data_list_.find_value(index);
 }
 
 } // namespace ark

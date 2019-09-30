@@ -22,13 +22,8 @@
 
 namespace ark {
 
-AFCContainerManager ::~AFCContainerManager()
-{
-    container_data_.clear();
-}
-
 // find container
-ARK_SHARE_PTR<AFIContainer> AFCContainerManager::FindContainer(const uint32_t index)
+ARK_SHARE_PTR<AFIContainer> AFCContainerManager::FindContainer(const uint32_t index) const
 {
     return container_data_.find_value(index);
 }

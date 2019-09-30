@@ -36,8 +36,6 @@ class AFTableMeta;
 class AFClassMeta final
 {
 public:
-    using ClassList = std::vector<std::string>;
-    using ContainerList = std::map<uint32_t, std::string>;
     using NameIndexList = std::unordered_map<std::string, uint32_t>;
     using DataMetaList = AFSmartPtrMap<uint32_t, AFNodeMeta>;
     using TableMetaList = AFSmartPtrMap<uint32_t, AFTableMeta>;
@@ -69,7 +67,7 @@ public:
     AFClassMeta() = delete;
 
     explicit AFClassMeta(const std::string& name);
-    virtual ~AFClassMeta();
+    virtual ~AFClassMeta() = default;
 
     size_t GetNodeCount() const;
     const std::string& GetName() const;
@@ -79,16 +77,16 @@ public:
 
     // create data meta
     ARK_SHARE_PTR<AFNodeMeta> CreateDataMeta(const std::string& name, const uint32_t index);
-    ARK_SHARE_PTR<AFNodeMeta> FindDataMeta(const uint32_t index);
+    ARK_SHARE_PTR<AFNodeMeta> FindDataMeta(const uint32_t index) const;
 
     // create table meta
     ARK_SHARE_PTR<AFTableMeta> CreateTableMeta(const std::string& name, const uint32_t index);
-    ARK_SHARE_PTR<AFTableMeta> FindTableMeta(const uint32_t index);
+    ARK_SHARE_PTR<AFTableMeta> FindTableMeta(const uint32_t index) const;
 
     // create table meta
     ARK_SHARE_PTR<AFContainerMeta> CreateContainerMeta(
         const std::string& name, const uint32_t index, const std::string& class_name);
-    ARK_SHARE_PTR<AFContainerMeta> FindContainerMeta(const uint32_t index);
+    ARK_SHARE_PTR<AFContainerMeta> FindContainerMeta(const uint32_t index) const;
 
     const DataMetaList& GetDataMetaList() const;
     const TableMetaList& GetTableMetaList() const;
@@ -96,7 +94,7 @@ public:
 
     ARK_SHARE_PTR<AFClassCallBackManager> GetClassCallBackManager() const;
 
-    uint32_t GetIndex(const std::string& name);
+    uint32_t GetIndex(const std::string& name) const;
 
     bool IsEntityMeta() const;
 

@@ -48,7 +48,7 @@ public:
     }
 
     // table operation
-    AFITable* AddTable(const AFGUID& guid, const uint32_t index)
+    AFITable* CreateTable(const AFGUID& guid, const uint32_t index)
     {
         ARK_ASSERT_RET_VAL(class_meta_ != nullptr, nullptr);
 

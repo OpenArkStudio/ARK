@@ -116,29 +116,15 @@ AFIRow* AFCTable::AddRow(uint32_t row /* = 0u*/)
 
 AFIRow* AFCTable::AddRow(uint32_t row, const AFIDataList& args)
 {
-    ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr, nullptr);
-
     ARK_ASSERT_RET_VAL(args.GetCount() % 2 == 0, nullptr);
 
     AFIRow* pRowData = nullptr;
     if (row == 0)
     {
-        row = ++current_row_;
-        pRowData = CreateRow(row, args);
-    }
-    else
-    {
-        pRowData = data_.find_value(row);
-        ARK_ASSERT_RET_VAL(pRowData == nullptr, nullptr); // return if found
-
-        if (current_row_ < row)
-        {
-            current_row_ = row;
-        }
-
-        pRowData = CreateRow(row, args);
+        row = SelectRow();
     }
 
+    pRowData = CreateRow(row, args);
     ARK_ASSERT_RET_VAL(pRowData != nullptr, nullptr);
 
     // call back
@@ -147,7 +133,7 @@ AFIRow* AFCTable::AddRow(uint32_t row, const AFIDataList& args)
     return pRowData;
 }
 
-AFIRow* AFCTable::FindRow(uint32_t row)
+AFIRow* AFCTable::FindRow(uint32_t row) const
 {
     ARK_ASSERT_RET_VAL(row != 0, nullptr);
 
@@ -172,7 +158,7 @@ void AFCTable::Clear()
 }
 
 // find
-uint32_t AFCTable::FindInt32(const uint32_t index, const int32_t value)
+uint32_t AFCTable::FindInt32(const uint32_t index, const int32_t value) const
 {
     for (auto iter : data_)
     {
@@ -188,7 +174,7 @@ uint32_t AFCTable::FindInt32(const uint32_t index, const int32_t value)
     return 0u;
 }
 
-uint32_t AFCTable::FindInt64(const uint32_t index, const int64_t value)
+uint32_t AFCTable::FindInt64(const uint32_t index, const int64_t value) const
 {
     for (auto iter : data_)
     {
@@ -204,7 +190,7 @@ uint32_t AFCTable::FindInt64(const uint32_t index, const int64_t value)
     return 0u;
 }
 
-uint32_t AFCTable::FindBool(const uint32_t index, bool value)
+uint32_t AFCTable::FindBool(const uint32_t index, bool value) const
 {
     for (auto iter : data_)
     {
@@ -220,7 +206,7 @@ uint32_t AFCTable::FindBool(const uint32_t index, bool value)
     return 0u;
 }
 
-uint32_t AFCTable::FindFloat(const uint32_t index, float value)
+uint32_t AFCTable::FindFloat(const uint32_t index, float value) const
 {
     for (auto iter : data_)
     {
@@ -236,7 +222,7 @@ uint32_t AFCTable::FindFloat(const uint32_t index, float value)
     return 0u;
 }
 
-uint32_t AFCTable::FindDouble(const uint32_t index, double value)
+uint32_t AFCTable::FindDouble(const uint32_t index, double value) const
 {
     for (auto iter : data_)
     {
@@ -252,7 +238,7 @@ uint32_t AFCTable::FindDouble(const uint32_t index, double value)
     return 0u;
 }
 
-uint32_t AFCTable::FindString(const uint32_t index, const std::string& value)
+uint32_t AFCTable::FindString(const uint32_t index, const std::string& value) const
 {
     for (auto iter : data_)
     {
@@ -268,7 +254,7 @@ uint32_t AFCTable::FindString(const uint32_t index, const std::string& value)
     return 0u;
 }
 
-uint32_t AFCTable::FindWString(const uint32_t index, const std::wstring& value)
+uint32_t AFCTable::FindWString(const uint32_t index, const std::wstring& value) const
 {
     for (auto iter : data_)
     {
@@ -284,7 +270,7 @@ uint32_t AFCTable::FindWString(const uint32_t index, const std::wstring& value)
     return 0u;
 }
 
-uint32_t AFCTable::FindGUID(const uint32_t index, const AFGUID& value)
+uint32_t AFCTable::FindGUID(const uint32_t index, const AFGUID& value) const
 {
     for (auto iter : data_)
     {
@@ -318,18 +304,42 @@ AFIRow* AFCTable::Next()
     return iter_->second;
 }
 
-uint32_t AFCTable::GetIndex()
+uint32_t AFCTable::GetIndex() const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_INT);
 
     return table_meta_->GetIndex();
 }
 
-uint32_t AFCTable::GetIndex(const std::string& name)
+uint32_t AFCTable::GetIndex(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_INT);
 
     return table_meta_->GetIndex(name);
+}
+
+uint32_t AFCTable::SelectRow() const
+{
+    if (data_.size() == current_row_)
+    {
+        return current_row_ + 1;
+    }
+    else
+    {
+        // row starts from 1
+        uint32_t row = 1u;
+        for (auto iter : data_)
+        {
+            if (iter.first != row)
+            {
+                break;
+            }
+
+            row += 1;
+        }
+
+        return row;
+    }
 }
 
 void AFCTable::ReleaseRow(AFIRow* row_data)
@@ -339,6 +349,8 @@ void AFCTable::ReleaseRow(AFIRow* row_data)
 
 void AFCTable::OnTableChanged(uint32_t row, ArkTableOpType op_type)
 {
+    ARK_ASSERT_RET_NONE(m_pCallBackManager != nullptr || table_meta_ != nullptr);
+
     TABLE_EVENT_DATA xData;
     xData.table_name_ = table_meta_->GetName();
     xData.table_index_ = table_meta_->GetIndex();
@@ -367,6 +379,9 @@ int AFCTable::OnRowDataChanged(uint32_t row, const uint32_t index, const AFIData
 
 AFIRow* AFCTable::CreateRow(uint32_t row, const AFIDataList& args)
 {
+    // return if found
+    ARK_ASSERT_RET_VAL(data_.find_value(row) == nullptr, nullptr);
+
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, nullptr);
 
     auto pClassMeta = table_meta_->GetClassMeta();
@@ -380,6 +395,11 @@ AFIRow* AFCTable::CreateRow(uint32_t row, const AFIDataList& args)
     {
         ARK_DELETE(pRow);
         return nullptr;
+    }
+
+    if (current_row_ < row)
+    {
+        current_row_ = row;
     }
 
     return pRow;

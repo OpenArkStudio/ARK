@@ -36,6 +36,8 @@ const std::string& AFTableMeta::GetName() const
 
 size_t AFTableMeta::GetColCount() const
 {
+    ARK_ASSERT_RET_VAL(class_meta_ != nullptr, NULL_INT);
+
     return class_meta_->GetNodeCount();
 }
 
@@ -44,7 +46,7 @@ void AFTableMeta::SetClassMeta(ARK_SHARE_PTR<AFClassMeta> pClassMeta)
     class_meta_ = pClassMeta;
 }
 
-ARK_SHARE_PTR<AFNodeMeta> AFTableMeta::FindMeta(const uint32_t index)
+ARK_SHARE_PTR<AFNodeMeta> AFTableMeta::FindMeta(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(class_meta_ != nullptr, nullptr);
 
@@ -56,8 +58,10 @@ ARK_SHARE_PTR<AFClassMeta> AFTableMeta::GetClassMeta() const
     return class_meta_;
 }
 
-ArkDataType AFTableMeta::GetColType(const uint32_t index)
+ArkDataType AFTableMeta::GetColType(const uint32_t index) const
 {
+    ARK_ASSERT_RET_VAL(class_meta_ != nullptr, ArkDataType::DT_EMPTY);
+
     auto pMeta = class_meta_->FindDataMeta(index);
     ARK_ASSERT_RET_VAL(pMeta != nullptr, ArkDataType::DT_EMPTY);
 
@@ -114,8 +118,10 @@ uint32_t AFTableMeta::GetIndex() const
     return index_;
 }
 
-uint32_t AFTableMeta::GetIndex(const std::string& name)
+uint32_t AFTableMeta::GetIndex(const std::string& name) const
 {
+    ARK_ASSERT_RET_VAL(class_meta_ != nullptr, NULL_INT);
+
     return class_meta_->GetIndex(name);
 }
 

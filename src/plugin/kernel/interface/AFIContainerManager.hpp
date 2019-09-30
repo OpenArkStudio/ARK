@@ -30,7 +30,7 @@ class AFIContainerManager
 public:
     virtual ~AFIContainerManager() = default;
 
-    virtual ARK_SHARE_PTR<AFIContainer> FindContainer(const uint32_t index) = 0;
+    virtual ARK_SHARE_PTR<AFIContainer> FindContainer(const uint32_t index) const = 0;
     virtual ARK_SHARE_PTR<AFIContainer> CreateContainer(
         ARK_SHARE_PTR<AFClassMeta> pClassMeta, const uint32_t index, const AFGUID& parent_id) = 0;
     virtual bool DestroyContainer(const uint32_t index) = 0;

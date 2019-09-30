@@ -150,6 +150,22 @@ public:
         return nullptr;
     }
 
+    const_iterator find(const k_type& key) const
+    {
+        return nodes_.find(key);
+    }
+
+    v_type find_value(const k_type& key) const
+    {
+        auto iter = find(key);
+        if (iter != end())
+        {
+            return iter->second;
+        }
+
+        return nullptr;
+    }
+
 private:
     map_type nodes_;
 };
@@ -248,6 +264,22 @@ public:
     }
 
     v_type find_value(const k_type& key)
+    {
+        auto iter = find(key);
+        if (iter != end())
+        {
+            return iter->second;
+        }
+
+        return nullptr;
+    }
+
+    const_iterator find(const k_type& key) const
+    {
+        return nodes_.find(key);
+    }
+
+    v_type find_value(const k_type& key) const
     {
         auto iter = find(key);
         if (iter != end())

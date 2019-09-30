@@ -26,7 +26,6 @@
 #include "base/AFMacros.hpp"
 #include "kernel/include/AFCStaticEntity.hpp"
 #include "kernel/include/AFCNode.hpp"
-#include "kernel/include/AFClassMetaManager.hpp"
 #include "base/AFXml.hpp"
 #include "kernel/include/AFNodeManager.hpp"
 
@@ -93,13 +92,9 @@ bool AFCConfigModule::LoadConfig(ARK_SHARE_PTR<AFClassMeta> pClassMeta)
 
     AFXml xml_doc(file_path);
     auto root_node = xml_doc.GetRootNode();
-    if (!root_node.IsValid())
-    {
-        ARK_ASSERT_NO_EFFECT(0);
-        return false;
-    }
+    ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
 
-    auto data_meta_list = pClassMeta->GetDataMetaList();
+    auto& data_meta_list = pClassMeta->GetDataMetaList();
     for (auto data_node = root_node.FindNode("data"); data_node.IsValid(); data_node.NextNode())
     {
         // must have id
@@ -113,10 +108,10 @@ bool AFCConfigModule::LoadConfig(ARK_SHARE_PTR<AFClassMeta> pClassMeta)
         pIDData->FromString(data_node.GetString(pIDData->GetName().c_str()));
 
         // create a new object
-        auto pNodeComponent = std::make_shared<AFNodeManager>(pClassMeta);
-        ARK_ASSERT_RET_VAL(pNodeComponent != nullptr, false);
+        auto pNodeManager = std::make_shared<AFNodeManager>(pClassMeta);
+        ARK_ASSERT_RET_VAL(pNodeManager != nullptr, false);
 
-        auto pObj = m_pStaticEntityManager->CreateObject(pIDData->GetValue(), pNodeComponent);
+        auto pObj = m_pStaticEntityManager->CreateStaticEntity(pClassMeta, pNodeManager, pIDData->GetValue());
         ARK_ASSERT_RET_VAL(pObj != nullptr, false);
 
         // delete id data do not need it
@@ -129,7 +124,7 @@ bool AFCConfigModule::LoadConfig(ARK_SHARE_PTR<AFClassMeta> pClassMeta)
             auto pDataMeta = iter.second;
             ARK_ASSERT_RET_VAL(pDataMeta != nullptr, false);
 
-            AFINode* pData = pNodeComponent->CreateData(pDataMeta);
+            AFINode* pData = pNodeManager->CreateData(pDataMeta);
             ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
             pData->FromString(data_node.GetString(pDataMeta->GetName().c_str()));

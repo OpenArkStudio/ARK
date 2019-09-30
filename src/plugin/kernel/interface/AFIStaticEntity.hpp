@@ -32,26 +32,27 @@ public:
     virtual ~AFIStaticEntity() = default;
 
     // query data
-    virtual uint32_t GetIndex(const std::string& name) = 0;
     virtual const std::string& GetClassName() const = 0;
     virtual ID_TYPE GetConfigID() const = 0;
-    virtual bool GetBool(const std::string& name) = 0;
-    virtual int32_t GetInt32(const std::string& name) = 0;
-    virtual uint32_t GetUInt32(const std::string& name) = 0;
-    virtual int64_t GetInt64(const std::string& name) = 0;
-    virtual float GetFloat(const std::string& name) = 0;
-    virtual double GetDouble(const std::string& name) = 0;
-    virtual const std::string& GetString(const std::string& name) = 0;
-    virtual const std::wstring& GetWString(const std::string& name) = 0;
+    virtual bool GetBool(const std::string& name) const = 0;
+    virtual int32_t GetInt32(const std::string& name) const = 0;
+    virtual uint32_t GetUInt32(const std::string& name) const = 0;
+    virtual int64_t GetInt64(const std::string& name) const = 0;
+    virtual int64_t GetUInt64(const std::string& name) const = 0;
+    virtual float GetFloat(const std::string& name) const = 0;
+    virtual double GetDouble(const std::string& name) const = 0;
+    virtual const std::string& GetString(const std::string& name) const = 0;
+    virtual const std::wstring& GetWString(const std::string& name) const = 0;
 
-    virtual bool GetBool(const uint32_t index) = 0;
-    virtual int32_t GetInt32(const uint32_t index) = 0;
-    virtual uint32_t GetUInt32(const uint32_t index) = 0;
-    virtual int64_t GetInt64(const uint32_t index) = 0;
-    virtual float GetFloat(const uint32_t index) = 0;
-    virtual double GetDouble(const uint32_t index) = 0;
-    virtual const std::string& GetString(const uint32_t index) = 0;
-    virtual const std::wstring& GetWString(const uint32_t index) = 0;
+    virtual bool GetBool(const uint32_t index) const = 0;
+    virtual int32_t GetInt32(const uint32_t index) const = 0;
+    virtual uint32_t GetUInt32(const uint32_t index) const = 0;
+    virtual int64_t GetInt64(const uint32_t index) const = 0;
+    virtual int64_t GetUInt64(const uint32_t index) const = 0;
+    virtual float GetFloat(const uint32_t index) const = 0;
+    virtual double GetDouble(const uint32_t index) const = 0;
+    virtual const std::string& GetString(const uint32_t index) const = 0;
+    virtual const std::wstring& GetWString(const uint32_t index) const = 0;
 };
 
 } // namespace ark

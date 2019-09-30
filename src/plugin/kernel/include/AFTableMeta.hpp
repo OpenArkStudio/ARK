@@ -63,11 +63,11 @@ public:
 
     void SetClassMeta(ARK_SHARE_PTR<AFClassMeta> pClassMeta);
 
-    ARK_SHARE_PTR<AFNodeMeta> FindMeta(const uint32_t index);
+    ARK_SHARE_PTR<AFNodeMeta> FindMeta(const uint32_t index) const;
 
     ARK_SHARE_PTR<AFClassMeta> GetClassMeta() const;
 
-    ArkDataType GetColType(const uint32_t index);
+    ArkDataType GetColType(const uint32_t index) const;
 
     const ArkMaskType GetMask() const;
     bool HaveMask(const ArkTableNodeMask feature) const;
@@ -82,7 +82,7 @@ public:
     const std::string& GetTypeName() const;
 
     uint32_t GetIndex() const;
-    uint32_t GetIndex(const std::string& name);
+    uint32_t GetIndex(const std::string& name) const;
 };
 
 } // namespace ark

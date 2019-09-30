@@ -32,40 +32,46 @@ class AFCStaticEntity final : public AFIStaticEntity
 public:
     using TableList = AFMap<uint32_t, AFITable>;
 
-    AFCStaticEntity() = delete;
-
-    explicit AFCStaticEntity(ARK_SHARE_PTR<AFNodeManager> pNodeComponent, const ID_TYPE config_id);
-
-    uint32_t GetIndex(const std::string& name) override;
-
-    // query data
-    const std::string& GetClassName() const override;
-    ID_TYPE GetConfigID() const override;
-    bool GetBool(const std::string& name) override;
-    int32_t GetInt32(const std::string& name) override;
-    uint32_t GetUInt32(const std::string& name) override;
-    int64_t GetInt64(const std::string& name) override;
-    float GetFloat(const std::string& name) override;
-    double GetDouble(const std::string& name) override;
-    const std::string& GetString(const std::string& name) override;
-    const std::wstring& GetWString(const std::string& name) override;
-
-    bool GetBool(const uint32_t index) override;
-    int32_t GetInt32(const uint32_t index) override;
-    uint32_t GetUInt32(const uint32_t index) override;
-    int64_t GetInt64(const uint32_t index) override;
-    float GetFloat(const uint32_t index) override;
-    double GetDouble(const uint32_t index) override;
-    const std::string& GetString(const uint32_t index) override;
-    const std::wstring& GetWString(const uint32_t index) override;
-
 private:
     friend class AFCEntity;
 
     // config id
     ID_TYPE config_id_{0};
 
+    // class meta
+    ARK_SHARE_PTR<AFClassMeta> class_meta_{nullptr};
+
+    // data
     ARK_SHARE_PTR<AFNodeManager> m_pNodeManager{nullptr};
+
+public:
+    AFCStaticEntity() = delete;
+
+    explicit AFCStaticEntity(
+        ARK_SHARE_PTR<AFClassMeta> pClassMeta, ARK_SHARE_PTR<AFNodeManager> pNodeManager, const ID_TYPE config_id);
+
+    // query data
+    const std::string& GetClassName() const override;
+    ID_TYPE GetConfigID() const override;
+    bool GetBool(const std::string& name) const override;
+    int32_t GetInt32(const std::string& name) const override;
+    uint32_t GetUInt32(const std::string& name) const override;
+    int64_t GetInt64(const std::string& name) const override;
+    int64_t GetUInt64(const std::string& name) const override;
+    float GetFloat(const std::string& name) const override;
+    double GetDouble(const std::string& name) const override;
+    const std::string& GetString(const std::string& name) const override;
+    const std::wstring& GetWString(const std::string& name) const override;
+
+    bool GetBool(const uint32_t index) const override;
+    int32_t GetInt32(const uint32_t index) const override;
+    uint32_t GetUInt32(const uint32_t index) const override;
+    int64_t GetInt64(const uint32_t index) const override;
+    int64_t GetUInt64(const uint32_t index) const override;
+    float GetFloat(const uint32_t index) const override;
+    double GetDouble(const uint32_t index) const override;
+    const std::string& GetString(const uint32_t index) const override;
+    const std::wstring& GetWString(const uint32_t index) const override;
 };
 
 } // namespace ark

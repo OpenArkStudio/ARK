@@ -65,11 +65,7 @@ bool AFCClassMetaModule::LoadConfig()
 
     AFXml xml_doc(file_path);
     auto root_node = xml_doc.GetRootNode();
-    if (!root_node.IsValid())
-    {
-        ARK_ASSERT_NO_EFFECT(0);
-        return false;
-    }
+    ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
 
     for (auto meta_node = root_node.FindNode("config"); meta_node.IsValid(); meta_node.NextNode())
     {
@@ -81,11 +77,7 @@ bool AFCClassMetaModule::LoadConfig()
         ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
 
         pClassMeta->SetResPath(res_path);
-
-        if (!LoadConfigMeta(schema_path, pClassMeta))
-        {
-            return false;
-        }
+        ARK_ASSERT_RET_VAL(LoadConfigMeta(schema_path, pClassMeta), false);
     }
 
     return true;
@@ -99,11 +91,7 @@ bool AFCClassMetaModule::LoadConfigMeta(const std::string& schema_path, ARK_SHAR
 
     AFXml xml_doc(file_path);
     auto root_node = xml_doc.GetRootNode();
-    if (!root_node.IsValid())
-    {
-        ARK_ASSERT_NO_EFFECT(0);
-        return false;
-    }
+    ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
 
     const std::string& class_name = pClassMeta->GetName();
     for (auto meta_node = root_node.FindNode("meta"); meta_node.IsValid(); meta_node.NextNode())
@@ -132,20 +120,12 @@ bool AFCClassMetaModule::LoadEntity()
 
     AFXml xml_doc(file_path);
     auto root_node = xml_doc.GetRootNode();
-    if (!root_node.IsValid())
-    {
-        ARK_ASSERT_NO_EFFECT(0);
-        return false;
-    }
+    ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
 
     for (auto meta_node = root_node.FindNode("config"); meta_node.IsValid(); meta_node.NextNode())
     {
         std::string schema_path = meta_node.GetString("meta");
-
-        if (!LoadEntityMeta(schema_path))
-        {
-            return false;
-        }
+        ARK_ASSERT_RET_VAL(LoadEntityMeta(schema_path), false);
     }
 
     // exact table meta and object meta of a class meta after all loaded
@@ -162,11 +142,7 @@ bool AFCClassMetaModule::LoadEntityMeta(const std::string& schema_path)
 
     AFXml xml_doc(file_path);
     auto root_node = xml_doc.GetRootNode();
-    if (!root_node.IsValid())
-    {
-        ARK_ASSERT_NO_EFFECT(0);
-        return false;
-    }
+    ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
 
     for (auto meta_node = root_node.FindNode("meta"); meta_node.IsValid(); meta_node.NextNode())
     {
@@ -192,7 +168,8 @@ bool AFCClassMetaModule::LoadEntityMeta(const std::string& schema_path)
         }
         else if (type_name == "container")
         {
-            pClassMeta->CreateContainerMeta(data_name, index, type_class);
+            auto pContainerMeta = pClassMeta->CreateContainerMeta(data_name, index, type_class);
+            ARK_ASSERT_RET_VAL(pContainerMeta != nullptr, false);
             continue;
         }
 
@@ -215,8 +192,6 @@ bool AFCClassMetaModule::LoadEntityMeta(const std::string& schema_path)
             mask[(size_t)ArkTableNodeMask::PF_REAL_TIME] = (feature_real_time > 0 ? 1 : 0);
 
             pTableMeta->SetMask(mask);
-
-            // m_pClassMetaManager->AddTypeClassMeta(type_class);
         }
         else
         {

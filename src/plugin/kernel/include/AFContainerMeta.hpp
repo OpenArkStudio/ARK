@@ -32,7 +32,6 @@ public:
         , index_(index)
         , class_name_(class_name)
     {
-        //
     }
 
     virtual ~AFContainerMeta() = default;
@@ -59,6 +58,7 @@ private:
     // container index
     uint32_t index_{0u};
 
+    // container's class name
     std::string class_name_{NULL_STR};
 };
 

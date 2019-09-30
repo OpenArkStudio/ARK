@@ -46,140 +46,140 @@ uint32_t AFCRow::GetRow() const
 }
 
 // get row data
-bool AFCRow::GetBool(const uint32_t index)
+bool AFCRow::GetBool(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_BOOLEAN);
 
     return m_pNodeManager->GetBool(index);
 }
 
-int32_t AFCRow::GetInt32(const uint32_t index)
+int32_t AFCRow::GetInt32(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
     return m_pNodeManager->GetInt32(index);
 }
 
-int64_t AFCRow::GetInt64(const uint32_t index)
-{
-    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
-
-    return m_pNodeManager->GetInt64(index);
-}
-
-uint32_t AFCRow::GetUInt32(const uint32_t index)
+uint32_t AFCRow::GetUInt32(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
     return m_pNodeManager->GetUInt32(index);
 }
 
-uint64_t AFCRow::GetUInt64(const uint32_t index)
+int64_t AFCRow::GetInt64(const uint32_t index) const
+{
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
+
+    return m_pNodeManager->GetInt64(index);
+}
+
+uint64_t AFCRow::GetUInt64(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
 
     return m_pNodeManager->GetUInt64(index);
 }
 
-float AFCRow::GetFloat(const uint32_t index)
+float AFCRow::GetFloat(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_FLOAT);
 
     return m_pNodeManager->GetFloat(index);
 }
 
-double AFCRow::GetDouble(const uint32_t index)
+double AFCRow::GetDouble(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_DOUBLE);
 
     return m_pNodeManager->GetDouble(index);
 }
 
-const std::string& AFCRow::GetString(const uint32_t index)
+const std::string& AFCRow::GetString(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_STR);
 
     return m_pNodeManager->GetString(index);
 }
 
-const std::wstring& AFCRow::GetWString(const uint32_t index)
+const std::wstring& AFCRow::GetWString(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_WIDESTR);
 
     return m_pNodeManager->GetWString(index);
 }
 
-const AFGUID& AFCRow::GetGUID(const uint32_t index)
+const AFGUID& AFCRow::GetGUID(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_GUID);
 
     return m_pNodeManager->GetGUID(index);
 }
 
-bool AFCRow::GetBool(const std::string& name)
+bool AFCRow::GetBool(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_BOOLEAN);
 
     return m_pNodeManager->GetBool(name);
 }
 
-int32_t AFCRow::GetInt32(const std::string& name)
+int32_t AFCRow::GetInt32(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
     return m_pNodeManager->GetInt32(name);
 }
 
-int64_t AFCRow::GetInt64(const std::string& name)
-{
-    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
-
-    return m_pNodeManager->GetInt64(name);
-}
-
-uint32_t AFCRow::GetUInt32(const std::string& name)
+uint32_t AFCRow::GetUInt32(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT);
 
     return m_pNodeManager->GetUInt32(name);
 }
 
-uint64_t AFCRow::GetUInt64(const std::string& name)
+int64_t AFCRow::GetInt64(const std::string& name) const
+{
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
+
+    return m_pNodeManager->GetInt64(name);
+}
+
+uint64_t AFCRow::GetUInt64(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_INT64);
 
     return m_pNodeManager->GetUInt64(name);
 }
 
-float AFCRow::GetFloat(const std::string& name)
+float AFCRow::GetFloat(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_FLOAT);
 
     return m_pNodeManager->GetFloat(name);
 }
 
-double AFCRow::GetDouble(const std::string& name)
+double AFCRow::GetDouble(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_DOUBLE);
 
     return m_pNodeManager->GetDouble(name);
 }
 
-const std::string& AFCRow::GetString(const std::string& name)
+const std::string& AFCRow::GetString(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_STR);
 
     return m_pNodeManager->GetString(name);
 }
 
-const std::wstring& AFCRow::GetWString(const std::string& name)
+const std::wstring& AFCRow::GetWString(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_WIDESTR);
 
     return m_pNodeManager->GetWString(name);
 }
 
-const AFGUID& AFCRow::GetGUID(const std::string& name)
+const AFGUID& AFCRow::GetGUID(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_GUID);
 
@@ -271,18 +271,18 @@ bool AFCRow::SetInt32(const std::string& name, int32_t value)
     return m_pNodeManager->SetInt32(name, value);
 }
 
-bool AFCRow::SetInt64(const std::string& name, int64_t value)
-{
-    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
-
-    return m_pNodeManager->SetInt64(name, value);
-}
-
 bool AFCRow::SetUInt32(const std::string& name, uint32_t value)
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
     return m_pNodeManager->SetUInt32(name, value);
+}
+
+bool AFCRow::SetInt64(const std::string& name, int64_t value)
+{
+    ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
+
+    return m_pNodeManager->SetInt64(name, value);
 }
 
 bool AFCRow::SetUInt64(const std::string& name, uint64_t value)
