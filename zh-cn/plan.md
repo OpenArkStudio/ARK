@@ -9,7 +9,7 @@
 - [ ] 增加dirty data layer, 当一个客户端请求处理完成后统一下发变化数据，不能有变有发，会导致小包太碎，并且浪费协议的head
 - [ ] 文档逐步补齐，概念介绍、设计理念、服务器架构、使用例子
 - [x] 所有的基础数据结构向C++容器看齐
-- [ ] 服务中心注册(考虑etcd/consul来做)
+- [x] 服务中心注册(考虑etcd/consul来做)
 - [ ] 定时log和心跳改为timer方式，不要再是用update和HeartBeat了
 - [x] 修改配置打包工具(用Excel编辑，生成`xml`来给工程读取。为解决多人协作冲突, excel可以用名字后缀区分，类如Item.A.xlsx Item.B.xlsx)
 - [ ] ~~插件加载顺序(通过配置中的字段, 或者通过配置的顺序)~~
@@ -17,8 +17,9 @@
 - [x] 接口类重新设计纯粹化
 - [ ] 增加生成器来生成重复代码(_插件类和模块类_)
 - [ ] 使用`std::chrono`改造`AFDateTime`
-- [ ] 升级至C++17
-- [ ] `std::string_veiw`/`discard`/...
+- [ ] ~~升级至C++17~~
+- [ ] ~~`std::string_veiw`/`discard`/...~~
+- [ ] session id 使用GUID类型
 
 ## Low priority
 
