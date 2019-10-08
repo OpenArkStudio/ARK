@@ -26,7 +26,7 @@
 
 namespace ark {
 
-class AFCHttpClientModule : public AFIHttpClientModule
+class AFCHttpClientModule final : public AFIHttpClientModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

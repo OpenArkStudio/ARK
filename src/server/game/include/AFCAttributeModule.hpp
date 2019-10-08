@@ -28,7 +28,7 @@
 
 namespace ark {
 
-class AFCAttributeModule : public AFIAttributeModule
+class AFCAttributeModule final : public AFIAttributeModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

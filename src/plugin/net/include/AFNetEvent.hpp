@@ -35,7 +35,7 @@ enum class AFNetEventType : uint8_t
     RECV_DATA = 3,
 };
 
-class AFNetEvent
+class AFNetEvent final
 {
 public:
     static AFNetEvent* AllocEvent()

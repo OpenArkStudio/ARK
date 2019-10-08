@@ -27,7 +27,7 @@
 
 namespace ark {
 
-class Sample2Module : public AFIModule
+class Sample2Module final : public AFIModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

@@ -26,7 +26,7 @@
 
 namespace ark {
 
-class AFCGUIDModule : public AFIGUIDModule
+class AFCGUIDModule final : public AFIGUIDModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

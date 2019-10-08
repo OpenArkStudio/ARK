@@ -25,7 +25,7 @@
 
 namespace ark {
 
-class AFCTCPClient : public AFINet
+class AFCTCPClient final : public AFINet
 {
 public:
     AFCTCPClient(const brynet::net::TcpService::Ptr& service = nullptr,

@@ -28,7 +28,7 @@
 
 namespace ark {
 
-class AFCLevelModule : public AFILevelModule
+class AFCLevelModule final : public AFILevelModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

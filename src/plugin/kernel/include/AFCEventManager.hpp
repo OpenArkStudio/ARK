@@ -28,7 +28,7 @@
 
 namespace ark {
 
-class AFCEventManager : public AFIEventManager
+class AFCEventManager final : public AFIEventManager
 {
 public:
     AFCEventManager() = delete;

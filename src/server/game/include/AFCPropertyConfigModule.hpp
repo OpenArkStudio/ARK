@@ -26,7 +26,7 @@
 
 namespace ark {
 
-class AFCPropertyConfigModule : public AFIPropertyConfigModule
+class AFCPropertyConfigModule final : public AFIPropertyConfigModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

@@ -30,7 +30,7 @@
 
 namespace ark {
 
-class AFCLoginNetModule : public AFILoginNetModule
+class AFCLoginNetModule final : public AFILoginNetModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

@@ -25,7 +25,7 @@
 
 namespace ark {
 
-class AFCTCPServer : public AFINet
+class AFCTCPServer final : public AFINet
 {
 public:
     AFCTCPServer();

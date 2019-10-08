@@ -128,7 +128,7 @@ private:
     bool delete_flag{false};
 };
 
-class AFCronSheduler
+class AFCronSheduler final
 {
 public:
     AFCronSheduler() {}

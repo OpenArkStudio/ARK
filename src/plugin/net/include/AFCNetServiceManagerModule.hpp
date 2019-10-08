@@ -32,7 +32,7 @@
 
 namespace ark {
 
-class AFCNetServiceManagerModule : public AFINetServiceManagerModule
+class AFCNetServiceManagerModule final : public AFINetServiceManagerModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

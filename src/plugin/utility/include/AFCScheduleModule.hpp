@@ -26,7 +26,7 @@
 
 namespace ark {
 
-class AFCScheduleModule : public AFIScheduleModule
+class AFCScheduleModule final : public AFIScheduleModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

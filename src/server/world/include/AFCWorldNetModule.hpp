@@ -33,7 +33,7 @@
 
 namespace ark {
 
-class AFCWorldNetModule : public AFIWorldNetModule
+class AFCWorldNetModule final : public AFIWorldNetModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

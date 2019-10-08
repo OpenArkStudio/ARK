@@ -46,7 +46,7 @@ public:
 };
 
 template<size_t DATA_SIZE, size_t BUFFER_SIZE, typename ALLOC = AFDataListAlloc>
-class AFBaseDataList : public AFIDataList
+class AFBaseDataList final : public AFIDataList
 {
 private:
     using self_t = AFBaseDataList<DATA_SIZE, BUFFER_SIZE, ALLOC>;

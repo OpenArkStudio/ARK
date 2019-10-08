@@ -30,7 +30,7 @@
 
 namespace ark {
 
-class AFCRouterNetModule : public AFIRouterNetModule
+class AFCRouterNetModule final : public AFIRouterNetModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

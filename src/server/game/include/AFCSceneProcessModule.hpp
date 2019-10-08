@@ -32,7 +32,7 @@
 
 namespace ark {
 
-class AFCSceneProcessModule : public AFISceneProcessModule
+class AFCSceneProcessModule final : public AFISceneProcessModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

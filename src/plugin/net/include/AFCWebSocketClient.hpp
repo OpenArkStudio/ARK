@@ -25,7 +25,7 @@
 
 namespace ark {
 
-class AFCWebSocketClient : public AFINet
+class AFCWebSocketClient final : public AFINet
 {
 public:
     AFCWebSocketClient(

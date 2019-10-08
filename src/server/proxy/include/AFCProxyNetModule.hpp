@@ -31,7 +31,7 @@
 
 namespace ark {
 
-class AFCProxyNetModule : public AFIProxyNetModule
+class AFCProxyNetModule final : public AFIProxyNetModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
