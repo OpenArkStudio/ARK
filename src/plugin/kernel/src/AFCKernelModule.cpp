@@ -322,13 +322,40 @@ bool AFCKernelModule::DestroyEntity(const AFGUID& self)
         return DestroySelf(self);
     }
 
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
+    auto pEntity = GetEntity(self);
     if (pEntity == nullptr)
     {
-        ARK_LOG_ERROR("Cannot find this object, self={}", self);
+        ARK_LOG_ERROR("Cannot find this object, self={}", NULL_GUID);
         return false;
     }
 
+    auto pParentContainer = pEntity->GetParentContainer();
+    if (pParentContainer)
+    {
+        // use container to destroy its entity
+        return pParentContainer->Destroy(self);
+    }
+    else
+    {
+        return InnerDestroyEntity(pEntity);
+    }
+}
+
+bool AFCKernelModule::DestroySelf(const AFGUID& self)
+{
+    delete_list_.push_back(self);
+    return true;
+}
+
+bool AFCKernelModule::InnerDestroyEntity(ARK_SHARE_PTR<AFIEntity> pEntity)
+{
+    if (pEntity == nullptr)
+    {
+        ARK_LOG_ERROR("Cannot find this object, self={}", NULL_GUID);
+        return false;
+    }
+
+    auto& self = pEntity->GetID();
     int32_t map_id = pEntity->GetMapID();
     int32_t inst_id = pEntity->GetMapEntityID();
 
@@ -350,12 +377,6 @@ bool AFCKernelModule::DestroyEntity(const AFGUID& self)
         ARK_LOG_ERROR("Cannot find this map, object_id={} map={} inst={}", self, map_id, inst_id);
         return false;
     }
-}
-
-bool AFCKernelModule::DestroySelf(const AFGUID& self)
-{
-    delete_list_.push_back(self);
-    return true;
 }
 
 bool AFCKernelModule::AddEventCallBack(const AFGUID& self, const int nEventID, EVENT_PROCESS_FUNCTOR&& cb)
@@ -947,7 +968,7 @@ int AFCKernelModule::OnContainerCallBack(const AFGUID& self, const uint32_t inde
 {
     if (op_type == ArkContainerOpType::OP_DESTROY)
     {
-        // remove entity
+        // destroy entity
         auto pEntity = GetEntity(self);
         ARK_ASSERT_RET_VAL(pEntity != nullptr, 0);
 
@@ -957,7 +978,7 @@ int AFCKernelModule::OnContainerCallBack(const AFGUID& self, const uint32_t inde
         auto pContainerEntity = pContainer->Find(src_index);
         ARK_ASSERT_RET_VAL(pContainerEntity != nullptr, 0);
 
-        DestroyEntity(pContainerEntity->GetID());
+        InnerDestroyEntity(pContainerEntity);
     }
 
     return 0;

@@ -112,11 +112,11 @@ enum class ArkTableNodeMask : uint16_t
 
 enum class ArkContainerOpType : uint32_t
 {
-    OP_CREATE = 0,
-    OP_PLACE = 1,
-    OP_REMOVE = 2,
-    OP_SWAP = 3,
-    OP_DESTROY = 4,
+    OP_CREATE = 0,  // new entity
+    OP_PLACE = 1,   // place another entity
+    OP_REMOVE = 2,  // remove en entity but do not destroy
+    OP_SWAP = 3,    // swap two entities
+    OP_DESTROY = 4, // destroy an entity
 };
 
 enum class ArkHttpMethod : uint8_t

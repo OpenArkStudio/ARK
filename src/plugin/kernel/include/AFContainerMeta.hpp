@@ -24,6 +24,16 @@ namespace ark {
 
 class AFContainerMeta final
 {
+private:
+    // container name
+    std::string name_{NULL_STR};
+
+    // container index
+    uint32_t index_{0u};
+
+    // container's class name
+    std::string class_name_{NULL_STR};
+
 public:
     AFContainerMeta() = delete;
 
@@ -50,16 +60,6 @@ public:
     {
         return index_;
     }
-
-private:
-    // container name
-    std::string name_{NULL_STR};
-
-    // container index
-    uint32_t index_{0u};
-
-    // container's class name
-    std::string class_name_{NULL_STR};
 };
 
 } // namespace ark

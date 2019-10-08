@@ -34,11 +34,6 @@ AFCTable::AFCTable(
     m_pCallBackManager = pCallBackManager;
 }
 
-AFCTable::~AFCTable()
-{
-    Clear();
-}
-
 const std::string& AFCTable::GetName() const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_STR);
@@ -155,6 +150,7 @@ bool AFCTable::RemoveRow(uint32_t row)
 void AFCTable::Clear()
 {
     OnTableChanged(0u, ArkTableOpType::TABLE_CLEAR);
+    data_.clear();
 }
 
 // find

@@ -54,8 +54,6 @@ public:
     explicit AFCContainer(ARK_SHARE_PTR<AFContainerMeta> container_meta, const AFGUID& parent_id,
         ARK_SHARE_PTR<AFClassCallBackManager> class_meta);
 
-    ~AFCContainer() override;
-
     const std::string& GetName() const override;
 
     // get parent unique id

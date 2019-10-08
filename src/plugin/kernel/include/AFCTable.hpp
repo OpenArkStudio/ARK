@@ -60,8 +60,6 @@ public:
     explicit AFCTable(ARK_SHARE_PTR<AFTableMeta> pTableMeta, ARK_SHARE_PTR<AFClassCallBackManager> pCallBackManager,
         const AFGUID& guid);
 
-    ~AFCTable() override;
-
     const std::string& GetName() const override;
 
     uint32_t GetColCount() const override;

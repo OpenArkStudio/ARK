@@ -92,6 +92,8 @@ public:
 protected:
     bool DestroySelf(const AFGUID& self);
 
+    bool InnerDestroyEntity(ARK_SHARE_PTR<AFIEntity> pEntity);
+
     bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb) override;
     bool AddEventCallBack(const AFGUID& self, const int event_id, EVENT_PROCESS_FUNCTOR&& cb) override;
     bool AddDataCallBack(const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb) override;

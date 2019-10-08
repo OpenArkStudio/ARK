@@ -30,11 +30,6 @@ AFCContainer::AFCContainer(ARK_SHARE_PTR<AFContainerMeta> container_meta, const 
     call_back_mgr_ = call_back_mgr;
 }
 
-AFCContainer::~AFCContainer()
-{
-    entity_data_list_.clear();
-}
-
 // get parent unique id
 const AFGUID& AFCContainer::GetParentID() const
 {
@@ -326,7 +321,7 @@ void AFCContainer::OnContainerPlace(const uint32_t index, ARK_SHARE_PTR<AFIEntit
     ARK_ASSERT_RET_NONE(pEntity != nullptr);
     pEntity->SetParentContainer(shared_from_this());
 
-    ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr);
+    ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr && container_meta_ != nullptr);
 
     if (pEntity->IsSent())
     {
@@ -343,7 +338,7 @@ void AFCContainer::OnContainerPlace(const uint32_t index, ARK_SHARE_PTR<AFIEntit
 
 void AFCContainer::OnContainerSwap(const uint32_t index, const uint32_t swap_index)
 {
-    ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr);
+    ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr && container_meta_ != nullptr);
     call_back_mgr_->OnContainerCallBack(
         parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_SWAP, index, swap_index);
 }
@@ -352,7 +347,7 @@ void AFCContainer::OnContainerRemove(const uint32_t index, ARK_SHARE_PTR<AFIEnti
 {
     pEntity->SetParentContainer(nullptr);
 
-    ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr);
+    ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr && container_meta_ != nullptr);
     call_back_mgr_->OnContainerCallBack(parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_REMOVE, index, 0u);
 }
 
@@ -360,7 +355,7 @@ void AFCContainer::OnContainerDestroy(const uint32_t index, ARK_SHARE_PTR<AFIEnt
 {
     pEntity->SetParentContainer(nullptr);
 
-    ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr);
+    ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr && container_meta_ != nullptr);
     call_back_mgr_->OnContainerCallBack(
         parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_DESTROY, index, 0u);
 }
