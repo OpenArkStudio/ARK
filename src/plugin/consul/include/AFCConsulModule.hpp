@@ -6,7 +6,7 @@
 
 namespace ark {
 
-class AFCConsulModule : public AFIConsulModule
+class AFCConsulModule final : public AFIConsulModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

@@ -27,7 +27,7 @@
 
 namespace ark {
 
-class AFCWebSocketServer : public AFINet
+class AFCWebSocketServer final : public AFINet
 {
 public:
     AFCWebSocketServer();

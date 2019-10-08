@@ -28,7 +28,7 @@
 
 namespace ark {
 
-class AFCMapModule : public AFIMapModule
+class AFCMapModule final : public AFIMapModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

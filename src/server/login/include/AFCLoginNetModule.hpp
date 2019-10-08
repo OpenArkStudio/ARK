@@ -30,7 +30,7 @@
 
 namespace ark {
 
-class AFCLoginNetModule : public AFILoginNetModule
+class AFCLoginNetModule final : public AFILoginNetModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
@@ -52,15 +52,12 @@ protected:
     // void OnClientDisconnect(const AFGUID& xClientID);
     // void OnClientConnected(const AFGUID& xClientID);
 
-    ////登入
     // void OnLoginProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const
     // AFGUID& xClientID);
 
-    ////选择大世界
     // void OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen,
     // const AFGUID& xClientID);
 
-    ////申请查看世界列表
     // void OnViewWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen,
     // const AFGUID& xClientID);
 

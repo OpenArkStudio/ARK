@@ -47,7 +47,7 @@ public:
 };
 
 template<size_t BUFFER_SIZE, typename ALLOC = AFDataAllocNewType>
-class AFDataBase : public AFIData
+class AFDataBase final : public AFIData
 {
 public:
     using self_t = AFDataBase<BUFFER_SIZE, ALLOC>;

@@ -28,7 +28,7 @@
 
 namespace ark {
 
-class AFCAttributeModule : public AFIAttributeModule
+class AFCAttributeModule final : public AFIAttributeModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
@@ -37,49 +37,50 @@ public:
     virtual int RefreshBaseAttribute(const AFGUID& self);
 
     virtual int GetAttributeValue(
-        const AFGUID& self, const std::string& strPropertyName, const ArkAttributeGroup eGroupType);
-    virtual int SetAttributeValue(const AFGUID& self, const std::string& strPropertyName,
-        const ArkAttributeGroup eGroupType, const int32_t nValue);
+        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type);
+    virtual int SetAttributeValue(
+        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type, const int32_t value);
 
-    virtual int AddAttributeValue(const AFGUID& self, const std::string& strPropertyName,
-        const ArkAttributeGroup eGroupType, const int32_t nValue);
-    virtual int SubAttributeValue(const AFGUID& self, const std::string& strPropertyName,
-        const ArkAttributeGroup eGroupType, const int32_t nValue);
+    virtual int AddAttributeValue(
+        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type, const int32_t value);
+    virtual int SubAttributeValue(
+        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type, const int32_t value);
 
     virtual bool FullHPMP(const AFGUID& self);
-    virtual bool AddHP(const AFGUID& self, const int32_t& nValue);
-    virtual bool ConsumeHP(const AFGUID& self, const int32_t& nValue);
-    virtual bool EnoughHP(const AFGUID& self, const int32_t& nValue);
+    virtual bool AddHP(const AFGUID& self, const int32_t& value);
+    virtual bool ConsumeHP(const AFGUID& self, const int32_t& value);
+    virtual bool EnoughHP(const AFGUID& self, const int32_t& value);
 
-    virtual bool AddMP(const AFGUID& self, const int32_t& nValue);
-    virtual bool ConsumeMP(const AFGUID& self, const int32_t& nValue);
-    virtual bool EnoughMP(const AFGUID& self, const int32_t& nValue);
+    virtual bool AddMP(const AFGUID& self, const int32_t& value);
+    virtual bool ConsumeMP(const AFGUID& self, const int32_t& value);
+    virtual bool EnoughMP(const AFGUID& self, const int32_t& value);
 
-    virtual bool AddMoney(const AFGUID& self, const int32_t& nValue);
-    virtual bool ConsumeMoney(const AFGUID& self, const int32_t& nValue);
-    virtual bool EnoughMoney(const AFGUID& self, const int32_t& nValue);
+    virtual bool AddMoney(const AFGUID& self, const int32_t& value);
+    virtual bool ConsumeMoney(const AFGUID& self, const int32_t& value);
+    virtual bool EnoughMoney(const AFGUID& self, const int32_t& value);
 
-    virtual bool AddDiamond(const AFGUID& self, const int32_t& nValue);
-    virtual bool ConsumeDiamond(const AFGUID& self, const int32_t& nValue);
-    virtual bool EnoughDiamond(const AFGUID& self, const int32_t& nValue);
+    virtual bool AddDiamond(const AFGUID& self, const int32_t& value);
+    virtual bool ConsumeDiamond(const AFGUID& self, const int32_t& value);
+    virtual bool EnoughDiamond(const AFGUID& self, const int32_t& value);
 
 protected:
     int OnObjectClassEvent(
-        const AFGUID& self, const std::string& class_name, const ArkEntityEvent eClassEvent, const AFIDataList& var);
+        const AFGUID& self, const std::string& class_name, const ArkEntityEvent event, const AFIDataList& var);
 
     int OnObjectLevelEvent(
-        const AFGUID& self, const std::string& strPropertyName, const uint32_t index, const AFIData& oldVar, const AFIData& newVar);
+        const AFGUID& self, const std::string& strPropertyName, const uint32_t index, const AFIData& old_var, const AFIData& new_var);
 
     int OnAttributeTableEvent(
         const AFGUID& self, const TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
-    const std::string& ColToAttributeName(const size_t nCol);
-    int AttributeNameToCol(const std::string& strClassName);
+    const std::string& ColToAttributeName(const size_t col);
+    int AttributeNameToCol(const std::string& class_name);
 
 private:
     AFIKernelModule* m_pKernelModule;
     AFIPropertyConfigModule* m_pPropertyConfigModule;
     AFILevelModule* m_pLevelModule;
+
     std::map<std::string, int> name2col_;
     std::vector<std::string> col2names_;
 };

@@ -312,6 +312,7 @@ public:
                 auto innerFuture = std::move(state_->value_);
                 return std::move(innerFuture.Value());
             } catch(const std::exception& e) {
+                (void)e;
                 return MakeExceptionFuture<InnerType>(std::current_exception());
             }
         } else {
@@ -370,6 +371,7 @@ public:
             try {
                 t = std::move(state_->value_);
             } catch(const std::exception& e) {
+                (void)e;
                 t = (typename TryWrapper<T>::Type)(std::current_exception());
             }
 

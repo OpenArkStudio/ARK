@@ -29,7 +29,7 @@
 
 namespace ark {
 
-class AFCDataTraceModule : public AFIDataTraceModule
+class AFCDataTraceModule final : public AFIDataTraceModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

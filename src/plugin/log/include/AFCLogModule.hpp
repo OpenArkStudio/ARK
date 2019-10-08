@@ -26,7 +26,7 @@
 
 namespace ark {
 
-class AFCLogModule : public AFILogModule
+class AFCLogModule final : public AFILogModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

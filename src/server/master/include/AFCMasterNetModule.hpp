@@ -33,7 +33,7 @@
 
 namespace ark {
 
-class AFCMasterNetModule : public AFIMasterNetModule
+class AFCMasterNetModule final : public AFIMasterNetModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
@@ -54,20 +54,17 @@ protected:
     // const AFGUID& conn_id); void SyncAllProxyToDir(int bus_id, const AFGUID& conn_id);
     //////////////////////////////////////////////////////////////////////////
 
-    ////世界服务器注册，刷新信息
     // void OnWorldRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t
     // nLen, const AFGUID& xClientID); void OnWorldUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID,
     // const char* msg, const uint32_t nLen, const AFGUID& xClientID); void OnRefreshWorldInfoProcess(const
     // ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     //////////////////////////////////////////////////////////////////////////
-    ////登录服务器注册，刷新信息
     // void OnLoginRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t
     // nLen, const AFGUID& xClientID); void OnLoginUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID,
     // const char* msg, const uint32_t nLen, const AFGUID& xClientID); void OnRefreshLoginInfoProcess(const
     // ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    ////选择世界服务器消息
     // void OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen,
     // const AFGUID& xClientID); void OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID,
     // const char* msg, const uint32_t nLen, const AFGUID& xClientID);

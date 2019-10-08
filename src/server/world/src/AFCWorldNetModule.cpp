@@ -401,8 +401,8 @@ bool AFCWorldNetModule::SendMsgToGame(const AFIDataList& argObjectVar, const AFI
 
     for (size_t i = 0; i < argObjectVar.GetCount(); i++)
     {
-        const AFGUID& identOther = argObjectVar.Int64(i);
-        const int64_t nGameID = argGameID.Int(i);
+        AFGUID identOther = argObjectVar.Int64(i);
+        int nGameID = argGameID.Int(i);
 
         SendMsgToGame(nGameID, eMsgID, xData, identOther);
     }
@@ -527,7 +527,7 @@ int AFCWorldNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFID
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOther = argVar.Int64(i);
-        const int64_t nGameID = argGameID.Int(i);
+        int nGameID = argGameID.Int(i);
 
         if (self != identOther)
         {
@@ -545,7 +545,7 @@ int AFCWorldNetModule::OnSelfDataNodeEnter(const AFGUID& self, const AFIDataList
         return 1;
     }
 
-    const int64_t nGameID = argGameID.Int(0);
+    int nGameID = argGameID.Int(0);
 
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
 
@@ -587,7 +587,7 @@ int AFCWorldNetModule::OnSelfDataTableEnter(const AFGUID& self, const AFIDataLis
     mask[(size_t)ArkTableNodeMask::PF_PRIVATE] = 1;
     m_pKernelModule->TableToPBDataByMask(pEntity, mask, entity->mutable_data());
 
-	const int64_t nGameID = argGameID.Int(0);
+	int nGameID = argGameID.Int(0);
     SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, msg, self);
 
     return 0;

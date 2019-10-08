@@ -278,7 +278,6 @@ int AFCMasterNetModule::StartServer()
 //        return;
 //    }
 
-//    //转发送到登录服务器
 //    m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pServerData->xClient, nPlayerID);
 //}
 
@@ -293,7 +292,7 @@ int AFCMasterNetModule::StartServer()
 //        *pData = pServerData->xData;
 //    }
 
-//    //广播给所有loginserver
+//    // bc to all login server
 //    for (ARK_SHARE_PTR<AFServerData> pServerData = mLoginMap.First(); nullptr != pServerData; pServerData =
 //    mLoginMap.Next())
 //    {
@@ -353,7 +352,6 @@ int AFCMasterNetModule::StartServer()
 //    {
 //        auto& server_data = reg_servers_.GetCurrentData();
 //        AFBusAddr bus_addr(server_data->server_info_.bus_id());
-//        //只发proxy-server到dir，以供client连接
 //        if (bus_addr.proc_id != ARK_APP_PROXY)
 //        {
 //            continue;

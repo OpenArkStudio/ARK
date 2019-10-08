@@ -169,7 +169,7 @@ void Sample1Module::TestOssLog()
         msg.set_account("xxxxx");
         AFDateTime time(GetPluginManager()->GetNowTime());
         msg.set_time(time.GetTime());
-        msg.set_ms(time.Raw());
+        msg.set_ms(static_cast<double>(time.Raw()));
         msg.set_ts(time.ToISO8601String());
         msg.set_ip("127.0.0.1");
         msg.set_adv("aaa");

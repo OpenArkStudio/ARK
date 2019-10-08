@@ -35,7 +35,7 @@
 
 namespace ark {
 
-class AFCGameNetModule : public AFIGameNetModule
+class AFCGameNetModule final : public AFIGameNetModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

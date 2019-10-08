@@ -29,7 +29,7 @@
 
 namespace ark {
 
-class AFCNetServerService : public AFINetServerService
+class AFCNetServerService final : public AFINetServerService
 {
 public:
     explicit AFCNetServerService(AFPluginManager* p);

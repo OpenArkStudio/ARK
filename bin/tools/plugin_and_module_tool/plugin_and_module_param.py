@@ -18,5 +18,3 @@ readme_file = "README.md"
 # some extention
 hpp_ext = ".hpp"
 cpp_ext = ".cpp"
-
-

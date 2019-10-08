@@ -335,7 +335,7 @@ using ARK_SHARE_PTR = std::shared_ptr<T>;
 //////////////////////////////////////////////////////////////////////////
 // Plugin macros
 #define ARK_DECLARE_PLUGIN(PLUGIN_CLASS)                                                                               \
-    class PLUGIN_CLASS : public AFIPlugin                                                                              \
+    class PLUGIN_CLASS final : public AFIPlugin                                                                              \
     {                                                                                                                  \
     public:                                                                                                            \
         int GetPluginVersion()                                                                                         \

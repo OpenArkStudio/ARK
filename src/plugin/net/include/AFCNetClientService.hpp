@@ -31,7 +31,7 @@
 
 namespace ark {
 
-class AFCNetClientService : public AFINetClientService
+class AFCNetClientService final : public AFINetClientService
 {
 public:
     enum EConstDefine

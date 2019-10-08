@@ -26,7 +26,7 @@
 
 namespace ark {
 
-class AFCTimerModule : public AFITimerModule
+class AFCTimerModule final : public AFITimerModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

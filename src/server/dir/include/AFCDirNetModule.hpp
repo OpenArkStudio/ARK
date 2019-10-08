@@ -30,7 +30,7 @@
 
 namespace ark {
 
-class AFCDirNetModule : public AFIDirNetModule
+class AFCDirNetModule final : public AFIDirNetModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:

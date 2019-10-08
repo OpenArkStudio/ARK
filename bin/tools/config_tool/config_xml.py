@@ -9,8 +9,8 @@ import xml.etree.ElementTree as et
 
 def read_xml(in_path):
     '''
-    读取并解析xml文件
-    in_path: xml路径
+    read and parse xml file
+    in_path: xml filepath
     return: ElementTree
     '''
     #print u'reading xml file: ' + in_path
@@ -25,18 +25,18 @@ def create_xml_tree(root):
 
 def write_xml(tree, out_path):
     '''
-    将xml文件写出
-    tree: xml树
-    out_path: 写出路径
+    write the xml data to file
+    tree: ElementTree
+    out_path: output filepath
     '''
     tree.write(out_path, encoding='UTF-8', xml_declaration=True)
 
 
 def if_match(node, kv_map):
     '''
-    判断某个节点是否包含所有传入参数属性 
-    node: 节点 
-    kv_map: 属性及属性值组成的map
+    check the node is in kv_map 
+    node: the node
+    kv_map: the k-v map
     '''
     for key in kv_map:
         if node.get(key) != kv_map.get(key):
@@ -46,18 +46,19 @@ def if_match(node, kv_map):
 
 def find_nodes(tree, path):
     '''
-    查找某个路径匹配的所有节点
-    tree: xml树
-    path: 节点路径
+    find all nodes in a tree path
+    tree: xml ElementTree
+    path: node path
     '''
     return tree.findall(path)
 
 
 def get_node_by_keyvalue(nodelist, kv_map):
     '''
-    根据属性及属性值定位符合的节点，返回节点
-    nodelist: 节点列表
-    kv_map: 匹配属性及属性值map
+    find all nodes that match the key-value
+    nodelist: node list
+    kv_map: property map
+    return: all matched nodes
     '''
     result_nodes = []
     for node in nodelist:
@@ -67,9 +68,11 @@ def get_node_by_keyvalue(nodelist, kv_map):
 
 
 def change_node_properties(nodelist, kv_map, delete=False):
-    '''修改/增加 /删除 节点的属性及属性值
-       nodelist: 节点列表
-       kv_map:属性及属性值map'''
+    '''
+    change/add/delete a node's property
+    nodelist: node list
+    kv_map: property map
+    '''
     for node in nodelist:
         for key in kv_map:
             if delete:
@@ -81,9 +84,9 @@ def change_node_properties(nodelist, kv_map, delete=False):
 
 def change_node_text(nodelist, text, is_add=False, is_delete=False):
     '''
-    改变/增加/删除一个节点的文本 
-    nodelist:节点列表 
-    text : 更新后的文本
+    change/add/delete a node text
+    nodelist: node list
+    text: the text after updated
     '''
     for node in nodelist:
         if is_add:
@@ -96,11 +99,11 @@ def change_node_text(nodelist, text, is_add=False, is_delete=False):
 
 def create_node(tag, property_map, content=""):
     '''
-    新造一个节点 
-    tag:节点标签 
-    property_map:属性及属性值map 
-    content: 节点闭合标签里的文本内容 
-    return 新节点
+    create a node
+    tag: node tag 
+    property_map: property map 
+    content: node content
+    return: the new node
     '''
     element = et.Element(tag, property_map)
     element.text = content
@@ -109,9 +112,9 @@ def create_node(tag, property_map, content=""):
 
 def add_child_node(nodelist, element):
     '''
-    给一个节点添加子节点 
-    nodelist: 节点列表 
-    element: 子节点
+    add a sub-node in a node list
+    nodelist: node list 
+    element: sub node
     '''
     for node in nodelist:
         node.append(element)
@@ -119,10 +122,10 @@ def add_child_node(nodelist, element):
 
 def del_node_by_tagkeyvalue(nodelist, tag, kv_map):
     '''
-    同过属性及属性值定位一个节点，并删除之 
-    nodelist: 父节点列表 
-    tag:子节点标签 
-    kv_map: 属性及属性值列表
+    delete all node if the tag all key-value matched.
+    nodelist: parent node list
+    tag: sub node tag name
+    kv_map: key-value map
     '''
     for parent_node in nodelist:
         children = parent_node.getchildren()

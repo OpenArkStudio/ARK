@@ -69,7 +69,7 @@ public:
     int32_t dst_bus_{0};  // Destination bus id
 };
 
-class AFNetMsg
+class AFNetMsg final
 {
 protected:
     AFNetMsg(const AFNetMsg&) = delete;

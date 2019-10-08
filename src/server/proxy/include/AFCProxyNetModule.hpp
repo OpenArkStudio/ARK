@@ -31,7 +31,7 @@
 
 namespace ark {
 
-class AFCProxyNetModule : public AFIProxyNetModule
+class AFCProxyNetModule final : public AFIProxyNetModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
@@ -45,7 +45,6 @@ public:
 
     bool VerifyConnectData(const std::string& strAccount, const std::string& strKey) override;
 
-    //进入游戏成功
     int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID) override;
 
 protected:
@@ -62,9 +61,7 @@ protected:
 
     void OnSocketEvent(const AFNetEvent* event);
 
-    //连接丢失,删2层(连接对象，帐号对象)
     void OnClientDisconnect(const AFGUID& xClientID);
-    //有连接
     void OnClientConnected(const AFGUID& xClientID);
 
     void OnConnectKeyProcess(const AFNetMsg* msg, const int64_t session_id);
@@ -83,7 +80,6 @@ protected:
     template<class TypeName>
     void CheckSessionTransMsg(const AFNetMsg* msg)
     {
-        ////在没有正式进入游戏之前，nPlayerID都是FD
         // ARK_PROCESS_MSG(xHead, msg, nLen, TypeName);
 
         // if (CheckSessionState(xMsg.game_id(), xClientID, xMsg.account()))

@@ -29,7 +29,7 @@
 
 namespace ark {
 
-class AFCAccountModule : public AFIAccountModule
+class AFCAccountModule final : public AFIAccountModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
