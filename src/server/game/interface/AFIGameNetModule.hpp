@@ -28,7 +28,6 @@ namespace ark {
 class AFIGameNetModule : public AFIModule
 {
 public:
-    //要管理当前所有的对象所在的actor,gateid,fd等
     class GateBaseInfo
     {
     public:
@@ -49,7 +48,7 @@ public:
     {
     public:
         AFServerData xServerData;
-        //此网关上所有的对象<角色ID,gate_FD>
+        //actor id -> gate fd
         std::map<AFGUID, AFGUID> xRoleInfo;
     };
 

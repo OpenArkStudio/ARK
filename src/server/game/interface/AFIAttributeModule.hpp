@@ -27,46 +27,45 @@ namespace ark {
 class AFIAttributeModule : public AFIModule
 {
 public:
-    enum ArkAttributeGroup
+    enum class AttributeGroup
     {
-        APG_JOBLEVEL,    //职业等级基础
-        APG_EFFECTVALUE, //一级属性影响二级属性的部分(直接用公式计算，其他部分不用动)
-        APG_REBIRTH_ADD, //重生奖励
-        APG_EQUIP,       //装备不会影响体质之类的导致2次计算(直接不要力量体质什么的)
-        APG_EQUIP_AWARD, //套装奖励
-        APG_STATIC_BUFF, //永久类型的BUFF，天赋之类的，或者吃的永久药水
-
-        APG_RUNTIME_BUFF, //动态BUFF
+        APG_CAREER,       // career attribute
+        APG_EFFECT_VALUE, // the basic attribute effect 2rd attribute(calculate by formula)
+        APG_REBORN_ADD,   // reborn attribute
+        APG_EQUIP,        // equip attribute
+        APG_EQUIP_AWARD,  // equip suit attribute
+        APG_STATIC_BUFF,  // permanent buff(talent or something else)
+        APG_RUNTIME_BUFF, // dynamic buff
 
         APG_ALL,
     };
 
     virtual int RefreshBaseAttribute(const AFGUID& self) = 0;
     virtual int GetAttributeValue(
-        const AFGUID& self, const std::string& strPropertyName, const ArkAttributeGroup eGroupType) = 0;
-    virtual int SetAttributeValue(const AFGUID& self, const std::string& strPropertyName,
-        const ArkAttributeGroup eGroupType, const int32_t nValue) = 0;
-    virtual int AddAttributeValue(const AFGUID& self, const std::string& strPropertyName,
-        const ArkAttributeGroup eGroupType, const int32_t nValue) = 0;
-    virtual int SubAttributeValue(const AFGUID& self, const std::string& strPropertyName,
-        const ArkAttributeGroup eGroupType, const int32_t nValue) = 0;
+        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type) = 0;
+    virtual int SetAttributeValue(
+        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type, const int32_t value) = 0;
+    virtual int AddAttributeValue(
+        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type, const int32_t value) = 0;
+    virtual int SubAttributeValue(
+        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type, const int32_t value) = 0;
 
     virtual bool FullHPMP(const AFGUID& self) = 0;
-    virtual bool AddHP(const AFGUID& self, const int32_t& nValue) = 0;
-    virtual bool ConsumeHP(const AFGUID& self, const int32_t& nValue) = 0;
-    virtual bool EnoughHP(const AFGUID& self, const int32_t& nValue) = 0;
+    virtual bool AddHP(const AFGUID& self, const int32_t& value) = 0;
+    virtual bool ConsumeHP(const AFGUID& self, const int32_t& value) = 0;
+    virtual bool EnoughHP(const AFGUID& self, const int32_t& value) = 0;
 
-    virtual bool AddMP(const AFGUID& self, const int32_t& nValue) = 0;
-    virtual bool ConsumeMP(const AFGUID& self, const int32_t& nValue) = 0;
-    virtual bool EnoughMP(const AFGUID& self, const int32_t& nValue) = 0;
+    virtual bool AddMP(const AFGUID& self, const int32_t& value) = 0;
+    virtual bool ConsumeMP(const AFGUID& self, const int32_t& value) = 0;
+    virtual bool EnoughMP(const AFGUID& self, const int32_t& value) = 0;
 
-    virtual bool AddMoney(const AFGUID& self, const int32_t& nValue) = 0;
-    virtual bool ConsumeMoney(const AFGUID& self, const int32_t& nValue) = 0;
-    virtual bool EnoughMoney(const AFGUID& self, const int32_t& nValue) = 0;
+    virtual bool AddMoney(const AFGUID& self, const int32_t& value) = 0;
+    virtual bool ConsumeMoney(const AFGUID& self, const int32_t& value) = 0;
+    virtual bool EnoughMoney(const AFGUID& self, const int32_t& value) = 0;
 
-    virtual bool AddDiamond(const AFGUID& self, const int32_t& nValue) = 0;
-    virtual bool ConsumeDiamond(const AFGUID& self, const int32_t& nValue) = 0;
-    virtual bool EnoughDiamond(const AFGUID& self, const int32_t& nValue) = 0;
+    virtual bool AddDiamond(const AFGUID& self, const int32_t& value) = 0;
+    virtual bool ConsumeDiamond(const AFGUID& self, const int32_t& value) = 0;
+    virtual bool EnoughDiamond(const AFGUID& self, const int32_t& value) = 0;
 };
 
 } // namespace ark

@@ -143,7 +143,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
         return 1;
     }
 
-    //每个玩家，一个副本
+    // every player has the map instance.
     int new_inst = 0;
 
     if (target_inst <= 0)
@@ -238,7 +238,7 @@ int AFCSceneProcessModule::OnObjectClassEvent(
             return 0;
         }
 
-        //如果在副本中,则删除他的那个副本
+        // if in the map instance, delete the map instance too.
         int map_id = pEntity->GetInt32(AFEntityMetaPlayer::map_id());
 
         if (GetMapInstanceType(map_id) == SCENE_TYPE_CLONE_SCENE)
@@ -292,7 +292,6 @@ bool AFCSceneProcessModule::LoadMapResource(const int map_id)
     // const std::string strSceneFilePath(m_pConfigModule->GetNodeString(ARK_LEXICAL_CAST<std::string>(map_id),
     // AFConfigMetaMap::map_info()));
 
-    ////场景对应资源
     // ARK_SHARE_PTR<AFMapEx<std::string, MapSeedResource>> pSceneResourceMap = map_res_.find_value(map_id);
 
     // if (pSceneResourceMap == nullptr)
@@ -310,13 +309,11 @@ bool AFCSceneProcessModule::LoadMapResource(const int map_id)
     // rapidxml::xml_document<> xFileDoc;
     // xFileDoc.parse<0>(xFileSource.data());
 
-    ////资源文件列表
     // rapidxml::xml_node<>* pSeedFileRoot = xFileDoc.first_node();
 
     // for (rapidxml::xml_node<>* pSeedFileNode = pSeedFileRoot->first_node(); pSeedFileNode; pSeedFileNode =
     // pSeedFileNode->next_sibling())
     //{
-    //    //种子具体信息
     //    std::string strSeedID = pSeedFileNode->first_attribute("ID")->value();
     //    std::string strConfigID = pSeedFileNode->first_attribute("NPCConfigID")->value();
     //    float fSeedX = ARK_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedX")->value());

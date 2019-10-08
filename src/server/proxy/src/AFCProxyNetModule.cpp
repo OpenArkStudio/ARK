@@ -306,7 +306,6 @@ void AFCProxyNetModule::OnReqRoleListProcess(const AFNetMsg* msg, const int64_t 
 
 void AFCProxyNetModule::OnReqCreateRoleProcess(const AFNetMsg* msg, const int64_t session_id)
 {
-    //在没有正式进游 戏之前，nPlayerID都是FD
     // CheckSessionTransMsg<AFMsg::ReqCreateRole>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
@@ -342,7 +341,6 @@ bool AFCProxyNetModule::CheckSessionState(const int nGameID, const AFGUID& xClie
     //ARK_SHARE_PTR<AFConnectionData> pServerData = pWorldNetService->GetServerNetInfo(nGameID);
     //if (pServerData != nullptr && AFConnectionData::CONNECTED == pServerData->net_state_)
     //{
-    //    //数据匹配
     //    ARK_SHARE_PTR<AFClientConnectionData> pSessionData = client_connections_.find_value(xClientID);
 
     //    if (pSessionData != nullptr && pSessionData->logic_state_ > 0 && pSessionData->game_id_ == nGameID &&
