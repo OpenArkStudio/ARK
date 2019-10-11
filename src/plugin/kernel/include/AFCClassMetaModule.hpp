@@ -41,9 +41,9 @@ public:
 
     bool Load() override;
 
-    bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb) override;
+    bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) override;
 
-    bool DoEvent(const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event,
+    bool DoClassEvent(const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event,
         const AFIDataList& args) override;
 
     ARK_SHARE_PTR<AFClassMeta> FindMeta(const std::string& class_name) override;

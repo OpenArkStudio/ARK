@@ -48,6 +48,10 @@ bool AFCKernelModule::Init()
     m_pLogModule = FindModule<AFILogModule>();
     m_pGUIDModule = FindModule<AFIGUIDModule>();
 
+    auto container_func = std::bind(&AFCKernelModule::OnContainerCallBack, this, std::placeholders::_1,
+        std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
+    AddCommonContainerCallBack(std::move(container_func), 999999); // after other callbacks being done
+
     return true;
 }
 
@@ -390,13 +394,13 @@ bool AFCKernelModule::AddEventCallBack(const AFGUID& self, const int nEventID, E
     return pEventManager->AddEventCallBack(nEventID, std::forward<EVENT_PROCESS_FUNCTOR>(cb));
 }
 
-bool AFCKernelModule::AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb)
+bool AFCKernelModule::AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
-    return m_pClassModule->AddClassCallBack(class_name, std::forward<CLASS_EVENT_FUNCTOR>(cb));
+    return m_pClassModule->AddClassCallBack(class_name, std::forward<CLASS_EVENT_FUNCTOR>(cb), prio);
 }
 
 bool AFCKernelModule::AddDataCallBack(
-    const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb)
+    const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
     auto pClassMeta = m_pClassModule->FindMeta(class_name);
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
@@ -407,13 +411,13 @@ bool AFCKernelModule::AddDataCallBack(
         return false;
     }
 
-    AddDataCallBack(class_name, index, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
+    AddDataCallBack(class_name, index, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb), prio);
 
     return true;
 }
 
 bool AFCKernelModule::AddTableCallBack(
-    const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb)
+    const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
     auto pClassMeta = m_pClassModule->FindMeta(class_name);
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
@@ -424,12 +428,13 @@ bool AFCKernelModule::AddTableCallBack(
         return false;
     }
 
-    AddTableCallBack(class_name, index, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
+    AddTableCallBack(class_name, index, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb), prio);
 
     return true;
 }
 
-bool AFCKernelModule::AddDataCallBack(const std::string& class_name, const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb)
+bool AFCKernelModule::AddDataCallBack(
+    const std::string& class_name, const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
     auto pClassMeta = m_pClassModule->FindMeta(class_name);
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
@@ -440,13 +445,13 @@ bool AFCKernelModule::AddDataCallBack(const std::string& class_name, const uint3
     auto pCallBack = pClassMeta->GetClassCallBackManager();
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
-    pCallBack->AddDataCallBack(index, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
+    pCallBack->AddDataCallBack(index, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb), prio);
 
     return true;
 }
 
 bool AFCKernelModule::AddTableCallBack(
-    const std::string& class_name, const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb)
+    const std::string& class_name, const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
     auto pClassMeta = m_pClassModule->FindMeta(class_name);
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
@@ -457,13 +462,13 @@ bool AFCKernelModule::AddTableCallBack(
     auto pCallBack = pClassMeta->GetClassCallBackManager();
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
-    pCallBack->AddTableCallBack(index, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
+    pCallBack->AddTableCallBack(index, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb), prio);
 
     return true;
 }
 
 bool AFCKernelModule::AddContainerCallBack(
-    const std::string& class_name, const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb)
+    const std::string& class_name, const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
     auto pClassMeta = m_pClassModule->FindMeta(class_name);
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
@@ -474,12 +479,12 @@ bool AFCKernelModule::AddContainerCallBack(
     auto pCallBack = pClassMeta->GetClassCallBackManager();
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
-    pCallBack->AddContainerCallBack(index, std::forward<CONTAINER_EVENT_FUNCTOR>(cb));
+    pCallBack->AddContainerCallBack(index, std::forward<CONTAINER_EVENT_FUNCTOR>(cb), prio);
 
     return true;
 }
 
-bool AFCKernelModule::AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb)
+bool AFCKernelModule::AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
     auto pClassMeta = m_pClassModule->FindMeta(AFEntityMetaPlayer::self_name());
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
@@ -494,13 +499,13 @@ bool AFCKernelModule::AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb)
         }
 
         AddContainerCallBack(
-            AFEntityMetaPlayer::self_name(), pMeta->GetIndex(), std::forward<CONTAINER_EVENT_FUNCTOR>(cb));
+            AFEntityMetaPlayer::self_name(), pMeta->GetIndex(), std::forward<CONTAINER_EVENT_FUNCTOR>(cb), prio);
     }
 
     return true;
 }
 
-bool AFCKernelModule::AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb)
+bool AFCKernelModule::AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
     auto& class_meta_list = m_pClassModule->GetMetaList();
     for (auto iter : class_meta_list)
@@ -516,13 +521,13 @@ bool AFCKernelModule::AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb)
             continue;
         }
 
-        AddClassCallBack(iter.first, std::forward<CLASS_EVENT_FUNCTOR>(cb));
+        AddClassCallBack(iter.first, std::forward<CLASS_EVENT_FUNCTOR>(cb), prio);
     }
 
     return true;
 }
 
-bool AFCKernelModule::AddCommonNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb)
+bool AFCKernelModule::AddCommonNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
     auto& class_meta_list = m_pClassModule->GetMetaList();
     for (auto iter : class_meta_list)
@@ -541,14 +546,14 @@ bool AFCKernelModule::AddCommonNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb)
         auto& data_meta_list = pClassMeta->GetDataMetaList();
         for (auto iter_data : data_meta_list)
         {
-            AddDataCallBack(iter.first, iter_data.first, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
+            AddDataCallBack(iter.first, iter_data.first, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb), prio);
         }
     }
 
     return true;
 }
 
-bool AFCKernelModule::AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb)
+bool AFCKernelModule::AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
     auto& class_meta_list = m_pClassModule->GetMetaList();
     for (auto iter : class_meta_list)
@@ -567,7 +572,7 @@ bool AFCKernelModule::AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb)
         auto& table_meta_list = pClassMeta->GetTableMetaList();
         for (auto iter_data : table_meta_list)
         {
-            AddTableCallBack(iter.first, iter_data.first, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
+            AddTableCallBack(iter.first, iter_data.first, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb), prio);
         }
     }
 
@@ -577,7 +582,7 @@ bool AFCKernelModule::AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb)
 bool AFCKernelModule::DoEvent(
     const AFGUID& self, const std::string& class_name, ArkEntityEvent class_event, const AFIDataList& args)
 {
-    return m_pClassModule->DoEvent(self, class_name, class_event, args);
+    return m_pClassModule->DoClassEvent(self, class_name, class_event, args);
 }
 
 bool AFCKernelModule::DoEvent(const AFGUID& self, const int event_id, const AFIDataList& args)

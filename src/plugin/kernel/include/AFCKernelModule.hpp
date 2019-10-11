@@ -94,22 +94,25 @@ protected:
 
     bool InnerDestroyEntity(ARK_SHARE_PTR<AFIEntity> pEntity);
 
-    bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb) override;
     bool AddEventCallBack(const AFGUID& self, const int event_id, EVENT_PROCESS_FUNCTOR&& cb) override;
-    bool AddDataCallBack(const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb) override;
-    bool AddTableCallBack(
-        const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb) override;
+    bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) override;
+    bool AddDataCallBack(const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb,
+        const int32_t prio) override;
+    bool AddTableCallBack(const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb,
+        const int32_t prio) override;
 
-    bool AddDataCallBack(const std::string& class_name, const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb) override;
-    bool AddTableCallBack(const std::string& class_name, const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb) override;
+    bool AddDataCallBack(
+        const std::string& class_name, const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio) override;
+    bool AddTableCallBack(const std::string& class_name, const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb,
+        const int32_t prio) override;
 
     bool AddContainerCallBack(
-        const std::string& class_name, const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb) override;
-    bool AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb) override;
+        const std::string& class_name, const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb, const int32_t prio) override;
+    bool AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb, const int32_t prio) override;
 
-    bool AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb) override;
-    bool AddCommonNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb) override;
-    bool AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb) override;
+    bool AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) override;
+    bool AddCommonNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio) override;
+    bool AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio) override;
 
     // convert db data and entity
     bool EntityToDBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_db_entity& pb_data);

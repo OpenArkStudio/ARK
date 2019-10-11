@@ -32,29 +32,33 @@ class AFIKernelModule : public AFIModule
 public:
     template<typename BaseType>
     bool AddCommonClassEvent(BaseType* pBase,
-        int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
+        int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&),
+        const int32_t prio = 0)
     {
         auto functor = std::bind(
             handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return AddCommonClassEvent(std::move(functor));
+        return AddCommonClassEvent(std::move(functor), prio);
     }
 
     template<typename BaseType>
-    bool AddCommonNodeEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&,
-                                                 const uint32_t index, const AFIData&, const AFIData&))
+    bool AddCommonNodeEvent(BaseType* pBase,
+        int (BaseType::*handler)(
+            const AFGUID&, const std::string&, const uint32_t index, const AFIData&, const AFIData&),
+        const int32_t prio = 0)
     {
         auto functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
             std::placeholders::_4, std::placeholders::_5);
-        return AddCommonNodeEvent(std::move(functor));
+        return AddCommonNodeEvent(std::move(functor), prio);
     }
 
     template<typename BaseType>
     bool AddCommonTableEvent(BaseType* pBase,
-        int (BaseType::*handler)(const AFGUID&, const TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
+        int (BaseType::*handler)(const AFGUID&, const TABLE_EVENT_DATA&, const AFIData&, const AFIData&),
+        const int32_t prio = 0)
     {
         auto functor = std::bind(
             handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return AddCommonTableEvent(std::move(functor));
+        return AddCommonTableEvent(std::move(functor), prio);
     }
     /////////////////////////////////////////////////////////////////
     template<typename BaseType>
@@ -67,68 +71,83 @@ public:
 
     template<typename BaseType>
     bool AddClassCallBack(const std::string& name, BaseType* pBase,
-        int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
+        int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&),
+        const int32_t prio = 0)
     {
         auto functor = std::bind(
             handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return AddClassCallBack(name, std::move(functor));
+        return AddClassCallBack(name, std::move(functor), prio);
     }
 
     template<typename BaseType>
     bool AddDataCallBack(const std::string& class_name, const std::string& name, BaseType* pBase,
-        int (BaseType::*handler)(const AFGUID&, const std::string&, const uint32_t, const AFIData&, const AFIData&))
+        int (BaseType::*handler)(const AFGUID&, const std::string&, const uint32_t, const AFIData&, const AFIData&),
+        const int32_t prio = 0)
     {
         return AddDataCallBack(class_name, name,
             std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
-                std::placeholders::_4, std::placeholders::_5)));
+                std::placeholders::_4, std::placeholders::_5)),
+            prio);
     }
 
     template<typename BaseType>
     bool AddTableCallBack(const std::string& class_name, const std::string& name, BaseType* pBase,
-        int (BaseType::*handler)(const AFGUID&, const TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
+        int (BaseType::*handler)(const AFGUID&, const TABLE_EVENT_DATA&, const AFIData&, const AFIData&),
+        const int32_t prio = 0)
     {
         return AddTableCallBack(class_name, name,
             std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
-                std::placeholders::_4)));
+                std::placeholders::_4)),
+            prio);
     }
 
     // call back by index
     template<typename BaseType>
     bool AddDataCallBack(const std::string& class_name, const uint32_t index, BaseType* pBase,
-        int (BaseType::*handler)(const AFGUID&, const std::string&, const uint32_t, const AFIData&, const AFIData&))
+        int (BaseType::*handler)(const AFGUID&, const std::string&, const uint32_t, const AFIData&, const AFIData&),
+        const int32_t prio = 0)
     {
         return AddDataCallBack(class_name, index,
             std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
-                std::placeholders::_4, std::placeholders::_5)));
+                std::placeholders::_4, std::placeholders::_5)),
+            prio);
     }
 
     template<typename BaseType>
     bool AddTableCallBack(const std::string& class_name, const uint32_t index, BaseType* pBase,
-        int (BaseType::*handler)(const AFGUID&, const TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
+        int (BaseType::*handler)(const AFGUID&, const TABLE_EVENT_DATA&, const AFIData&, const AFIData&),
+        const int32_t prio = 0)
     {
         return AddTableCallBack(class_name, index,
             std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
-                std::placeholders::_4)));
+                std::placeholders::_4)),
+            prio);
     }
 
     // container call back
     template<typename BaseType>
     bool AddContainerCallBack(const std::string& class_name, const uint32_t index, BaseType* pBase,
         int (BaseType::*handler)(
-            const AFGUID&, const uint32_t, const ArkContainerOpType, const uint32_t, const uint32_t))
+            const AFGUID&, const uint32_t, const ArkContainerOpType, const uint32_t, const uint32_t),
+        const int32_t prio = 0)
     {
         return AddContainerCallBack(class_name, index,
             std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
-                std::placeholders::_4, std::placeholders::_5)));
+                std::placeholders::_4, std::placeholders::_5)),
+            prio);
     }
 
     // only for player
     template<typename BaseType>
-    bool AddCommonContainerCallBack(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const uint32_t,
-                                                         const ArkContainerOpType, const uint32_t, const uint32_t))
+    bool AddCommonContainerCallBack(BaseType* pBase,
+        int (BaseType::*handler)(
+            const AFGUID&, const uint32_t, const ArkContainerOpType, const uint32_t, const uint32_t),
+        const int32_t prio = 0)
     {
-        return AddCommonContainerCallBack(std::move(std::bind(handler, pBase, std::placeholders::_1,
-            std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5)));
+        return AddCommonContainerCallBack(
+            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+                std::placeholders::_4, std::placeholders::_5)),
+            prio);
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -175,24 +194,25 @@ public:
 
 protected:
     virtual bool AddEventCallBack(const AFGUID& self, const int nEventID, EVENT_PROCESS_FUNCTOR&& cb) = 0;
-    virtual bool AddClassCallBack(const std::string& strClassName, CLASS_EVENT_FUNCTOR&& cb) = 0;
+    virtual bool AddClassCallBack(const std::string& strClassName, CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
 
     virtual bool AddDataCallBack(
-        const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb) = 0;
+        const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
     virtual bool AddTableCallBack(
-        const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb) = 0;
+        const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
 
-    virtual bool AddDataCallBack(const std::string& class_name, const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb) = 0;
+    virtual bool AddDataCallBack(
+        const std::string& class_name, const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
     virtual bool AddTableCallBack(
-        const std::string& class_name, const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb) = 0;
+        const std::string& class_name, const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
 
     virtual bool AddContainerCallBack(
-        const std::string& class_name, const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb) = 0;
-    virtual bool AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb) = 0;
+        const std::string& class_name, const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
+    virtual bool AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
 
-    virtual bool AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb) = 0;
-    virtual bool AddCommonNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb) = 0;
-    virtual bool AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb) = 0;
+    virtual bool AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
+    virtual bool AddCommonNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
+    virtual bool AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
 };
 
 } // namespace ark

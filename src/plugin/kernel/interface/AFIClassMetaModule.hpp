@@ -33,18 +33,9 @@ class AFIClassMetaModule : public AFIModule
 public:
     virtual bool Load() = 0;
 
-    template<typename BaseType>
-    bool AddClassCallBack(const std::string& class_name, BaseType* pBase,
-        int (BaseType::*handler)(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&))
-    {
-        return AddClassCallBack(
-            class_name, std::make_shared<CLASS_EVENT_FUNCTOR>(std::bind(handler, pBase, std::placeholders::_1,
-                            std::placeholders::_2, std::placeholders::_3, std::placeholders::_4)));
-    }
+    virtual bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
 
-    virtual bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb) = 0;
-
-    virtual bool DoEvent(
+    virtual bool DoClassEvent(
         const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event, const AFIDataList& args) = 0;
 
     virtual ARK_SHARE_PTR<AFClassMeta> FindMeta(const std::string& class_name) = 0;

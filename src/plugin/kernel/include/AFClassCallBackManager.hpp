@@ -31,35 +31,32 @@ class AFClassCallBackManager final
 {
 private:
     // class event list
-    AFList<CLASS_EVENT_FUNCTOR> class_events_;
+    std::multimap<int32_t, CLASS_EVENT_FUNCTOR> class_events_;
 
     // data call backs list
-    using DataCallBacks = std::vector<DATA_NODE_EVENT_FUNCTOR>;
+    using DataCallBacks = std::multimap<int32_t, DATA_NODE_EVENT_FUNCTOR>;
     AFHashmap<uint32_t, DataCallBacks> data_call_backs_list_;
 
     // table call backs list
-    using TableCallBacks = std::vector<DATA_TABLE_EVENT_FUNCTOR>;
+    using TableCallBacks = std::multimap<int32_t, DATA_TABLE_EVENT_FUNCTOR>;
     AFHashmap<uint32_t, TableCallBacks> table_call_backs_list_;
 
     // container call backs list
-    using ContainerCallBacks = std::vector<CONTAINER_EVENT_FUNCTOR>;
+    using ContainerCallBacks = std::multimap<int32_t, CONTAINER_EVENT_FUNCTOR>;
     AFHashmap<uint32_t, ContainerCallBacks> container_call_backs_list_;
 
 public:
     explicit AFClassCallBackManager() = default;
 
-    virtual ~AFClassCallBackManager()
-    {
-        class_events_.clear();
-    }
+    virtual ~AFClassCallBackManager() = default;
 
-    bool AddClassCallBack(CLASS_EVENT_FUNCTOR&& cb)
+    bool AddClassCallBack(CLASS_EVENT_FUNCTOR&& cb, const int32_t prio)
     {
-        class_events_.emplace_back(std::forward<CLASS_EVENT_FUNCTOR>(cb));
+        class_events_.insert(std::make_pair(prio, std::forward<CLASS_EVENT_FUNCTOR>(cb)));
         return true;
     }
 
-    bool AddDataCallBack(const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb)
+    bool AddDataCallBack(const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio)
     {
         auto iter = data_call_backs_list_.find(index);
         if (iter == data_call_backs_list_.end())
@@ -67,18 +64,18 @@ public:
             DataCallBacks* pDataCBs = ARK_NEW DataCallBacks;
             ARK_ASSERT_RET_VAL(pDataCBs != nullptr, false);
 
-            pDataCBs->push_back(std::forward<DATA_NODE_EVENT_FUNCTOR>(cb));
+            pDataCBs->insert(std::make_pair(prio, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb)));
             data_call_backs_list_.insert(index, pDataCBs);
         }
         else
         {
-            iter->second->push_back(cb);
+            iter->second->insert(std::make_pair(prio, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb)));
         }
 
         return true;
     }
 
-    bool AddTableCallBack(const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb)
+    bool AddTableCallBack(const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio)
     {
         auto iter = table_call_backs_list_.find(index);
         if (iter == table_call_backs_list_.end())
@@ -86,18 +83,18 @@ public:
             TableCallBacks* pTableCBs = ARK_NEW TableCallBacks;
             ARK_ASSERT_RET_VAL(pTableCBs != nullptr, false);
 
-            pTableCBs->push_back(std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb));
+            pTableCBs->insert(std::make_pair(prio, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb)));
             table_call_backs_list_.insert(index, pTableCBs);
         }
         else
         {
-            iter->second->push_back(cb);
+            iter->second->insert(std::make_pair(prio, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb)));
         }
 
         return true;
     }
 
-    bool AddContainerCallBack(const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb)
+    bool AddContainerCallBack(const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb, const int32_t prio)
     {
         auto iter = container_call_backs_list_.find(index);
         if (iter == container_call_backs_list_.end())
@@ -105,23 +102,23 @@ public:
             ContainerCallBacks* pContainerCBs = ARK_NEW ContainerCallBacks;
             ARK_ASSERT_RET_VAL(pContainerCBs != nullptr, false);
 
-            pContainerCBs->push_back(std::forward<CONTAINER_EVENT_FUNCTOR>(cb));
+            pContainerCBs->insert(std::make_pair(prio, std::forward<CONTAINER_EVENT_FUNCTOR>(cb)));
             container_call_backs_list_.insert(index, pContainerCBs);
         }
         else
         {
-            iter->second->push_back(cb);
+            iter->second->insert(std::make_pair(prio, std::forward<CONTAINER_EVENT_FUNCTOR>(cb)));
         }
 
         return true;
     }
 
-    bool DoEvent(
+    bool OnClassEvent(
         const AFGUID& id, const std::string& class_name, const ArkEntityEvent eClassEvent, const AFIDataList& valueList)
     {
-        for (auto iter : class_events_)
+        for (auto& iter : class_events_)
         {
-            iter(id, class_name, eClassEvent, valueList);
+            iter.second(id, class_name, eClassEvent, valueList);
         }
 
         return true;
@@ -136,9 +133,9 @@ public:
             return false;
         }
 
-        for (auto& cb : *data_call_backs)
+        for (auto& iter : *data_call_backs)
         {
-            cb(self, name, index, old_data, new_data);
+            iter.second(self, name, index, old_data, new_data);
         }
 
         return true;
@@ -153,9 +150,9 @@ public:
             return false;
         }
 
-        for (auto& cb : *table_call_backs)
+        for (auto& iter : *table_call_backs)
         {
-            cb(id, event_data, old_data, new_data);
+            iter.second(id, event_data, old_data, new_data);
         }
 
         return true;
@@ -170,9 +167,9 @@ public:
             return false;
         }
 
-        for (auto& cb : *container_call_backs)
+        for (auto& iter : *container_call_backs)
         {
-            cb(self, index, op_type, src_index, dest_index);
+            iter.second(self, index, op_type, src_index, dest_index);
         }
 
         return true;

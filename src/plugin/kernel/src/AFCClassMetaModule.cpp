@@ -264,7 +264,7 @@ ArkDataType AFCClassMetaModule::ConvertDataType(const std::string& type_name)
     return data_type;
 }
 
-bool AFCClassMetaModule::AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb)
+bool AFCClassMetaModule::AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
     auto pClassMeta = m_pClassMetaManager->FindMeta(class_name);
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
@@ -272,10 +272,10 @@ bool AFCClassMetaModule::AddClassCallBack(const std::string& class_name, CLASS_E
     auto pCallBack = pClassMeta->GetClassCallBackManager();
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
-    return pCallBack->AddClassCallBack(std::forward<CLASS_EVENT_FUNCTOR>(cb));
+    return pCallBack->AddClassCallBack(std::forward<CLASS_EVENT_FUNCTOR>(cb), prio);
 }
 
-bool AFCClassMetaModule::DoEvent(
+bool AFCClassMetaModule::DoClassEvent(
     const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event, const AFIDataList& args)
 {
     auto pClassMeta = m_pClassMetaManager->FindMeta(class_name);
@@ -284,7 +284,7 @@ bool AFCClassMetaModule::DoEvent(
     auto pCallBack = pClassMeta->GetClassCallBackManager();
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
-    return pCallBack->DoEvent(id, class_name, class_event, args);
+    return pCallBack->OnClassEvent(id, class_name, class_event, args);
 }
 
 ARK_SHARE_PTR<AFClassMeta> AFCClassMetaModule::FindMeta(const std::string& class_name)
