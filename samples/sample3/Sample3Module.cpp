@@ -226,7 +226,7 @@ void Sample3Module::EventTest()
 }
 
 //-----------------------------inner interface--------------------------------------------
-ARK_SHARE_PTR<ark::AFIEntity> Sample3Module::CreateAnPlayerAndInit()
+std::shared_ptr<ark::AFIEntity> Sample3Module::CreateAnPlayerAndInit()
 {
     // create object
     auto pEntity =

@@ -33,7 +33,7 @@ public:
 
 private:
     // contain entity class meta
-    ARK_SHARE_PTR<AFContainerMeta> container_meta_{nullptr};
+    std::shared_ptr<AFContainerMeta> container_meta_{nullptr};
 
     // index start
     uint32_t current_index_{0u};
@@ -46,13 +46,13 @@ private:
     EntityDataList entity_data_list_;
 
     // call back
-    ARK_SHARE_PTR<AFClassCallBackManager> call_back_mgr_{nullptr};
+    std::shared_ptr<AFClassCallBackManager> call_back_mgr_{nullptr};
 
 public:
     AFCContainer() = delete;
 
-    explicit AFCContainer(ARK_SHARE_PTR<AFContainerMeta> container_meta, const AFGUID& parent_id,
-        ARK_SHARE_PTR<AFClassCallBackManager> class_meta);
+    explicit AFCContainer(std::shared_ptr<AFContainerMeta> container_meta, const AFGUID& parent_id,
+        std::shared_ptr<AFClassCallBackManager> class_meta);
 
     const std::string& GetName() const override;
 
@@ -62,20 +62,20 @@ public:
     uint32_t First() override;
     uint32_t Next() override;
 
-    ARK_SHARE_PTR<AFIEntity> Find(uint32_t index) const override;
+    std::shared_ptr<AFIEntity> Find(uint32_t index) const override;
     uint32_t Find(const AFGUID& id) const override;
 
     bool Exist(uint32_t index) const override;
     bool Exist(const AFGUID& id) const override;
 
-    bool Place(ARK_SHARE_PTR<AFIEntity> pEntity) override;
-    bool Place(uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity) override;
+    bool Place(std::shared_ptr<AFIEntity> pEntity) override;
+    bool Place(uint32_t index, std::shared_ptr<AFIEntity> pEntity) override;
 
     bool Swap(const uint32_t src_index, const uint32_t dest_index) override;
     bool Swap(const AFGUID& src_entity, const AFGUID& dest_entity) override;
 
-    bool Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index) override;
-    bool Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity) override;
+    bool Swap(std::shared_ptr<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index) override;
+    bool Swap(std::shared_ptr<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity) override;
 
     bool Remove(const uint32_t index) override;
     bool Remove(const AFGUID& id) override;
@@ -86,12 +86,12 @@ public:
 private:
     uint32_t SelectIndex() const;
 
-    bool PlaceEntity(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity);
+    bool PlaceEntity(const uint32_t index, std::shared_ptr<AFIEntity> pEntity);
 
-    void OnContainerPlace(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity);
+    void OnContainerPlace(const uint32_t index, std::shared_ptr<AFIEntity> pEntity);
     void OnContainerSwap(const uint32_t index, const uint32_t swap_index);
-    void OnContainerRemove(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity);
-    void OnContainerDestroy(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity);
+    void OnContainerRemove(const uint32_t index, std::shared_ptr<AFIEntity> pEntity);
+    void OnContainerDestroy(const uint32_t index, std::shared_ptr<AFIEntity> pEntity);
 };
 
 } // namespace ark

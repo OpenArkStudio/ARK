@@ -36,18 +36,11 @@ class AFCDirNetModule final : public AFIDirNetModule
 public:
     bool Init() override;
     bool PostInit() override;
-    //bool PreUpdate() override;
 
     std::shared_ptr<AFINetServerService> GetNetServer() override;
 
 protected:
     int StartServer();
-    //int StartClient();
-
-    // void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
-
-    // void OnClientConnected(const AFGUID& conn_id);
-    // void OnClientDisconnect(const AFGUID& conn_id);
 
 private:
     AFILogModule* m_pLogModule;

@@ -29,11 +29,6 @@
 
 namespace ark {
 
-AFCTCPServer::AFCTCPServer()
-{
-    brynet::net::base::InitSocket();
-}
-
 AFCTCPServer::~AFCTCPServer()
 {
     Shutdown();
@@ -55,32 +50,34 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
     tcp_service_ptr_ = TcpService::Create();
     tcp_service_ptr_->startWorkerThread(thread_num);
 
-    auto OnEnterCallback = [this, head_len](const TcpConnectionPtr& session) {
-        int64_t cur_session_id = this->trusted_session_id_++;
+    auto shared_this = shared_from_this();
 
+    auto OnEnterCallback = [shared_this, head_len](const TcpConnectionPtr& session) {
+        //int64_t cur_session_id = shared_this->trusted_session_id_++;
+        auto cur_session_id = shared_this->uid_generator_->GetUID(shared_this->bus_id_);
         session->setUD(cur_session_id);
 
         AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
         net_connect_event->SetId(cur_session_id);
         net_connect_event->SetType(AFNetEventType::CONNECTED);
-        net_connect_event->SetBusId(this->bus_id_);
+        net_connect_event->SetBusId(shared_this->bus_id_);
         net_connect_event->SetIP(session->getIP());
 
         // scope lock
         {
-            AFScopeWLock guard(this->rw_lock_);
+            AFScopeWLock guard(shared_this->rw_lock_);
             AFTCPSessionPtr session_ptr = ARK_NEW AFTCPSession(head_len, cur_session_id, session);
-            if (this->AddNetSession(session_ptr))
+            if (shared_this->AddNetSession(session_ptr))
             {
                 session_ptr->AddNetEvent(net_connect_event);
             }
         }
 
-        session->setDataCallback([this, session](const char* buffer, size_t len) {
+        session->setDataCallback([shared_this, session](const char* buffer, size_t len) {
             auto pUD = cast<int64_t>(session->getUD());
             if (pUD != nullptr)
             {
-                const AFTCPSessionPtr session_ptr = this->GetNetSession(*pUD);
+                const AFTCPSessionPtr session_ptr = shared_this->GetNetSession(*pUD);
                 session_ptr->AddBuffer(buffer, len);
                 session_ptr->ParseBufferToMsg();
             }
@@ -88,7 +85,7 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
             return len;
         });
 
-        session->setDisConnectCallback([this](const TcpConnectionPtr& session) {
+        session->setDisConnectCallback([shared_this](const TcpConnectionPtr& session) {
             auto pUD = cast<int64_t>(session->getUD());
             if (pUD == nullptr)
             {
@@ -100,10 +97,10 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
             AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
             net_disconnect_event->SetId(session_id);
             net_disconnect_event->SetType(AFNetEventType::DISCONNECTED);
-            net_disconnect_event->SetBusId(this->bus_id_);
+            net_disconnect_event->SetBusId(shared_this->bus_id_);
             net_disconnect_event->SetIP(session->getIP());
 
-            const AFTCPSessionPtr session_ptr = this->GetNetSession(session_id);
+            const AFTCPSessionPtr session_ptr = shared_this->GetNetSession(session_id);
             if (session_ptr == nullptr)
             {
                 return;
@@ -198,6 +195,10 @@ bool AFCTCPServer::Shutdown()
 {
     CloseAllSession();
     SetWorking(false);
+
+    tcp_service_ptr_->stopWorkerThread();
+    listen_builder.stop();
+
     return true;
 }
 

@@ -76,7 +76,7 @@ bool AFCConfigModule::Clear()
     return true;
 }
 
-bool AFCConfigModule::LoadConfig(ARK_SHARE_PTR<AFClassMeta> pClassMeta)
+bool AFCConfigModule::LoadConfig(std::shared_ptr<AFClassMeta> pClassMeta)
 {
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, true);
 
@@ -134,7 +134,7 @@ bool AFCConfigModule::LoadConfig(ARK_SHARE_PTR<AFClassMeta> pClassMeta)
     return true;
 }
 
-ARK_SHARE_PTR<AFIStaticEntity> AFCConfigModule::FindStaticEntity(const ID_TYPE config_id)
+std::shared_ptr<AFIStaticEntity> AFCConfigModule::FindStaticEntity(const ID_TYPE config_id)
 {
     ARK_ASSERT_RET_VAL(m_pStaticEntityManager != nullptr, nullptr);
 

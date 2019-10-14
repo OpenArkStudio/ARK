@@ -36,7 +36,7 @@ public:
     virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar) = 0;
     virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar) = 0;
 
-    virtual ARK_SHARE_PTR<AFServerData> GetSuitProxyForEnter() = 0;
+    virtual std::shared_ptr<AFServerData> GetSuitProxyForEnter() = 0;
     virtual std::shared_ptr<AFINetServerService> GetNetServer() = 0;
 };
 

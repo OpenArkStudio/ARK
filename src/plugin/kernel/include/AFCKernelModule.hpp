@@ -50,12 +50,12 @@ public:
     bool PreShut() override;
 
     ///////////////////////////////////////////////////////////////////////
-    ARK_SHARE_PTR<AFIStaticEntity> GetStaticEntity(const ID_TYPE config_id) override;
-    ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& self) override;
-    ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int nSceneID, const int nGroupID,
+    std::shared_ptr<AFIStaticEntity> GetStaticEntity(const ID_TYPE config_id) override;
+    std::shared_ptr<AFIEntity> GetEntity(const AFGUID& self) override;
+    std::shared_ptr<AFIEntity> CreateEntity(const AFGUID& self, const int nSceneID, const int nGroupID,
         const std::string& strClassName, const ID_TYPE config_id, const AFIDataList& arg) override;
 
-    ARK_SHARE_PTR<AFIEntity> CreateContainerEntity(const AFGUID& self, const uint32_t container_index,
+    std::shared_ptr<AFIEntity> CreateContainerEntity(const AFGUID& self, const uint32_t container_index,
         const std::string& class_name, const ID_TYPE config_id) override;
 
     bool DestroyAll() override;
@@ -74,7 +74,7 @@ public:
     bool Exist(const AFGUID& self) override;
 
     bool EntityToDBData(const AFGUID& self, AFMsg::pb_db_entity& pb_data) override;
-    ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFMsg::pb_db_entity& pb_data) override;
+    std::shared_ptr<AFIEntity> CreateEntity(const AFMsg::pb_db_entity& pb_data) override;
 
     // send message
     bool SendCustomMessage(const AFGUID& target, const uint32_t msg_id, const AFIDataList& args) override;
@@ -85,14 +85,14 @@ public:
     bool TableRowDataToPBData(const uint32_t index, uint32_t row, const uint32_t col, const AFIData& data,
         AFMsg::pb_entity_data* pb_data) override;
     bool NodeToPBDataByMask(
-        ARK_SHARE_PTR<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data) override;
+        std::shared_ptr<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data) override;
     bool TableToPBDataByMask(
-        ARK_SHARE_PTR<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data) override;
+        std::shared_ptr<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data) override;
 
 protected:
     bool DestroySelf(const AFGUID& self);
 
-    bool InnerDestroyEntity(ARK_SHARE_PTR<AFIEntity> pEntity);
+    bool InnerDestroyEntity(std::shared_ptr<AFIEntity> pEntity);
 
     bool AddEventCallBack(const AFGUID& self, const int event_id, EVENT_PROCESS_FUNCTOR&& cb) override;
     bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) override;
@@ -115,38 +115,38 @@ protected:
     bool AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio) override;
 
     // convert db data and entity
-    bool EntityToDBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_db_entity& pb_data);
+    bool EntityToDBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_db_entity& pb_data);
     bool NodeToDBData(AFINode* pNode, AFMsg::pb_db_entity_data& pb_data);
     bool TableToDBData(AFITable* pTable, AFMsg::pb_db_table& pb_data);
 
     template<typename T>
     bool DBDataToNode(T pData, const AFMsg::pb_db_entity_data& pb_db_entity_data);
     bool DBDataToTable(
-        ARK_SHARE_PTR<AFIEntity> pEntityData, const std::string& name, const AFMsg::pb_db_table& pb_table);
+        std::shared_ptr<AFIEntity> pEntityData, const std::string& name, const AFMsg::pb_db_table& pb_table);
     bool DBDataToContainer(
-        ARK_SHARE_PTR<AFIEntity> pEntity, const std::string& name, const AFMsg::pb_db_container& pb_data);
+        std::shared_ptr<AFIEntity> pEntity, const std::string& name, const AFMsg::pb_db_container& pb_data);
 
     // convert client pb and entity
     bool NodeToPBData(AFINode* pNode, AFMsg::pb_entity_data* pb_data);
     bool TableToPBData(AFITable* pTable, const uint32_t index, AFMsg::pb_table* pb_data);
-    bool NodeAllToPBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data);
-    bool TableAllToPBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data);
-    bool EntityToPBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_entity* pb_data);
-    bool EntityToPBDataByMask(ARK_SHARE_PTR<AFIEntity> pEntity, ArkMaskType mask, AFMsg::pb_entity* pb_data);
+    bool NodeAllToPBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data);
+    bool TableAllToPBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data);
+    bool EntityToPBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity* pb_data);
+    bool EntityToPBDataByMask(std::shared_ptr<AFIEntity> pEntity, ArkMaskType mask, AFMsg::pb_entity* pb_data);
 
     // call back
     int OnContainerCallBack(const AFGUID& self, const uint32_t index, const ArkContainerOpType op_type,
         const uint32_t src_index, const uint32_t dest_index);
 
-    bool CopyData(ARK_SHARE_PTR<AFIEntity> pEntity, const ID_TYPE config_id);
+    bool CopyData(std::shared_ptr<AFIEntity> pEntity, const ID_TYPE config_id);
 
     // get entity data
-    ARK_SHARE_PTR<AFNodeManager> GetNodeManager(ARK_SHARE_PTR<AFIStaticEntity> pStaticEntity) const;
-    ARK_SHARE_PTR<AFNodeManager> GetNodeManager(ARK_SHARE_PTR<AFIEntity> pEntity) const;
-    ARK_SHARE_PTR<AFNodeManager> GetNodeManager(AFIRow* pRow) const;
-    ARK_SHARE_PTR<AFTableManager> GetTableManager(ARK_SHARE_PTR<AFIEntity> pEntity) const;
-    ARK_SHARE_PTR<AFIContainerManager> GetContainerManager(ARK_SHARE_PTR<AFIEntity> pEntity) const;
-    ARK_SHARE_PTR<AFIEventManager> GetEventManager(ARK_SHARE_PTR<AFIEntity> pEntity) const;
+    std::shared_ptr<AFNodeManager> GetNodeManager(std::shared_ptr<AFIStaticEntity> pStaticEntity) const;
+    std::shared_ptr<AFNodeManager> GetNodeManager(std::shared_ptr<AFIEntity> pEntity) const;
+    std::shared_ptr<AFNodeManager> GetNodeManager(AFIRow* pRow) const;
+    std::shared_ptr<AFTableManager> GetTableManager(std::shared_ptr<AFIEntity> pEntity) const;
+    std::shared_ptr<AFIContainerManager> GetContainerManager(std::shared_ptr<AFIEntity> pEntity) const;
+    std::shared_ptr<AFIEventManager> GetEventManager(std::shared_ptr<AFIEntity> pEntity) const;
 
 private:
     std::list<AFGUID> delete_list_;

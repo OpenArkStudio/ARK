@@ -20,17 +20,15 @@
 
 #pragma once
 
+#include "base/AFUidGenerator.hpp"
 #include "net/interface/AFINet.hpp"
 #include "net/include/AFNetSession.hpp"
 
 namespace ark {
 
-class AFCTCPClient final : public AFINet
+class AFCTCPClient final : public AFNoncopyable, public AFINet, public std::enable_shared_from_this<AFCTCPClient>
 {
 public:
-    AFCTCPClient(const brynet::net::TcpService::Ptr& service = nullptr,
-        const brynet::net::AsyncConnector::Ptr& connector = nullptr);
-
     template<typename BaseType>
     AFCTCPClient(BaseType* pBaseType, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t),
         void (BaseType::*handleEvent)(const AFNetEvent*))
@@ -40,8 +38,10 @@ public:
 
         brynet::net::base::InitSocket();
         tcp_service_ = brynet::net::TcpService::Create();
-        // this could let you use common connector when multi-client created
+        // This could let you use common connector when multi-client created
         connector_ = brynet::net::AsyncConnector::Create();
+
+        uid_generator_ = std::make_shared<AFUidGeneratorThreadSafe>();
     }
 
     ~AFCTCPClient() override;
@@ -68,7 +68,6 @@ protected:
 private:
     std::unique_ptr<AFTCPSession> client_session_ptr_{nullptr};
     int dst_bus_id_{0};
-    uint64_t trust_session_id_{1};
 
     NET_MSG_FUNCTOR net_msg_cb_;
     NET_EVENT_FUNCTOR net_event_cb_;
@@ -77,6 +76,9 @@ private:
     brynet::net::TcpService::Ptr tcp_service_{nullptr};
     brynet::net::AsyncConnector::Ptr connector_{nullptr};
     brynet::net::wrapper::ConnectionBuilder connection_builder_;
+
+    //uint64_t trust_session_id_{1};
+    std::shared_ptr<AFUidGeneratorThreadSafe> uid_generator_{nullptr};
 };
 
 } // namespace ark

@@ -61,7 +61,7 @@ int AFCAttributeModule::SetAttributeValue(
 {
     // if (AttributeGroup::APG_ALL != eGroupType)
     //{
-    //    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+    //    std::shared_ptr<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
 
     //    if (pEntity != nullptr)
     //    {
@@ -84,7 +84,7 @@ int AFCAttributeModule::AddAttributeValue(
 {
     // if (AttributeGroup::APG_ALL != eGroupType)
     //{
-    //    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+    //    std::shared_ptr<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
 
     //    if (nullptr != pEntity)
     //    {
@@ -106,7 +106,7 @@ int AFCAttributeModule::SubAttributeValue(
 {
     // if (AttributeGroup::APG_ALL != eGroupType)
     //{
-    //    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+    //    std::shared_ptr<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
 
     //    if (nullptr != pEntity)
     //    {

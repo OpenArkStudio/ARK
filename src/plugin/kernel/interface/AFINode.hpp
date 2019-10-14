@@ -136,8 +136,8 @@ public:
     virtual void FromString(const std::string& value) {}
 
     // set meta
-    virtual void SetMeta(ARK_SHARE_PTR<AFNodeMeta> pDataMeta) = 0;
-    virtual ARK_SHARE_PTR<AFNodeMeta> GetMeta() = 0;
+    virtual void SetMeta(std::shared_ptr<AFNodeMeta> pDataMeta) = 0;
+    virtual std::shared_ptr<AFNodeMeta> GetMeta() = 0;
     virtual const std::string& GetName() = 0;
     virtual uint32_t GetIndex() const = 0;
 };

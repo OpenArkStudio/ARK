@@ -88,7 +88,7 @@ bool AFCKernelModule::PreShut()
     return DestroyAll();
 }
 
-bool AFCKernelModule::CopyData(ARK_SHARE_PTR<AFIEntity> pEntity, const ID_TYPE config_id)
+bool AFCKernelModule::CopyData(std::shared_ptr<AFIEntity> pEntity, const ID_TYPE config_id)
 {
     if (pEntity == nullptr)
     {
@@ -126,7 +126,7 @@ bool AFCKernelModule::CopyData(ARK_SHARE_PTR<AFIEntity> pEntity, const ID_TYPE c
     return false;
 }
 
-ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const int map_id, const int map_instance_id,
+std::shared_ptr<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const int map_id, const int map_instance_id,
     const std::string& class_name, const ID_TYPE config_id, const AFIDataList& args)
 {
     AFGUID object_id = self;
@@ -171,7 +171,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
         return nullptr;
     }
 
-    ARK_SHARE_PTR<AFIEntity> pEntity =
+    std::shared_ptr<AFIEntity> pEntity =
         std::make_shared<AFCEntity>(pClassMeta, object_id, config_id, map_id, map_instance_id);
 
     objects_.insert(object_id, pEntity);
@@ -227,7 +227,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
     return pEntity;
 }
 
-ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateContainerEntity(
+std::shared_ptr<AFIEntity> AFCKernelModule::CreateContainerEntity(
     const AFGUID& self, const uint32_t container_index, const std::string& class_name, const ID_TYPE config_id)
 {
     auto pEntity = GetEntity(self);
@@ -275,7 +275,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateContainerEntity(
         return nullptr;
     }
 
-    ARK_SHARE_PTR<AFIEntity> pContainerEntity =
+    std::shared_ptr<AFIEntity> pContainerEntity =
         std::make_shared<AFCEntity>(pClassMeta, object_id, config_id, map_id, map_instance_id);
 
     objects_.insert(object_id, pContainerEntity);
@@ -296,12 +296,12 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateContainerEntity(
     return pContainerEntity;
 }
 
-ARK_SHARE_PTR<AFIStaticEntity> AFCKernelModule::GetStaticEntity(const ID_TYPE config_id)
+std::shared_ptr<AFIStaticEntity> AFCKernelModule::GetStaticEntity(const ID_TYPE config_id)
 {
     return m_pConfigModule->FindStaticEntity(config_id);
 }
 
-ARK_SHARE_PTR<AFIEntity> AFCKernelModule::GetEntity(const AFGUID& self)
+std::shared_ptr<AFIEntity> AFCKernelModule::GetEntity(const AFGUID& self)
 {
     return objects_.find_value(self);
 }
@@ -351,7 +351,7 @@ bool AFCKernelModule::DestroySelf(const AFGUID& self)
     return true;
 }
 
-bool AFCKernelModule::InnerDestroyEntity(ARK_SHARE_PTR<AFIEntity> pEntity)
+bool AFCKernelModule::InnerDestroyEntity(std::shared_ptr<AFIEntity> pEntity)
 {
     if (pEntity == nullptr)
     {
@@ -363,7 +363,7 @@ bool AFCKernelModule::InnerDestroyEntity(ARK_SHARE_PTR<AFIEntity> pEntity)
     int32_t map_id = pEntity->GetMapID();
     int32_t inst_id = pEntity->GetMapEntityID();
 
-    ARK_SHARE_PTR<AFMapInfo> pMapInfo = m_pMapModule->GetMapInfo(map_id);
+    std::shared_ptr<AFMapInfo> pMapInfo = m_pMapModule->GetMapInfo(map_id);
     if (pMapInfo != nullptr)
     {
         const std::string& class_name = pEntity->GetClassName();
@@ -385,7 +385,7 @@ bool AFCKernelModule::InnerDestroyEntity(ARK_SHARE_PTR<AFIEntity> pEntity)
 
 bool AFCKernelModule::AddEventCallBack(const AFGUID& self, const int nEventID, EVENT_PROCESS_FUNCTOR&& cb)
 {
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
+    std::shared_ptr<AFIEntity> pEntity = GetEntity(self);
     ARK_ASSERT_RET_VAL(pEntity != nullptr, false);
 
     auto pEventManager = GetEventManager(pEntity);
@@ -587,7 +587,7 @@ bool AFCKernelModule::DoEvent(
 
 bool AFCKernelModule::DoEvent(const AFGUID& self, const int event_id, const AFIDataList& args)
 {
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
+    std::shared_ptr<AFIEntity> pEntity = GetEntity(self);
     ARK_ASSERT_RET_VAL(pEntity != nullptr, false);
 
     auto pEventManager = GetEventManager(pEntity);
@@ -669,7 +669,7 @@ int AFCKernelModule::LogObjectData(const AFGUID& guid)
 
 bool AFCKernelModule::LogInfo(const AFGUID& id)
 {
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(id);
+    std::shared_ptr<AFIEntity> pEntity = GetEntity(id);
     if (pEntity != nullptr)
     {
         ARK_LOG_ERROR("Cannot find entity, id = {}", id);
@@ -701,11 +701,11 @@ bool AFCKernelModule::LogInfo(const AFGUID& id)
 //--------------entity to pb db data------------------
 bool AFCKernelModule::EntityToDBData(const AFGUID& self, AFMsg::pb_db_entity& pb_data)
 {
-    ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
+    std::shared_ptr<AFIEntity> pEntity = GetEntity(self);
     return EntityToDBData(pEntity, pb_data);
 }
 
-bool AFCKernelModule::EntityToDBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_db_entity& pb_data)
+bool AFCKernelModule::EntityToDBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_db_entity& pb_data)
 {
     ARK_ASSERT_RET_VAL(pEntity != nullptr, false);
 
@@ -803,7 +803,7 @@ bool AFCKernelModule::EntityToDBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb
     return true;
 }
 
-ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFMsg::pb_db_entity& pb_data)
+std::shared_ptr<AFIEntity> AFCKernelModule::CreateEntity(const AFMsg::pb_db_entity& pb_data)
 {
     auto entity_id = pb_data.id();
     auto pEntity = GetEntity(entity_id);
@@ -915,7 +915,7 @@ bool AFCKernelModule::SendCustomMessage(const AFGUID& target, const uint32_t msg
 
 // pb table to entity table
 bool AFCKernelModule::DBDataToTable(
-    ARK_SHARE_PTR<AFIEntity> pEntityData, const std::string& name, const AFMsg::pb_db_table& pb_table)
+    std::shared_ptr<AFIEntity> pEntityData, const std::string& name, const AFMsg::pb_db_table& pb_table)
 {
     ARK_ASSERT_RET_VAL(pEntityData != nullptr, false);
 
@@ -944,7 +944,7 @@ bool AFCKernelModule::DBDataToTable(
 }
 
 bool AFCKernelModule::DBDataToContainer(
-    ARK_SHARE_PTR<AFIEntity> pEntity, const std::string& name, const AFMsg::pb_db_container& pb_data)
+    std::shared_ptr<AFIEntity> pEntity, const std::string& name, const AFMsg::pb_db_container& pb_data)
 {
     ARK_ASSERT_RET_VAL(pEntity != nullptr, false);
 
@@ -1244,7 +1244,7 @@ bool AFCKernelModule::TableRowDataToPBData(
 }
 
 //node all to pb data
-bool AFCKernelModule::NodeAllToPBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data)
+bool AFCKernelModule::NodeAllToPBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data)
 {
     ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
 
@@ -1261,7 +1261,7 @@ bool AFCKernelModule::NodeAllToPBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::p
 }
 
 //table all to pb data
-bool AFCKernelModule::TableAllToPBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data)
+bool AFCKernelModule::TableAllToPBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data)
 {
     ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
 
@@ -1290,7 +1290,7 @@ bool AFCKernelModule::TableAllToPBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::
     return true;
 }
 
-bool AFCKernelModule::EntityToPBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb_entity* pb_data)
+bool AFCKernelModule::EntityToPBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity* pb_data)
 {
     ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
 
@@ -1304,7 +1304,7 @@ bool AFCKernelModule::EntityToPBData(ARK_SHARE_PTR<AFIEntity> pEntity, AFMsg::pb
 }
 
 bool AFCKernelModule::EntityToPBDataByMask(
-    ARK_SHARE_PTR<AFIEntity> pEntity, ArkMaskType mask, AFMsg::pb_entity* pb_data)
+    std::shared_ptr<AFIEntity> pEntity, ArkMaskType mask, AFMsg::pb_entity* pb_data)
 {
     ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
 
@@ -1319,7 +1319,7 @@ bool AFCKernelModule::EntityToPBDataByMask(
 
 //node all to pb data
 bool AFCKernelModule::NodeToPBDataByMask(
-    ARK_SHARE_PTR<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data)
+    std::shared_ptr<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data)
 {
     ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
 
@@ -1348,7 +1348,7 @@ bool AFCKernelModule::NodeToPBDataByMask(
 }
 
 bool AFCKernelModule::TableToPBDataByMask(
-    ARK_SHARE_PTR<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data)
+    std::shared_ptr<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data)
 {
     ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
 
@@ -1385,7 +1385,7 @@ bool AFCKernelModule::TableToPBDataByMask(
 }
 
 // -----------get entity manager--------------
-ARK_SHARE_PTR<AFNodeManager> AFCKernelModule::GetNodeManager(ARK_SHARE_PTR<AFIStaticEntity> pStaticEntity) const
+std::shared_ptr<AFNodeManager> AFCKernelModule::GetNodeManager(std::shared_ptr<AFIStaticEntity> pStaticEntity) const
 {
     if (pStaticEntity == nullptr)
     {
@@ -1401,7 +1401,7 @@ ARK_SHARE_PTR<AFNodeManager> AFCKernelModule::GetNodeManager(ARK_SHARE_PTR<AFISt
     return pCStaticEntity->GetNodeManager();
 }
 
-ARK_SHARE_PTR<AFNodeManager> AFCKernelModule::GetNodeManager(ARK_SHARE_PTR<AFIEntity> pEntity) const
+std::shared_ptr<AFNodeManager> AFCKernelModule::GetNodeManager(std::shared_ptr<AFIEntity> pEntity) const
 {
     if (pEntity == nullptr)
     {
@@ -1417,7 +1417,7 @@ ARK_SHARE_PTR<AFNodeManager> AFCKernelModule::GetNodeManager(ARK_SHARE_PTR<AFIEn
     return pCEnity->GetNodeManager();
 }
 
-ARK_SHARE_PTR<AFNodeManager> AFCKernelModule::GetNodeManager(AFIRow* pRow) const
+std::shared_ptr<AFNodeManager> AFCKernelModule::GetNodeManager(AFIRow* pRow) const
 {
     if (pRow == nullptr)
     {
@@ -1433,7 +1433,7 @@ ARK_SHARE_PTR<AFNodeManager> AFCKernelModule::GetNodeManager(AFIRow* pRow) const
     return pCRow->GetNodeManager();
 }
 
-ARK_SHARE_PTR<AFTableManager> AFCKernelModule::GetTableManager(ARK_SHARE_PTR<AFIEntity> pEntity) const
+std::shared_ptr<AFTableManager> AFCKernelModule::GetTableManager(std::shared_ptr<AFIEntity> pEntity) const
 {
     if (pEntity == nullptr)
     {
@@ -1449,7 +1449,7 @@ ARK_SHARE_PTR<AFTableManager> AFCKernelModule::GetTableManager(ARK_SHARE_PTR<AFI
     return pCEnity->GetTableManager();
 }
 
-ARK_SHARE_PTR<AFIContainerManager> AFCKernelModule::GetContainerManager(ARK_SHARE_PTR<AFIEntity> pEntity) const
+std::shared_ptr<AFIContainerManager> AFCKernelModule::GetContainerManager(std::shared_ptr<AFIEntity> pEntity) const
 {
     if (pEntity == nullptr)
     {
@@ -1465,7 +1465,7 @@ ARK_SHARE_PTR<AFIContainerManager> AFCKernelModule::GetContainerManager(ARK_SHAR
     return pCEnity->GetContainerManager();
 }
 
-ARK_SHARE_PTR<AFIEventManager> AFCKernelModule::GetEventManager(ARK_SHARE_PTR<AFIEntity> pEntity) const
+std::shared_ptr<AFIEventManager> AFCKernelModule::GetEventManager(std::shared_ptr<AFIEntity> pEntity) const
 {
     if (pEntity == nullptr)
     {

@@ -24,12 +24,12 @@
 
 namespace ark {
 
-AFNodeManager::AFNodeManager(ARK_SHARE_PTR<AFClassMeta> pClassMeta)
+AFNodeManager::AFNodeManager(std::shared_ptr<AFClassMeta> pClassMeta)
 {
     class_meta_ = pClassMeta;
 }
 
-AFNodeManager::AFNodeManager(ARK_SHARE_PTR<AFClassMeta> pClassMeta, NODE_MANAGER_FUNCTOR&& func)
+AFNodeManager::AFNodeManager(std::shared_ptr<AFClassMeta> pClassMeta, NODE_MANAGER_FUNCTOR&& func)
 {
     class_meta_ = pClassMeta;
     func_ = std::forward<NODE_MANAGER_FUNCTOR>(func);
@@ -41,7 +41,7 @@ bool AFNodeManager::IsEmpty() const
 }
 
 // data operation
-AFINode* AFNodeManager::CreateData(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
+AFINode* AFNodeManager::CreateData(std::shared_ptr<AFNodeMeta> pDataMeta)
 {
     ARK_ASSERT_RET_VAL(pDataMeta != nullptr, nullptr);
 

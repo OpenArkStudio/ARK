@@ -22,11 +22,6 @@
 
 namespace ark {
 
-AFCWebSocketServer::AFCWebSocketServer()
-{
-    brynet::net::base::InitSocket();
-}
-
 AFCWebSocketServer::~AFCWebSocketServer()
 {
     Shutdown();
@@ -46,30 +41,32 @@ bool AFCWebSocketServer::StartServer(AFHeadLength head_len, const int busid, con
 
     this->bus_id_ = busid;
 
-    tcp_service_ptr_ = TcpService::Create();
-    tcp_service_ptr_->startWorkerThread(thread_num);
+    tcp_service_ = TcpService::Create();
+    tcp_service_->startWorkerThread(thread_num);
 
-    auto OnEnterCallback = [this, &head_len](const TcpConnectionPtr& session) {
+    auto shared_this = shared_from_this();
+    auto OnEnterCallback = [shared_this, &head_len](const TcpConnectionPtr& session) {
         const std::string& session_ip = session->getIP();
-        HttpService::setup(session, [this, &head_len, &session_ip](const HttpSession::Ptr& httpSession) {
-            int64_t cur_session_id = this->trusted_session_id_++;
+        HttpService::setup(session, [shared_this, &head_len, &session_ip](const HttpSession::Ptr& httpSession) {
+            //int64_t cur_session_id = shared_this->trusted_session_id_++;
+            int64_t cur_session_id = shared_this->uid_generator_->GetUID(shared_this->bus_id_);
             AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
             net_connect_event->SetId(cur_session_id);
             net_connect_event->SetType(AFNetEventType::CONNECTED);
-            net_connect_event->SetBusId(this->bus_id_);
+            net_connect_event->SetBusId(shared_this->bus_id_);
             net_connect_event->SetIP(session_ip);
 
             // Scope lock
             {
-                AFScopeWLock guard(this->rw_lock_);
+                AFScopeWLock guard(shared_this->rw_lock_);
                 AFHttpSessionPtr session_ptr = ARK_NEW AFHttpSession(head_len, cur_session_id, httpSession);
-                if (this->AddNetSession(session_ptr))
+                if (shared_this->AddNetSession(session_ptr))
                 {
                     session_ptr->AddNetEvent(net_connect_event);
                 }
             }
 
-            httpSession->setWSCallback([this](const HttpSession::Ptr& httpSession,
+            httpSession->setWSCallback([shared_this](const HttpSession::Ptr& httpSession,
                                            WebSocketFormat::WebSocketFrameType opcode, const std::string& payload) {
                 switch (opcode)
                 {
@@ -98,8 +95,8 @@ bool AFCWebSocketServer::StartServer(AFHeadLength head_len, const int busid, con
 
                 // Scope lock
                 {
-                    AFScopeRLock guard(this->rw_lock_);
-                    auto session_ptr = this->GetNetSession(session_id);
+                    AFScopeRLock guard(shared_this->rw_lock_);
+                    auto session_ptr = shared_this->GetNetSession(session_id);
                     if (session_ptr == nullptr)
                     {
                         return;
@@ -117,18 +114,18 @@ bool AFCWebSocketServer::StartServer(AFHeadLength head_len, const int busid, con
                 session->send(result.c_str(), result.size(), [session]() { session->postShutdown(); });
             });
 
-            httpSession->setClosedCallback([this, &session_ip](const HttpSession::Ptr& httpSession) {
+            httpSession->setClosedCallback([shared_this, &session_ip](const HttpSession::Ptr& httpSession) {
                 const auto ud = cast<int64_t>(httpSession->getUD());
                 int64_t session_id = *ud;
 
                 AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
                 net_disconnect_event->SetId(session_id);
                 net_disconnect_event->SetType(AFNetEventType::DISCONNECTED);
-                net_disconnect_event->SetBusId(this->bus_id_);
+                net_disconnect_event->SetBusId(shared_this->bus_id_);
                 net_disconnect_event->SetIP(session_ip);
 
-                AFScopeWLock guard(this->rw_lock_);
-                const AFHttpSessionPtr session_ptr = this->GetNetSession(session_id);
+                AFScopeWLock guard(shared_this->rw_lock_);
+                const AFHttpSessionPtr session_ptr = shared_this->GetNetSession(session_id);
                 if (session_ptr == nullptr)
                 {
                     return;
@@ -140,7 +137,7 @@ bool AFCWebSocketServer::StartServer(AFHeadLength head_len, const int busid, con
         });
     };
 
-    listen_builder_.configureService(tcp_service_ptr_)
+    listen_builder_.configureService(tcp_service_)
         .configureSocketOptions({[](TcpSocket& socket) { socket.setNodelay(); }})
         .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE),
             TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback)})
@@ -227,6 +224,10 @@ bool AFCWebSocketServer::Shutdown()
 {
     CloseAllSession();
     SetWorking(false);
+
+    tcp_service_->stopWorkerThread();
+    listen_builder_.stop();
+
     return true;
 }
 

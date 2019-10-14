@@ -61,7 +61,7 @@ int AFCPropertyConfigModule::CalculateBaseValue(const int nJob, const int nLevel
 
 void AFCPropertyConfigModule::Load()
 {
-    // ARK_SHARE_PTR<AFIMetaClass> pLogicClass = m_pClassModule->GetMetaClass(AFConfigMetaInitAttr::self_name());
+    // std::shared_ptr<AFIMetaClass> pLogicClass = m_pClassModule->GetMetaClass(AFConfigMetaInitAttr::self_name());
     // if (nullptr == pLogicClass)
     //{
     //    return;
@@ -71,7 +71,7 @@ void AFCPropertyConfigModule::Load()
     // for (auto iter : xList)
     //{
     //    auto& config_id = iter;
-    //    ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = m_pConfigModule->GetNodeManager(config_id);
+    //    std::shared_ptr<AFIDataNodeManager> pNodeManager = m_pConfigModule->GetNodeManager(config_id);
 
     //    if (pNodeManager == nullptr)
     //    {
@@ -82,13 +82,13 @@ void AFCPropertyConfigModule::Load()
     //    int nLevel = m_pConfigModule->GetNodeInt(config_id, ark::InitProperty::Level());
     //    std::string strEffectData = m_pConfigModule->GetNodeString(config_id, ark::InitProperty::EffectData());
 
-    //    ARK_SHARE_PTR<AFMapEx<int, std::string>> xPropertyMap = mhtCoefficienData.find_value(nJob);
+    //    std::shared_ptr<AFMapEx<int, std::string>> xPropertyMap = mhtCoefficienData.find_value(nJob);
     //    if (xPropertyMap == nullptr)
     //    {
     //        xPropertyMap = std::make_shared<AFMapEx<int, std::string>>();
     //        mhtCoefficienData.insert(nJob, xPropertyMap);
 
-    //        ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->find_value(nLevel);
+    //        std::shared_ptr<std::string> xRefPropertyIDName = xPropertyMap->find_value(nLevel);
     //        if (xRefPropertyIDName == nullptr)
     //        {
     //            xRefPropertyIDName = std::make_shared<std::string>(strEffectData);

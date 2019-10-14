@@ -57,7 +57,7 @@ protected:
     void EventTest();
 
     //------------inner interface----------------
-    ARK_SHARE_PTR<AFIEntity> CreateAnPlayerAndInit();
+    std::shared_ptr<AFIEntity> CreateAnPlayerAndInit();
     void QueryStringTest(const AFGUID& guid, size_t count, const uint32_t index);
     void QueryIntTest(const AFGUID& guid, size_t count, const uint32_t index);
     void SetDataTest(const AFGUID& guid, size_t count, const uint32_t index);

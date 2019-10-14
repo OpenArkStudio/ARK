@@ -27,7 +27,7 @@
 
 namespace ark {
 
-AFCEntity::AFCEntity(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE config_id,
+AFCEntity::AFCEntity(std::shared_ptr<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE config_id,
     const int32_t map_id, const int32_t map_entity_id)
     : guid_(guid)
     , config_id_(config_id)
@@ -60,12 +60,12 @@ const AFGUID& AFCEntity::GetID() const
     return guid_;
 }
 
-ARK_SHARE_PTR<AFIContainer> AFCEntity::GetParentContainer() const
+std::shared_ptr<AFIContainer> AFCEntity::GetParentContainer() const
 {
     return parent_container_;
 }
 
-bool AFCEntity::SetParentContainer(ARK_SHARE_PTR<AFIContainer> pContainer)
+bool AFCEntity::SetParentContainer(std::shared_ptr<AFIContainer> pContainer)
 {
     parent_container_ = pContainer;
     return true;
@@ -496,7 +496,7 @@ const AFGUID& AFCEntity::GetGUID(const uint32_t index) const
 }
 
 // container operation
-ARK_SHARE_PTR<AFIContainer> AFCEntity::FindContainer(const std::string& name)
+std::shared_ptr<AFIContainer> AFCEntity::FindContainer(const std::string& name)
 {
     ARK_ASSERT_RET_VAL(class_meta_ != nullptr, nullptr);
 
@@ -506,7 +506,7 @@ ARK_SHARE_PTR<AFIContainer> AFCEntity::FindContainer(const std::string& name)
     return FindContainer(index);
 }
 
-ARK_SHARE_PTR<AFIContainer> AFCEntity::FindContainer(const uint32_t index)
+std::shared_ptr<AFIContainer> AFCEntity::FindContainer(const uint32_t index)
 {
     ARK_ASSERT_RET_VAL(m_pContainerManager != nullptr, nullptr);
 
@@ -542,22 +542,22 @@ AFITable* AFCEntity::FindTable(const uint32_t index)
     return pTable;
 }
 
-ARK_SHARE_PTR<AFIEventManager> AFCEntity::GetEventManager() const
+std::shared_ptr<AFIEventManager> AFCEntity::GetEventManager() const
 {
     return m_pEventManager;
 }
 
-ARK_SHARE_PTR<AFNodeManager> AFCEntity::GetNodeManager() const
+std::shared_ptr<AFNodeManager> AFCEntity::GetNodeManager() const
 {
     return m_pNodeManager;
 }
 
-ARK_SHARE_PTR<AFTableManager> AFCEntity::GetTableManager() const
+std::shared_ptr<AFTableManager> AFCEntity::GetTableManager() const
 {
     return m_pTableManager;
 }
 
-ARK_SHARE_PTR<AFIContainerManager> AFCEntity::GetContainerManager() const
+std::shared_ptr<AFIContainerManager> AFCEntity::GetContainerManager() const
 {
     return m_pContainerManager;
 }

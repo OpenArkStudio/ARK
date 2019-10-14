@@ -25,12 +25,12 @@
 namespace ark {
 
 #define DATA_NODE_DECLARE                                                                                              \
-    void SetMeta(ARK_SHARE_PTR<AFNodeMeta> pDataMeta) override                                                         \
+    void SetMeta(std::shared_ptr<AFNodeMeta> pDataMeta) override                                                         \
     {                                                                                                                  \
         data_meta_ = pDataMeta;                                                                                        \
     }                                                                                                                  \
                                                                                                                        \
-    ARK_SHARE_PTR<AFNodeMeta> GetMeta() override                                                                       \
+    std::shared_ptr<AFNodeMeta> GetMeta() override                                                                       \
     {                                                                                                                  \
         return data_meta_;                                                                                             \
     }                                                                                                                  \
@@ -64,13 +64,13 @@ namespace ark {
     }                                                                                                                  \
                                                                                                                        \
 private:                                                                                                               \
-    ARK_SHARE_PTR<AFNodeMeta> data_meta_{nullptr};                                                                     \
+    std::shared_ptr<AFNodeMeta> data_meta_{nullptr};                                                                     \
                                                                                                                        \
 // data int32_t
 class AFNodeInt32 final : public AFINode
 {
 public:
-    explicit AFNodeInt32(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
+    explicit AFNodeInt32(std::shared_ptr<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
@@ -144,7 +144,7 @@ public:
 class AFNodeUInt32 final : public AFINode
 {
 public:
-    explicit AFNodeUInt32(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
+    explicit AFNodeUInt32(std::shared_ptr<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
@@ -218,7 +218,7 @@ public:
 class AFNodeString final : public AFINode
 {
 public:
-    explicit AFNodeString(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
+    explicit AFNodeString(std::shared_ptr<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
@@ -292,7 +292,7 @@ public:
 class AFNodeBool final : public AFINode
 {
 public:
-    explicit AFNodeBool(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
+    explicit AFNodeBool(std::shared_ptr<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
@@ -366,7 +366,7 @@ public:
 class AFNodeInt64 final : public AFINode
 {
 public:
-    explicit AFNodeInt64(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
+    explicit AFNodeInt64(std::shared_ptr<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
@@ -440,7 +440,7 @@ public:
 class AFNodeUInt64 final : public AFINode
 {
 public:
-    explicit AFNodeUInt64(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
+    explicit AFNodeUInt64(std::shared_ptr<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
@@ -514,7 +514,7 @@ public:
 class AFNodeFloat final : public AFINode
 {
 public:
-    explicit AFNodeFloat(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
+    explicit AFNodeFloat(std::shared_ptr<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
@@ -588,7 +588,7 @@ public:
 class AFNodeDouble final : public AFINode
 {
 public:
-    explicit AFNodeDouble(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
+    explicit AFNodeDouble(std::shared_ptr<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
@@ -662,7 +662,7 @@ public:
 class AFNodeGUID final : public AFINode
 {
 public:
-    explicit AFNodeGUID(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
+    explicit AFNodeGUID(std::shared_ptr<AFNodeMeta> pDataMeta)
     {
         data_meta_ = pDataMeta;
     }
@@ -733,7 +733,7 @@ public:
 };
 
 // create new data
-static AFINode* CreateDataByMeta(ARK_SHARE_PTR<AFNodeMeta> pDataMeta)
+static AFINode* CreateDataByMeta(std::shared_ptr<AFNodeMeta> pDataMeta)
 {
     ARK_ASSERT_RET_VAL(pDataMeta != nullptr, nullptr);
 

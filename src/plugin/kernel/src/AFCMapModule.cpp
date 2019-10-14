@@ -78,8 +78,8 @@ bool AFCMapModule::SwitchMap(const AFGUID& self, const int target_map, const int
     int32_t old_map = pEntity->GetInt32(AFEntityMetaBaseEntity::map_id());
     int32_t old_inst = pEntity->GetInt32(AFEntityMetaBaseEntity::map_inst_id());
 
-    ARK_SHARE_PTR<AFMapInfo> pOldMapInfo = map_infos_.find_value(old_map);
-    ARK_SHARE_PTR<AFMapInfo> pNewMapInfo = map_infos_.find_value(target_map);
+    std::shared_ptr<AFMapInfo> pOldMapInfo = map_infos_.find_value(old_map);
+    std::shared_ptr<AFMapInfo> pNewMapInfo = map_infos_.find_value(target_map);
 
     if (nullptr == pOldMapInfo)
     {

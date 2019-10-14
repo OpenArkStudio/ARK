@@ -157,14 +157,14 @@ public:
     virtual bool DoEvent(const AFGUID& self, const int nEventID, const AFIDataList& valueList) = 0;
 
     /////////////////////////////////////////////////////////////////
-    virtual ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int map_id, const int map_instance_id,
+    virtual std::shared_ptr<AFIEntity> CreateEntity(const AFGUID& self, const int map_id, const int map_instance_id,
         const std::string& class_name, const ID_TYPE config_id, const AFIDataList& args) = 0;
 
-    virtual ARK_SHARE_PTR<AFIEntity> CreateContainerEntity(
+    virtual std::shared_ptr<AFIEntity> CreateContainerEntity(
         const AFGUID& self, const uint32_t container_index, const std::string& class_name, const ID_TYPE config_id) = 0;
 
-    virtual ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& self) = 0;
-    virtual ARK_SHARE_PTR<AFIStaticEntity> GetStaticEntity(const ID_TYPE config_id) = 0;
+    virtual std::shared_ptr<AFIEntity> GetEntity(const AFGUID& self) = 0;
+    virtual std::shared_ptr<AFIStaticEntity> GetStaticEntity(const ID_TYPE config_id) = 0;
 
     virtual bool DestroyEntity(const AFGUID& self) = 0;
     virtual bool DestroyAll() = 0;
@@ -174,7 +174,7 @@ public:
     // entity to db data for save
     virtual bool EntityToDBData(const AFGUID& self, AFMsg::pb_db_entity& pb_data) = 0;
     // create entity by db data
-    virtual ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFMsg::pb_db_entity& pb_data) = 0;
+    virtual std::shared_ptr<AFIEntity> CreateEntity(const AFMsg::pb_db_entity& pb_data) = 0;
     // send message
     virtual bool SendCustomMessage(const AFGUID& target, const uint32_t msg_id, const AFIDataList& args) = 0;
 
@@ -188,9 +188,9 @@ public:
     virtual bool TableRowDataToPBData(const uint32_t index, uint32_t row, const uint32_t col, const AFIData& data,
         AFMsg::pb_entity_data* pb_data) = 0;
     virtual bool NodeToPBDataByMask(
-        ARK_SHARE_PTR<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data) = 0;
+        std::shared_ptr<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data) = 0;
     virtual bool TableToPBDataByMask(
-        ARK_SHARE_PTR<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data) = 0;
+        std::shared_ptr<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data) = 0;
 
 protected:
     virtual bool AddEventCallBack(const AFGUID& self, const int nEventID, EVENT_PROCESS_FUNCTOR&& cb) = 0;

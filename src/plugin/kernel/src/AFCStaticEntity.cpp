@@ -26,7 +26,7 @@
 namespace ark {
 
 AFCStaticEntity::AFCStaticEntity(
-    ARK_SHARE_PTR<AFClassMeta> pClassMeta, ARK_SHARE_PTR<AFNodeManager> pNodeManager, const ID_TYPE config_id)
+    std::shared_ptr<AFClassMeta> pClassMeta, std::shared_ptr<AFNodeManager> pNodeManager, const ID_TYPE config_id)
     : config_id_(config_id)
 {
     class_meta_ = pClassMeta;
@@ -172,7 +172,7 @@ const std::wstring& AFCStaticEntity::GetWString(const uint32_t index) const
     return m_pNodeManager->GetWString(index);
 }
 
-ARK_SHARE_PTR<AFNodeManager> AFCStaticEntity::GetNodeManager() const
+std::shared_ptr<AFNodeManager> AFCStaticEntity::GetNodeManager() const
 {
     return m_pNodeManager;
 }

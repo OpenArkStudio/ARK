@@ -35,7 +35,7 @@ public:
     bool Init() override;
     bool Shut() override;
 
-    ARK_SHARE_PTR<AFMapInfo> GetMapInfo(const int map_id) override;
+    std::shared_ptr<AFMapInfo> GetMapInfo(const int map_id) override;
 
     bool IsInMapInstance(const AFGUID& self) override;
     bool ExistMap(const int map_id) override;

@@ -27,7 +27,7 @@ namespace ark {
 
 // constructor
 AFCTable::AFCTable(
-    ARK_SHARE_PTR<AFTableMeta> pTableMeta, ARK_SHARE_PTR<AFClassCallBackManager> pCallBackManager, const AFGUID& guid)
+    std::shared_ptr<AFTableMeta> pTableMeta, std::shared_ptr<AFClassCallBackManager> pCallBackManager, const AFGUID& guid)
     : guid_(guid)
 {
     table_meta_ = pTableMeta;

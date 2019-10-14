@@ -23,13 +23,13 @@
 namespace ark {
 
 // find container
-ARK_SHARE_PTR<AFIContainer> AFCContainerManager::FindContainer(const uint32_t index) const
+std::shared_ptr<AFIContainer> AFCContainerManager::FindContainer(const uint32_t index) const
 {
     return container_data_.find_value(index);
 }
 
-ARK_SHARE_PTR<AFIContainer> AFCContainerManager::CreateContainer(
-    ARK_SHARE_PTR<AFClassMeta> pClassMeta, const uint32_t index, const AFGUID& parent_id)
+std::shared_ptr<AFIContainer> AFCContainerManager::CreateContainer(
+    std::shared_ptr<AFClassMeta> pClassMeta, const uint32_t index, const AFGUID& parent_id)
 {
     // return if found
     auto pContainer = FindContainer(index);

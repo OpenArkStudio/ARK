@@ -38,10 +38,10 @@ public:
     bool Save() override;
     bool Clear() override;
 
-    ARK_SHARE_PTR<AFIStaticEntity> FindStaticEntity(const ID_TYPE config_id) override;
+    std::shared_ptr<AFIStaticEntity> FindStaticEntity(const ID_TYPE config_id) override;
 
 protected:
-    bool LoadConfig(ARK_SHARE_PTR<AFClassMeta> pClassMeta);
+    bool LoadConfig(std::shared_ptr<AFClassMeta> pClassMeta);
 
 private:
     bool loaded_{false};

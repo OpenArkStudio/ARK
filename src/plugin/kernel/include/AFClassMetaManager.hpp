@@ -40,7 +40,7 @@ public:
     virtual ~AFClassMetaManager() = default;
 
     // create meta
-    ARK_SHARE_PTR<AFClassMeta> CreateMeta(const std::string& name)
+    std::shared_ptr<AFClassMeta> CreateMeta(const std::string& name)
     {
         // return if found
         auto iter = class_meta_list_.find(name);
@@ -50,14 +50,14 @@ public:
         }
 
         // create new class meta
-        ARK_SHARE_PTR<AFClassMeta> pMeta = std::make_shared<AFClassMeta>(name);
+        std::shared_ptr<AFClassMeta> pMeta = std::make_shared<AFClassMeta>(name);
         class_meta_list_.insert(name, pMeta);
 
         return pMeta;
     }
 
     // find meta do not create
-    ARK_SHARE_PTR<AFClassMeta> FindMeta(const std::string& name) const
+    std::shared_ptr<AFClassMeta> FindMeta(const std::string& name) const
     {
         return class_meta_list_.find_value(name);
     }

@@ -38,16 +38,16 @@ private:
     ID_TYPE config_id_{0};
 
     // class meta
-    ARK_SHARE_PTR<AFClassMeta> class_meta_{nullptr};
+    std::shared_ptr<AFClassMeta> class_meta_{nullptr};
 
     // data
-    ARK_SHARE_PTR<AFNodeManager> m_pNodeManager{nullptr};
+    std::shared_ptr<AFNodeManager> m_pNodeManager{nullptr};
 
 public:
     AFCStaticEntity() = delete;
 
     explicit AFCStaticEntity(
-        ARK_SHARE_PTR<AFClassMeta> pClassMeta, ARK_SHARE_PTR<AFNodeManager> pNodeManager, const ID_TYPE config_id);
+        std::shared_ptr<AFClassMeta> pClassMeta, std::shared_ptr<AFNodeManager> pNodeManager, const ID_TYPE config_id);
 
     // query data
     const std::string& GetClassName() const override;
@@ -73,7 +73,7 @@ public:
     const std::wstring& GetWString(const uint32_t index) const override;
 
 private:
-    ARK_SHARE_PTR<AFNodeManager> GetNodeManager() const;
+    std::shared_ptr<AFNodeManager> GetNodeManager() const;
 };
 
 } // namespace ark

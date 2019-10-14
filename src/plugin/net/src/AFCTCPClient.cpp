@@ -23,16 +23,6 @@
 
 namespace ark {
 
-AFCTCPClient::AFCTCPClient(const brynet::net::TcpService::Ptr& service /* = nullptr*/,
-    const brynet::net::AsyncConnector::Ptr& connector /* = nullptr*/)
-{
-    using namespace brynet::net;
-    base::InitSocket();
-
-    tcp_service_ = (service != nullptr ? service : TcpService::Create());
-    connector_ = (connector != nullptr ? connector : AsyncConnector::Create());
-}
-
 AFCTCPClient::~AFCTCPClient()
 {
     using namespace brynet::net;
@@ -56,9 +46,12 @@ bool AFCTCPClient::StartClient(
     tcp_service_->startWorkerThread(1);
     connector_->startWorkerThread();
 
-    auto OnEnterCallback = [this, head_len](const TcpConnectionPtr& session) {
+    auto shared_this = shared_from_this();
+
+    auto OnEnterCallback = [shared_this, head_len](const TcpConnectionPtr& session) {
         // now session_id
-        int64_t cur_session_id = this->trust_session_id_++;
+        //int64_t cur_session_id = shared_this->trust_session_id_++;
+        int64_t cur_session_id = shared_this->uid_generator_->GetUID(shared_this->dst_bus_id_);
 
         // set session ud
         session->setUD(cur_session_id);
@@ -67,36 +60,36 @@ bool AFCTCPClient::StartClient(
         AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
         net_connect_event->SetId(cur_session_id);
         net_connect_event->SetType(AFNetEventType::CONNECTED);
-        net_connect_event->SetBusId(this->dst_bus_id_);
+        net_connect_event->SetBusId(shared_this->dst_bus_id_);
         net_connect_event->SetIP(session->getIP());
 
         // create session and operate data
         // scope lock
         {
-            AFScopeWLock guard(this->rw_lock_);
+            AFScopeWLock guard(shared_this->rw_lock_);
 
             AFTCPSessionPtr session_ptr = ARK_NEW AFTCPSession(head_len, cur_session_id, session);
-            this->client_session_ptr_.reset(session_ptr);
+            shared_this->client_session_ptr_.reset(session_ptr);
             session_ptr->AddNetEvent(net_connect_event);
         }
 
         // data cb
-        session->setDataCallback([this, session](const char* buffer, size_t len) {
+        session->setDataCallback([shared_this, session](const char* buffer, size_t len) {
             const auto ud = cast<int64_t>(session->getUD());
             int64_t session_id = *ud;
 
             // scope lock
             {
-                AFScopeRLock guard(this->rw_lock_);
-                this->client_session_ptr_->AddBuffer(buffer, len);
-                this->client_session_ptr_->ParseBufferToMsg();
+                AFScopeRLock guard(shared_this->rw_lock_);
+                shared_this->client_session_ptr_->AddBuffer(buffer, len);
+                shared_this->client_session_ptr_->ParseBufferToMsg();
             }
 
             return len;
         });
 
         // disconnect cb
-        session->setDisConnectCallback([this](const brynet::net::TcpConnectionPtr& session) {
+        session->setDisConnectCallback([shared_this](const brynet::net::TcpConnectionPtr& session) {
             const auto ud = cast<int64_t>(session->getUD());
             int64_t session_id = *ud;
 
@@ -104,19 +97,17 @@ bool AFCTCPClient::StartClient(
             AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
             net_disconnect_event->SetId(session_id);
             net_disconnect_event->SetType(AFNetEventType::DISCONNECTED);
-            net_disconnect_event->SetBusId(this->dst_bus_id_);
+            net_disconnect_event->SetBusId(shared_this->dst_bus_id_);
             net_disconnect_event->SetIP(session->getIP());
 
             // scope lock
             {
-                AFScopeWLock guard(this->rw_lock_);
-                this->client_session_ptr_->AddNetEvent(net_disconnect_event);
-                this->client_session_ptr_->SetNeedRemove(true);
+                AFScopeWLock guard(shared_this->rw_lock_);
+                shared_this->client_session_ptr_->AddNetEvent(net_disconnect_event);
+                shared_this->client_session_ptr_->SetNeedRemove(true);
             }
         });
     };
-
-    auto failedCallback = []() { CONSOLE_ERROR_LOG << "connect failed" << std::endl; };
 
     connection_builder_.configureService(tcp_service_)
         .configureConnector(connector_)
@@ -124,7 +115,8 @@ bool AFCTCPClient::StartClient(
             TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE)})
         .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
             AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
-            AsyncConnector::ConnectOptions::WithFailedCallback(failedCallback),
+            AsyncConnector::ConnectOptions::WithFailedCallback(
+                []() { CONSOLE_ERROR_LOG << "connect failed" << std::endl; }),
             AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback(
                 [](TcpSocket& socket) { socket.setNodelay(); })})
         .asyncConnect();
@@ -137,6 +129,10 @@ bool AFCTCPClient::Shutdown()
 {
     CloseSession();
     SetWorking(false);
+
+    tcp_service_->stopWorkerThread();
+    connector_->stopWorkerThread();
+
     return true;
 }
 

@@ -43,7 +43,7 @@ public:
     AFHeadLength head_len_{AFHeadLength::SS_HEAD_LENGTH};
     int server_bus_id_{0};
     AFEndpoint endpoint_;
-    AFINet* net_client_ptr_{nullptr};
+    std::shared_ptr<AFINet> net_client_{nullptr};
 
     ConnectState net_state_{DISCONNECT}; // net state
     int64_t last_active_time_{0};
@@ -77,9 +77,9 @@ public:
 
     virtual bool StartClient(const AFHeadLength head_len, const int& target_bus_id, const AFEndpoint& endpoint) = 0;
     virtual void Update() = 0;
-    virtual void Shutdown() = 0;
+    //virtual void Shutdown() = 0;
 
-    virtual ARK_SHARE_PTR<AFConnectionData> GetConnectionInfo(const int bus_id) = 0;
+    virtual std::shared_ptr<AFConnectionData> GetConnectionInfo(const int bus_id) = 0;
     //virtual AFMapEx<int, AFConnectionData>& GetServerList() = 0;
 
     virtual bool RegMsgCallback(const int nMsgID, const NET_MSG_FUNCTOR&& cb) = 0;

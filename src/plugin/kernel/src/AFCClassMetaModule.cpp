@@ -83,7 +83,7 @@ bool AFCClassMetaModule::LoadConfig()
     return true;
 }
 
-bool AFCClassMetaModule::LoadConfigMeta(const std::string& schema_path, ARK_SHARE_PTR<AFClassMeta> pClassMeta)
+bool AFCClassMetaModule::LoadConfigMeta(const std::string& schema_path, std::shared_ptr<AFClassMeta> pClassMeta)
 {
     std::string file_path = GetPluginManager()->GetResPath() + schema_path;
 
@@ -287,7 +287,7 @@ bool AFCClassMetaModule::DoClassEvent(
     return pCallBack->OnClassEvent(id, class_name, class_event, args);
 }
 
-ARK_SHARE_PTR<AFClassMeta> AFCClassMetaModule::FindMeta(const std::string& class_name)
+std::shared_ptr<AFClassMeta> AFCClassMetaModule::FindMeta(const std::string& class_name)
 {
     return m_pClassMetaManager->FindMeta(class_name);
 }

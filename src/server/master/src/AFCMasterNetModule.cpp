@@ -134,7 +134,7 @@ int AFCMasterNetModule::StartServer()
 //    for (int i = 0; i < xMsg.server_list_size(); ++i)
 //    {
 //        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-//        ARK_SHARE_PTR<AFServerData> pServerData = mWorldMap.GetElement(xData.bus_id());
+//        std::shared_ptr<AFServerData> pServerData = mWorldMap.GetElement(xData.bus_id());
 
 //        if (nullptr == pServerData)
 //        {
@@ -174,7 +174,7 @@ int AFCMasterNetModule::StartServer()
 //    for (int i = 0; i < xMsg.server_list_size(); ++i)
 //    {
 //        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-//        ARK_SHARE_PTR<AFServerData> pServerData = mWorldMap.GetElement(xData.bus_id());
+//        std::shared_ptr<AFServerData> pServerData = mWorldMap.GetElement(xData.bus_id());
 
 //        if (nullptr == pServerData)
 //        {
@@ -198,7 +198,7 @@ int AFCMasterNetModule::StartServer()
 //    for (int i = 0; i < xMsg.server_list_size(); ++i)
 //    {
 //        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-//        ARK_SHARE_PTR<AFServerData> pServerData = mLoginMap.GetElement(xData.bus_id());
+//        std::shared_ptr<AFServerData> pServerData = mLoginMap.GetElement(xData.bus_id());
 
 //        if (nullptr == pServerData)
 //        {
@@ -237,7 +237,7 @@ int AFCMasterNetModule::StartServer()
 //    for (int i = 0; i < xMsg.server_list_size(); ++i)
 //    {
 //        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-//        ARK_SHARE_PTR<AFServerData> pServerData = mLoginMap.GetElement(xData.bus_id());
+//        std::shared_ptr<AFServerData> pServerData = mLoginMap.GetElement(xData.bus_id());
 
 //        if (nullptr == pServerData)
 //        {
@@ -256,7 +256,7 @@ int AFCMasterNetModule::StartServer()
 //{
 //    ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ReqConnectWorld);
 
-//    ARK_SHARE_PTR<AFServerData> pServerData = mWorldMap.GetElement(xMsg.world_id());
+//    std::shared_ptr<AFServerData> pServerData = mWorldMap.GetElement(xMsg.world_id());
 
 //    if (nullptr == pServerData)
 //    {
@@ -271,7 +271,7 @@ int AFCMasterNetModule::StartServer()
 // char* msg, const uint32_t nLen, const AFGUID& xClientID)
 //{
 //    ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
-//    ARK_SHARE_PTR<AFServerData> pServerData = mLoginMap.GetElement(xMsg.login_id());
+//    std::shared_ptr<AFServerData> pServerData = mLoginMap.GetElement(xMsg.login_id());
 
 //    if (nullptr == pServerData)
 //    {
@@ -285,7 +285,7 @@ int AFCMasterNetModule::StartServer()
 //{
 //    AFMsg::ServerInfoReportList xData;
 
-//    for (ARK_SHARE_PTR<AFServerData> pServerData = mWorldMap.First(); nullptr != pServerData; pServerData =
+//    for (std::shared_ptr<AFServerData> pServerData = mWorldMap.First(); nullptr != pServerData; pServerData =
 //    mWorldMap.Next())
 //    {
 //        AFMsg::ServerInfoReport* pData = xData.add_server_list();
@@ -293,7 +293,7 @@ int AFCMasterNetModule::StartServer()
 //    }
 
 //    // bc to all login server
-//    for (ARK_SHARE_PTR<AFServerData> pServerData = mLoginMap.First(); nullptr != pServerData; pServerData =
+//    for (std::shared_ptr<AFServerData> pServerData = mLoginMap.First(); nullptr != pServerData; pServerData =
 //    mLoginMap.Next())
 //    {
 //        m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_STS_NET_INFO, xData, pServerData->xClient, AFGUID(0));
@@ -331,7 +331,7 @@ int AFCMasterNetModule::StartServer()
 // uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_report);
-//    ARK_SHARE_PTR<AFServerData> server_data_ptr = reg_servers_.GetElement(x_msg.bus_id());
+//    std::shared_ptr<AFServerData> server_data_ptr = reg_servers_.GetElement(x_msg.bus_id());
 //    if (nullptr == server_data_ptr)
 //    {
 //        server_data_ptr = std::make_shared<AFServerData>();

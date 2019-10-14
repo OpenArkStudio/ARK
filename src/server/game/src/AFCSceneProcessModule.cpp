@@ -48,7 +48,7 @@ bool AFCSceneProcessModule::PostInit()
     // TOOD:Will use the new design
 
     ////Init scene container
-    // ARK_SHARE_PTR<AFIMetaClass> pLogicClass = m_pClassModule->GetMetaClass("Scene");
+    // std::shared_ptr<AFIMetaClass> pLogicClass = m_pClassModule->GetMetaClass("Scene");
     // if (nullptr == pLogicClass)
     //{
     //    return false;
@@ -292,7 +292,7 @@ bool AFCSceneProcessModule::LoadMapResource(const int map_id)
     // const std::string strSceneFilePath(m_pConfigModule->GetNodeString(ARK_LEXICAL_CAST<std::string>(map_id),
     // AFConfigMetaMap::map_info()));
 
-    // ARK_SHARE_PTR<AFMapEx<std::string, MapSeedResource>> pSceneResourceMap = map_res_.find_value(map_id);
+    // std::shared_ptr<AFMapEx<std::string, MapSeedResource>> pSceneResourceMap = map_res_.find_value(map_id);
 
     // if (pSceneResourceMap == nullptr)
     //{
@@ -325,7 +325,7 @@ bool AFCSceneProcessModule::LoadMapResource(const int map_id)
     //        ARK_ASSERT_NO_EFFECT(0);
     //    }
 
-    //    ARK_SHARE_PTR<MapSeedResource> pSeedResource = pSceneResourceMap->find_value(strSeedID);
+    //    std::shared_ptr<MapSeedResource> pSeedResource = pSceneResourceMap->find_value(strSeedID);
 
     //    if (nullptr == pSeedResource)
     //    {

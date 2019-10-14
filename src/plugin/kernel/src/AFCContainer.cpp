@@ -22,8 +22,8 @@
 
 namespace ark {
 
-AFCContainer::AFCContainer(ARK_SHARE_PTR<AFContainerMeta> container_meta, const AFGUID& parent_id,
-    ARK_SHARE_PTR<AFClassCallBackManager> call_back_mgr)
+AFCContainer::AFCContainer(std::shared_ptr<AFContainerMeta> container_meta, const AFGUID& parent_id,
+    std::shared_ptr<AFClassCallBackManager> call_back_mgr)
     : parent_(parent_id)
 {
     container_meta_ = container_meta;
@@ -63,7 +63,7 @@ uint32_t AFCContainer::Next()
     return iter_->first;
 }
 
-ARK_SHARE_PTR<AFIEntity> AFCContainer::Find(uint32_t index) const
+std::shared_ptr<AFIEntity> AFCContainer::Find(uint32_t index) const
 {
     return entity_data_list_.find_value(index);
 }
@@ -91,7 +91,7 @@ bool AFCContainer::Exist(const AFGUID& id) const
     return (Find(id) > 0);
 }
 
-bool AFCContainer::Place(ARK_SHARE_PTR<AFIEntity> pEntity)
+bool AFCContainer::Place(std::shared_ptr<AFIEntity> pEntity)
 {
     // should not be in container
     ARK_ASSERT_RET_VAL(pEntity != nullptr, false);
@@ -101,7 +101,7 @@ bool AFCContainer::Place(ARK_SHARE_PTR<AFIEntity> pEntity)
     return Place(SelectIndex(), pEntity);
 }
 
-bool AFCContainer::Place(uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity)
+bool AFCContainer::Place(uint32_t index, std::shared_ptr<AFIEntity> pEntity)
 {
     // class should be same
     if (!pEntity || !container_meta_ || pEntity->GetClassName() != container_meta_->GetClassName())
@@ -171,7 +171,7 @@ bool AFCContainer::Swap(const AFGUID& src_entity, const AFGUID& dest_entity)
     return Swap(src_index, dest_index);
 }
 
-bool AFCContainer::Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index)
+bool AFCContainer::Swap(std::shared_ptr<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index)
 {
     if (pSrcContainer == nullptr || src_index == 0 || dest_index == 0)
     {
@@ -224,7 +224,7 @@ bool AFCContainer::Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const uint32_
     return true;
 }
 
-bool AFCContainer::Swap(ARK_SHARE_PTR<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity)
+bool AFCContainer::Swap(std::shared_ptr<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity)
 {
     if (pSrcContainer == nullptr)
     {
@@ -301,7 +301,7 @@ uint32_t AFCContainer::SelectIndex() const
     }
 }
 
-bool AFCContainer::PlaceEntity(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity)
+bool AFCContainer::PlaceEntity(const uint32_t index, std::shared_ptr<AFIEntity> pEntity)
 {
     if (!entity_data_list_.insert(index, pEntity).second)
     {
@@ -316,7 +316,7 @@ bool AFCContainer::PlaceEntity(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pE
     return true;
 }
 
-void AFCContainer::OnContainerPlace(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity)
+void AFCContainer::OnContainerPlace(const uint32_t index, std::shared_ptr<AFIEntity> pEntity)
 {
     ARK_ASSERT_RET_NONE(pEntity != nullptr);
     pEntity->SetParentContainer(shared_from_this());
@@ -343,7 +343,7 @@ void AFCContainer::OnContainerSwap(const uint32_t index, const uint32_t swap_ind
         parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_SWAP, index, swap_index);
 }
 
-void AFCContainer::OnContainerRemove(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity)
+void AFCContainer::OnContainerRemove(const uint32_t index, std::shared_ptr<AFIEntity> pEntity)
 {
     pEntity->SetParentContainer(nullptr);
 
@@ -351,7 +351,7 @@ void AFCContainer::OnContainerRemove(const uint32_t index, ARK_SHARE_PTR<AFIEnti
     call_back_mgr_->OnContainerCallBack(parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_REMOVE, index, 0u);
 }
 
-void AFCContainer::OnContainerDestroy(const uint32_t index, ARK_SHARE_PTR<AFIEntity> pEntity)
+void AFCContainer::OnContainerDestroy(const uint32_t index, std::shared_ptr<AFIEntity> pEntity)
 {
     pEntity->SetParentContainer(nullptr);
 

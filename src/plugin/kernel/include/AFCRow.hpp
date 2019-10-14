@@ -42,14 +42,14 @@ private:
     TABLE_COMPONENT_FUNCTOR func_;
 
     // data
-    ARK_SHARE_PTR<AFNodeManager> m_pNodeManager{nullptr};
+    std::shared_ptr<AFNodeManager> m_pNodeManager{nullptr};
 
 public:
     AFCRow() = delete;
 
     // constructor
     explicit AFCRow(
-        ARK_SHARE_PTR<AFClassMeta> pClassMeta, uint32_t row, const AFIDataList& args, TABLE_COMPONENT_FUNCTOR&& func);
+        std::shared_ptr<AFClassMeta> pClassMeta, uint32_t row, const AFIDataList& args, TABLE_COMPONENT_FUNCTOR&& func);
 
     // get row
     uint32_t GetRow() const override;
@@ -103,7 +103,7 @@ public:
 private:
     void InitData(const AFIDataList& args);
 
-    ARK_SHARE_PTR<AFNodeManager> GetNodeManager() const;
+    std::shared_ptr<AFNodeManager> GetNodeManager() const;
 
     int OnDataCallBack(const std::string& name, const uint32_t index, const AFIData& old_data, const AFIData& new_data);
 };

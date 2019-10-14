@@ -23,16 +23,6 @@
 
 namespace ark {
 
-AFCWebSocketClient::AFCWebSocketClient(
-    brynet::net::TcpService::Ptr service /*= nullptr*/, brynet::net::AsyncConnector::Ptr connector /*= nullptr*/)
-{
-    using namespace brynet::net;
-
-    base::InitSocket();
-    tcp_service_ptr_ = (service != nullptr ? service : TcpService::Create());
-    connector_ptr_ = (connector != nullptr ? connector : AsyncConnector::Create());
-}
-
 AFCWebSocketClient::~AFCWebSocketClient()
 {
     using namespace brynet::net;
@@ -49,8 +39,8 @@ bool AFCWebSocketClient::StartClient(
 
     dst_bus_id_ = target_busid;
 
-    CONSOLE_INFO_LOG << "connect success" << std::endl;
-    auto OnEnterCallback = [this, len, ip](const HttpSession::Ptr& httpSession) {
+    auto shared_this = shared_from_this();
+    auto OnEnterCallback = [shared_this, len, ip](const HttpSession::Ptr& httpSession) {
         brynet::net::http::HttpRequest request;
         request.setMethod(HttpRequest::HTTP_METHOD::HTTP_METHOD_GET);
         request.setUrl("/ws");
@@ -63,15 +53,15 @@ bool AFCWebSocketClient::StartClient(
         std::string requestStr = request.getResult();
         httpSession->send(requestStr.c_str(), requestStr.size());
 
-        httpSession->setWSConnected([this, &len, &ip](const HttpSession::Ptr& httpSession, const HTTPParser&) {
+        httpSession->setWSConnected([shared_this, &len, &ip](const HttpSession::Ptr& httpSession, const HTTPParser&) {
             // now session_id
-            int64_t cur_session_id = this->trust_session_id_++;
-
+            //int64_t cur_session_id = this->trust_session_id_++;
+            auto cur_session_id = shared_this->uid_generator_->GetUID(shared_this->dst_bus_id_);
             // create net event
             AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
             net_connect_event->SetId(cur_session_id);
             net_connect_event->SetType(AFNetEventType::CONNECTED);
-            net_connect_event->SetBusId(this->dst_bus_id_);
+            net_connect_event->SetBusId(shared_this->dst_bus_id_);
             net_connect_event->SetIP(ip);
 
             // set session ud
@@ -79,28 +69,28 @@ bool AFCWebSocketClient::StartClient(
 
             // create session and net event
             {
-                AFScopeWLock guard(this->rw_lock_);
+                AFScopeWLock guard(shared_this->rw_lock_);
 
                 AFHttpSessionPtr session_ptr = ARK_NEW AFHttpSession(len, cur_session_id, httpSession);
-                this->client_session_ptr_.reset(session_ptr);
+                shared_this->client_session_ptr_.reset(session_ptr);
                 session_ptr->AddNetEvent(net_connect_event);
             }
         });
 
-        httpSession->setWSCallback([this](const HttpSession::Ptr& httpSession,
+        httpSession->setWSCallback([shared_this](const HttpSession::Ptr& httpSession,
                                        WebSocketFormat::WebSocketFrameType opcode, const std::string& payload) {
             const auto ud = cast<int64_t>(httpSession->getUD());
             int64_t session_id = *ud;
 
             // Scope lock
             {
-                AFScopeRLock xGuard(this->rw_lock_);
-                this->client_session_ptr_->AddBuffer(payload.c_str(), payload.size());
-                this->client_session_ptr_->ParseBufferToMsg();
+                AFScopeRLock xGuard(shared_this->rw_lock_);
+                shared_this->client_session_ptr_->AddBuffer(payload.c_str(), payload.size());
+                shared_this->client_session_ptr_->ParseBufferToMsg();
             }
         });
 
-        httpSession->setClosedCallback([this, &ip](const HttpSession::Ptr& httpSession) {
+        httpSession->setClosedCallback([shared_this, &ip](const HttpSession::Ptr& httpSession) {
             const auto ud = cast<int64_t>(httpSession->getUD());
             int64_t session_id = *ud;
 
@@ -108,22 +98,22 @@ bool AFCWebSocketClient::StartClient(
             AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
             net_disconnect_event->SetId(session_id);
             net_disconnect_event->SetType(AFNetEventType::DISCONNECTED);
-            net_disconnect_event->SetBusId(this->dst_bus_id_);
+            net_disconnect_event->SetBusId(shared_this->dst_bus_id_);
             net_disconnect_event->SetIP(ip);
             // Scope lock
             {
-                AFScopeWLock xGuard(this->rw_lock_);
-                this->client_session_ptr_->AddNetEvent(net_disconnect_event);
-                this->client_session_ptr_->SetNeedRemove(true);
+                AFScopeWLock xGuard(shared_this->rw_lock_);
+                shared_this->client_session_ptr_->AddNetEvent(net_disconnect_event);
+                shared_this->client_session_ptr_->SetNeedRemove(true);
             }
         });
     };
 
-    tcp_service_ptr_->startWorkerThread(1);
-    connector_ptr_->startWorkerThread();
+    tcp_service_->startWorkerThread(1);
+    connector_->startWorkerThread();
 
-    connection_builder.configureService(tcp_service_ptr_)
-        .configureConnector(connector_ptr_)
+    connection_builder.configureService(tcp_service_)
+        .configureConnector(connector_)
         .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE)})
         .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
             AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
@@ -139,6 +129,10 @@ bool AFCWebSocketClient::Shutdown()
 {
     CloseSession();
     SetWorking(false);
+
+    tcp_service_->stopWorkerThread();
+    connector_->stopWorkerThread();
+
     return true;
 }
 

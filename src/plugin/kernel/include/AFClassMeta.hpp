@@ -61,7 +61,7 @@ private:
     ContainerMetaList container_meta_list_;
 
     // class meta call back
-    ARK_SHARE_PTR<AFClassCallBackManager> class_meta_call_back_;
+    std::shared_ptr<AFClassCallBackManager> class_meta_call_back_;
 
 public:
     AFClassMeta() = delete;
@@ -76,23 +76,23 @@ public:
     const std::string& GetResPath() const;
 
     // create data meta
-    ARK_SHARE_PTR<AFNodeMeta> CreateDataMeta(const std::string& name, const uint32_t index);
-    ARK_SHARE_PTR<AFNodeMeta> FindDataMeta(const uint32_t index) const;
+    std::shared_ptr<AFNodeMeta> CreateDataMeta(const std::string& name, const uint32_t index);
+    std::shared_ptr<AFNodeMeta> FindDataMeta(const uint32_t index) const;
 
     // create table meta
-    ARK_SHARE_PTR<AFTableMeta> CreateTableMeta(const std::string& name, const uint32_t index);
-    ARK_SHARE_PTR<AFTableMeta> FindTableMeta(const uint32_t index) const;
+    std::shared_ptr<AFTableMeta> CreateTableMeta(const std::string& name, const uint32_t index);
+    std::shared_ptr<AFTableMeta> FindTableMeta(const uint32_t index) const;
 
     // create table meta
-    ARK_SHARE_PTR<AFContainerMeta> CreateContainerMeta(
+    std::shared_ptr<AFContainerMeta> CreateContainerMeta(
         const std::string& name, const uint32_t index, const std::string& class_name);
-    ARK_SHARE_PTR<AFContainerMeta> FindContainerMeta(const uint32_t index) const;
+    std::shared_ptr<AFContainerMeta> FindContainerMeta(const uint32_t index) const;
 
     const DataMetaList& GetDataMetaList() const;
     const TableMetaList& GetTableMetaList() const;
     const ContainerMetaList& GetContainerMetaList() const;
 
-    ARK_SHARE_PTR<AFClassCallBackManager> GetClassCallBackManager() const;
+    std::shared_ptr<AFClassCallBackManager> GetClassCallBackManager() const;
 
     uint32_t GetIndex(const std::string& name) const;
 

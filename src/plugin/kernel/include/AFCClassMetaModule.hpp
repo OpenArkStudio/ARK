@@ -46,7 +46,7 @@ public:
     bool DoClassEvent(const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event,
         const AFIDataList& args) override;
 
-    ARK_SHARE_PTR<AFClassMeta> FindMeta(const std::string& class_name) override;
+    std::shared_ptr<AFClassMeta> FindMeta(const std::string& class_name) override;
 
     const AFClassMetaManager::ClassMetaList& GetMetaList() const override;
 
@@ -56,7 +56,7 @@ protected:
     bool LoadEntity();
 
     // load config meta
-    bool LoadConfigMeta(const std::string& schema_path, ARK_SHARE_PTR<AFClassMeta> pClassMeta);
+    bool LoadConfigMeta(const std::string& schema_path, std::shared_ptr<AFClassMeta> pClassMeta);
 
     bool LoadEntityMeta(const std::string& schema_path);
 

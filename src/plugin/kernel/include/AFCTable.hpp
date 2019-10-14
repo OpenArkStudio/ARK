@@ -39,7 +39,7 @@ private:
     AFGUID guid_{NULL_GUID};
 
     // table meta
-    ARK_SHARE_PTR<AFTableMeta> table_meta_{nullptr};
+    std::shared_ptr<AFTableMeta> table_meta_{nullptr};
 
     // current row
     uint32_t current_row_{0u};
@@ -51,13 +51,13 @@ private:
     TableData::const_iterator iter_;
 
     // call back
-    ARK_SHARE_PTR<AFClassCallBackManager> m_pCallBackManager{nullptr};
+    std::shared_ptr<AFClassCallBackManager> m_pCallBackManager{nullptr};
 
 public:
     AFCTable() = delete;
 
     // constructor
-    explicit AFCTable(ARK_SHARE_PTR<AFTableMeta> pTableMeta, ARK_SHARE_PTR<AFClassCallBackManager> pCallBackManager,
+    explicit AFCTable(std::shared_ptr<AFTableMeta> pTableMeta, std::shared_ptr<AFClassCallBackManager> pCallBackManager,
         const AFGUID& guid);
 
     const std::string& GetName() const override;

@@ -20,17 +20,17 @@
 
 #pragma once
 
+#include "base/AFUidGenerator.hpp"
 #include "net/interface/AFINet.hpp"
 #include "net/include/AFNetSession.hpp"
 
 namespace ark {
 
-class AFCWebSocketClient final : public AFINet
+class AFCWebSocketClient final : public AFNoncopyable,
+                                 public AFINet,
+                                 public std::enable_shared_from_this<AFCWebSocketClient>
 {
 public:
-    AFCWebSocketClient(
-        brynet::net::TcpService::Ptr server = nullptr, brynet::net::AsyncConnector::Ptr connector = nullptr);
-
     template<typename BaseType>
     AFCWebSocketClient(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFNetMsg*, const int64_t),
         void (BaseType::*handleEvent)(const AFNetEvent*))
@@ -39,7 +39,8 @@ public:
         net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
 
         brynet::net::base::InitSocket();
-        tcp_service_ptr_ = brynet::net::TcpService::Create();
+        tcp_service_ = brynet::net::TcpService::Create();
+        uid_generator_ = std::make_shared<AFUidGeneratorThreadSafe>();
     }
 
     ~AFCWebSocketClient() override;
@@ -69,10 +70,12 @@ private:
     NET_EVENT_FUNCTOR net_event_cb_;
 
     AFCReaderWriterLock rw_lock_;
-    brynet::net::TcpService::Ptr tcp_service_ptr_{nullptr};
-    brynet::net::AsyncConnector::Ptr connector_ptr_{nullptr};
+    brynet::net::TcpService::Ptr tcp_service_{nullptr};
+    brynet::net::AsyncConnector::Ptr connector_{nullptr};
     brynet::net::wrapper::HttpConnectionBuilder connection_builder;
-    int64_t trust_session_id_{1};
+
+    //uint64_t trust_session_id_{1};
+    std::shared_ptr<AFUidGeneratorThreadSafe> uid_generator_{nullptr};
 };
 
 } // namespace ark

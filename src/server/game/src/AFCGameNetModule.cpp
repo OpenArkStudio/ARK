@@ -133,14 +133,14 @@ void AFCGameNetModule::OnEnterGame(const AFNetMsg* msg, const int64_t session_id
 
     ////////////////////////////////////////////////////////////////////////////
 
-    // ARK_SHARE_PTR<AFCGameNetModule::GateBaseInfo> pGateInfo = GetPlayerGateInfo(nRoleID);
+    // std::shared_ptr<AFCGameNetModule::GateBaseInfo> pGateInfo = GetPlayerGateInfo(nRoleID);
 
     // if (nullptr != pGateInfo && RemovePlayerGateInfo(nRoleID))
     //{
     //    ARK_LOG_ERROR("RemovePlayerGateInfo fail, id = {}", nRoleID);
     //}
 
-    // ARK_SHARE_PTR<AFCGameNetModule::GateServerInfo> pGateServereinfo = GetGateServerInfoByClientID(conn_id);
+    // std::shared_ptr<AFCGameNetModule::GateServerInfo> pGateServereinfo = GetGateServerInfoByClientID(conn_id);
 
     // if (nullptr == pGateServereinfo)
     //{
@@ -170,7 +170,7 @@ void AFCGameNetModule::OnEnterGame(const AFNetMsg* msg, const int64_t session_id
     // var.AddString("ClientID");
     // var.AddInt64(nGateClientID);
 
-    // ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(nRoleID, nSceneID, 0, ark::Player::ThisName(),
+    // std::shared_ptr<AFIEntity> pEntity = m_pKernelModule->CreateEntity(nRoleID, nSceneID, 0, ark::Player::ThisName(),
     // "", var);
 
     // if (nullptr == pEntity)
@@ -223,7 +223,7 @@ int AFCGameNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFGUI
         return 1;
     }
 
-    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+    std::shared_ptr<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if (nullptr == pEntity)
     {
         return 0;
@@ -257,7 +257,7 @@ int AFCGameNetModule::OnSelfDataNodeEnter(const AFGUID& self)
         return 1;
     }
 
-    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+    std::shared_ptr<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if (nullptr == pEntity)
     {
         return 1;
@@ -282,7 +282,7 @@ int AFCGameNetModule::OnSelfDataTableEnter(const AFGUID& self)
         return 1;
     }
 
-    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+    std::shared_ptr<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
 
     if (nullptr == pEntity)
     {
@@ -308,7 +308,7 @@ int AFCGameNetModule::OnViewDataTableEnter(const AFIDataList& argVar, const AFGU
         return 1;
     }
 
-    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+    std::shared_ptr<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
 
     if (nullptr == pEntity)
     {
@@ -798,7 +798,7 @@ int AFCGameNetModule::OnCommonClassEvent(
         case ArkEntityEvent::ENTITY_EVT_PRE_LOAD_DATA:
         {
             // bind ID fd GateID
-            ARK_SHARE_PTR<GateBaseInfo> pDataBase = mRoleBaseData.find_value(self);
+            std::shared_ptr<GateBaseInfo> pDataBase = mRoleBaseData.find_value(self);
             if (pDataBase != nullptr)
             {
                 // response the player enter game
@@ -1154,7 +1154,7 @@ void AFCGameNetModule::OnRegisteredProxy(const AFNetMsg* msg, const int64_t sess
     // for (int i = 0; i < x_msg.server_list_size(); ++i)
     //{
     //    const AFMsg::ServerInfoReport& xData = x_msg.server_list(i);
-    //    ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(xData.bus_id());
+    //    std::shared_ptr<GateServerInfo> pServerData = mProxyMap.GetElement(xData.bus_id());
 
     //    if (nullptr == pServerData)
     //    {
@@ -1188,7 +1188,7 @@ void AFCGameNetModule::OnRefreshProxy(const AFNetMsg* msg, const int64_t session
     // for (int i = 0; i < x_msg.server_list_size(); ++i)
     //{
     //    const AFMsg::ServerInfoReport& xData = x_msg.server_list(i);
-    //    ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(xData.bus_id());
+    //    std::shared_ptr<GateServerInfo> pServerData = mProxyMap.GetElement(xData.bus_id());
 
     //    if (nullptr == pServerData)
     //    {
@@ -1205,14 +1205,14 @@ void AFCGameNetModule::OnRefreshProxy(const AFNetMsg* msg, const int64_t session
 
 void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self)
 {
-    ARK_SHARE_PTR<GateBaseInfo> pData = mRoleBaseData.find_value(self);
+    std::shared_ptr<GateBaseInfo> pData = mRoleBaseData.find_value(self);
 
     if (nullptr == pData)
     {
         return;
     }
 
-    // ARK_SHARE_PTR<GateServerInfo> pProxyData = mProxyMap.GetElement(pData->nGateID);
+    // std::shared_ptr<GateServerInfo> pProxyData = mProxyMap.GetElement(pData->nGateID);
 
     // if (nullptr != pProxyData)
     //{
@@ -1222,14 +1222,14 @@ void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::
 
 void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self)
 {
-    ARK_SHARE_PTR<GateBaseInfo> pData = mRoleBaseData.find_value(self);
+    std::shared_ptr<GateBaseInfo> pData = mRoleBaseData.find_value(self);
 
     if (nullptr == pData)
     {
         return;
     }
 
-    // ARK_SHARE_PTR<GateServerInfo> pProxyData = mProxyMap.GetElement(pData->nGateID);
+    // std::shared_ptr<GateServerInfo> pProxyData = mProxyMap.GetElement(pData->nGateID);
 
     // if (nullptr != pProxyData)
     //{
@@ -1254,7 +1254,7 @@ bool AFCGameNetModule::AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nC
         return false;
     }
 
-    ARK_SHARE_PTR<AFCGameNetModule::GateBaseInfo> pBaseData = mRoleBaseData.find_value(nRoleID);
+    std::shared_ptr<AFCGameNetModule::GateBaseInfo> pBaseData = mRoleBaseData.find_value(nRoleID);
 
     if (nullptr != pBaseData)
     {
@@ -1262,7 +1262,7 @@ bool AFCGameNetModule::AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nC
         return false;
     }
 
-    ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.find_value(nGateID);
+    std::shared_ptr<GateServerInfo> pServerData = mProxyMap.find_value(nGateID);
 
     if (nullptr == pServerData)
     {
@@ -1285,7 +1285,7 @@ bool AFCGameNetModule::AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nC
 
 bool AFCGameNetModule::RemovePlayerGateInfo(const AFGUID& nRoleID)
 {
-    ARK_SHARE_PTR<GateBaseInfo> pBaseData = mRoleBaseData.find_value(nRoleID);
+    std::shared_ptr<GateBaseInfo> pBaseData = mRoleBaseData.find_value(nRoleID);
 
     if (nullptr == pBaseData)
     {
@@ -1294,7 +1294,7 @@ bool AFCGameNetModule::RemovePlayerGateInfo(const AFGUID& nRoleID)
 
     mRoleBaseData.erase(nRoleID);
 
-    ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.find_value(pBaseData->nGateID);
+    std::shared_ptr<GateServerInfo> pServerData = mProxyMap.find_value(pBaseData->nGateID);
 
     if (nullptr == pServerData)
     {
@@ -1305,17 +1305,17 @@ bool AFCGameNetModule::RemovePlayerGateInfo(const AFGUID& nRoleID)
     return true;
 }
 
-ARK_SHARE_PTR<AFIGameNetModule::GateBaseInfo> AFCGameNetModule::GetPlayerGateInfo(const AFGUID& nRoleID)
+std::shared_ptr<AFIGameNetModule::GateBaseInfo> AFCGameNetModule::GetPlayerGateInfo(const AFGUID& nRoleID)
 {
     return mRoleBaseData.find_value(nRoleID);
 }
 
-ARK_SHARE_PTR<AFIGameNetModule::GateServerInfo> AFCGameNetModule::GetGateServerInfo(const int nGateID)
+std::shared_ptr<AFIGameNetModule::GateServerInfo> AFCGameNetModule::GetGateServerInfo(const int nGateID)
 {
     return mProxyMap.find_value(nGateID);
 }
 
-ARK_SHARE_PTR<AFIGameNetModule::GateServerInfo> AFCGameNetModule::GetGateServerInfoByClientID(const AFGUID& nClientID)
+std::shared_ptr<AFIGameNetModule::GateServerInfo> AFCGameNetModule::GetGateServerInfoByClientID(const AFGUID& nClientID)
 {
     int nGateID = -1;
     for (auto iter : mProxyMap)

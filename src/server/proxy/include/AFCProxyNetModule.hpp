@@ -50,8 +50,6 @@ public:
 protected:
     int StartServer();
 
-    //int StartClient();
-
     void OnSelectServerResultProcess(const AFNetMsg* msg, const int64_t session_id);
     void OnServerInfoProcess(const AFNetMsg* msg, const int64_t session_id);
 

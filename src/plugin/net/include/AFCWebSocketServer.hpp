@@ -22,16 +22,17 @@
 
 #include <brynet/net/http/HttpService.h>
 #include <brynet/net/http/HttpFormat.h>
+#include "base/AFUidGenerator.hpp"
 #include "net/interface/AFINet.hpp"
 #include "net/include/AFNetSession.hpp"
 
 namespace ark {
 
-class AFCWebSocketServer final : public AFINet
+class AFCWebSocketServer final : public AFNoncopyable,
+                                 public AFINet,
+                                 public std::enable_shared_from_this<AFCWebSocketServer>
 {
 public:
-    AFCWebSocketServer();
-
     template<typename BaseType>
     AFCWebSocketServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFNetMsg*, const int64_t),
         void (BaseType::*handleEvent)(const AFNetEvent*))
@@ -40,6 +41,7 @@ public:
         net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
 
         brynet::net::base::InitSocket();
+        uid_generator_ = std::make_shared<AFUidGeneratorThreadSafe>();
     }
 
     ~AFCWebSocketServer() override;
@@ -79,9 +81,10 @@ private:
     NET_MSG_FUNCTOR net_msg_cb_;
     NET_EVENT_FUNCTOR net_event_cb_;
 
-    brynet::net::TcpService::Ptr tcp_service_ptr_{nullptr};
+    brynet::net::TcpService::Ptr tcp_service_{nullptr};
     brynet::net::wrapper::HttpListenerBuilder listen_builder_;
-    std::atomic<std::uint64_t> trusted_session_id_{1};
+    //std::atomic<std::uint64_t> trusted_session_id_{1};
+    std::shared_ptr<AFUidGeneratorThreadSafe> uid_generator_;
 };
 
 } // namespace ark

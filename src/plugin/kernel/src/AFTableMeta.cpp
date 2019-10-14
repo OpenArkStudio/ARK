@@ -41,19 +41,19 @@ size_t AFTableMeta::GetColCount() const
     return class_meta_->GetNodeCount();
 }
 
-void AFTableMeta::SetClassMeta(ARK_SHARE_PTR<AFClassMeta> pClassMeta)
+void AFTableMeta::SetClassMeta(std::shared_ptr<AFClassMeta> pClassMeta)
 {
     class_meta_ = pClassMeta;
 }
 
-ARK_SHARE_PTR<AFNodeMeta> AFTableMeta::FindMeta(const uint32_t index) const
+std::shared_ptr<AFNodeMeta> AFTableMeta::FindMeta(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(class_meta_ != nullptr, nullptr);
 
     return class_meta_->FindDataMeta(index);
 }
 
-ARK_SHARE_PTR<AFClassMeta> AFTableMeta::GetClassMeta() const
+std::shared_ptr<AFClassMeta> AFTableMeta::GetClassMeta() const
 {
     return class_meta_;
 }

@@ -33,7 +33,7 @@ public:
 
 private:
     // class meta
-    ARK_SHARE_PTR<AFClassMeta> class_meta_{nullptr};
+    std::shared_ptr<AFClassMeta> class_meta_{nullptr};
 
     // table list
     TableList table_list_;
@@ -41,7 +41,7 @@ private:
 public:
     AFTableManager() = delete;
 
-    explicit AFTableManager(ARK_SHARE_PTR<AFClassMeta> pClassMeta)
+    explicit AFTableManager(std::shared_ptr<AFClassMeta> pClassMeta)
     {
         class_meta_ = pClassMeta;
     }

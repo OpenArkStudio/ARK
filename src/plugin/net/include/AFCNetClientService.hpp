@@ -43,20 +43,20 @@ public:
 
     bool StartClient(const AFHeadLength head_len, const int& target_bus_id, const AFEndpoint& endpoint) override;
     void Update() override;
-    void Shutdown() override;
+    //void Shutdown() override;
 
     bool RegMsgCallback(const int msg_id, const NET_MSG_FUNCTOR&& cb) override;
     bool RegForwardMsgCallback(const NET_MSG_FUNCTOR&& cb) override;
     bool RegNetEventCallback(const NET_EVENT_FUNCTOR&& cb) override;
 
-    ARK_SHARE_PTR<AFConnectionData> GetConnectionInfo(const int bus_id) override;
+    std::shared_ptr<AFConnectionData> GetConnectionInfo(const int bus_id) override;
     //AFMapEx<int, AFConnectionData>& GetServerList() override;
 
 protected:
     void ProcessUpdate();
     void ProcessAddConnection();
 
-    AFINet* CreateNet(const proto_type proto);
+    std::shared_ptr<AFINet> CreateNet(const proto_type proto);
 
     //void RegisterToServer(const AFGUID& session_id, const int bus_id);
     int OnConnect(const AFNetEvent* event);
@@ -65,22 +65,23 @@ protected:
     void OnNetMsg(const AFNetMsg* msg, const int64_t session_id);
     void OnNetEvent(const AFNetEvent* event);
 
-    void KeepReport(ARK_SHARE_PTR<AFConnectionData>& connection_data)
+    void KeepReport(std::shared_ptr<AFConnectionData>& connection_data)
     {
         // TODO
     }
+
     void LogServerInfo(const std::string& strServerInfo)
     {
         // TODO
     }
 
     void LogServerInfo();
-    void KeepAlive(ARK_SHARE_PTR<AFConnectionData>& pServerData);
+    void KeepAlive(std::shared_ptr<AFConnectionData> pServerData);
 
     bool GetServerMachineData(const std::string& strServerID, AFCMachineNode& xMachineData);
-    void AddServerWeightData(ARK_SHARE_PTR<AFConnectionData>& xInfo);
+    void AddServerWeightData(std::shared_ptr<AFConnectionData>& xInfo);
 
-    void RemoveServerWeightData(ARK_SHARE_PTR<AFConnectionData>& xInfo);
+    void RemoveServerWeightData(std::shared_ptr<AFConnectionData>& xInfo);
 
 private:
     AFPluginManager* m_pPluginManager;
@@ -91,7 +92,6 @@ private:
 
     // Connected connections(may the ConnectState is different)
     AFSmartPtrMap<int, AFConnectionData> real_connections_;
-    //AFMap<int, AFINet> bus_to_net_; // TODO: check if delete
 
     // TODO: change to AFConsistentHashmap
     AFCConsistentHash consistent_hashmap_;

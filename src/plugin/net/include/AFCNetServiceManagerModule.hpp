@@ -52,9 +52,9 @@ public:
     //AFINetClientService* GetNetClientService(const ARK_APP_TYPE& app_type) override;
     //AFINetClientService* GetNetClientServiceByBusID(const int bus_id) override;
 
-    bool AddNetConnectionBus(int client_bus_id, AFINet* net_server_ptr) override;
+    bool AddNetConnectionBus(int client_bus_id, std::shared_ptr<AFINet> net_ptr) override;
     bool RemoveNetConnectionBus(int client_bus_id) override;
-    AFINet* GetNetConnectionBus(int src_bus, int target_bus) override;
+    std::shared_ptr<AFINet> GetNetConnectionBus(int src_bus, int target_bus) override;
 
 protected:
     ananas::Future<std::pair<bool, std::string>> RegisterToConsul(const int bus_id);
@@ -76,7 +76,7 @@ private:
     AFSmartPtrMap<ARK_APP_TYPE, AFINetClientService> client_services_;
 
     // All net relations, for finding AFINet
-    AFMap<std::pair<int, int>, AFINet> net_bus_relations_;
+    AFSmartPtrMap<std::pair<int, int>, AFINet> net_bus_relations_;
 
     AFIBusModule* m_pBusModule;
     AFILogModule* m_pLogModule;

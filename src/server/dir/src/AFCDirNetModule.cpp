@@ -60,34 +60,6 @@ int AFCDirNetModule::StartServer()
     return 0;
 }
 
-//bool AFCDirNetModule::PreUpdate()
-//{
-//    int ret = StartClient();
-//    return (ret == 0);
-//}
-
-//int AFCDirNetModule::StartClient()
-//{
-//    // Create all clients that need to connect the target endpoint
-//    int ret = m_pNetServiceManagerModule->CreateClusterClients();
-//    if (ret != 0)
-//    {
-//        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-//        ARK_ASSERT_NO_EFFECT(0);
-//        return ret;
-//    }
-//
-//    // Check the master connection
-//    AFINetClientService* pNetClientMaster =
-//        m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
-//    if (pNetClientMaster == nullptr)
-//    {
-//        return -1;
-//    }
-//
-//    return 0;
-//}
-
 std::shared_ptr<AFINetServerService> AFCDirNetModule::GetNetServer()
 {
     return m_pNetServer;

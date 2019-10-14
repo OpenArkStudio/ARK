@@ -69,44 +69,13 @@ int AFCProxyNetModule::StartServer()
     return 0;
 }
 
-//bool AFCProxyNetModule::PreUpdate()
-//{
-//    int ret = StartClient();
-//    return (ret == 0);
-//}
-
-//int AFCProxyNetModule::StartClient()
-//{
-//    int ret = m_pNetServiceManagerModule->CreateClusterClients();
-//    if (ret != 0)
-//    {
-//        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-//        ARK_ASSERT_NO_EFFECT(0);
-//        return ret;
-//    }
-//
-//    // If need to add a member
-//    AFINetClientService* pNetClientWorld = m_pNetServiceManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_WORLD);
-//    if (pNetClientWorld == nullptr)
-//    {
-//        return -1;
-//    }
-//
-//    pNetClientWorld->RegMsgCallback(
-//        AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCProxyNetModule::OnSelectServerResultProcess);
-//    pNetClientWorld->RegMsgCallback(AFMsg::EGMI_STS_NET_INFO, this, &AFCProxyNetModule::OnServerInfoProcess);
-//    pNetClientWorld->RegMsgCallback(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyNetModule::OnBrocastmsg);
-//
-//    return 0;
-//}
-
 void AFCProxyNetModule::OnServerInfoProcess(const AFNetMsg* msg, const int64_t session_id) {}
 
 void AFCProxyNetModule::OnSelectServerResultProcess(const AFNetMsg* msg, const int64_t session_id) {}
 
 bool AFCProxyNetModule::VerifyConnectData(const std::string& strAccount, const std::string& strKey)
 {
-    ARK_SHARE_PTR<ClientConnectData> pConnectData = mxWantToConnectMap.find_value(strAccount);
+    std::shared_ptr<ClientConnectData> pConnectData = mxWantToConnectMap.find_value(strAccount);
     if (pConnectData != nullptr && strKey == pConnectData->strConnectKey)
     {
         mxWantToConnectMap.erase(strAccount);
@@ -119,7 +88,7 @@ bool AFCProxyNetModule::VerifyConnectData(const std::string& strAccount, const s
 // void AFCProxyNetServerModule::OnTransMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const
 // uint32_t nLen, const AFGUID& xClientID)
 //{
-//    ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
+//    std::shared_ptr<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
 //    if (!pSessionData || pSessionData->mnLogicState <= 0 || pSessionData->mnGameID <= 0)
 //    {
@@ -144,7 +113,7 @@ void AFCProxyNetModule::OnConnectKeyProcess(const AFNetMsg* msg, const int64_t s
 
     // if (bRet)
     //{
-    //    ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
+    //    std::shared_ptr<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
     //    if (pSessionData)
     //    {
@@ -188,7 +157,7 @@ void AFCProxyNetModule::OnSocketEvent(const AFNetEvent* event)
 
 void AFCProxyNetModule::OnClientConnected(const AFGUID& conn_id)
 {
-    ARK_SHARE_PTR<AFClientConnectionData> pSessionData = std::make_shared<AFClientConnectionData>();
+    std::shared_ptr<AFClientConnectionData> pSessionData = std::make_shared<AFClientConnectionData>();
 
     pSessionData->conn_id_ = conn_id;
     client_connections_.insert(conn_id, pSessionData);
@@ -196,7 +165,7 @@ void AFCProxyNetModule::OnClientConnected(const AFGUID& conn_id)
 
 void AFCProxyNetModule::OnClientDisconnect(const AFGUID& conn_id)
 {
-    ARK_SHARE_PTR<AFClientConnectionData> pSessionData = client_connections_.find_value(conn_id);
+    std::shared_ptr<AFClientConnectionData> pSessionData = client_connections_.find_value(conn_id);
     if (pSessionData != nullptr)
     {
         if (pSessionData->game_id_ != 0 && pSessionData->actor_id_ != 0)
@@ -219,10 +188,10 @@ void AFCProxyNetModule::OnSelectServerProcess(const AFNetMsg* msg, const int64_t
 {
     // ARK_PO CESS_MSG(xHead, msg, nLen, AFMsg::ReqSelectServer);
     // AFINetClientService* pWorldNetService = m_pNetClientManagerModule->GetNetClientServiceByBusID(xMsg.world_id());
-    // ARK_SHARE_PTR<AFConnectionData> pServerData = pWorldNetService->GetServerNetInfo(xMsg.world_id());
+    // std::shared_ptr<AFConnectionData> pServerData = pWorldNetService->GetServerNetInfo(xMsg.world_id());
     // if (pServerData != nullptr && AFConnectionData::CONNECTED == pServerData->net_state_)
     //{
-    //    ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
+    //    std::shared_ptr<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
     //    if (pSessionData)
     //    {
@@ -248,7 +217,7 @@ void AFCProxyNetModule::OnReqServerListProcess(const AFNetMsg* msg, const int64_
     //    return;
     //}
 
-    // ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
+    // std::shared_ptr<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
     // if (pSessionData && pSessionData->mnLogicState > 0)
     //{
@@ -281,7 +250,7 @@ void AFCProxyNetModule::OnReqServerListProcess(const AFNetMsg* msg, const int64_
 
 int AFCProxyNetModule::Transpond(const AFNetMsg* msg)
 {
-    // ARK_SHARE_PTR<AFClientConnectioD ata> pSessionData = client_connections_.GetElement(xHead.GetUID());
+    // std::shared_ptr<AFClientConnectioD ata> pSessionData = client_connections_.GetElement(xHead.GetUID());
 
     // if (pSessionData)
     //{
@@ -321,7 +290,7 @@ void AFCProxyNetModule::OnReqEnterGameServer(const AFNetMsg* msg, const int64_t 
 
 int AFCProxyNetModule::EnterGameSuccessEvent(const AFGUID conn_id, const AFGUID actor_id)
 {
-    ARK_SHARE_PTR<AFClientConnectionData> pSessionData = client_connections_.find_value(conn_id);
+    std::shared_ptr<AFClientConnectionData> pSessionData = client_connections_.find_value(conn_id);
 
     if (pSessionData != nullptr)
     {
@@ -338,10 +307,10 @@ int AFCProxyNetModule::EnterGameSuccessEvent(const AFGUID conn_id, const AFGUID 
 bool AFCProxyNetModule::CheckSessionState(const int nGameID, const AFGUID& xClientID, const std::string& strAccount)
 {
     //AFINetClientService* pWorldNetService = m_pNetServiceManagerModule->GetNetClientServiceByBusID(nGameID);
-    //ARK_SHARE_PTR<AFConnectionData> pServerData = pWorldNetService->GetServerNetInfo(nGameID);
+    //std::shared_ptr<AFConnectionData> pServerData = pWorldNetService->GetServerNetInfo(nGameID);
     //if (pServerData != nullptr && AFConnectionData::CONNECTED == pServerData->net_state_)
     //{
-    //    ARK_SHARE_PTR<AFClientConnectionData> pSessionData = client_connections_.find_value(xClientID);
+    //    std::shared_ptr<AFClientConnectionData> pSessionData = client_connections_.find_value(xClientID);
 
     //    if (pSessionData != nullptr && pSessionData->logic_state_ > 0 && pSessionData->game_id_ == nGameID &&
     //        pSessionData->account_ == strAccount)

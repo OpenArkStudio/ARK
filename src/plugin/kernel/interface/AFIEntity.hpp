@@ -38,8 +38,8 @@ public:
     virtual const AFGUID& GetID() const = 0;
 
     // get object parent unique id
-    virtual ARK_SHARE_PTR<AFIContainer> GetParentContainer() const = 0;
-    virtual bool SetParentContainer(ARK_SHARE_PTR<AFIContainer> pContainer) = 0;
+    virtual std::shared_ptr<AFIContainer> GetParentContainer() const = 0;
+    virtual bool SetParentContainer(std::shared_ptr<AFIContainer> pContainer) = 0;
 
     virtual void Update() = 0;
 
@@ -118,8 +118,8 @@ public:
     virtual AFITable* FindTable(const std::string& name) = 0;
     virtual AFITable* FindTable(const uint32_t index) = 0;
 
-    virtual ARK_SHARE_PTR<AFIContainer> FindContainer(const std::string& name) = 0;
-    virtual ARK_SHARE_PTR<AFIContainer> FindContainer(const uint32_t index) = 0;
+    virtual std::shared_ptr<AFIContainer> FindContainer(const std::string& name) = 0;
+    virtual std::shared_ptr<AFIContainer> FindContainer(const uint32_t index) = 0;
 
     // custom data
     virtual bool AddCustomBool(const std::string& name, bool value) = 0;

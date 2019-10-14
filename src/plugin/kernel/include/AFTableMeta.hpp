@@ -45,9 +45,9 @@ private:
     // data type name
     std::string type_name_{NULL_STR};
 
-    ARK_SHARE_PTR<AFClassMeta> class_meta_{nullptr};
+    std::shared_ptr<AFClassMeta> class_meta_{nullptr};
 
-    // feature type
+    // mask type
     ArkMaskType mask_;
 
 public:
@@ -61,11 +61,11 @@ public:
 
     size_t GetColCount() const;
 
-    void SetClassMeta(ARK_SHARE_PTR<AFClassMeta> pClassMeta);
+    void SetClassMeta(std::shared_ptr<AFClassMeta> pClassMeta);
 
-    ARK_SHARE_PTR<AFNodeMeta> FindMeta(const uint32_t index) const;
+    std::shared_ptr<AFNodeMeta> FindMeta(const uint32_t index) const;
 
-    ARK_SHARE_PTR<AFClassMeta> GetClassMeta() const;
+    std::shared_ptr<AFClassMeta> GetClassMeta() const;
 
     ArkDataType GetColType(const uint32_t index) const;
 

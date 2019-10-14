@@ -28,6 +28,9 @@ AFCHttpClient::~AFCHttpClient()
 {
     using namespace brynet::net;
 
+    tcp_service_->stopWorkerThread();
+    connector_->stopWorkerThread();
+
     base::DestroySocket();
 }
 

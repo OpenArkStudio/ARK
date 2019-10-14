@@ -26,7 +26,7 @@ namespace ark {
 
 // constructor
 AFCRow::AFCRow(
-    ARK_SHARE_PTR<AFClassMeta> pClassMeta, uint32_t row, const AFIDataList& args, TABLE_COMPONENT_FUNCTOR&& func)
+    std::shared_ptr<AFClassMeta> pClassMeta, uint32_t row, const AFIDataList& args, TABLE_COMPONENT_FUNCTOR&& func)
     : row_(row)
 {
     // data node
@@ -368,7 +368,7 @@ void AFCRow::InitData(const AFIDataList& args)
     }
 }
 
-ARK_SHARE_PTR<AFNodeManager> AFCRow::GetNodeManager() const
+std::shared_ptr<AFNodeManager> AFCRow::GetNodeManager() const
 {
     return m_pNodeManager;
 }

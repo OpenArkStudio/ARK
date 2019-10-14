@@ -44,7 +44,7 @@ private:
     ID_TYPE config_id_{0};
 
     // parent container
-    ARK_SHARE_PTR<AFIContainer> parent_container_{nullptr};
+    std::shared_ptr<AFIContainer> parent_container_{nullptr};
 
     // map id
     int32_t map_id_{NULL_INT};
@@ -60,27 +60,27 @@ private:
     CustomDataList custom_data_list_;
 
     // class meta
-    ARK_SHARE_PTR<AFClassMeta> class_meta_{nullptr};
+    std::shared_ptr<AFClassMeta> class_meta_{nullptr};
 
     // node data
-    ARK_SHARE_PTR<AFNodeManager> m_pNodeManager{nullptr};
+    std::shared_ptr<AFNodeManager> m_pNodeManager{nullptr};
 
     // table data
-    ARK_SHARE_PTR<AFTableManager> m_pTableManager{nullptr};
+    std::shared_ptr<AFTableManager> m_pTableManager{nullptr};
 
     // container manager
-    ARK_SHARE_PTR<AFIContainerManager> m_pContainerManager{nullptr};
+    std::shared_ptr<AFIContainerManager> m_pContainerManager{nullptr};
 
     // event manager
-    ARK_SHARE_PTR<AFIEventManager> m_pEventManager{nullptr};
+    std::shared_ptr<AFIEventManager> m_pEventManager{nullptr};
 
     // call back manager
-    ARK_SHARE_PTR<AFClassCallBackManager> m_pCallBackManager{nullptr};
+    std::shared_ptr<AFClassCallBackManager> m_pCallBackManager{nullptr};
 
 public:
     AFCEntity() = delete;
 
-    explicit AFCEntity(ARK_SHARE_PTR<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE config_id,
+    explicit AFCEntity(std::shared_ptr<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE config_id,
         const int32_t map_id, const int32_t map_entity_id);
 
     void Update() override;
@@ -89,8 +89,8 @@ public:
     const AFGUID& GetID() const override;
 
     // get parent unique id
-    ARK_SHARE_PTR<AFIContainer> GetParentContainer() const override;
-    bool SetParentContainer(ARK_SHARE_PTR<AFIContainer> pContainer) override;
+    std::shared_ptr<AFIContainer> GetParentContainer() const override;
+    bool SetParentContainer(std::shared_ptr<AFIContainer> pContainer) override;
 
     bool IsPublic(const std::string& name) const override;
     bool IsPublic(const uint32_t index) const override;
@@ -162,8 +162,8 @@ public:
     const AFGUID& GetGUID(const uint32_t index) const override;
 
     // container operation
-    ARK_SHARE_PTR<AFIContainer> FindContainer(const std::string& name) override;
-    ARK_SHARE_PTR<AFIContainer> FindContainer(const uint32_t index) override;
+    std::shared_ptr<AFIContainer> FindContainer(const std::string& name) override;
+    std::shared_ptr<AFIContainer> FindContainer(const uint32_t index) override;
 
     // table data
     AFITable* FindTable(const std::string& name) override;
@@ -207,13 +207,13 @@ public:
     void UpdateSent() override;
 
 private:
-    ARK_SHARE_PTR<AFNodeManager> GetNodeManager() const;
+    std::shared_ptr<AFNodeManager> GetNodeManager() const;
 
-    ARK_SHARE_PTR<AFTableManager> GetTableManager() const;
+    std::shared_ptr<AFTableManager> GetTableManager() const;
 
-    ARK_SHARE_PTR<AFIContainerManager> GetContainerManager() const;
+    std::shared_ptr<AFIContainerManager> GetContainerManager() const;
 
-    ARK_SHARE_PTR<AFIEventManager> GetEventManager() const;
+    std::shared_ptr<AFIEventManager> GetEventManager() const;
 
     int OnDataCallBack(const std::string& name, const uint32_t index, const AFIData& old_data, const AFIData& new_data);
 };

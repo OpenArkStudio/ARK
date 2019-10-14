@@ -18,10 +18,11 @@
  *
  */
 
+#include <json/json.hpp>
+
 #include "net/include/AFCNetServerService.hpp"
 #include "net/include/AFCNetClientService.hpp"
 #include "net/include/AFCNetServiceManagerModule.hpp"
-#include "json/json.hpp"
 
 namespace ark {
 
@@ -120,38 +121,6 @@ void AFCNetServiceManagerModule::HealthCheck(const std::string& name, const AFGU
                 // Will add a meta that represent the endpoint
                 CreateClientService(bus_addr, service_msg.address(), service_msg.port());
             }
-
-            //consul::health_check_result check_result;
-            //google::protobuf::util::JsonParseOptions option;
-            //option.ignore_unknown_fields = true;
-            //auto status = google::protobuf::util::JsonStringToMessage(response.second, &check_result, option);
-            //if (!status.ok())
-            //{
-            //    return;
-            //}
-
-            //for (int i = 0; i < check_result.datas_size(); ++i)
-            //{
-            //    const auto& service = check_result.datas(i).service();
-            //    auto iter = service.meta().find("busid");
-            //    if (iter == service.meta().end())
-            //    {
-            //        ARK_LOG_ERROR("service={} do not have Meta=busid, please check it.", service.id());
-            //        return;
-            //    }
-
-            //    AFBusAddr bus_addr;
-            //    bus_addr.FromString(iter->second);
-            //    // Check if already connected target server
-            //    if (CheckConnectedTargetServer(bus_addr))
-            //    {
-            //        return;
-            //    }
-
-            //    // TODO: NickYang
-            //    // Will add a meta that represent the endpoint
-            //    CreateClientService(bus_addr, service.address(), service.port());
-            //}
         });
     }
 }
@@ -229,80 +198,7 @@ std::shared_ptr<AFINetServerService> AFCNetServiceManagerModule::GetSelfNetServe
     return server_services_.find_value(m_pBusModule->GetSelfBusID());
 }
 
-//int AFCNetServiceManagerModule::CreateClusterClients(const AFHeadLength head_len /* = AFHeadLength::SS_HEAD_LENGTH*/)
-//{
-//    //std::vector<AFServerConfig> target_list;
-//    //if (!m_pBusModule->GetDirectBusRelations(target_list))
-//    //{
-//    //    return -1;
-//    //}
-//
-//    //if (target_list.empty())
-//    //{
-//    //    return 0;
-//    //}
-//
-//    //for (auto& target : target_list)
-//    //{
-//    //    ARK_APP_TYPE app_type = ARK_APP_TYPE(AFBusAddr(target.self_id).app_type);
-//    //    AFINetClientService* pClient = net_clients_.find_value(app_type);
-//    //    if (pClient == nullptr)
-//    //    {
-//    //        pClient = ARK_NEW AFCNetClientService(GetPluginManager());
-//    //        net_clients_.insert(app_type, pClient);
-//    //    }
-//    //    bool ret = pClient->StartClient(head_len, target.self_id, target.intranet_ep_);
-//    //    if (!ret)
-//    //    {
-//    //        ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", m_pBusModule->GetSelfBusName(), target.intranet_ep_.ToString());
-//    //        return ret;
-//    //    }
-//    //}
-//
-//    return 0;
-//}
-
-//int AFCNetServiceManagerModule::CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url)
-//{
-//    //ArkConnectionType connection_type = m_pBusModule->GetConnectionType(bus_id);
-//    //if (connection_type != ArkConnectionType::BRT_DIRECT)
-//    //{
-//    //    return 0;
-//    //}
-//
-//    //ARK_APP_TYPE app_type = ARK_APP_TYPE(AFBusAddr(bus_id).app_type);
-//    //AFINetClientService* pClient = net_clients_.find_value(app_type);
-//    //if (pClient == nullptr)
-//    //{
-//    //    pClient = ARK_NEW AFCNetClientService(GetPluginManager());
-//    //    net_clients_.insert(app_type, pClient);
-//    //}
-//
-//    //std::error_code ec;
-//    //AFEndpoint target_ep = AFEndpoint::FromString(url, ec);
-//    //bool ret = pClient->StartClient(head_len, bus_id, target_ep);
-//    //if (!ret)
-//    //{
-//    //    ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", m_pBusModule->GetSelfBusName(), url);
-//    //}
-//
-//    //return ret;
-//
-//    return 0;
-//}
-
-//AFINetClientService* AFCNetServiceManagerModule::GetNetClientService(const ARK_APP_TYPE& app_type)
-//{
-//    return net_clients_.find_value(app_type);
-//}
-//
-//AFINetClientService* AFCNetServiceManagerModule::GetNetClientServiceByBusID(const int bus_id)
-//{
-//    AFBusAddr addr(bus_id);
-//    return GetNetClientService(ARK_APP_TYPE(addr.app_type));
-//}
-
-bool AFCNetServiceManagerModule::AddNetConnectionBus(int client_bus_id, AFINet* net_ptr)
+bool AFCNetServiceManagerModule::AddNetConnectionBus(int client_bus_id, std::shared_ptr<AFINet> net_ptr)
 {
     if (client_bus_id <= 0 || net_ptr == nullptr)
     {
@@ -325,7 +221,7 @@ bool AFCNetServiceManagerModule::RemoveNetConnectionBus(int client_bus_id)
     return true;
 }
 
-AFINet* AFCNetServiceManagerModule::GetNetConnectionBus(int src_bus, int target_bus)
+std::shared_ptr<AFINet> AFCNetServiceManagerModule::GetNetConnectionBus(int src_bus, int target_bus)
 {
     return net_bus_relations_.find_value(std::make_pair(src_bus, target_bus));
 }

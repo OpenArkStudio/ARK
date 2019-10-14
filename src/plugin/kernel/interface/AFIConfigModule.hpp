@@ -34,7 +34,7 @@ public:
     virtual bool Clear() = 0;
 
     // find config
-    virtual ARK_SHARE_PTR<AFIStaticEntity> FindStaticEntity(const ID_TYPE config_id) = 0;
+    virtual std::shared_ptr<AFIStaticEntity> FindStaticEntity(const ID_TYPE config_id) = 0;
 };
 
 } // namespace ark

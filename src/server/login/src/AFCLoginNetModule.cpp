@@ -108,7 +108,7 @@ int AFCLoginNetModule::StartServer()
 // int AFCLoginNetModule::OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID,
 // const std::string& strAccount, const std::string& strWorldURL, const std::string& strWorldKey)
 //{
-//    ARK_SHARE_PTR<AFSessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
+//    std::shared_ptr<AFSessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
 
 //    if (pSessionData != nullptr)
 //    {
@@ -129,7 +129,7 @@ int AFCLoginNetModule::StartServer()
 
 ////void AFCLoginNetServerModule::OnClientConnected(const AFGUID& xClientID)
 ////{
-////    ARK_SHARE_PTR<AFSessionData> pSessionData = std::make_shared<AFSessionData>();
+////    std::shared_ptr<AFSessionData> pSessionData = std::make_shared<AFSessionData>();
 
 ////    pSessionData->mnClientID = xClientID;
 ////    mmClientSessionData.AddElement(xClientID, pSessionData);
@@ -144,7 +144,7 @@ int AFCLoginNetModule::StartServer()
 // uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqAccountLogin);
-//    ARK_SHARE_PTR<AFSessionData> pSession = mmClientSessionData.GetElement(conn_id);
+//    std::shared_ptr<AFSessionData> pSession = mmClientSessionData.GetElement(conn_id);
 
 //    if (pSession == nullptr)
 //    {
@@ -185,7 +185,7 @@ int AFCLoginNetModule::StartServer()
 // uint32_t msg_len, const AFGUID& conn_id)
 //{
 //    ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqConnectWorld);
-//    ARK_SHARE_PTR<AFSessionData> pSession = mmClientSessionData.GetElement(conn_id);
+//    std::shared_ptr<AFSessionData> pSession = mmClientSessionData.GetElement(conn_id);
 
 //    if (!pSession)
 //    {

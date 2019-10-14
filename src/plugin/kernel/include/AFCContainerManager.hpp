@@ -35,10 +35,10 @@ public:
     explicit AFCContainerManager() = default;
 
     // find container
-    ARK_SHARE_PTR<AFIContainer> FindContainer(const uint32_t index) const override;
+    std::shared_ptr<AFIContainer> FindContainer(const uint32_t index) const override;
 
-    ARK_SHARE_PTR<AFIContainer> CreateContainer(
-        ARK_SHARE_PTR<AFClassMeta> pClassMeta, const uint32_t index, const AFGUID& parent_id) override;
+    std::shared_ptr<AFIContainer> CreateContainer(
+        std::shared_ptr<AFClassMeta> pClassMeta, const uint32_t index, const AFGUID& parent_id) override;
 
     bool DestroyContainer(const uint32_t index) override;
 

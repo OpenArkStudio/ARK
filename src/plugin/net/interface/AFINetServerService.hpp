@@ -84,7 +84,7 @@ public:
     // AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) = 0; virtual bool
     // SendMsg(const uint16_t msg_id, const std::string& data, const AFGUID& connect_id, const AFGUID& player_id, const
     // std::vector<AFGUID>* target_list = nullptr) = 0;
-    virtual AFINet* GetNet() = 0;
+    virtual std::shared_ptr<AFINet> GetNet() = 0;
 
     virtual bool RegMsgCallback(const int msg_id, NET_MSG_FUNCTOR&& cb) = 0;
     virtual bool RegForwardMsgCallback(NET_MSG_FUNCTOR&& cb) = 0;

@@ -33,17 +33,17 @@ AFCNetServerService::AFCNetServerService(AFPluginManager* p)
     ARK_ASSERT_NO_EFFECT(m_pNetServiceManagerModule != nullptr && m_pLogModule != nullptr && m_pMsgModule != nullptr);
 }
 
-AFCNetServerService::~AFCNetServerService()
-{
-    ARK_DELETE(m_pNet); // shutdown will be called in destructor
-}
+//AFCNetServerService::~AFCNetServerService()
+//{
+//    ARK_DELETE(m_pNet); // shutdown will be called in destructor
+//}
 
 bool AFCNetServerService::Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection)
 {
     bool ret = false;
     if (ep.proto() == proto_type::tcp)
     {
-        m_pNet = ARK_NEW AFCTCPServer(this, &AFCNetServerService::OnNetMsg, &AFCNetServerService::OnNetEvent);
+        m_pNet = std::make_shared<AFCTCPServer>(this, &AFCNetServerService::OnNetMsg, &AFCNetServerService::OnNetEvent);
         ret = m_pNet->StartServer(len, bus_id, ep.GetIP(), ep.GetPort(), thread_count, max_connection, ep.IsV6());
 
         //AFINetServerService::RegMsgCallback(
@@ -73,7 +73,7 @@ bool AFCNetServerService::Update()
     return true;
 }
 
-AFINet* AFCNetServerService::GetNet()
+std::shared_ptr<AFINet> AFCNetServerService::GetNet()
 {
     return m_pNet;
 }
@@ -154,7 +154,7 @@ void AFCNetServerService::OnNetEvent(const AFNetEvent* event)
 //    // Add server_bus_id -> client_bus_id relationship with net
 //    m_pNetServiceManagerModule->AddNetConnectionBus(pb_msg.bus_id(), m_pNet);
 //    //////////////////////////////////////////////////////////////////////////
-//    ARK_SHARE_PTR<AFServerData> server_data_ptr = reg_clients_.find_value(pb_msg.bus_id());
+//    std::shared_ptr<AFServerData> server_data_ptr = reg_clients_.find_value(pb_msg.bus_id());
 //    if (nullptr == server_data_ptr)
 //    {
 //        server_data_ptr = std::make_shared<AFServerData>();

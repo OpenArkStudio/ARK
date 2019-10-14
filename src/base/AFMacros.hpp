@@ -246,8 +246,6 @@ typedef struct HINSTANCE__* hInstance;
 
 #include "common/lexical_cast.hpp"
 #define ARK_LEXICAL_CAST lexical_cast
-template<typename T>
-using ARK_SHARE_PTR = std::shared_ptr<T>;
 
 // cpp version
 #if (__cplusplus >= 201103L || (defined(_MSC_VER) && _MSC_VER >= 1800))
@@ -335,7 +333,7 @@ using ARK_SHARE_PTR = std::shared_ptr<T>;
 //////////////////////////////////////////////////////////////////////////
 // Plugin macros
 #define ARK_DECLARE_PLUGIN(PLUGIN_CLASS)                                                                               \
-    class PLUGIN_CLASS final : public AFIPlugin                                                                              \
+    class PLUGIN_CLASS final : public AFIPlugin                                                                        \
     {                                                                                                                  \
     public:                                                                                                            \
         int GetPluginVersion()                                                                                         \
@@ -458,13 +456,6 @@ protected:                                                                      
 private:                                                                                                               \
     AFPluginManager* plugin_manager_{nullptr};                                                                         \
     std::string name_{};
-//////////////////////////////////////////////////////////////////////////
-//#ifndef ARK_DEPRECATED
-//// cpp14
-//#define ARK_DEPRECATED(Version, Message)                                                                               \
-//    [[deprecated(Message " Please update your code to the new API before upgrading to the next release, otherwise "    \
-//                         "your project will no longer compile.")]]
-//#endif // #ifndef ARK_DEPRECATED
 ////////////////////////////////////////////////////////////////////////////
-//// clear player data time
+// clear player data time
 #define CLEAR_HOUR 5

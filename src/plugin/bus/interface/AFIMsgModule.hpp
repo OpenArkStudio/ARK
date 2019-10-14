@@ -99,7 +99,7 @@ public:
     ARK_LOG_DEBUG("Recv msg log src={} dst={} msg_name={} msg_id={} msg_len={}\nmsg_data={}", "", "",                  \
         pb_msg.GetTypeName(), msg_id, msg_len, pb_msg.DebugString());                                                  \
                                                                                                                        \
-    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(actor_id);                                           \
+    std::shared_ptr<AFIEntity> pEntity = m_pKernelModule->GetEntity(actor_id);                                           \
     if (nullptr == pEntity)                                                                                            \
     {                                                                                                                  \
         ARK_LOG_ERROR("FromClient actor_entity do not Exist, msg_id={} player_id={}", msg_id, actor_id.ToString());    \

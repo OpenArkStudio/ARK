@@ -33,7 +33,7 @@ public:
 
 private:
     // class meta
-    ARK_SHARE_PTR<AFClassMeta> class_meta_{nullptr};
+    std::shared_ptr<AFClassMeta> class_meta_{nullptr};
 
     // call back
     NODE_MANAGER_FUNCTOR func_;
@@ -44,13 +44,13 @@ private:
 public:
     AFNodeManager() = delete;
 
-    explicit AFNodeManager(ARK_SHARE_PTR<AFClassMeta> pClassMeta);
-    explicit AFNodeManager(ARK_SHARE_PTR<AFClassMeta> pClassMeta, NODE_MANAGER_FUNCTOR&& func);
+    explicit AFNodeManager(std::shared_ptr<AFClassMeta> pClassMeta);
+    explicit AFNodeManager(std::shared_ptr<AFClassMeta> pClassMeta, NODE_MANAGER_FUNCTOR&& func);
 
     bool IsEmpty() const;
 
     // data operation
-    AFINode* CreateData(ARK_SHARE_PTR<AFNodeMeta> pDataMeta);
+    AFINode* CreateData(std::shared_ptr<AFNodeMeta> pDataMeta);
     bool CreateData(AFINode* pData);
 
     // get node

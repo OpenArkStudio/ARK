@@ -52,19 +52,19 @@ void AFCNetClientService::Update()
     ProcessAddConnection();
     ProcessUpdate();
 }
-
-void AFCNetClientService::Shutdown()
-{
-    for (auto iter : real_connections_)
-    {
-        auto& connection_data = iter.second;
-        if (connection_data->net_client_ptr_ != nullptr)
-        {
-            // shutdown in AFINet destructor function
-            ARK_DELETE(connection_data->net_client_ptr_);
-        }
-    }
-}
+//
+//void AFCNetClientService::Shutdown()
+//{
+//    for (auto iter : real_connections_)
+//    {
+//        auto& connection_data = iter.second;
+//        if (connection_data->net_client_ != nullptr)
+//        {
+//            // shutdown in AFINet destructor function
+//            ARK_DELETE(connection_data->net_client_);
+//        }
+//    }
+//}
 
 bool AFCNetClientService::RegMsgCallback(const int msg_id, const NET_MSG_FUNCTOR&& cb)
 {
@@ -101,25 +101,25 @@ void AFCNetClientService::ProcessUpdate()
             case AFConnectionData::DISCONNECT:
             {
                 connection_data->net_state_ = AFConnectionData::RECONNECT;
-                if (connection_data->net_client_ptr_ != nullptr)
+                if (connection_data->net_client_ != nullptr)
                 {
-                    connection_data->net_client_ptr_->Shutdown();
+                    connection_data->net_client_->Shutdown();
                 }
             }
             break;
             case AFConnectionData::CONNECTING:
             {
-                if (connection_data->net_client_ptr_ != nullptr)
+                if (connection_data->net_client_ != nullptr)
                 {
-                    connection_data->net_client_ptr_->Update();
+                    connection_data->net_client_->Update();
                 }
             }
             break;
             case AFConnectionData::CONNECTED:
             {
-                if (connection_data->net_client_ptr_ != nullptr)
+                if (connection_data->net_client_ != nullptr)
                 {
-                    connection_data->net_client_ptr_->Update();
+                    connection_data->net_client_->Update();
 
                     KeepAlive(connection_data);
                 }
@@ -135,13 +135,13 @@ void AFCNetClientService::ProcessUpdate()
 
                 connection_data->last_active_time_ = m_pPluginManager->GetNowTime();
 
-                if (connection_data->net_client_ptr_ != nullptr)
+                if (connection_data->net_client_ != nullptr)
                 {
-                    connection_data->net_client_ptr_->Shutdown();
+                    connection_data->net_client_->Shutdown();
                 }
 
                 // based on protocol to create a new client
-                bool ret = connection_data->net_client_ptr_->StartClient(connection_data->head_len_,
+                bool ret = connection_data->net_client_->StartClient(connection_data->head_len_,
                     connection_data->server_bus_id_, connection_data->endpoint_.GetIP(),
                     connection_data->endpoint_.GetPort(), connection_data->endpoint_.IsV6());
                 if (!ret)
@@ -160,11 +160,11 @@ void AFCNetClientService::ProcessUpdate()
     }
 }
 
-AFINet* AFCNetClientService::CreateNet(const proto_type proto)
+std::shared_ptr<AFINet> AFCNetClientService::CreateNet(const proto_type proto)
 {
     if (proto == proto_type::tcp)
     {
-        return ARK_NEW AFCTCPClient(this, &AFCNetClientService::OnNetMsg, &AFCNetClientService::OnNetEvent);
+        return std::make_shared<AFCTCPClient>(this, &AFCNetClientService::OnNetMsg, &AFCNetClientService::OnNetEvent);
     }
     else if (proto == proto_type::udp)
     {
@@ -197,7 +197,7 @@ void AFCNetClientService::LogServerInfo()
     LogServerInfo("This is a client, end to print Server Info----------------------------------");
 }
 
-void AFCNetClientService::KeepAlive(ARK_SHARE_PTR<AFConnectionData>& pServerData)
+void AFCNetClientService::KeepAlive(std::shared_ptr<AFConnectionData> pServerData)
 {
     if ((pServerData->last_active_time_ + 10) > m_pPluginManager->GetNowTime())
     {
@@ -216,7 +216,7 @@ bool AFCNetClientService::GetServerMachineData(const std::string& strServerID, A
     return consistent_hashmap_.GetSuitNode(nCRC32, xMachineData);
 }
 
-void AFCNetClientService::AddServerWeightData(ARK_SHARE_PTR<AFConnectionData>& xInfo)
+void AFCNetClientService::AddServerWeightData(std::shared_ptr<AFConnectionData>& xInfo)
 {
     // create virtual node by weight
     for (int i = 0; i < EConstDefine_DefaultWeight; ++i)
@@ -231,7 +231,7 @@ void AFCNetClientService::AddServerWeightData(ARK_SHARE_PTR<AFConnectionData>& x
     }
 }
 
-void AFCNetClientService::RemoveServerWeightData(ARK_SHARE_PTR<AFConnectionData>& xInfo)
+void AFCNetClientService::RemoveServerWeightData(std::shared_ptr<AFConnectionData>& xInfo)
 {
     for (int i = 0; i < EConstDefine_DefaultWeight; ++i)
     {
@@ -258,7 +258,7 @@ int AFCNetClientService::OnConnect(const AFNetEvent* event)
         pServerInfo->net_state_ = AFConnectionData::CONNECTED;
 
         // add server-bus-id -> client-bus-id
-        m_pNetServiceManagerModule->AddNetConnectionBus(event->GetBusId(), pServerInfo->net_client_ptr_);
+        m_pNetServiceManagerModule->AddNetConnectionBus(event->GetBusId(), pServerInfo->net_client_);
     }
 
     return 0;
@@ -269,7 +269,7 @@ int AFCNetClientService::OnDisconnect(const AFNetEvent* event)
     ARK_LOG_ERROR("Disconnect [{}] successfully, ip={} session_id={}", AFBusAddr(event->GetBusId()).ToString(),
         event->GetIP(), event->GetId());
 
-    ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetConnectionInfo(event->GetBusId());
+    std::shared_ptr<AFConnectionData> pServerInfo = GetConnectionInfo(event->GetBusId());
 
     if (pServerInfo != nullptr)
     {
@@ -288,7 +288,7 @@ void AFCNetClientService::ProcessAddConnection()
     for (auto& iter : tmp_connections_)
     {
         const AFConnectionData& connection_data = iter;
-        ARK_SHARE_PTR<AFConnectionData> target_connection_data =
+        std::shared_ptr<AFConnectionData> target_connection_data =
             real_connections_.find_value(connection_data.server_bus_id_);
         if (target_connection_data != nullptr)
         {
@@ -301,8 +301,8 @@ void AFCNetClientService::ProcessAddConnection()
         target_connection_data->last_active_time_ = m_pPluginManager->GetNowTime();
 
         // based on protocol to create a new client
-        target_connection_data->net_client_ptr_ = CreateNet(target_connection_data->endpoint_.proto());
-        int ret = target_connection_data->net_client_ptr_->StartClient(target_connection_data->head_len_,
+        target_connection_data->net_client_ = CreateNet(target_connection_data->endpoint_.proto());
+        int ret = target_connection_data->net_client_->StartClient(target_connection_data->head_len_,
             target_connection_data->server_bus_id_, target_connection_data->endpoint_.GetIP(),
             target_connection_data->endpoint_.GetPort());
         if (!ret)
@@ -355,7 +355,7 @@ void AFCNetClientService::OnNetEvent(const AFNetEvent* event)
     }
 }
 
-ARK_SHARE_PTR<AFConnectionData> AFCNetClientService::GetConnectionInfo(const int bus_id)
+std::shared_ptr<AFConnectionData> AFCNetClientService::GetConnectionInfo(const int bus_id)
 {
     return real_connections_.find_value(bus_id);
 }

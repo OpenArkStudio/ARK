@@ -49,10 +49,10 @@ public:
 
     virtual bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID);
     virtual bool RemovePlayerGateInfo(const AFGUID& nRoleID);
-    virtual ARK_SHARE_PTR<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID);
+    virtual std::shared_ptr<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID);
 
-    virtual ARK_SHARE_PTR<GateServerInfo> GetGateServerInfo(const int nGateID);
-    virtual ARK_SHARE_PTR<GateServerInfo> GetGateServerInfoByClientID(const AFGUID& nClientID);
+    virtual std::shared_ptr<GateServerInfo> GetGateServerInfo(const int nGateID);
+    virtual std::shared_ptr<GateServerInfo> GetGateServerInfoByClientID(const AFGUID& nClientID);
 
     virtual int OnViewDataNodeEnter(const AFIDataList& argVar, const AFGUID& self);
     virtual int OnSelfDataNodeEnter(const AFGUID& self);

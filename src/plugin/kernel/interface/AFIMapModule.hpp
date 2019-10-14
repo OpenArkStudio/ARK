@@ -85,7 +85,7 @@ public:
         return map_instances_;
     }
 
-    bool AddInstance(int inst_id, ARK_SHARE_PTR<AFMapInstance> inst)
+    bool AddInstance(int inst_id, std::shared_ptr<AFMapInstance> inst)
     {
         return map_instances_.insert(inst_id, inst).second;
     }
@@ -98,7 +98,7 @@ public:
 
     bool AddEntityToInstance(const int inst_id, const AFGUID& entity_id, bool is_player)
     {
-        ARK_SHARE_PTR<AFMapInstance> pInfo = map_instances_.find_value(inst_id);
+        std::shared_ptr<AFMapInstance> pInfo = map_instances_.find_value(inst_id);
         if (pInfo == nullptr)
         {
             return false;
@@ -118,7 +118,7 @@ public:
 
     bool RemoveEntityFromInstance(const int inst_id, const AFGUID& entity_id, bool is_player)
     {
-        ARK_SHARE_PTR<AFMapInstance> pInfo = map_instances_.find_value(inst_id);
+        std::shared_ptr<AFMapInstance> pInfo = map_instances_.find_value(inst_id);
         if (nullptr == pInfo)
         {
             return false;
@@ -146,7 +146,7 @@ private:
 class AFIMapModule : public AFIModule
 {
 public:
-    virtual ARK_SHARE_PTR<AFMapInfo> GetMapInfo(const int map_id) = 0;
+    virtual std::shared_ptr<AFMapInfo> GetMapInfo(const int map_id) = 0;
 
     virtual bool IsInMapInstance(const AFGUID& self) = 0;
     virtual bool ExistMap(const int map_id) = 0;

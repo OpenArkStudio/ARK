@@ -33,12 +33,12 @@ class AFCNetServerService final : public AFINetServerService
 {
 public:
     explicit AFCNetServerService(AFPluginManager* p);
-    ~AFCNetServerService() override;
+    //~AFCNetServerService() override;
 
     bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) override;
     bool Update() override;
 
-    AFINet* GetNet() override;
+    std::shared_ptr<AFINet> GetNet() override;
 
     bool RegMsgCallback(const int msg_id, NET_MSG_FUNCTOR&& cb) override;
     bool RegForwardMsgCallback(NET_MSG_FUNCTOR&& cb) override;
@@ -57,7 +57,7 @@ private:
     AFILogModule* m_pLogModule;
     AFIMsgModule* m_pMsgModule;
 
-    AFINet* m_pNet{nullptr};
+    std::shared_ptr<AFINet> m_pNet{nullptr};
 
     std::map<int, NET_MSG_FUNCTOR> net_msg_callbacks_;
     std::list<NET_MSG_FUNCTOR> net_forward_msg_callbacks_;

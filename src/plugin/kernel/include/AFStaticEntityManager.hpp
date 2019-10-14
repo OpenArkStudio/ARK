@@ -33,8 +33,8 @@ public:
     AFStaticEntityManager() = default;
     virtual ~AFStaticEntityManager() = default;
 
-    ARK_SHARE_PTR<AFIStaticEntity> CreateStaticEntity(
-        ARK_SHARE_PTR<AFClassMeta> pClassMeta, ARK_SHARE_PTR<AFNodeManager> pNodeManager, const ID_TYPE config_id)
+    std::shared_ptr<AFIStaticEntity> CreateStaticEntity(
+        std::shared_ptr<AFClassMeta> pClassMeta, std::shared_ptr<AFNodeManager> pNodeManager, const ID_TYPE config_id)
     {
         ARK_ASSERT_RET_VAL(pClassMeta != nullptr && pNodeManager != nullptr, nullptr);
 
@@ -52,7 +52,7 @@ public:
         return pObject;
     }
 
-    ARK_SHARE_PTR<AFIStaticEntity> FindObject(const ID_TYPE config_id) const
+    std::shared_ptr<AFIStaticEntity> FindObject(const ID_TYPE config_id) const
     {
         return static_object_list_.find_value(config_id);
     }

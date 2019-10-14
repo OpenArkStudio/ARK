@@ -38,15 +38,15 @@ public:
     }
 
     template<typename T>
-    ARK_SHARE_PTR<T> CreateNewInstance()
+    std::shared_ptr<T> CreateNewInstance()
     {
-        ARK_SHARE_PTR<AFIComponent> pComponent = CreateNewInstance();
+        std::shared_ptr<AFIComponent> pComponent = CreateNewInstance();
 
         if (nullptr != pComponent)
         {
             if (TIsDerived<T, AFIComponent>::Result)
             {
-                ARK_SHARE_PTR<T> pT = std::dynamic_pointer_cast<T>(pComponent);
+                std::shared_ptr<T> pT = std::dynamic_pointer_cast<T>(pComponent);
 
                 if (nullptr != pT)
                 {
@@ -55,7 +55,7 @@ public:
             }
         }
 
-        return ARK_SHARE_PTR<T>();
+        return std::shared_ptr<T>();
     }
 
     virtual bool SetEnable(const bool bEnable)
@@ -95,7 +95,7 @@ public:
     }
 
 protected:
-    virtual ARK_SHARE_PTR<AFIComponent> CreateNewInstance()
+    virtual std::shared_ptr<AFIComponent> CreateNewInstance()
     {
         return nullptr;
     };

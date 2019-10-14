@@ -64,7 +64,12 @@ bool AFCMsgModule::SendSSMsg(const int target_bus, const int msg_id, const googl
     int src_bus = m_pBusModule->GetSelfBusID();
 #ifdef ARK_RUN_MODE_DEBUG
     std::string pb_json;
-    google::protobuf::util::MessageToJsonString(msg, &pb_json);
+    auto status = google::protobuf::util::MessageToJsonString(msg, &pb_json);
+    if (!status.ok())
+    {
+        return false;
+    }
+
     ARK_LOG_DEBUG("Send msg log\nsrc={}\ndst={}\nmsg_name={}\nmsg_id={}\nmsg_len={}\nmsg_data={}",
         AFMisc::Bus2Str(src_bus), AFMisc::Bus2Str(target_bus), msg.GetTypeName(), msg_id, msg_data.length(), pb_json);
 #endif
