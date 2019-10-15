@@ -137,28 +137,28 @@ void TestRandom()
 void TestCRC()
 {
     std::string s = "hello";
-    uint16_t crc16 = AFCRC16::Sum(s);
+    uint16_t crc16 = AFCRC16::sum(s);
     auto log = ARK_FORMAT("CRC16 [{}] -> [{}]", s, crc16);
     std::cout << log << std::endl;
 
     s = "world";
-    uint32_t crc32 = AFCRC32::Sum(s);
+    uint32_t crc32 = AFCRC32::sum(s);
     log = ARK_FORMAT("CRC16 [{}] -> [{}]", s, crc32);
     std::cout << log << std::endl;
 }
 
-void TestConsistentHashmap()
-{
-    AFConsistentHashmapType my_hash_map;
-    my_hash_map.insert("hello");
-    my_hash_map.insert("world");
-
-    uint32_t crc32 = AFCRC32::Sum("hello");
-    auto iter = my_hash_map.find(crc32);
-
-    auto log = ARK_FORMAT("find [hello] through CRC32[{}], the result is [{}]", crc32, iter->second);
-    std::cout << log << std::endl;
-}
+//void TestConsistentHashmap()
+//{
+//    AFConsistentHashmapType my_hash_map;
+//    my_hash_map.insert("hello");
+//    my_hash_map.insert("world");
+//
+//    uint32_t crc32 = AFCRC32::sum("hello");
+//    auto iter = my_hash_map.find(crc32);
+//
+//    auto log = ARK_FORMAT("find [hello] through CRC32[{}], the result is [{}]", crc32, iter->second);
+//    std::cout << log << std::endl;
+//}
 
 void Sample1Module::TestOssLog()
 {

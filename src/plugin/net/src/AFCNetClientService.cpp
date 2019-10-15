@@ -34,6 +34,8 @@ AFCNetClientService::AFCNetClientService(AFPluginManager* p)
 
     ARK_ASSERT_RET_NONE(m_pNetServiceManagerModule != nullptr && m_pBusModule != nullptr && m_pMsgModule != nullptr &&
                         m_pLogModule != nullptr);
+
+    consistent_hashmap_.set_vnode_count(EConstDefine_DefaultWeight);
 }
 
 bool AFCNetClientService::StartClient(const AFHeadLength head_len, const int& target_bus_id, const AFEndpoint& endpoint)
@@ -52,19 +54,6 @@ void AFCNetClientService::Update()
     ProcessAddConnection();
     ProcessUpdate();
 }
-//
-//void AFCNetClientService::Shutdown()
-//{
-//    for (auto iter : real_connections_)
-//    {
-//        auto& connection_data = iter.second;
-//        if (connection_data->net_client_ != nullptr)
-//        {
-//            // shutdown in AFINet destructor function
-//            ARK_DELETE(connection_data->net_client_);
-//        }
-//    }
-//}
 
 bool AFCNetClientService::RegMsgCallback(const int msg_id, const NET_MSG_FUNCTOR&& cb)
 {
@@ -210,39 +199,30 @@ void AFCNetClientService::KeepAlive(std::shared_ptr<AFConnectionData> pServerDat
     LogServerInfo();
 }
 
-bool AFCNetClientService::GetServerMachineData(const std::string& strServerID, AFCMachineNode& xMachineData)
+bool AFCNetClientService::AddServerNode(std::shared_ptr<AFConnectionData> data)
 {
-    uint32_t nCRC32 = AFCRC32::Sum(strServerID);
-    return consistent_hashmap_.GetSuitNode(nCRC32, xMachineData);
+    consistent_hashmap_.insert(data->server_bus_id_, data->endpoint_.GetIP(), data->endpoint_.GetPort());
+    return true;
 }
 
-void AFCNetClientService::AddServerWeightData(std::shared_ptr<AFConnectionData>& xInfo)
+bool AFCNetClientService::GetServerNode(const std::string& hash_key, AFVNode& vnode)
 {
-    // create virtual node by weight
-    for (int i = 0; i < EConstDefine_DefaultWeight; ++i)
+    auto iter = consistent_hashmap_.find(hash_key);
+    if (iter == consistent_hashmap_.end())
     {
-        AFCMachineNode vNode(i);
-
-        vNode.nMachineID = xInfo->server_bus_id_;
-        vNode.strIP = xInfo->endpoint_.GetIP();
-        vNode.nPort = xInfo->endpoint_.GetPort();
-        vNode.nWeight = EConstDefine_DefaultWeight;
-        consistent_hashmap_.Insert(vNode);
+        return false;
+    }
+    else
+    {
+        vnode = iter->second;
+        return true;
     }
 }
 
-void AFCNetClientService::RemoveServerWeightData(std::shared_ptr<AFConnectionData>& xInfo)
+void AFCNetClientService::RemoveServerNode(std::shared_ptr<AFConnectionData> data)
 {
-    for (int i = 0; i < EConstDefine_DefaultWeight; ++i)
-    {
-        AFCMachineNode vNode(i);
-
-        vNode.nMachineID = xInfo->server_bus_id_;
-        vNode.strIP = xInfo->endpoint_.GetIP();
-        vNode.nPort = xInfo->endpoint_.GetPort();
-        vNode.nWeight = EConstDefine_DefaultWeight;
-        consistent_hashmap_.Erase(vNode);
-    }
+    AFVNode vnode(data->server_bus_id_, data->endpoint_.GetIP(), data->endpoint_.GetPort(), 0);
+    consistent_hashmap_.erase(vnode);
 }
 
 int AFCNetClientService::OnConnect(const AFNetEvent* event)
@@ -250,15 +230,15 @@ int AFCNetClientService::OnConnect(const AFNetEvent* event)
     ARK_LOG_INFO("Connected [{}] successfully, ip={} session_id={}", AFBusAddr(event->GetBusId()).ToString(),
         event->GetIP(), event->GetId());
 
-    auto pServerInfo = GetConnectionInfo(event->GetBusId());
+    auto connection_info = GetConnectionInfo(event->GetBusId());
 
-    if (pServerInfo != nullptr)
+    if (connection_info != nullptr)
     {
-        AddServerWeightData(pServerInfo); // TODO: NickYang
-        pServerInfo->net_state_ = AFConnectionData::CONNECTED;
+        AddServerNode(connection_info);
+        connection_info->net_state_ = AFConnectionData::CONNECTED;
 
         // add server-bus-id -> client-bus-id
-        m_pNetServiceManagerModule->AddNetConnectionBus(event->GetBusId(), pServerInfo->net_client_);
+        m_pNetServiceManagerModule->AddNetConnectionBus(event->GetBusId(), connection_info->net_client_);
     }
 
     return 0;
@@ -269,13 +249,13 @@ int AFCNetClientService::OnDisconnect(const AFNetEvent* event)
     ARK_LOG_ERROR("Disconnect [{}] successfully, ip={} session_id={}", AFBusAddr(event->GetBusId()).ToString(),
         event->GetIP(), event->GetId());
 
-    std::shared_ptr<AFConnectionData> pServerInfo = GetConnectionInfo(event->GetBusId());
+    std::shared_ptr<AFConnectionData> connection_info = GetConnectionInfo(event->GetBusId());
 
-    if (pServerInfo != nullptr)
+    if (connection_info != nullptr)
     {
-        RemoveServerWeightData(pServerInfo);
-        pServerInfo->net_state_ = AFConnectionData::DISCONNECT;
-        pServerInfo->last_active_time_ = m_pPluginManager->GetNowTime();
+        RemoveServerNode(connection_info);
+        connection_info->net_state_ = AFConnectionData::DISCONNECT;
+        connection_info->last_active_time_ = m_pPluginManager->GetNowTime();
         // remove net bus
         m_pNetServiceManagerModule->RemoveNetConnectionBus(event->GetBusId());
     }
@@ -359,10 +339,5 @@ std::shared_ptr<AFConnectionData> AFCNetClientService::GetConnectionInfo(const i
 {
     return real_connections_.find_value(bus_id);
 }
-
-//AFMapEx<int, AFConnectionData>& AFCNetClientService::GetServerList()
-//{
-//    return real_connections_;
-//}
 
 } // namespace ark

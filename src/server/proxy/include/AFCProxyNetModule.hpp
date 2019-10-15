@@ -101,7 +101,6 @@ protected:
 
 private:
     AFSmartPtrMap<AFGUID, AFClientConnectionData> client_connections_; // net_conn_id <--> SessionData
-    AFCConsistentHash mxConsistentHash;
 
     AFILogModule* m_pLogModule;
     AFIBusModule* m_pBusModule;

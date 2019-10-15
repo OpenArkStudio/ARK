@@ -27,7 +27,7 @@ namespace ark {
 class AFCRC16
 {
 public:
-    static uint16_t Sum(const void* data, size_t len)
+    static uint16_t sum(const void* data, size_t len)
     {
         uint16_t crc = 0;
         const uint8_t* q = static_cast<const uint8_t*>(data);
@@ -61,16 +61,16 @@ public:
         return ~crc;
     }
 
-    static uint16_t Sum(const std::string& s)
+    static uint16_t sum(const std::string& s)
     {
-        return Sum(s.data(), s.length());
+        return sum(s.data(), s.length());
     }
 };
 
 class AFCRC32
 {
 public:
-    static uint32_t Sum(const void* data, size_t len)
+    static uint32_t sum(const void* data, size_t len)
     {
         uint32_t CRC = 0xFFFFFFFF;
         const uint8_t* p = static_cast<const uint8_t*>(data);
@@ -342,9 +342,9 @@ public:
         return ~CRC;
     }
 
-    static uint32_t Sum(const std::string& s)
+    static uint32_t sum(const std::string& s)
     {
-        return Sum(s.data(), s.length());
+        return sum(s.data(), s.length());
     }
 };
 

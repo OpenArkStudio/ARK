@@ -78,10 +78,15 @@ protected:
     void LogServerInfo();
     void KeepAlive(std::shared_ptr<AFConnectionData> pServerData);
 
-    bool GetServerMachineData(const std::string& strServerID, AFCMachineNode& xMachineData);
-    void AddServerWeightData(std::shared_ptr<AFConnectionData>& xInfo);
+    //////////////////////////////////////////////////////////////////////////
+    //bool GetServerMachineData(const std::string& strServerID, AFCMachineNode& xMachineData);
+    //void AddServerWeightData(std::shared_ptr<AFConnectionData>& xInfo);
 
-    void RemoveServerWeightData(std::shared_ptr<AFConnectionData>& xInfo);
+    //void RemoveServerWeightData(std::shared_ptr<AFConnectionData>& xInfo);
+    //////////////////////////////////////////////////////////////////////////
+    bool AddServerNode(std::shared_ptr<AFConnectionData> data);
+    bool GetServerNode(const std::string& hash_key, AFVNode& vnode);
+    void RemoveServerNode(std::shared_ptr<AFConnectionData> data);
 
 private:
     AFPluginManager* m_pPluginManager;
@@ -94,7 +99,10 @@ private:
     AFSmartPtrMap<int, AFConnectionData> real_connections_;
 
     // TODO: change to AFConsistentHashmap
-    AFCConsistentHash consistent_hashmap_;
+    //AFCConsistentHash consistent_hashmap_;
+
+    // the new consistent hash map
+    AFConsistentHashmapType consistent_hashmap_;
 
     std::list<AFConnectionData> tmp_connections_;
 
