@@ -59,4 +59,5 @@
 - [x] ClearRow的时候后面的行号会变化，所以要考虑要么行号不变，只是置空，要么就得客户端来根据DeleteRow消息同步修改后续的row变化
 - [x] 现在的ConfigPlugin数据加载有问题
 - [x] AFMapEx的First Next返回值有问题
+- [ ] 单个进程开多个监听服务，busid会被覆盖和连接管理有问题
   
