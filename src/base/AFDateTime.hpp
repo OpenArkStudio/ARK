@@ -507,6 +507,17 @@ public:
         return tm.tm_mon + 1;
     }
 
+    /// Returns the week number within the year.
+    /// FirstDayOfWeek should be either SUNDAY (0) or MONDAY (1).
+    /// The returned week number will be from 0 to 53. Week number 1 is the week
+    /// containing January 4. This is in accordance to ISO 8601.
+    ///
+    /// The following example assumes that firstDayOfWeek is MONDAY. For 2005, which started
+    /// on a Saturday, week 1 will be the week starting on Monday, January 3.
+    /// January 1 and 2 will fall within week 0 (or the last week of the previous year).
+    ///
+    /// For 2007, which starts on a Monday, week 1 will be the week starting on Monday, January 1.
+    /// There will be no week 0 in 2007.
     int GetWeekOfYear(int firstDayOfWeek = MONDAY) const
     {
         ARK_ASSERT_NO_EFFECT(firstDayOfWeek >= SUNDAY && firstDayOfWeek <= SATURDAY);
