@@ -110,11 +110,20 @@ find_package(codecov)
 #---------------------------------------------------------------------------------------
 # sub projects
 #---------------------------------------------------------------------------------------
-message(STATUS "Start to build all...")
+message(STATUS "Start to build all ...")
 
 add_subdirectory(src/app)
 add_subdirectory(src/proto)
 add_subdirectory(src/plugin)
 add_subdirectory(src/server)
-add_subdirectory(samples)
-add_subdirectory(test)
+
+if(BUILD_SAMPLES)
+    message(STATUS "Buiding samples ...")
+    add_subdirectory(samples)    
+endif(BUILD_SAMPLES)
+
+if(BUILD_TESTS)
+    message(STATUS "Buiding tests ...")
+    enable_testing()
+    add_subdirectory(test)
+endif(BUILD_TESTS)

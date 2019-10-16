@@ -297,12 +297,13 @@ public:
     // Creates a timestamp with the current time.
     AFDateTime()
     {
-        update();
+        using namespace std::chrono;
+        ts_ = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
     }
 
     // Creates a timestamp from the given time value
     //(milliseconds since midnight, January 1, 1970).
-    explicit AFDateTime(TimeVal tv)
+    AFDateTime(TimeVal tv)
         : ts_(tv)
     {
     }
@@ -348,33 +349,6 @@ public:
     void swap(AFDateTime& timestamp)
     {
         std::swap(ts_, timestamp.ts_);
-    }
-    /// Updates the Timestamp with the current time.
-    void update()
-    {
-#ifdef ARK_PLATFORM_WIN
-        FILETIME ft;
-        GetSystemTimeAsFileTime(&ft);
-
-        ULARGE_INTEGER epoch; // UNIX epoch (1970-01-01 00:00:00) expressed in Windows NT FILETIME
-        epoch.LowPart = 0xD53E8000;
-        epoch.HighPart = 0x019DB1DE;
-
-        ULARGE_INTEGER ts;
-        ts.LowPart = ft.dwLowDateTime;
-        ts.HighPart = ft.dwHighDateTime;
-        ts.QuadPart -= epoch.QuadPart;
-        ts_ = ts.QuadPart / (10 * Resolution());
-#else
-        struct timeval tv;
-
-        if (gettimeofday(&tv, NULL))
-        {
-            throw std::invalid_argument("cannot get time of day");
-        }
-
-        ts_ = TimeVal(tv.tv_sec) * Resolution() + tv.tv_usec / Resolution();
-#endif
     }
 
     bool operator==(const AFDateTime& ts) const
@@ -554,8 +528,6 @@ public:
         {
             return (day - baseDay) / 7 + 1 + offs;
         }
-
-        return 0;
     }
 
     // Returns the day within the month (1 to 31).
@@ -704,7 +676,7 @@ public:
 
     std::string ToISO8601String()
     {
-        std::tm tm = GetUTCTime(); // local time
+        std::tm tm = GetUTCTime(); // UTC time
         static char timeBuff[64] = {0};
         std::strftime(timeBuff, sizeof(timeBuff), "%FT%TZ", &tm);
         return std::string(timeBuff);

@@ -1,25 +1,24 @@
-set(project_name test)
-
-file(GLOB_RECURSE TEST_SRC test.cpp)
+function(TEST_FUNCION project_name)
+    file(GLOB_RECURSE TEST_SRC ${project_name}.cpp)
     
-if(UNIX)
-    #Set rpath
-    set(CMAKE_INSTALL_RPATH ".")
-    set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-endif()
-
-add_executable(ark_test ${TEST_SRC})
-
-if(UNIX)
-    target_link_libraries(ark_test brynet ssl pthread dl --coverage)
-else(WIN32)
-    target_link_libraries(ark_test ws2_32.lib 
-        debug brynetd.lib
-        optimized brynet.lib)
-endif()
-
-set_target_properties(ark_test PROPERTIES
+    if(UNIX)
+        #Set rpath
+        set(CMAKE_INSTALL_RPATH ".")
+        set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+    endif()
+    
+    add_executable(${project_name} ${TEST_SRC})
+    set_target_properties(${project_name} PROPERTIES
     FOLDER "test"
     ARCHIVE_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
     RUNTIME_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
     LIBRARY_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR})
+    add_test(NAME ${project_name} COMMAND ${project_name} WORKING_DIRECTORY ${ROOT_DIR}/bin)
+endfunction(TEST_FUNCION)
+
+set(UNIT_TESTS
+    test_datetime)
+
+foreach(test_index ${UNIT_TESTS})
+  TEST_FUNCION(${test_index})
+endforeach()
