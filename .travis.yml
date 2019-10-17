@@ -21,6 +21,8 @@ addons:
       - g++-5
       - cmake
       - lcov
+    env:
+      - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
   #sonarcloud
   sonarcloud:
     organization: "ark-game"
