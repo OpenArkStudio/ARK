@@ -29,7 +29,7 @@ class AFIScheduleModule : public AFIModule
 {
 public:
     template<typename BaseType>
-    void AddSchedule(const std::string& cron_expression, BaseType* pBase, void (BaseType::*handler)(const int))
+    void AddSchedule(const std::string& cron_expression, BaseType* pBase, void (BaseType::*handler)())
     {
         SCHEDULER_FUNCTOR functor = std::bind(handler, pBase);
         return AddSchedule(cron_expression, std::move(functor));
@@ -37,7 +37,7 @@ public:
 
     // every day
     template<typename BaseType>
-    void AddDailySchedule(BaseType* pBase, void (BaseType::*handler)(const int))
+    void AddDailySchedule(BaseType* pBase, void (BaseType::*handler)())
     {
         SCHEDULER_FUNCTOR functor = std::bind(handler, pBase);
         return AddSchedule("0 0 * * * ", std::move(functor));
@@ -45,7 +45,7 @@ public:
 
     // every Monday
     template<typename BaseType>
-    void AddWeeklySchedule(BaseType* pBase, void (BaseType::*handler)(const int))
+    void AddWeeklySchedule(BaseType* pBase, void (BaseType::*handler)())
     {
         SCHEDULER_FUNCTOR functor = std::bind(handler, pBase);
         return AddSchedule("0 0 * * 1", std::move(functor));
@@ -53,7 +53,7 @@ public:
 
     // every month
     template<typename BaseType>
-    void AddMonthlySchedule(BaseType* pBase, void (BaseType::*handler)(const int))
+    void AddMonthlySchedule(BaseType* pBase, void (BaseType::*handler)())
     {
         SCHEDULER_FUNCTOR functor = std::bind(handler, pBase);
         AddSchedule("0 0 1 * * ", std::move(functor));
@@ -61,14 +61,14 @@ public:
 
     template<typename BaseType>
     void AddIntervalSchedule(
-        const std::chrono::system_clock::duration interval, BaseType* pBase, void (BaseType::*handler)(const int))
+        const std::chrono::system_clock::duration interval, BaseType* pBase, void (BaseType::*handler)())
     {
         SCHEDULER_FUNCTOR functor = std::bind(handler, pBase);
         AddIntervalSchedule(interval, std::move(functor));
     }
 
     template<typename BaseType>
-    void AddAtSchedule(const std::string& target_time, BaseType* pBase, void (BaseType::*handler)(const int))
+    void AddAtSchedule(const std::string& target_time, BaseType* pBase, void (BaseType::*handler)())
     {
         SCHEDULER_FUNCTOR functor = std::bind(handler, pBase);
         AddAtSchedule(target_time, std::move(functor));
