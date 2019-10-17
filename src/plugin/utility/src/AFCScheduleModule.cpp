@@ -28,10 +28,19 @@ bool AFCScheduleModule::Init()
     return true;
 }
 
-bool AFCScheduleModule::AddCronSchedule(const std::string& cron_expression, SCHEDULER_FUNCTOR&& cb, const int user_arg)
+void AFCScheduleModule::AddCronSchedule(const std::string& cron_expression, SCHEDULER_FUNCTOR&& cb)
 {
-    scheduler->cron(cron_expression, std::forward<SCHEDULER_FUNCTOR>(cb), user_arg);
-    return true;
+    scheduler->cron(cron_expression, std::forward<SCHEDULER_FUNCTOR>(cb));
+}
+
+void AFCScheduleModule::AddIntervalSchedule(const std::chrono::system_clock::duration interval, SCHEDULER_FUNCTOR&& cb)
+{
+    scheduler->interval(interval, std::forward<SCHEDULER_FUNCTOR>(cb));
+}
+
+void AFCScheduleModule::AddAtSchedule(const std::string& target_time, SCHEDULER_FUNCTOR&& cb)
+{
+    scheduler->at(target_time, std::forward<SCHEDULER_FUNCTOR>(cb));
 }
 
 } // namespace ark

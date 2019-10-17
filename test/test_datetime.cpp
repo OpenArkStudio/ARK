@@ -322,20 +322,19 @@ TEST_CASE("return day_of_year", "int GetDayOfYear() const")
 TEST_CASE("return week_of_year", "int GetWeekOfYear(int firstDayOfWeek = MONDAY) const")
 {
     ark::AFDateTime data_time_instance;
-    auto before =
-        ark::AFDateTime(data_time_instance.GetYear(), 1, 1).GetDayOfWeek(); //new year day is which day of week
+    auto week = data_time_instance.GetWeekOfYear();
+    auto day = data_time_instance.GetDayOfWeek();
+    day = day > 0 ? day : 7;
+    auto day_of_year = data_time_instance.GetDayOfYear(); //Jan_1 is 0
+    day_of_year++;
 
-    time_t control_group;
-    time(&control_group);
-    std::tm* p = localtime(&control_group);
-    auto today = p->tm_wday;    //today is which day of week
-    auto days = p->tm_yday + 1; //days of year
+    auto _day = ark::AFDateTime(data_time_instance.GetYear(), 1, 4).GetDayOfWeek();
+    _day = _day > 0 ? _day : 7;
 
-    if (today < before)
-    {
-        days += (before - today);
-    }
-    REQUIRE(data_time_instance.GetWeekOfYear() == (days - 1) / 7 + 1);
+    int day_reduce;
+    day_reduce = (week - 1) * 7 + 4 + day - _day;
+
+    REQUIRE(day_of_year == day_reduce);
 }
 
 TEST_CASE("return day of month", "int GetDay(bool is_monday_first_day = true) const")
@@ -508,10 +507,11 @@ TEST_CASE("return parameter year whether leapYear", "static bool IsLeapYear(int 
 
 TEST_CASE("return days of month by parameter year and month", "static int GetDaysOfMonth(int year, int month)")
 {
-    auto year = ark::AFDateTime().GetYear();
-    auto month = ark::AFDateTime().GetMonth();
+    auto date_time_provider = ark::AFDateTime();
+    auto year = date_time_provider.GetYear();
+    auto month = date_time_provider.GetMonth();
     int daysOfMonthTable[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    if (month == 2 && ark::AFDateTime().IsLeapYear())
+    if (month == 2 && date_time_provider.IsLeapYear())
     {
         daysOfMonthTable[2] = 29;
     }

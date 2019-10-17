@@ -33,10 +33,10 @@ public:
     bool Init() override;
 
 protected:
-    bool AddCronSchedule(const std::string& cron_expression, SCHEDULER_FUNCTOR&& cb, const int user_arg) override;
-    //bool AddAtSchedule(const);
+    void AddIntervalSchedule(const std::chrono::system_clock::duration interval, SCHEDULER_FUNCTOR&& cb) override;
 
-    // The scheduler can do more things that will be added.
+    void AddAtSchedule(const std::string& target_time, SCHEDULER_FUNCTOR&& cb) override;
+    void AddCronSchedule(const std::string& cron_expression, SCHEDULER_FUNCTOR&& cb) override;
 
 private:
     std::shared_ptr<AFScheduler> scheduler{nullptr};
