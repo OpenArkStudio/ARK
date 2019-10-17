@@ -38,7 +38,7 @@ script:
   # cmake
   - if [ -d "build" ]; then rm -rf build; fi
   - mkdir build && cd build
-  - cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=ON ..
+  - cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=ON -DBUILD_SAMPLES=ON -DBUILD_TESTS=ON ..
   # make
   - build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
   - cd $TRAVIS_BUILD_DIR/src

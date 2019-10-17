@@ -20,8 +20,8 @@
 
 #pragma once
 
+#include "base/AFScheduler.hpp"
 #include "base/AFPluginManager.hpp"
-//#include "base/AFCronScheduler.hpp"
 #include "utility/interface/AFIScheduleModule.hpp"
 
 namespace ark {
@@ -31,16 +31,15 @@ class AFCScheduleModule final : public AFIScheduleModule
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool Init() override;
-    bool Update() override;
-    bool PreShut() override;
-
-    bool RemoveSchedule(const int cron_id) override;
 
 protected:
-    bool AddSchedule(const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR&& cb) override;
+    bool AddCronSchedule(const std::string& cron_expression, SCHEDULER_FUNCTOR&& cb, const int user_arg) override;
+    //bool AddAtSchedule(const);
+
+    // The scheduler can do more things that will be added.
 
 private:
-    // std::shared_ptr<AFCronSheduler> mxCronSheduler{ nullptr };
+    std::shared_ptr<AFScheduler> scheduler{nullptr};
 };
 
 } // namespace ark

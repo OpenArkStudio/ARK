@@ -24,32 +24,13 @@ namespace ark {
 
 bool AFCScheduleModule::Init()
 {
-    // mxCronSheduler = std::make_shared<AFCronSheduler>();
+    scheduler = std::make_shared<AFScheduler>(16);
     return true;
 }
 
-bool AFCScheduleModule::PreShut()
+bool AFCScheduleModule::AddCronSchedule(const std::string& cron_expression, SCHEDULER_FUNCTOR&& cb, const int user_arg)
 {
-    // mxCronSheduler->Clear();
-    return true;
-}
-
-bool AFCScheduleModule::Update()
-{
-    // mxCronSheduler->Update(GetNowTime());
-    return true;
-}
-
-bool AFCScheduleModule::AddSchedule(
-    const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR&& cb)
-{
-    // return mxCronSheduler->AddCron(id, user_arg, cron_expression, GetNowTime(), cb);
-    return true;
-}
-
-bool AFCScheduleModule::RemoveSchedule(const int cron_id)
-{
-    // return (mxCronSheduler->RemoveCron(cron_id) > 0);
+    scheduler->cron(cron_expression, std::forward<SCHEDULER_FUNCTOR>(cb), user_arg);
     return true;
 }
 

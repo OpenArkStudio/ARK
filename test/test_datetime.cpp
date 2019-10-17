@@ -547,42 +547,6 @@ TEST_CASE("return timestamp", "static int GetTimestamp()")
         std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count());
 }
 
-#ifdef ARK_PLATFORM_WIN
-TEST_CASE(
-    "filetime convert to utc time", "static AFDateTime fromFileTimeNP(uint32_t fileTimeLow, uint32_t fileTimeHigh)")
-{
-    SYSTEMTIME st;
-    FILETIME ft;
-    GetSystemTime(&st);
-    SystemTimeToFileTime(&st, &ft);
-
-    ULARGE_INTEGER uli;
-    uli.LowPart = ft.dwLowDateTime;
-    uli.HighPart = ft.dwHighDateTime;
-
-    REQUIRE(
-        ark::AFDateTime::fromFileTimeNP(uli.LowPart, uli.HighPart).GetTime() ==
-        std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count());
-}
-
-TEST_CASE("utc time convert to filetime", "void toFileTimeNP(uint32_t& fileTimeLow, uint32_t& fileTimeHigh) const")
-{
-    SYSTEMTIME st;
-    FILETIME ft;
-    GetSystemTime(&st);
-    SystemTimeToFileTime(&st, &ft);
-
-    ULARGE_INTEGER uli;
-    uli.LowPart = ft.dwLowDateTime;
-    uli.HighPart = ft.dwHighDateTime;
-
-    uint32_t fileTimeLow, fileTimeHigh;
-    ark::AFDateTime::fromFileTimeNP(uli.LowPart, uli.HighPart).toFileTimeNP(fileTimeLow, fileTimeHigh);
-    REQUIRE(uli.LowPart == fileTimeLow);
-    REQUIRE(uli.HighPart == fileTimeHigh);
-}
-#endif
-
 TEST_CASE("inline void swap(AFDateTime& d1, AFDateTime& d2)", "[swap]")
 {
     ark::AFDateTime data_time_instance;

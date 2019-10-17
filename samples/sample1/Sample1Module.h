@@ -43,9 +43,8 @@ public:
     bool Shut() override;
 
 protected:
-    void TestTimer(const std::string& name, const AFGUID& entity_id);
     void TestOssLog();
-    // bool TestSchduler(const int id, const int arg);
+    void TestCronScheduler();
 
 protected:
     AFITimerModule* m_pTimerModule;

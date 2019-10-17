@@ -23,14 +23,11 @@
 #include "base/AFRandom.hpp"
 #include "base/AFTimer.hpp"
 #include "base/AFCRC.hpp"
-#include "base/AFCConsistentHash.hpp"
+#include "base/AFScheduler.hpp"
 #include "kernel/include/AFCData.hpp"
-#include "Sample1Module.h"
-#include "proto/cpp/AFOss.pb.h"
 
-#include "net/interface/AFINet.hpp"
-#include "net/include/AFNetSession.hpp"
-#include "brynet/net/http/HttpFormat.h"
+#include "proto/cpp/AFOss.pb.h"
+#include "Sample1Module.h"
 
 namespace ark {
 
@@ -147,19 +144,6 @@ void TestCRC()
     std::cout << log << std::endl;
 }
 
-//void TestConsistentHashmap()
-//{
-//    AFConsistentHashmapType my_hash_map;
-//    my_hash_map.insert("hello");
-//    my_hash_map.insert("world");
-//
-//    uint32_t crc32 = AFCRC32::sum("hello");
-//    auto iter = my_hash_map.find(crc32);
-//
-//    auto log = ARK_FORMAT("find [hello] through CRC32[{}], the result is [{}]", crc32, iter->second);
-//    std::cout << log << std::endl;
-//}
-
 void Sample1Module::TestOssLog()
 {
     auto func = [&]() {
@@ -168,7 +152,7 @@ void Sample1Module::TestOssLog()
         msg.set_sid(1);
         msg.set_account("xxxxx");
         AFDateTime time(GetPluginManager()->GetNowTime());
-        msg.set_time(time.GetTime());
+        msg.set_time(static_cast<int>(time.GetTime()));
         msg.set_ms(static_cast<double>(time.Raw()));
         msg.set_ts(time.ToISO8601String());
         msg.set_ip("127.0.0.1");
@@ -186,54 +170,34 @@ void Sample1Module::TestOssLog()
     }
 }
 
+void Sample1Module::TestCronScheduler()
+{
+    static AFScheduler scheduler;
+    AFDateTime* now = ARK_NEW AFDateTime();
+
+    scheduler.cron("* * * * *", [now]() {
+        AFDateTime cur;
+        AFDateTime::TimeDiff diff = (cur - *now);
+
+        std::cout << diff << std::endl;
+        //if ((diff / AFDateTime::Resolution()) == 60)
+        //{
+        //    std::cout << "test OK" << std::endl;
+        //}
+        //else
+        //{
+        //    std::cout << "test failed" << std::endl;
+        //}
+
+        *now = cur;
+    });
+}
+
 bool Sample1Module::PostInit()
 {
     ARK_LOG_INFO("{}, PostInit", GET_CLASS_NAME(Sample1Module));
 
-    // TestCRC();
-    // TestConsistentHashmap();
-    // TestOssLog();
-    //////////////////////////////////////////////////////////////////////////
-    // Test guid
-    // AFGUID id = m_pGUIDModule->CreateGUID();
-    // std::cout << m_pGUIDModule->ParseUID(id) << std::endl;
-
-    //////////////////////////////////////////////////////////////////////////
-    // TestBasicData();
-
-    //////////////////////////////////////////////////////////////////////////
-    // Test AFDateTime
-    // TestDateTime();
-    //////////////////////////////////////////////////////////////////////////
-    // Test Random
-    // TestRandom();
-    //////////////////////////////////////////////////////////////////////////
-    // Test log
-    // for (int i = 0; i < 1; ++i)
-    //{
-    //    ARK_LOG_INFO("This is a test log");
-    //}
-
-    // ARK_DYNAMIC_LOG_DEBUG(1001, "game", "this is a dynamic log test");
-
-    //////////////////////////////////////////////////////////////////////////
-    // test cron expression
-    // const char* err_msg = NULL;
-    // cron_expr* test_cron = cron_parse_expr("0 0 0 * * *", &err_msg);
-    // time_t now;
-    // time(&now);
-    // std::cout << "Current time is " << now << std::endl;
-    // time_t next = cron_next(test_cron, (time_t)now);
-    // std::cout << "Next cron time is " << next << std::endl;
-    // bool result = m_pScheduleModule->AddSchedule(1, 0, "0 * * * * *", this, &Example1Module::TestSchduler);
-    // if (!result)
-    //{
-    //    std::cout << "add schedule failed" << std::endl;
-    //}
-    //////////////////////////////////////////////////////////////////////////
-
-    // std::cout << AFDateTime::GetNowTime() << std::endl;
-    // m_pTimerModule->AddSingleTimer("test", AFGUID(1111), 2000 /*ms*/, 10, this, &Sample1Module::TestTimer);
+    TestCronScheduler();
 
     return true;
 }
@@ -254,17 +218,5 @@ bool Sample1Module::Shut()
     ARK_LOG_INFO("{}, Shut", GET_CLASS_NAME(Sample1Module));
     return true;
 }
-
-void Sample1Module::TestTimer(const std::string& name, const AFGUID& entity_id)
-{
-    ARK_LOG_INFO("NowTime={} Test Timer: {} id={}", AFDateTime::GetNowTime(), name, entity_id);
-}
-
-// bool Sample1Module::TestSchduler(const int id, const int arg)
-//{
-//    std::cout << GetNowTime() << std::endl;
-//    std::cout << "Test Scheduler: id = " << id << ", arg = " << arg << std::endl;
-//    return true;
-//}
 
 } // namespace ark

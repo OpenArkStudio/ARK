@@ -21,7 +21,7 @@
 #include "utility/include/AFUtilityPlugin.hpp"
 #include "utility/include/AFCGUIDModule.hpp"
 #include "utility/include/AFCTimerModule.hpp"
-//#include "utility/include/AFCScheduleModule.h"
+#include "utility/include/AFCScheduleModule.hpp"
 
 namespace ark {
 
@@ -31,12 +31,12 @@ void AFUtilityPlugin::Install()
 {
     ARK_REGISTER_MODULE(AFIGUIDModule, AFCGUIDModule);
     ARK_REGISTER_MODULE(AFITimerModule, AFCTimerModule);
-    // ARK_REGISTER_MODULE(AFIScheduleModule, AFCScheduleModule);
+    ARK_REGISTER_MODULE(AFIScheduleModule, AFCScheduleModule);
 }
 
 void AFUtilityPlugin::Uninstall()
 {
-    // DeregisterModule<AFILogModule, AFCLogModule>();
+    ARK_DEREGISTER_MODULE(AFIScheduleModule, AFCScheduleModule);
     ARK_DEREGISTER_MODULE(AFITimerModule, AFCTimerModule);
     ARK_DEREGISTER_MODULE(AFIGUIDModule, AFCGUIDModule);
 }

@@ -28,7 +28,7 @@ jobs:
           command: |
             if [ -d "build" ]; then rm -rf build; fi
             mkdir build && cd build
-            cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF ..
+            cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF  -DBUILD_SAMPLES=ON -DBUILD_TESTS=ON ..
             ../build-wrapper-3.11/linux-x86-64/build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
       #- run:
       #    name: Install sonarqube

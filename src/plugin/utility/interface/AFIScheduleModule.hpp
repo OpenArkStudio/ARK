@@ -29,41 +29,39 @@ class AFIScheduleModule : public AFIModule
 {
 public:
     template<typename BaseType>
-    bool AddSchedule(const int id, const int user_arg, const char* cron_expression, BaseType* pBase,
-        bool (BaseType::*handler)(const int, const int))
+    bool AddSchedule(
+        const int user_arg, const std::string& cron_expression, BaseType* pBase, bool (BaseType::*handler)(const int))
     {
-        SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
-        return AddSchedule(id, user_arg, cron_expression, std::move(functor));
+        SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1);
+        return AddSchedule(cron_expression, std::move(functor), user_arg);
     }
 
+    // every day
     template<typename BaseType>
-    bool AddDailySchedule(
-        const int id, const int user_arg, BaseType* pBase, bool (BaseType::*handler)(const int, const int))
+    bool AddDailySchedule(const int user_arg, BaseType* pBase, bool (BaseType::*handler)(const int, const int))
     {
-        SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
-        return AddSchedule(id, user_arg, "0 0 * * * *", std::move(functor));
+        SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1);
+        return AddSchedule("0 0 * * * ", std::move(functor), user_arg);
     }
 
+    // every Monday
     template<typename BaseType>
-    bool AddWeeklySchedule(
-        const int id, const int user_arg, BaseType* pBase, bool (BaseType::*handler)(const int, const int))
+    bool AddWeeklySchedule(const int user_arg, BaseType* pBase, bool (BaseType::*handler)(const int, const int))
     {
-        SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
-        return AddSchedule(id, user_arg, "0 0 * * 1 *", std::move(functor));
+        SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1);
+        return AddSchedule("0 0 * * 1", std::move(functor), user_arg);
     }
 
+    // every month
     template<typename BaseType>
-    bool AddMonthlySchedule(
-        const int id, const int user_arg, BaseType* pBase, bool (BaseType::*handler)(const int, const int))
+    bool AddMonthlySchedule(const int user_arg, BaseType* pBase, bool (BaseType::*handler)(const int, const int))
     {
-        SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
-        return AddSchedule(id, user_arg, "0 0 1 * * *", std::move(functor));
+        SCHEDULER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1);
+        return AddSchedule("0 0 1 * * ", std::move(functor), user_arg);
     }
-
-    virtual bool RemoveSchedule(const int id) = 0;
 
 protected:
-    virtual bool AddSchedule(const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR&& cb) = 0;
+    virtual bool AddCronSchedule(const std::string& cron_expression, SCHEDULER_FUNCTOR&& cb, const int user_arg) = 0;
 };
 
 } // namespace ark

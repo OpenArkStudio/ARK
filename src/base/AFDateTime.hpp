@@ -297,8 +297,7 @@ public:
     // Creates a timestamp with the current time.
     AFDateTime()
     {
-        using namespace std::chrono;
-        ts_ = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+        Update();
     }
 
     // Creates a timestamp from the given time value
@@ -345,6 +344,13 @@ public:
         ts_ = tv;
         return *this;
     }
+
+    void Update()
+    {
+        using namespace std::chrono;
+        ts_ = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+    }
+
     /// Swaps the Timestamp with another one.
     void swap(AFDateTime& timestamp)
     {
@@ -748,35 +754,6 @@ public:
     {
         return 1000; // 1s = 1000 milliseconds
     }
-
-#ifdef ARK_PLATFORM_WIN
-    static AFDateTime fromFileTimeNP(uint32_t fileTimeLow, uint32_t fileTimeHigh)
-    {
-        ULARGE_INTEGER epoch; // UNIX epoch (1970-01-01 00:00:00) expressed in Windows NT FILETIME
-        epoch.LowPart = 0xD53E8000;
-        epoch.HighPart = 0x019DB1DE;
-
-        ULARGE_INTEGER ts;
-        ts.LowPart = fileTimeLow;
-        ts.HighPart = fileTimeHigh;
-        ts.QuadPart -= epoch.QuadPart;
-
-        return AFDateTime(ts.QuadPart / (10 * Resolution()));
-    }
-
-    void toFileTimeNP(uint32_t& fileTimeLow, uint32_t& fileTimeHigh) const
-    {
-        ULARGE_INTEGER epoch; // UNIX epoch (1970-01-01 00:00:00) expressed in Windows NT FILETIME
-        epoch.LowPart = 0xD53E8000;
-        epoch.HighPart = 0x019DB1DE;
-
-        ULARGE_INTEGER ts;
-        ts.QuadPart = ts_ * 10 * Resolution();
-        ts.QuadPart += epoch.QuadPart;
-        fileTimeLow = ts.LowPart;
-        fileTimeHigh = ts.HighPart;
-    }
-#endif
 
 private:
     // milliseconds
