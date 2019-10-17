@@ -32,7 +32,7 @@ public:
     void AddSchedule(const std::string& cron_expression, BaseType* pBase, void (BaseType::*handler)())
     {
         SCHEDULER_FUNCTOR functor = std::bind(handler, pBase);
-        return AddSchedule(cron_expression, std::move(functor));
+        AddCronSchedule(cron_expression, std::move(functor));
     }
 
     // every day
@@ -40,7 +40,7 @@ public:
     void AddDailySchedule(BaseType* pBase, void (BaseType::*handler)())
     {
         SCHEDULER_FUNCTOR functor = std::bind(handler, pBase);
-        return AddSchedule("0 0 * * * ", std::move(functor));
+        AddCronSchedule("0 0 * * * ", std::move(functor));
     }
 
     // every Monday
@@ -48,7 +48,7 @@ public:
     void AddWeeklySchedule(BaseType* pBase, void (BaseType::*handler)())
     {
         SCHEDULER_FUNCTOR functor = std::bind(handler, pBase);
-        return AddSchedule("0 0 * * 1", std::move(functor));
+        AddCronSchedule("0 0 * * 1", std::move(functor));
     }
 
     // every month
@@ -56,7 +56,7 @@ public:
     void AddMonthlySchedule(BaseType* pBase, void (BaseType::*handler)())
     {
         SCHEDULER_FUNCTOR functor = std::bind(handler, pBase);
-        AddSchedule("0 0 1 * * ", std::move(functor));
+        AddCronSchedule("0 0 1 * * ", std::move(functor));
     }
 
     template<typename BaseType>
