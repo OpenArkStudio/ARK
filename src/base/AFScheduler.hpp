@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include <iomanip>
 #include <ctpl/ctpl_stl.h>
 
 #include "base/AFPlatform.hpp"
