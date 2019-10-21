@@ -134,13 +134,13 @@ void TestRandom()
 void TestCRC()
 {
     std::string s = "hello";
-    uint16_t crc16 = AFCRC16::sum(s);
+    uint16_t crc16 = AFCRC::crc16(s);
     auto log = ARK_FORMAT("CRC16 [{}] -> [{}]", s, crc16);
     std::cout << log << std::endl;
 
     s = "world";
-    uint32_t crc32 = AFCRC32::sum(s);
-    log = ARK_FORMAT("CRC16 [{}] -> [{}]", s, crc32);
+    uint32_t crc32 = AFCRC::crc32(s);
+    log = ARK_FORMAT("CRC32 [{}] -> [{}]", s, crc32);
     std::cout << log << std::endl;
 }
 

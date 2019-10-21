@@ -398,7 +398,7 @@ public:
     static result_type hash(const std::string& key)
     {
         result_type ret = 0;
-        return AFCRC32::sum(key);
+        return AFCRC::crc32(key);
     }
 
     result_type operator()(const AFVNode& node)
