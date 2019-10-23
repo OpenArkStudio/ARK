@@ -17,11 +17,10 @@ cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=ON -DBUIL
 
 # make and sonar scanner
 os_name=`uname -o`
-if [ "$os_name" = GNU/Linux ]
-then
+if [ "$os_name" = GNU/Linux ]; then
     build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
 else
-    #build-wrapper-macosx-x86 --out-dir bw-output make
+    #build-wrapper-macosx-x86 --out-dir bw-output make -j 4
 fi
 
 cd ../src
