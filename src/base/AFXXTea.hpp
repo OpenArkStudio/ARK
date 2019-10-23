@@ -38,6 +38,40 @@
 
 namespace ark {
 
+namespace detail {
+
+template<bool CHECK_ENABLE>
+class xxtea_check_length;
+
+template<>
+class xxtea_check_length<true>
+{
+public:
+    static bool check_protect(size_t len)
+    {
+        return len > (static_cast<size_t>(std::numeric_limits<uint32_t>::max()) << 2);
+    }
+};
+
+template<bool CHECK_ENABLE>
+class xxtea_check_length
+{
+public:
+    static bool check_protect(size_t)
+    {
+        return false;
+    }
+};
+
+template<typename Ty>
+class xxtea_check_length_delegate
+{
+public:
+    static const bool value = sizeof(Ty) > sizeof(uint32_t);
+};
+
+} // namespace detail
+
 class AFXXTea
 {
 public:
@@ -70,7 +104,7 @@ public:
             abort();
         }
 
-        if (xxtea_check_length<xxtea_check_length_delegate<size_t>::value>::check_protect(len))
+        if (detail::xxtea_check_length<detail::xxtea_check_length_delegate<size_t>::value>::check_protect(len))
         {
             abort();
         }
@@ -166,7 +200,7 @@ public:
             abort();
         }
 
-        if (xxtea_check_length<xxtea_check_length_delegate<size_t>::value>::check_protect(len))
+        if (detail::xxtea_check_length<detail::xxtea_check_length_delegate<size_t>::value>::check_protect(len))
         {
             abort();
         }
@@ -248,37 +282,6 @@ public:
             *olen = 0;
         }
     }
-
-private:
-    template<bool CHECK_ENABLE>
-    class xxtea_check_length;
-
-    template<>
-    class xxtea_check_length<true>
-    {
-    public:
-        static bool check_protect(size_t len)
-        {
-            return len > (static_cast<size_t>(std::numeric_limits<uint32_t>::max()) << 2);
-        }
-    };
-
-    template<bool CHECK_ENABLE>
-    class xxtea_check_length
-    {
-    public:
-        static bool check_protect(size_t)
-        {
-            return false;
-        }
-    };
-
-    template<typename Ty>
-    class xxtea_check_length_delegate
-    {
-    public:
-        static const bool value = sizeof(Ty) > sizeof(uint32_t);
-    };
 };
 
 } // namespace ark
