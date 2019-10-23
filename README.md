@@ -1,6 +1,6 @@
 English | [简体中文](./README_CN.md)
 
-<p align="right">Current version: <strong>v0.9.6</strong></p>
+<p align="right">Current version: <strong>v0.9.7</strong></p>
 <p align="center"><img src="https://raw.githubusercontent.com/ArkNX/ARK/gh-pages/_images/ark_logo.svg?sanitize=true" alt="ark" width="300"/></p>
 <center>ARK is a lightweight, agility, elastic, distributed plugin framework written by C++，make it easier and faster to create your own application service. Inspired by UnrealEngine and Ogre.
 
@@ -79,6 +79,7 @@ Thank you for your donation, all income will be used as development and server f
 
 - [Nick Yang](https://github.com/NickYang1988)
 - [flyicegood](https://github.com/flyicegood)
+- [loscaz](https://github.com/loscaz)
 
 ---
 
