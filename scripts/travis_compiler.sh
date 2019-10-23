@@ -21,5 +21,7 @@ if [ "$os_name" = GNU/Linux ]
 then
     build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
 else
-	#build-wrapper-macosx-x86 --out-dir bw-output make
+    #build-wrapper-macosx-x86 --out-dir bw-output make
 fi
+
+cd ../src
