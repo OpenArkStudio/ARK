@@ -534,9 +534,14 @@ public:
         while (AFDateTime(GetYear(), 1, baseDay).GetDayOfWeek() != firstDayOfWeek)
             ++baseDay;
 
+        //baseDay is the dayofYear of first firstDayOfWeek and from 1.
+        //day as the dayOfYear of currentDay should also from 1.
+        //otherwise (day-baseDay) fail to represent the gap_days between them.
+        //GetDayOfYear start from 0
+        //so day should plus one
         int day = GetDayOfYear();
-        int offs = baseDay <= 4 ? 0 : 1;
-
+        day++;
+        int offs = baseDay <= 4 ? 0 : 1; //weekofYear of baseDay
         if (day < baseDay)
         {
             return offs;

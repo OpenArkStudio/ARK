@@ -24,6 +24,14 @@
 
 #include "base/AFPlatform.hpp"
 
+#ifdef max
+#undef max
+#endif
+
+#ifdef min
+#undef min
+#endif
+
 namespace ark {
 /**
  * @brief just for
@@ -273,11 +281,12 @@ public:
     {
     }
 
-    inline core_type& get_core() ARK_NOEXCEPT
+    inline core_type& get_core() noexcept
     {
         return core_;
     }
-    inline const core_type& get_core() const ARK_NOEXCEPT
+
+    inline const core_type& get_core() const noexcept
     {
         return core_;
     }
@@ -307,7 +316,7 @@ public:
      * generate a random number
      * @return the random number
      */
-    result_type random() ARK_NOEXCEPT
+    result_type random() noexcept
     {
         return core_();
     }
@@ -316,7 +325,7 @@ public:
      * generate a random number
      * @return the random number
      */
-    result_type operator()() ARK_NOEXCEPT
+    result_type operator()() noexcept
     {
         return random();
     }
@@ -341,15 +350,15 @@ public:
 
 public:
     // ------------ Support for UniformRandomBitGenerator ------------
-    static inline ARK_CONSTEXPR result_type min() ARK_NOEXCEPT
+    static inline constexpr result_type min() noexcept
     {
         return std::numeric_limits<result_type>::min();
     }
-    static inline ARK_CONSTEXPR result_type max() ARK_NOEXCEPT
+    static inline constexpr result_type max() noexcept
     {
         return std::numeric_limits<result_type>::max();
     }
-    inline result_type g() ARK_NOEXCEPT
+    inline result_type g() noexcept
     {
         return random();
     }
@@ -359,7 +368,7 @@ public:
      * generate a random number
      * @return the random number
      */
-    inline result_type operator()(result_type mod) ARK_NOEXCEPT
+    inline result_type operator()(result_type mod) noexcept
     {
         if (0 == mod)
         {
@@ -374,24 +383,21 @@ public:
     template<typename RandomIt>
     void shuffle(RandomIt first, RandomIt last)
     {
-#ifdef ARK_CPP11_OR_GREATER
         std::shuffle(first, last, std::move(*this));
-#else
-        std::random_shuffle(first, last, *this);
-#endif
     }
 };
 
 // mersenne_twister is the STL random algorithm
+
 // ============== random generator - xoshiro algorithm(use less memory than mersenne_twister, but more little repetend, Randomness is better than taus) ==============
 // @see http://xoshiro.di.unimi.it
-// repetend： 2^128 − 1
+// repetend : 2^128 − 1
 using xoroshiro128_starstar = random_manager_wrapper<xoshinro_engine_128<false>>;
-// repetend： 2^128 − 1，One less spin, a little faster
+// repetend : 2^128 − 1, One less spin, a little faster
 using xoroshiro128_plus = random_manager_wrapper<xoshinro_engine_128<true>>;
-// repetend： 2^256 − 1
+// repetend : 2^256 − 1
 using xoshiro256_starstar = random_manager_wrapper<xoshinro_engine_256<false>>;
-// repetend： 2^256 − 1，One less spin, a little faster
+// repetend : 2^256 − 1, One less spin, a little faster
 using xoshiro256_plus = random_manager_wrapper<xoshinro_engine_256<true>>;
 
 } // namespace ark

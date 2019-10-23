@@ -17,7 +17,10 @@ function(TEST_FUNCION project_name)
 endfunction(TEST_FUNCION)
 
 set(UNIT_TESTS
-    test_datetime)
+    test_datetime
+    test_base64
+    test_xxtea
+    test_random)
 
 foreach(test_index ${UNIT_TESTS})
   TEST_FUNCION(${test_index})
