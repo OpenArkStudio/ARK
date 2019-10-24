@@ -13,7 +13,7 @@ cd ..
 # build ark
 if [ -d "build" ]; then rm -rf build; fi
 mkdir build && cd build
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=ON -DBUILD_SAMPLES=ON -DBUILD_TESTS=ON ..
+cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF -DBUILD_SAMPLES=ON -DBUILD_TESTS=ON ..
 
 # make and sonar scanner
 os_name=`uname -o`
