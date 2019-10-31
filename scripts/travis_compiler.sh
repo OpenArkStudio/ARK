@@ -23,4 +23,4 @@ else
     build-wrapper-macosx-x86-64 --out-dir bw-output make -j 4
 fi
 
-cd ../src
+cd ..
