@@ -52,7 +52,7 @@ public:
 
     static std::error_code MakeErrorCode(int code)
     {
-        return std::error_code(code, *AFErrorCategory::get());
+        return std::error_code(code, AFErrorCategory::get_instance());
     }
 };
 

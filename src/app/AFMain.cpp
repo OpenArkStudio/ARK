@@ -53,7 +53,7 @@ long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 {
     AFDateTime now;
     std::string dump_name =
-        ARK_FORMAT("{}-{:04d}{:02d}{:02d}_{:02d}_{:02d}_{:02d}.dmp", AFPluginManager::get()->GetAppName(),
+        ARK_FORMAT("{}-{:04d}{:02d}{:02d}_{:02d}_{:02d}_{:02d}.dmp", AFPluginManager::instance()->GetAppName(),
             now.GetYear(), now.GetMonth(), now.GetDay(), now.GetHour(), now.GetMinute(), now.GetSecond());
 
     CreateDumpFile(dump_name.c_str(), pException);
@@ -214,7 +214,7 @@ bool ParseArgs(int argc, char* argv[])
         busaddr.app_type = ARK_LEXICAL_CAST<uint8_t>(slices[2].data());
         busaddr.inst_id = ARK_LEXICAL_CAST<uint8_t>(slices[3].data());
 
-        AFPluginManager::get()->SetBusID(busaddr.bus_id);
+        AFPluginManager::instance()->SetBusID(busaddr.bus_id);
     }
     else
     {
@@ -224,9 +224,10 @@ bool ParseArgs(int argc, char* argv[])
     // Set app name
     if (name)
     {
-        AFPluginManager::get()->SetAppName(name.Get());
+        AFPluginManager::instance()->SetAppName(name.Get());
 
-        std::string process_name = ARK_FORMAT("{}-{}-{}", name.Get(), busid.Get(), AFPluginManager::get()->GetBusID());
+        std::string process_name =
+            ARK_FORMAT("{}-{}-{}", name.Get(), busid.Get(), AFPluginManager::instance()->GetBusID());
         // Set process name
 #ifdef ARK_PLATFORM_WIN
         SetConsoleTitle(process_name.c_str());
@@ -242,7 +243,7 @@ bool ParseArgs(int argc, char* argv[])
     // Set plugin file
     if (plugin_cfg)
     {
-        AFPluginManager::get()->SetPluginConf(plugin_cfg.Get());
+        AFPluginManager::instance()->SetPluginConf(plugin_cfg.Get());
     }
     else
     {
@@ -251,7 +252,7 @@ bool ParseArgs(int argc, char* argv[])
 
     if (logpath)
     {
-        AFPluginManager::get()->SetLogPath(logpath.Get());
+        AFPluginManager::instance()->SetLogPath(logpath.Get());
     }
     else
     {
@@ -270,7 +271,7 @@ void MainLoop()
     __try
     {
 #endif
-        AFPluginManager::get()->Update();
+        AFPluginManager::instance()->Update();
 #ifdef ARK_PLATFORM_WIN
     }
     __except (ApplicationCrashHandler(GetExceptionInformation()))
@@ -290,7 +291,7 @@ int main(int argc, char* argv[])
 
     PrintLogo();
 
-    AFPluginManager::get()->Start();
+    AFPluginManager::instance()->Start();
     while (!g_exit_loop)
     {
         for (;; std::this_thread::sleep_for(std::chrono::milliseconds(1)))
@@ -303,7 +304,7 @@ int main(int argc, char* argv[])
             MainLoop();
         }
     }
-    AFPluginManager::get()->Stop();
+    AFPluginManager::instance()->Stop();
 
     g_cmd_thread.join();
 

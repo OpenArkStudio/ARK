@@ -18,48 +18,25 @@
  *
  */
 
-#pragma once
+#define CATCH_CONFIG_MAIN
+#include "catch.hpp"
+#include "base/AFSingleton.hpp"
 
-#include "base/AFPlatform.hpp"
-#include "base/AFMacros.hpp"
-#include "base/AFNoncopyable.hpp"
+using namespace ark;
 
-namespace ark {
-
-template<typename T>
-class AFSingleton : public AFNoncopyable
+class test_singleton : public AFSingleton<test_singleton>
 {
 public:
-    static T* instance()
-    {
-        std::call_once(once_, &AFSingleton<T>::Init);
-        return instance_;
-    }
-
-    static T& get_instance()
-    {
-        return *instance();
-    }
-
-    static void ShutDown()
-    {
-        ARK_DELETE(instance_);
-    }
-
-private:
-    static void Init()
-    {
-        instance_ = ARK_NEW T();
-    }
-
-    static std::once_flag once_;
-    static T* instance_;
+    int value;
 };
 
-template<typename T>
-std::once_flag AFSingleton<T>::once_;
+TEST_CASE("singleton", "[singleton]")
+{
+    test_singleton* pl = test_singleton::instance();
+    test_singleton& pr = test_singleton::get_instance();
 
-template<typename T>
-T* AFSingleton<T>::instance_ = nullptr;
+    pl->value = 1024;
 
-} // namespace ark
+    REQUIRE(pr.value == 1024);
+    REQUIRE(&pr == pl);
+}
