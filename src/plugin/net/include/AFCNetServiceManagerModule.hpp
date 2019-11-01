@@ -60,7 +60,7 @@ protected:
     ananas::Future<std::pair<bool, std::string>> RegisterToConsul(const int bus_id);
     int DeregisterFromConsul(const int bus_id);
 
-    void HealthCheck(const std::string& name, const AFGUID& entity_id);
+    void HealthCheck(uint64_t timer_id, const AFGUID& entity_id);
 
     bool CreateClientService(const AFBusAddr& bus_addr, const std::string& ip, uint16_t port);
 

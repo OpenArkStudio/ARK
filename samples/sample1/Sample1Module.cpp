@@ -19,10 +19,6 @@
  */
 
 #include "base/AFMacros.hpp"
-#include "base/AFDateTime.hpp"
-#include "base/AFRandom.hpp"
-#include "base/AFTimer.hpp"
-#include "base/AFCRC.hpp"
 #include "base/AFScheduler.hpp"
 #include "kernel/include/AFCData.hpp"
 
@@ -38,6 +34,8 @@ bool Sample1Module::Init()
     m_pGUIDModule = FindModule<AFIGUIDModule>();
 
     ARK_LOG_INFO("{}, init", GET_CLASS_NAME(Sample1Module));
+
+    m_pTimerModule->AddSingleTimer(AFGUID(100), std::chrono::seconds(10), 5, this, &Sample1Module::TimerTest);
 
     return true;
 }
@@ -58,90 +56,6 @@ void TestBasicData()
     AFCData data2(ArkDataType::DT_STRING, "test2");
     data1 = data2;
     const char* str1 = data1.GetString();
-}
-
-void TestDateTime()
-{
-    AFDateTime now;
-    std::cout << now.ToString() << std::endl;
-    std::cout << now.GetYear() << "/" << now.GetMonth() << "/" << now.GetDay() << " " << now.GetHour() << ":"
-              << now.GetMinute() << ":" << now.GetSecond() << std::endl;
-    std::cout << now.GetTime() << std::endl;
-
-    AFDateTime now2(now.GetYear(), now.GetMonth(), now.GetDay(), now.GetHour(), now.GetMinute(), now.GetSecond());
-    ARK_ASSERT_NO_EFFECT(now.GetTime() == now2.GetTime());
-}
-
-void TestRandom()
-{
-    AFRandom rand;
-    rand.SetSeed(AFDateTime::GetTimestamp());
-
-    int rand_array[10] = {0};
-
-    for (int i = 0; i < 100000; ++i)
-    {
-        uint32_t my_rand = rand.Random(0, 100000);
-
-        if (my_rand <= 10000)
-        {
-            rand_array[0]++;
-        }
-        else if (my_rand > 10000 && my_rand <= 20000)
-        {
-            rand_array[1]++;
-        }
-        else if (my_rand > 20000 && my_rand <= 30000)
-        {
-            rand_array[2]++;
-        }
-        else if (my_rand > 30000 && my_rand <= 40000)
-        {
-            rand_array[3]++;
-        }
-        else if (my_rand > 40000 && my_rand <= 50000)
-        {
-            rand_array[4]++;
-        }
-        else if (my_rand > 50000 && my_rand <= 60000)
-        {
-            rand_array[5]++;
-        }
-        else if (my_rand > 60000 && my_rand <= 70000)
-        {
-            rand_array[6]++;
-        }
-        else if (my_rand > 70000 && my_rand <= 80000)
-        {
-            rand_array[7]++;
-        }
-        else if (my_rand > 80000 && my_rand <= 90000)
-        {
-            rand_array[8]++;
-        }
-        else
-        {
-            rand_array[9]++;
-        }
-    }
-
-    for (size_t i = 0; i < ARRAY_LENTGH(rand_array); ++i)
-    {
-        std::cout << rand_array[i] << " int range [" << i * 10000 << ", " << (i + 1) * 10000 << "]" << std::endl;
-    }
-}
-
-void TestCRC()
-{
-    std::string s = "hello";
-    uint16_t crc16 = AFCRC::crc16(s);
-    auto log = ARK_FORMAT("CRC16 [{}] -> [{}]", s, crc16);
-    std::cout << log << std::endl;
-
-    s = "world";
-    uint32_t crc32 = AFCRC::crc32(s);
-    log = ARK_FORMAT("CRC32 [{}] -> [{}]", s, crc32);
-    std::cout << log << std::endl;
 }
 
 void Sample1Module::TestOssLog()
@@ -180,24 +94,20 @@ void Sample1Module::TestCronScheduler()
         AFDateTime::TimeDiff diff = (cur - *now);
 
         std::cout << diff << std::endl;
-        //if ((diff / AFDateTime::Resolution()) == 60)
-        //{
-        //    std::cout << "test OK" << std::endl;
-        //}
-        //else
-        //{
-        //    std::cout << "test failed" << std::endl;
-        //}
-
         *now = cur;
     });
+}
+
+void Sample1Module::TimerTest(uint64_t timer_id, const AFGUID& entity_id)
+{
+    ARK_LOG_INFO("timer log, id = {} entity_id = {}", timer_id, entity_id);
 }
 
 bool Sample1Module::PostInit()
 {
     ARK_LOG_INFO("{}, PostInit", GET_CLASS_NAME(Sample1Module));
 
-    TestCronScheduler();
+    //TestCronScheduler();
 
     return true;
 }

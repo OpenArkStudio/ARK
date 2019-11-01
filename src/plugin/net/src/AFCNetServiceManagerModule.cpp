@@ -43,13 +43,12 @@ bool AFCNetServiceManagerModule::PostInit()
     m_pConsulModule->SetRegisterCenter(reg_center.ip, reg_center.port);
 
     // start health check timer
-    m_pTimerModule->AddForeverTimer("service_discovery_health_check", 0, 20 * AFTimespan::SECOND_MS, this,
-        &AFCNetServiceManagerModule::HealthCheck);
+    m_pTimerModule->AddForeverTimer(0, std::chrono::seconds(20), this, &AFCNetServiceManagerModule::HealthCheck);
 
     return true;
 }
 
-void AFCNetServiceManagerModule::HealthCheck(const std::string& name, const AFGUID& entity_id)
+void AFCNetServiceManagerModule::HealthCheck(uint64_t timer_id, const AFGUID& entity_id)
 {
     // check if I need to connect other servers from consul center.
     std::vector<ARK_APP_TYPE> target_list;

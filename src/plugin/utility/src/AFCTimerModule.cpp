@@ -24,44 +24,39 @@ namespace ark {
 
 bool AFCTimerModule::Init()
 {
-    mxTimerManager = std::make_shared<AFTimerManager>();
-    mxTimerManager->Init(GetPluginManager()->GetNowTime());
+    timer_manager_ptr = std::make_shared<AFTimeWheelManager>();
+    timer_manager_ptr->Init(GetPluginManager()->GetNowTime());
 
     return true;
 }
 
 bool AFCTimerModule::PreShut()
 {
-    mxTimerManager->Shut();
+    timer_manager_ptr->Shut();
     return true;
 }
 
 bool AFCTimerModule::Update()
 {
-    mxTimerManager->Update(GetPluginManager()->GetNowTime());
+    timer_manager_ptr->Update(GetPluginManager()->GetNowTime());
     return true;
 }
 
-bool AFCTimerModule::RemoveTimer(const std::string& name)
+bool AFCTimerModule::RemoveTimer(const uint64_t timer_id)
 {
-    return mxTimerManager->RemoveTimer(name);
+    return timer_manager_ptr->RemoveTimer(timer_id);
 }
 
-bool AFCTimerModule::RemoveTimer(const std::string& name, const AFGUID& entity_id)
+uint64_t AFCTimerModule::AddSingleTimer(
+    const AFGUID& entity_id, const std::chrono::milliseconds interval, const uint32_t count, TIMER_FUNCTOR&& cb)
 {
-    return mxTimerManager->RemoveTimer(name, entity_id);
+    return timer_manager_ptr->AddTimer(entity_id, count, interval, std::forward<TIMER_FUNCTOR>(cb));
 }
 
-bool AFCTimerModule::AddSingleTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time,
-    const uint32_t count, TIMER_FUNCTOR&& cb)
+uint64_t AFCTimerModule::AddForeverTimer(
+    const AFGUID& entity_id, const std::chrono::milliseconds interval, TIMER_FUNCTOR&& cb)
 {
-    return mxTimerManager->AddSingleTimer(name, entity_id, interval_time, count, std::forward<TIMER_FUNCTOR>(cb));
-}
-
-bool AFCTimerModule::AddForeverTimer(
-    const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, TIMER_FUNCTOR&& cb)
-{
-    return mxTimerManager->AddForverTimer(name, entity_id, interval_time, std::forward<TIMER_FUNCTOR>(cb));
+    return timer_manager_ptr->AddTimer(entity_id, 0, interval, std::forward<TIMER_FUNCTOR>(cb));
 }
 
 } // namespace ark

@@ -34,8 +34,6 @@ class Sample1Module final : public AFIModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
-    explicit Sample1Module() = default;
-
     bool Init() override;
     bool PostInit() override;
     bool Update() override;
@@ -45,6 +43,7 @@ public:
 protected:
     void TestOssLog();
     void TestCronScheduler();
+    void TimerTest(uint64_t timer_id, const AFGUID& entity_id);
 
 protected:
     AFITimerModule* m_pTimerModule;

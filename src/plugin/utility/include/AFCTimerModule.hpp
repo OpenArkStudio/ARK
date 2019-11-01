@@ -34,17 +34,16 @@ public:
     bool Update() override;
     bool PreShut() override;
 
-    bool RemoveTimer(const std::string& name) override;
-    bool RemoveTimer(const std::string& name, const AFGUID& entity_id) override;
+    bool RemoveTimer(const uint64_t timer_id) override;
 
 protected:
-    bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time,
-        const uint32_t count, TIMER_FUNCTOR&& cb) override;
-    bool AddForeverTimer(
-        const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, TIMER_FUNCTOR&& cb) override;
+    uint64_t AddSingleTimer(const AFGUID& entity_id, const std::chrono::milliseconds interval, const uint32_t count,
+        TIMER_FUNCTOR&& cb) override;
+    uint64_t AddForeverTimer(
+        const AFGUID& entity_id, const std::chrono::milliseconds interval, TIMER_FUNCTOR&& cb) override;
 
 private:
-    std::shared_ptr<AFTimerManager> mxTimerManager{nullptr};
+    std::shared_ptr<AFTimeWheelManager> timer_manager_ptr{nullptr};
 };
 
 } // namespace ark
