@@ -1,0 +1,25 @@
+name: Github Action
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install C++ build wrapper
+        run: |
+          wget https://binaries.sonarsource.com/CommercialDistribution/sonar-cpp-plugin/build-wrapper-3.11.zip
+          unzip build-wrapper-3.11.zip
+
+      - name: Build ARK
+        run: |
+          bash ./scripts/travis_compiler.sh
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
