@@ -9,7 +9,7 @@
 - [ ] 增加dirty data layer, 当一个客户端请求处理完成后统一下发变化数据，不能有变有发，会导致小包太碎，并且浪费协议的head(改为非实时数据下一帧统一发送，实时数据有变有发)
 - [ ] 文档逐步补齐，概念介绍、设计理念、服务器架构、使用例子
 - [x] 所有的基础数据结构向C++容器看齐
-- [x] 服务中心注册(考虑etcd/consul来做)
+- [x] 服务中心注册(考虑etcd/consul来做), 已经使用consul来处理了
 - [x] 定时log和心跳改为timer方式，不要再是用update和HeartBeat了
 - [x] 修改配置打包工具(用Excel编辑，生成`xml`来给工程读取。为解决多人协作冲突, excel可以用名字后缀区分，类如Item.A.xlsx Item.B.xlsx)
 - [ ] ~~插件加载顺序(通过配置中的字段, 或者通过配置的顺序)~~
@@ -22,7 +22,11 @@
 - [x] session id 使用GUID类型
 - [x] 增加murmur hash函数用来做consistent hash map
 - [x] 增加xoshiro/xoroshiro随机算法
+- [x] 增加xxtea, crc16, crc32, crc64加密算法
 - [ ] 增加codec类，用来剥离框架对特定协议的依赖，方便外部替换协议类型
+- [ ] 增加插件动态热更新
+- [ ] 增加工具获取插件动态链接库版本号
+- [ ] Linux下强杀进程处理(kill -9 xxx)
 
 ## Low priority
 
@@ -36,7 +40,7 @@
 - [x] 考虑使用ECS，全部对象Entity化，~~通过GUID来确定属于哪个分组的哪个位置，能快速定位和查找(通过守望先锋、ET、[ECS-unity](https://github.com/sschmid/Entitas-CSharp)，具体还要再调研)~~
 - [ ] 增加coroutine，参考libgo
 - [ ] 引入tcmalloc
-- [ ] 增加监控web页面(vue-admin)
+- [ ] 增加监控web页面(ant-design-for-vue)
 - [ ] 增加Deployment web工具
 - [ ] ~~增加消息队列处理~~
 - [ ] 增加运维工具(tcm & deploy)

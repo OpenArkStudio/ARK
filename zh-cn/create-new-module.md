@@ -5,34 +5,34 @@
 ```cpp
 #pragma once
 
-#include "SDK/Interface/AFIPlugin.h"
-#include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Interface/AFITimerModule.h"
-#include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFIScheduleModule.h"
+#include "base/AFPluginManager.hpp"
+#include "interface/AFIPlugin.hpp"
+#include "interface/AFIModule.hpp"
+#include "utility/interface/AFITimerModule.hpp"
+#include "log/interface/AFILogModule.hpp"
+#include "utility/interface/AFIScheduleModule.hpp"
+#include "utility/interface/AFIGUIDModule.hpp"
 
-namespace ark
+namespace ark {
+
+class Sample1Module final : public AFIModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
+public:
+    bool Init() override;
+    bool PostInit() override;
+    bool Update() override;
+    bool PreShut() override;
+    bool Shut() override;
 
-    class Example1Module : public AFIModule
-    {
-    public:
-        explicit Example1Module() = default;
+protected:
+    AFITimerModule* m_pTimerModule;
+    AFILogModule* m_pLogModule;
+    AFIGUIDModule* m_pGUIDModule;
+    AFIScheduleModule* m_pScheduleModule;
+};
 
-        bool Init() override;
-        bool PostInit() override;
-        bool Update() override;
-        bool PreShut() override;
-        bool Shut() override;
-
-    protected:
-        AFITimerModule* m_pTimerModule;
-        AFILogModule* m_pLogModule;
-
-        int my_test_;
-    };
-
-}
+} // namespace ark
 ```
 
 说明:
@@ -46,38 +46,49 @@ namespace ark
 前文提到, 我们所有的模块都继承自`AFIModule`, AFIModule中主要包含了如下几个插件在不同状态下执行的虚函数, 如下
 
 ```cpp
-namespace ark
+#pragma once
+
+#include "base/AFPlatform.hpp"
+#include "base/AFMacros.hpp"
+
+namespace ark {
+
+class AFPluginManager;
+
+class AFIModule
 {
-    class AFIPluginManager;
+public:
+    AFIModule() = default;
+    virtual ~AFIModule() = default;
 
-    class AFIModule
+    virtual bool Init() { return true; }
+    virtual bool PostInit() { return true; }
+    virtual bool CheckConfig() { return true; }
+    virtual bool PreUpdate() { return true; }
+    virtual bool Update() { return true; }
+    virtual bool PreShut() { return true; }
+    virtual bool Shut() { return true; }
+
+    virtual AFPluginManager* GetPluginManager() const { return nullptr; }
+
+    virtual void SetPluginManager(AFPluginManager* p)
     {
-    public:
-        AFIModule() = default;
-        virtual ~AFIModule() = default;
-
-        //模块初始化函数, 主要用来查找模块中用到的其他模块接口指针
-        virtual bool Init() { return true; }
-
-        //初始化后执行的函数
-        virtual bool PostInit() { return true; }
-
-        //检查配置, 用来做模块启动后相关配置资源的合法性检查
-        virtual bool CheckConfig() { return true; }
-
-        //update前处理的函数, 例如update前想注册类回调, DataNode回调等等
-        virtual bool PreUpdate() { return true; }
-
-        //帧循环函数, 是个死循环, 主要用来处理一直需要处理的事件, 例如timer, network等
-        virtual bool Update() { return true; }
-
-        //关闭前需要做的事情, 例如销毁资源等
-        virtual bool PreShut() { return true; }
-
-        //关闭的时候需要做的事情, 例如关闭log文件等等
-        virtual bool Shut() { return true; }
+        // Do nothing in the module interface
     }
-}
+
+    virtual const std::string& GetName() const
+    {
+        static const std::string null_str = "";
+        return null_str;
+    }
+
+    virtual void SetName(const std::string& value)
+    {
+        // Do nothing in the module interface
+    }
+};
+
+} // namespace ark
 ```
 
 模块执行流程图:

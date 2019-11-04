@@ -21,7 +21,7 @@ svn checkout https://github.com/ArkGame/ARK
 ## Supported Compilers
 
 - GCC 4.9+ (**<font color=red>Recommend</font>. Tested in Ubuntu 15.04**)
-- MSVC VS2015up3+ (**<font color=red>Recommend VS2017</font>. Tested in Win7/10**)
+- MSVC VS2017+ (**<font color=red>Recommend VS2019</font>. Tested in Win7/10**)
 
 ## Build and Launch
 
@@ -38,23 +38,30 @@ svn checkout https://github.com/ArkGame/ARK
 
 Using CMake
 
-1. Pull all source
+1. Clone the source files
 2. Run command line
 
-```batch
-cd path/to/ARK
-git submodule update --init
-cd dep
-build_dep.bat
-cd ../
-md build
-cd build
-cmake -G "Visual Studio 16" -A x64 ..
-```
+    ```batch
+    cd path/to/ARK
+    git submodule update --init
+    cd dep
+    build_dep.bat
+    cd ../
+    md build
+    cd build
+    cmake -G "Visual Studio 16" -A x64 ..
+    ```
 
 3. Start `ark.sln`
 4. Run `ARK/bin/tools/gen-config.bat` to generate configuration files
-5. Run the binary file by `bin/rund.bat`
+> [!WARNING]
+> Need python3 environment.
+5. Install the [Consul](https://consul.io), run the command below,
+    ```bash
+    cd path/to/consul
+    consul.exe agent -server -ui -bootstrap-expect=1 -data-dir=./ -node=ark_consul_service -client=0.0.0.0 -bind=127.0.0.1 -log-file=./log/ -datacenter=ARK
+    ```
+6. Run the binary file by `bin/rund.bat`
 
 > [!NOTE]
 > If you are using other Visual Studio version, please replace `%VS160COMNTOOLS%` in `dep/build_dep.bat` and `cmake -G "Visual Studio 15 Win64" ..` with the right Visual Studio version and path. </br>
@@ -71,19 +78,19 @@ cmake -G "Visual Studio 16" -A x64 ..
 
 Using CMake
 
-1. pull all source
-2. Use bash
+1. Clone the source file.
+2. Run the command,
 
-```shell
-cd path/to/ARK
-git submodule update --init
-cd dep
-./build_dep.sh
-cd ../
-mkdir build && cd build
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug ..
-make
-```
+    ```shell
+    cd path/to/ARK
+    git submodule update --init
+    cd dep
+    ./build_dep.sh
+    cd ../
+    mkdir build && cd build
+    cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug ..
+    make
+    ```
 
 > [!NOTE]
 > If you need build release version, please add `-DCMAKE_BUILD_TYPE=release` in cmake command.</br>
@@ -92,6 +99,11 @@ To accelerate the building speed, you can use `make -j [num]` to run multiple co
 3. Run `ARK/bin/tools/gen-config.sh` to generate configuration files
 
 > [!WARNING] 
-> Need install python first
+> Need install `Python3` first
 
-4. Run the binary file by `bin/rund.sh`
+4. Install the [Consul](https://consul.io), run the command below,
+    ```bash
+    cd path/to/consul
+    ./consul agent -server -ui -bootstrap-expect=1 -data-dir=./ -node=ark_consul_service -client=0.0.0.0 -bind=127.0.0.1 -log-file=./log/ -datacenter=ARK
+    ```
+5. Run the binary file by `bin/rund.sh`

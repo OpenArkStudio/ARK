@@ -7,77 +7,44 @@
 ```cpp
 #pragma once
 
-#include "SDK/Core/AFPlatform.hpp"
-#include "SDK/Interface/AFIPlugin.h"
-#include "SDK/Interface/AFIPluginManager.h"
+#include "interface/AFIPlugin.hpp"
+#include "base/AFPluginManager.hpp"
 
-namespace ark
-{
+namespace ark {
 
-    class AFDirPlugin : public AFIPlugin
-    {
-    public:
-        //默认的构造函数
-        explicit AFDirPlugin() = default;
+ARK_DECLARE_PLUGIN(Sample1Plugin)
 
-        //插件版本(暂未使用, 原本是用来检查版本匹配)
-        int GetPluginVersion() override;
-
-        //获取插件名称
-        const std::string GetPluginName() override;
-
-        //安装插件
-        void Install() override;
-
-        //卸载插件
-        void Uninstall() override;
-    };
-
-}
+} // namespace ark
 ```
 
 源文件
 
 ```cpp
-#include "AFDirPlugin.h"
-#include "AFCDirNetModule.h"
+#include "Sample1Plugin.h"
+#include "Sample1Module.h"
 
-namespace ark
+namespace ark {
+
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(Sample1Plugin)
+
+void Sample1Plugin::Install()
 {
-    //定义插件dll入口和出口
-    ARK_DLL_PLUGIN_ENTRY(AFDirPlugin)
-    ARK_DLL_PLUGIN_EXIT(AFDirPlugin)
-
-    //////////////////////////////////////////////////////////////////////////
-    int AFDirPlugin::GetPluginVersion()
-    {
-        return 0;
-    }
-
-    const std::string AFDirPlugin::GetPluginName()
-    {
-        return GET_CLASS_NAME(AFDirPlugin);
-    }
-
-    void AFDirPlugin::Install()
-    {
-        //注册插件内模块
-        RegisterModule<AFIDirNetModule, AFCDirNetModule>();
-    }
-
-    void AFDirPlugin::Uninstall()
-    {
-        //卸载插件内模块
-        DeregisterModule<AFIDirNetModule, AFCDirNetModule>();
-    }
-
+    ARK_REGISTER_MODULE(Sample1Module, Sample1Module);
 }
+
+void Sample1Plugin::Uninstall()
+{
+    ARK_DEREGISTER_MODULE(Sample1Module, Sample1Module);
+}
+
+} // namespace ark
 ```
 
 ## 插件流程说明
 
-插件安装`Install`, 将插件内的模块通过`RegisterModule`一个个注册到插件内.  
-插件卸载`Uninstall`, 将插件内的模块通过`DeregisterModule`一个个从插件内反注册.
+插件安装`Install`, 将插件内的模块通过`ARK_REGISTER_MODULE`一个个注册到插件内.  
+插件卸载`Uninstall`, 将插件内的模块通过`ARK_DEREGISTER_MODULE`一个个从插件内卸载.
 
 > [!ATTENTION]
-> 注意: 这里模块`module`注册和反注册中的两个类名, 前面为`Interface类`, 后面为`Concrete类`.
+> 注意: 这里模块`module`注册和卸载中的两个类名, 前面为`接口(Interface)类`, 后面为`实现(Concrete)类`.  
+> 文中具体的宏的实现请在项目代码中查看。

@@ -5,34 +5,34 @@
 ```cpp
 #pragma once
 
-#include "SDK/Interface/AFIPlugin.h"
-#include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Interface/AFITimerModule.h"
-#include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFIScheduleModule.h"
+#include "base/AFPluginManager.hpp"
+#include "interface/AFIPlugin.hpp"
+#include "interface/AFIModule.hpp"
+#include "utility/interface/AFITimerModule.hpp"
+#include "log/interface/AFILogModule.hpp"
+#include "utility/interface/AFIScheduleModule.hpp"
+#include "utility/interface/AFIGUIDModule.hpp"
 
-namespace ark
+namespace ark {
+
+class Sample1Module final : public AFIModule
 {
+    ARK_DECLARE_MODULE_FUNCTIONS
+public:
+    bool Init() override;
+    bool PostInit() override;
+    bool Update() override;
+    bool PreShut() override;
+    bool Shut() override;
 
-    class Example1Module : public AFIModule
-    {
-    public:
-        explicit Example1Module() = default;
+protected:
+    AFITimerModule* m_pTimerModule;
+    AFILogModule* m_pLogModule;
+    AFIGUIDModule* m_pGUIDModule;
+    AFIScheduleModule* m_pScheduleModule;
+};
 
-        bool Init() override;
-        bool PostInit() override;
-        bool Update() override;
-        bool PreShut() override;
-        bool Shut() override;
-
-    protected:
-        AFITimerModule* m_pTimerModule;
-        AFILogModule* m_pLogModule;
-
-        int my_test_;
-    };
-
-}
+} // namespace ark
 ```
 
 Explain:
@@ -46,40 +46,49 @@ Explain:
 As mentioned earlier, all of our modules are inherited from `AFIModule'. The AFIModule mainly contains the following virtual functions executed by plug-ins in different states, as follows
 
 ```cpp
-namespace ark
+#pragma once
+
+#include "base/AFPlatform.hpp"
+#include "base/AFMacros.hpp"
+
+namespace ark {
+
+class AFPluginManager;
+
+class AFIModule
 {
-    class AFIPluginManager;
+public:
+    AFIModule() = default;
+    virtual ~AFIModule() = default;
 
-    class AFIModule
+    virtual bool Init() { return true; }
+    virtual bool PostInit() { return true; }
+    virtual bool CheckConfig() { return true; }
+    virtual bool PreUpdate() { return true; }
+    virtual bool Update() { return true; }
+    virtual bool PreShut() { return true; }
+    virtual bool Shut() { return true; }
+
+    virtual AFPluginManager* GetPluginManager() const { return nullptr; }
+
+    virtual void SetPluginManager(AFPluginManager* p)
     {
-    public:
-        AFIModule() = default;
-        virtual ~AFIModule() = default;
-
-        //Module initialization function is mainly used to 
-        //find other module interface pointer used in the module.
-        virtual bool Init() { return true; }
-
-        virtual bool PostInit() { return true; }
-
-        //Check configuration to check the legitimacy of configuration resources after module startup.
-        virtual bool CheckConfig() { return true; }
-
-        //Update pre processing functions, such as update before you want to
-        //register class callbacks, DataNode callbacks, and so on.
-        virtual bool PreUpdate() { return true; }
-
-        //Loop function, which is a dead loop, is mainly used to deal with events 
-        //that need to be processed all the time, such as timer, network, etc.
-        virtual bool Update() { return true; }
-
-        //Function that need to be done before closing, such as destroying resources, etc.
-        virtual bool PreShut() { return true; }
-
-        //Function that need to be done when closing, such as closing log files, etc.
-        virtual bool Shut() { return true; }
+        // Do nothing in the module interface
     }
-}
+
+    virtual const std::string& GetName() const
+    {
+        static const std::string null_str = "";
+        return null_str;
+    }
+
+    virtual void SetName(const std::string& value)
+    {
+        // Do nothing in the module interface
+    }
+};
+
+} // namespace ark
 ```
 
 Module execution flowchart:

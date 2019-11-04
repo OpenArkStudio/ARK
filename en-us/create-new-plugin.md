@@ -7,71 +7,37 @@ Header file
 ```cpp
 #pragma once
 
-#include "SDK/Core/AFPlatform.hpp"
-#include "SDK/Interface/AFIPlugin.h"
-#include "SDK/Interface/AFIPluginManager.h"
+#include "interface/AFIPlugin.hpp"
+#include "base/AFPluginManager.hpp"
 
-namespace ark
-{
+namespace ark {
 
-    class AFDirPlugin : public AFIPlugin
-    {
-    public:
-        //Default constructor function
-        explicit AFDirPlugin() = default;
+ARK_DECLARE_PLUGIN(Sample1Plugin)
 
-        //Plugin version(Not used for now, plan to match version number)
-        int GetPluginVersion() override;
-
-        //plugin name
-        const std::string GetPluginName() override;
-
-        //install plugin
-        void Install() override;
-
-        //remove plugin
-        void Uninstall() override;
-    };
-
-}
+} // namespace ark
 ```
 
 Source file
 
 ```cpp
-#include "AFDirPlugin.h"
-#include "AFCDirNetModule.h"
+#include "Sample1Plugin.h"
+#include "Sample1Module.h"
 
-namespace ark
+namespace ark {
+
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(Sample1Plugin)
+
+void Sample1Plugin::Install()
 {
-    //Define plugin DLL entry and exit
-    ARK_DLL_PLUGIN_ENTRY(AFDirPlugin)
-    ARK_DLL_PLUGIN_EXIT(AFDirPlugin)
-
-    //////////////////////////////////////////////////////////////////////////
-    int AFDirPlugin::GetPluginVersion()
-    {
-        return 0;
-    }
-
-    const std::string AFDirPlugin::GetPluginName()
-    {
-        return GET_CLASS_NAME(AFDirPlugin);
-    }
-
-    void AFDirPlugin::Install()
-    {
-        //Registration plug-in modules
-        RegisterModule<AFIDirNetModule, AFCDirNetModule>();
-    }
-
-    void AFDirPlugin::Uninstall()
-    {
-        //Uninstall plug-in modules
-        DeregisterModule<AFIDirNetModule, AFCDirNetModule>();
-    }
-
+    ARK_REGISTER_MODULE(Sample1Module, Sample1Module);
 }
+
+void Sample1Plugin::Uninstall()
+{
+    ARK_DEREGISTER_MODULE(Sample1Module, Sample1Module);
+}
+
+} // namespace ark
 ```
 
 ## Plugin description
