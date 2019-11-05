@@ -29,9 +29,10 @@
 using namespace ark;
 
 bool g_exit_loop = false;
-std::thread g_cmd_thread;
 
 #ifdef ARK_PLATFORM_WIN
+// command control
+std::thread g_cmd_thread;
 
 // mini-dump
 void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* pException)
@@ -61,11 +62,9 @@ long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
     FatalAppExit(-1, dump_name.c_str());
     return EXCEPTION_EXECUTE_HANDLER;
 }
-#endif
 
 void CloseXButton()
 {
-#ifdef ARK_PLATFORM_WIN
     HWND hWnd = GetConsoleWindow();
 
     if (hWnd)
@@ -73,28 +72,31 @@ void CloseXButton()
         HMENU hMenu = GetSystemMenu(hWnd, FALSE);
         EnableMenuItem(hMenu, SC_CLOSE, MF_DISABLED | MF_BYCOMMAND);
     }
-
-#else
-    // Do nothing
-#endif
+}
+#else defined(ARK_PLATFORM_LINUX)
+void KillHandler(int s)
+{
+    AFPluginManager::instance()->Stop();
 }
 
 void InitDaemon()
 {
-#ifdef ARK_PLATFORM_LINUX
-    int ret = daemon(1, 0);
-    ARK_ASSERT_NO_EFFECT(ret == 0);
-
     // ignore signals
-    signal(SIGINT, SIG_IGN);
     signal(SIGHUP, SIG_IGN);
     signal(SIGQUIT, SIG_IGN);
     signal(SIGPIPE, SIG_IGN);
     signal(SIGTTOU, SIG_IGN);
     signal(SIGTTIN, SIG_IGN);
-    signal(SIGTERM, SIG_IGN);
-#endif
+
+    // kill signals
+    signal(SIGTERM, KillHandler);
+    signal(SIGSTOP, KillHandler);
+    signal(SIGINT, KillHandler);
+
+    int ret = daemon(1, 0);
+    ARK_ASSERT_NO_EFFECT(ret == 0);
 }
+#endif
 
 void PrintLogo()
 {
@@ -259,8 +261,10 @@ bool ParseArgs(int argc, char* argv[])
         return false;
     }
 
+#ifdef ARK_PLATFORM_WIN
     // Create back thread, for some command
     CreateBackThread();
+#endif
 
     return true;
 }
@@ -270,14 +274,14 @@ void MainLoop()
 #ifdef ARK_PLATFORM_WIN
     __try
     {
-#endif
         AFPluginManager::instance()->Update();
-#ifdef ARK_PLATFORM_WIN
     }
     __except (ApplicationCrashHandler(GetExceptionInformation()))
     {
         // Do nothing for now.
     }
+#else
+    AFPluginManager::instance()->Update();
 #endif
 }
 
@@ -292,21 +296,22 @@ int main(int argc, char* argv[])
     PrintLogo();
 
     AFPluginManager::instance()->Start();
-    while (!g_exit_loop)
-    {
-        for (;; std::this_thread::sleep_for(std::chrono::milliseconds(1)))
-        {
-            if (g_exit_loop)
-            {
-                break;
-            }
 
-            MainLoop();
+    for (;; std::this_thread::sleep_for(std::chrono::milliseconds(1)))
+    {
+        if (g_exit_loop)
+        {
+            break;
         }
+
+        MainLoop();
     }
+
     AFPluginManager::instance()->Stop();
 
+#ifdef ARK_PLATFORM_WIN
     g_cmd_thread.join();
+#endif
 
     return 0;
 }
