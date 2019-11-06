@@ -73,7 +73,9 @@ void CloseXButton()
         EnableMenuItem(hMenu, SC_CLOSE, MF_DISABLED | MF_BYCOMMAND);
     }
 }
-#else defined(ARK_PLATFORM_LINUX)
+
+#elif defined(ARK_PLATFORM_LINUX)
+
 void KillHandler(int s)
 {
     AFPluginManager::instance()->Stop();
@@ -127,6 +129,7 @@ Github:  https://github.com/ArkNX
 #endif
 }
 
+#ifdef ARK_PLATFORM_WIN
 void CreateBackThread()
 {
     auto thread_func = []() {
@@ -146,6 +149,7 @@ void CreateBackThread()
 
     g_cmd_thread = std::thread(thread_func);
 }
+#endif // ARK_PLATFORM_WIN
 
 bool ParseArgs(int argc, char* argv[])
 {
