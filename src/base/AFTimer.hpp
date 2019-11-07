@@ -161,7 +161,6 @@ protected:
             free_timers_.pop_front();
         }
 
-        memset(timer, 0, sizeof(AFTimeWheelData));
         return timer;
     }
 

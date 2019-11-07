@@ -41,7 +41,6 @@ bool AFCWorldNetModule::PostInit()
     if (ret != 0)
     {
         exit(0);
-        return false;
     }
 
     return true;
@@ -53,7 +52,8 @@ int AFCWorldNetModule::StartServer()
     ret.Then([=](const std::pair<bool, std::string>& resp) {
         if (!resp.first)
         {
-            ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), resp.second);
+            ARK_LOG_ERROR(
+                "Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), resp.second);
             ARK_ASSERT_NO_EFFECT(0);
             exit(0);
         }
@@ -516,7 +516,7 @@ int AFCWorldNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFID
         return 1;
     }
 
-	AFMsg::multi_entity_data_list msg;
+    AFMsg::multi_entity_data_list msg;
     AFMsg::pb_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
@@ -554,7 +554,7 @@ int AFCWorldNetModule::OnSelfDataNodeEnter(const AFGUID& self, const AFIDataList
         return 1;
     }
 
-	AFMsg::multi_entity_data_list msg;
+    AFMsg::multi_entity_data_list msg;
     AFMsg::pb_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
@@ -579,7 +579,7 @@ int AFCWorldNetModule::OnSelfDataTableEnter(const AFGUID& self, const AFIDataLis
         return 1;
     }
 
-	AFMsg::multi_entity_data_list msg;
+    AFMsg::multi_entity_data_list msg;
     AFMsg::pb_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
@@ -587,7 +587,7 @@ int AFCWorldNetModule::OnSelfDataTableEnter(const AFGUID& self, const AFIDataLis
     mask[(size_t)ArkTableNodeMask::PF_PRIVATE] = 1;
     m_pKernelModule->TableToPBDataByMask(pEntity, mask, entity->mutable_data());
 
-	int nGameID = argGameID.Int(0);
+    int nGameID = argGameID.Int(0);
     SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, msg, self);
 
     return 0;
@@ -606,7 +606,7 @@ int AFCWorldNetModule::OnViewDataTableEnter(const AFIDataList& argVar, const AFI
         return 1;
     }
 
-	AFMsg::multi_entity_data_list msg;
+    AFMsg::multi_entity_data_list msg;
     AFMsg::pb_entity* entity = msg.add_data_list();
     entity->set_id(self);
 

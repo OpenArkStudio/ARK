@@ -56,6 +56,7 @@ public:
 
     AFXmlNode FindNode(const char* key)
     {
+        ARK_ASSERT_NO_EFFECT(IsValid());
         auto xmlnode = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
 
         AFXmlNode node(xml_);

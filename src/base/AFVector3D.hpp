@@ -31,9 +31,9 @@ public:
     float y{0.0f};
     float z{0.0f};
 
-    AFVector3D() {}
+    AFVector3D() = default;
 
-    explicit AFVector3D(float f3[])
+    AFVector3D(float f3[])
     {
         x = f3[0];
         y = f3[1];

@@ -179,7 +179,6 @@ public:
             if (msg_head == nullptr)
             {
                 break;
-                ;
             }
         }
 

@@ -39,9 +39,9 @@ public:
         int alloc_total_bit = sign_bits_ + ts_bits + worker_bits + seq_bits;
         ARK_ASSERT_NO_EFFECT(alloc_total_bit == TOTAL_BITS); // allocate not enough 64 bits
 
-        max_delta_seconds_ = ~(-1L << timestamp_bits_);
-        max_worker_id_ = ~(-1L << worker_id_bits_);
-        max_sequence_ = ~(-1L << sequence_bits_);
+        max_delta_seconds_ = ~(uint64_t(-1L) << timestamp_bits_);
+        max_worker_id_ = ~(uint64_t(-1L) << worker_id_bits_);
+        max_sequence_ = ~(uint64_t(-1L) << sequence_bits_);
 
         timestamp_shift_ = worker_id_bits_ + sequence_bits_;
         worker_id_shift_ = sequence_bits_;
