@@ -176,7 +176,7 @@ bool AFNodeManager::CreateData(AFINode* pData)
 AFINode* AFNodeManager::CreateData(const std::string& name)
 {
     auto index = GetIndex(name);
-    ARK_ASSERT_RET_VAL(index > 0, false);
+    ARK_ASSERT_RET_VAL(index > 0, nullptr);
 
     return FindData(index);
 }
