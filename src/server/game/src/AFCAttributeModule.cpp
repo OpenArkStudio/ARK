@@ -30,7 +30,7 @@ bool AFCAttributeModule::Init()
     m_pLevelModule = FindModule<AFILevelModule>();
 
     m_pKernelModule->AddClassCallBack(AFEntityMetaPlayer::self_name(), this, &AFCAttributeModule::OnObjectClassEvent);
-    m_pKernelModule->AddDataCallBack(
+    m_pKernelModule->AddNodeCallBack(
         AFEntityMetaPlayer::self_name(), AFEntityMetaPlayer::level(), this, &AFCAttributeModule::OnObjectLevelEvent);
     // m_pClassModule->AddTableCallBack(AFEntityMetaPlayer::self_name(), ark::Player::R_CommPropertyValue(), this,
     // &AFCPropertyModule::OnPropertyTableEvent);
@@ -47,11 +47,11 @@ int AFCAttributeModule::GetAttributeValue(
         // PropertyNameToCol(strPropertyName));
     }
 
-	auto pEntity = m_pKernelModule->GetEntity(self);
-	if (pEntity == nullptr)
-	{
+    auto pEntity = m_pKernelModule->GetEntity(self);
+    if (pEntity == nullptr)
+    {
         return 0;
-	}
+    }
 
     return pEntity->GetInt32(attr_name);
 }

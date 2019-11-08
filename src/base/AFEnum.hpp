@@ -88,26 +88,16 @@ enum class ArkTableOpType : uint16_t // table operate type
     TABLE_CLEAR,    // clear all rows
 };
 
-enum class ArkNodeMask : uint16_t
+enum class ArkDataMask : uint16_t
 {
-    PF_PUBLIC = 0,     // send to others
-    PF_PRIVATE = 1,    // send to self
+    PF_SYNC_VIEW = 0,  // send to others
+    PF_SYNC_SELF = 1,  // send to self
     PF_REAL_TIME = 2,  // send real-time when changed
     PF_SAVE = 3,       // save to database
-    PF_SYNC_SELF = 4,  // sync to self
-    PF_SYNC_VIEW = 5,  // sync to view range
-    PF_SYNC_TEAM = 6,  // sync to team member
-    PF_SYNC_GUILD = 7, // sync to guild member
-    PF_SYNC_MAP = 8,   // sync to all player in same map
-    PF_LOG = 9,        // log when changed
-};
-
-enum class ArkTableNodeMask : uint16_t
-{
-    PF_PUBLIC = 0,    // send to others
-    PF_PRIVATE = 1,   // send to self
-    PF_REAL_TIME = 2, // send real-time when changed
-    PF_SAVE = 3,      // if need save to database
+    PF_SYNC_TEAM = 4,  // sync to team member
+    PF_SYNC_GUILD = 5, // sync to guild member
+    PF_SYNC_MAP = 6,   // sync to all player in same map
+    PF_LOG = 7,        // log when changed
 };
 
 enum class ArkContainerOpType : uint32_t

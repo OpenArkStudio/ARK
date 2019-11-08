@@ -36,6 +36,13 @@ const AFGUID& AFCContainer::GetParentID() const
     return parent_;
 }
 
+const uint32_t AFCContainer::GetIndex() const
+{
+    ARK_ASSERT_RET_VAL(container_meta_ != nullptr, false);
+
+    return container_meta_->GetIndex();
+}
+
 uint32_t AFCContainer::First()
 {
     iter_ = entity_data_list_.begin();
@@ -171,7 +178,8 @@ bool AFCContainer::Swap(const AFGUID& src_entity, const AFGUID& dest_entity)
     return Swap(src_index, dest_index);
 }
 
-bool AFCContainer::Swap(std::shared_ptr<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index)
+bool AFCContainer::Swap(
+    std::shared_ptr<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index)
 {
     if (pSrcContainer == nullptr || src_index == 0 || dest_index == 0)
     {
@@ -224,7 +232,8 @@ bool AFCContainer::Swap(std::shared_ptr<AFIContainer> pSrcContainer, const uint3
     return true;
 }
 
-bool AFCContainer::Swap(std::shared_ptr<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity)
+bool AFCContainer::Swap(
+    std::shared_ptr<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity)
 {
     if (pSrcContainer == nullptr)
     {
@@ -323,24 +332,15 @@ void AFCContainer::OnContainerPlace(const uint32_t index, std::shared_ptr<AFIEnt
 
     ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr && container_meta_ != nullptr);
 
-    if (pEntity->IsSent())
-    {
-        call_back_mgr_->OnContainerCallBack(
-            parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_PLACE, index, 0u);
-    }
-    else
-    {
-        pEntity->UpdateSent();
-        call_back_mgr_->OnContainerCallBack(
-            parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_CREATE, index, 0u);
-    }
+    call_back_mgr_->OnContainerCallBack(
+        parent_, container_meta_->GetIndex(), container_meta_->GetMask(), ArkContainerOpType::OP_PLACE, index, 0u);
 }
 
 void AFCContainer::OnContainerSwap(const uint32_t index, const uint32_t swap_index)
 {
     ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr && container_meta_ != nullptr);
-    call_back_mgr_->OnContainerCallBack(
-        parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_SWAP, index, swap_index);
+    call_back_mgr_->OnContainerCallBack(parent_, container_meta_->GetIndex(), container_meta_->GetMask(),
+        ArkContainerOpType::OP_SWAP, index, swap_index);
 }
 
 void AFCContainer::OnContainerRemove(const uint32_t index, std::shared_ptr<AFIEntity> pEntity)
@@ -348,7 +348,8 @@ void AFCContainer::OnContainerRemove(const uint32_t index, std::shared_ptr<AFIEn
     pEntity->SetParentContainer(nullptr);
 
     ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr && container_meta_ != nullptr);
-    call_back_mgr_->OnContainerCallBack(parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_REMOVE, index, 0u);
+    call_back_mgr_->OnContainerCallBack(
+        parent_, container_meta_->GetIndex(), container_meta_->GetMask(), ArkContainerOpType::OP_REMOVE, index, 0u);
 }
 
 void AFCContainer::OnContainerDestroy(const uint32_t index, std::shared_ptr<AFIEntity> pEntity)
@@ -356,8 +357,13 @@ void AFCContainer::OnContainerDestroy(const uint32_t index, std::shared_ptr<AFIE
     pEntity->SetParentContainer(nullptr);
 
     ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr && container_meta_ != nullptr);
-    call_back_mgr_->OnContainerCallBack(
-        parent_, container_meta_->GetIndex(), ArkContainerOpType::OP_DESTROY, index, 0u);
+    call_back_mgr_->OnContainerCallBack(parent_, container_meta_->GetIndex(), container_meta_->GetMask(),
+        ArkContainerOpType::OP_DESTROY, index, 0u, pEntity);
+}
+
+bool AFCContainer::InitEntityList(const uint32_t index, std::shared_ptr<AFIEntity> pEntity)
+{
+    return entity_data_list_.insert(index, pEntity).second;
 }
 
 const std::string& AFCContainer::GetName() const
@@ -365,6 +371,13 @@ const std::string& AFCContainer::GetName() const
     ARK_ASSERT_RET_VAL(container_meta_ != nullptr, NULL_STR);
 
     return container_meta_->GetName();
+}
+
+const ArkMaskType AFCContainer::GetMask() const
+{
+    ARK_ASSERT_RET_VAL(container_meta_ != nullptr, 0);
+
+    return container_meta_->GetMask();
 }
 
 } // namespace ark

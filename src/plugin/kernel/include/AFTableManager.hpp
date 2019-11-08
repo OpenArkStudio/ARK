@@ -47,7 +47,7 @@ public:
     }
 
     // table operation
-    AFITable* CreateTable(const AFGUID& guid, const uint32_t index)
+    AFITable* CreateTable(const uint32_t index, AFCTable::TABLE_CALLBACK_FUNCTOR&& func)
     {
         ARK_ASSERT_RET_VAL(class_meta_ != nullptr, nullptr);
 
@@ -57,7 +57,7 @@ public:
         auto pTableMeta = class_meta_->FindTableMeta(index);
         ARK_ASSERT_RET_VAL(pTableMeta != nullptr, nullptr);
 
-        pTable = ARK_NEW AFCTable(pTableMeta, class_meta_->GetClassCallBackManager(), guid);
+        pTable = ARK_NEW AFCTable(pTableMeta, std::forward<AFCTable::TABLE_CALLBACK_FUNCTOR>(func));
         ARK_ASSERT_RET_VAL(pTable != nullptr, nullptr);
 
         if (!table_list_.insert(index, pTable).second)

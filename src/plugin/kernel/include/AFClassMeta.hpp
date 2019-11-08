@@ -85,7 +85,7 @@ public:
 
     // create table meta
     std::shared_ptr<AFContainerMeta> CreateContainerMeta(
-        const std::string& name, const uint32_t index, const std::string& class_name);
+        const std::string& name, const uint32_t index, const std::string& class_name, const ArkMaskType mask);
     std::shared_ptr<AFContainerMeta> FindContainerMeta(const uint32_t index) const;
 
     const DataMetaList& GetDataMetaList() const;

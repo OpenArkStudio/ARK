@@ -29,6 +29,9 @@
 #include "AFNodeManager.hpp"
 #include "AFTableManager.hpp"
 #include "kernel/interface/AFIEventManager.hpp"
+#include "kernel/interface/AFINode.hpp"
+#include "base/AFDefine.hpp"
+#include "kernel/interface/AFIDataList.hpp"
 
 namespace ark {
 
@@ -81,7 +84,7 @@ public:
     AFCEntity() = delete;
 
     explicit AFCEntity(std::shared_ptr<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE config_id,
-        const int32_t map_id, const int32_t map_entity_id);
+        const int32_t map_id, const int32_t map_entity_id, const AFIDataList& data_list);
 
     void Update() override;
 
@@ -100,12 +103,17 @@ public:
     bool IsSave(const uint32_t index) const override;
     bool IsRealTime(const std::string& name) const override;
     bool IsRealTime(const uint32_t index) const override;
-    bool HaveMask(const std::string& name, ArkNodeMask feature) const override;
-    bool HaveMask(const uint32_t index, ArkNodeMask feature) const override;
+    bool HaveMask(const std::string& name, ArkDataMask feature) const override;
+    bool HaveMask(const uint32_t index, ArkDataMask feature) const override;
 
     ArkMaskType GetMask(const uint32_t index) const override;
 
     const std::string& GetClassName() const override;
+
+    ArkDataType GetNodeType(const std::string& name) const override;
+    ArkDataType GetNodeType(const uint32_t value) const override;
+
+    uint32_t GetIndex(const std::string& name) const override;
 
     ID_TYPE GetConfigID() const override;
     int32_t GetMapID() const override;
@@ -215,7 +223,12 @@ private:
 
     std::shared_ptr<AFIEventManager> GetEventManager() const;
 
-    int OnDataCallBack(const std::string& name, const uint32_t index, const AFIData& old_data, const AFIData& new_data);
+    std::shared_ptr<AFClassMeta> GetClassMeta() const;
+
+    int OnDataCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data);
+
+    int OnTableCallBack(const ArkMaskType mask, AFINode* pNode, const TABLE_EVENT_DATA& event_data,
+        const AFIData& old_data, const AFIData& new_data);
 };
 
 } // namespace ark

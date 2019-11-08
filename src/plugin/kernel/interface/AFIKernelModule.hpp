@@ -40,26 +40,6 @@ public:
         return AddCommonClassEvent(std::move(functor), prio);
     }
 
-    template<typename BaseType>
-    bool AddCommonNodeEvent(BaseType* pBase,
-        int (BaseType::*handler)(
-            const AFGUID&, const std::string&, const uint32_t index, const AFIData&, const AFIData&),
-        const int32_t prio = 0)
-    {
-        auto functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
-            std::placeholders::_4, std::placeholders::_5);
-        return AddCommonNodeEvent(std::move(functor), prio);
-    }
-
-    template<typename BaseType>
-    bool AddCommonTableEvent(BaseType* pBase,
-        int (BaseType::*handler)(const AFGUID&, const TABLE_EVENT_DATA&, const AFIData&, const AFIData&),
-        const int32_t prio = 0)
-    {
-        auto functor = std::bind(
-            handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return AddCommonTableEvent(std::move(functor), prio);
-    }
     /////////////////////////////////////////////////////////////////
     template<typename BaseType>
     bool AddEventCallBack(const AFGUID& self, const int nEventID, BaseType* pBase,
@@ -80,11 +60,11 @@ public:
     }
 
     template<typename BaseType>
-    bool AddDataCallBack(const std::string& class_name, const std::string& name, BaseType* pBase,
+    bool AddNodeCallBack(const std::string& class_name, const std::string& name, BaseType* pBase,
         int (BaseType::*handler)(const AFGUID&, const std::string&, const uint32_t, const AFIData&, const AFIData&),
         const int32_t prio = 0)
     {
-        return AddDataCallBack(class_name, name,
+        return AddNodeCallBack(class_name, name,
             std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
                 std::placeholders::_4, std::placeholders::_5)),
             prio);
@@ -103,11 +83,11 @@ public:
 
     // call back by index
     template<typename BaseType>
-    bool AddDataCallBack(const std::string& class_name, const uint32_t index, BaseType* pBase,
+    bool AddNodeCallBack(const std::string& class_name, const uint32_t index, BaseType* pBase,
         int (BaseType::*handler)(const AFGUID&, const std::string&, const uint32_t, const AFIData&, const AFIData&),
         const int32_t prio = 0)
     {
-        return AddDataCallBack(class_name, index,
+        return AddNodeCallBack(class_name, index,
             std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
                 std::placeholders::_4, std::placeholders::_5)),
             prio);
@@ -187,21 +167,21 @@ public:
     virtual bool RowToPBData(AFIRow* pRow, const uint32_t index, AFMsg::pb_entity_data* pb_data) = 0;
     virtual bool TableRowDataToPBData(const uint32_t index, uint32_t row, const uint32_t col, const AFIData& data,
         AFMsg::pb_entity_data* pb_data) = 0;
-    virtual bool NodeToPBDataByMask(
-        std::shared_ptr<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data) = 0;
-    virtual bool TableToPBDataByMask(
-        std::shared_ptr<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data) = 0;
+    virtual bool EntityNodeToPBData(
+        std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data, const ArkMaskType mask = 0) = 0;
+    virtual bool EntityTableToPBData(
+        std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data, const ArkMaskType mask = 0) = 0;
 
 protected:
     virtual bool AddEventCallBack(const AFGUID& self, const int nEventID, EVENT_PROCESS_FUNCTOR&& cb) = 0;
     virtual bool AddClassCallBack(const std::string& strClassName, CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
 
-    virtual bool AddDataCallBack(
+    virtual bool AddNodeCallBack(
         const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
     virtual bool AddTableCallBack(
         const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
 
-    virtual bool AddDataCallBack(
+    virtual bool AddNodeCallBack(
         const std::string& class_name, const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
     virtual bool AddTableCallBack(
         const std::string& class_name, const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
@@ -211,8 +191,6 @@ protected:
     virtual bool AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
 
     virtual bool AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
-    virtual bool AddCommonNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
-    virtual bool AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
 };
 
 } // namespace ark

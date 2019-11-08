@@ -73,7 +73,7 @@ bool AFCClassMetaModule::LoadConfig()
         std::string schema_path = meta_node.GetString("meta");
         std::string res_path = meta_node.GetString("res");
 
-        auto pClassMeta = m_pClassMetaManager->CreateMeta(meta_name);
+        auto pClassMeta = m_pClassMetaManager->CreateStaticMeta(meta_name);
         ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
 
         pClassMeta->SetResPath(res_path);
@@ -166,9 +166,17 @@ bool AFCClassMetaModule::LoadEntityMeta(const std::string& schema_path)
         {
             continue;
         }
-        else if (type_name == "container")
+
+        // data mask
+        ArkMaskType mask;
+        mask[(size_t)ArkDataMask::PF_SYNC_VIEW] = (feature_sync_view > 0 ? 1 : 0);
+        mask[(size_t)ArkDataMask::PF_SYNC_SELF] = (feature_sync_self > 0 ? 1 : 0);
+        mask[(size_t)ArkDataMask::PF_SAVE] = (feature_save > 0 ? 1 : 0);
+        mask[(size_t)ArkDataMask::PF_REAL_TIME] = (feature_real_time > 0 ? 1 : 0);
+
+        if (type_name == "container")
         {
-            auto pContainerMeta = pClassMeta->CreateContainerMeta(data_name, index, type_class);
+            auto pContainerMeta = pClassMeta->CreateContainerMeta(data_name, index, type_class, mask);
             ARK_ASSERT_RET_VAL(pContainerMeta != nullptr, false);
             continue;
         }
@@ -184,13 +192,6 @@ bool AFCClassMetaModule::LoadEntityMeta(const std::string& schema_path)
             ARK_ASSERT_RET_VAL(pTableMeta != nullptr, false);
 
             pTableMeta->SetTypeName(type_class);
-
-            ArkMaskType mask;
-            mask[(size_t)ArkTableNodeMask::PF_PUBLIC] = (feature_sync_view > 0 ? 1 : 0);
-            mask[(size_t)ArkTableNodeMask::PF_PRIVATE] = (feature_sync_self > 0 ? 1 : 0);
-            mask[(size_t)ArkTableNodeMask::PF_SAVE] = (feature_save > 0 ? 1 : 0);
-            mask[(size_t)ArkTableNodeMask::PF_REAL_TIME] = (feature_real_time > 0 ? 1 : 0);
-
             pTableMeta->SetMask(mask);
         }
         else
@@ -199,13 +200,7 @@ bool AFCClassMetaModule::LoadEntityMeta(const std::string& schema_path)
             auto pDataMeta = pClassMeta->CreateDataMeta(data_name, index);
             ARK_ASSERT_RET_VAL(pDataMeta != nullptr, false);
 
-            ArkMaskType mask;
-            mask[(size_t)ArkNodeMask::PF_PUBLIC] = (feature_sync_view > 0 ? 1 : 0);
-            mask[(size_t)ArkNodeMask::PF_PRIVATE] = (feature_sync_self > 0 ? 1 : 0);
-            mask[(size_t)ArkNodeMask::PF_SAVE] = (feature_save > 0 ? 1 : 0);
-            mask[(size_t)ArkNodeMask::PF_REAL_TIME] = (feature_real_time > 0 ? 1 : 0);
             pDataMeta->SetMask(mask);
-
             pDataMeta->SetType(data_type);
         }
     }
@@ -287,7 +282,7 @@ bool AFCClassMetaModule::DoClassEvent(
     return pCallBack->OnClassEvent(id, class_name, class_event, args);
 }
 
-std::shared_ptr<AFClassMeta> AFCClassMetaModule::FindMeta(const std::string& class_name)
+std::shared_ptr<AFClassMeta> AFCClassMetaModule::FindMeta(const std::string& class_name) const
 {
     return m_pClassMetaManager->FindMeta(class_name);
 }
@@ -295,6 +290,16 @@ std::shared_ptr<AFClassMeta> AFCClassMetaModule::FindMeta(const std::string& cla
 const AFClassMetaManager::ClassMetaList& AFCClassMetaModule::GetMetaList() const
 {
     return m_pClassMetaManager->GetMetaList();
+}
+
+std::shared_ptr<AFClassMeta> AFCClassMetaModule::FindStaticMeta(const std::string& class_name) const
+{
+    return m_pClassMetaManager->FindStaticMeta(class_name);
+}
+
+const AFClassMetaManager::ClassMetaList& AFCClassMetaModule::GetStaticMetaList() const
+{
+    return m_pClassMetaManager->GetStaticMetaList();
 }
 
 } // namespace ark

@@ -22,6 +22,7 @@
 
 #include "kernel/interface/AFINode.hpp"
 #include "AFClassMeta.hpp"
+#include "kernel/interface/AFIDataList.hpp"
 
 namespace ark {
 
@@ -29,7 +30,7 @@ class AFNodeManager final
 {
 public:
     using DataList = AFMap<uint32_t, AFINode>;
-    using NODE_MANAGER_FUNCTOR = std::function<int(const std::string&, const uint32_t, const AFIData&, const AFIData&)>;
+    using NODE_MANAGER_FUNCTOR = std::function<int(AFINode*, const AFIData&, const AFIData&)>;
 
 private:
     // class meta
@@ -45,13 +46,17 @@ public:
     AFNodeManager() = delete;
 
     explicit AFNodeManager(std::shared_ptr<AFClassMeta> pClassMeta);
-    explicit AFNodeManager(std::shared_ptr<AFClassMeta> pClassMeta, NODE_MANAGER_FUNCTOR&& func);
+    explicit AFNodeManager(
+        std::shared_ptr<AFClassMeta> pClassMeta, const AFIDataList& data_list, NODE_MANAGER_FUNCTOR&& func);
+
+    void InitData(const AFIDataList& args);
 
     bool IsEmpty() const;
 
     // data operation
     AFINode* CreateData(std::shared_ptr<AFNodeMeta> pDataMeta);
     bool CreateData(AFINode* pData);
+    AFINode* CreateData(const std::string& name);
 
     // get node
     AFINode* GetNode(const std::string& name) const;

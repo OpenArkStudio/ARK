@@ -46,9 +46,11 @@ public:
     bool DoClassEvent(const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event,
         const AFIDataList& args) override;
 
-    std::shared_ptr<AFClassMeta> FindMeta(const std::string& class_name) override;
-
+    std::shared_ptr<AFClassMeta> FindMeta(const std::string& class_name) const override;
     const AFClassMetaManager::ClassMetaList& GetMetaList() const override;
+
+    std::shared_ptr<AFClassMeta> FindStaticMeta(const std::string& class_name) const override;
+    const AFClassMetaManager::ClassMetaList& GetStaticMetaList() const override;
 
 protected:
     bool LoadConfig();

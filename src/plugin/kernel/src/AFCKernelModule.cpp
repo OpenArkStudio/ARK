@@ -22,6 +22,9 @@
 #include "kernel/include/AFCKernelModule.hpp"
 #include "kernel/include/AFCEntity.hpp"
 #include "log/interface/AFILogModule.hpp"
+#include "kernel/include/AFCTable.hpp"
+#include "kernel/include/AFCDataList.hpp"
+#include "kernel/include/AFCContainer.hpp"
 
 namespace ark {
 
@@ -52,6 +55,8 @@ bool AFCKernelModule::Init()
         std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
     AddCommonContainerCallBack(std::move(container_func), 999999); // after other callbacks being done
 
+    AddSyncCallBack();
+
     return true;
 }
 
@@ -69,7 +74,7 @@ bool AFCKernelModule::Update()
         delete_list_.clear();
     }
 
-    for (auto iter : objects_)
+    for (auto& iter : objects_)
     {
         auto pEntity = iter.second;
         if (pEntity == nullptr)
@@ -80,6 +85,8 @@ bool AFCKernelModule::Update()
         pEntity->Update();
     }
 
+    AFClassCallBackManager::OnDelaySync();
+
     return true;
 }
 
@@ -88,46 +95,40 @@ bool AFCKernelModule::PreShut()
     return DestroyAll();
 }
 
-bool AFCKernelModule::CopyData(std::shared_ptr<AFIEntity> pEntity, const ID_TYPE config_id)
+bool AFCKernelModule::CopyData(std::shared_ptr<AFIEntity> pEntity, std::shared_ptr<AFIStaticEntity> pStaticEntity)
 {
-    if (pEntity == nullptr)
+    if (pEntity == nullptr || nullptr == pStaticEntity)
     {
         return false;
     }
 
-    if (config_id > 0)
+    // static node manager must be not empty
+    auto pStaticNodeManager = GetNodeManager(pStaticEntity);
+    if (pStaticNodeManager == nullptr || pStaticNodeManager->IsEmpty())
     {
-        // static node manager must be not empty
-        auto pStaticEntity = GetStaticEntity(config_id);
-        auto pStaticNodeManager = GetNodeManager(pStaticEntity);
-        if (pStaticNodeManager == nullptr || pStaticNodeManager->IsEmpty())
-        {
-            return false;
-        }
-
-        // node manager must be empty
-        auto pNodeManager = GetNodeManager(pEntity);
-        if (pNodeManager == nullptr || !pNodeManager->IsEmpty())
-        {
-            return false;
-        }
-
-        // copy data
-        auto& data_list = pStaticNodeManager->GetDataList();
-        for (auto iter : data_list)
-        {
-            auto pData = iter.second;
-            pNodeManager->CreateData(pData);
-        }
-
-        return true;
+        return false;
     }
 
-    return false;
+    // node manager must be empty
+    auto pNodeManager = GetNodeManager(pEntity);
+    if (pNodeManager == nullptr || !pNodeManager->IsEmpty())
+    {
+        return false;
+    }
+
+    // copy data
+    auto& data_list = pStaticNodeManager->GetDataList();
+    for (auto& iter : data_list)
+    {
+        auto pData = iter.second;
+        pNodeManager->CreateData(pData);
+    }
+
+    return true;
 }
 
-std::shared_ptr<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const int map_id, const int map_instance_id,
-    const std::string& class_name, const ID_TYPE config_id, const AFIDataList& args)
+std::shared_ptr<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const int map_id,
+    const int map_instance_id, const std::string& class_name, const ID_TYPE config_id, const AFIDataList& args)
 {
     AFGUID object_id = self;
 
@@ -151,6 +152,23 @@ std::shared_ptr<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, con
         return nullptr;
     }
 
+    std::shared_ptr<AFIStaticEntity> pStaticEntity = nullptr;
+    if (config_id > 0)
+    {
+        auto pStaticEntity = GetStaticEntity(config_id);
+        if (nullptr == pStaticEntity)
+        {
+            ARK_LOG_ERROR("There is no config, config_id = {}", config_id);
+            return nullptr;
+        }
+
+        if (pStaticEntity->GetClassName() != class_name)
+        {
+            ARK_LOG_ERROR("Config class does not match entity class, config_id = {}", config_id);
+            return nullptr;
+        }
+    }
+
     // check args num
     size_t arg_count = args.GetCount();
     if (arg_count % 2 != 0)
@@ -172,51 +190,23 @@ std::shared_ptr<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, con
     }
 
     std::shared_ptr<AFIEntity> pEntity =
-        std::make_shared<AFCEntity>(pClassMeta, object_id, config_id, map_id, map_instance_id);
+        std::make_shared<AFCEntity>(pClassMeta, object_id, config_id, map_id, map_instance_id, args);
 
     objects_.insert(object_id, pEntity);
 
-    pMapInfo->AddEntityToInstance(
-        map_instance_id, object_id, ((class_name == AFEntityMetaPlayer::self_name()) ? true : false));
+    if (class_name == AFEntityMetaPlayer::self_name())
+    {
+        pMapInfo->AddEntityToInstance(map_instance_id, object_id, true);
+    }
+    //else if (class_name == AFEntityMetaPlayer::self_name()) // to do : npc type for now we do not have
+    //{
+    //}
 
-    CopyData(pEntity, config_id);
+    CopyData(pEntity, pStaticEntity);
 
     DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_PRE_LOAD_DATA, args);
 
-    for (size_t i = 0; i < arg_count; i += 2)
-    {
-        auto data_type = args.GetType(i);
-        auto index = args.UInt(i + 1);
-        switch (data_type)
-        {
-            case ark::ArkDataType::DT_BOOLEAN:
-                pEntity->SetBool(index, args.Bool(i));
-                break;
-            case ark::ArkDataType::DT_INT32:
-                pEntity->SetInt32(index, args.Int(i));
-                break;
-            case ark::ArkDataType::DT_UINT32:
-                pEntity->SetUInt32(index, args.UInt(i));
-                break;
-            case ark::ArkDataType::DT_INT64:
-                pEntity->SetInt64(index, args.Int64(i));
-                break;
-            case ark::ArkDataType::DT_UINT64:
-                pEntity->SetUInt64(index, args.UInt64(i));
-                break;
-            case ark::ArkDataType::DT_FLOAT:
-                pEntity->SetFloat(index, args.Float(i));
-                break;
-            case ark::ArkDataType::DT_DOUBLE:
-                pEntity->SetDouble(index, args.Double(i));
-                break;
-            case ark::ArkDataType::DT_STRING:
-                pEntity->SetString(index, args.String(i));
-                break;
-            default:
-                break;
-        }
-    }
+    // original args here
 
     DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_LOAD_DATA, args);
     DoEvent(object_id, class_name, ArkEntityEvent::ENTITY_EVT_PRE_EFFECT_DATA, args);
@@ -251,6 +241,23 @@ std::shared_ptr<AFIEntity> AFCKernelModule::CreateContainerEntity(
         return nullptr;
     }
 
+    std::shared_ptr<AFIStaticEntity> pStaticEntity = nullptr;
+    if (config_id > 0)
+    {
+        auto pStaticEntity = GetStaticEntity(config_id);
+        if (nullptr == pStaticEntity)
+        {
+            ARK_LOG_ERROR("There is no config, config_id = {}", config_id);
+            return nullptr;
+        }
+
+        if (pStaticEntity->GetClassName() != class_name)
+        {
+            ARK_LOG_ERROR("Config class does not match entity class, config_id = {}", config_id);
+            return nullptr;
+        }
+    }
+
     auto map_id = pEntity->GetMapID();
     auto pMapInfo = m_pMapModule->GetMapInfo(map_id);
     if (pMapInfo == nullptr)
@@ -276,11 +283,11 @@ std::shared_ptr<AFIEntity> AFCKernelModule::CreateContainerEntity(
     }
 
     std::shared_ptr<AFIEntity> pContainerEntity =
-        std::make_shared<AFCEntity>(pClassMeta, object_id, config_id, map_id, map_instance_id);
+        std::make_shared<AFCEntity>(pClassMeta, object_id, config_id, map_id, map_instance_id, AFCDataList());
 
     objects_.insert(object_id, pContainerEntity);
 
-    CopyData(pContainerEntity, config_id);
+    CopyData(pContainerEntity, pStaticEntity);
 
     pContainer->Place(pContainerEntity);
 
@@ -308,8 +315,14 @@ std::shared_ptr<AFIEntity> AFCKernelModule::GetEntity(const AFGUID& self)
 
 bool AFCKernelModule::DestroyAll()
 {
-    for (auto iter : objects_)
+    for (auto& iter : objects_)
     {
+        auto& pEntity = iter.second;
+        if (pEntity->GetParentContainer() != nullptr)
+        {
+            continue;
+        }
+
         delete_list_.push_back(iter.second->GetID());
     }
 
@@ -399,7 +412,7 @@ bool AFCKernelModule::AddClassCallBack(const std::string& class_name, CLASS_EVEN
     return m_pClassModule->AddClassCallBack(class_name, std::forward<CLASS_EVENT_FUNCTOR>(cb), prio);
 }
 
-bool AFCKernelModule::AddDataCallBack(
+bool AFCKernelModule::AddNodeCallBack(
     const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
     auto pClassMeta = m_pClassModule->FindMeta(class_name);
@@ -411,7 +424,7 @@ bool AFCKernelModule::AddDataCallBack(
         return false;
     }
 
-    AddDataCallBack(class_name, index, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb), prio);
+    AddNodeCallBack(class_name, index, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb), prio);
 
     return true;
 }
@@ -433,7 +446,7 @@ bool AFCKernelModule::AddTableCallBack(
     return true;
 }
 
-bool AFCKernelModule::AddDataCallBack(
+bool AFCKernelModule::AddNodeCallBack(
     const std::string& class_name, const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
     auto pClassMeta = m_pClassModule->FindMeta(class_name);
@@ -490,7 +503,7 @@ bool AFCKernelModule::AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb, c
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
 
     auto& meta_list = pClassMeta->GetContainerMetaList();
-    for (auto iter : meta_list)
+    for (auto& iter : meta_list)
     {
         auto pMeta = iter.second;
         if (!pMeta)
@@ -508,15 +521,10 @@ bool AFCKernelModule::AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb, c
 bool AFCKernelModule::AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
     auto& class_meta_list = m_pClassModule->GetMetaList();
-    for (auto iter : class_meta_list)
+    for (auto& iter : class_meta_list)
     {
         auto pClassMeta = iter.second;
         if (nullptr == pClassMeta)
-        {
-            continue;
-        }
-
-        if (!pClassMeta->IsEntityMeta())
         {
             continue;
         }
@@ -527,56 +535,640 @@ bool AFCKernelModule::AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb, const int32_
     return true;
 }
 
-bool AFCKernelModule::AddCommonNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio)
+void AFCKernelModule::AddSyncCallBack()
 {
-    auto& class_meta_list = m_pClassModule->GetMetaList();
-    for (auto iter : class_meta_list)
+    // node sync call back
+    auto node_func = std::bind(&AFCKernelModule::OnSyncNode, this, std::placeholders::_1, std::placeholders::_2,
+        std::placeholders::_3, std::placeholders::_4);
+
+    AFClassCallBackManager::AddNodeSyncCallBack(ArkDataMask::PF_SYNC_VIEW, std::move(node_func));
+    AFClassCallBackManager::AddNodeSyncCallBack(ArkDataMask::PF_SYNC_SELF, std::move(node_func));
+
+    // table sync call back
+    auto table_func = std::bind(&AFCKernelModule::OnSyncTable, this, std::placeholders::_1, std::placeholders::_2,
+        std::placeholders::_3, std::placeholders::_4);
+
+    AFClassCallBackManager::AddTableSyncCallBack(ArkDataMask::PF_SYNC_VIEW, std::move(table_func));
+    AFClassCallBackManager::AddTableSyncCallBack(ArkDataMask::PF_SYNC_SELF, std::move(table_func));
+
+    // container sync call back
+    auto container_func =
+        std::bind(&AFCKernelModule::OnSyncContainer, this, std::placeholders::_1, std::placeholders::_2,
+            std::placeholders::_3, std::placeholders::_4, std::placeholders::_5, std::placeholders::_6);
+
+    AFClassCallBackManager::AddContainerSyncCallBack(ArkDataMask::PF_SYNC_VIEW, std::move(container_func));
+    AFClassCallBackManager::AddContainerSyncCallBack(ArkDataMask::PF_SYNC_SELF, std::move(container_func));
+
+    // data delay call back
+    auto delay_func = std::bind(
+        &AFCKernelModule::OnDelaySyncData, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+
+    AFClassCallBackManager::AddDelaySyncCallBack(ArkDataMask::PF_SYNC_VIEW, std::move(delay_func));
+    AFClassCallBackManager::AddDelaySyncCallBack(ArkDataMask::PF_SYNC_SELF, std::move(delay_func));
+
+    // send msg functor
+    auto view_func = std::bind(&AFCKernelModule::SendToView, this, std::placeholders::_1, std::placeholders::_2);
+    sync_functors.insert(std::make_pair(ArkDataMask::PF_SYNC_VIEW, std::forward<SYNC_FUNCTOR>(view_func)));
+
+    auto self_func = std::bind(&AFCKernelModule::SendToSelf, this, std::placeholders::_1, std::placeholders::_2);
+    sync_functors.insert(std::make_pair(ArkDataMask::PF_SYNC_SELF, std::forward<SYNC_FUNCTOR>(self_func)));
+}
+
+int AFCKernelModule::OnSyncNode(
+    const AFGUID& self, const uint32_t index, const ArkDataMask mask_value, const AFIData& data)
+{
+    // find parent entity
+    auto pEntity = GetEntity(self);
+    if (pEntity == nullptr)
     {
-        auto pClassMeta = iter.second;
-        if (nullptr == pClassMeta)
-        {
-            continue;
-        }
+        ARK_LOG_ERROR("sync node failed entity do no exist, self={}", self);
+        return -1;
+    }
 
-        if (!pClassMeta->IsEntityMeta())
-        {
-            continue;
-        }
+    AFMsg::pb_entity pb_data;
+    auto entity_id = self;
+    auto pb_entity = pb_data.mutable_data();
 
-        auto& data_meta_list = pClassMeta->GetDataMetaList();
-        for (auto iter_data : data_meta_list)
+    auto pParentContainer = pEntity->GetParentContainer();
+    if (pParentContainer != nullptr)
+    {
+        if (!TryAddContainerPBEntity(pParentContainer, self, *pb_data.mutable_data(), entity_id, pb_entity))
         {
-            AddDataCallBack(iter.first, iter_data.first, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb), prio);
+            ARK_LOG_ERROR("sync node failed container entity do no exist, self={}", self);
+            return -1;
         }
     }
+
+    if (!NodeToPBData(index, data, pb_entity))
+    {
+        ARK_LOG_ERROR("node to pb failed, self={}, index={}", self, index);
+        return -1;
+    }
+
+    pb_data.set_id(entity_id);
+    if (SendSyncMsg(entity_id, mask_value, pb_data) < 0)
+    {
+        ARK_LOG_ERROR("send sync msg failed, self={}, index={}", entity_id, index);
+        return -1;
+    }
+
+    return 0;
+}
+
+int AFCKernelModule::OnSyncTable(
+    const AFGUID& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value, const AFIData& data)
+{
+    ArkTableOpType op_type = static_cast<ArkTableOpType>(event.op_type_);
+    switch (op_type)
+    {
+        case ArkTableOpType::TABLE_ADD:
+        {
+            OnSyncTableAdd(self, event, mask_value);
+        }
+        break;
+        case ArkTableOpType::TABLE_DELETE:
+        {
+            OnSyncTableDelete(self, event, mask_value);
+        }
+        break;
+        case ArkTableOpType::TABLE_SWAP:
+            // do not have yet
+            break;
+        case ArkTableOpType::TABLE_UPDATE:
+        {
+            OnSyncTableUpdate(self, event, mask_value, data);
+        }
+        break;
+        case ArkTableOpType::TABLE_COVERAGE:
+            // will do something
+            break;
+        default:
+            break;
+    }
+
+    return 0;
+}
+
+int AFCKernelModule::OnSyncContainer(const AFGUID& self, const uint32_t index, const ArkDataMask mask,
+    const ArkContainerOpType op_type, uint32_t src_index, uint32_t dest_index)
+{
+    switch (op_type)
+    {
+        case ArkContainerOpType::OP_PLACE:
+        {
+            OnSyncContainerPlace(self, index, mask, src_index);
+        }
+        break;
+        case ArkContainerOpType::OP_REMOVE:
+        {
+            OnSyncContainerRemove(self, index, mask, src_index);
+        }
+        break;
+        case ArkContainerOpType::OP_DESTROY:
+        {
+            OnSyncContainerDestroy(self, index, mask, src_index);
+        }
+        break;
+        case ArkContainerOpType::OP_SWAP:
+        {
+            OnSyncContainerSwap(self, index, mask, src_index, dest_index);
+        }
+        break;
+        default:
+            break;
+    }
+    return 0;
+}
+
+int AFCKernelModule::OnDelaySyncData(const AFGUID& self, const ArkDataMask mask_value, const AFDelaySyncData& data)
+{
+    if (data.node_list_.size() == 0 && data.table_list_.size() == 0)
+    {
+        return 0;
+    }
+
+    // find parent entity
+    auto pEntity = GetEntity(self);
+    if (pEntity == nullptr)
+    {
+        ARK_LOG_ERROR("sync delay data failed entity do no exist, self={}", self);
+        return -1;
+    }
+
+    AFMsg::pb_delay_entity pb_data;
+    auto entity_id = self;
+    auto pb_entity = pb_data.mutable_data();
+
+    auto pParentContainer = pEntity->GetParentContainer();
+    if (pParentContainer != nullptr)
+    {
+        if (!TryAddContainerPBEntity(pParentContainer, self, *pb_data.mutable_data(), entity_id, pb_entity))
+        {
+            ARK_LOG_ERROR("sync delay data failed container entity do no exist, self={}", self);
+            return -1;
+        }
+    }
+
+    // node to pb
+    for (auto& iter : data.node_list_)
+    {
+        auto pNode = iter;
+        if (!NodeToPBData(pNode, pb_entity))
+        {
+            continue;
+        }
+    }
+
+    // table to pb
+    for (auto& iter : data.table_list_)
+    {
+        auto table_index = iter.first;
+        auto& table = iter.second;
+        DelayTableToPB(table, table_index, pb_data, *pb_entity);
+    }
+
+    // container to pb
+    for (auto& iter : data.container_list_)
+    {
+        auto container_index = iter.first;
+        auto& container = iter.second;
+        DelayContainerToPB(pEntity, container, container_index, pb_data);
+    }
+
+    pb_data.set_id(entity_id);
+
+    if (SendSyncMsg(entity_id, mask_value, pb_data) < 0)
+    {
+        ARK_LOG_ERROR("send sync msg failed, self={}", self);
+        return -1;
+    }
+
+    return 0;
+}
+
+int AFCKernelModule::OnSyncTableAdd(const AFGUID& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value)
+{
+    // find parent entity
+    auto pEntity = GetEntity(self);
+    if (pEntity == nullptr)
+    {
+        ARK_LOG_ERROR("sync table failed entity do no exist, self={}", self);
+        return -1;
+    }
+
+    auto pTable = pEntity->FindTable(event.table_index_);
+    if (nullptr == pTable)
+    {
+        ARK_LOG_ERROR("sync table failed table do no exist, self={}, table={}", self, event.table_name_);
+        return -1;
+    }
+
+    auto pRow = pTable->FindRow(event.row_);
+    if (nullptr == pRow)
+    {
+        ARK_LOG_ERROR(
+            "sync table failed table row do no exist, self={}, table={}, row={}", self, event.table_name_, event.row_);
+        return -1;
+    }
+
+    AFMsg::pb_entity_table_add pb_data;
+    auto entity_id = self;
+    auto pb_entity = pb_data.mutable_data();
+
+    auto pParentContainer = pEntity->GetParentContainer();
+    if (pParentContainer != nullptr)
+    {
+        if (!TryAddContainerPBEntity(pParentContainer, self, *pb_data.mutable_data(), entity_id, pb_entity))
+        {
+            ARK_LOG_ERROR("sync node failed container entity do no exist, self={}", self);
+            return -1;
+        }
+    }
+
+    AFMsg::pb_entity_data pb_row;
+    if (!RowToPBData(pRow, event.row_, &pb_row))
+    {
+        ARK_LOG_ERROR(
+            "sync table failed table row do no exist, self={}, table={}, row={}", self, event.table_name_, event.row_);
+        return -1;
+    }
+
+    AFMsg::pb_table pb_table;
+    pb_table.mutable_datas_value()->insert({event.row_, pb_row});
+    pb_entity->mutable_datas_table()->insert({event.table_index_, pb_table});
+
+    pb_data.set_id(entity_id);
+    SendSyncMsg(entity_id, mask_value, pb_data);
+
+    return 0;
+}
+
+int AFCKernelModule::OnSyncTableDelete(const AFGUID& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value)
+{
+    // find parent entity
+    auto pEntity = GetEntity(self);
+    if (pEntity == nullptr)
+    {
+        ARK_LOG_ERROR("sync table failed entity do no exist, self={}", self);
+        return -1;
+    }
+
+    AFMsg::pb_entity_table_delete pb_data;
+    auto entity_id = self;
+    auto pb_entity = pb_data.mutable_data();
+
+    auto pParentContainer = pEntity->GetParentContainer();
+    if (pParentContainer != nullptr)
+    {
+        if (!TryAddContainerPBEntity(pParentContainer, self, *pb_data.mutable_data(), entity_id, pb_entity))
+        {
+            ARK_LOG_ERROR("sync node failed container entity do no exist, self={}", self);
+            return -1;
+        }
+    }
+
+    AFMsg::pb_entity_data pb_row;
+    AFMsg::pb_table pb_table;
+    pb_table.mutable_datas_value()->insert({event.row_, pb_row});
+    pb_entity->mutable_datas_table()->insert({event.table_index_, pb_table});
+
+    SendSyncMsg(entity_id, mask_value, pb_data);
+    return 0;
+}
+
+int AFCKernelModule::OnSyncTableUpdate(
+    const AFGUID& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value, const AFIData& data)
+{
+    // find parent entity
+    auto pEntity = GetEntity(self);
+    if (pEntity == nullptr)
+    {
+        ARK_LOG_ERROR("sync table failed entity do no exist, self={}", self);
+        return -1;
+    }
+
+    AFMsg::pb_entity_table_update pb_data;
+    auto entity_id = self;
+    auto pb_entity = pb_data.mutable_data();
+
+    auto pParentContainer = pEntity->GetParentContainer();
+    if (pParentContainer != nullptr)
+    {
+        if (!TryAddContainerPBEntity(pParentContainer, self, *pb_data.mutable_data(), entity_id, pb_entity))
+        {
+            ARK_LOG_ERROR("sync node failed container entity do no exist, self={}", self);
+            return -1;
+        }
+    }
+
+    AFMsg::pb_entity_data pb_row;
+    if (!NodeToPBData(event.data_index_, data, &pb_row))
+    {
+        ARK_LOG_ERROR(
+            "sync table failed table node do no exist, self={}, table={}, row={}", self, event.table_name_, event.row_);
+        return -1;
+    }
+
+    AFMsg::pb_table pb_table;
+    pb_table.mutable_datas_value()->insert({event.row_, pb_row});
+    pb_entity->mutable_datas_table()->insert({event.table_index_, pb_table});
+
+    pb_data.set_id(entity_id);
+    SendSyncMsg(entity_id, mask_value, pb_data);
+    return 0;
+}
+
+int AFCKernelModule::OnSyncContainerPlace(
+    const AFGUID& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index)
+{
+    // find parent entity
+    auto pEntity = GetEntity(self);
+    if (pEntity == nullptr)
+    {
+        ARK_LOG_ERROR("sync container failed entity do no exist, self={}", self);
+        return -1;
+    }
+
+    auto pContainer = pEntity->FindContainer(index);
+    if (pEntity == nullptr)
+    {
+        ARK_LOG_ERROR("sync container failed container do no exist, self={}, container={}", self, index);
+        return -1;
+    }
+
+    auto pContainerEntity = pContainer->Find(src_index);
+    if (pContainerEntity == nullptr)
+    {
+        ARK_LOG_ERROR("sync container failed container entity do no exist, self={}, container={}, entity={}", self,
+            index, src_index);
+        return -1;
+    }
+
+    if (pContainerEntity->IsSent())
+    {
+        AFMsg::pb_container_place pb_data;
+        pb_data.set_id(self);
+        pb_data.set_index(index);
+        pb_data.set_entity_index(src_index);
+        pb_data.set_entity_id(pContainerEntity->GetID());
+
+        SendSyncMsg(self, mask, pb_data);
+    }
+    else
+    {
+        AFMsg::pb_container_create pb_data;
+        if (!EntityToPBData(pContainerEntity, pb_data.mutable_data()))
+        {
+            ARK_LOG_ERROR("sync container failed container entity to pb failed, self={}, container={}, entity={}", self,
+                index, src_index);
+            return -1;
+        }
+
+        pb_data.set_id(self);
+        pb_data.set_index(index);
+        pb_data.set_entity_index(src_index);
+
+        SendSyncMsg(self, mask, pb_data);
+    }
+
+    return 0;
+}
+
+int AFCKernelModule::OnSyncContainerRemove(
+    const AFGUID& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index)
+{
+    // find parent entity
+    auto pEntity = GetEntity(self);
+    if (pEntity == nullptr)
+    {
+        ARK_LOG_ERROR("sync container failed entity do no exist, self={}", self);
+        return -1;
+    }
+
+    AFMsg::pb_container_remove pb_data;
+    pb_data.set_id(self);
+    pb_data.set_index(index);
+    pb_data.set_entity_index(src_index);
+
+    SendSyncMsg(self, mask, pb_data);
+
+    return 0;
+}
+
+int AFCKernelModule::OnSyncContainerDestroy(
+    const AFGUID& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index)
+{
+    // find parent entity
+    auto pEntity = GetEntity(self);
+    if (pEntity == nullptr)
+    {
+        ARK_LOG_ERROR("sync container failed entity do no exist, self={}", self);
+        return -1;
+    }
+
+    AFMsg::pb_container_destroy pb_data;
+    pb_data.set_id(self);
+    pb_data.set_index(index);
+    pb_data.set_entity_index(src_index);
+
+    SendSyncMsg(self, mask, pb_data);
+
+    return 0;
+}
+
+int AFCKernelModule::OnSyncContainerSwap(
+    const AFGUID& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index, uint32_t dest_index)
+{
+    // find parent entity
+    auto pEntity = GetEntity(self);
+    if (pEntity == nullptr)
+    {
+        ARK_LOG_ERROR("sync container failed entity do no exist, self={}", self);
+        return -1;
+    }
+
+    AFMsg::pb_container_swap pb_data;
+    pb_data.set_id(self);
+    pb_data.set_index(index);
+    pb_data.set_src_index(src_index);
+    pb_data.set_dest_index(dest_index);
+
+    SendSyncMsg(self, mask, pb_data);
+
+    return 0;
+}
+
+bool AFCKernelModule::DelayTableToPB(
+    const AFDelaySyncTable& table, const uint32_t index, AFMsg::pb_delay_entity& data, AFMsg::pb_entity_data& pb_entity)
+{
+    AFMsg::pb_table pb_table;
+    AFMsg::delay_clear_row clear_row_list;
+    for (auto& iter : table.row_list_)
+    {
+        AFMsg::pb_entity_data pb_row;
+
+        auto row_index = iter.first;
+        auto& row_data = iter.second;
+        for (auto& iter_row : row_data.node_list_)
+        {
+            auto pNode = iter_row;
+            if (NodeToPBData(pNode, &pb_row))
+            {
+                pb_table.mutable_datas_value()->insert({row_index, pb_row});
+            }
+        }
+
+        if (row_data.need_clear_)
+        {
+            clear_row_list.add_row_list(row_index);
+        }
+    }
+
+    if (table.need_clear_)
+    {
+        data.add_clear_tables(index);
+    }
+
+    if (clear_row_list.row_list_size() > 0)
+    {
+        data.mutable_clear_rows()->insert({index, clear_row_list});
+    }
+
+    pb_entity.mutable_datas_table()->insert({index, pb_table});
 
     return true;
 }
 
-bool AFCKernelModule::AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio)
+bool AFCKernelModule::DelayContainerToPB(std::shared_ptr<AFIEntity> pEntity, const AFDelaySyncContainer& container,
+    const uint32_t index, AFMsg::pb_delay_entity& data)
 {
-    auto& class_meta_list = m_pClassModule->GetMetaList();
-    for (auto iter : class_meta_list)
+    AFMsg::delay_container pb_delay_container;
+    AFMsg::pb_container pb_conatiner;
+    for (auto& iter : container.index_list_)
     {
-        auto pClassMeta = iter.second;
-        if (nullptr == pClassMeta)
+        auto entity_index = iter;
+        auto pContaier = pEntity->FindContainer(index);
+        if (pContaier == nullptr)
         {
             continue;
         }
 
-        if (!pClassMeta->IsEntityMeta())
+        auto pContainerEntity = pContaier->Find(entity_index);
+        if (pContainerEntity == nullptr)
         {
-            continue;
+            pb_delay_container.mutable_entity_list()->insert({entity_index, NULL_GUID});
         }
-
-        auto& table_meta_list = pClassMeta->GetTableMetaList();
-        for (auto iter_data : table_meta_list)
+        else if (pEntity->IsSent())
         {
-            AddTableCallBack(iter.first, iter_data.first, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb), prio);
+            pb_delay_container.mutable_entity_list()->insert({entity_index, pContainerEntity->GetID()});
+        }
+        else
+        {
+            AFMsg::pb_entity pb_container_entity;
+            if (!EntityToPBData(pContainerEntity, &pb_container_entity))
+            {
+                continue;
+            }
+
+            pb_conatiner.mutable_datas_value()->insert({entity_index, pb_container_entity});
         }
     }
 
+    if (pb_conatiner.datas_value_size() > 0)
+    {
+        data.mutable_data()->mutable_datas_container()->insert({index, pb_conatiner});
+    }
+    data.mutable_container_entity()->insert({index, pb_delay_container});
+
+    AFMsg::delay_container pb_destroy_entity;
+    for (auto& iter : container.destroy_list_)
+    {
+        auto entity_index = iter;
+        pb_destroy_entity.mutable_entity_list()->insert({entity_index, NULL_GUID});
+    }
+
+    data.mutable_destroy_entity()->insert({index, pb_destroy_entity});
+
     return true;
+}
+
+bool AFCKernelModule::TryAddContainerPBEntity(std::shared_ptr<AFIContainer> pContainer, const AFGUID& self,
+    AFMsg::pb_entity_data& pb_entity_data, AFGUID& parent_id, AFMsg::pb_entity_data* pb_container_entity)
+{
+    parent_id = pContainer->GetParentID();
+    auto pParentEntity = GetEntity(parent_id);
+    if (pParentEntity == nullptr)
+    {
+        ARK_LOG_ERROR("parent entity do no exist, parent={}", parent_id);
+        return false;
+    }
+
+    auto self_index = pContainer->Find(self);
+    if (self_index == 0)
+    {
+        ARK_LOG_ERROR("entity is not in container, self={}", self);
+        return false;
+    }
+
+    AFMsg::pb_entity pb_entity;
+    pb_container_entity = pb_entity.mutable_data();
+    AFMsg::pb_container pb_container;
+
+    pb_container.mutable_datas_value()->insert({self_index, pb_entity});
+    pb_entity_data.mutable_datas_container()->insert({pContainer->GetIndex(), pb_container});
+
+    return true;
+}
+
+int AFCKernelModule::SendSyncMsg(const AFGUID& self, const ArkDataMask mask_value, const google::protobuf::Message& msg)
+{
+    auto iter = sync_functors.find(mask_value);
+    if (iter == sync_functors.end())
+    {
+        return -1;
+    }
+
+    iter->second(self, msg);
+
+    return 0;
+}
+
+int AFCKernelModule::SendToView(const AFGUID& self, const google::protobuf::Message& msg)
+{
+    auto pEntity = GetEntity(self);
+    if (nullptr == pEntity)
+    {
+        return -1;
+    }
+
+    auto map_id = pEntity->GetMapID();
+    auto inst_id = pEntity->GetMapEntityID();
+
+    AFCDataList map_inst_entity_list;
+    m_pMapModule->GetInstEntityList(map_id, inst_id, map_inst_entity_list);
+
+    for (size_t i = 0; i < map_inst_entity_list.GetCount(); i++)
+    {
+        auto pViewEntity = GetEntity(map_inst_entity_list.Int64(i));
+        if (pViewEntity == nullptr)
+        {
+            continue;
+        }
+
+        const std::string& strObjClassName = pViewEntity->GetClassName();
+        if (AFEntityMetaPlayer::self_name() == strObjClassName)
+        {
+            SendToSelf(pViewEntity->GetID(), msg);
+        }
+    }
+
+    return 0;
+}
+
+int AFCKernelModule::SendToSelf(const AFGUID& self, const google::protobuf::Message& msg)
+{
+    //SendMsgPBToGate(AFMsg::EGMI_ACK_NODE_DATA, entity, ident);
+    return 0;
 }
 
 bool AFCKernelModule::DoEvent(
@@ -621,7 +1213,7 @@ int AFCKernelModule::LogObjectData(const AFGUID& guid)
     ARK_ASSERT_RET_VAL(pTableManager != nullptr, -1);
 
     auto& node_list = pNodeManager->GetDataList();
-    for (auto iter : node_list)
+    for (auto& iter : node_list)
     {
         auto pData = iter.second;
         if (!pData)
@@ -633,7 +1225,7 @@ int AFCKernelModule::LogObjectData(const AFGUID& guid)
     }
 
     auto& table_list = pTableManager->GetTableList();
-    for (auto iter : table_list)
+    for (auto& iter : table_list)
     {
         auto pTable = iter.second;
         if (!pTable)
@@ -650,7 +1242,7 @@ int AFCKernelModule::LogObjectData(const AFGUID& guid)
             }
 
             auto& row_data_list = pRowNodeManager->GetDataList();
-            for (auto iter_row : row_data_list)
+            for (auto& iter_row : row_data_list)
             {
                 auto pNode = iter_row.second;
                 if (!pNode)
@@ -726,7 +1318,7 @@ bool AFCKernelModule::EntityToDBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::
 
     // node to db
     auto& node_list = pNodeManager->GetDataList();
-    for (auto iter : node_list)
+    for (auto& iter : node_list)
     {
         auto pNode = iter.second;
         if (!pNode)
@@ -734,7 +1326,7 @@ bool AFCKernelModule::EntityToDBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::
             continue;
         }
 
-        if (!pNode->HaveMask(ArkNodeMask::PF_SAVE))
+        if (!pNode->HaveMask(ArkDataMask::PF_SAVE))
         {
             continue;
         }
@@ -744,7 +1336,7 @@ bool AFCKernelModule::EntityToDBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::
 
     // table to db
     auto& table_list = pTableManager->GetTableList();
-    for (auto iter : table_list)
+    for (auto& iter : table_list)
     {
         auto pTable = iter.second;
         if (!pTable)
@@ -752,7 +1344,7 @@ bool AFCKernelModule::EntityToDBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::
             continue;
         }
 
-        if (!pTable->HaveMask(ArkTableNodeMask::PF_SAVE))
+        if (!pTable->HaveMask(ArkDataMask::PF_SAVE))
         {
             continue;
         }
@@ -768,7 +1360,7 @@ bool AFCKernelModule::EntityToDBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::
 
     // container to db
     auto& container_list = pContainerManager->GetContainerList();
-    for (auto iter : container_list)
+    for (auto& iter : container_list)
     {
         auto pContainer = iter.second;
         if (!pContainer)
@@ -823,35 +1415,51 @@ std::shared_ptr<AFIEntity> AFCKernelModule::CreateEntity(const AFMsg::pb_db_enti
 
     auto map_id = pb_data.map_id();
     auto map_inst_id = pb_data.map_inst_id();
+    auto pMapInfo = m_pMapModule->GetMapInfo(map_id);
+    if (pMapInfo == nullptr)
+    {
+        ARK_LOG_ERROR("There is no scene, scene = {}", map_id);
+        return nullptr;
+    }
 
-    pEntity = std::make_shared<AFCEntity>(pClassMeta, entity_id, NULL_INT, map_id, map_inst_id);
+    auto pCEntity = std::make_shared<AFCEntity>(pClassMeta, entity_id, NULL_INT, map_id, map_inst_id, AFCDataList());
+    pEntity = std::static_pointer_cast<AFIEntity>(pCEntity);
 
     objects_.insert(entity_id, pEntity);
+
+    if (class_name == AFEntityMetaPlayer::self_name())
+    {
+        pMapInfo->AddEntityToInstance(map_inst_id, entity_id, true);
+    }
+    //else if (class_name == AFEntityMetaPlayer::self_name()) // to do : npc type for now we do not have
+    //{
+    //}
 
     // init data
     auto& pb_db_entity_data = pb_data.data();
 
-    DBDataToNode(pEntity, pb_db_entity_data);
-
-    //array data(todo : whether we need this?)
-    //for (auto iter : pb_db_entity_data.datas_bool())
-    //{
-    //    pEntity->SetBool(iter.first, iter.second);
-    //}
+    // node data
+    auto pNodeManager = pCEntity->GetNodeManager();
+    if (nullptr != pNodeManager)
+    {
+        DBDataToNode(pNodeManager, pb_db_entity_data);
+    }
 
     // table data
-    for (auto iter : pb_db_entity_data.datas_table())
+    auto pTableManager = pCEntity->GetTableManager();
+    if (nullptr != pTableManager)
     {
-        DBDataToTable(pEntity, iter.first, iter.second);
+        for (auto& iter : pb_db_entity_data.datas_table())
+        {
+            DBDataToTable(pEntity, iter.first, iter.second);
+        }
     }
 
     // container data
-    for (auto iter : pb_db_entity_data.datas_entity())
+    for (auto& iter : pb_db_entity_data.datas_entity())
     {
         DBDataToContainer(pEntity, iter.first, iter.second);
     }
-
-    // pMapInfo->AddEntityToInstance(map_inst_id, entity_id, true);
 
     // todo : add new event?
     AFCDataList args;
@@ -915,14 +1523,15 @@ bool AFCKernelModule::SendCustomMessage(const AFGUID& target, const uint32_t msg
 
 // pb table to entity table
 bool AFCKernelModule::DBDataToTable(
-    std::shared_ptr<AFIEntity> pEntityData, const std::string& name, const AFMsg::pb_db_table& pb_table)
+    std::shared_ptr<AFIEntity> pEntity, const std::string& name, const AFMsg::pb_db_table& pb_table)
 {
-    ARK_ASSERT_RET_VAL(pEntityData != nullptr, false);
-
-    auto pTable = pEntityData->FindTable(name);
+    auto pTable = pEntity->FindTable(name);
     ARK_ASSERT_RET_VAL(pTable != nullptr, false);
 
-    for (auto iter : pb_table.datas_value())
+    auto pCTable = dynamic_cast<AFCTable*>(pTable);
+    ARK_ASSERT_RET_VAL(pCTable != nullptr, false);
+
+    for (auto& iter : pb_table.datas_value())
     {
         auto row_index = iter.first;
         if (row_index == NULL_INT)
@@ -931,13 +1540,19 @@ bool AFCKernelModule::DBDataToTable(
         }
 
         auto& pb_db_entity_data = iter.second;
-        auto pRow = pTable->AddRow(row_index);
+        auto pRow = pCTable->CreateRow(row_index, AFCDataList());
         if (pRow == nullptr)
         {
             continue;
         }
 
-        DBDataToNode(pRow, pb_db_entity_data);
+        auto pNodeManager = GetNodeManager(pRow);
+        if (pNodeManager == nullptr)
+        {
+            continue;
+        }
+
+        DBDataToNode(pNodeManager, pb_db_entity_data);
     }
 
     return true;
@@ -946,23 +1561,27 @@ bool AFCKernelModule::DBDataToTable(
 bool AFCKernelModule::DBDataToContainer(
     std::shared_ptr<AFIEntity> pEntity, const std::string& name, const AFMsg::pb_db_container& pb_data)
 {
-    ARK_ASSERT_RET_VAL(pEntity != nullptr, false);
-
-    for (auto iter : pb_data.datas_value())
+    auto pContainer = pEntity->FindContainer(name);
+    if (nullptr == pContainer)
     {
-        auto pContainer = pEntity->FindContainer(iter.first);
-        if (nullptr == pContainer)
-        {
-            continue;
-        }
+        return false;
+    }
 
+    auto pCContainer = std::dynamic_pointer_cast<AFCContainer>(pContainer);
+    if (nullptr == pCContainer)
+    {
+        return false;
+    }
+
+    for (auto& iter : pb_data.datas_value())
+    {
         auto pContainerEntity = CreateEntity(iter.second);
         if (nullptr == pContainerEntity)
         {
             continue;
         }
 
-        pContainer->Place(pContainerEntity);
+        pCContainer->InitEntityList(iter.first, pContainerEntity);
     }
 
     return true;
@@ -989,55 +1608,103 @@ int AFCKernelModule::OnContainerCallBack(const AFGUID& self, const uint32_t inde
     return 0;
 }
 
-template<typename T>
-bool AFCKernelModule::DBDataToNode(T pData, const AFMsg::pb_db_entity_data& pb_db_entity_data)
+bool AFCKernelModule::DBDataToNode(
+    std::shared_ptr<AFNodeManager> pNodeManager, const AFMsg::pb_db_entity_data& pb_db_entity_data)
 {
     //bool data
-    for (auto iter : pb_db_entity_data.datas_bool())
+    for (auto& iter : pb_db_entity_data.datas_bool())
     {
-        pData->SetBool(iter.first, iter.second);
+        auto pNode = pNodeManager->CreateData(iter.first);
+        if (pNode == nullptr)
+        {
+            continue;
+        }
+
+        pNode->SetBool(iter.second);
     }
 
     //int32 data
-    for (auto iter : pb_db_entity_data.datas_int32())
+    for (auto& iter : pb_db_entity_data.datas_int32())
     {
-        pData->SetInt32(iter.first, iter.second);
+        auto pNode = pNodeManager->CreateData(iter.first);
+        if (pNode == nullptr)
+        {
+            continue;
+        }
+
+        pNode->SetInt32(iter.second);
     }
 
     //uint32 data
-    for (auto iter : pb_db_entity_data.datas_uint32())
+    for (auto& iter : pb_db_entity_data.datas_uint32())
     {
-        pData->SetUInt32(iter.first, iter.second);
+        auto pNode = pNodeManager->CreateData(iter.first);
+        if (pNode == nullptr)
+        {
+            continue;
+        }
+
+        pNode->SetUInt32(iter.second);
     }
 
     //int64 data
-    for (auto iter : pb_db_entity_data.datas_int64())
+    for (auto& iter : pb_db_entity_data.datas_int64())
     {
-        pData->SetInt64(iter.first, iter.second);
+        auto pNode = pNodeManager->CreateData(iter.first);
+        if (pNode == nullptr)
+        {
+            continue;
+        }
+
+        pNode->SetInt64(iter.second);
     }
 
     //uint64 data
-    for (auto iter : pb_db_entity_data.datas_uint64())
+    for (auto& iter : pb_db_entity_data.datas_uint64())
     {
-        pData->SetUInt64(iter.first, iter.second);
+        auto pNode = pNodeManager->CreateData(iter.first);
+        if (pNode == nullptr)
+        {
+            continue;
+        }
+
+        pNode->SetUInt64(iter.second);
     }
 
     //float data
-    for (auto iter : pb_db_entity_data.datas_float())
+    for (auto& iter : pb_db_entity_data.datas_float())
     {
-        pData->SetFloat(iter.first, iter.second);
+        auto pNode = pNodeManager->CreateData(iter.first);
+        if (pNode == nullptr)
+        {
+            continue;
+        }
+
+        pNode->SetFloat(iter.second);
     }
 
     //double data
-    for (auto iter : pb_db_entity_data.datas_double())
+    for (auto& iter : pb_db_entity_data.datas_double())
     {
-        pData->SetDouble(iter.first, iter.second);
+        auto pNode = pNodeManager->CreateData(iter.first);
+        if (pNode == nullptr)
+        {
+            continue;
+        }
+
+        pNode->SetDouble(iter.second);
     }
 
     //string data
-    for (auto iter : pb_db_entity_data.datas_string())
+    for (auto& iter : pb_db_entity_data.datas_string())
     {
-        pData->SetString(iter.first, iter.second);
+        auto pNode = pNodeManager->CreateData(iter.first);
+        if (pNode == nullptr)
+        {
+            continue;
+        }
+
+        pNode->SetString(iter.second);
     }
 
     return true;
@@ -1098,7 +1765,7 @@ bool AFCKernelModule::TableToDBData(AFITable* pTable, AFMsg::pb_db_table& pb_dat
         AFMsg::pb_db_entity_data row_data;
 
         auto& data_list = pNodeManager->GetDataList();
-        for (auto iter : data_list)
+        for (auto& iter : data_list)
         {
             NodeToDBData(iter.second, row_data);
         }
@@ -1205,6 +1872,11 @@ bool AFCKernelModule::TableToPBData(AFITable* pTable, const uint32_t index, AFMs
     return true;
 }
 
+bool AFCKernelModule::ContainerToPBData(std::shared_ptr<AFIContainer> pContainer, AFMsg::pb_container* pb_data)
+{
+    return false;
+}
+
 bool AFCKernelModule::RowToPBData(AFIRow* pRow, const uint32_t index, AFMsg::pb_entity_data* pb_data)
 {
     ARK_ASSERT_RET_VAL(pRow != nullptr && index > 0 && pb_data != nullptr, false);
@@ -1216,7 +1888,7 @@ bool AFCKernelModule::RowToPBData(AFIRow* pRow, const uint32_t index, AFMsg::pb_
     }
 
     auto& data_list = pNodeManager->GetDataList();
-    for (auto iter : data_list)
+    for (auto& iter : data_list)
     {
         NodeToPBData(iter.second, pb_data);
     }
@@ -1243,62 +1915,17 @@ bool AFCKernelModule::TableRowDataToPBData(
     return true;
 }
 
-//node all to pb data
-bool AFCKernelModule::NodeAllToPBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data)
-{
-    ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
-
-    auto pNodeManager = GetNodeManager(pEntity);
-    ARK_ASSERT_RET_VAL(pNodeManager != nullptr, false);
-
-    auto& data_list = pNodeManager->GetDataList();
-    for (auto iter : data_list)
-    {
-        NodeToPBData(iter.second, pb_data);
-    }
-
-    return true;
-}
-
-//table all to pb data
-bool AFCKernelModule::TableAllToPBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data)
-{
-    ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
-
-    auto pTableManager = GetTableManager(pEntity);
-    ARK_ASSERT_RET_VAL(pTableManager != nullptr, false);
-
-    auto& data_list = pTableManager->GetTableList();
-    for (auto iter : data_list)
-    {
-        auto pTable = iter.second;
-        if (!pTable)
-        {
-            continue;
-        }
-        const auto index = pTable->GetIndex();
-
-        AFMsg::pb_table table_data;
-        if (!TableToPBData(pTable, index, &table_data))
-        {
-            continue;
-        }
-
-        pb_data->mutable_datas_table()->insert({index, table_data});
-    }
-
-    return true;
-}
-
 bool AFCKernelModule::EntityToPBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity* pb_data)
 {
     ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
 
     pb_data->set_id(pEntity->GetID());
 
-    NodeAllToPBData(pEntity, pb_data->mutable_data());
+    EntityNodeToPBData(pEntity, pb_data->mutable_data());
 
-    TableAllToPBData(pEntity, pb_data->mutable_data());
+    EntityTableToPBData(pEntity, pb_data->mutable_data());
+
+    EntityContainerToPBData(pEntity, pb_data->mutable_data());
 
     return true;
 }
@@ -1310,16 +1937,56 @@ bool AFCKernelModule::EntityToPBDataByMask(
 
     pb_data->set_id(pEntity->GetID());
 
-    NodeToPBDataByMask(pEntity, mask, pb_data->mutable_data());
+    EntityNodeToPBData(pEntity, pb_data->mutable_data(), mask);
 
-    TableToPBDataByMask(pEntity, mask, pb_data->mutable_data());
+    EntityTableToPBData(pEntity, pb_data->mutable_data(), mask);
+
+    EntityContainerToPBData(pEntity, pb_data->mutable_data(), mask);
+
+    return true;
+}
+
+bool AFCKernelModule::EntityContainerToPBData(
+    std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data, const ArkMaskType mask)
+{
+    ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
+
+    auto pContainerManager = GetContainerManager(pEntity);
+    ARK_ASSERT_RET_VAL(pContainerManager != nullptr, false);
+
+    auto& container_list = pContainerManager->GetContainerList();
+    for (auto& iter : container_list)
+    {
+        auto pContainer = iter.second;
+        if (!pContainer)
+        {
+            continue;
+        }
+
+        if (!mask.none())
+        {
+            auto result = (pContainer->GetMask() & mask);
+            if (!result.any())
+            {
+                continue;
+            }
+        }
+
+        AFMsg::pb_container pb_container;
+        if (!ContainerToPBData(pContainer, &pb_container))
+        {
+            continue;
+        }
+
+        pb_data->mutable_datas_container()->insert({iter.first, pb_container});
+    }
 
     return true;
 }
 
 //node all to pb data
-bool AFCKernelModule::NodeToPBDataByMask(
-    std::shared_ptr<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data)
+bool AFCKernelModule::EntityNodeToPBData(
+    std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data, const ArkMaskType mask /* = 0*/)
 {
     ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
 
@@ -1327,7 +1994,7 @@ bool AFCKernelModule::NodeToPBDataByMask(
     ARK_ASSERT_RET_VAL(pNodeManager != nullptr, false);
 
     auto& data_list = pNodeManager->GetDataList();
-    for (auto iter : data_list)
+    for (auto& iter : data_list)
     {
         auto pNode = iter.second;
         if (!pNode)
@@ -1335,10 +2002,13 @@ bool AFCKernelModule::NodeToPBDataByMask(
             continue;
         }
 
-        auto result = (pNode->GetMask() & mask);
-        if (!result.any())
+        if (!mask.none())
         {
-            continue;
+            auto result = (pNode->GetMask() & mask);
+            if (!result.any())
+            {
+                continue;
+            }
         }
 
         NodeToPBData(pNode, pb_data);
@@ -1347,8 +2017,8 @@ bool AFCKernelModule::NodeToPBDataByMask(
     return true;
 }
 
-bool AFCKernelModule::TableToPBDataByMask(
-    std::shared_ptr<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data)
+bool AFCKernelModule::EntityTableToPBData(
+    std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data, const ArkMaskType mask /* = 0*/)
 {
     ARK_ASSERT_RET_VAL(pEntity != nullptr && pb_data != nullptr, false);
 
@@ -1356,7 +2026,7 @@ bool AFCKernelModule::TableToPBDataByMask(
     ARK_ASSERT_RET_VAL(pTableManager != nullptr, false);
 
     auto& data_list = pTableManager->GetTableList();
-    for (auto iter : data_list)
+    for (auto& iter : data_list)
     {
         auto pTable = iter.second;
         if (!pTable)
@@ -1364,10 +2034,13 @@ bool AFCKernelModule::TableToPBDataByMask(
             continue;
         }
 
-        auto result = (pTable->GetMask() & mask);
-        if (!result.any())
+        if (!mask.none())
         {
-            continue;
+            auto result = (pTable->GetMask() & mask);
+            if (!result.any())
+            {
+                continue;
+            }
         }
 
         const auto index = pTable->GetIndex();

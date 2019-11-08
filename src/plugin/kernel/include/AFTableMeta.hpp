@@ -70,7 +70,7 @@ public:
     ArkDataType GetColType(const uint32_t index) const;
 
     const ArkMaskType GetMask() const;
-    bool HaveMask(const ArkTableNodeMask feature) const;
+    bool HaveMask(const ArkDataMask feature) const;
     void SetMask(const ArkMaskType& feature);
 
     bool IsPublic() const;

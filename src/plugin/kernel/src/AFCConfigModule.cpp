@@ -53,7 +53,7 @@ bool AFCConfigModule::Load()
         return false;
     }
 
-    auto& class_meta_list = m_pClassModule->GetMetaList();
+    auto& class_meta_list = m_pClassModule->GetStaticMetaList();
     for (auto iter : class_meta_list)
     {
         auto class_meta = iter.second;
