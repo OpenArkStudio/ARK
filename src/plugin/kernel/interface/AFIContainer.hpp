@@ -37,7 +37,7 @@ public:
     virtual const std::string& GetName() const = 0;
     virtual const ArkMaskType GetMask() const = 0;
     virtual const AFGUID& GetParentID() const = 0;
-    virtual const uint32_t GetIndex() const = 0;
+    virtual uint32_t GetIndex() const = 0;
     virtual uint32_t First() = 0;
     virtual uint32_t Next() = 0;
     virtual std::shared_ptr<AFIEntity> Find(uint32_t index) const = 0;

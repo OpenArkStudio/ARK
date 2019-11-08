@@ -63,7 +63,7 @@ public:
     // get parent unique id
     const AFGUID& GetParentID() const override;
 
-    const uint32_t GetIndex() const override;
+    uint32_t GetIndex() const override;
 
     uint32_t First() override;
     uint32_t Next() override;

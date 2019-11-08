@@ -24,7 +24,7 @@
 #include "kernel/include/AFCStaticEntity.hpp"
 #include "kernel/include/AFCEventManager.hpp"
 #include "kernel/include/AFCContainerManager.hpp"
-#include "..\include\AFCEntity.hpp"
+#include "kernel/include/AFCEntity.hpp"
 
 namespace ark {
 

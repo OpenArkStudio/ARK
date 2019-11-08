@@ -36,7 +36,7 @@ const AFGUID& AFCContainer::GetParentID() const
     return parent_;
 }
 
-const uint32_t AFCContainer::GetIndex() const
+uint32_t AFCContainer::GetIndex() const
 {
     ARK_ASSERT_RET_VAL(container_meta_ != nullptr, false);
 
