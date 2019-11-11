@@ -1038,7 +1038,7 @@ public:
             return false;
         }
 
-        string::const_iterator start = str.begin();
+        std::string::const_iterator start = str.begin();
         if (*start == '-')
         {
             ++start;

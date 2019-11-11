@@ -11,6 +11,9 @@
 #include <stdexcept>
 #include <cctype>
 #include <cstring>
+#include <cstdint>
+#include <cstdio>
+
 using namespace std;
 
 namespace detail {

@@ -608,13 +608,13 @@ public:
         }
     }
 
-    // Returns true if hour < 12;
+    /// Returns true if hour < 12;
     bool IsAM() const
     {
         return GetHour() < 12;
     }
 
-    // Returns true if hour >= 12.
+    /// Returns true if hour >= 12.
     bool IsPM() const
     {
         return GetHour() >= 12;
@@ -627,7 +627,7 @@ public:
         return tm.tm_min;
     }
 
-    // Returns the second (0 to 59).
+    /// Returns the second (0 to 59).
     int GetSecond() const
     {
         std::tm tm = GetUTCTime();

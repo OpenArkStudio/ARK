@@ -21,6 +21,7 @@
 #pragma once
 
 #include "base/AFPlatform.hpp"
+#include <common/lexical_cast.hpp>
 #include "spdlog/fmt/fmt.h"
 
 // Input param type
@@ -113,9 +114,9 @@ static size_t strlcpy(char* dst, const char* src, size_t siz)
 #define FORCE_INLINE __forceinline
 
 #define DYNLIB_HANDLE hInstance
-#define DYNLIB_LOAD(a) LoadLibraryEx(a, NULL, LOAD_WITH_ALTERED_SEARCH_PATH)
-#define DYNLIB_GETSYM(a, b) GetProcAddress(a, b)
-#define DYNLIB_UNLOAD(a) FreeLibrary(a)
+#define DYNLIB_LOAD(a) LoadLibraryEx((a), NULL, LOAD_WITH_ALTERED_SEARCH_PATH)
+#define DYNLIB_GETSYM(a, b) GetProcAddress((a), (b))
+#define DYNLIB_UNLOAD(a) FreeLibrary((a))
 
 struct HINSTANCE__;
 typedef struct HINSTANCE__* hInstance;
@@ -145,25 +146,25 @@ typedef struct HINSTANCE__* hInstance;
 #define ARK_UNUSED __attribute__((unused))
 
 #define DYNLIB_HANDLE void*
-#define DYNLIB_LOAD(a) dlopen(a, RTLD_LAZY | RTLD_GLOBAL)
-#define DYNLIB_GETSYM(a, b) dlsym(a, b)
-#define DYNLIB_UNLOAD(a) dlclose(a)
+#define DYNLIB_LOAD(a) dlopen((a), RTLD_LAZY | RTLD_GLOBAL)
+#define DYNLIB_GETSYM(a, b) dlsym((a), (b))
+#define DYNLIB_UNLOAD(a) dlclose((a))
 
 #define ARK_FOLDER_SEP '/'
 
 #define FORCE_INLINE inline __attribute__((always_inline))
-#define BIG_CONSTANT(x) (x##LLU)
+#define BIG_CONSTANT(x) ((x)##LLU)
 
 #elif defined(ARK_PLATFORM_DARWIN)
 
 #define DYNLIB_HANDLE void*
-#define DYNLIB_LOAD(a) mac_loadDylib(a)
-#define DYNLIB_GETSYM(a, b) dlsym(a, b)
-#define DYNLIB_UNLOAD(a) dlclose(a)
+#define DYNLIB_LOAD(a) mac_loadDylib((a))
+#define DYNLIB_GETSYM(a, b) dlsym((a), (b))
+#define DYNLIB_UNLOAD(a) dlclose((a))
 
 #define ARK_FOLDER_SEP '/'
 #define FORCE_INLINE inline __attribute__((always_inline))
-#define BIG_CONSTANT(x) (x##LLU)
+#define BIG_CONSTANT(x) ((x)##LLU)
 
 #endif
 
@@ -257,7 +258,6 @@ typedef struct HINSTANCE__* hInstance;
         assert(exp_);                                                                                                  \
     } while (false)
 
-#include "common/lexical_cast.hpp"
 #define ARK_LEXICAL_CAST lexical_cast
 
 // cpp version
@@ -296,14 +296,14 @@ typedef struct HINSTANCE__* hInstance;
 #endif
 
 #ifndef ARK_NEW_ARRAY
-#define ARK_NEW_ARRAY(T, size) new T[size];
+#define ARK_NEW_ARRAY(T, size) new T[(size)];
 #endif
 
 #ifndef ARK_NEW_ARRAY_RET
 #define ARK_NEW_ARRAY_RET(T, size)                                                                                     \
     do                                                                                                                 \
     {                                                                                                                  \
-        return new (nothrow) T[size];                                                                                  \
+        return new (nothrow) T[(size)];                                                                                \
     } while (false);
 #endif // ARK_NEW_ARRAY_RET
 
@@ -311,10 +311,10 @@ typedef struct HINSTANCE__* hInstance;
 #define ARK_DELETE(p)                                                                                                  \
     do                                                                                                                 \
     {                                                                                                                  \
-        if (p != nullptr)                                                                                              \
+        if ((p) != nullptr)                                                                                            \
         {                                                                                                              \
-            delete p;                                                                                                  \
-            p = nullptr;                                                                                               \
+            delete (p);                                                                                                \
+            (p) = nullptr;                                                                                             \
         }                                                                                                              \
     } while (false);
 #endif
@@ -323,9 +323,9 @@ typedef struct HINSTANCE__* hInstance;
 #define ARK_DELETE_ARRAY(T, p)                                                                                         \
     do                                                                                                                 \
     {                                                                                                                  \
-        if (p != nullptr)                                                                                              \
+        if ((p) != nullptr)                                                                                            \
         {                                                                                                              \
-            T* t_ptr = static_cast<T*>(p);                                                                             \
+            T* t_ptr = static_cast<T*>((p));                                                                           \
             delete[] t_ptr;                                                                                            \
             t_ptr = nullptr;                                                                                           \
         }                                                                                                              \
@@ -338,8 +338,9 @@ typedef struct HINSTANCE__* hInstance;
 #define CONSOLE_INFO_LOG std::cout << ""
 #define CONSOLE_ERROR_LOG std::cerr << ""
 
-#define ARK_FORMAT(my_fmt, ...) fmt::format(my_fmt, ##__VA_ARGS__);
-#define ARK_FORMAT_FUNCTION(my_fmt, ...) fmt::format(std::string("[{}:{}]") + my_fmt, ARK_FUNCTION_LINE, ##__VA_ARGS__);
+#define ARK_FORMAT(my_fmt, ...) fmt::format((my_fmt), ##__VA_ARGS__);
+#define ARK_FORMAT_FUNCTION(my_fmt, ...)                                                                               \
+    fmt::format(std::string("[{}:{}]") + (my_fmt), ARK_FUNCTION_LINE, ##__VA_ARGS__);
 
 #define ARK_SRATIC_ASSERT static_assert
 #define GET_CLASS_NAME(class_name) (typeid(class_name).name())
@@ -471,4 +472,4 @@ private:                                                                        
     std::string name_{};
 ////////////////////////////////////////////////////////////////////////////
 // clear player data time
-#define CLEAR_HOUR 5
+constexpr int CLEAR_HOUR = 5;

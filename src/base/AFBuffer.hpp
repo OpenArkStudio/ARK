@@ -22,24 +22,21 @@
 
 namespace ark {
 
-class AFBuffer
+class AFBuffer final
 {
 public:
-    ~AFBuffer()
-    {
-        if (data_ != nullptr)
-        {
-            free(data_);
-            data_ = nullptr;
-        }
-    }
-
     explicit AFBuffer(size_t buffer_size = 1024 * 512)
     {
-        if ((data_ = (char*)malloc(sizeof(char) * buffer_size)) != NULL)
+        data_ = ARK_NEW_ARRAY(char, buffer_size);
+        if (data_ != nullptr)
         {
             data_size_ = buffer_size;
         }
+    }
+
+    ~AFBuffer()
+    {
+        ARK_DELETE_ARRAY(char, data_);
     }
 
     bool write(const char* data, size_t len)

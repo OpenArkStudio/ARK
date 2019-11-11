@@ -49,7 +49,11 @@ inline void add(std::tm& tm, std::chrono::system_clock::duration time)
     auto tp = std::chrono::system_clock::from_time_t(std::mktime(&tm));
     auto tp_adjusted = tp + time;
     auto tm_adjusted = std::chrono::system_clock::to_time_t(tp_adjusted);
+#ifdef ARK_PLATFORM_WIN
     tm = *std::localtime(&tm_adjusted);
+#else
+    tm = *std::localtime_r(&tm_adjusted);
+#endif
 }
 
 class AFCron
@@ -77,7 +81,11 @@ public:
     {
         // get current time as a tm object
         auto now = Clock::to_time_t(from);
+#ifdef ARK_PLATFORM_WIN
         std::tm next(*std::localtime(&now));
+#else
+        std::tm next(*std::localtime_r(&now));
+#endif
         // it will always at least run the next minute
         next.tm_sec = 0;
         add(next, std::chrono::minutes(1));
@@ -140,7 +148,11 @@ public:
         return Clock::from_time_t(std::mktime(&next));
     }
 
-    int minute, hour, day, month, day_of_week;
+    int minute{0};
+    int hour{0};
+    int day{0};
+    int month{0};
+    int day_of_week{0};
 
 private:
     inline void verify_and_set(const std::string& token, const std::string& expression, int& field,

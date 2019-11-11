@@ -39,15 +39,15 @@ const static std::string NULL_STR = "";
 const static std::wstring NULL_WIDESTR = L"";
 const static AFGUID NULL_GUID = 0;
 const static nullptr_t NULL_POINT = nullptr;
-const static AFVector3D NULL_VECTOR3D = AFVector3D(0.0f, 0.0f, 0.0f);
+const static AFVector3D NULL_VECTOR3D = AFVector3D(0.0F, 0.0F, 0.0F);
 
-static const std::string CONFIG_CLASS_FILE_PATH = "meta/config_class.config";
-static const std::string ENTITY_CLASS_FILE_PATH = "meta/entity_class.config";
-static const std::string PROC_CONFIG_FILE_PATH = "conf/proc.xml";
-static const std::string BUS_RELATION_CONFIG_FILE_PATH = "conf/bus_relation.xml";
-static const std::string REG_CENTER_CONFIG_FILE_PATH = "conf/reg_center.xml";
+const static std::string CONFIG_CLASS_FILE_PATH = "meta/config_class.config";
+const static std::string ENTITY_CLASS_FILE_PATH = "meta/entity_class.config";
+const static std::string PROC_CONFIG_FILE_PATH = "conf/proc.xml";
+const static std::string BUS_RELATION_CONFIG_FILE_PATH = "conf/bus_relation.xml";
+const static std::string REG_CENTER_CONFIG_FILE_PATH = "conf/reg_center.xml";
 
-//data define(only support based integer type)
+/// data define(only support based integer type)
 using ID_TYPE = uint32_t;
 
 using ArkMaskType = std::bitset<16>;
@@ -60,19 +60,19 @@ public:
     uint8_t nOpType{0};
     int16_t nRow{-1};
     int16_t nCol{-1};
-    DataTableName strName{""};
+    DataTableName strName{};
 };
 
-//----record new call back------
+/// Table callback data
 class TABLE_EVENT_DATA
 {
 public:
     TABLE_EVENT_DATA() = default;
 
-    uint8_t op_type_{0u};
-    size_t row_{0u};
-    uint32_t data_index_{0u};
-    uint32_t table_index_{0u};
+    uint8_t op_type_{0};
+    size_t row_{0};
+    uint32_t data_index_{0};
+    uint32_t table_index_{0};
     std::string table_name_{NULL_STR};
 };
 
@@ -84,12 +84,7 @@ using DATA_NODE_EVENT_FUNCTOR =
 
 using CONTAINER_EVENT_FUNCTOR =
     std::function<int(const AFGUID&, const uint32_t, const ArkContainerOpType, const uint32_t, const uint32_t)>;
-////------------------------------
-//
-//using DATA_NODE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)>;
-//using DATA_TABLE_EVENT_FUNCTOR =
-//    std::function<int(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
-//using LITLE_DATA_TABLE_EVENT_FUNCTOR = std::function<int(const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
+
 using CLASS_EVENT_FUNCTOR =
     std::function<bool(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&)>;
 using EVENT_PROCESS_FUNCTOR = std::function<int(const AFGUID&, const int, const AFIDataList&)>;
