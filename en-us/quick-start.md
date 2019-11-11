@@ -55,7 +55,7 @@ Using CMake
 3. Start `ark.sln`
 4. Run `ARK/bin/tools/gen-config.bat` to generate configuration files
 > [!WARNING]
-> Need python3 environment.
+> Need python3 environment.The 3rd dependencies in `ARK/bin/tools/config_tool/README.md`.
 5. Install the [Consul](https://consul.io), run the command below,
     ```bash
     cd path/to/consul
@@ -99,7 +99,7 @@ To accelerate the building speed, you can use `make -j [num]` to run multiple co
 3. Run `ARK/bin/tools/gen-config.sh` to generate configuration files
 
 > [!WARNING] 
-> Need install `Python3` first
+> Need python3 environment.The 3rd dependencies in `ARK/bin/tools/config_tool/README.md`.
 
 4. Install the [Consul](https://consul.io), run the command below,
     ```bash

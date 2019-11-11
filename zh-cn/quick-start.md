@@ -54,7 +54,7 @@ svn checkout https://github.com/ArkNX/ARK
 3. 编译 `ark.sln`
 4. 运行 `ARK/bin/tools/gen-config.bat` 生成配置文件
 > [!WARNING]
-> 需要安装Python3环境
+> 需要安装Python3环境，需要的第三方库请查看`ARK/bin/tools/config_tool/README.md`
 
 5. 安装[Consul](https://consul.io), 启动命令为:
    
@@ -101,7 +101,7 @@ svn checkout https://github.com/ArkNX/ARK
 3. 运行 `ARK/bin/tools/gen-config.sh` 生成配置文件
 
 > [!WARNING]
-> 需要安装python环境
+> 需要安装python环境，需要的第三方库请查看`ARK/bin/tools/config_tool/README.md`
 
 4. 安装[Consul](https://consul.io), 启动命令为:
    

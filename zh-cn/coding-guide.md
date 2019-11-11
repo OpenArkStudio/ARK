@@ -16,3 +16,12 @@
 - `接口`尽量使用意义清楚
 - 尽量使用11标准后的关键字,例如`final` `override`
 - 不要使用中文注释
+- 注释风格
+  ```cpp
+  /// only one line comment
+  
+  /**
+   * multi line comment
+   * another comment
+   */
+  ```
