@@ -56,7 +56,7 @@ namespace ark {
         return data_meta_->GetMask();                                                                                  \
     }                                                                                                                  \
                                                                                                                        \
-    bool HaveMask(ArkNodeMask mask) override                                                                           \
+    bool HaveMask(ArkDataMask mask) override                                                                           \
     {                                                                                                                  \
         ARK_ASSERT_RET_VAL(data_meta_ != nullptr, false);                                                              \
                                                                                                                        \

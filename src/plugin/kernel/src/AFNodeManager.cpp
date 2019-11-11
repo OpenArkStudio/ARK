@@ -29,10 +29,102 @@ AFNodeManager::AFNodeManager(std::shared_ptr<AFClassMeta> pClassMeta)
     class_meta_ = pClassMeta;
 }
 
-AFNodeManager::AFNodeManager(std::shared_ptr<AFClassMeta> pClassMeta, NODE_MANAGER_FUNCTOR&& func)
+AFNodeManager::AFNodeManager(
+    std::shared_ptr<AFClassMeta> pClassMeta, const AFIDataList& data_list, NODE_MANAGER_FUNCTOR&& func)
 {
     class_meta_ = pClassMeta;
     func_ = std::forward<NODE_MANAGER_FUNCTOR>(func);
+
+    InitData(data_list);
+}
+
+void AFNodeManager::InitData(const AFIDataList& args)
+{
+    size_t count = args.GetCount();
+    ARK_ASSERT_RET_NONE(count % 2 == 0);
+
+    for (size_t i = 0; i < count; i += 2)
+    {
+        auto data_type = args.GetType(i);
+        auto index = args.UInt(i + 1);
+        switch (data_type)
+        {
+            case ark::ArkDataType::DT_BOOLEAN:
+            {
+                AFINode* pNode = FindData(index);
+                if (pNode != nullptr)
+                {
+                    pNode->SetBool(args.Bool(i));
+                }
+            }
+            break;
+            case ark::ArkDataType::DT_INT32:
+            {
+                AFINode* pNode = FindData(index);
+                if (pNode != nullptr)
+                {
+                    pNode->SetInt32(args.Int(i));
+                }
+            }
+            break;
+            case ark::ArkDataType::DT_UINT32:
+            {
+                AFINode* pNode = FindData(index);
+                if (pNode != nullptr)
+                {
+                    pNode->SetUInt32(args.UInt(i));
+                }
+            }
+            break;
+            case ark::ArkDataType::DT_INT64:
+            {
+                AFINode* pNode = FindData(index);
+                if (pNode != nullptr)
+                {
+                    pNode->SetInt64(args.Int64(i));
+                }
+            }
+            break;
+            case ark::ArkDataType::DT_UINT64:
+            {
+                AFINode* pNode = FindData(index);
+                if (pNode != nullptr)
+                {
+                    pNode->SetUInt64(args.UInt64(i));
+                }
+            }
+            break;
+            case ark::ArkDataType::DT_FLOAT:
+            {
+                AFINode* pNode = FindData(index);
+                if (pNode != nullptr)
+                {
+                    pNode->SetFloat(args.Float(i));
+                }
+            }
+            break;
+            case ark::ArkDataType::DT_DOUBLE:
+            {
+                AFINode* pNode = FindData(index);
+                if (pNode != nullptr)
+                {
+                    pNode->SetDouble(args.Double(i));
+                }
+            }
+            break;
+            case ark::ArkDataType::DT_STRING:
+            {
+                AFINode* pNode = FindData(index);
+                if (pNode != nullptr)
+                {
+                    pNode->SetString(args.String(i));
+                }
+            }
+            break;
+            default:
+                break;
+        }
+    }
 }
 
 bool AFNodeManager::IsEmpty() const
@@ -79,6 +171,14 @@ bool AFNodeManager::CreateData(AFINode* pData)
     }
 
     return true;
+}
+
+AFINode* AFNodeManager::CreateData(const std::string& name)
+{
+    auto index = GetIndex(name);
+    ARK_ASSERT_RET_VAL(index > 0, nullptr);
+
+    return FindData(index);
 }
 
 // get node
@@ -339,11 +439,12 @@ bool AFNodeManager::SetGUID(const std::string& name, const AFGUID& value)
 
 bool AFNodeManager::SetBool(const uint32_t index, bool value)
 {
-    AFINode* pData = FindData(index);
+    auto pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_BOOLEAN, false);
+    auto data_type = pData->GetType();
+    ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_BOOLEAN, false);
 
     auto old_value = pData->GetBool();
     pData->SetBool(value);
@@ -351,8 +452,7 @@ bool AFNodeManager::SetBool(const uint32_t index, bool value)
     if (old_value != value && func_)
     {
         // data callbacks
-        ArkDataType data_type = pData->GetType();
-        func_(pData->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
+        func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
     }
 
     return true;
@@ -360,11 +460,12 @@ bool AFNodeManager::SetBool(const uint32_t index, bool value)
 
 bool AFNodeManager::SetInt32(const uint32_t index, const int32_t value)
 {
-    AFINode* pData = FindData(index);
+    auto pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_INT32, false);
+    auto data_type = pData->GetType();
+    ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_INT32, false);
 
     auto old_value = pData->GetInt32();
     pData->SetInt32(value);
@@ -372,8 +473,7 @@ bool AFNodeManager::SetInt32(const uint32_t index, const int32_t value)
     if (old_value != value && func_)
     {
         // data callbacks
-        ArkDataType data_type = pData->GetType();
-        func_(pData->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
+        func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
     }
 
     return true;
@@ -381,11 +481,12 @@ bool AFNodeManager::SetInt32(const uint32_t index, const int32_t value)
 
 bool AFNodeManager::SetUInt32(const uint32_t index, const uint32_t value)
 {
-    AFINode* pData = FindData(index);
+    auto pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_UINT32, false);
+    auto data_type = pData->GetType();
+    ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_UINT32, false);
 
     auto old_value = pData->GetUInt32();
     pData->SetUInt32(value);
@@ -393,8 +494,7 @@ bool AFNodeManager::SetUInt32(const uint32_t index, const uint32_t value)
     if (old_value != value && func_)
     {
         // data callbacks
-        ArkDataType data_type = pData->GetType();
-        func_(pData->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
+        func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
     }
 
     return true;
@@ -402,11 +502,12 @@ bool AFNodeManager::SetUInt32(const uint32_t index, const uint32_t value)
 
 bool AFNodeManager::SetInt64(const uint32_t index, const int64_t value)
 {
-    AFINode* pData = FindData(index);
+    auto pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_INT64, false);
+    auto data_type = pData->GetType();
+    ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_INT64, false);
 
     auto old_value = pData->GetInt64();
     pData->SetInt64(value);
@@ -414,8 +515,7 @@ bool AFNodeManager::SetInt64(const uint32_t index, const int64_t value)
     if (old_value != value && func_)
     {
         // data callbacks
-        ArkDataType data_type = pData->GetType();
-        func_(pData->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
+        func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
     }
 
     return true;
@@ -423,11 +523,12 @@ bool AFNodeManager::SetInt64(const uint32_t index, const int64_t value)
 
 bool AFNodeManager::SetUInt64(const uint32_t index, const uint64_t value)
 {
-    AFINode* pData = FindData(index);
+    auto pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_INT64, false);
+    auto data_type = pData->GetType();
+    ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_INT64, false);
 
     auto old_value = pData->GetUInt64();
     pData->SetUInt64(value);
@@ -435,8 +536,7 @@ bool AFNodeManager::SetUInt64(const uint32_t index, const uint64_t value)
     if (old_value != value && func_)
     {
         // data callbacks
-        ArkDataType data_type = pData->GetType();
-        func_(pData->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
+        func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
     }
 
     return true;
@@ -444,11 +544,12 @@ bool AFNodeManager::SetUInt64(const uint32_t index, const uint64_t value)
 
 bool AFNodeManager::SetFloat(const uint32_t index, const float value)
 {
-    AFINode* pData = FindData(index);
+    auto pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_FLOAT, false);
+    auto data_type = pData->GetType();
+    ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_FLOAT, false);
 
     auto old_value = pData->GetFloat();
     pData->SetFloat(value);
@@ -456,8 +557,7 @@ bool AFNodeManager::SetFloat(const uint32_t index, const float value)
     if (old_value != value && func_)
     {
         // data callbacks
-        ArkDataType data_type = pData->GetType();
-        func_(pData->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
+        func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
     }
 
     return true;
@@ -465,11 +565,12 @@ bool AFNodeManager::SetFloat(const uint32_t index, const float value)
 
 bool AFNodeManager::SetDouble(const uint32_t index, const double value)
 {
-    AFINode* pData = FindData(index);
+    auto pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_DOUBLE, false);
+    auto data_type = pData->GetType();
+    ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_DOUBLE, false);
 
     auto old_value = pData->GetDouble();
     pData->SetDouble(value);
@@ -477,8 +578,7 @@ bool AFNodeManager::SetDouble(const uint32_t index, const double value)
     if (old_value != value && func_)
     {
         // data callbacks
-        ArkDataType data_type = pData->GetType();
-        func_(pData->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
+        func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
     }
 
     return true;
@@ -486,11 +586,12 @@ bool AFNodeManager::SetDouble(const uint32_t index, const double value)
 
 bool AFNodeManager::SetString(const uint32_t index, const std::string& value)
 {
-    AFINode* pData = FindData(index);
+    auto pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_STRING, false);
+    auto data_type = pData->GetType();
+    ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_STRING, false);
 
     auto old_value = pData->GetString();
     pData->SetString(value);
@@ -498,8 +599,7 @@ bool AFNodeManager::SetString(const uint32_t index, const std::string& value)
     if (old_value != value && func_)
     {
         // data callbacks
-        ArkDataType data_type = pData->GetType();
-        func_(pData->GetName(), index, AFCData(data_type, old_value.c_str()), AFCData(data_type, value.c_str()));
+        func_(pData, AFCData(data_type, old_value.c_str()), AFCData(data_type, value.c_str()));
     }
 
     return true;
@@ -507,11 +607,12 @@ bool AFNodeManager::SetString(const uint32_t index, const std::string& value)
 
 bool AFNodeManager::SetWString(const uint32_t index, const std::wstring& value)
 {
-    AFINode* pData = FindData(index);
+    auto pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_WSTRING, false);
+    auto data_type = pData->GetType();
+    ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_WSTRING, false);
 
     auto old_value = pData->GetWString();
     pData->SetWString(value);
@@ -519,8 +620,7 @@ bool AFNodeManager::SetWString(const uint32_t index, const std::wstring& value)
     if (old_value != value && func_)
     {
         // data callbacks
-        ArkDataType data_type = pData->GetType();
-        func_(pData->GetName(), index, AFCData(data_type, old_value.c_str()), AFCData(data_type, value.c_str()));
+        func_(pData, AFCData(data_type, old_value.c_str()), AFCData(data_type, value.c_str()));
     }
 
     return true;
@@ -528,11 +628,12 @@ bool AFNodeManager::SetWString(const uint32_t index, const std::wstring& value)
 
 bool AFNodeManager::SetGUID(const uint32_t index, const AFGUID& value)
 {
-    AFINode* pData = FindData(index);
+    auto pData = FindData(index);
 
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(pData->GetType() == ArkDataType::DT_GUID, false);
+    auto data_type = pData->GetType();
+    ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_GUID, false);
 
     auto old_value = pData->GetObject();
     pData->SetObject(value);
@@ -540,8 +641,7 @@ bool AFNodeManager::SetGUID(const uint32_t index, const AFGUID& value)
     if (old_value != value && func_)
     {
         // data callbacks
-        ArkDataType data_type = pData->GetType();
-        func_(pData->GetName(), index, AFCData(data_type, old_value), AFCData(data_type, value));
+        func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
     }
 
     return true;

@@ -73,7 +73,7 @@ const ArkMaskType AFTableMeta::GetMask() const
     return mask_;
 }
 
-bool AFTableMeta::HaveMask(const ArkTableNodeMask mask) const
+bool AFTableMeta::HaveMask(const ArkDataMask mask) const
 {
     return mask_.test((size_t)mask);
 }
@@ -85,22 +85,22 @@ void AFTableMeta::SetMask(const ArkMaskType& feature)
 
 bool AFTableMeta::IsPublic() const
 {
-    return mask_.test((size_t)ArkTableNodeMask::PF_PUBLIC);
+    return mask_.test((size_t)ArkDataMask::PF_SYNC_VIEW);
 }
 
 bool AFTableMeta::IsPrivate() const
 {
-    return mask_.test((size_t)ArkTableNodeMask::PF_PRIVATE);
+    return mask_.test((size_t)ArkDataMask::PF_SYNC_SELF);
 }
 
 bool AFTableMeta::IsRealTime() const
 {
-    return mask_.test((size_t)ArkTableNodeMask::PF_REAL_TIME);
+    return mask_.test((size_t)ArkDataMask::PF_REAL_TIME);
 }
 
 bool AFTableMeta::IsSave() const
 {
-    return mask_.test((size_t)ArkTableNodeMask::PF_SAVE);
+    return mask_.test((size_t)ArkDataMask::PF_SAVE);
 }
 
 void AFTableMeta::SetTypeName(const std::string& value)

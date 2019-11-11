@@ -70,7 +70,7 @@ public:
     TABLE_EVENT_DATA() = default;
 
     uint8_t op_type_{0};
-    size_t row_{0};
+    uint32_t row_{0};
     uint32_t data_index_{0};
     uint32_t table_index_{0};
     std::string table_name_{NULL_STR};

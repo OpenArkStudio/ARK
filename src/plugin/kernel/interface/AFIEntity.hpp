@@ -52,12 +52,17 @@ public:
     virtual bool IsSave(const uint32_t index) const = 0;
     virtual bool IsRealTime(const std::string& name) const = 0;
     virtual bool IsRealTime(const uint32_t index) const = 0;
-    virtual bool HaveMask(const std::string& name, ArkNodeMask feature) const = 0;
-    virtual bool HaveMask(const uint32_t index, ArkNodeMask feature) const = 0;
+    virtual bool HaveMask(const std::string& name, ArkDataMask feature) const = 0;
+    virtual bool HaveMask(const uint32_t index, ArkDataMask feature) const = 0;
 
     virtual ArkMaskType GetMask(const uint32_t index) const = 0;
 
     virtual const std::string& GetClassName() const = 0;
+
+    virtual ArkDataType GetNodeType(const std::string& name) const = 0;
+    virtual ArkDataType GetNodeType(const uint32_t value) const = 0;
+
+    virtual uint32_t GetIndex(const std::string& name) const = 0;
 
     virtual ID_TYPE GetConfigID() const = 0;
     virtual int32_t GetMapID() const = 0;

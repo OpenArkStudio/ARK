@@ -64,7 +64,7 @@ bool Sample3Module::PostInit()
     DataTest();
     TableTest();
 
-    m_pKernelModule->DestroyAll();
+    // m_pKernelModule->DestroyAll();
 
     return true;
 }
@@ -97,10 +97,11 @@ void Sample3Module::CreateEntityTest()
     const AFGUID& id = pEntity->GetID();
 
     // create an item for player
-    auto pItem = m_pKernelModule->CreateContainerEntity(id, BAG, AFConfigMetaItem::self_name(), ITEM_CONFIG_ID);
-    ARK_ASSERT_RET_NONE(pItem != nullptr);
+    //auto pItem = m_pKernelModule->CreateContainerEntity(id, BAG, AFConfigMetaItem::self_name(), ITEM_CONFIG_ID);
+    //ARK_ASSERT_RET_NONE(pItem != nullptr);
 
-    std::cout << "Item Config = " << pItem->GetConfigID() << std::endl;
+    //pItem->SetInt32(AFConfigMetaItem::level(), 22);
+    //std::cout << "Item Config = " << pItem->GetConfigID() << std::endl;
 }
 
 void Sample3Module::DataTest()
@@ -176,7 +177,7 @@ void Sample3Module::DataCallBackTest()
 {
     std::cout << GET_CLASS_NAME(Sample3Module) << ", TableTest" << std::endl;
 
-    m_pKernelModule->AddDataCallBack(
+    m_pKernelModule->AddNodeCallBack(
         AFEntityMetaPlayer::self_name(), AFEntityMetaPlayer::gender(), this, &Sample3Module::OnDataCallBackEvent);
 
     auto pEntity = CreateAnPlayerAndInit();

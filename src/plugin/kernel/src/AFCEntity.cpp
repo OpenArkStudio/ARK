@@ -24,11 +24,12 @@
 #include "kernel/include/AFCStaticEntity.hpp"
 #include "kernel/include/AFCEventManager.hpp"
 #include "kernel/include/AFCContainerManager.hpp"
+#include "kernel/include/AFCEntity.hpp"
 
 namespace ark {
 
 AFCEntity::AFCEntity(std::shared_ptr<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE config_id,
-    const int32_t map_id, const int32_t map_entity_id)
+    const int32_t map_id, const int32_t map_entity_id, const AFIDataList& data_list)
     : guid_(guid)
     , config_id_(config_id)
     , map_id_(map_id)
@@ -37,9 +38,9 @@ AFCEntity::AFCEntity(std::shared_ptr<AFClassMeta> pClassMeta, const AFGUID& guid
     class_meta_ = pClassMeta;
 
     // data node
-    auto func = std::bind(&AFCEntity::OnDataCallBack, this, std::placeholders::_1, std::placeholders::_2,
-        std::placeholders::_3, std::placeholders::_4);
-    m_pNodeManager = std::make_shared<AFNodeManager>(pClassMeta, std::move(func));
+    auto func = std::bind(
+        &AFCEntity::OnDataCallBack, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    m_pNodeManager = std::make_shared<AFNodeManager>(pClassMeta, data_list, std::move(func));
 
     // data table
     m_pTableManager = std::make_shared<AFTableManager>(pClassMeta);
@@ -83,7 +84,7 @@ bool AFCEntity::IsPublic(const std::string& name) const
 
 bool AFCEntity::IsPublic(const uint32_t index) const
 {
-    return HaveMask(index, ArkNodeMask::PF_PUBLIC);
+    return HaveMask(index, ArkDataMask::PF_SYNC_VIEW);
 }
 
 bool AFCEntity::IsPrivate(const std::string& name) const
@@ -98,7 +99,7 @@ bool AFCEntity::IsPrivate(const std::string& name) const
 
 bool AFCEntity::IsPrivate(const uint32_t index) const
 {
-    return HaveMask(index, ArkNodeMask::PF_PRIVATE);
+    return HaveMask(index, ArkDataMask::PF_SYNC_SELF);
 }
 
 bool AFCEntity::IsSave(const std::string& name) const
@@ -113,7 +114,7 @@ bool AFCEntity::IsSave(const std::string& name) const
 
 bool AFCEntity::IsSave(const uint32_t index) const
 {
-    return HaveMask(index, ArkNodeMask::PF_SAVE);
+    return HaveMask(index, ArkDataMask::PF_SAVE);
 }
 
 bool AFCEntity::IsRealTime(const std::string& name) const
@@ -128,10 +129,10 @@ bool AFCEntity::IsRealTime(const std::string& name) const
 
 bool AFCEntity::IsRealTime(const uint32_t index) const
 {
-    return HaveMask(index, ArkNodeMask::PF_REAL_TIME);
+    return HaveMask(index, ArkDataMask::PF_REAL_TIME);
 }
 
-bool AFCEntity::HaveMask(const std::string& name, ArkNodeMask feature) const
+bool AFCEntity::HaveMask(const std::string& name, ArkDataMask feature) const
 {
     ARK_ASSERT_RET_VAL(class_meta_ != nullptr, false);
 
@@ -141,7 +142,7 @@ bool AFCEntity::HaveMask(const std::string& name, ArkNodeMask feature) const
     return HaveMask(index, feature);
 }
 
-bool AFCEntity::HaveMask(const uint32_t index, ArkNodeMask feature) const
+bool AFCEntity::HaveMask(const uint32_t index, ArkDataMask feature) const
 {
     AFINode* p = m_pNodeManager->GetNode(index);
 
@@ -164,6 +165,29 @@ const std::string& AFCEntity::GetClassName() const
     ARK_ASSERT_RET_VAL(class_meta_ != nullptr, NULL_STR);
 
     return class_meta_->GetName();
+}
+
+ArkDataType AFCEntity::GetNodeType(const std::string& name) const
+{
+    auto node = m_pNodeManager->GetNode(name);
+    ARK_ASSERT_RET_VAL(node != nullptr, ArkDataType::DT_EMPTY);
+
+    return node->GetType();
+}
+
+ArkDataType AFCEntity::GetNodeType(const uint32_t value) const
+{
+    auto node = m_pNodeManager->GetNode(value);
+    ARK_ASSERT_RET_VAL(node != nullptr, ArkDataType::DT_EMPTY);
+
+    return node->GetType();
+}
+
+uint32_t AFCEntity::GetIndex(const std::string& name) const
+{
+    ARK_ASSERT_RET_VAL(class_meta_ != nullptr, NULL_INT);
+
+    return class_meta_->GetIndex(name);
 }
 
 ID_TYPE AFCEntity::GetConfigID() const
@@ -536,7 +560,9 @@ AFITable* AFCEntity::FindTable(const uint32_t index)
     auto pTable = m_pTableManager->FindTable(index);
     if (nullptr == pTable)
     {
-        pTable = m_pTableManager->CreateTable(guid_, index);
+        auto func = std::bind(&AFCEntity::OnTableCallBack, this, std::placeholders::_1, std::placeholders::_2,
+            std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
+        pTable = m_pTableManager->CreateTable(index, std::move(func));
     }
 
     return pTable;
@@ -545,6 +571,11 @@ AFITable* AFCEntity::FindTable(const uint32_t index)
 std::shared_ptr<AFIEventManager> AFCEntity::GetEventManager() const
 {
     return m_pEventManager;
+}
+
+std::shared_ptr<AFClassMeta> AFCEntity::GetClassMeta() const
+{
+    return class_meta_;
 }
 
 std::shared_ptr<AFNodeManager> AFCEntity::GetNodeManager() const
@@ -562,12 +593,21 @@ std::shared_ptr<AFIContainerManager> AFCEntity::GetContainerManager() const
     return m_pContainerManager;
 }
 
-int AFCEntity::OnDataCallBack(
-    const std::string& name, const uint32_t index, const AFIData& old_data, const AFIData& new_data)
+int AFCEntity::OnDataCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data)
 {
     ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr, 0);
 
-    m_pCallBackManager->OnDataCallBack(guid_, name, index, old_data, new_data);
+    m_pCallBackManager->OnNodeCallBack(guid_, pNode, old_data, new_data);
+
+    return 0;
+}
+
+int AFCEntity::OnTableCallBack(const ArkMaskType mask, AFINode* pNode, const TABLE_EVENT_DATA& event_data,
+    const AFIData& old_data, const AFIData& new_data)
+{
+    ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr, 0);
+
+    m_pCallBackManager->OnTableCallBack(guid_, mask, pNode, event_data, old_data, new_data);
 
     return 0;
 }

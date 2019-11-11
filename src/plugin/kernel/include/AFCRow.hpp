@@ -26,6 +26,7 @@
 #include "AFNodeManager.hpp"
 #include "kernel/interface/AFITable.hpp"
 #include "kernel/interface/AFIDataList.hpp"
+#include "kernel/interface/AFINode.hpp"
 
 namespace ark {
 
@@ -35,11 +36,11 @@ private:
     friend class AFCKernelModule;
 
     // row
-    uint32_t row_{0u};
+    uint32_t row_{0};
 
     // table call back
-    using TABLE_COMPONENT_FUNCTOR = std::function<int(const uint32_t, const uint32_t, const AFIData&, const AFIData&)>;
-    TABLE_COMPONENT_FUNCTOR func_;
+    using ROW_CALLBACK_FUNCTOR = std::function<int(const uint32_t, AFINode*, const AFIData&, const AFIData&)>;
+    ROW_CALLBACK_FUNCTOR func_;
 
     // data
     std::shared_ptr<AFNodeManager> m_pNodeManager{nullptr};
@@ -49,7 +50,7 @@ public:
 
     // constructor
     explicit AFCRow(
-        std::shared_ptr<AFClassMeta> pClassMeta, uint32_t row, const AFIDataList& args, TABLE_COMPONENT_FUNCTOR&& func);
+        std::shared_ptr<AFClassMeta> pClassMeta, uint32_t row, const AFIDataList& args, ROW_CALLBACK_FUNCTOR&& func);
 
     // get row
     uint32_t GetRow() const override;
@@ -105,7 +106,7 @@ private:
 
     std::shared_ptr<AFNodeManager> GetNodeManager() const;
 
-    int OnDataCallBack(const std::string& name, const uint32_t index, const AFIData& old_data, const AFIData& new_data);
+    int OnDataCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data);
 };
 
 } // namespace ark

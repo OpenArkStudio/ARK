@@ -26,12 +26,10 @@
 namespace ark {
 
 // constructor
-AFCTable::AFCTable(
-    std::shared_ptr<AFTableMeta> pTableMeta, std::shared_ptr<AFClassCallBackManager> pCallBackManager, const AFGUID& guid)
-    : guid_(guid)
+AFCTable::AFCTable(std::shared_ptr<AFTableMeta> pTableMeta, TABLE_CALLBACK_FUNCTOR&& func)
 {
     table_meta_ = pTableMeta;
-    m_pCallBackManager = pCallBackManager;
+    func_ = std::forward<TABLE_CALLBACK_FUNCTOR>(func);
 }
 
 const std::string& AFCTable::GetName() const
@@ -62,7 +60,7 @@ const ArkMaskType AFCTable::GetMask() const
     return table_meta_->GetMask();
 }
 
-bool AFCTable::HaveMask(const ArkTableNodeMask mask) const
+bool AFCTable::HaveMask(const ArkDataMask mask) const
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, false);
 
@@ -345,7 +343,7 @@ void AFCTable::ReleaseRow(AFIRow* row_data)
 
 void AFCTable::OnTableChanged(uint32_t row, ArkTableOpType op_type)
 {
-    ARK_ASSERT_RET_NONE(m_pCallBackManager != nullptr || table_meta_ != nullptr);
+    ARK_ASSERT_RET_NONE(table_meta_ != nullptr);
 
     TABLE_EVENT_DATA xData;
     xData.table_name_ = table_meta_->GetName();
@@ -353,22 +351,23 @@ void AFCTable::OnTableChanged(uint32_t row, ArkTableOpType op_type)
     xData.row_ = row;
     xData.op_type_ = (size_t)op_type;
 
-    m_pCallBackManager->OnTableCallBack(
-        guid_, xData, AFCData(ArkDataType::DT_BOOLEAN, false), AFCData(ArkDataType::DT_BOOLEAN, false));
+    func_(table_meta_->GetMask(), nullptr, xData, AFCData(ArkDataType::DT_BOOLEAN, false),
+        AFCData(ArkDataType::DT_BOOLEAN, false));
 }
 
-int AFCTable::OnRowDataChanged(uint32_t row, const uint32_t index, const AFIData& old_data, const AFIData& new_data)
+// mask of row's nodes are not used yet
+int AFCTable::OnRowDataChanged(uint32_t row, AFINode* pNode, const AFIData& old_data, const AFIData& new_data)
 {
-    ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr || table_meta_ != nullptr, false);
+    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, false);
 
     TABLE_EVENT_DATA xData;
     xData.table_name_ = table_meta_->GetName();
     xData.table_index_ = table_meta_->GetIndex();
-    xData.data_index_ = index;
+    xData.data_index_ = pNode->GetIndex();
     xData.row_ = row;
     xData.op_type_ = (size_t)ArkTableOpType::TABLE_UPDATE;
 
-    m_pCallBackManager->OnTableCallBack(guid_, xData, old_data, new_data);
+    func_(table_meta_->GetMask(), pNode, xData, old_data, new_data);
 
     return 0;
 }

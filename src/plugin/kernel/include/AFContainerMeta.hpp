@@ -34,13 +34,18 @@ private:
     // container's class name
     std::string class_name_{NULL_STR};
 
+    // mask
+    ArkMaskType mask_{0};
+
 public:
     AFContainerMeta() = delete;
 
-    explicit AFContainerMeta(const std::string& name, const uint32_t index, const std::string& class_name)
+    explicit AFContainerMeta(
+        const std::string& name, const uint32_t index, const std::string& class_name, const ArkMaskType mask)
         : name_(name)
         , index_(index)
         , class_name_(class_name)
+        , mask_(mask)
     {
     }
 
@@ -59,6 +64,11 @@ public:
     uint32_t GetIndex() const
     {
         return index_;
+    }
+
+    const ArkMaskType GetMask() const
+    {
+        return mask_;
     }
 };
 

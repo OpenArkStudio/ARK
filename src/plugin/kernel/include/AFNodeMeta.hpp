@@ -59,7 +59,7 @@ public:
         mask_ = mask;
     }
 
-    bool HaveMask(ArkNodeMask mask) const
+    bool HaveMask(ArkDataMask mask) const
     {
         return mask_.test((size_t)mask);
     }

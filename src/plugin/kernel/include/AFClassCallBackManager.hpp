@@ -24,156 +24,146 @@
 #include "base/AFMap.hpp"
 #include "base/AFList.hpp"
 #include "base/AFDefine.hpp"
+#include "kernel/include/AFCData.hpp"
+#include <set>
+#include "kernel/interface/AFIEntity.hpp"
 
 namespace ark {
 
+struct AFDelaySyncRow
+{
+    AFDelaySyncRow(const uint32_t row)
+    {
+        row_ = 0u;
+    }
+
+    bool need_clear_{false};
+    uint32_t row_{0};
+    std::set<AFINode*> node_list_;
+};
+
+struct AFDelaySyncTable
+{
+    bool need_clear_{false};
+    std::map<uint32_t, AFDelaySyncRow> row_list_;
+};
+
+struct AFDelaySyncContainer
+{
+    std::set<uint32_t> index_list_;
+    std::set<uint32_t> destroy_list_;
+};
+
+struct AFDelaySyncData
+{
+    // node list
+    std::set<AFINode*> node_list_;
+
+    // table list
+    std::map<uint32_t, AFDelaySyncTable> table_list_;
+
+    // container list
+    std::map<uint32_t, AFDelaySyncContainer> container_list_;
+};
+
 class AFClassCallBackManager final
 {
+public:
+    // delay sync data
+    using DelaySyncMaskData = std::map<ArkDataMask, AFDelaySyncData>;
+    using DelaySyncDataList = std::map<AFGUID, DelaySyncMaskData>;
+
+    // call back functor
+    using NODE_SYNC_FUNCTOR = std::function<int(const AFGUID&, const uint32_t, const ArkDataMask, const AFIData&)>;
+    using TABLE_SYNC_FUNCTOR =
+        std::function<int(const AFGUID&, const TABLE_EVENT_DATA&, const ArkDataMask, const AFIData&)>;
+    using CONTAINER_SYNC_FUNCTOR = std::function<int(
+        const AFGUID&, const uint32_t, const ArkDataMask, const ArkContainerOpType, uint32_t, uint32_t)>;
+
+    using DELAY_SYNC_FUNCTOR = std::function<int(const AFGUID&, const ArkDataMask, const AFDelaySyncData& data)>;
+
 private:
     // class event list
     std::multimap<int32_t, CLASS_EVENT_FUNCTOR> class_events_;
 
     // data call backs list
-    using DataCallBacks = std::multimap<int32_t, DATA_NODE_EVENT_FUNCTOR>;
-    AFHashmap<uint32_t, DataCallBacks> data_call_backs_list_;
+    using NodeCallBacks = std::multimap<int32_t, DATA_NODE_EVENT_FUNCTOR>;
+    std::map<uint32_t, NodeCallBacks> data_call_backs_list_;
 
     // table call backs list
     using TableCallBacks = std::multimap<int32_t, DATA_TABLE_EVENT_FUNCTOR>;
-    AFHashmap<uint32_t, TableCallBacks> table_call_backs_list_;
+    std::map<uint32_t, TableCallBacks> table_call_backs_list_;
 
     // container call backs list
     using ContainerCallBacks = std::multimap<int32_t, CONTAINER_EVENT_FUNCTOR>;
-    AFHashmap<uint32_t, ContainerCallBacks> container_call_backs_list_;
+    std::map<uint32_t, ContainerCallBacks> container_call_backs_list_;
+
+    // sync call back
+    using NodeSyncCallBacks = std::map<ArkDataMask, NODE_SYNC_FUNCTOR>;
+    static NodeSyncCallBacks node_sync_call_back_list_;
+
+    using TableSyncCallBacks = std::map<ArkDataMask, TABLE_SYNC_FUNCTOR>;
+    static TableSyncCallBacks table_sync_call_back_list_;
+
+    using ContainerSyncCallBack = std::map<ArkDataMask, CONTAINER_SYNC_FUNCTOR>;
+    static ContainerSyncCallBack container_sync_call_backs_list_;
+
+    // delay sync call back
+    using DataDelaySyncCallBacks = std::map<ArkDataMask, DELAY_SYNC_FUNCTOR>;
+    static DataDelaySyncCallBacks delay_sync_call_back_list_;
+
+    // delay data
+    static DelaySyncDataList delay_sync_data_list_;
 
 public:
-    explicit AFClassCallBackManager() = default;
+    // add call back
+    bool AddClassCallBack(CLASS_EVENT_FUNCTOR&& cb, const int32_t prio);
+    bool AddDataCallBack(const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio);
+    bool AddTableCallBack(const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio);
+    bool AddContainerCallBack(const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb, const int32_t prio);
 
-    virtual ~AFClassCallBackManager() = default;
+    // data call back
+    bool OnClassEvent(const AFGUID& id, const std::string& class_name, const ArkEntityEvent eClassEvent,
+        const AFIDataList& valueList);
+    bool OnNodeCallBack(const AFGUID& self, AFINode* pNode, const AFIData& old_data, const AFIData& new_data);
+    bool OnTableCallBack(const AFGUID& self, const ArkMaskType mask, AFINode* pNode, const TABLE_EVENT_DATA& event_data,
+        const AFIData& old_data, const AFIData& new_data);
+    bool OnContainerCallBack(const AFGUID& self, const uint32_t index, const ArkMaskType mask,
+        const ArkContainerOpType op_type, uint32_t src_index, uint32_t dest_index,
+        std::shared_ptr<AFIEntity> src_entity = nullptr);
 
-    bool AddClassCallBack(CLASS_EVENT_FUNCTOR&& cb, const int32_t prio)
-    {
-        class_events_.insert(std::make_pair(prio, std::forward<CLASS_EVENT_FUNCTOR>(cb)));
-        return true;
-    }
+    // data sync call back
+    static void AddNodeSyncCallBack(const ArkDataMask mask_value, NODE_SYNC_FUNCTOR&& cb);
+    static void AddTableSyncCallBack(const ArkDataMask mask_value, TABLE_SYNC_FUNCTOR&& cb);
+    static void AddContainerSyncCallBack(const ArkDataMask mask_value, CONTAINER_SYNC_FUNCTOR&& cb);
+    static void AddDelaySyncCallBack(const ArkDataMask mask_value, DELAY_SYNC_FUNCTOR&& cb);
 
-    bool AddDataCallBack(const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio)
-    {
-        auto iter = data_call_backs_list_.find(index);
-        if (iter == data_call_backs_list_.end())
-        {
-            DataCallBacks* pDataCBs = ARK_NEW DataCallBacks;
-            ARK_ASSERT_RET_VAL(pDataCBs != nullptr, false);
+    // delay sync
+    static bool OnDelaySync();
 
-            pDataCBs->insert(std::make_pair(prio, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb)));
-            data_call_backs_list_.insert(index, pDataCBs);
-        }
-        else
-        {
-            iter->second->insert(std::make_pair(prio, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb)));
-        }
+private:
+    DelaySyncMaskData& GetDelaySyncMaskData(const AFGUID& self);
+    AFDelaySyncTable& GetDelaySyncMaskTable(
+        DelaySyncMaskData& mask_data_map, const ArkDataMask mask_value, uint32_t index);
+    AFDelaySyncContainer& GetDelaySyncMaskContainer(
+        DelaySyncMaskData& mask_data_map, const ArkDataMask mask_value, uint32_t index);
 
-        return true;
-    }
+    void UpdateDelayNodeList(const AFGUID& self, AFINode* pNode);
+    void UpdateDelayTableList(const AFGUID& self, const ArkMaskType mask, const uint32_t table_index,
+        const uint32_t row_index, ArkTableOpType op_type, AFINode* pNode);
+    void UpdateDelayContainerList(const AFGUID& self, const uint32_t index, const ArkMaskType mask,
+        const ArkContainerOpType op_type, uint32_t src_index, uint32_t dest_index,
+        std::shared_ptr<AFIEntity> src_entity);
 
-    bool AddTableCallBack(const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio)
-    {
-        auto iter = table_call_backs_list_.find(index);
-        if (iter == table_call_backs_list_.end())
-        {
-            TableCallBacks* pTableCBs = ARK_NEW TableCallBacks;
-            ARK_ASSERT_RET_VAL(pTableCBs != nullptr, false);
+    void OnTableAdd(AFDelaySyncTable& table, const int row);
+    void OnTableDelete(AFDelaySyncTable& table, const int row);
+    void OnTableRowUpdate(AFDelaySyncTable& table, const int row, AFINode* pNode);
+    void OnTableClear(AFDelaySyncTable& table);
 
-            pTableCBs->insert(std::make_pair(prio, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb)));
-            table_call_backs_list_.insert(index, pTableCBs);
-        }
-        else
-        {
-            iter->second->insert(std::make_pair(prio, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb)));
-        }
-
-        return true;
-    }
-
-    bool AddContainerCallBack(const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb, const int32_t prio)
-    {
-        auto iter = container_call_backs_list_.find(index);
-        if (iter == container_call_backs_list_.end())
-        {
-            ContainerCallBacks* pContainerCBs = ARK_NEW ContainerCallBacks;
-            ARK_ASSERT_RET_VAL(pContainerCBs != nullptr, false);
-
-            pContainerCBs->insert(std::make_pair(prio, std::forward<CONTAINER_EVENT_FUNCTOR>(cb)));
-            container_call_backs_list_.insert(index, pContainerCBs);
-        }
-        else
-        {
-            iter->second->insert(std::make_pair(prio, std::forward<CONTAINER_EVENT_FUNCTOR>(cb)));
-        }
-
-        return true;
-    }
-
-    bool OnClassEvent(
-        const AFGUID& id, const std::string& class_name, const ArkEntityEvent eClassEvent, const AFIDataList& valueList)
-    {
-        for (auto& iter : class_events_)
-        {
-            iter.second(id, class_name, eClassEvent, valueList);
-        }
-
-        return true;
-    }
-
-    bool OnDataCallBack(
-        const AFGUID& self, const std::string& name, uint32_t index, const AFIData& old_data, const AFIData& new_data)
-    {
-        auto data_call_backs = data_call_backs_list_.find_value(index);
-        if (data_call_backs == nullptr)
-        {
-            return false;
-        }
-
-        for (auto& iter : *data_call_backs)
-        {
-            iter.second(self, name, index, old_data, new_data);
-        }
-
-        return true;
-    }
-
-    bool OnTableCallBack(
-        const AFGUID& id, const TABLE_EVENT_DATA& event_data, const AFIData& old_data, const AFIData& new_data)
-    {
-        auto table_call_backs = table_call_backs_list_.find_value(event_data.table_index_);
-        if (table_call_backs == nullptr)
-        {
-            return false;
-        }
-
-        for (auto& iter : *table_call_backs)
-        {
-            iter.second(id, event_data, old_data, new_data);
-        }
-
-        return true;
-    }
-
-    bool OnContainerCallBack(const AFGUID& self, const uint32_t index, const ArkContainerOpType op_type,
-        uint32_t src_index, uint32_t dest_index)
-    {
-        auto container_call_backs = container_call_backs_list_.find_value(index);
-        if (container_call_backs == nullptr)
-        {
-            return false;
-        }
-
-        for (auto& iter : *container_call_backs)
-        {
-            iter.second(self, index, op_type, src_index, dest_index);
-        }
-
-        return true;
-    }
+    void OnContainerPlace(AFDelaySyncContainer& container, uint32_t index);
+    void OnContainerRemove(AFDelaySyncContainer& container, uint32_t index);
+    void OnContainerDestroy(AFDelaySyncContainer& container, uint32_t index, std::shared_ptr<AFIEntity> src_entity);
+    void OnContainerSwap(AFDelaySyncContainer& container, uint32_t src_index, uint32_t dest_index);
 };
 
 } // namespace ark

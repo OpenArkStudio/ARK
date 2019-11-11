@@ -93,7 +93,7 @@ std::shared_ptr<AFTableMeta> AFClassMeta::FindTableMeta(const uint32_t index) co
 
 // create container meta
 std::shared_ptr<AFContainerMeta> AFClassMeta::CreateContainerMeta(
-    const std::string& name, const uint32_t index, const std::string& class_name)
+    const std::string& name, const uint32_t index, const std::string& class_name, const ArkMaskType mask)
 {
     // check arg
     ARK_ASSERT_RET_VAL(!name.empty() && index > 0, nullptr);
@@ -102,7 +102,7 @@ std::shared_ptr<AFContainerMeta> AFClassMeta::CreateContainerMeta(
 
     ARK_ASSERT_RET_VAL(NameIndexInsert(name, index), nullptr);
 
-    std::shared_ptr<AFContainerMeta> pMeta = std::make_shared<AFContainerMeta>(name, index, class_name);
+    std::shared_ptr<AFContainerMeta> pMeta = std::make_shared<AFContainerMeta>(name, index, class_name, mask);
     ARK_ASSERT_RET_VAL(container_meta_list_.insert(index, pMeta).second, nullptr);
 
     return pMeta;

@@ -38,9 +38,11 @@ public:
     virtual bool DoClassEvent(
         const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event, const AFIDataList& args) = 0;
 
-    virtual std::shared_ptr<AFClassMeta> FindMeta(const std::string& class_name) = 0;
-
+    virtual std::shared_ptr<AFClassMeta> FindMeta(const std::string& class_name) const = 0;
     virtual const AFClassMetaManager::ClassMetaList& GetMetaList() const = 0;
+
+    virtual std::shared_ptr<AFClassMeta> FindStaticMeta(const std::string& class_name) const = 0;
+    virtual const AFClassMetaManager::ClassMetaList& GetStaticMetaList() const = 0;
 };
 
 } // namespace ark

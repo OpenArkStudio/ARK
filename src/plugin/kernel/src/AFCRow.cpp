@@ -26,17 +26,15 @@ namespace ark {
 
 // constructor
 AFCRow::AFCRow(
-    std::shared_ptr<AFClassMeta> pClassMeta, uint32_t row, const AFIDataList& args, TABLE_COMPONENT_FUNCTOR&& func)
+    std::shared_ptr<AFClassMeta> pClassMeta, uint32_t row, const AFIDataList& args, ROW_CALLBACK_FUNCTOR&& func)
     : row_(row)
 {
     // data node
-    auto function = std::bind(&AFCRow::OnDataCallBack, this, std::placeholders::_1, std::placeholders::_2,
-        std::placeholders::_3, std::placeholders::_4);
-    m_pNodeManager = std::make_shared<AFNodeManager>(pClassMeta, std::move(function));
+    auto function =
+        std::bind(&AFCRow::OnDataCallBack, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    m_pNodeManager = std::make_shared<AFNodeManager>(pClassMeta, args, std::move(function));
 
-    func_ = std::forward<TABLE_COMPONENT_FUNCTOR>(func);
-
-    InitData(args);
+    func_ = std::forward<ROW_CALLBACK_FUNCTOR>(func);
 }
 
 // get row
@@ -327,58 +325,16 @@ bool AFCRow::SetGUID(const std::string& name, const AFGUID& value)
     return m_pNodeManager->SetGUID(name, value);
 }
 
-void AFCRow::InitData(const AFIDataList& args)
-{
-    size_t count = args.GetCount();
-    ARK_ASSERT_RET_NONE(count % 2 == 0);
-
-    for (size_t i = 0; i < count; i += 2)
-    {
-        auto data_type = args.GetType(i);
-        auto index = args.UInt(i + 1);
-        switch (data_type)
-        {
-            case ark::ArkDataType::DT_BOOLEAN:
-                SetBool(index, args.Bool(i));
-                break;
-            case ark::ArkDataType::DT_INT32:
-                SetInt32(index, args.Int(i));
-                break;
-            case ark::ArkDataType::DT_UINT32:
-                SetUInt32(index, args.UInt(i));
-                break;
-            case ark::ArkDataType::DT_INT64:
-                SetInt64(index, args.Int64(i));
-                break;
-            case ark::ArkDataType::DT_UINT64:
-                SetUInt64(index, args.UInt64(i));
-                break;
-            case ark::ArkDataType::DT_FLOAT:
-                SetFloat(index, args.Float(i));
-                break;
-            case ark::ArkDataType::DT_DOUBLE:
-                SetDouble(index, args.Double(i));
-                break;
-            case ark::ArkDataType::DT_STRING:
-                SetString(index, args.String(i));
-                break;
-            default:
-                break;
-        }
-    }
-}
-
 std::shared_ptr<AFNodeManager> AFCRow::GetNodeManager() const
 {
     return m_pNodeManager;
 }
 
-int AFCRow::OnDataCallBack(
-    const std::string& name, const uint32_t index, const AFIData& old_data, const AFIData& new_data)
+int AFCRow::OnDataCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data)
 {
     if (func_)
     {
-        func_(row_, index, old_data, new_data);
+        func_(row_, pNode, old_data, new_data);
     }
 
     return 0;

@@ -23,7 +23,6 @@
 #include "kernel/interface/AFIData.hpp"
 #include "base/AFMacros.hpp"
 #include "base/AFMap.hpp"
-#include "AFClassCallBackManager.hpp"
 #include "kernel/interface/AFITable.hpp"
 #include "AFTableMeta.hpp"
 
@@ -33,16 +32,17 @@ class AFCTable final : public AFITable
 {
 public:
     using TableData = AFMap<uint32_t, AFIRow>;
+    using TABLE_CALLBACK_FUNCTOR =
+        std::function<int(const ArkMaskType, AFINode*, const TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
 
 private:
-    // object unique guid
-    AFGUID guid_{NULL_GUID};
+    friend class AFCKernelModule;
 
     // table meta
     std::shared_ptr<AFTableMeta> table_meta_{nullptr};
 
     // current row
-    uint32_t current_row_{0u};
+    uint32_t current_row_{0};
 
     // table data
     TableData data_;
@@ -51,14 +51,13 @@ private:
     TableData::const_iterator iter_;
 
     // call back
-    std::shared_ptr<AFClassCallBackManager> m_pCallBackManager{nullptr};
+    TABLE_CALLBACK_FUNCTOR func_;
 
 public:
     AFCTable() = delete;
 
     // constructor
-    explicit AFCTable(std::shared_ptr<AFTableMeta> pTableMeta, std::shared_ptr<AFClassCallBackManager> pCallBackManager,
-        const AFGUID& guid);
+    explicit AFCTable(std::shared_ptr<AFTableMeta> pTableMeta, TABLE_CALLBACK_FUNCTOR&& func);
 
     const std::string& GetName() const override;
 
@@ -67,7 +66,7 @@ public:
     ArkDataType GetColType(const uint32_t index) const override;
 
     const ArkMaskType GetMask() const override;
-    bool HaveMask(const ArkTableNodeMask mask) const override;
+    bool HaveMask(const ArkDataMask mask) const override;
     bool IsPublic() const override;
     bool IsPrivate() const override;
     bool IsRealTime() const override;
@@ -108,7 +107,7 @@ private:
 
     void OnTableChanged(uint32_t row, ArkTableOpType op_type);
 
-    int OnRowDataChanged(uint32_t row, const uint32_t index, const AFIData& old_data, const AFIData& new_data);
+    int OnRowDataChanged(uint32_t row, AFINode* pNode, const AFIData& old_data, const AFIData& new_data);
 
     AFIRow* CreateRow(uint32_t row, const AFIDataList& args);
 };

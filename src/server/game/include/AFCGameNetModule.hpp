@@ -82,17 +82,13 @@ public:
     void OnTransWorld(const AFNetMsg* msg);
 
     // Common Node & table & class event
-    int OnCommonDataNodeEvent(const AFGUID& self, const std::string& strPropertyName, const uint32_t index,
-        const AFIData& oldVar, const AFIData& newVar);
-    int OnCommonDataTableEvent(
-        const AFGUID& self, const TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
     int OnCommonClassEvent(
         const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var);
 
-    int OnMapInstanceEvent(
-        const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
-    int OnContainerEvent(
-        const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
+    int OnMapInstanceEvent(const AFGUID& self, const std::string& name, const uint32_t index, const AFIData& oldVar,
+        const AFIData& newVar);
+    int OnContainerEvent(const AFGUID& self, const std::string& name, const uint32_t index, const AFIData& oldVar,
+        const AFIData& newVar);
 
     int OnEntityEvent(
         const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var);
@@ -108,15 +104,6 @@ public:
 protected:
     int StartServer();
     //int StartClient();
-
-    void CommonDataTableAddEvent(
-        const AFGUID& self, const uint32_t index, uint32_t nRow, const AFIDataList& valueBroadCaseList);
-    void CommonDataTableDeleteEvent(
-        const AFGUID& self, const uint32_t index, uint32_t nRow, const AFIDataList& valueBroadCaseList);
-    void CommonDataTableSwapEvent(const AFGUID& self, const uint32_t index, uint32_t nRow, uint32_t target_row,
-        const AFIDataList& valueBroadCaseList);
-    void CommonDataTableUpdateEvent(const AFGUID& self, const uint32_t index, uint32_t nRow, uint32_t nCol,
-        const AFIData& newVar, const AFIDataList& valueBroadCaseList);
 
     int CommonClassDestoryEvent(const AFGUID& self);
 

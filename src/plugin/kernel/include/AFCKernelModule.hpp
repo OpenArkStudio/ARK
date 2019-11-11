@@ -26,7 +26,7 @@
 #include "base/AFPluginManager.hpp"
 #include "utility/interface/AFIGUIDModule.hpp"
 #include "log/interface/AFILogModule.hpp"
-#include "kernel/include/AFCDataList.hpp"
+#include "kernel/interface/AFIDataList.hpp"
 #include "kernel/interface/AFIMapModule.hpp"
 #include "kernel/interface/AFIClassMetaModule.hpp"
 #include "kernel/interface/AFIConfigModule.hpp"
@@ -84,10 +84,10 @@ public:
     bool RowToPBData(AFIRow* pRow, const uint32_t index, AFMsg::pb_entity_data* pb_data) override;
     bool TableRowDataToPBData(const uint32_t index, uint32_t row, const uint32_t col, const AFIData& data,
         AFMsg::pb_entity_data* pb_data) override;
-    bool NodeToPBDataByMask(
-        std::shared_ptr<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data) override;
-    bool TableToPBDataByMask(
-        std::shared_ptr<AFIEntity> pEntity, const ArkMaskType mask, AFMsg::pb_entity_data* pb_data) override;
+    bool EntityNodeToPBData(
+        std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data, const ArkMaskType mask = 0) override;
+    bool EntityTableToPBData(
+        std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data, const ArkMaskType mask = 0) override;
 
 protected:
     bool DestroySelf(const AFGUID& self);
@@ -96,12 +96,12 @@ protected:
 
     bool AddEventCallBack(const AFGUID& self, const int event_id, EVENT_PROCESS_FUNCTOR&& cb) override;
     bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) override;
-    bool AddDataCallBack(const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb,
+    bool AddNodeCallBack(const std::string& class_name, const std::string& name, DATA_NODE_EVENT_FUNCTOR&& cb,
         const int32_t prio) override;
     bool AddTableCallBack(const std::string& class_name, const std::string& name, DATA_TABLE_EVENT_FUNCTOR&& cb,
         const int32_t prio) override;
 
-    bool AddDataCallBack(
+    bool AddNodeCallBack(
         const std::string& class_name, const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio) override;
     bool AddTableCallBack(const std::string& class_name, const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb,
         const int32_t prio) override;
@@ -111,34 +111,66 @@ protected:
     bool AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb, const int32_t prio) override;
 
     bool AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) override;
-    bool AddCommonNodeEvent(DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio) override;
-    bool AddCommonTableEvent(DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio) override;
+
+    // data sync call back
+    void AddSyncCallBack();
+
+    int OnSyncNode(const AFGUID& self, const uint32_t index, const ArkDataMask mask_value, const AFIData& data);
+    int OnSyncTable(
+        const AFGUID& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value, const AFIData& data);
+    int OnSyncContainer(const AFGUID& self, const uint32_t index, const ArkDataMask mask,
+        const ArkContainerOpType op_type, uint32_t src_index, uint32_t dest_index);
+    int OnDelaySyncData(const AFGUID& self, const ArkDataMask mask_value, const AFDelaySyncData& data);
+
+    int OnSyncTableAdd(const AFGUID& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value);
+    int OnSyncTableDelete(const AFGUID& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value);
+    int OnSyncTableUpdate(
+        const AFGUID& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value, const AFIData& data);
+
+    int OnSyncContainerPlace(const AFGUID& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index);
+    int OnSyncContainerRemove(const AFGUID& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index);
+    int OnSyncContainerDestroy(const AFGUID& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index);
+    int OnSyncContainerSwap(
+        const AFGUID& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index, uint32_t dest_index);
+
+    bool DelayTableToPB(const AFDelaySyncTable& table, const uint32_t index, AFMsg::pb_delay_entity& data,
+        AFMsg::pb_entity_data& pb_entity);
+    bool DelayContainerToPB(std::shared_ptr<AFIEntity> pEntity, const AFDelaySyncContainer& container,
+        const uint32_t index, AFMsg::pb_delay_entity& data);
+
+    bool TryAddContainerPBEntity(std::shared_ptr<AFIContainer> pContainer, const AFGUID& self,
+        AFMsg::pb_entity_data& pb_entity_data, AFGUID& parent_id, AFMsg::pb_entity_data* pb_container_entity);
+
+    int SendSyncMsg(const AFGUID& self, const ArkDataMask mask_value, const google::protobuf::Message& msg);
+    int SendToView(const AFGUID& self, const google::protobuf::Message& msg);
+    int SendToSelf(const AFGUID& self, const google::protobuf::Message& msg);
 
     // convert db data and entity
     bool EntityToDBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_db_entity& pb_data);
     bool NodeToDBData(AFINode* pNode, AFMsg::pb_db_entity_data& pb_data);
     bool TableToDBData(AFITable* pTable, AFMsg::pb_db_table& pb_data);
 
-    template<typename T>
-    bool DBDataToNode(T pData, const AFMsg::pb_db_entity_data& pb_db_entity_data);
-    bool DBDataToTable(
-        std::shared_ptr<AFIEntity> pEntityData, const std::string& name, const AFMsg::pb_db_table& pb_table);
+    bool DBDataToNode(std::shared_ptr<AFNodeManager> pNodeManager, const AFMsg::pb_db_entity_data& pb_db_entity_data);
+    bool DBDataToTable(std::shared_ptr<AFIEntity> pEntity, const std::string& name, const AFMsg::pb_db_table& pb_table);
     bool DBDataToContainer(
         std::shared_ptr<AFIEntity> pEntity, const std::string& name, const AFMsg::pb_db_container& pb_data);
 
     // convert client pb and entity
     bool NodeToPBData(AFINode* pNode, AFMsg::pb_entity_data* pb_data);
     bool TableToPBData(AFITable* pTable, const uint32_t index, AFMsg::pb_table* pb_data);
-    bool NodeAllToPBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data);
-    bool TableAllToPBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data);
+    bool ContainerToPBData(std::shared_ptr<AFIContainer> pContainer, AFMsg::pb_container* pb_data);
+
     bool EntityToPBData(std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity* pb_data);
     bool EntityToPBDataByMask(std::shared_ptr<AFIEntity> pEntity, ArkMaskType mask, AFMsg::pb_entity* pb_data);
+
+    bool EntityContainerToPBData(
+        std::shared_ptr<AFIEntity> pEntity, AFMsg::pb_entity_data* pb_data, const ArkMaskType mask = 0);
 
     // call back
     int OnContainerCallBack(const AFGUID& self, const uint32_t index, const ArkContainerOpType op_type,
         const uint32_t src_index, const uint32_t dest_index);
 
-    bool CopyData(std::shared_ptr<AFIEntity> pEntity, const ID_TYPE config_id);
+    bool CopyData(std::shared_ptr<AFIEntity> pEntity, std::shared_ptr<AFIStaticEntity> pStaticEntity);
 
     // get entity data
     std::shared_ptr<AFNodeManager> GetNodeManager(std::shared_ptr<AFIStaticEntity> pStaticEntity) const;
@@ -151,7 +183,10 @@ protected:
 private:
     std::list<AFGUID> delete_list_;
 
-    AFGUID cur_exec_object_;
+    AFGUID cur_exec_object_{NULL_GUID};
+
+    using SYNC_FUNCTOR = std::function<bool(const AFGUID&, const google::protobuf::Message&)>;
+    std::map<ArkDataMask, SYNC_FUNCTOR> sync_functors;
 
     AFIMapModule* m_pMapModule{nullptr};
     AFILogModule* m_pLogModule{nullptr};

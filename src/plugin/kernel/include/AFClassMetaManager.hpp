@@ -34,6 +34,7 @@ public:
 private:
     // class meta list
     ClassMetaList class_meta_list_;
+    ClassMetaList static_class_meta_list_;
 
 public:
     AFClassMetaManager() = default;
@@ -42,18 +43,13 @@ public:
     // create meta
     std::shared_ptr<AFClassMeta> CreateMeta(const std::string& name)
     {
-        // return if found
-        auto iter = class_meta_list_.find(name);
-        if (iter != class_meta_list_.end())
-        {
-            return iter->second;
-        }
+        return CreateMeta(class_meta_list_, name);
+    }
 
-        // create new class meta
-        std::shared_ptr<AFClassMeta> pMeta = std::make_shared<AFClassMeta>(name);
-        class_meta_list_.insert(name, pMeta);
-
-        return pMeta;
+    // create meta
+    std::shared_ptr<AFClassMeta> CreateStaticMeta(const std::string& name)
+    {
+        return CreateMeta(static_class_meta_list_, name);
     }
 
     // find meta do not create
@@ -62,9 +58,20 @@ public:
         return class_meta_list_.find_value(name);
     }
 
+    // find meta do not create
+    std::shared_ptr<AFClassMeta> FindStaticMeta(const std::string& name) const
+    {
+        return static_class_meta_list_.find_value(name);
+    }
+
     const ClassMetaList& GetMetaList() const
     {
         return class_meta_list_;
+    }
+
+    const ClassMetaList& GetStaticMetaList() const
+    {
+        return static_class_meta_list_;
     }
 
     bool AfterLoaded()
@@ -90,6 +97,23 @@ public:
         }
 
         return true;
+    }
+
+private:
+    std::shared_ptr<AFClassMeta> CreateMeta(ClassMetaList& class_meta_list, const std::string& name)
+    {
+        // return if found
+        auto iter = class_meta_list.find(name);
+        if (iter != class_meta_list.end())
+        {
+            return iter->second;
+        }
+
+        // create new class meta
+        std::shared_ptr<AFClassMeta> pMeta = std::make_shared<AFClassMeta>(name);
+        class_meta_list.insert(name, pMeta);
+
+        return pMeta;
     }
 };
 

@@ -32,11 +32,13 @@ public:
     using EntityDataList = AFSmartPtrMap<uint32_t, AFIEntity>;
 
 private:
+    friend class AFCKernelModule;
+
     // contain entity class meta
     std::shared_ptr<AFContainerMeta> container_meta_{nullptr};
 
     // index start
-    uint32_t current_index_{0u};
+    uint32_t current_index_{0};
 
     // parent id
     AFGUID parent_{NULL_GUID};
@@ -56,8 +58,12 @@ public:
 
     const std::string& GetName() const override;
 
+    const ArkMaskType GetMask() const override;
+
     // get parent unique id
     const AFGUID& GetParentID() const override;
+
+    uint32_t GetIndex() const override;
 
     uint32_t First() override;
     uint32_t Next() override;
@@ -74,8 +80,10 @@ public:
     bool Swap(const uint32_t src_index, const uint32_t dest_index) override;
     bool Swap(const AFGUID& src_entity, const AFGUID& dest_entity) override;
 
-    bool Swap(std::shared_ptr<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index) override;
-    bool Swap(std::shared_ptr<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity) override;
+    bool Swap(
+        std::shared_ptr<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index) override;
+    bool Swap(
+        std::shared_ptr<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity) override;
 
     bool Remove(const uint32_t index) override;
     bool Remove(const AFGUID& id) override;
@@ -92,6 +100,8 @@ private:
     void OnContainerSwap(const uint32_t index, const uint32_t swap_index);
     void OnContainerRemove(const uint32_t index, std::shared_ptr<AFIEntity> pEntity);
     void OnContainerDestroy(const uint32_t index, std::shared_ptr<AFIEntity> pEntity);
+
+    bool InitEntityList(const uint32_t index, std::shared_ptr<AFIEntity> pEntity);
 };
 
 } // namespace ark
