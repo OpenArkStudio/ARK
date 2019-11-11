@@ -153,7 +153,7 @@ typedef struct HINSTANCE__* hInstance;
 #define ARK_FOLDER_SEP '/'
 
 #define FORCE_INLINE inline __attribute__((always_inline))
-#define BIG_CONSTANT(x) ((x)##LLU)
+#define BIG_CONSTANT(x) (x##LLU)
 
 #elif defined(ARK_PLATFORM_DARWIN)
 
@@ -164,7 +164,7 @@ typedef struct HINSTANCE__* hInstance;
 
 #define ARK_FOLDER_SEP '/'
 #define FORCE_INLINE inline __attribute__((always_inline))
-#define BIG_CONSTANT(x) ((x)##LLU)
+#define BIG_CONSTANT(x) (x##LLU)
 
 #endif
 
