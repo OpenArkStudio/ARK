@@ -1,5 +1,5 @@
 set(project_name app)
-file(GLOB_RECURSE app_SRC *.h *.hpp *.cpp *.cc *.c)
+file(GLOB_RECURSE APP_SRC *.h *.hpp *.cpp *.cc *.c)
     
 if(UNIX)
     #Set rpath
@@ -7,7 +7,7 @@ if(UNIX)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
-add_executable(app ${app_SRC})
+add_executable(app ${APP_SRC})
 
 if(UNIX)
     target_link_libraries(app pthread dl --coverage)

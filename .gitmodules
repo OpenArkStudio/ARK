@@ -9,7 +9,7 @@
 [submodule "protobuf"]
 	path = dep/protobuf
 	url = https://github.com/protocolbuffers/protobuf.git
-	branch = 3.8.x
+	branch = 3.10.x
 [submodule "spdlog"]
 	path = dep/spdlog
 	url = https://github.com/gabime/spdlog.git
