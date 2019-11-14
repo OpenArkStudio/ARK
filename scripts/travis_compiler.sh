@@ -4,10 +4,17 @@
 git submodule sync
 git submodule update --init
 
+os_name=`uname`
+
 # build deps
 cd dep
-chmod -R 755 build_dep.sh
-bash build_dep.sh
+
+if [ "$os_name" = Linux ]; then
+    bash build_dep.sh
+elif [ "$os_name" = Darwin ]; then
+    bash build_dep_darwin.sh
+fi
+
 cd ..
 
 # build ark
@@ -16,10 +23,9 @@ mkdir build && cd build
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF -DBUILD_SAMPLES=ON -DBUILD_TESTS=ON ..
 
 # make and sonar scanner
-os_name=`uname -o`
-if [ "$os_name" = GNU/Linux ]; then
+if [ "$os_name" = Linux ]; then
     build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
-else
+elif [ "$os_name" = Darwin ]; then
     build-wrapper-macosx-x86-64 --out-dir bw-output make -j 4
 fi
 
