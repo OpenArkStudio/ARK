@@ -39,7 +39,7 @@ public:
 #elif defined ARK_PLATFORM_LINUX
         name_.append(".so");
 #elif defined ARK_PLATFORM_DARWIN
-        name_.append(".so");
+        name_.append(".dylib");
 #endif
 
         CONSOLE_LOG << "LoadPlugin: " << name_ << std::endl;
@@ -47,8 +47,8 @@ public:
 
     bool Load(const std::string& path)
     {
-        std::string strLibPath = path + name_;
-        lib_inst_ = (DYNLIB_HANDLE)DYNLIB_LOAD(strLibPath.c_str());
+        std::string dynamic_lib_path = path + name_;
+        lib_inst_ = (DYNLIB_HANDLE)DYNLIB_LOAD(dynamic_lib_path.c_str());
 
         return lib_inst_ != nullptr;
     }

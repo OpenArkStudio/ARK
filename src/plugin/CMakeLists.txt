@@ -1,9 +1,9 @@
 function(BUILD_PLUGIN_MACRO project_name)
-    if(UNIX)
+    if(UNIX AND (NOT APPLE))
         #Set rpath
-        SET(CMAKE_INSTALL_RPATH ".")
-        SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-    endif(UNIX)
+        set(CMAKE_INSTALL_RPATH ".")
+        set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+    endif(UNIX AND (NOT APPLE))
     
     file(GLOB_RECURSE PLUGIN_SRC *.h *.hpp *.cpp *.cc *.c)
     add_library(${project_name} SHARED ${PLUGIN_SRC})

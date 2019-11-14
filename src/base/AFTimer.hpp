@@ -63,14 +63,14 @@ public:
         timer_idx_ = 0;
         last_update_time_ = now_time;
 
-        for (int i = 0; i < FREE_TIMER_SIZE; ++i)
+        for (uint32_t i = 0; i < FREE_TIMER_SIZE; ++i)
         {
             AFTimeWheelData* data = ARK_NEW AFTimeWheelData();
             ARK_ASSERT_RET_NONE(data != nullptr);
             free_timers_.push_back(data);
         }
 
-        for (int i = 0; i < TV_NUM; ++i)
+        for (uint32_t i = 0; i < TV_NUM; ++i)
         {
             AFTimeWheelVec* tv = ARK_NEW AFTimeWheelVec();
             InitTimerVec(tv, TV_SIZE);
@@ -199,7 +199,7 @@ protected:
 
         uint32_t index = 0;
         uint64_t max_tv_num = 0;
-        for (int32_t i = 0; i < TV_NUM; ++i)
+        for (uint32_t i = 0; i < TV_NUM; ++i)
         {
             max_tv_num = ((uint64_t)1 << ((i + 1) * TV_BITS));
             if ((uint64_t)idx < max_tv_num)
@@ -217,7 +217,7 @@ protected:
     {
         if (tw_vecs_[0]->index == 0)
         {
-            int32_t n = 1;
+            uint32_t n = 1;
             do
             {
                 CarryTimers(tw_vecs_[n]);

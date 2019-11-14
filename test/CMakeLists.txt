@@ -1,11 +1,11 @@
 function(TEST_FUNCION project_name)
     file(GLOB_RECURSE TEST_SRC ${project_name}.cpp)
     
-    if(UNIX)
+    if(UNIX AND (NOT APPLE))
         #Set rpath
         set(CMAKE_INSTALL_RPATH ".")
         set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-    endif()
+    endif(UNIX AND (NOT APPLE))
     
     add_executable(${project_name} ${TEST_SRC})
     set_target_properties(${project_name} PROPERTIES

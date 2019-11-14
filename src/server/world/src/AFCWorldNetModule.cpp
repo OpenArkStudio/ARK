@@ -484,7 +484,7 @@ int AFCWorldNetModule::OnObjectListLeave(const AFIDataList& self, const AFIDataL
     {
         AFGUID identOld = argVar.Int64(i);
 
-        if (!identOld == 0)
+        if (identOld == 0)
         {
             xEntityLeaveList.add_entity_list(identOld);
         }

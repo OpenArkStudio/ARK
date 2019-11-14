@@ -1,25 +1,16 @@
 function(BUILD_SERVER_MACRO project_name)
-    if(UNIX)
+    if(UNIX AND (NOT APPLE))
         #Set rpath
         set(CMAKE_INSTALL_RPATH ".")
         set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-    endif()
+    endif(UNIX AND (NOT APPLE))
 
     file(GLOB_RECURSE PLUGIN_SRC *.h *.hpp *.cpp *.cc *.c)
     add_library(${project_name} SHARED ${PLUGIN_SRC})
 
     add_dependencies(${project_name} AFProto)
 
-    if(UNIX)
-        target_link_libraries(${project_name} 
-            debug :AFProto_d.a
-            debug protobuf
-            debug brynet
-            
-            optimized :AFProto.a
-            optimized protobuf
-            optimized brynet)
-    else(WIN32)
+    if(WIN32)
         add_definitions(-D_USRDLL)
 
         target_link_libraries(${project_name} 
@@ -30,7 +21,19 @@ function(BUILD_SERVER_MACRO project_name)
             optimized brynet.lib
             optimized AFProto.lib
             optimized libprotobuf.lib)
-    endif(UNIX)
+    elseif(APPLE)
+        target_link_libraries(${project_name} 
+            debug ${BIN_OUTPUT_DIR}/AFProto_d.a
+            optimized ${BIN_OUTPUT_DIR}/AFProto.a
+            protobuf
+            brynet)
+    else()
+        target_link_libraries(${project_name} 
+            debug :AFProto_d.a            
+            optimized :AFProto.a
+            protobuf
+            brynet)
+    endif()
 
     set_target_properties(${project_name} PROPERTIES PREFIX "")
     set_target_properties(${project_name} PROPERTIES

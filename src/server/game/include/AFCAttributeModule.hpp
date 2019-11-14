@@ -34,41 +34,40 @@ class AFCAttributeModule final : public AFIAttributeModule
 public:
     bool Init() override;
 
-    virtual int RefreshBaseAttribute(const AFGUID& self);
+    int RefreshBaseAttribute(const AFGUID& self) override;
 
-    virtual int GetAttributeValue(
-        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type);
-    virtual int SetAttributeValue(
-        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type, const int32_t value);
+    int GetAttributeValue(const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type) override;
+    int SetAttributeValue(
+        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type, const int32_t value) override;
 
-    virtual int AddAttributeValue(
-        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type, const int32_t value);
-    virtual int SubAttributeValue(
-        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type, const int32_t value);
+    int AddAttributeValue(
+        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type, const int32_t value) override;
+    int SubAttributeValue(
+        const AFGUID& self, const std::string& attr_name, const AttributeGroup attr_type, const int32_t value) override;
 
-    virtual bool FullHPMP(const AFGUID& self);
-    virtual bool AddHP(const AFGUID& self, const int32_t& value);
-    virtual bool ConsumeHP(const AFGUID& self, const int32_t& value);
-    virtual bool EnoughHP(const AFGUID& self, const int32_t& value);
+    bool FullHPMP(const AFGUID& self) override;
+    bool AddHP(const AFGUID& self, const int32_t& value) override;
+    bool ConsumeHP(const AFGUID& self, const int32_t& value) override;
+    bool EnoughHP(const AFGUID& self, const int32_t& value) override;
 
-    virtual bool AddMP(const AFGUID& self, const int32_t& value);
-    virtual bool ConsumeMP(const AFGUID& self, const int32_t& value);
-    virtual bool EnoughMP(const AFGUID& self, const int32_t& value);
+    bool AddMP(const AFGUID& self, const int32_t& value) override;
+    bool ConsumeMP(const AFGUID& self, const int32_t& value) override;
+    bool EnoughMP(const AFGUID& self, const int32_t& value) override;
 
-    virtual bool AddMoney(const AFGUID& self, const int32_t& value);
-    virtual bool ConsumeMoney(const AFGUID& self, const int32_t& value);
-    virtual bool EnoughMoney(const AFGUID& self, const int32_t& value);
+    bool AddMoney(const AFGUID& self, const int32_t& value) override;
+    bool ConsumeMoney(const AFGUID& self, const int32_t& value) override;
+    bool EnoughMoney(const AFGUID& self, const int32_t& value) override;
 
-    virtual bool AddDiamond(const AFGUID& self, const int32_t& value);
-    virtual bool ConsumeDiamond(const AFGUID& self, const int32_t& value);
-    virtual bool EnoughDiamond(const AFGUID& self, const int32_t& value);
+    bool AddDiamond(const AFGUID& self, const int32_t& value) override;
+    bool ConsumeDiamond(const AFGUID& self, const int32_t& value) override;
+    bool EnoughDiamond(const AFGUID& self, const int32_t& value) override;
 
 protected:
     int OnObjectClassEvent(
         const AFGUID& self, const std::string& class_name, const ArkEntityEvent event, const AFIDataList& var);
 
-    int OnObjectLevelEvent(
-        const AFGUID& self, const std::string& strPropertyName, const uint32_t index, const AFIData& old_var, const AFIData& new_var);
+    int OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const uint32_t index,
+        const AFIData& old_var, const AFIData& new_var);
 
     int OnAttributeTableEvent(
         const AFGUID& self, const TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);

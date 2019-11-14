@@ -43,13 +43,13 @@ public:
     bool PostInit() override;
     //bool PreUpdate() override;
 
-    virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self);
-    virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self);
-    virtual std::shared_ptr<AFINetServerService> GetNetServerService();
+    void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self) override;
+    void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self) override;
+    std::shared_ptr<AFINetServerService> GetNetServerService() override;
 
-    virtual bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID);
-    virtual bool RemovePlayerGateInfo(const AFGUID& nRoleID);
-    virtual std::shared_ptr<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID);
+    bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID) override;
+    bool RemovePlayerGateInfo(const AFGUID& nRoleID) override;
+    std::shared_ptr<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID) override;
 
     virtual std::shared_ptr<GateServerInfo> GetGateServerInfo(const int nGateID);
     virtual std::shared_ptr<GateServerInfo> GetGateServerInfoByClientID(const AFGUID& nClientID);

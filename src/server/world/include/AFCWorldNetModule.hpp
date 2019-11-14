@@ -41,22 +41,22 @@ public:
     bool PostInit() override;
     //bool PreUpdate() override;
 
-    virtual bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData,
-        const AFGUID nPlayer = AFGUID());
-    virtual bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID,
-        const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData);
+    bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData,
+        const AFGUID nPlayer = 0) override;
+    bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID, const AFMsg::EGameMsgID eMsgID,
+        google::protobuf::Message& xData) override;
     virtual bool SendMsgToPlayer(
         const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer);
 
-    virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar);
-    virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar);
+    int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar) override;
+    int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar) override;
 
     virtual int OnViewDataNodeEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
     virtual int OnSelfDataNodeEnter(const AFGUID& self, const AFIDataList& argGameID);
     virtual int OnViewDataTableEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
     virtual int OnSelfDataTableEnter(const AFGUID& self, const AFIDataList& argGameID);
 
-    virtual std::shared_ptr<AFServerData> GetSuitProxyForEnter();
+    std::shared_ptr<AFServerData> GetSuitProxyForEnter() override;
     std::shared_ptr<AFINetServerService> GetNetServer() override;
 
     virtual int GetPlayerGameID(const AFGUID self);
@@ -110,7 +110,6 @@ private:
     AFIBusModule* m_pBusModule;
     AFIMsgModule* m_pMsgModule;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
-    AFITimerModule* m_pTimerModule;
 
     std::shared_ptr<AFINetServerService> m_pNetServer;
 };

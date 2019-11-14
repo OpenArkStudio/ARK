@@ -46,15 +46,10 @@ public:
 class AFMapInfo
 {
 public:
-    explicit AFMapInfo()
-        : instance_id_(0)
-        , width_(512)
-    {
-    }
+    AFMapInfo() = default;
 
-    explicit AFMapInfo(int width)
-        : instance_id_(0)
-        , width_(width)
+    AFMapInfo(int width)
+        : width_(width)
     {
     }
 
@@ -137,9 +132,9 @@ public:
     }
 
 private:
-    int instance_id_;
-    int map_id_;
-    int width_; // will separate the grid
+    int instance_id_{0};
+    int map_id_{0};
+    int width_{512}; // will separate the grid
     AFSmartPtrMap<int, AFMapInstance> map_instances_;
 };
 

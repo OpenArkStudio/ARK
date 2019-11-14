@@ -101,54 +101,54 @@ public:
     }
 
     // hton ntoh functions
-    static int64_t HTONLL(const int64_t data)
+    static int64_t ARK_HTONLL(const int64_t data)
     {
-#ifdef ARK_PLATFORM_WIN
+#if defined(ARK_PLATFORM_WIN) || defined(ARK_PLATFORM_DARWIN)
         return htonll(data);
 #else
         return htobe64(data);
 #endif
     }
 
-    static int64_t NTOHLL(const int64_t data)
+    static int64_t ARK_NTOHLL(const int64_t data)
     {
-#ifdef ARK_PLATFORM_WIN
+#if defined(ARK_PLATFORM_WIN) || defined(ARK_PLATFORM_DARWIN)
         return ntohll(data);
 #else
         return be64toh(data);
 #endif
     }
 
-    static int32_t HTONL(const int32_t data)
+    static int32_t ARK_HTONL(const int32_t data)
     {
-#ifdef ARK_PLATFORM_WIN
+#if defined(ARK_PLATFORM_WIN) || defined(ARK_PLATFORM_DARWIN)
         return htonl(data);
 #else
         return htobe32(data);
 #endif
     }
 
-    static int32_t NTOHL(const int32_t data)
+    static int32_t ARK_NTOHL(const int32_t data)
     {
-#ifdef ARK_PLATFORM_WIN
+#if defined(ARK_PLATFORM_WIN) || defined(ARK_PLATFORM_DARWIN)
         return ntohl(data);
 #else
         return be32toh(data);
 #endif
     }
 
-    static int16_t HTONS(const int16_t data)
+    static int16_t ARK_HTONS(const int16_t data)
     {
-#ifdef ARK_PLATFORM_WIN
+#if defined(ARK_PLATFORM_WIN) || defined(ARK_PLATFORM_DARWIN)
         return htons(data);
 #else
         return htobe16(data);
 #endif
     }
 
-    static int16_t NTOHS(const int16_t data)
+    static int16_t ARK_NTOHS(const int16_t data)
     {
-#ifdef ARK_PLATFORM_WIN
+#if defined(ARK_PLATFORM_WIN) || defined(ARK_PLATFORM_DARWIN)
         return ntohs(data);
 #else
         return be16toh(data);

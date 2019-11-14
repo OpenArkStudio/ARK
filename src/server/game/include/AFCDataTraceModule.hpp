@@ -35,8 +35,8 @@ class AFCDataTraceModule final : public AFIDataTraceModule
 public:
     bool Init() override;
 
-    virtual void StartTracing(const AFGUID self);
-    virtual void EndTracing(const AFGUID self);
+    void StartTracing(const AFGUID self) override;
+    void EndTracing(const AFGUID self) override;
 
 protected:
     int LogObjectData(const AFGUID& self);

@@ -509,7 +509,7 @@ int AFCGameNetModule::OnEntityListEnter(const AFIDataList& self, const AFIDataLi
     {
         AFGUID ident = self.Int64(i);
 
-        if (!ident != 0)
+        if (ident != 0)
         {
             SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_ENTER, xEntityEnterList, ident);
         }
@@ -532,7 +532,7 @@ int AFCGameNetModule::OnEntityListLeave(const AFIDataList& self, const AFIDataLi
         AFGUID identOld = argVar.Int64(i);
 
         // Exclude empty entity
-        if (!identOld != 0)
+        if (identOld != 0)
         {
             xEntityLeaveInfoList.add_entity_list(identOld);
         }

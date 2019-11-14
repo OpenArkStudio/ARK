@@ -96,7 +96,7 @@ bool AFCSceneProcessModule::CreateMapEntities(const int map_id, const int inst_i
     return true;
 }
 
-int AFCSceneProcessModule::CreateMapInstance(const int& map_id)
+int AFCSceneProcessModule::CreateMapInstance(const int map_id)
 {
     const E_SCENE_TYPE eType = GetMapInstanceType(map_id);
     int target_inst_id = m_pMapModule->CreateMapInstance(map_id);
@@ -117,11 +117,11 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
         return 0;
     }
 
-	auto pEntity = m_pKernelModule->GetEntity(self);
-	if (pEntity == nullptr)
-	{
+    auto pEntity = m_pKernelModule->GetEntity(self);
+    if (pEntity == nullptr)
+    {
         return 0;
-	}
+    }
 
     const AFGUID ident = var.Int64(0);
     const int target_map = var.Int(2);
@@ -165,10 +165,10 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
     AFVector3D xRelivePos;
     //const std::string strSceneID = ARK_LEXICAL_CAST<std::string>(target_map);
     auto pSceneConfig = m_pKernelModule->GetStaticEntity(target_map);
-	if (pSceneConfig == nullptr)
-	{
+    if (pSceneConfig == nullptr)
+    {
         return 0;
-	}
+    }
 
     const std::string& strRelivePosList = pSceneConfig->GetString(AFConfigMetaMap::RelivePos());
 
@@ -205,7 +205,7 @@ int AFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEv
         return -1;
     }
 
-	auto pEntity = m_pKernelModule->GetEntity(object);
+    auto pEntity = m_pKernelModule->GetEntity(object);
     if (pEntity == nullptr)
     {
         return -1;
@@ -282,7 +282,7 @@ bool AFCSceneProcessModule::ApplyMapInstance(const int map_id, int& map_inst_id)
     return true;
 }
 
-bool AFCSceneProcessModule::ExitMapInstance(const int map_id, const int& map_inst_id)
+bool AFCSceneProcessModule::ExitMapInstance(const int map_id, const int map_inst_id)
 {
     return m_pMapModule->ExitMapInstance(map_id, map_inst_id);
 }

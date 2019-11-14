@@ -61,6 +61,14 @@
 #include <iomanip>
 
 #if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64)
+#define ARK_PLATFORM_WIN
+#elif defined(__APPLE_CC__)
+#define ARK_PLATFORM_DARWIN
+#else
+#define ARK_PLATFORM_LINUX
+#endif
+
+#if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64)
 // only windows include
 
 #ifndef NOMINMAX
@@ -104,7 +112,9 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <signal.h>
+#ifdef ARK_PLATFORM_LINUX
 #include <sys/prctl.h>
+#endif
 #include <dlfcn.h>
 
 #endif
@@ -124,14 +134,6 @@
 #define UNIX_FLAVOUR_BSD 2
 #define UNIX_FLAVOUR_OTHER 3
 #define UNIX_FLAVOUR_OSX 4
-
-#if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64)
-#define ARK_PLATFORM_WIN
-#elif defined(__APPLE_CC__)
-#define ARK_PLATFORM_DARWIN
-#else
-#define ARK_PLATFORM_LINUX
-#endif
 
 #define COMPILER_MICROSOFT 0
 #define COMPILER_GNU 1

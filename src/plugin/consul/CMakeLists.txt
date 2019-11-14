@@ -7,13 +7,16 @@ if(WIN32)
         optimized brynet.lib
         optimized AFProto.lib
         optimized libprotobuf.lib)
+elseif(APPLE)
+    BUILD_PLUGIN_MACRO(AFConsulPlugin 
+        debug ${BIN_OUTPUT_DIR}/AFProto_d.a
+        optimized ${BIN_OUTPUT_DIR}/AFProto.a
+        brynet
+        protobuf)
 else(UNIX)
     BUILD_PLUGIN_MACRO(AFConsulPlugin 
-        debug brynet    
         debug :AFProto_d.a
-        debug protobuf
-
-        optimized brynet
         optimized :AFProto.a
-        optimized protobuf)
+        brynet
+        protobuf)
 endif()

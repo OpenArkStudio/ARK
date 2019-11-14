@@ -51,6 +51,7 @@
 #define MAX_PATH 256
 #endif
 
+#ifndef ARK_PLATFORM_DARWIN
 #ifndef strlcpy
 /*
  * Copy src to string dst of size siz.  At most siz-1 characters
@@ -85,7 +86,8 @@ static size_t strlcpy(char* dst, const char* src, size_t siz)
 
     return (s - src - 1); /* count does not include NUL */
 }
-#endif
+#endif // strlcpy
+#endif // ARK_PLATFORM_DARWIN
 
 #ifdef ARK_PLATFORM_WIN
 
@@ -157,8 +159,25 @@ typedef struct HINSTANCE__* hInstance;
 
 #elif defined(ARK_PLATFORM_DARWIN)
 
+#define ARK_SPRINTF snprintf
+#define ARK_STRICMP strcasecmp
+#define ARK_SLEEP(s) usleep(s * 1000)
+#define ARK_STRNCPY strlcpy
+#define ARK_ASSERT(exp_, msg_, file_, func_)                                                                           \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if ((exp_))                                                                                                    \
+            break;                                                                                                     \
+        assert(exp_);                                                                                                  \
+    } while (0);
+
+#define ARK_EXPORT_FUNC extern "C" __attribute((visibility("default")))
+#define ARK_EXPORT __attribute((visibility("default")))
+#define ARK_IMPORT __attribute((visibility("default")))
+#define ARK_UNUSED __attribute__((unused))
+
 #define DYNLIB_HANDLE void*
-#define DYNLIB_LOAD(a) mac_loadDylib((a))
+#define DYNLIB_LOAD(a) dlopen((a), RTLD_LAZY | RTLD_GLOBAL)
 #define DYNLIB_GETSYM(a, b) dlsym((a), (b))
 #define DYNLIB_UNLOAD(a) dlclose((a))
 
@@ -350,11 +369,11 @@ typedef struct HINSTANCE__* hInstance;
     class PLUGIN_CLASS final : public AFIPlugin                                                                        \
     {                                                                                                                  \
     public:                                                                                                            \
-        int GetPluginVersion()                                                                                         \
+        int GetPluginVersion() override                                                                                \
         {                                                                                                              \
             return 0;                                                                                                  \
         }                                                                                                              \
-        const std::string GetPluginName()                                                                              \
+        const std::string GetPluginName() override                                                                     \
         {                                                                                                              \
             return GET_CLASS_NAME(PLUGIN_CLASS);                                                                       \
         }                                                                                                              \
@@ -364,7 +383,7 @@ typedef struct HINSTANCE__* hInstance;
         {                                                                                                              \
             return plugin_manager_;                                                                                    \
         }                                                                                                              \
-        void SetPluginManager(AFPluginManager* p)                                                                      \
+        void SetPluginManager(AFPluginManager* p) override                                                             \
         {                                                                                                              \
             ARK_ASSERT_RET_NONE(p != nullptr);                                                                         \
             plugin_manager_ = p;                                                                                       \
@@ -403,7 +422,7 @@ typedef struct HINSTANCE__* hInstance;
             GetPluginManager()->AddUpdateModule(pRegModule);                                                           \
         }                                                                                                              \
     }
-#else
+#else // UNIX
 #define ARK_REGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                    \
     {                                                                                                                  \
         ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                              \
@@ -414,12 +433,7 @@ typedef struct HINSTANCE__* hInstance;
         pRegModule->SetName(GET_CLASS_NAME(MODULE));                                                                   \
         GetPluginManager()->AddModule(pRegModule->GetName(), pRegModule);                                              \
         modules_.insert(std::make_pair(pRegModule->GetName(), pRegModule));                                            \
-        AFIModule base;                                                                                                \
-        bool (AFIModule::*mfp)() = &AFIModule::Update;                                                                 \
-        bool (DERIVED_MODULE::*child_mfp)() = &DERIVED_MODULE::Update;                                                 \
-        void* base_update_mfp = (void*)(base.*mfp);                                                                    \
-        void* derived_update_mfp = (void*)(static_cast<DERIVED_MODULE*>(pRegModule)->*child_mfp);                      \
-        if (base_update_mfp == derived_update_mfp)                                                                     \
+        if (&AFIModule::Update == &DERIVED_MODULE::Update)                                                             \
         {                                                                                                              \
             GetPluginManager()->AddUpdateModule(pRegModule);                                                           \
         }                                                                                                              \

@@ -35,10 +35,10 @@ class AFCAccountModule final : public AFIAccountModule
 public:
     bool Init() override;
 
-    virtual bool GetRoleList(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList);
-    virtual bool CreateRole(
-        const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList, const AFIDataList& varList);
-    virtual bool DeleteRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList);
+    bool GetRoleList(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList) override;
+    bool CreateRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList,
+        const AFIDataList& varList) override;
+    bool DeleteRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList) override;
 
 protected:
     int OnLoadRoleBeginEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);

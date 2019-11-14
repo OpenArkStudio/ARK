@@ -39,15 +39,15 @@ public:
     bool Init() override;
     bool PostInit() override;
 
-    virtual E_SCENE_TYPE GetMapInstanceType(const int nSceneID);
-    virtual bool IsInstanceMap(const int nSceneID);
-    virtual bool ApplyMapInstance(const int nSceneID, int& nGroupID);
-    virtual bool ExitMapInstance(const int nSceneID, const int& nGroupID);
+    E_SCENE_TYPE GetMapInstanceType(const int map_id) override;
+    bool IsInstanceMap(const int map_id) override;
+    bool ApplyMapInstance(const int map_id, int& inst_id) override;
+    bool ExitMapInstance(const int map_id, const int inst_id) override;
 
 protected:
-    int CreateMapInstance(const int& nSceneID);
-    bool CreateMapEntities(const int nSceneID, const int nGroupID);
-    bool LoadMapResource(const int nSceneID);
+    int CreateMapInstance(const int map_id);
+    bool CreateMapEntities(const int map_id, const int inst_id);
+    bool LoadMapResource(const int map_id);
 
     int OnObjectClassEvent(
         const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var);
