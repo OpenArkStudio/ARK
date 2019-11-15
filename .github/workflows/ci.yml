@@ -4,7 +4,10 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
 
     steps:
       - uses: actions/checkout@v1
@@ -20,10 +23,15 @@ jobs:
           git submodule sync
           git submodule update --init
 
+          os_name=`uname`
+
           # build deps
           cd dep
-          chmod -R 755 build_dep.sh
-          bash build_dep.sh
+          if [ "$os_name" = Linux ]; then
+              bash build_dep.sh
+          elif [ "$os_name" = Darwin ]; then
+              bash build_dep_darwin.sh
+          fi
           cd ..
 
           # build ark

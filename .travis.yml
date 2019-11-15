@@ -20,8 +20,6 @@ matrix:
           packages:
             - gcc-5
             - gcc-5-multilib
-            - g++-5
-            - g++-5-multilib
             - cmake
             - lcov
         sonarcloud:
@@ -40,8 +38,6 @@ matrix:
           packages:
             - gcc-6
             - gcc-6-multilib
-            - g++-6
-            - g++-6-multilib
             - cmake
             - lcov
         sonarcloud:
@@ -60,8 +56,6 @@ matrix:
           packages:
             - gcc-7
             - gcc-7-multilib
-            - g++-7
-            - g++-7-multilib
             - cmake
             - lcov
         sonarcloud:
@@ -80,8 +74,6 @@ matrix:
           packages:
             - gcc-8
             - gcc-8-multilib
-            - g++-8
-            - g++-8-multilib
             - cmake
             - lcov
         #sonarcloud
