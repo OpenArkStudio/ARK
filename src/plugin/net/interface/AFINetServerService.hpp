@@ -26,28 +26,28 @@
 
 namespace ark {
 
-class AFServerData
-{
-public:
-    void Init(const AFGUID& conn_id, const AFMsg::msg_ss_server_report& data)
-    {
-        conn_id_ = conn_id;
-        server_info_ = data;
-    }
-
-    AFGUID conn_id_{0};
-    AFMsg::msg_ss_server_report server_info_;
-};
-
-class AFClientConnectionData
-{
-public:
-    int32_t logic_state_{0};
-    int32_t game_id_{0};
-    AFGUID actor_id_{0};
-    AFGUID conn_id_{0};
-    std::string account_{};
-};
+//class AFServerData
+//{
+//public:
+//    void Init(const AFGUID& conn_id, const AFMsg::msg_ss_server_report& data)
+//    {
+//        conn_id_ = conn_id;
+//        server_info_ = data;
+//    }
+//
+//    AFGUID conn_id_{0};
+//    AFMsg::msg_ss_server_report server_info_;
+//};
+//
+//class AFClientConnectionData
+//{
+//public:
+//    int32_t logic_state_{0};
+//    int32_t game_id_{0};
+//    AFGUID actor_id_{0};
+//    AFGUID conn_id_{0};
+//    std::string account_{};
+//};
 
 class AFINetServerService
 {
@@ -55,14 +55,14 @@ public:
     virtual ~AFINetServerService() = default;
 
     template<typename BaseType>
-    bool RegMsgCallback(const int msg_id, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t))
+    bool RegMsgCallback(const int msg_id, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*))
     {
-        NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
+        NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1);
         return RegMsgCallback(msg_id, std::move(functor));
     }
 
     template<typename BaseType>
-    bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t))
+    bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int))
     {
         NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
         return RegForwardMsgCallback(std::move(functor));
@@ -75,7 +75,8 @@ public:
         return RegNetEventCallback(std::move(functor));
     }
 
-    virtual bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) = 0;
+    virtual bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count,
+        const uint32_t max_connection) = 0;
     virtual bool Update() = 0;
 
     // virtual bool SendBroadcastMsg(const int nMsgID, const std::string& msg, const AFGUID& player_id) = 0;

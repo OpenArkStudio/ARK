@@ -67,8 +67,16 @@ public:
     virtual ID_TYPE GetConfigID() const = 0;
     virtual int32_t GetMapID() const = 0;
     virtual int32_t GetMapEntityID() const = 0;
-    virtual bool SetMapID(const int32_t value) = 0;
-    virtual bool SetMapEntityID(const int32_t value) = 0;
+    virtual bool SwitchScene(const int32_t map_id, const int32_t map_inst_id, const AFVector3D& pos) = 0;
+
+    virtual const AFVector3D& GetPosition() const = 0;
+    virtual float GetPositionX() const = 0;
+    virtual float GetPositionY() const = 0;
+    virtual float GetPositionZ() const = 0;
+    virtual float GetOrient() const = 0;
+
+    virtual bool SetPosition(const AFVector3D& postion, const float orient) = 0;
+    virtual bool SetPosition(const float x, const float y, const float z, const float orient) = 0;
 
     // set data
     virtual bool SetBool(const std::string& name, bool value) = 0;

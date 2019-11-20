@@ -130,6 +130,35 @@ public:
             prio);
     }
 
+    // scene event call back
+    template<typename BaseType>
+    bool AddLeaveSceneEvent(const std::string& class_name, BaseType* pBase,
+        int (BaseType::*handler)(const AFGUID&, const int, const int), const int32_t prio = 0)
+    {
+        return AddLeaveSceneEvent(class_name,
+            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)),
+            prio);
+    }
+
+    template<typename BaseType>
+    bool AddEnterSceneEvent(const std::string& class_name, BaseType* pBase,
+        int (BaseType::*handler)(const AFGUID&, const int, const int), const int32_t prio = 0)
+    {
+        return AddEnterSceneEvent(class_name,
+            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)),
+            prio);
+    }
+
+    // move event call back
+    template<typename BaseType>
+    bool AddMoveEvent(const std::string& class_name, BaseType* pBase,
+        int (BaseType::*handler)(const AFGUID&, const AFVector3D&, const AFVector3D&), const int32_t prio = 0)
+    {
+        return AddMoveEvent(class_name,
+            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)),
+            prio);
+    }
+
     //////////////////////////////////////////////////////////////////////////
 
     virtual bool DoEvent(
@@ -191,6 +220,10 @@ protected:
     virtual bool AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
 
     virtual bool AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
+
+    virtual bool AddLeaveSceneEvent(const std::string& class_name, SCENE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
+    virtual bool AddEnterSceneEvent(const std::string& class_name, SCENE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
+    virtual bool AddMoveEvent(const std::string& class_name, MOVE_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
 };
 
 } // namespace ark

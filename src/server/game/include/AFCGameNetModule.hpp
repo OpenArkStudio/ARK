@@ -49,10 +49,10 @@ public:
 
     bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID) override;
     bool RemovePlayerGateInfo(const AFGUID& nRoleID) override;
-    std::shared_ptr<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID) override;
+    //std::shared_ptr<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID) override;
 
-    virtual std::shared_ptr<GateServerInfo> GetGateServerInfo(const int nGateID);
-    virtual std::shared_ptr<GateServerInfo> GetGateServerInfoByClientID(const AFGUID& nClientID);
+    //virtual std::shared_ptr<GateServerInfo> GetGateServerInfo(const int nGateID);
+    //virtual std::shared_ptr<GateServerInfo> GetGateServerInfoByClientID(const AFGUID& nClientID);
 
     virtual int OnViewDataNodeEnter(const AFIDataList& argVar, const AFGUID& self);
     virtual int OnSelfDataNodeEnter(const AFGUID& self);
@@ -66,17 +66,17 @@ public:
     // void OnClientDisconnect(const AFGUID& xClientID);
     // void OnClientConnected(const AFGUID& xClientID);
 
-    void OnRegisteredProxy(const AFNetMsg* msg, const int64_t session_id);
-    void OnUnregisteredProxy(const AFNetMsg* msg, const int64_t session_id);
-    void OnRefreshProxy(const AFNetMsg* msg, const int64_t session_id);
-    void OnReqiureRoleList(const AFNetMsg* msg, const int64_t session_id);
-    void OnCreateRole(const AFNetMsg* msg, const int64_t session_id);
-    void OnDeleteRole(const AFNetMsg* msg, const int64_t session_id);
-    void OnRecoverRole(const AFNetMsg* msg, const int64_t session_id);
+    void OnRegisteredProxy(const AFNetMsg* msg);
+    void OnUnregisteredProxy(const AFNetMsg* msg);
+    void OnRefreshProxy(const AFNetMsg* msg);
+    void OnReqiureRoleList(const AFNetMsg* msg);
+    void OnCreateRole(const AFNetMsg* msg);
+    void OnDeleteRole(const AFNetMsg* msg);
+    void OnRecoverRole(const AFNetMsg* msg);
 
-    void OnEnterGame(const AFNetMsg* msg, const int64_t session_id);
-    void OnLeaveGame(const AFNetMsg* msg, const int64_t session_id);
-    void OnSwapScene(const AFNetMsg* msg, const int64_t session_id);
+    void OnEnterGame(const AFNetMsg* msg);
+    void OnLeaveGame(const AFNetMsg* msg);
+    void OnSwapScene(const AFNetMsg* msg);
 
     ///////////WORLD_START///////////////////////////////////////////////////////////////
     void OnTransWorld(const AFNetMsg* msg);
@@ -85,17 +85,18 @@ public:
     int OnCommonClassEvent(
         const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var);
 
-    int OnMapInstanceEvent(const AFGUID& self, const std::string& name, const uint32_t index, const AFIData& oldVar,
-        const AFIData& newVar);
-    int OnContainerEvent(const AFGUID& self, const std::string& name, const uint32_t index, const AFIData& oldVar,
-        const AFIData& newVar);
+    //int OnMapInstanceEvent(const AFGUID& self, const std::string& name, const uint32_t index, const AFIData& oldVar,
+    //    const AFIData& newVar);
+    //int OnContainerEvent(const AFGUID& self, const std::string& name, const uint32_t index, const AFIData& oldVar,
+    //    const AFIData& newVar);
+
+    int OnLeaveScene(const AFGUID& self, const int map_id, const int map_inst_id);
+    int OnEnterScene(const AFGUID& self, const int map_id, const int map_inst_id);
 
     int OnEntityEvent(
         const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var);
     int OnSwapSceneResultEvent(const AFGUID& self, const int nEventID, const AFIDataList& var);
 
-    int GetNodeBroadcastEntityList(const AFGUID& self, const std::string& strPropertyName, AFIDataList& valueObject);
-    int GetTableBroadcastEntityList(const AFGUID& self, const std::string& strPropertyName, AFIDataList& valueObject);
     int GetBroadcastEntityList(const int nObjectContainerID, const int nGroupID, AFIDataList& valueObject);
 
     bool ProcessLeaveGroup(const AFGUID& self, int nSceneID, int nOldGroupID);
@@ -109,9 +110,9 @@ protected:
 
 private:
     //<PlayerID, GateBaseInfo>//其实可以在object系统中被代替
-    AFSmartPtrMap<AFGUID, GateBaseInfo> mRoleBaseData;
+    // AFSmartPtrMap<AFGUID, GateBaseInfo> mRoleBaseData;
     // gate id,data
-    AFSmartPtrMap<int, GateServerInfo> mProxyMap;
+    // AFSmartPtrMap<int, GateServerInfo> mProxyMap;
     //////////////////////////////////////////////////////////////////////////
     AFIGUIDModule* m_pUUIDModule;
     AFIKernelModule* m_pKernelModule;

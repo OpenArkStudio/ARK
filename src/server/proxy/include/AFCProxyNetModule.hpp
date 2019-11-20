@@ -62,13 +62,13 @@ protected:
     void OnClientDisconnect(const AFGUID& xClientID);
     void OnClientConnected(const AFGUID& xClientID);
 
-    void OnConnectKeyProcess(const AFNetMsg* msg, const int64_t session_id);
-    void OnReqServerListProcess(const AFNetMsg* msg, const int64_t session_id);
-    void OnSelectServerProcess(const AFNetMsg* msg, const int64_t session_id);
-    void OnReqRoleListProcess(const AFNetMsg* msg, const int64_t session_id);
-    void OnReqCreateRoleProcess(const AFNetMsg* msg, const int64_t session_id);
-    void OnReqDelRoleProcess(const AFNetMsg* msg, const int64_t session_id);
-    void OnReqEnterGameServer(const AFNetMsg* msg, const int64_t session_id);
+    void OnConnectKeyProcess(const AFNetMsg* msg);
+    void OnReqServerListProcess(const AFNetMsg* msg);
+    void OnSelectServerProcess(const AFNetMsg* msg);
+    void OnReqRoleListProcess(const AFNetMsg* msg);
+    void OnReqCreateRoleProcess(const AFNetMsg* msg);
+    void OnReqDelRoleProcess(const AFNetMsg* msg);
+    void OnReqEnterGameServer(const AFNetMsg* msg);
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -100,7 +100,7 @@ protected:
     AFSmartPtrMap<std::string, ClientConnectData> mxWantToConnectMap;
 
 private:
-    AFSmartPtrMap<AFGUID, AFClientConnectionData> client_connections_; // net_conn_id <--> SessionData
+    // AFSmartPtrMap<AFGUID, AFClientConnectionData> client_connections_; // net_conn_id <--> SessionData
 
     AFILogModule* m_pLogModule;
     AFIBusModule* m_pBusModule;

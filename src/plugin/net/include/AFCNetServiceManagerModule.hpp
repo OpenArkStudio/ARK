@@ -56,6 +56,8 @@ public:
     bool RemoveNetConnectionBus(int client_bus_id) override;
     std::shared_ptr<AFINet> GetNetConnectionBus(int src_bus, int target_bus) override;
 
+    std::shared_ptr<AFINetClientService> GetClientService(const ARK_APP_TYPE app_type) override;
+
 protected:
     ananas::Future<std::pair<bool, std::string>> RegisterToConsul(const int bus_id);
     int DeregisterFromConsul(const int bus_id);

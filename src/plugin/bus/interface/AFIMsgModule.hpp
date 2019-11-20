@@ -34,21 +34,27 @@ namespace ark {
 class AFIMsgModule : public AFIModule
 {
 public:
-    virtual bool SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, const int msg_id,
-        const google::protobuf::Message& msg, const AFGUID& actor_id = 0) = 0;
-    virtual bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, const int msg_id,
-        const google::protobuf::Message& msg, const AFGUID& actor_id = 0) = 0;
-    virtual bool SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg,
-        const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
+    //virtual bool SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, const int msg_id,
+    //    const google::protobuf::Message& msg, const AFGUID& actor_id = 0) = 0;
+    //virtual bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, const int msg_id,
+    //    const google::protobuf::Message& msg, const AFGUID& actor_id = 0) = 0;
+    //virtual bool SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg,
+    //    const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
 
-    virtual bool SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg,
-        const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
-    virtual bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg,
-        const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
-    virtual bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len,
-        const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
+    //virtual bool SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg,
+    //    const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
+    //virtual bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg,
+    //    const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
+    //virtual bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len,
+    //    const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
 
-    virtual bool SendSSMsgByRouter(const AFSSMsgHead& head) = 0;
+    //virtual bool SendSSMsgByRouter(const AFSSMsgHead& head) = 0;
+
+    //--------new interface---------
+    virtual bool SendMsgByAppType(const ARK_APP_TYPE app_type, const int msg_id, const google::protobuf::Message& msg,
+        const AFGUID& guid = NULL_GUID) = 0;
+    virtual bool SendMsgByBusID(
+        const int bus_id, const int msg_id, const google::protobuf::Message& msg, const AFGUID& guid = NULL_GUID) = 0;
 
     static bool RecvPB(const AFNetMsg* msg, std::string& str_msg, AFGUID& actor_id)
     {
@@ -99,7 +105,7 @@ public:
     ARK_LOG_DEBUG("Recv msg log src={} dst={} msg_name={} msg_id={} msg_len={}\nmsg_data={}", "", "",                  \
         pb_msg.GetTypeName(), msg_id, msg_len, pb_msg.DebugString());                                                  \
                                                                                                                        \
-    std::shared_ptr<AFIEntity> pEntity = m_pKernelModule->GetEntity(actor_id);                                           \
+    std::shared_ptr<AFIEntity> pEntity = m_pKernelModule->GetEntity(actor_id);                                         \
     if (nullptr == pEntity)                                                                                            \
     {                                                                                                                  \
         ARK_LOG_ERROR("FromClient actor_entity do not Exist, msg_id={} player_id={}", msg_id, actor_id.ToString());    \

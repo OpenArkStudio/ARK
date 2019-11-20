@@ -88,6 +88,24 @@ bool AFClassCallBackManager::AddContainerCallBack(
     return true;
 }
 
+bool AFClassCallBackManager::AddLeaveSceneEvent(SCENE_EVENT_FUNCTOR&& cb, const int32_t prio)
+{
+    leave_scene_events_.insert(std::make_pair(prio, std::forward<SCENE_EVENT_FUNCTOR>(cb)));
+    return true;
+}
+
+bool AFClassCallBackManager::AddEnterSceneEvent(SCENE_EVENT_FUNCTOR&& cb, const int32_t prio)
+{
+    enter_scene_events_.insert(std::make_pair(prio, std::forward<SCENE_EVENT_FUNCTOR>(cb)));
+    return true;
+}
+
+bool AFClassCallBackManager::AddMoveEvent(MOVE_EVENT_FUNCTOR&& cb, const int32_t prio)
+{
+    move_events_.insert(std::make_pair(prio, std::forward<MOVE_EVENT_FUNCTOR>(cb)));
+    return true;
+}
+
 bool AFClassCallBackManager::OnClassEvent(
     const AFGUID& id, const std::string& class_name, const ArkEntityEvent eClassEvent, const AFIDataList& valueList)
 {
@@ -203,6 +221,36 @@ bool AFClassCallBackManager::OnContainerCallBack(const AFGUID& self, const uint3
         {
             iter.second(self, index, op_type, src_index, dest_index);
         }
+    }
+
+    return true;
+}
+
+bool AFClassCallBackManager::OnLeaveSceneEvent(const AFGUID& self, const int map_id, const int map_inst_id)
+{
+    for (auto& iter : leave_scene_events_)
+    {
+        iter.second(self, map_id, map_inst_id);
+    }
+
+    return true;
+}
+
+bool AFClassCallBackManager::OnEnterSceneEvent(const AFGUID& self, const int map_id, const int map_inst_id)
+{
+    for (auto& iter : enter_scene_events_)
+    {
+        iter.second(self, map_id, map_inst_id);
+    }
+
+    return true;
+}
+
+bool AFClassCallBackManager::OnMoveEvent(const AFGUID& self, const AFVector3D& old_pos, const AFVector3D& new_pos)
+{
+    for (auto& iter : move_events_)
+    {
+        iter.second(self, old_pos, new_pos);
     }
 
     return true;

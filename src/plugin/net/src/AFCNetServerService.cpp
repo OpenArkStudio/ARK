@@ -38,7 +38,8 @@ AFCNetServerService::AFCNetServerService(AFPluginManager* p)
 //    ARK_DELETE(m_pNet); // shutdown will be called in destructor
 //}
 
-bool AFCNetServerService::Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection)
+bool AFCNetServerService::Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep,
+    const uint8_t thread_count, const uint32_t max_connection)
 {
     bool ret = false;
     if (ep.proto() == proto_type::tcp)
@@ -103,12 +104,12 @@ bool AFCNetServerService::RegNetEventCallback(NET_EVENT_FUNCTOR&& cb)
     return true;
 }
 
-void AFCNetServerService::OnNetMsg(const AFNetMsg* msg, const int64_t session_id)
+void AFCNetServerService::OnNetMsg(const AFNetMsg* msg)
 {
     auto it = net_msg_callbacks_.find(msg->GetMsgId());
     if (it != net_msg_callbacks_.end())
     {
-        (it->second)(msg, session_id);
+        (it->second)(msg);
     }
     else
     {
@@ -128,13 +129,13 @@ void AFCNetServerService::OnNetEvent(const AFNetEvent* event)
     switch (event->GetType())
     {
         case AFNetEventType::CONNECTED:
-            ARK_LOG_INFO(
-                "Connected server = {} succenssfully, ip = {}, session_id = {}", AFBusAddr(event->GetBusId()).ToString(), event->GetIP(), event->GetId());
+            ARK_LOG_INFO("Connected server = {} succenssfully, ip = {}, session_id = {}",
+                AFBusAddr(event->GetBusId()).ToString(), event->GetIP(), event->GetId());
             // TODO: NickYang, add bus relation of AFINet
             break;
         case AFNetEventType::DISCONNECTED:
-            ARK_LOG_ERROR(
-                "Disconnected server = {} succenssfully, ip = {}, session_id = {}", AFBusAddr(event->GetBusId()).ToString(), event->GetIP(), event->GetId());
+            ARK_LOG_ERROR("Disconnected server = {} succenssfully, ip = {}, session_id = {}",
+                AFBusAddr(event->GetBusId()).ToString(), event->GetIP(), event->GetId());
             m_pNetServiceManagerModule->RemoveNetConnectionBus(event->GetBusId());
             break;
         default:

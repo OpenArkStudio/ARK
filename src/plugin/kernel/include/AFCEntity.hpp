@@ -32,8 +32,35 @@
 #include "kernel/interface/AFINode.hpp"
 #include "base/AFDefine.hpp"
 #include "kernel/interface/AFIDataList.hpp"
+#include "AFCContainerManager.hpp"
 
 namespace ark {
+
+class AFEntityOptCharactor
+{
+public:
+    AFEntityOptCharactor(const int32_t map_id, const int32_t map_entity_id)
+        : map_id_(map_id)
+        , map_entity_id_(map_entity_id)
+    {
+        m_pContainerManager = std::make_shared<AFCContainerManager>();
+    }
+
+    // map id
+    int32_t map_id_{NULL_INT};
+
+    // map obj id
+    int32_t map_entity_id_{NULL_INT};
+
+    // pos
+    AFVector3D pos_{NULL_VECTOR3D};
+
+    // orient
+    float orient_{NULL_FLOAT};
+
+    // container manager
+    std::shared_ptr<AFIContainerManager> m_pContainerManager{nullptr};
+};
 
 class AFCEntity final : public AFIEntity
 {
@@ -49,14 +76,11 @@ private:
     // parent container
     std::shared_ptr<AFIContainer> parent_container_{nullptr};
 
-    // map id
-    int32_t map_id_{NULL_INT};
-
-    // map obj id
-    int32_t map_entity_id_{NULL_INT};
-
     // is sent to client(for container use)
     bool sent_{false};
+
+    // optional data only for player and npc
+    std::shared_ptr<AFEntityOptCharactor> opt_charactor_{nullptr};
 
     // custom data
     using CustomDataList = AFHashmap<std::string, AFIData>;
@@ -70,9 +94,6 @@ private:
 
     // table data
     std::shared_ptr<AFTableManager> m_pTableManager{nullptr};
-
-    // container manager
-    std::shared_ptr<AFIContainerManager> m_pContainerManager{nullptr};
 
     // event manager
     std::shared_ptr<AFIEventManager> m_pEventManager{nullptr};
@@ -118,8 +139,16 @@ public:
     ID_TYPE GetConfigID() const override;
     int32_t GetMapID() const override;
     int32_t GetMapEntityID() const override;
-    bool SetMapID(const int32_t value) override;
-    bool SetMapEntityID(const int32_t value) override;
+    bool SwitchScene(const int32_t map_id, const int32_t map_inst_id, const AFVector3D& pos) override;
+
+    const AFVector3D& GetPosition() const override;
+    float GetPositionX() const override;
+    float GetPositionY() const override;
+    float GetPositionZ() const override;
+    float GetOrient() const override;
+
+    bool SetPosition(const AFVector3D& postion, const float orient) override;
+    bool SetPosition(const float x, const float y, const float z, const float orient) override;
 
     // set data
     bool SetBool(const std::string& name, bool value) override;

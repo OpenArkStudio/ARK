@@ -35,7 +35,8 @@ public:
     explicit AFCNetServerService(AFPluginManager* p);
     //~AFCNetServerService() override;
 
-    bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) override;
+    bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count,
+        const uint32_t max_connection) override;
     bool Update() override;
 
     std::shared_ptr<AFINet> GetNet() override;
@@ -45,7 +46,7 @@ public:
     bool RegNetEventCallback(NET_EVENT_FUNCTOR&& cb) override;
 
 protected:
-    void OnNetMsg(const AFNetMsg* msg, const int64_t session_id);
+    void OnNetMsg(const AFNetMsg* msg);
     void OnNetEvent(const AFNetEvent* event);
 
     //void OnClientRegister(const AFNetMsg* msg, const int64_t session_id);

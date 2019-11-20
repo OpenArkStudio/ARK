@@ -22,6 +22,7 @@
 
 #include "proto/AFProtoCPP.hpp"
 #include "interface/AFIModule.hpp"
+#include "net/interface/AFINetClientService.hpp"
 
 namespace ark {
 class AFINetServerService;
@@ -36,7 +37,8 @@ public:
     virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar) = 0;
     virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar) = 0;
 
-    virtual std::shared_ptr<AFServerData> GetSuitProxyForEnter() = 0;
+    // virtual std::shared_ptr<AFServerData> GetSuitProxyForEnter() = 0;
+    virtual std::shared_ptr<AFConnectionData> GetSuitProxyForEnter() = 0;
     virtual std::shared_ptr<AFINetServerService> GetNetServer() = 0;
 };
 

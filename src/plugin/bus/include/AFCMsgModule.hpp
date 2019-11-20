@@ -34,21 +34,31 @@ class AFCMsgModule final : public AFIMsgModule
 public:
     bool Init() override;
 
-    bool SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, const int msg_id,
-        const google::protobuf::Message& msg, const AFGUID& actor_id = 0) override;
-    bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, const int msg_id,
-        const google::protobuf::Message& msg, const AFGUID& actor_id = 0) override;
-    bool SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg,
-        const AFGUID& conn_id, const AFGUID& actor_id = 0) override;
+    //bool SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, const int msg_id,
+    //    const google::protobuf::Message& msg, const AFGUID& actor_id = 0) override;
+    //bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, const int msg_id,
+    //    const google::protobuf::Message& msg, const AFGUID& actor_id = 0) override;
+    //bool SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg,
+    //    const AFGUID& conn_id, const AFGUID& actor_id = 0) override;
 
-    bool SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg, const int msg_len,
-        const AFGUID& conn_id, const AFGUID& actor_id = 0) override;
-    bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& conn_id,
-        const AFGUID& actor_id = 0) override;
-    bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id,
-        const AFGUID& actor_id = 0) override;
+    //bool SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg, const int msg_len,
+    //    const AFGUID& conn_id, const AFGUID& actor_id = 0) override;
+    //bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& conn_id,
+    //    const AFGUID& actor_id = 0) override;
+    //bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id,
+    //    const AFGUID& actor_id = 0) override;
 
-    bool SendSSMsgByRouter(const AFSSMsgHead& head) override;
+    //bool SendSSMsgByRouter(const AFSSMsgHead& head) override;
+
+    //--------new interface---------
+    bool SendMsgByAppType(const ARK_APP_TYPE app_type, const int msg_id, const google::protobuf::Message& msg,
+        const AFGUID& guid = NULL_GUID) override;
+    bool SendMsgByBusID(const int bus_id, const int msg_id, const google::protobuf::Message& msg,
+        const AFGUID& guid = NULL_GUID) override;
+
+protected:
+    bool SendMsg(std::shared_ptr<AFINet>& pNet, const int src_bus, const int target_bus, const int msg_id,
+        const google::protobuf::Message& msg, const AFGUID& actor_id);
 
 private:
     AFINetServiceManagerModule* m_pNetServiceManagerModule;

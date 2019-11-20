@@ -112,6 +112,11 @@ protected:
 
     bool AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) override;
 
+    bool AddLeaveSceneEvent(const std::string& class_name, SCENE_EVENT_FUNCTOR&& cb, const int32_t prio) override;
+    bool AddEnterSceneEvent(const std::string& class_name, SCENE_EVENT_FUNCTOR&& cb, const int32_t prio) override;
+
+    bool AddMoveEvent(const std::string& class_name, MOVE_EVENT_FUNCTOR&& cb, const int32_t prio) override;
+
     // data sync call back
     void AddSyncCallBack();
 

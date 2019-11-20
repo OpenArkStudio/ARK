@@ -440,16 +440,20 @@ bool AFNodeManager::SetGUID(const std::string& name, const AFGUID& value)
 bool AFNodeManager::SetBool(const uint32_t index, bool value)
 {
     auto pData = FindData(index);
-
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     auto data_type = pData->GetType();
     ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_BOOLEAN, false);
 
     auto old_value = pData->GetBool();
+    if (old_value == value)
+    {
+        return false;
+    }
+
     pData->SetBool(value);
 
-    if (old_value != value && func_)
+    if (func_)
     {
         // data callbacks
         func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
@@ -461,16 +465,20 @@ bool AFNodeManager::SetBool(const uint32_t index, bool value)
 bool AFNodeManager::SetInt32(const uint32_t index, const int32_t value)
 {
     auto pData = FindData(index);
-
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     auto data_type = pData->GetType();
     ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_INT32, false);
 
     auto old_value = pData->GetInt32();
+    if (old_value == value)
+    {
+        return false;
+    }
+
     pData->SetInt32(value);
 
-    if (old_value != value && func_)
+    if (func_)
     {
         // data callbacks
         func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
@@ -482,16 +490,20 @@ bool AFNodeManager::SetInt32(const uint32_t index, const int32_t value)
 bool AFNodeManager::SetUInt32(const uint32_t index, const uint32_t value)
 {
     auto pData = FindData(index);
-
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     auto data_type = pData->GetType();
     ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_UINT32, false);
 
     auto old_value = pData->GetUInt32();
+    if (old_value == value)
+    {
+        return false;
+    }
+
     pData->SetUInt32(value);
 
-    if (old_value != value && func_)
+    if (func_)
     {
         // data callbacks
         func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
@@ -503,16 +515,20 @@ bool AFNodeManager::SetUInt32(const uint32_t index, const uint32_t value)
 bool AFNodeManager::SetInt64(const uint32_t index, const int64_t value)
 {
     auto pData = FindData(index);
-
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     auto data_type = pData->GetType();
     ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_INT64, false);
 
     auto old_value = pData->GetInt64();
+    if (old_value == value)
+    {
+        return false;
+    }
+
     pData->SetInt64(value);
 
-    if (old_value != value && func_)
+    if (func_)
     {
         // data callbacks
         func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
@@ -524,16 +540,20 @@ bool AFNodeManager::SetInt64(const uint32_t index, const int64_t value)
 bool AFNodeManager::SetUInt64(const uint32_t index, const uint64_t value)
 {
     auto pData = FindData(index);
-
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     auto data_type = pData->GetType();
     ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_INT64, false);
 
     auto old_value = pData->GetUInt64();
+    if (old_value == value)
+    {
+        return false;
+    }
+
     pData->SetUInt64(value);
 
-    if (old_value != value && func_)
+    if (func_)
     {
         // data callbacks
         func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
@@ -545,16 +565,20 @@ bool AFNodeManager::SetUInt64(const uint32_t index, const uint64_t value)
 bool AFNodeManager::SetFloat(const uint32_t index, const float value)
 {
     auto pData = FindData(index);
-
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     auto data_type = pData->GetType();
     ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_FLOAT, false);
 
     auto old_value = pData->GetFloat();
+    if (old_value == value)
+    {
+        return false;
+    }
+
     pData->SetFloat(value);
 
-    if (old_value != value && func_)
+    if (func_)
     {
         // data callbacks
         func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
@@ -566,16 +590,20 @@ bool AFNodeManager::SetFloat(const uint32_t index, const float value)
 bool AFNodeManager::SetDouble(const uint32_t index, const double value)
 {
     auto pData = FindData(index);
-
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     auto data_type = pData->GetType();
     ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_DOUBLE, false);
 
     auto old_value = pData->GetDouble();
+    if (old_value == value)
+    {
+        return false;
+    }
+
     pData->SetDouble(value);
 
-    if (old_value != value && func_)
+    if (func_)
     {
         // data callbacks
         func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));
@@ -587,16 +615,20 @@ bool AFNodeManager::SetDouble(const uint32_t index, const double value)
 bool AFNodeManager::SetString(const uint32_t index, const std::string& value)
 {
     auto pData = FindData(index);
-
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     auto data_type = pData->GetType();
     ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_STRING, false);
 
     auto old_value = pData->GetString();
+    if (old_value == value)
+    {
+        return false;
+    }
+
     pData->SetString(value);
 
-    if (old_value != value && func_)
+    if (func_)
     {
         // data callbacks
         func_(pData, AFCData(data_type, old_value.c_str()), AFCData(data_type, value.c_str()));
@@ -615,9 +647,14 @@ bool AFNodeManager::SetWString(const uint32_t index, const std::wstring& value)
     ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_WSTRING, false);
 
     auto old_value = pData->GetWString();
+    if (old_value == value)
+    {
+        return false;
+    }
+
     pData->SetWString(value);
 
-    if (old_value != value && func_)
+    if (func_)
     {
         // data callbacks
         func_(pData, AFCData(data_type, old_value.c_str()), AFCData(data_type, value.c_str()));
@@ -636,9 +673,14 @@ bool AFNodeManager::SetGUID(const uint32_t index, const AFGUID& value)
     ARK_ASSERT_RET_VAL(data_type == ArkDataType::DT_GUID, false);
 
     auto old_value = pData->GetObject();
+    if (old_value == value)
+    {
+        return false;
+    }
+
     pData->SetObject(value);
 
-    if (old_value != value && func_)
+    if (func_)
     {
         // data callbacks
         func_(pData, AFCData(data_type, old_value), AFCData(data_type, value));

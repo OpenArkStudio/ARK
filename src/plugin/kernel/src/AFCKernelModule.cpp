@@ -535,6 +535,39 @@ bool AFCKernelModule::AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb, const int32_
     return true;
 }
 
+bool AFCKernelModule::AddLeaveSceneEvent(const std::string& class_name, SCENE_EVENT_FUNCTOR&& cb, const int32_t prio)
+{
+    auto pClassMeta = m_pClassModule->FindMeta(class_name);
+    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
+
+    auto pCallBack = pClassMeta->GetClassCallBackManager();
+    ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
+
+    return pCallBack->AddLeaveSceneEvent(std::forward<SCENE_EVENT_FUNCTOR>(cb), prio);
+}
+
+bool AFCKernelModule::AddEnterSceneEvent(const std::string& class_name, SCENE_EVENT_FUNCTOR&& cb, const int32_t prio)
+{
+    auto pClassMeta = m_pClassModule->FindMeta(class_name);
+    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
+
+    auto pCallBack = pClassMeta->GetClassCallBackManager();
+    ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
+
+    return pCallBack->AddEnterSceneEvent(std::forward<SCENE_EVENT_FUNCTOR>(cb), prio);
+}
+
+bool AFCKernelModule::AddMoveEvent(const std::string& class_name, MOVE_EVENT_FUNCTOR&& cb, const int32_t prio)
+{
+    auto pClassMeta = m_pClassModule->FindMeta(class_name);
+    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
+
+    auto pCallBack = pClassMeta->GetClassCallBackManager();
+    ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
+
+    return pCallBack->AddMoveEvent(std::forward<MOVE_EVENT_FUNCTOR>(cb), prio);
+}
+
 void AFCKernelModule::AddSyncCallBack()
 {
     // node sync call back
@@ -1874,7 +1907,26 @@ bool AFCKernelModule::TableToPBData(AFITable* pTable, const uint32_t index, AFMs
 
 bool AFCKernelModule::ContainerToPBData(std::shared_ptr<AFIContainer> pContainer, AFMsg::pb_container* pb_data)
 {
-    return false;
+    ARK_ASSERT_RET_VAL(pContainer != nullptr && pb_data != nullptr, false);
+
+    for (auto index = pContainer->First(); index > 0; index = pContainer->Next())
+    {
+        auto pEntity = pContainer->Find(index);
+        if (nullptr == pEntity)
+        {
+            continue;
+        }
+
+        AFMsg::pb_entity pb_entity;
+        if (!EntityToPBData(pEntity, &pb_entity))
+        {
+            continue;
+        }
+
+        pb_data->mutable_datas_value()->insert({index, pb_entity});
+    }
+
+    return true;
 }
 
 bool AFCKernelModule::RowToPBData(AFIRow* pRow, const uint32_t index, AFMsg::pb_entity_data* pb_data)

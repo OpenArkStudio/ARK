@@ -30,10 +30,10 @@ class AFCTCPServer final : public AFNoncopyable, public AFINet, public std::enab
 {
 public:
     template<typename BaseType>
-    AFCTCPServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFNetMsg*, const int64_t),
+    AFCTCPServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFNetMsg*),
         void (BaseType::*handleEvent)(const AFNetEvent*))
     {
-        net_msg_cb_ = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2);
+        net_msg_cb_ = std::bind(handleRecieve, pBaseType, std::placeholders::_1);
         net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
 
         brynet::net::base::InitSocket();

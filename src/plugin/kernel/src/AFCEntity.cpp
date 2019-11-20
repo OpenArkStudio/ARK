@@ -32,10 +32,11 @@ AFCEntity::AFCEntity(std::shared_ptr<AFClassMeta> pClassMeta, const AFGUID& guid
     const int32_t map_id, const int32_t map_entity_id, const AFIDataList& data_list)
     : guid_(guid)
     , config_id_(config_id)
-    , map_id_(map_id)
-    , map_entity_id_(map_entity_id)
 {
     class_meta_ = pClassMeta;
+
+    // todo : create by class name
+    opt_charactor_ = std::make_shared<AFEntityOptCharactor>(map_id, map_entity_id);
 
     // data node
     auto func = std::bind(
@@ -45,7 +46,6 @@ AFCEntity::AFCEntity(std::shared_ptr<AFClassMeta> pClassMeta, const AFGUID& guid
     // data table
     m_pTableManager = std::make_shared<AFTableManager>(pClassMeta);
 
-    m_pContainerManager = std::make_shared<AFCContainerManager>();
     m_pEventManager = std::make_shared<AFCEventManager>(guid_);
     m_pCallBackManager = pClassMeta->GetClassCallBackManager();
 }
@@ -197,23 +197,111 @@ ID_TYPE AFCEntity::GetConfigID() const
 
 int32_t AFCEntity::GetMapID() const
 {
-    return map_id_;
+    ARK_ASSERT_RET_VAL(opt_charactor_ != nullptr, NULL_INT);
+
+    return opt_charactor_->map_id_;
 }
 
 int32_t AFCEntity::GetMapEntityID() const
 {
-    return map_entity_id_;
+    ARK_ASSERT_RET_VAL(opt_charactor_ != nullptr, NULL_INT);
+
+    return opt_charactor_->map_entity_id_;
 }
 
-bool AFCEntity::SetMapID(const int32_t value)
+bool AFCEntity::SwitchScene(const int32_t map_id, const int32_t map_inst_id, const AFVector3D& pos)
 {
-    map_id_ = value;
+    ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr && opt_charactor_ != nullptr, false);
+
+    if (opt_charactor_->map_id_ == map_id && opt_charactor_->map_entity_id_ == map_inst_id)
+    {
+        return false;
+    }
+
+    m_pCallBackManager->OnLeaveSceneEvent(guid_, opt_charactor_->map_id_, opt_charactor_->map_entity_id_);
+
+    opt_charactor_->map_id_ = map_id;
+    opt_charactor_->map_entity_id_ = map_inst_id;
+    opt_charactor_->pos_ = pos;
+
+    m_pCallBackManager->OnEnterSceneEvent(guid_, opt_charactor_->map_id_, opt_charactor_->map_entity_id_);
+
     return true;
 }
 
-bool AFCEntity::SetMapEntityID(const int32_t value)
+const AFVector3D& AFCEntity::GetPosition() const
 {
-    map_entity_id_ = value;
+    ARK_ASSERT_RET_VAL(opt_charactor_ != nullptr, NULL_VECTOR3D);
+
+    return opt_charactor_->pos_;
+}
+
+float AFCEntity::GetPositionX() const
+{
+    ARK_ASSERT_RET_VAL(opt_charactor_ != nullptr, NULL_FLOAT);
+
+    return opt_charactor_->pos_.x;
+}
+
+float AFCEntity::GetPositionY() const
+{
+    ARK_ASSERT_RET_VAL(opt_charactor_ != nullptr, NULL_FLOAT);
+
+    return opt_charactor_->pos_.y;
+}
+
+float AFCEntity::GetPositionZ() const
+{
+    ARK_ASSERT_RET_VAL(opt_charactor_ != nullptr, NULL_FLOAT);
+
+    return opt_charactor_->pos_.z;
+}
+
+float AFCEntity::GetOrient() const
+{
+    ARK_ASSERT_RET_VAL(opt_charactor_ != nullptr, NULL_FLOAT);
+
+    return opt_charactor_->orient_;
+}
+
+bool AFCEntity::SetPosition(const AFVector3D& position, const float orient)
+{
+    ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr && opt_charactor_ != nullptr, false);
+
+    if (opt_charactor_->pos_ == position && opt_charactor_->orient_ == orient)
+    {
+        return false;
+    }
+
+    AFVector3D old_pos = opt_charactor_->pos_;
+
+    opt_charactor_->pos_ = position;
+    opt_charactor_->orient_ = orient;
+
+    m_pCallBackManager->OnMoveEvent(guid_, old_pos, opt_charactor_->pos_);
+
+    return true;
+}
+
+bool AFCEntity::SetPosition(const float x, const float y, const float z, const float orient)
+{
+    ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr && opt_charactor_ != nullptr, false);
+
+    if (opt_charactor_->pos_.x == x && opt_charactor_->pos_.y == y && opt_charactor_->pos_.z == z &&
+        opt_charactor_->orient_ == orient)
+    {
+        return false;
+    }
+
+    AFVector3D old_pos = opt_charactor_->pos_;
+
+    opt_charactor_->pos_.x = x;
+    opt_charactor_->pos_.y = y;
+    opt_charactor_->pos_.z = z;
+    opt_charactor_->orient_ = orient;
+
+    m_pCallBackManager->OnMoveEvent(guid_, old_pos, opt_charactor_->pos_);
+
     return true;
 }
 
@@ -532,13 +620,14 @@ std::shared_ptr<AFIContainer> AFCEntity::FindContainer(const std::string& name)
 
 std::shared_ptr<AFIContainer> AFCEntity::FindContainer(const uint32_t index)
 {
-    ARK_ASSERT_RET_VAL(m_pContainerManager != nullptr, nullptr);
+    auto pContainerManager = GetContainerManager();
+    ARK_ASSERT_RET_VAL(pContainerManager != nullptr, nullptr);
 
-    auto pContainer = m_pContainerManager->FindContainer(index);
+    auto pContainer = pContainerManager->FindContainer(index);
     if (pContainer == nullptr)
     {
         // create a new container
-        pContainer = m_pContainerManager->CreateContainer(class_meta_, index, guid_);
+        pContainer = pContainerManager->CreateContainer(class_meta_, index, guid_);
     }
 
     return pContainer;
@@ -590,7 +679,9 @@ std::shared_ptr<AFTableManager> AFCEntity::GetTableManager() const
 
 std::shared_ptr<AFIContainerManager> AFCEntity::GetContainerManager() const
 {
-    return m_pContainerManager;
+    ARK_ASSERT_RET_VAL(opt_charactor_ != nullptr, nullptr);
+
+    return opt_charactor_->m_pContainerManager;
 }
 
 int AFCEntity::OnDataCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data)
@@ -620,7 +711,13 @@ bool AFCEntity::AddCustomBool(const std::string& name, bool value)
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     pData->SetBool(value);
-    return custom_data_list_.insert(name, pData).second;
+    if (!custom_data_list_.insert(name, pData).second)
+    {
+        ARK_DELETE(pData);
+        return false;
+    }
+
+    return true;
 }
 
 bool AFCEntity::AddCustomInt32(const std::string& name, const int32_t value)
@@ -631,12 +728,30 @@ bool AFCEntity::AddCustomInt32(const std::string& name, const int32_t value)
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     pData->SetInt(value);
-    return custom_data_list_.insert(name, pData).second;
+    if (!custom_data_list_.insert(name, pData).second)
+    {
+        ARK_DELETE(pData);
+        return false;
+    }
+
+    return true;
 }
 
 bool AFCEntity::AddCustomUInt32(const std::string& name, const uint32_t value)
 {
-    return false;
+    ARK_ASSERT_RET_VAL(custom_data_list_.find(name) == custom_data_list_.end(), false);
+
+    AFIData* pData = ARK_NEW AFCData;
+    ARK_ASSERT_RET_VAL(pData != nullptr, false);
+
+    pData->SetUInt(value);
+    if (!custom_data_list_.insert(name, pData).second)
+    {
+        ARK_DELETE(pData);
+        return false;
+    }
+
+    return true;
 }
 
 bool AFCEntity::AddCustomInt64(const std::string& name, const int64_t value)
@@ -647,7 +762,13 @@ bool AFCEntity::AddCustomInt64(const std::string& name, const int64_t value)
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     pData->SetInt64(value);
-    return custom_data_list_.insert(name, pData).second;
+    if (!custom_data_list_.insert(name, pData).second)
+    {
+        ARK_DELETE(pData);
+        return false;
+    }
+
+    return true;
 }
 
 bool AFCEntity::AddCustomFloat(const std::string& name, const float value)
@@ -658,7 +779,13 @@ bool AFCEntity::AddCustomFloat(const std::string& name, const float value)
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     pData->SetFloat(value);
-    return custom_data_list_.insert(name, pData).second;
+    if (!custom_data_list_.insert(name, pData).second)
+    {
+        ARK_DELETE(pData);
+        return false;
+    }
+
+    return true;
 }
 
 bool AFCEntity::AddCustomDouble(const std::string& name, const double value)
@@ -669,7 +796,13 @@ bool AFCEntity::AddCustomDouble(const std::string& name, const double value)
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     pData->SetDouble(value);
-    return custom_data_list_.insert(name, pData).second;
+    if (!custom_data_list_.insert(name, pData).second)
+    {
+        ARK_DELETE(pData);
+        return false;
+    }
+
+    return true;
 }
 
 bool AFCEntity::AddCustomString(const std::string& name, const std::string& value)
@@ -680,7 +813,13 @@ bool AFCEntity::AddCustomString(const std::string& name, const std::string& valu
     ARK_ASSERT_RET_VAL(pData != nullptr, false);
 
     pData->SetString(value.c_str());
-    return custom_data_list_.insert(name, pData).second;
+    if (!custom_data_list_.insert(name, pData).second)
+    {
+        ARK_DELETE(pData);
+        return false;
+    }
+
+    return true;
 }
 
 bool AFCEntity::AddCustomWString(const std::string& name, const std::wstring& value)
@@ -798,7 +937,10 @@ int32_t AFCEntity::GetCustomInt32(const std::string& name) const
 
 uint32_t AFCEntity::GetCustomUInt32(const std::string& name) const
 {
-    return NULL_INT;
+    auto pData = custom_data_list_.find_value(name);
+    ARK_ASSERT_RET_VAL(pData != nullptr, NULL_INT);
+
+    return pData->GetUInt();
 }
 
 int64_t AFCEntity::GetCustomInt64(const std::string& name) const

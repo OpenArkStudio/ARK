@@ -75,7 +75,8 @@ bool AFCWebSocketServer::StartServer(AFHeadLength head_len, const int busid, con
                     case WebSocketFormat::WebSocketFrameType::TEXT_FRAME:
                     case WebSocketFormat::WebSocketFrameType::BINARY_FRAME:
                     case WebSocketFormat::WebSocketFrameType::CLOSE_FRAME:
-                    case WebSocketFormat::WebSocketFrameType::PING_FRAME: {
+                    case WebSocketFormat::WebSocketFrameType::PING_FRAME:
+                    {
                         auto frame = std::make_shared<std::string>();
                         WebSocketFormat::wsFrameBuild(payload.c_str(), payload.size(), *frame,
                             WebSocketFormat::WebSocketFrameType::PONG_FRAME, true, false);
@@ -206,7 +207,7 @@ void AFCWebSocketServer::UpdateNetMsg(AFHttpSessionPtr session)
     int msg_count = 0;
     while (session->PopNetMsg(msg))
     {
-        net_msg_cb_(msg, session->GetSessionId());
+        net_msg_cb_(msg);
         AFNetMsg::Release(msg);
 
         ++msg_count;

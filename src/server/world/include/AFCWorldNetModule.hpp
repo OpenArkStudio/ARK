@@ -45,21 +45,13 @@ public:
         const AFGUID nPlayer = 0) override;
     bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID, const AFMsg::EGameMsgID eMsgID,
         google::protobuf::Message& xData) override;
-    virtual bool SendMsgToPlayer(
-        const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer);
 
     int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar) override;
     int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar) override;
 
-    virtual int OnViewDataNodeEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
-    virtual int OnSelfDataNodeEnter(const AFGUID& self, const AFIDataList& argGameID);
-    virtual int OnViewDataTableEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
-    virtual int OnSelfDataTableEnter(const AFGUID& self, const AFIDataList& argGameID);
-
-    std::shared_ptr<AFServerData> GetSuitProxyForEnter() override;
+    // std::shared_ptr<AFServerData> GetSuitProxyForEnter();
+    std::shared_ptr<AFConnectionData> GetSuitProxyForEnter() override;
     std::shared_ptr<AFINetServerService> GetNetServer() override;
-
-    virtual int GetPlayerGameID(const AFGUID self);
 
 protected:
     int StartServer();
@@ -96,14 +88,23 @@ protected:
     void OnSelectServerProcess(const AFNetMsg* msg);
     void OnKickClientProcess(const AFNetMsg* msg);
 
+    bool SendMsgToPlayer(const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer);
+
+    int OnViewDataNodeEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
+    int OnSelfDataNodeEnter(const AFGUID& self, const AFIDataList& argGameID);
+    int OnViewDataTableEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
+    int OnSelfDataTableEnter(const AFGUID& self, const AFIDataList& argGameID);
+
+    int GetPlayerGameID(const AFGUID self);
+
 private:
-    AFSmartPtrMap<int, AFServerData> reg_servers_;
+    // AFSmartPtrMap<int, AFServerData> reg_servers_;
 
     int64_t mnLastCheckTime;
 
     // server id, data
-    AFSmartPtrMap<int, AFServerData> mGameMap;
-    AFSmartPtrMap<int, AFServerData> mProxyMap;
+    // AFSmartPtrMap<int, AFServerData> mGameMap;
+    // AFSmartPtrMap<int, AFServerData> mProxyMap;
 
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;

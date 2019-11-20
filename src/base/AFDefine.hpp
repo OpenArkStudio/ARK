@@ -87,6 +87,8 @@ using CONTAINER_EVENT_FUNCTOR =
 
 using CLASS_EVENT_FUNCTOR =
     std::function<bool(const AFGUID&, const std::string&, const ArkEntityEvent, const AFIDataList&)>;
+using SCENE_EVENT_FUNCTOR = std::function<bool(const AFGUID&, const int, const int)>;
+using MOVE_EVENT_FUNCTOR = std::function<bool(const AFGUID&, const AFVector3D&, const AFVector3D&)>;
 using EVENT_PROCESS_FUNCTOR = std::function<int(const AFGUID&, const int, const AFIDataList&)>;
 using TIMER_FUNCTOR = std::function<void(uint64_t, const AFGUID&)>;
 using SCHEDULER_FUNCTOR = std::function<void()>;

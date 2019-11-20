@@ -52,6 +52,16 @@ public:
     std::shared_ptr<AFConnectionData> GetConnectionInfo(const int bus_id) override;
     //AFMapEx<int, AFConnectionData>& GetServerList() override;
 
+    std::shared_ptr<AFConnectionData> GetSuitableConnect(const std::string& key) override;
+
+    void AddAccountBusID(const std::string& account, const int bus_id) override;
+    void RemoveAccountBusID(const std::string& account) override;
+    int GetAccountBusID(const std::string& account) override;
+
+    void AddActorBusID(const AFGUID& actor, const int bus_id) override;
+    void RemoveActorBusID(const AFGUID& actor) override;
+    int GetActorBusID(const AFGUID& actor) override;
+
 protected:
     void ProcessUpdate();
     void ProcessAddConnection();
@@ -62,7 +72,7 @@ protected:
     int OnConnect(const AFNetEvent* event);
     int OnDisconnect(const AFNetEvent* event);
 
-    void OnNetMsg(const AFNetMsg* msg, const int64_t session_id);
+    void OnNetMsg(const AFNetMsg* msg);
     void OnNetEvent(const AFNetEvent* event);
 
     void KeepReport(std::shared_ptr<AFConnectionData>& connection_data)
@@ -98,8 +108,8 @@ private:
     // Connected connections(may the ConnectState is different)
     AFSmartPtrMap<int, AFConnectionData> real_connections_;
 
-    // TODO: change to AFConsistentHashmap
-    //AFCConsistentHash consistent_hashmap_;
+    std::map<AFGUID, int> actor_bus_map_;                  // actor id bus id
+    std::unordered_map<std::string, int> account_bus_map_; // account bus id
 
     // the new consistent hash map
     AFConsistentHashmapType consistent_hashmap_;

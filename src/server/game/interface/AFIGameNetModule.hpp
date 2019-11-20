@@ -28,36 +28,36 @@ namespace ark {
 class AFIGameNetModule : public AFIModule
 {
 public:
-    class GateBaseInfo
-    {
-    public:
-        GateBaseInfo() {}
+    //class GateBaseInfo
+    //{
+    //public:
+    //    GateBaseInfo() {}
 
-        GateBaseInfo(const int gateID, const AFGUID xIdent)
-            : nGateID(gateID)
-            , xClientID(xIdent)
-        {
-        }
+    //    GateBaseInfo(const int gateID, const AFGUID xIdent)
+    //        : nGateID(gateID)
+    //        , xClientID(xIdent)
+    //    {
+    //    }
 
-        int nActorID{0};
-        int nGateID{0};
-        AFGUID xClientID{0};
-    };
+    //    int nActorID{0};
+    //    int nGateID{0};
+    //    AFGUID xClientID{0};
+    //};
 
-    class GateServerInfo
-    {
-    public:
-        AFServerData xServerData;
-        //actor id -> gate fd
-        std::map<AFGUID, AFGUID> xRoleInfo;
-    };
+    //class GateServerInfo
+    //{
+    //public:
+    //    AFServerData xServerData;
+    //    //actor id -> gate fd
+    //    std::map<AFGUID, AFGUID> xRoleInfo;
+    //};
 
     virtual std::shared_ptr<AFINetServerService> GetNetServerService() = 0;
     virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self) = 0;
     virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self) = 0;
     virtual bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID) = 0;
     virtual bool RemovePlayerGateInfo(const AFGUID& nRoleID) = 0;
-    virtual std::shared_ptr<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID) = 0;
+    // virtual std::shared_ptr<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID) = 0;
 };
 
 } // namespace ark

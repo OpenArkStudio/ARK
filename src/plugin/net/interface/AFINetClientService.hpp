@@ -55,9 +55,9 @@ public:
     virtual ~AFINetClientService() = default;
 
     template<typename BaseType>
-    bool RegMsgCallback(const int msg_id, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t))
+    bool RegMsgCallback(const int msg_id, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*))
     {
-        NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
+        NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1);
         return RegMsgCallback(msg_id, std::move(functor));
     }
 
@@ -85,6 +85,16 @@ public:
     virtual bool RegMsgCallback(const int nMsgID, const NET_MSG_FUNCTOR&& cb) = 0;
     virtual bool RegForwardMsgCallback(const NET_MSG_FUNCTOR&& cb) = 0;
     virtual bool RegNetEventCallback(const NET_EVENT_FUNCTOR&& cb) = 0;
+
+    virtual std::shared_ptr<AFConnectionData> GetSuitableConnect(const std::string& key) = 0;
+
+    virtual void AddAccountBusID(const std::string& account, const int bus_id) = 0;
+    virtual void RemoveAccountBusID(const std::string& account) = 0;
+    virtual int GetAccountBusID(const std::string& account) = 0;
+
+    virtual void AddActorBusID(const AFGUID& actor, const int bus_id) = 0;
+    virtual void RemoveActorBusID(const AFGUID& actor) = 0;
+    virtual int GetActorBusID(const AFGUID& actor) = 0;
 };
 
 } // namespace ark

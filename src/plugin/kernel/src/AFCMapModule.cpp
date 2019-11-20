@@ -101,17 +101,18 @@ bool AFCMapModule::SwitchMap(const AFGUID& self, const int target_map, const int
 
     pOldMapInfo->RemoveEntityFromInstance(old_inst, self, true);
 
-    if (target_map != old_map)
-    {
-        pEntity->SetInt32(AFEntityMetaBaseEntity::map_id(), 0);
-        pEntity->SetInt32(AFEntityMetaBaseEntity::map_id(), target_map);
-    }
+    //if (target_map != old_map)
+    //{
+    //    pEntity->SetInt32(AFEntityMetaBaseEntity::map_id(), 0);
+    //    pEntity->SetInt32(AFEntityMetaBaseEntity::map_id(), target_map);
+    //}
 
-    pEntity->SetInt32(AFEntityMetaBaseEntity::map_inst_id(), target_inst);
+    //pEntity->SetInt32(AFEntityMetaBaseEntity::map_inst_id(), target_inst);
 
-    pEntity->SetDouble("X", pos.x);
-    pEntity->SetDouble("Y", pos.y);
-    pEntity->SetDouble("Z", pos.z);
+    //pEntity->SetDouble("X", pos.x);
+    //pEntity->SetDouble("Y", pos.y);
+    //pEntity->SetDouble("Z", pos.z);
+    pEntity->SwitchScene(target_map, target_inst, pos);
 
     return pNewMapInfo->AddEntityToInstance(target_inst, self, true);
 }

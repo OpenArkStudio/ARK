@@ -225,6 +225,11 @@ std::shared_ptr<AFINet> AFCNetServiceManagerModule::GetNetConnectionBus(int src_
     return net_bus_relations_.find_value(std::make_pair(src_bus, target_bus));
 }
 
+std::shared_ptr<AFINetClientService> AFCNetServiceManagerModule::GetClientService(const ARK_APP_TYPE app_type)
+{
+    return client_services_.find_value(app_type);
+}
+
 ananas::Future<std::pair<bool, std::string>> AFCNetServiceManagerModule::RegisterToConsul(const int bus_id)
 {
     auto reg_center = m_pBusModule->GetRegCenter();

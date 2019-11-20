@@ -70,7 +70,7 @@ protected:
     // void SynWorldToClient(const AFGUID& xClientID);
 
 private:
-    AFSmartPtrMap<AFGUID, AFClientConnectionData> mmClientSessionData;
+    // AFSmartPtrMap<AFGUID, AFClientConnectionData> mmClientSessionData;
 
     AFILogModule* m_pLogModule;
     AFIBusModule* m_pBusModule;

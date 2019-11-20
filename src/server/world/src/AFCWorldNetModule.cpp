@@ -628,9 +628,22 @@ int AFCWorldNetModule::OnViewDataTableEnter(const AFIDataList& argVar, const AFI
     return 0;
 }
 
-std::shared_ptr<AFServerData> AFCWorldNetModule::GetSuitProxyForEnter()
+//std::shared_ptr<AFServerData> AFCWorldNetModule::GetSuitProxyForEnter()
+//{
+//    return mProxyMap.begin()->second;
+//}
+
+std::shared_ptr<AFConnectionData> AFCWorldNetModule::GetSuitProxyForEnter()
 {
-    return mProxyMap.begin()->second;
+    // return mProxyMap.begin()->second;
+    auto pClientService = m_pNetServiceManagerModule->GetClientService(ARK_APP_TYPE::ARK_APP_PROXY);
+    if (pClientService == nullptr)
+    {
+        ARK_LOG_INFO("Connection data not found connection");
+        return nullptr;
+    }
+
+    return pClientService->GetSuitableConnect(NULL_STR); // todo : change key
 }
 
 std::shared_ptr<AFINetServerService> AFCWorldNetModule::GetNetServer()

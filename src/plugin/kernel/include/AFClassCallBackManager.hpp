@@ -33,8 +33,8 @@ namespace ark {
 struct AFDelaySyncRow
 {
     AFDelaySyncRow(const uint32_t row)
+        : row_(row)
     {
-        row_ = 0u;
     }
 
     bool need_clear_{false};
@@ -98,6 +98,15 @@ private:
     using ContainerCallBacks = std::multimap<int32_t, CONTAINER_EVENT_FUNCTOR>;
     std::map<uint32_t, ContainerCallBacks> container_call_backs_list_;
 
+    // scene event
+    using SceneEvents = std::multimap<int32_t, SCENE_EVENT_FUNCTOR>;
+    SceneEvents leave_scene_events_;
+    SceneEvents enter_scene_events_;
+
+    // move event
+    using MoveEvents = std::multimap<int32_t, MOVE_EVENT_FUNCTOR>;
+    MoveEvents move_events_;
+
     // sync call back
     using NodeSyncCallBacks = std::map<ArkDataMask, NODE_SYNC_FUNCTOR>;
     static NodeSyncCallBacks node_sync_call_back_list_;
@@ -121,6 +130,9 @@ public:
     bool AddDataCallBack(const uint32_t index, DATA_NODE_EVENT_FUNCTOR&& cb, const int32_t prio);
     bool AddTableCallBack(const uint32_t index, DATA_TABLE_EVENT_FUNCTOR&& cb, const int32_t prio);
     bool AddContainerCallBack(const uint32_t index, CONTAINER_EVENT_FUNCTOR&& cb, const int32_t prio);
+    bool AddLeaveSceneEvent(SCENE_EVENT_FUNCTOR&& cb, const int32_t prio);
+    bool AddEnterSceneEvent(SCENE_EVENT_FUNCTOR&& cb, const int32_t prio);
+    bool AddMoveEvent(MOVE_EVENT_FUNCTOR&& cb, const int32_t prio);
 
     // data call back
     bool OnClassEvent(const AFGUID& id, const std::string& class_name, const ArkEntityEvent eClassEvent,
@@ -131,6 +143,13 @@ public:
     bool OnContainerCallBack(const AFGUID& self, const uint32_t index, const ArkMaskType mask,
         const ArkContainerOpType op_type, uint32_t src_index, uint32_t dest_index,
         std::shared_ptr<AFIEntity> src_entity = nullptr);
+
+    // scene call back
+    bool OnLeaveSceneEvent(const AFGUID& self, const int map_id, const int map_inst_id);
+    bool OnEnterSceneEvent(const AFGUID& self, const int map_id, const int map_inst_id);
+
+    // move call back
+    bool OnMoveEvent(const AFGUID& self, const AFVector3D& old_pos, const AFVector3D& new_pos);
 
     // data sync call back
     static void AddNodeSyncCallBack(const ArkDataMask mask_value, NODE_SYNC_FUNCTOR&& cb);

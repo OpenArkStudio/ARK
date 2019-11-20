@@ -28,12 +28,13 @@
 #include "base/AFBuffer.hpp"
 #include "net/include/AFNetMsg.hpp"
 #include "net/include/AFNetEvent.hpp"
+#include "proto/AFProtoCPP.hpp"
 
 namespace ark {
 
 class AFINet;
 
-using NET_MSG_FUNCTOR = std::function<void(const AFNetMsg*, const int64_t)>;
+using NET_MSG_FUNCTOR = std::function<void(const AFNetMsg*)>;
 //using NET_MSG_FUNCTOR_PTR = std::shared_ptr<NET_MSG_FUNCTOR>;
 
 using NET_EVENT_FUNCTOR = std::function<void(const AFNetEvent*)>;

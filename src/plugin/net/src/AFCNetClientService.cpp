@@ -300,13 +300,13 @@ void AFCNetClientService::ProcessAddConnection()
     tmp_connections_.clear();
 }
 
-void AFCNetClientService::OnNetMsg(const AFNetMsg* msg, const int64_t session_id)
+void AFCNetClientService::OnNetMsg(const AFNetMsg* msg)
 {
     auto it = net_msg_callbacks_.find(msg->GetMsgId());
 
     if (it != net_msg_callbacks_.end())
     {
-        (it->second)(msg, session_id);
+        (it->second)(msg);
     }
     else
     {
@@ -338,6 +338,59 @@ void AFCNetClientService::OnNetEvent(const AFNetEvent* event)
 std::shared_ptr<AFConnectionData> AFCNetClientService::GetConnectionInfo(const int bus_id)
 {
     return real_connections_.find_value(bus_id);
+}
+
+std::shared_ptr<AFConnectionData> AFCNetClientService::GetSuitableConnect(const std::string& key)
+{
+    static AFVNode vnode(0, NULL_STR, 0, 0);
+    if (!GetServerNode(key, vnode))
+    {
+        return nullptr;
+    }
+
+    return GetConnectionInfo(vnode.bus_id);
+}
+
+void AFCNetClientService::AddAccountBusID(const std::string& account, const int bus_id)
+{
+    account_bus_map_.insert(std::make_pair(account, bus_id));
+}
+
+void AFCNetClientService::RemoveAccountBusID(const std::string& account)
+{
+    account_bus_map_.erase(account);
+}
+
+int AFCNetClientService::GetAccountBusID(const std::string& account)
+{
+    auto iter = account_bus_map_.find(account);
+    if (iter == account_bus_map_.end())
+    {
+        return -1;
+    }
+
+    return iter->second;
+}
+
+void AFCNetClientService::AddActorBusID(const AFGUID& actor, const int bus_id)
+{
+    actor_bus_map_.insert(std::make_pair(actor, bus_id));
+}
+
+void AFCNetClientService::RemoveActorBusID(const AFGUID& actor)
+{
+    actor_bus_map_.erase(actor);
+}
+
+int AFCNetClientService::GetActorBusID(const AFGUID& actor)
+{
+    auto iter = actor_bus_map_.find(actor);
+    if (iter == actor_bus_map_.end())
+    {
+        return -1;
+    }
+
+    return iter->second;
 }
 
 } // namespace ark
