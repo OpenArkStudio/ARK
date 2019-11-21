@@ -12,7 +12,6 @@ matrix:
     - os: linux
       dist: xenial
       sudo: required
-      env: USE_CC=gcc-5 USE_CXX=g++-5
       addons:
         apt:
           sources:
@@ -20,17 +19,20 @@ matrix:
           packages:
             - gcc-5
             - gcc-5-multilib
+            - g++-5
+            - g++-5-multilib
             - cmake
             - lcov
         sonarcloud:
           organization: "ark-game"
           token:
             secure: "mT56Sj2ebjbZ2uQOlNWM96WC+TG9RqZL5221oaMqagBDdcBTYwk0wdOgTl6CYukt7XYFyf1Okx96WF36hWiGJbLVDsrvB3hEgPwWMtEL1az66jNc/yWB1tCyMX+R+pJIQC7CK4MnKCoMAHaTdRBT8fCVxGaJtD6SdR1uI4VqREZO/FUq8Pa4qXwzY0XT64jGpe2gxKgRp4jAFGhTUngk3ePZ1NtGiTHpAscgNRJtn2pctJwxGQWGk3+z28XvZWlHvRAilkIfrHpfkiira6lo1Bx0cqlGo26d125xZ9otOgHA1OIcgLtaEpqRcrBGvK8BcJtm6p3ZCSH7BZGOzwnlzJJVzWIE8/8aDKe5eQGewNvGP7INWgu2YeF4okFR46L145Acz6m8UZ5zkaPrzQDyOpxge+Cq/XzatNQyyDHoBgrYJgBCM3COsVOngvamXAHi+v4U2TY7dpF8AwZCA1Sr1A85xDbZxxlw3/JPd9gbUO7dBXNrFuE/FOgNVkC/suEFvDHcJgbAgcVbQBMALqJT9YWXGE2JEL0nAAxMrbvfUs7B3RdRDhki3jodejIuNH/So1YgBJIZsa+V9Bv7XXUY8FMxKKCPiQb5+63fBkDpkk7my+VOABhfnMxSL/cg0k6HPmM28blYM8PsqwAUkrtTnyhchqVwjg2s1T5dO8v0URo="
+      env: USE_CC=gcc-5 USE_CXX=g++-5
 
     - os: linux
       dist: xenial
       sudo: required
-      env: USE_CC=gcc-6 USE_CXX=g++-6
+
       addons:
         apt:
           sources:
@@ -38,17 +40,19 @@ matrix:
           packages:
             - gcc-6
             - gcc-6-multilib
+            - g++-6
+            - g++-6-multilib
             - cmake
             - lcov
         sonarcloud:
           organization: "ark-game"
           token:
             secure: "mT56Sj2ebjbZ2uQOlNWM96WC+TG9RqZL5221oaMqagBDdcBTYwk0wdOgTl6CYukt7XYFyf1Okx96WF36hWiGJbLVDsrvB3hEgPwWMtEL1az66jNc/yWB1tCyMX+R+pJIQC7CK4MnKCoMAHaTdRBT8fCVxGaJtD6SdR1uI4VqREZO/FUq8Pa4qXwzY0XT64jGpe2gxKgRp4jAFGhTUngk3ePZ1NtGiTHpAscgNRJtn2pctJwxGQWGk3+z28XvZWlHvRAilkIfrHpfkiira6lo1Bx0cqlGo26d125xZ9otOgHA1OIcgLtaEpqRcrBGvK8BcJtm6p3ZCSH7BZGOzwnlzJJVzWIE8/8aDKe5eQGewNvGP7INWgu2YeF4okFR46L145Acz6m8UZ5zkaPrzQDyOpxge+Cq/XzatNQyyDHoBgrYJgBCM3COsVOngvamXAHi+v4U2TY7dpF8AwZCA1Sr1A85xDbZxxlw3/JPd9gbUO7dBXNrFuE/FOgNVkC/suEFvDHcJgbAgcVbQBMALqJT9YWXGE2JEL0nAAxMrbvfUs7B3RdRDhki3jodejIuNH/So1YgBJIZsa+V9Bv7XXUY8FMxKKCPiQb5+63fBkDpkk7my+VOABhfnMxSL/cg0k6HPmM28blYM8PsqwAUkrtTnyhchqVwjg2s1T5dO8v0URo="
+      env: USE_CC=gcc-6 USE_CXX=g++-6
 
     - os: linux
       dist: xenial
       sudo: required
-      env: USE_CC=gcc-7 USE_CXX=g++-7
       addons:
         apt:
           sources:
@@ -56,17 +60,19 @@ matrix:
           packages:
             - gcc-7
             - gcc-7-multilib
+            - g++-7
+            - g++-7-multilib
             - cmake
             - lcov
         sonarcloud:
           organization: "ark-game"
           token:
             secure: "mT56Sj2ebjbZ2uQOlNWM96WC+TG9RqZL5221oaMqagBDdcBTYwk0wdOgTl6CYukt7XYFyf1Okx96WF36hWiGJbLVDsrvB3hEgPwWMtEL1az66jNc/yWB1tCyMX+R+pJIQC7CK4MnKCoMAHaTdRBT8fCVxGaJtD6SdR1uI4VqREZO/FUq8Pa4qXwzY0XT64jGpe2gxKgRp4jAFGhTUngk3ePZ1NtGiTHpAscgNRJtn2pctJwxGQWGk3+z28XvZWlHvRAilkIfrHpfkiira6lo1Bx0cqlGo26d125xZ9otOgHA1OIcgLtaEpqRcrBGvK8BcJtm6p3ZCSH7BZGOzwnlzJJVzWIE8/8aDKe5eQGewNvGP7INWgu2YeF4okFR46L145Acz6m8UZ5zkaPrzQDyOpxge+Cq/XzatNQyyDHoBgrYJgBCM3COsVOngvamXAHi+v4U2TY7dpF8AwZCA1Sr1A85xDbZxxlw3/JPd9gbUO7dBXNrFuE/FOgNVkC/suEFvDHcJgbAgcVbQBMALqJT9YWXGE2JEL0nAAxMrbvfUs7B3RdRDhki3jodejIuNH/So1YgBJIZsa+V9Bv7XXUY8FMxKKCPiQb5+63fBkDpkk7my+VOABhfnMxSL/cg0k6HPmM28blYM8PsqwAUkrtTnyhchqVwjg2s1T5dO8v0URo="
+      env: USE_CC=gcc-7 USE_CXX=g++-7
 
     - os: linux
       dist: xenial
       sudo: required
-      env: USE_CC=gcc-8 USE_CXX=g++-8
       addons:
         apt:
           sources:
@@ -74,6 +80,8 @@ matrix:
           packages:
             - gcc-8
             - gcc-8-multilib
+            - g++-8
+            - g++-8-multilib
             - cmake
             - lcov
         #sonarcloud
@@ -81,6 +89,8 @@ matrix:
           organization: "ark-game"
           token:
             secure: "mT56Sj2ebjbZ2uQOlNWM96WC+TG9RqZL5221oaMqagBDdcBTYwk0wdOgTl6CYukt7XYFyf1Okx96WF36hWiGJbLVDsrvB3hEgPwWMtEL1az66jNc/yWB1tCyMX+R+pJIQC7CK4MnKCoMAHaTdRBT8fCVxGaJtD6SdR1uI4VqREZO/FUq8Pa4qXwzY0XT64jGpe2gxKgRp4jAFGhTUngk3ePZ1NtGiTHpAscgNRJtn2pctJwxGQWGk3+z28XvZWlHvRAilkIfrHpfkiira6lo1Bx0cqlGo26d125xZ9otOgHA1OIcgLtaEpqRcrBGvK8BcJtm6p3ZCSH7BZGOzwnlzJJVzWIE8/8aDKe5eQGewNvGP7INWgu2YeF4okFR46L145Acz6m8UZ5zkaPrzQDyOpxge+Cq/XzatNQyyDHoBgrYJgBCM3COsVOngvamXAHi+v4U2TY7dpF8AwZCA1Sr1A85xDbZxxlw3/JPd9gbUO7dBXNrFuE/FOgNVkC/suEFvDHcJgbAgcVbQBMALqJT9YWXGE2JEL0nAAxMrbvfUs7B3RdRDhki3jodejIuNH/So1YgBJIZsa+V9Bv7XXUY8FMxKKCPiQb5+63fBkDpkk7my+VOABhfnMxSL/cg0k6HPmM28blYM8PsqwAUkrtTnyhchqVwjg2s1T5dO8v0URo="
+      env: USE_CC=gcc-8 USE_CXX=g++-8
+
     - os: osx
       osx_image: xcode11.2
       addons:

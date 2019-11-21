@@ -8,16 +8,25 @@ if(UNIX AND (NOT APPLE))
 endif(UNIX AND (NOT APPLE))
 
 add_library(${project_name} STATIC ${PROTO_SRC})
+
+
+# dependencies
+add_dependencies(${project_name} brynet)
+add_dependencies(${project_name} protobuf)
+#add_dependencies(${project_name} protobuf-lite)
+add_dependencies(${project_name} protoc)
+
 set_target_properties(${project_name} PROPERTIES PREFIX "")
 set_target_properties(${project_name} PROPERTIES
     FOLDER "proto"
 	ARCHIVE_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
     RUNTIME_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
     LIBRARY_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR})
-if(UNIX)
-    target_link_libraries(${project_name})
-else(UNIX)
+
+if(WIN32)
     target_link_libraries(${project_name} 
         debug libprotobufd
         optimized libprotobuf)
-endif(UNIX)
+else(UNIX)
+    target_link_libraries(${project_name})
+endif()
