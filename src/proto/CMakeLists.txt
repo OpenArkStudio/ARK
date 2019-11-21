@@ -9,13 +9,6 @@ endif(UNIX AND (NOT APPLE))
 
 add_library(${project_name} STATIC ${PROTO_SRC})
 
-
-# dependencies
-add_dependencies(${project_name} brynet)
-add_dependencies(${project_name} protobuf)
-#add_dependencies(${project_name} protobuf-lite)
-add_dependencies(${project_name} protoc)
-
 set_target_properties(${project_name} PROPERTIES PREFIX "")
 set_target_properties(${project_name} PROPERTIES
     FOLDER "proto"
