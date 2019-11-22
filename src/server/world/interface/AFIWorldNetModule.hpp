@@ -34,8 +34,6 @@ public:
         const AFGUID nPlayer = AFGUID()) = 0;
     virtual bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID,
         const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData) = 0;
-    virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar) = 0;
-    virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar) = 0;
 
     // virtual std::shared_ptr<AFServerData> GetSuitProxyForEnter() = 0;
     virtual std::shared_ptr<AFConnectionData> GetSuitProxyForEnter() = 0;

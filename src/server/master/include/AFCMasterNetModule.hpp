@@ -50,36 +50,10 @@ protected:
     //////////////////////////////////////////////////////////////////////////
     // void OnTimerLogServer(const std::string& name, const AFGUID& id);
 
-    // void OnServerReport(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len,
-    // const AFGUID& conn_id); void SyncAllProxyToDir(int bus_id, const AFGUID& conn_id);
-    //////////////////////////////////////////////////////////////////////////
-
-    // void OnWorldRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t
-    // nLen, const AFGUID& xClientID); void OnWorldUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID,
-    // const char* msg, const uint32_t nLen, const AFGUID& xClientID); void OnRefreshWorldInfoProcess(const
-    // ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-
-    //////////////////////////////////////////////////////////////////////////
-    // void OnLoginRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t
-    // nLen, const AFGUID& xClientID); void OnLoginUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID,
-    // const char* msg, const uint32_t nLen, const AFGUID& xClientID); void OnRefreshLoginInfoProcess(const
-    // ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-
-    // void OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen,
-    // const AFGUID& xClientID); void OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID,
-    // const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-
-    //////////////////////////////////////////////////////////////////////////
-
-    // void SynWorldToLogin();
-
     // void OnHeartBeat(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const
-    // AFGUID& conn_id); void InvalidMessage(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const
-    // uint32_t msg_len, const AFGUID& conn_id);
+    // AFGUID& conn_id);
 
 private:
-    // AFMapEx<int, AFServerData> reg_servers_;
-
     AFILogModule* m_pLogModule;
     AFIBusModule* m_pBusModule;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;

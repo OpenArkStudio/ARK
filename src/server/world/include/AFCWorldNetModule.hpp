@@ -46,9 +46,6 @@ public:
     bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID, const AFMsg::EGameMsgID eMsgID,
         google::protobuf::Message& xData) override;
 
-    int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar) override;
-    int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar) override;
-
     // std::shared_ptr<AFServerData> GetSuitProxyForEnter();
     std::shared_ptr<AFConnectionData> GetSuitProxyForEnter() override;
     std::shared_ptr<AFINetServerService> GetNetServer() override;
@@ -57,45 +54,9 @@ protected:
     int StartServer();
     //int StartClient();
 
-    // void OnGameServerRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const
-    // uint32_t nLen, const AFGUID& xClientID); void OnGameServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead,
-    // const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID); void
-    // OnRefreshGameServerInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t
-    // nLen, const AFGUID& xClientID);
-
-    // void OnProxyServerRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const
-    // uint32_t nLen, const AFGUID& xClientID); void OnProxyServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead,
-    // const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID); void
-    // OnRefreshProxyServerInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t
-    // nLen, const AFGUID& xClientID);
-
-    int OnLeaveGameProcess(const AFNetMsg* msg);
-    //////////////////////////////////////////////////////////////////////////
-
-    void SynGameToProxy();
-    void SynGameToProxy(const AFGUID& xClientID);
-
-    //////////////////////////////////////////////////////////////////////////
-    void LogGameServer();
-
-    // void OnOnlineProcess(const AFNetMsg* msg);
-    // void OnOfflineProcess(const AFNetMsg* msg);
-
-    //////////////////////////////////////////////////////////////////////////
-
-    void RefreshWorldInfo();
-
-    void OnSelectServerProcess(const AFNetMsg* msg);
-    void OnKickClientProcess(const AFNetMsg* msg);
-
     bool SendMsgToPlayer(const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer);
 
-    int OnViewDataNodeEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
-    int OnSelfDataNodeEnter(const AFGUID& self, const AFIDataList& argGameID);
-    int OnViewDataTableEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
-    int OnSelfDataTableEnter(const AFGUID& self, const AFIDataList& argGameID);
-
-    int GetPlayerGameID(const AFGUID self);
+    int GetPlayerGameID(const AFGUID& self);
 
 private:
     // AFSmartPtrMap<int, AFServerData> reg_servers_;

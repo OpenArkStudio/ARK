@@ -32,8 +32,6 @@ bool AFCGameNetModule::Init()
     m_pBusModule = FindModule<AFIBusModule>();
     m_pMsgModule = FindModule<AFIMsgModule>();
     m_pNetServiceManagerModule = FindModule<AFINetServiceManagerModule>();
-    m_pSceneProcessModule = FindModule<AFISceneProcessModule>();
-    m_AccountModule = FindModule<AFIAccountModule>();
     m_pMapModule = FindModule<AFIMapModule>();
 
     m_pKernelModule->AddCommonClassEvent(this, &AFCGameNetModule::OnCommonClassEvent);
@@ -76,19 +74,6 @@ int AFCGameNetModule::StartServer()
             exit(0);
         }
 
-        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCGameNetModule::OnRefreshProxy);
-        m_pNetServerService->RegMsgCallback(
-            AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCGameNetModule::OnRegisteredProxy);
-        m_pNetServerService->RegMsgCallback(
-            AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCGameNetModule::OnUnregisteredProxy);
-        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCGameNetModule::OnEnterGame);
-        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_LEAVE_GAME, this, &AFCGameNetModule::OnLeaveGame);
-        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_ROLE_LIST, this, &AFCGameNetModule::OnReqiureRoleList);
-        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCGameNetModule::OnCreateRole);
-        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCGameNetModule::OnDeleteRole);
-        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_RECOVER_ROLE, this, &AFCGameNetModule::OnRecoverRole);
-        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_SWAP_SCENE, this, &AFCGameNetModule::OnSwapScene);
-
         // m_pNetServerService->RegNetEventCallback(this, &AFCGameNetModule::OnSocketEvent);
     });
 
@@ -125,103 +110,6 @@ int AFCGameNetModule::StartServer()
 //
 //    return 0;
 //}
-
-void AFCGameNetModule::OnEnterGame(const AFNetMsg* msg)
-{
-    ////Before enter game, PlayerID means gate fd
-    // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqEnterGameServer);
-    // const AFGUID& nGateClientID = actor_id;
-    // AFGUID nRoleID = AFIMsgModule::PBToGUID(x_msg.id());
-
-    // if (m_pKernelModule->GetEntity(nRoleID))
-    //{
-    //    m_pKernelModule->DestroyEntity(nRoleID);
-    //}
-
-    ////////////////////////////////////////////////////////////////////////////
-
-    // std::shared_ptr<AFCGameNetModule::GateBaseInfo> pGateInfo = GetPlayerGateInfo(nRoleID);
-
-    // if (nullptr != pGateInfo && RemovePlayerGateInfo(nRoleID))
-    //{
-    //    ARK_LOG_ERROR("RemovePlayerGateInfo fail, id = {}", nRoleID);
-    //}
-
-    // std::shared_ptr<AFCGameNetModule::GateServerInfo> pGateServereinfo = GetGateServerInfoByClientID(conn_id);
-
-    // if (nullptr == pGateServereinfo)
-    //{
-    //    return;
-    //}
-
-    // int nGateID = pGateServereinfo->xServerData.server_info_.bus_id();
-    // if (nGateID <= 0)
-    //{
-    //    return;
-    //}
-
-    // if (!AddPlayerGateInfo(nRoleID, nGateClientID, nGateID))
-    //{
-    //    return;
-    //}
-
-    ////default scene id is 1
-    // int nSceneID = 1;
-    // AFCDataList var;
-    // var.AddString("Name");
-    // var.AddString(x_msg.name().c_str());
-
-    // var.AddString("GateID");
-    // var.AddInt(nGateID);
-
-    // var.AddString("ClientID");
-    // var.AddInt64(nGateClientID);
-
-    // std::shared_ptr<AFIEntity> pEntity = m_pKernelModule->CreateEntity(nRoleID, nSceneID, 0, ark::Player::ThisName(),
-    // "", var);
-
-    // if (nullptr == pEntity)
-    //{
-    //    //leak
-    //    //mRoleBaseData
-    //    //mRoleFDData
-    //    return;
-    //}
-
-    // pEntity->SetNodeInt("LoadPropertyFinish", 1);
-    // pEntity->SetNodeInt("GateID", nGateID);
-    // pEntity->SetNodeInt("GameID", BusID());
-
-    // m_pKernelModule->DoEvent(pEntity->Self(), ark::Player::ThisName(), ArkEntityEvent::ENTITY_EVT_ALL_FINISHED,
-    // AFCDataList());
-
-    // AFCDataList varEntry;
-    // varEntry << pEntity->Self();
-    // varEntry << int32_t(0);
-    // varEntry << (int32_t)nSceneID;
-    // varEntry << int32_t (-1);
-    // m_pKernelModule->DoEvent(pEntity->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
-}
-
-void AFCGameNetModule::OnLeaveGame(const AFNetMsg* msg)
-{
-    // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqLeaveGameServer);
-
-    // if (actor_id.IsNULL())
-    //{
-    //    return;
-    //}
-
-    // if (m_pKernelModule->GetEntity(actor_id))
-    //{
-    //    m_pKernelModule->DestroyEntity(actor_id);
-    //}
-
-    // if (!RemovePlayerGateInfo(actor_id))
-    //{
-    //    ARK_LOG_ERROR("RemovePlayerGateInfo failed, id = {}", actor_id);
-    //}
-}
 
 int AFCGameNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFGUID& self)
 {
@@ -499,7 +387,7 @@ int AFCGameNetModule::OnEntityListEnter(const AFIDataList& self, const AFIDataLi
         pEnterInfo->set_career_type(pEntity->GetInt32("Job"));
         pEnterInfo->set_player_state(pEntity->GetInt32("State"));
         pEnterInfo->set_config_id(pEntity->GetConfigID());
-        pEnterInfo->set_scene_id(pEntity->GetInt32("SceneID"));
+        pEnterInfo->set_scene_id(pEntity->GetMapID());
         pEnterInfo->set_class_id(pEntity->GetClassName());
     }
 
@@ -612,19 +500,7 @@ int AFCGameNetModule::OnCommonClassEvent(
 
         case ArkEntityEvent::ENTITY_EVT_PRE_LOAD_DATA:
         {
-            // bind ID fd GateID
-            //std::shared_ptr<GateBaseInfo> pDataBase = mRoleBaseData.find_value(self);
-            //if (pDataBase != nullptr)
-            //{
-            //    // response the player enter game
-            //    AFMsg::AckEventResult xMsg;
-            //    xMsg.set_event_code(AFMsg::EVC_ENTER_GAME_SUCCESS);
-
-            //    xMsg.set_event_client(pDataBase->xClientID);
-            //    xMsg.set_event_object(self);
-
-            //    SendMsgPBToGate(AFMsg::EGMI_ACK_ENTER_GAME, xMsg, self);
-            //}
+            // do something
         }
         break;
 
@@ -810,8 +686,8 @@ int AFCGameNetModule::OnEntityEvent(
             break;
 
         case ArkEntityEvent::ENTITY_EVT_ALL_FINISHED:
-            m_pKernelModule->AddEventCallBack(
-                self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, this, &AFCGameNetModule::OnSwapSceneResultEvent);
+            // load data finished from db by yourself logic
+            ARK_LOG_INFO("Player ready, player_id = {}", self);
             break;
 
         default:
@@ -819,158 +695,6 @@ int AFCGameNetModule::OnEntityEvent(
     }
 
     return 0;
-}
-
-int AFCGameNetModule::OnSwapSceneResultEvent(const AFGUID& self, const int nEventID, const AFIDataList& var)
-{
-    if (var.GetCount() != 7 ||
-        !var.TypeEx(ArkDataType::DT_INT64, ArkDataType::DT_INT32, ArkDataType::DT_INT32, ArkDataType::DT_INT32,
-            ArkDataType::DT_FLOAT, ArkDataType::DT_FLOAT, ArkDataType::DT_FLOAT, ArkDataType::DT_EMPTY))
-    {
-        return 1;
-    }
-
-    int nTargetScene = var.Int(2);
-    int nTargetGroupID = var.Int(3);
-    AFVector3D xPos;
-    xPos.x = var.Float(4);
-    xPos.y = var.Float(5);
-    xPos.z = var.Float(6);
-
-    AFMsg::ReqAckSwapScene xSwapScene;
-    xSwapScene.set_transfer_type(AFMsg::ReqAckSwapScene::EGameSwapType::ReqAckSwapScene_EGameSwapType_EGST_NARMAL);
-    xSwapScene.set_scene_id(nTargetScene);
-    xSwapScene.set_line_id(nTargetGroupID);
-    xSwapScene.set_x(xPos.x);
-    xSwapScene.set_y(xPos.y);
-    xSwapScene.set_z(xPos.z);
-
-    SendMsgPBToGate(AFMsg::EGMI_ACK_SWAP_SCENE, xSwapScene, self);
-
-    return 0;
-}
-
-void AFCGameNetModule::OnReqiureRoleList(const AFNetMsg* msg)
-{
-    ////fd
-    // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqRoleList);
-    // const AFGUID& nGateClientID = actor_id;
-    // AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
-
-    // if (!m_AccountModule->GetRoleList(x_msg.account(), xAckRoleLiteInfoList))
-    //{
-    //    ARK_LOG_ERROR("Get role list failed, player_id = {}", nGateClientID.ToString());
-    //}
-
-    // m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, nGateClientID);
-}
-
-void AFCGameNetModule::OnCreateRole(const AFNetMsg* msg)
-{
-    // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqCreateRole);
-    // const AFGUID& nGateClientID = actor_id;
-
-    // AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
-    // AFCDataList varList;
-    // varList.AddInt(x_msg.career());
-    // varList.AddInt(x_msg.sex());
-    // varList.AddInt(x_msg.race());
-    // varList.AddString(x_msg.noob_name().c_str());
-    // varList.AddInt(x_msg.game_id());
-
-    // if (!m_AccountModule->CreateRole(x_msg.account(), xAckRoleLiteInfoList, varList))
-    //{
-    //    ARK_LOG_ERROR("create role failed, player_id = {}", nGateClientID.ToString());
-    //}
-
-    // m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, nGateClientID);
-}
-
-void AFCGameNetModule::OnDeleteRole(const AFNetMsg* msg)
-{
-    // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqDeleteRole);
-
-    // AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
-
-    // if (!m_AccountModule->DeleteRole(x_msg.account(), xAckRoleLiteInfoList))
-    //{
-    //    ARK_LOG_ERROR("delete role failed, player_id = {}", actor_id.ToString());
-    //}
-
-    // m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, actor_id);
-}
-
-void AFCGameNetModule::OnRecoverRole(const AFNetMsg* msg)
-{
-    //TODO
-}
-
-void AFCGameNetModule::OnSwapScene(const AFNetMsg* msg)
-{
-    // ARK_PROCESS_ACTOR_MSG(head, msg_id, msg, msg_len, AFMsg::ReqAckSwapScene);
-
-    // AFCDataList varEntry;
-    // varEntry << pEntity->Self();
-    // varEntry << int32_t(0);
-    // varEntry << x_msg.scene_id();
-    // varEntry << int32_t(-1) ;
-    // m_pKernelModule->DoEvent(pEntity->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
-}
-
-void AFCGameNetModule::OnRegisteredProxy(const AFNetMsg* msg)
-{
-    // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
-
-    // for (int i = 0; i < x_msg.server_list_size(); ++i)
-    //{
-    //    const AFMsg::ServerInfoReport& xData = x_msg.server_list(i);
-    //    std::shared_ptr<GateServerInfo> pServerData = mProxyMap.GetElement(xData.bus_id());
-
-    //    if (nullptr == pServerData)
-    //    {
-    //        pServerData = std::make_shared<GateServerInfo>();
-    //        mProxyMap.AddElement(xData.bus_id(), pServerData);
-    //    }
-
-    //    //pServerData->xServerData.conn_id_ = conn_id;
-    //    //pServerData->xServerData.server_info_ = xData;
-
-    //    //ARK_LOG_INFO("Proxy Registered, server_id = {}", xData.bus_id());
-    //}
-}
-
-void AFCGameNetModule::OnUnregisteredProxy(const AFNetMsg* msg)
-{
-    // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
-
-    // for (int i = 0; i < x_msg.server_list_size(); ++i)
-    //{
-    //    const AFMsg::ServerInfoReport& xData = x_msg.server_list(i);
-    //    mProxyMap.RemoveElement(xData.bus_id());
-    //    ARK_LOG_INFO("Proxy UnRegistered, server_id = {}", xData.bus_id());
-    //}
-}
-
-void AFCGameNetModule::OnRefreshProxy(const AFNetMsg* msg)
-{
-    // ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
-
-    // for (int i = 0; i < x_msg.server_list_size(); ++i)
-    //{
-    //    const AFMsg::ServerInfoReport& xData = x_msg.server_list(i);
-    //    std::shared_ptr<GateServerInfo> pServerData = mProxyMap.GetElement(xData.bus_id());
-
-    //    if (nullptr == pServerData)
-    //    {
-    //        pServerData = std::make_shared<GateServerInfo>();
-    //        mProxyMap.AddElement(xData.bus_id(), pServerData);
-    //    }
-
-    //    //pServerData->xServerData.conn_id_ = conn_id;
-    //    //pServerData->xServerData.server_info_ = xData;
-
-    //    //ARK_LOG_INFO("Proxy Registered, server_id  = {}", xData.bus_id());
-    //}
 }
 
 void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self)
@@ -1127,14 +851,5 @@ bool AFCGameNetModule::RemovePlayerGateInfo(const AFGUID& nRoleID)
 //
 //    return nullptr;
 //}
-
-void AFCGameNetModule::OnTransWorld(const AFNetMsg* msg)
-{
-    // ARK_PROCESS_ACTOR_STRING_MSG(head, msg, msg_len);
-    // m_pGameServerToWorldModule->SendBySuit(nHasKey, nMsgID, msg, nLen);
-
-    // TODO:transfer to world
-    // m_pMsgModule->SendToWorld(nMsgID, msg, nLen);
-}
 
 } // namespace ark

@@ -1295,7 +1295,7 @@ int AFCKernelModule::LogObjectData(const AFGUID& guid)
 bool AFCKernelModule::LogInfo(const AFGUID& id)
 {
     std::shared_ptr<AFIEntity> pEntity = GetEntity(id);
-    if (pEntity != nullptr)
+    if (pEntity == nullptr)
     {
         ARK_LOG_ERROR("Cannot find entity, id = {}", id);
         return false;

@@ -29,8 +29,6 @@
 #include "bus/interface/AFIBusModule.hpp"
 #include "bus/interface/AFIMsgModule.hpp"
 #include "net/interface/AFINetServiceManagerModule.hpp"
-#include "game/interface/AFISceneProcessModule.hpp"
-#include "game/interface/AFIAccountModule.hpp"
 #include "game/interface/AFIGameNetModule.hpp"
 
 namespace ark {
@@ -66,21 +64,6 @@ public:
     // void OnClientDisconnect(const AFGUID& xClientID);
     // void OnClientConnected(const AFGUID& xClientID);
 
-    void OnRegisteredProxy(const AFNetMsg* msg);
-    void OnUnregisteredProxy(const AFNetMsg* msg);
-    void OnRefreshProxy(const AFNetMsg* msg);
-    void OnReqiureRoleList(const AFNetMsg* msg);
-    void OnCreateRole(const AFNetMsg* msg);
-    void OnDeleteRole(const AFNetMsg* msg);
-    void OnRecoverRole(const AFNetMsg* msg);
-
-    void OnEnterGame(const AFNetMsg* msg);
-    void OnLeaveGame(const AFNetMsg* msg);
-    void OnSwapScene(const AFNetMsg* msg);
-
-    ///////////WORLD_START///////////////////////////////////////////////////////////////
-    void OnTransWorld(const AFNetMsg* msg);
-
     // Common Node & table & class event
     int OnCommonClassEvent(
         const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var);
@@ -95,7 +78,6 @@ public:
 
     int OnEntityEvent(
         const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var);
-    int OnSwapSceneResultEvent(const AFGUID& self, const int nEventID, const AFIDataList& var);
 
     int GetBroadcastEntityList(const int nObjectContainerID, const int nGroupID, AFIDataList& valueObject);
 
@@ -120,9 +102,7 @@ private:
     AFIBusModule* m_pBusModule;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
     AFIMapModule* m_pMapModule;
-    //////////////////////////////////////////////////////////////////////////
-    AFISceneProcessModule* m_pSceneProcessModule;
-    AFIAccountModule* m_AccountModule;
+
     AFIMsgModule* m_pMsgModule;
 
     std::shared_ptr<AFINetServerService> m_pNetServerService;

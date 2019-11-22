@@ -27,11 +27,6 @@ namespace ark {
 class AFIProxyNetModule : public AFIModule
 {
 public:
-    virtual int Transpond(const AFNetMsg* msg) = 0;
-    virtual int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID) = 0;
-    virtual int SendToPlayerClient(
-        const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID, const AFGUID& nPlayer) = 0;
-
     virtual bool VerifyConnectData(const std::string& strAccount, const std::string& strKey) = 0;
 };
 

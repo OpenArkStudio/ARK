@@ -19,11 +19,6 @@
  */
 
 #include "game/include/AFGamePlugin.hpp"
-#include "game/include/AFCSceneProcessModule.hpp"
-#include "game/include/AFCAttributeModule.hpp"
-#include "game/include/AFCLevelModule.hpp"
-#include "game/include/AFCPropertyConfigModule.hpp"
-#include "game/include/AFCAccountModule.hpp"
 #include "game/include/AFCGameNetModule.hpp"
 
 namespace ark {
@@ -32,22 +27,12 @@ ARK_DECLARE_PLUGIN_DLL_FUNCTION(AFGamePlugin)
 
 void AFGamePlugin::Install()
 {
-    ARK_REGISTER_MODULE(AFISceneProcessModule, AFCSceneProcessModule);
-    ARK_REGISTER_MODULE(AFIAttributeModule, AFCAttributeModule);
-    ARK_REGISTER_MODULE(AFILevelModule, AFCLevelModule);
-    ARK_REGISTER_MODULE(AFIPropertyConfigModule, AFCPropertyConfigModule);
-    ARK_REGISTER_MODULE(AFIAccountModule, AFCAccountModule);
     ARK_REGISTER_MODULE(AFIGameNetModule, AFCGameNetModule);
 }
 
 void AFGamePlugin::Uninstall()
 {
     ARK_DEREGISTER_MODULE(AFIGameNetModule, AFCGameNetModule);
-    ARK_DEREGISTER_MODULE(AFIAccountModule, AFCAccountModule);
-    ARK_DEREGISTER_MODULE(AFIPropertyConfigModule, AFCPropertyConfigModule);
-    ARK_DEREGISTER_MODULE(AFILevelModule, AFCLevelModule);
-    ARK_DEREGISTER_MODULE(AFIAttributeModule, AFCAttributeModule);
-    ARK_DEREGISTER_MODULE(AFISceneProcessModule, AFCSceneProcessModule);
 }
 
 } // namespace ark

@@ -39,13 +39,7 @@ public:
     bool PostInit() override;
     //bool PreUpdate() override;
 
-    int Transpond(const AFNetMsg* msg) override;
-    int SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID,
-        const AFGUID& nPlayer) override;
-
     bool VerifyConnectData(const std::string& strAccount, const std::string& strKey) override;
-
-    int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID) override;
 
 protected:
     int StartServer();
@@ -55,22 +49,11 @@ protected:
 
     void OnOtherMessage(const AFNetMsg* msg, const int64_t session_id);
     void OnBrocastmsg(const AFNetMsg* msg, const int64_t session_id);
-    void OnAckEnterGame(const AFNetMsg* msg, const int64_t session_id);
 
     void OnSocketEvent(const AFNetEvent* event);
 
     void OnClientDisconnect(const AFGUID& xClientID);
     void OnClientConnected(const AFGUID& xClientID);
-
-    void OnConnectKeyProcess(const AFNetMsg* msg);
-    void OnReqServerListProcess(const AFNetMsg* msg);
-    void OnSelectServerProcess(const AFNetMsg* msg);
-    void OnReqRoleListProcess(const AFNetMsg* msg);
-    void OnReqCreateRoleProcess(const AFNetMsg* msg);
-    void OnReqDelRoleProcess(const AFNetMsg* msg);
-    void OnReqEnterGameServer(const AFNetMsg* msg);
-
-    //////////////////////////////////////////////////////////////////////////
 
     // void OnTransMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const
     // AFGUID& xClientID);
