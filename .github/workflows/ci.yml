@@ -1,4 +1,4 @@
-name: Github Action
+name: Github-CI
 
 on: [push, pull_request]
 
