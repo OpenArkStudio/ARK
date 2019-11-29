@@ -8,7 +8,7 @@ English | [简体中文](./README_CN.md)
 
 ![GitHub release](https://img.shields.io/github/release/ArkNX/ARK.svg?style=flat-square)
 ![GitHub pre-release](https://img.shields.io/github/release-pre/ArkNX/ARK.svg?label=pre-release&style=flat-square)
-[![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows-green.svg?style=flat-square)](https://github.com/ArkNX/ARK)
+[![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows,%20MacOSX-green.svg?style=flat-square)](https://github.com/ArkNX/ARK)
 [![C++11](https://img.shields.io/badge/C++-11-4c7e9f.svg?style=flat-square)](https://github.com/ArkNX/ARK)
 [![License](https://img.shields.io/github/license/ArkNX/ARK.svg?colorB=f48041&style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 ![GitHub stars](https://img.shields.io/github/stars/ArkNX/ARK.svg?style=flat-square&label=Stars&style=flat-square)
@@ -18,7 +18,7 @@ English | [简体中文](./README_CN.md)
 [![codecov](https://codecov.io/gh/ArkNX/ARK/branch/master/graph/badge.svg)](https://codecov.io/gh/ArkNX/ARK)
 [![QQ Group](https://img.shields.io/badge/Chat%20on-QQ%20Group-orange.svg?longCache=true&style=flat-square)](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
 [![Discord](https://img.shields.io/discord/471890201124536320.svg?label=Discord&style=flat-square)](https://discord.gg/GmyBbcv)
-[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg?&style=flat-square)](https://996.icu)
+[![996.icu](https://img.shields.io/badge/Link-996.icu-red.svg?&style=flat-square)](https://996.icu)
 
 </center>
 
@@ -29,11 +29,11 @@ Gitee: https://gitee.com/ArkNX/ARK
 QQ Group: [Join Us](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)  
 Discord: [Join Us](https://discord.gg/GmyBbcv)
 
-| CI            | master branch                                                                                                                      | develop branch                                                                                                                      |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| Travis CI     | [![Build Status](https://travis-ci.org/ArkNX/ARK.svg?branch=master)](https://travis-ci.org/ArkNX/ARK)                              | [![Build Status](https://travis-ci.org/ArkNX/ARK.svg?branch=develop)](https://travis-ci.org/ArkNX/ARK)                              |
-| Cricle CI     | [![CircleCI](https://circleci.com/gh/ArkNX/ARK/tree/master.svg?style=svg)](https://circleci.com/gh/ArkNX/ARK/tree/master)          | [![CircleCI](https://circleci.com/gh/ArkNX/ARK/tree/develop.svg?style=svg)](https://circleci.com/gh/ArkNX/ARK/tree/develop)         |
-| Github Action | [![Github Action](https://github.com/ArkNX/ARK/workflows/Github-CI/badge.svg?branch=master)](https://github.com/ArkNX/ARK/actions) | [![Github Action](https://github.com/ArkNX/ARK/workflows/Github-CI/badge.svg?branch=develop)](https://github.com/ArkNX/ARK/actions) |
+| CI            | master branch                                                                                                             | develop branch                                                                                                                      |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Travis CI     | [![Build Status](https://travis-ci.org/ArkNX/ARK.svg?branch=master)](https://travis-ci.org/ArkNX/ARK)                     | [![Build Status](https://travis-ci.org/ArkNX/ARK.svg?branch=develop)](https://travis-ci.org/ArkNX/ARK)                              |
+| Cricle CI     | [![CircleCI](https://circleci.com/gh/ArkNX/ARK/tree/master.svg?style=svg)](https://circleci.com/gh/ArkNX/ARK/tree/master) | [![CircleCI](https://circleci.com/gh/ArkNX/ARK/tree/develop.svg?style=svg)](https://circleci.com/gh/ArkNX/ARK/tree/develop)         |
+| Github Action | [![Github Action](https://github.com/ArkNX/ARK/workflows/Github-CI/badge.svg)](https://github.com/ArkNX/ARK/actions)      | [![Github Action](https://github.com/ArkNX/ARK/workflows/Github-CI/badge.svg?branch=develop)](https://github.com/ArkNX/ARK/actions) |
 
 ##### Wanna get the newest features? Please switch to the develop branch.
 
