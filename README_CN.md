@@ -1,6 +1,6 @@
 简体中文 | [English](./README.md)
 
-<p align="right">当前版本: <strong>v0.9.7</strong></p>
+<p align="right">当前版本: <strong>v0.9.8</strong></p>
 <p align="center"><img src="https://raw.githubusercontent.com/ArkNX/ARK/gh-pages/_images/ark_logo.svg?sanitize=true" alt="ark" width="300"/></p>
 <center>ARK 是一个使用C++开发的轻量级,敏捷型,弹性的,分布式的插件开发框架, 让你更快更简单的开发服务端应用. 部分思路来自UE4和Ogre.(当前主要用在游戏领域)
 
