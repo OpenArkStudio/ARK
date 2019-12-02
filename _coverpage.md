@@ -1,6 +1,6 @@
 ![logo](_images/ark_logo.svg ":size=233x108")
 
-# <small>0.9.6 release</small>
+# <small>0.9.8 release</small>
 
 > A lightweight, agility, elastic, distributed plugin framework.
 
