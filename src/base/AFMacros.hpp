@@ -22,7 +22,8 @@
 
 #include "base/AFPlatform.hpp"
 #include <common/lexical_cast.hpp>
-#include "spdlog/fmt/fmt.h"
+#include <spdlog/common.h>
+#include <spdlog/fmt/fmt.h>
 
 // Input param type
 #ifndef IN

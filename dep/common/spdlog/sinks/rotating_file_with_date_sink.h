@@ -71,7 +71,7 @@ public:
     // ".mylog" => ("", ".mylog". "")
     // "my_folder/.mylog" => ("my_folder/", ".mylog", "")
     // "my_folder/.mylog.txt" => ("my_folder/", ".mylog", ".txt")
-    static std::tuple<filename_t, filename_t, filename_t> split_by_dir_and_extenstion(const spdlog::filename_t &fname)
+    static std::tuple<filename_t, filename_t, filename_t> split_by_dir_and_extenstion(const spdlog::filename_t& fname)
     {
         auto ext_index = fname.rfind('.');
 
@@ -89,19 +89,20 @@ public:
         }
 
         // finally - return a valid base and extension tuple
-        return std::make_tuple(
-            fname.substr(0, folder_index), fname.substr(folder_index + 1, ext_index - folder_index - 1), fname.substr(ext_index));
+        return std::make_tuple(fname.substr(0, folder_index),
+            fname.substr(folder_index + 1, ext_index - folder_index - 1), fname.substr(ext_index));
     }
 
     // calc filename according to index and file extension if exists.
     // e.g. calc_filename("logs/mylog.txt, 3) => "logs/mylog.3.txt".
-    static filename_t calc_filename(const filename_t &filename, std::size_t index)
+    static filename_t calc_filename(const filename_t& filename, std::size_t index)
     {
         std::tm tm = spdlog::details::os::localtime();
         filename_t pre_dir, basename, ext;
         std::tie(pre_dir, basename, ext) = split_by_dir_and_extenstion(filename);
-        auto dir_path = fmt::format(SPDLOG_FILENAME_T("{}{}{:04d}{:02d}{:02d}{}"), pre_dir, spdlog::details::os::folder_sep,
-            tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, spdlog::details::os::folder_sep);
+        auto dir_path =
+            fmt::format(SPDLOG_FILENAME_T("{}{}{:04d}{:02d}{:02d}{}"), pre_dir, spdlog::details::os::folder_sep,
+                tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, spdlog::details::os::folder_sep);
 
         // CHECK if directory is already existed
 #if _WIN32
@@ -121,7 +122,8 @@ public:
             }
         }
 
-        typename std::conditional<std::is_same<filename_t::value_type, char>::value, fmt::memory_buffer, fmt::wmemory_buffer>::type w;
+        typename std::conditional<std::is_same<filename_t::value_type, char>::value, fmt::memory_buffer,
+            fmt::wmemory_buffer>::type w;
         if (index != 0u)
         {
             fmt::format_to(w, SPDLOG_FILENAME_T("{}{}.{}{}"), dir_path, basename, index, ext);
@@ -135,10 +137,10 @@ public:
     }
 
 protected:
-    void sink_it_(const details::log_msg &msg) override
+    void sink_it_(const details::log_msg& msg) override
     {
-        fmt::memory_buffer formatted;
-        sink::formatter_->format(msg, formatted);
+        memory_buf_t formatted;
+        base_sink<Mutex>::formatter_->format(msg, formatted);
         current_size_ += formatted.size();
         if (current_size_ > max_size_)
         {
@@ -182,8 +184,9 @@ private:
                 {
                     file_helper_.reopen(true); // truncate the log file anyway to prevent it to grow beyond its limit!
                     current_size_ = 0;
-                    throw spdlog_ex(
-                        "rotating_file_sink: failed renaming " + filename_to_str(src) + " to " + filename_to_str(target), errno);
+                    throw spdlog_ex("rotating_file_sink: failed renaming " + filename_to_str(src) + " to " +
+                                        filename_to_str(target),
+                        errno);
                 }
             }
         }
@@ -192,7 +195,7 @@ private:
 
     // delete the target if exists, and rename the src file  to target
     // return true on success, false otherwise.
-    bool rename_file(const filename_t &src_filename, const filename_t &target_filename)
+    bool rename_file(const filename_t& src_filename, const filename_t& target_filename)
     {
         // try to delete the target file in case it already exists.
         (void)details::os::remove(target_filename);
@@ -217,15 +220,17 @@ using rotating_file_with_date_sink_st = rotating_file_with_date_sink<details::nu
 
 template<typename Factory = default_factory>
 inline std::shared_ptr<logger> rotating_logger_mt(
-    const std::string &logger_name, const filename_t &filename, size_t max_file_size, size_t max_files)
+    const std::string& logger_name, const filename_t& filename, size_t max_file_size, size_t max_files)
 {
-    return Factory::template create<sinks::rotating_file_with_date_sink_mt>(logger_name, filename, max_file_size, max_files);
+    return Factory::template create<sinks::rotating_file_with_date_sink_mt>(
+        logger_name, filename, max_file_size, max_files);
 }
 
 template<typename Factory = default_factory>
 inline std::shared_ptr<logger> rotating_logger_st(
-    const std::string &logger_name, const filename_t &filename, size_t max_file_size, size_t max_files)
+    const std::string& logger_name, const filename_t& filename, size_t max_file_size, size_t max_files)
 {
-    return Factory::template create<sinks::rotating_file_with_date_sink_st>(logger_name, filename, max_file_size, max_files);
+    return Factory::template create<sinks::rotating_file_with_date_sink_st>(
+        logger_name, filename, max_file_size, max_files);
 }
 } // namespace spdlog

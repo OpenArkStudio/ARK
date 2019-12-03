@@ -74,7 +74,7 @@ void CloseXButton()
     }
 }
 
-#elif defined(ARK_PLATFORM_LINUX)
+#elif defined(ARK_PLATFORM_LINUX) || defined(ARK_PLATFORM_DARWIN)
 
 void KillHandler(int s)
 {
@@ -161,7 +161,7 @@ bool ParseArgs(int argc, char* argv[])
     };
 
     auto use_daemon = []() {
-#ifdef ARK_PLATFORM_LINUX
+#if defined(ARK_PLATFORM_LINUX) || defined(ARK_PLATFORM_DARWIN)
         InitDaemon();
 #endif
     };

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.0)
 
 # UNIX : is TRUE on all UNIX-like OS's, including Apple OS X and CygWin
 # WIN32 : is TRUE on Windows. Prior to 2.8.4 this included CygWin
@@ -49,11 +49,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 #---------------------------------------------------------------------------------------
-# Self defined postfix
-#---------------------------------------------------------------------------------------
-set(CMAKE_DEBUG_POSTFIX "_d" CACHE STRING "Set debug library postfix")
-
-#---------------------------------------------------------------------------------------
 # Coverage reporting
 #---------------------------------------------------------------------------------------
 option(ENABLE_COVERAGE "Enable coverage reporting for gcc/clang" OFF)
@@ -65,13 +60,22 @@ option(BUILD_TESTS "Enable build tests" ON)
 option(BUILD_SAMPLES "Enable build examples" ON) # TODO: will change to examples
 
 #---------------------------------------------------------------------------------------
-# ARK project
+# Get version number.
 #---------------------------------------------------------------------------------------
 include(cmake/utils.cmake)
 ark_extract_version()
 
+#---------------------------------------------------------------------------------------
+# ARK project
+#---------------------------------------------------------------------------------------
 project(ark VERSION ${ARK_VERSION} LANGUAGES CXX)
 message(STATUS "Build ark: v${ARK_VERSION}")
+
+#---------------------------------------------------------------------------------------
+# Dependencies
+#---------------------------------------------------------------------------------------
+#include(cmake/deps.cmake)
+
 
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
 
@@ -80,6 +84,7 @@ include_directories(
     ${ROOT_DIR}/dep
     ${ROOT_DIR}/dep/common
     ${ROOT_DIR}/dep/protobuf/src
+    #${Protobuf_INCLUDE_DIR}
     ${ROOT_DIR}/dep/brynet/src
     ${ROOT_DIR}/dep/spdlog/include
     ${ROOT_DIR}/src
@@ -88,6 +93,7 @@ include_directories(
 
 set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/bin)
 set(DEP_LIB_DIR ${BIN_OUTPUT_DIR} ${ROOT_DIR}/dep/lib/)
+#set(DEP_LIB_DIR ${BIN_OUTPUT_DIR} ${Protobuf_LIBRARIES})
 
 if(WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest -D_CRT_SECURE_NO_WARNINGS -D_SILENCE_CXX17_C_HEADER_DEPRECATION_WARNING")
@@ -118,6 +124,18 @@ else(UNIX)
         message("Build with coverage")
         add_compile_options(--coverage -O0)
     endif()
+
+    if(XCODE)
+        # set the output dir for xcode
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
+        set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
+        set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
+
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
+        set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
+        set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
+    endif(XCODE)
+    
 endif()
 
 link_directories(${DEP_LIB_DIR})
@@ -142,16 +160,37 @@ find_package(codecov)
 #---------------------------------------------------------------------------------------
 message(STATUS "Start to build all ...")
 
+#---------------------------------------------------------------------------------------
+# Building 3rd party dependencies.
+#---------------------------------------------------------------------------------------
+# message(STATUS "Start to build all 3rd party dependencies...")
+# add_subdirectory(dep)
+
+#---------------------------------------------------------------------------------------
+# Self defined postfix
+#---------------------------------------------------------------------------------------
+set(CMAKE_DEBUG_POSTFIX "_d" CACHE STRING "Set debug library postfix")
+
+#---------------------------------------------------------------------------------------
+# Building ARK source.
+#---------------------------------------------------------------------------------------
+message(STATUS "Start to build all source...")
 add_subdirectory(src/app)
 add_subdirectory(src/proto)
 add_subdirectory(src/plugin)
 add_subdirectory(src/server)
 
+#---------------------------------------------------------------------------------------
+# Building samples
+#---------------------------------------------------------------------------------------
 if(BUILD_SAMPLES)
     message(STATUS "Buiding samples ...")
     add_subdirectory(samples)    
 endif(BUILD_SAMPLES)
 
+#---------------------------------------------------------------------------------------
+# Building tests
+#---------------------------------------------------------------------------------------
 if(BUILD_TESTS)
     message(STATUS "Buiding tests ...")
     enable_testing()

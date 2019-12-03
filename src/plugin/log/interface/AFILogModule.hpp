@@ -20,12 +20,28 @@
 
 #pragma once
 
-#include "spdlog/spdlog.h"
-#include "spdlog/async_logger.h"
-#include "spdlog/async.h"
-#include "spdlog/fmt/fmt.h"
+#include <spdlog/common.h>
+#include <spdlog/spdlog.h>
+#include <spdlog/async_logger.h>
+#include <spdlog/async.h>
+#include <spdlog/fmt/fmt.h>
 #include "interface/AFIModule.hpp"
 #include "proto/AFProtoCPP.hpp"
+
+// Get the basename of __FILE__ (at compile time if possible)
+#if FMT_HAS_FEATURE(__builtin_strrchr)
+#define SPDLOG_STRRCHR(str, sep) __builtin_strrchr(str, sep)
+#else
+#define SPDLOG_STRRCHR(str, sep) strrchr(str, sep)
+#endif //__builtin_strrchr not defined
+
+#ifndef SPDLOG_FILE_BASENAME
+#ifdef PLATFORM_WIN
+#define SPDLOG_FILE_BASENAME(file) SPDLOG_STRRCHR("\\" file, '\\') + 1
+#else
+#define SPDLOG_FILE_BASENAME(file) SPDLOG_STRRCHR("/" file, '/') + 1
+#endif
+#endif // SPDLOG_FILE_BASENAME
 
 namespace ark {
 

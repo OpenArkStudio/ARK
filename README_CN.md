@@ -58,7 +58,7 @@ Discord: [Join Us](https://discord.gg/GmyBbcv)
 
 ## 文档
 
-请访问文档页面: [文档](https://docs.arknx.com/ARK)
+请访问文档页面: [文档](https://arknx.com/ARK)
 
 ## Unity3D 客户端
 

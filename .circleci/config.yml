@@ -1,9 +1,10 @@
 version: 2
 jobs:
   build:
-    branches:
-      ignore:
-        - gh-pages
+    filters:
+      branches:
+        ignore:
+          - gh-pages
     docker:
       - image: rikorose/gcc-cmake
     steps:
