@@ -39,6 +39,7 @@ void AFCTCPClient::Update()
 bool AFCTCPClient::StartClient(
     AFHeadLength head_len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 /* = false*/)
 {
+    using namespace brynet::base;
     using namespace brynet::net;
 
     this->dst_bus_id_ = dst_busid;
@@ -111,14 +112,11 @@ bool AFCTCPClient::StartClient(
 
     connection_builder_.configureService(tcp_service_)
         .configureConnector(connector_)
-        .configureConnectionOptions({TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback),
-            TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE)})
-        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
-            AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
-            AsyncConnector::ConnectOptions::WithFailedCallback(
-                []() { CONSOLE_ERROR_LOG << "connect failed" << std::endl; }),
-            AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback(
-                [](TcpSocket& socket) { socket.setNodelay(); })})
+        .configureConnectionOptions({AddSocketOption::AddEnterCallback(OnEnterCallback),
+            AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE)})
+        .configureConnectOptions({ConnectOption::WithAddr(ip, port), ConnectOption::WithTimeout(ARK_CONNECT_TIMEOUT),
+            ConnectOption::WithFailedCallback([]() { CONSOLE_ERROR_LOG << "connect failed" << std::endl; }),
+            ConnectOption::AddProcessTcpSocketCallback([](TcpSocket& socket) { socket.setNodelay(); })})
         .asyncConnect();
 
     SetWorking(true);

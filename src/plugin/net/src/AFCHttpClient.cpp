@@ -1,5 +1,5 @@
-#include <brynet/net/Wrapper.h>
-#include <brynet/net/http/HttpService.h>
+#include <brynet/net/wrapper/HttpConnectionBuilder.hpp>
+#include <brynet/net/http/HttpService.hpp>
 
 #include "base/AFMacros.hpp"
 #include "net/include/AFCHttpClient.hpp"
@@ -21,7 +21,7 @@ AFCHttpClient::AFCHttpClient()
     tcp_service_->startWorkerThread(1);
     connector_->startWorkerThread();
 
-    timer_mgr_ = std::make_shared<brynet::timer::TimerMgr>();
+    timer_mgr_ = std::make_shared<brynet::base::TimerMgr>();
 }
 
 AFCHttpClient::~AFCHttpClient()
@@ -88,12 +88,11 @@ ananas::Future<std::pair<bool, std::string>> AFCHttpClient::AsyncRequest(
     // start to connect
     connection_builder_.configureConnector(connector_)
         .configureService(tcp_service_)
-        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
-            AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
-            AsyncConnector::ConnectOptions::WithFailedCallback(
+        .configureConnectOptions({ConnectOption::WithAddr(ip, port), ConnectOption::WithTimeout(ARK_CONNECT_TIMEOUT),
+            ConnectOption::WithFailedCallback(
                 [=]() mutable { promise.SetValue(std::make_pair(false, std::string())); })})
-        .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE),
-            TcpService::AddSocketOption::AddEnterCallback([](const TcpConnection::Ptr& session) {
+        .configureConnectionOptions({AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE),
+            AddSocketOption::AddEnterCallback([](const TcpConnection::Ptr& session) {
 #ifdef ARK_RUN_MODE_DEBUG
                 CONSOLE_INFO_LOG << "http client connected!" << std::endl;
 #endif

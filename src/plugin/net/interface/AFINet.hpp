@@ -20,9 +20,6 @@
 
 #pragma once
 
-#include <brynet/net/TCPService.h>
-#include <brynet/net/http/HttpService.h>
-
 #include "base/AFMacros.hpp"
 #include "base/AFLockFreeQueue.hpp"
 #include "base/AFBuffer.hpp"

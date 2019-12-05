@@ -18,6 +18,7 @@
  *
  */
 
+#include <brynet/net/http/HttpFormat.hpp>
 #include "net/include/AFCWebSocketServer.hpp"
 
 namespace ark {
@@ -36,6 +37,7 @@ void AFCWebSocketServer::Update()
 bool AFCWebSocketServer::StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port,
     const int thread_num, const unsigned int max_client, bool ip_v6 /* = false*/)
 {
+    using namespace brynet::base;
     using namespace brynet::net;
     using namespace brynet::net::http;
 
@@ -137,8 +139,8 @@ bool AFCWebSocketServer::StartServer(AFHeadLength head_len, const int busid, con
 
     listen_builder_.configureService(tcp_service_)
         .configureSocketOptions({[](TcpSocket& socket) { socket.setNodelay(); }})
-        .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE),
-            TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback)})
+        .configureConnectionOptions({AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE),
+            AddSocketOption::AddEnterCallback(OnEnterCallback)})
         .configureListen([=](wrapper::BuildListenConfig config) { config.setAddr(ip_v6, ip, port); })
         .asyncRun();
 

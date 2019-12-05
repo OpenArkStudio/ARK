@@ -18,7 +18,7 @@
  *
  */
 
-#include <brynet/net/http/HttpFormat.h>
+#include <brynet/net/http/HttpFormat.hpp>
 #include "net/include/AFCWebSocketClient.hpp"
 
 namespace ark {
@@ -34,6 +34,7 @@ AFCWebSocketClient::~AFCWebSocketClient()
 bool AFCWebSocketClient::StartClient(
     AFHeadLength len, const int target_busid, const std::string& ip, const int port, bool ip_v6)
 {
+    using namespace brynet::base;
     using namespace brynet::net;
     using namespace brynet::net::http;
 
@@ -114,11 +115,9 @@ bool AFCWebSocketClient::StartClient(
 
     connection_builder.configureService(tcp_service_)
         .configureConnector(connector_)
-        .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE)})
-        .configureConnectOptions({AsyncConnector::ConnectOptions::WithAddr(ip, port),
-            AsyncConnector::ConnectOptions::WithTimeout(ARK_CONNECT_TIMEOUT),
-            AsyncConnector::ConnectOptions::AddProcessTcpSocketCallback(
-                [](TcpSocket& socket) { socket.setNodelay(); })})
+        .configureConnectionOptions({AddSocketOption::WithMaxRecvBufferSize(ARK_HTTP_RECV_BUFFER_SIZE)})
+        .configureConnectOptions({ConnectOption::WithAddr(ip, port), ConnectOption::WithTimeout(ARK_CONNECT_TIMEOUT),
+            ConnectOption::AddProcessTcpSocketCallback([](TcpSocket& socket) { socket.setNodelay(); })})
         .configureEnterCallback(OnEnterCallback)
         .asyncConnect();
 

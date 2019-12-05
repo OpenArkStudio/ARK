@@ -43,6 +43,7 @@ void AFCTCPServer::Update()
 bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port,
     const int thread_num, const unsigned int max_client, bool ip_v6 /* = false*/)
 {
+    using namespace brynet::base;
     using namespace brynet::net;
 
     this->bus_id_ = busid;
@@ -114,8 +115,8 @@ bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std
     // Chain expression
     listen_builder.configureService(tcp_service_ptr_)
         .configureSocketOptions({[](TcpSocket& socket) { socket.setNodelay(); }})
-        .configureConnectionOptions({TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE),
-            TcpService::AddSocketOption::AddEnterCallback(OnEnterCallback)})
+        .configureConnectionOptions({AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE),
+            AddSocketOption::AddEnterCallback(OnEnterCallback)})
         .configureListen([=](wrapper::BuildListenConfig config) { config.setAddr(ip_v6, ip, port); })
         .asyncRun();
 

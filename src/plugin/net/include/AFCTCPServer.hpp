@@ -20,6 +20,9 @@
 
 #pragma once
 
+#include <brynet/net/TcpService.hpp>
+#include <brynet/net/wrapper/ServiceBuilder.hpp>
+
 #include "base/AFUidGenerator.hpp"
 #include "net/interface/AFINet.hpp"
 #include "net/include/AFNetSession.hpp"

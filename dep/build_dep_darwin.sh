@@ -27,20 +27,20 @@ cp -a protoc* ../../../../src/proto/proto-gen
 cd ../../../
 
 ##################################################################
-echo "Building brynet..."
-
-cd brynet
-chmod -R 755 *
-if [ -d "build" ]; then
-    rm -rf build
-fi
-
-mkdir build && cd build
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=release ..
-make -j 4
-cp -a lib/*.dylib ../../lib
-cp -a lib/*.dylib ../../../bin/bin
-cd ../../
+#echo "Building brynet..."
+#
+#cd brynet
+#chmod -R 755 *
+#if [ -d "build" ]; then
+#    rm -rf build
+#fi
+#
+#mkdir build && cd build
+#cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=release ..
+#make -j 4
+#cp -a lib/*.dylib ../../lib
+#cp -a lib/*.dylib ../../../bin/bin
+#cd ../../
 
 ##################################################################
 echo "General proto files..."

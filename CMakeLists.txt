@@ -85,7 +85,7 @@ include_directories(
     ${ROOT_DIR}/dep/common
     ${ROOT_DIR}/dep/protobuf/src
     #${Protobuf_INCLUDE_DIR}
-    ${ROOT_DIR}/dep/brynet/src
+    ${ROOT_DIR}/dep/brynet/include
     ${ROOT_DIR}/dep/spdlog/include
     ${ROOT_DIR}/src
     ${ROOT_DIR}/src/plugin

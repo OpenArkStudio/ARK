@@ -21,7 +21,7 @@
 #pragma once
 
 #include <ananas/future/Future.h>
-#include <brynet/net/http/HttpFormat.h>
+#include <brynet/net/http/HttpFormat.hpp>
 
 #include "interface/AFIModule.hpp"
 // Protobuf header files below platform.hpp cuz the std::min and std::numberic_limit<T>::min;

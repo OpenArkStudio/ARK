@@ -20,12 +20,12 @@
 
 #pragma once
 
-#include <brynet/net/TCPService.h>
-#include <brynet/net/Connector.h>
-#include <brynet/net/EventLoop.h>
-#include <brynet/net/http/HttpFormat.h>
-#include <brynet/net/Wrapper.h>
-#include <brynet/timer/Timer.h>
+#include <brynet/net/TcpService.hpp>
+#include <brynet/net/AsyncConnector.hpp>
+#include <brynet/net/EventLoop.hpp>
+#include <brynet/net/http/HttpFormat.hpp>
+#include <brynet/net/wrapper/HttpConnectionBuilder.hpp>
+#include <brynet/base/Timer.hpp>
 
 #include "base/AFPlatform.hpp"
 #include "net/interface/AFIHttpClient.hpp"
@@ -49,7 +49,7 @@ private:
     brynet::net::AsyncConnector::Ptr connector_{nullptr};
     brynet::net::TcpService::Ptr tcp_service_{nullptr};
     brynet::net::wrapper::HttpConnectionBuilder connection_builder_;
-    std::shared_ptr<brynet::timer::TimerMgr> timer_mgr_{nullptr};
+    std::shared_ptr<brynet::base::TimerMgr> timer_mgr_{nullptr};
 };
 
 } // namespace ark

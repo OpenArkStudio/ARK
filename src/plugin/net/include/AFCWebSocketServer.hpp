@@ -20,8 +20,10 @@
 
 #pragma once
 
-#include <brynet/net/http/HttpService.h>
-#include <brynet/net/http/HttpFormat.h>
+#include <brynet/net/TcpService.hpp>
+#include <brynet/net/AsyncConnector.hpp>
+#include <brynet/net/wrapper/HttpServiceBuilder.hpp>
+
 #include "base/AFUidGenerator.hpp"
 #include "net/interface/AFINet.hpp"
 #include "net/include/AFNetSession.hpp"

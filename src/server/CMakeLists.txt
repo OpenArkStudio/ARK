@@ -14,24 +14,20 @@ function(BUILD_SERVER_MACRO project_name)
         add_definitions(-D_USRDLL)
 
         target_link_libraries(${project_name} 
-            debug brynetd.lib
             debug AFProto_d.lib
             debug libprotobufd.lib
             
-            optimized brynet.lib
             optimized AFProto.lib
             optimized libprotobuf.lib)
     elseif(APPLE)
         target_link_libraries(${project_name} 
             debug ${BIN_OUTPUT_DIR}/AFProto_d.a
             optimized ${BIN_OUTPUT_DIR}/AFProto.a
-            brynet
             protobuf)
     else()
         target_link_libraries(${project_name} 
             debug :AFProto_d.a            
             optimized :AFProto.a
-            brynet
             protobuf)
     endif()
 

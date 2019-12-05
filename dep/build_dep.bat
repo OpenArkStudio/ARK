@@ -34,20 +34,20 @@ copy Release\protoc.exe ..\..\..\..\src\proto\proto-gen /Y
 
 cd ..\..\..\
 
-REM ####################################################################################################
-echo "Building brynet..."
-
-cd brynet
-if exist build (rd build /q /s)
-md build
-cd build
-%CMAKE_CMD% ..
-%VS_DEVENV% brynet.sln /build "Debug|x64" /project brynet.vcxproj
-%VS_DEVENV% brynet.sln /build "Release|x64" /project brynet.vcxproj
-copy lib\Debug\*.lib ..\..\lib\ /Y
-copy lib\Release\*.lib ..\..\lib /Y
-
-cd ..\..\
+REM REM ####################################################################################################
+REM echo "Building brynet..."
+REM 
+REM cd brynet
+REM if exist build (rd build /q /s)
+REM md build
+REM cd build
+REM %CMAKE_CMD% ..
+REM %VS_DEVENV% brynet.sln /build "Debug|x64" /project brynet.vcxproj
+REM %VS_DEVENV% brynet.sln /build "Release|x64" /project brynet.vcxproj
+REM copy lib\Debug\*.lib ..\..\lib\ /Y
+REM copy lib\Release\*.lib ..\..\lib /Y
+REM 
+REM cd ..\..\
 REM ####################################################################################################
 REM generate pb files
 echo "generate proto files..."
