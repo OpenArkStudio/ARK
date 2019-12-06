@@ -58,7 +58,7 @@ Discord: [Join Us](https://discord.gg/GmyBbcv)
 
 ## Document
 
-Please visit doc website: [Document](https://doarknx.com/ARK)
+Please visit doc website: [Document](https://arknx.com/ARK)
 
 ## Unity3D client
 
