@@ -21,7 +21,7 @@ endfunction(BUILD_PLUGIN_MACRO)
 #---------------------------------------------------------------------------------------
 # sub projects
 #---------------------------------------------------------------------------------------
-# 3rd plugins
+# Main plugins
 add_subdirectory(kernel)
 add_subdirectory(bus)
 add_subdirectory(net)

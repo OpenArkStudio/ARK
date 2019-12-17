@@ -13,10 +13,12 @@ def create_folder(folder):
 
 def write_plugin(res_path, plugin):
     # include/AFNamePlugin.hpp
-    dir_path = os.path.join(res_path, plugin,
+    dir_path = os.path.join(res_path, plugin.lower(),
                             plugin_and_module_param.include_path)
     create_folder(dir_path)
-    file_name = "AF" + plugin.capitalize() + "Plugin"
+    file_middle_name = plugin[0].upper() + plugin[1:]
+    print("plugin file name = " + file_middle_name)
+    file_name = "AF" + file_middle_name + "Plugin"
     with open(
             os.path.join(dir_path,
                          file_name + plugin_and_module_param.hpp_ext),
@@ -48,7 +50,7 @@ def write_plugin(res_path, plugin):
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN(AF''' + plugin.capitalize() + '''Plugin)
+ARK_DECLARE_PLUGIN(AF''' + file_middle_name + '''Plugin)
 
 } // namespace ark''')
 
@@ -60,7 +62,6 @@ ARK_DECLARE_PLUGIN(AF''' + plugin.capitalize() + '''Plugin)
     # src/AFNamePlugin.cpp
     dir_path = os.path.join(res_path, plugin, plugin_and_module_param.src_path)
     create_folder(dir_path)
-    file_name = "AF" + plugin.capitalize() + "Plugin"
     with open(
             os.path.join(dir_path,
                          file_name + plugin_and_module_param.cpp_ext),
@@ -85,19 +86,19 @@ ARK_DECLARE_PLUGIN(AF''' + plugin.capitalize() + '''Plugin)
  *
  */
 
-#include "''' + plugin + '''/include/AF''' + plugin.capitalize() +
+#include "''' + plugin.lower() + '''/include/AF''' + file_middle_name +
                 '''Plugin.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN_DLL_FUNCTION(AF''' + plugin.capitalize() + '''Plugin)
+ARK_DECLARE_PLUGIN_DLL_FUNCTION(AF''' + file_middle_name + '''Plugin)
 
-void AF''' + plugin.capitalize() + '''Plugin::Install()
+void AF''' + file_middle_name + '''Plugin::Install()
 {
     // install module
 }
 
-void AF''' + plugin.capitalize() + '''Plugin::Uninstall()
+void AF''' + file_middle_name + '''Plugin::Uninstall()
 {
     // uninstall module
 }
@@ -134,26 +135,17 @@ void AF''' + plugin.capitalize() + '''Plugin::Uninstall()
 
     # name/CMakeLists.txt
     with open(
-            os.path.join(res_path, plugin, plugin_and_module_param.cmake_file),
+            os.path.join(res_path, plugin.lower(),
+                         plugin_and_module_param.cmake_file),
             'w') as f:
-        f.write(u'''if(WIN32)
-    if (_type STREQUAL debug)
-        BUILD_PLUGIN_MACRO(AF''' + plugin.capitalize() + '''Plugin)
-    else()
-        BUILD_PLUGIN_MACRO(AF''' + plugin.capitalize() + '''Plugin)
-    endif()
-else(UNIX)
-    BUILD_PLUGIN_MACRO(AF''' + plugin.capitalize() + '''Plugin)
-endif()
-
-''')
+        f.write(u'''BUILD_PLUGIN_MACRO(AF''' + file_middle_name + '''Plugin)''')
 
     # plugin/CMakeLists.txt
     f = open(os.path.join(res_path, plugin_and_module_param.cmake_file), 'r')
     lines = []
     for line in f:
         lines.append(line)
-    s = "add_subdirectory(" + plugin + ")"
+    s = "add_subdirectory(" + plugin.lower() + ")"
     if lines[len(lines) - 1].find(s) == -1:
         s = "\n" + s
         lines.append(s)
@@ -166,9 +158,10 @@ endif()
 
 def write_module(module, plugin, res_path):
     # include/AFCNameModule.hpp
-    dir_path = os.path.join(res_path, plugin,
+    dir_path = os.path.join(res_path, plugin.lower(),
                             plugin_and_module_param.include_path)
-    file_name = "AFC" + module.capitalize() + "Module"
+    module_middle_name = module[0].upper() + module[1:]
+    file_name = "AFC" + module_middle_name + "Module"
 
     with open(
             os.path.join(dir_path,
@@ -197,20 +190,20 @@ def write_module(module, plugin, res_path):
 #pragma once
 
 #include "base/AFPluginManager.hpp"
-#include "''' + plugin + '''/interface/AFI''' + module.capitalize() +
+#include "''' + plugin.lower() + '''/interface/AFI''' + module_middle_name +
                 '''Module.hpp"
 
 namespace ark {
 
-class AFC''' + module.capitalize() + '''Module final : public AFI''' +
-                module.capitalize() + '''Module
+class AFC''' + module_middle_name + '''Module final : public AFI''' +
+                module_middle_name + '''Module
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
-    //ToDo
+    // TODO
 
 private:
-    //Todo
+    // TODO
 
 };
 
@@ -218,10 +211,10 @@ private:
 
 ''')
 
-# interface/AFINameModule.hpp
-    dir_path = os.path.join(res_path, plugin,
+    # interface/AFINameModule.hpp
+    dir_path = os.path.join(res_path, plugin.lower(),
                             plugin_and_module_param.interface_path)
-    file_name = "AFI" + module.capitalize() + "Module"
+    file_name = "AFI" + module_middle_name + "Module"
 
     with open(
             os.path.join(dir_path,
@@ -253,7 +246,7 @@ private:
 
 namespace ark {
 
-class AFI''' + module.capitalize() + '''Module : public AFIModule 
+class AFI''' + module_middle_name + '''Module : public AFIModule 
 {
 public:
     //virtual method
@@ -263,9 +256,10 @@ public:
 
 ''')
 
-# src/AFCNameModule.cpp
-    dir_path = os.path.join(res_path, plugin, plugin_and_module_param.src_path)
-    file_name = "AFC" + module.capitalize() + "Module"
+    # src/AFCNameModule.cpp
+    dir_path = os.path.join(res_path, plugin.lower(),
+                            plugin_and_module_param.src_path)
+    file_name = "AFC" + module_middle_name + "Module"
 
     with open(
             os.path.join(dir_path,
@@ -291,7 +285,7 @@ public:
  *
  */
 
-#include "''' + plugin + '''/include/AFC''' + module.capitalize() +
+#include "''' + plugin.lower() + '''/include/AFC''' + module_middle_name +
                 '''Module.hpp"
 
 namespace ark {
@@ -301,8 +295,7 @@ namespace ark {
 
 ''')
 
-
-# src/AFNamePlugin.cpp
+    # src/AFNamePlugin.cpp
     file_name = "AF" + plugin.capitalize() + "Plugin"
     path = os.path.join(dir_path, file_name + plugin_and_module_param.cpp_ext)
     file = open(path, "r", encoding="utf-8")
@@ -312,7 +305,7 @@ namespace ark {
 
     i = 0
     flag = False
-    for line in lines:  #依次读取每行
+    for line in lines:  # 依次读取每行
         i = i + 1
         if not flag and line[0:1] != "#":
             continue
@@ -323,7 +316,7 @@ namespace ark {
             else:
                 break
     lines.insert(
-        i - 2, "#include \"" + plugin + "/include/AFC" + module.capitalize() +
+        i - 2, "#include \"" + plugin + "/include/AFC" + module_middle_name +
         "Module.hpp\"\n")
 
     for i in range(i, len(lines)):
@@ -334,8 +327,8 @@ namespace ark {
                 if lines[i].find("}") != -1:
                     break
             lines.insert(
-                i, "\tARK_REGISTER_MODULE(AFI" + module.capitalize() +
-                "Module, AFC" + module.capitalize() + "Module);\n")
+                i, "\tARK_REGISTER_MODULE(AFI" + module_middle_name +
+                "Module, AFC" + module_middle_name + "Module);\n")
             while True:
                 if lines[i].find("{") != -1 and lines[i - 1].find(
                         "Uninstall") != -1:
@@ -345,8 +338,8 @@ namespace ark {
             if lines[i].find("// uninstall module") != -1:
                 i = i + 1
             lines.insert(
-                i, "\tARK_DEREGISTER_MODULE(AFI" + module.capitalize() +
-                "Module, AFC" + module.capitalize() + "Module);\n")
+                i, "\tARK_DEREGISTER_MODULE(AFI" + module_middle_name +
+                "Module, AFC" + module_middle_name + "Module);\n")
             break
 
     s = ''.join(lines)
@@ -354,6 +347,7 @@ namespace ark {
     f.write(s)
     f.close()
     del lines[:]
+
 
 if __name__ == "__main__":
     files = os.listdir(plugin_and_module_param.plugin_path)
