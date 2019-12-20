@@ -14,11 +14,11 @@ jobs:
           command: |
             git submodule sync
             git submodule update --init
-      - run:
-          name: Building dependencies
-          command: |
-            cd dep
-            eval ./build_dep.sh
+      #- run:
+      #    name: Building dependencies
+      #    command: |
+      #      cd dep
+      #      eval ./build_dep.sh
       - run:
           name: Install C++ build wrapper
           command: |
