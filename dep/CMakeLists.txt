@@ -2,6 +2,8 @@
 
 message(STATUS "Add dep projects...")
 
+set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Set dependencies as release mode" FORCE)
+
 # Building protobuffer
 if(WIN32)
     option(protobuf_BUILD_SHARED_LIBS "Disable protobuf shared lib" OFF)
@@ -48,9 +50,8 @@ else(UNIX)
     add_custom_target(dep_postevent ALL
         COMMAND echo "this is a custom target for pre-build dependencies"
         COMMAND ${CMAKE_COMMAND} -E copy ${BIN_OUTPUT_DIR}/*protoc* ${ROOT_DIR}/src/proto/proto-gen/
-        COMMAND cd "${ROOT_DIR}/src/proto/"
-        COMMAND ./gen-proto.bat
-        COMMAND cd "${ROOT_DIR}/build/"
+        COMMAND cd ${ROOT_DIR}/src/proto/ && bash gen-proto.sh
+        COMMAND cd ${ROOT_DIR}/build/
         DEPENDS libprotobuf libprotobuf-lite libprotoc protoc)
 endif()
 

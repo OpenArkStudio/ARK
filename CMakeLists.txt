@@ -84,12 +84,13 @@ include_directories(
     ${ROOT_DIR}/src/server)
 
 set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/bin)
-set(DEP_LIB_DIR ${BIN_OUTPUT_DIR} ${ROOT_DIR}/dep/lib/)
+set(DEP_LIB_DIR ${BIN_OUTPUT_DIR})
 
 #---------------------------------------------------------------------------------------
 # Dependencies
-#include(cmake/deps.cmake)
+set(SELF_BUILD_TYPE ${CMAKE_BUILD_TYPE})
 add_subdirectory(dep)
+set(CMAKE_BUILD_TYPE ${SELF_BUILD_TYPE})
 #---------------------------------------------------------------------------------------
 
 if(WIN32)
@@ -103,7 +104,7 @@ if(WIN32)
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
 else(UNIX)
     SET(CMAKE_CXX_FLAGS_DEBUG   "-O0 -g -ggdb -Wall -Wextra -D_DEBUG -fPIC")
-    SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -g -ggdb -Wall -Wextra -DNDEBUG -fPIC")
+    SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -Wextra -DNDEBUG -fPIC")
     
     if (CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
