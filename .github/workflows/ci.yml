@@ -24,14 +24,14 @@ jobs:
           git submodule sync
           git submodule update --init
 
-          # build deps
-          cd dep
-          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-              bash build_dep.sh
-          elif [ "${{ matrix.os }}" = "macOS-latest" ]; then
-              bash build_dep_darwin.sh
-          fi
-          cd ..
+          ## build deps
+          #cd dep
+          #if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+          #    bash build_dep.sh
+          #elif [ "${{ matrix.os }}" = "macOS-latest" ]; then
+          #    bash build_dep_darwin.sh
+          #fi
+          #cd ..
 
           # build ark
           if [ -d "build" ]; then rm -rf build; fi
