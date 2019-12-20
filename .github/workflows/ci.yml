@@ -45,6 +45,7 @@ jobs:
           #    ../build-wrapper/macosx-x86/build-wrapper-macosx-x86 --out-dir bw-output make -j 4
           #fi
           make -j 4
+          ctest -j 2
           cd ..
 
       #- name: SonarCloud Scan
