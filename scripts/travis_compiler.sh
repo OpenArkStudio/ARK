@@ -4,18 +4,18 @@
 git submodule sync
 git submodule update --init
 
-os_name=`uname`
+#os_name=`uname`
 
 # build deps
-cd dep
-
-if [ "$os_name" = Linux ]; then
-    bash build_dep.sh
-elif [ "$os_name" = Darwin ]; then
-    bash build_dep_darwin.sh
-fi
-
-cd ..
+#cd dep
+#
+#if [ "$os_name" = Linux ]; then
+#    bash build_dep.sh
+#elif [ "$os_name" = Darwin ]; then
+#    bash build_dep_darwin.sh
+#fi
+#
+#cd ..
 
 # build ark
 if [ -d "build" ]; then rm -rf build; fi
