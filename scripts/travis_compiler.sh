@@ -4,7 +4,7 @@
 git submodule sync
 git submodule update --init
 
-#os_name=`uname`
+os_name=`uname`
 
 # build deps
 #cd dep
