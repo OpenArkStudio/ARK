@@ -33,15 +33,14 @@ if(APPLE AND (${CMAKE_MAJOR_VERSION} GREATER_EQUAL 3 AND ${CMAKE_MINOR_VERSION} 
     #message("cmake version is ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}")
     option(MACOS_NO_RPATH "CMake 3.9 and newer remove any effect of RPATH" ON)
 endif()
+
 #---------------------------------------------------------------------------------------
 # Compiler config
 #---------------------------------------------------------------------------------------
-
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
 
 #---------------------------------------------------------------------------------------
 # 3rd cmake modules
@@ -71,12 +70,6 @@ ark_extract_version()
 project(ark VERSION ${ARK_VERSION} LANGUAGES CXX)
 message(STATUS "Build ark: v${ARK_VERSION}")
 
-#---------------------------------------------------------------------------------------
-# Dependencies
-#---------------------------------------------------------------------------------------
-#include(cmake/deps.cmake)
-
-
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
 
 include_directories(
@@ -84,7 +77,6 @@ include_directories(
     ${ROOT_DIR}/dep
     ${ROOT_DIR}/dep/common
     ${ROOT_DIR}/dep/protobuf/src
-    #${Protobuf_INCLUDE_DIR}
     ${ROOT_DIR}/dep/brynet/include
     ${ROOT_DIR}/dep/spdlog/include
     ${ROOT_DIR}/src
@@ -93,7 +85,12 @@ include_directories(
 
 set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/bin)
 set(DEP_LIB_DIR ${BIN_OUTPUT_DIR} ${ROOT_DIR}/dep/lib/)
-#set(DEP_LIB_DIR ${BIN_OUTPUT_DIR} ${Protobuf_LIBRARIES})
+
+#---------------------------------------------------------------------------------------
+# Dependencies
+#include(cmake/deps.cmake)
+add_subdirectory(dep)
+#---------------------------------------------------------------------------------------
 
 if(WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest -D_CRT_SECURE_NO_WARNINGS -D_SILENCE_CXX17_C_HEADER_DEPRECATION_WARNING")

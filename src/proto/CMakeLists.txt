@@ -8,6 +8,7 @@ if(UNIX AND (NOT APPLE))
 endif(UNIX AND (NOT APPLE))
 
 add_library(${project_name} STATIC ${PROTO_SRC})
+add_dependencies(${project_name} dep_postevent)
 
 set_target_properties(${project_name} PROPERTIES PREFIX "")
 set_target_properties(${project_name} PROPERTIES
