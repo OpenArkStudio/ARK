@@ -13,11 +13,20 @@ foreach(PROTO_FILE in ${PROTO_FILES})
     list(APPEND OUTPUT_SOURCES ${OUTPUT_SOURCE})
 endforeach()
 
-add_custom_command(OUTPUT ${OUTPUT_SOURCES}
-    COMMAND ${CMAKE_COMMAND} -E copy ${BIN_OUTPUT_DIR}/*protoc* ${ROOT_DIR}/src/proto/proto-gen/
-    COMMAND cd ${ROOT_DIR}/src/proto/ && bash gen-proto.sh
-    DEPENDS ${PROTO_FILES}
-    COMMENT "generate proto files in CMake...")
+if(WIN32)
+    add_custom_command(OUTPUT ${OUTPUT_SOURCES}
+        COMMAND ${CMAKE_COMMAND} -E copy ${BIN_OUTPUT_DIR}/protoc.exe ${ROOT_DIR}/src/proto/proto-gen/
+        COMMAND cd ${ROOT_DIR}/src/proto/
+        COMMAND ./gen-proto.bat
+        DEPENDS ${PROTO_FILES}
+        COMMENT "generate proto files in CMake...")
+else(UNIX)
+    add_custom_command(OUTPUT ${OUTPUT_SOURCES}
+        COMMAND ${CMAKE_COMMAND} -E copy ${BIN_OUTPUT_DIR}/*protoc* ${ROOT_DIR}/src/proto/proto-gen/
+        COMMAND cd ${ROOT_DIR}/src/proto/ && bash gen-proto.sh
+        DEPENDS ${PROTO_FILES}
+        COMMENT "generate proto files in CMake...")
+endif()
 
 add_library(${project_name} STATIC ${OUTPUT_SOURCES})
 add_dependencies(${project_name} protoc libprotobuf libprotobuf-lite libprotoc)
