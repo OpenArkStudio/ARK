@@ -24,15 +24,6 @@ jobs:
           git submodule sync
           git submodule update --init
 
-          ## build deps
-          #cd dep
-          #if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-          #    bash build_dep.sh
-          #elif [ "${{ matrix.os }}" = "macOS-latest" ]; then
-          #    bash build_dep_darwin.sh
-          #fi
-          #cd ..
-
           # build ark
           if [ -d "build" ]; then rm -rf build; fi
           mkdir build && cd build
@@ -45,7 +36,7 @@ jobs:
           #    ../build-wrapper/macosx-x86/build-wrapper-macosx-x86 --out-dir bw-output make -j 4
           #fi
           make -j 4
-          ctest -j 2
+          #ctest -j 2
           cd ..
 
       #- name: SonarCloud Scan
