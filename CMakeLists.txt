@@ -142,7 +142,6 @@ link_directories(${DEP_LIB_DIR})
 # log
 #---------------------------------------------------------------------------------------
 message(STATUS "Current system is [${CMAKE_SYSTEM}]")
-message(STATUS "C++ Standard is ${CMAKE_CXX_STANDARD}")
 message(STATUS "ROOT_DIR=${ROOT_DIR}")
 message(STATUS "DEP_LIB_DIR=${DEP_LIB_DIR}")
 message(STATUS "BIN_OUTPUT_DIR=${BIN_OUTPUT_DIR}")

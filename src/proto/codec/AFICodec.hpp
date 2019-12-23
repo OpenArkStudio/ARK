@@ -51,10 +51,10 @@ enum class ARK_CODEC_STATUS : uint8_t
 class AFICodec
 {
 public:
-    AFICodec(ARK_CODEC_TYPE type)
-    {
-        SetCodecType(type);
-    }
+    // AFICodec(ARK_CODEC_TYPE type)
+    // {
+    //     SetCodecType(type);
+    // }
 
     virtual ~AFICodec() = default;
 

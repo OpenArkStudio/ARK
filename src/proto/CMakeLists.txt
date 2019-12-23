@@ -1,5 +1,4 @@
 set(project_name AFProto)
-file(GLOB_RECURSE PROTO_SRC *.h *.hpp *.cpp *.cc *.c)
 
 if(UNIX AND (NOT APPLE))
     #Set rpath
@@ -7,8 +6,21 @@ if(UNIX AND (NOT APPLE))
     set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif(UNIX AND (NOT APPLE))
 
-add_library(${project_name} STATIC ${PROTO_SRC})
-add_dependencies(${project_name} dep_postevent)
+file(GLOB PROTO_FILES "${ROOT_DIR}/src/proto/proto/*.proto")
+foreach(PROTO_FILE in ${PROTO_FILES})
+    string(REGEX REPLACE "[.]proto$" ".pb.cc" OUTPUT_SOURCE ${PROTO_FILE})
+    string(REGEX REPLACE "proto/proto" "proto/cpp" OUTPUT_SOURCE ${OUTPUT_SOURCE})
+    list(APPEND OUTPUT_SOURCES ${OUTPUT_SOURCE})
+endforeach()
+
+add_custom_command(OUTPUT ${OUTPUT_SOURCES}
+    COMMAND ${CMAKE_COMMAND} -E copy ${BIN_OUTPUT_DIR}/*protoc* ${ROOT_DIR}/src/proto/proto-gen/
+    COMMAND cd ${ROOT_DIR}/src/proto/ && bash gen-proto.sh
+    DEPENDS ${PROTO_FILES}
+    COMMENT "generate proto files in CMake...")
+
+add_library(${project_name} STATIC ${OUTPUT_SOURCES})
+add_dependencies(${project_name} protoc libprotobuf libprotobuf-lite libprotoc)
 
 set_target_properties(${project_name} PROPERTIES PREFIX "")
 set_target_properties(${project_name} PROPERTIES
@@ -22,5 +34,5 @@ if(WIN32)
         debug libprotobufd
         optimized libprotobuf)
 else(UNIX)
-    target_link_libraries(${project_name})
+    target_link_libraries(${project_name} ${PROTO_PRE_EVENT})
 endif()  
