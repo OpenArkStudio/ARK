@@ -34,5 +34,5 @@ if(WIN32)
         debug libprotobufd
         optimized libprotobuf)
 else(UNIX)
-    target_link_libraries(${project_name} ${PROTO_PRE_EVENT})
+    target_link_libraries(${project_name})
 endif()  

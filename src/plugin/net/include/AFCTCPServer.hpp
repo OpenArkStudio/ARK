@@ -73,7 +73,7 @@ protected:
 private:
     std::map<int64_t, AFTCPSessionPtr> sessions_;
     AFCReaderWriterLock rw_lock_;
-    int max_connection_{0};
+    //int max_connection_{0}; // will use to limit the connection number
     int bus_id_{0};
 
     NET_MSG_FUNCTOR net_msg_cb_;

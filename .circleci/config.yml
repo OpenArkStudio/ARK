@@ -15,15 +15,10 @@ jobs:
             git submodule sync
             git submodule update --init
       #- run:
-      #    name: Building dependencies
+      #    name: Install C++ build wrapper
       #    command: |
-      #      cd dep
-      #      eval ./build_dep.sh
-      - run:
-          name: Install C++ build wrapper
-          command: |
-            wget https://binaries.sonarsource.com/CommercialDistribution/sonar-cpp-plugin/build-wrapper-3.11.zip
-            unzip build-wrapper-3.11.zip
+      #      wget https://binaries.sonarsource.com/CommercialDistribution/sonar-cpp-plugin/build-wrapper-3.11.zip
+      #      unzip build-wrapper-3.11.zip
       - run:
           name: Building src
           command: |
