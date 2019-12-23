@@ -133,7 +133,7 @@ public:
 
 private:
     int instance_id_{0};
-    int map_id_{0};
+    //int map_id_{0};
     int width_{512}; // will separate the grid
     AFSmartPtrMap<int, AFMapInstance> map_instances_;
 };
