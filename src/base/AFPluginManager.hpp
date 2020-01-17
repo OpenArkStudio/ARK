@@ -102,7 +102,7 @@ public:
     void Deregister()
     {
         //! Delete plugin memory in Deregister
-        Deregister(FindPlugin(GET_CLASS_NAME(PLUGIN_TYPE)));
+        Deregister(GET_CLASS_NAME(PLUGIN_TYPE));
     }
 
     void AddModule(const std::string& module_name, AFIModule* module_ptr)
@@ -203,12 +203,12 @@ protected:
         plugin->Install();
     }
 
-    void Deregister(AFIPlugin* plugin)
+    void Deregister(const std::string& plugin_name)
     {
-        ARK_ASSERT_RET_NONE(plugin != nullptr);
+        ARK_ASSERT_RET_NONE(!plugin_name.empty());
 
-        auto find_plugin = FindPlugin(plugin->GetPluginName());
-        ARK_ASSERT_RET_NONE(find_plugin != nullptr);
+        auto plugin = FindPlugin(plugin_name);
+        ARK_ASSERT_RET_NONE(plugin != nullptr);
 
         plugin->Uninstall();
         plugin_instances_.erase(plugin->GetPluginName());
