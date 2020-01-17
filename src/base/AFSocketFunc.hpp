@@ -43,7 +43,7 @@ static std::atomic_bool g_WinSockIsInit = false;
 
 enum class proto_type
 {
-    unkown,
+    unknown,
     tcp,
     udp,
     http,
@@ -158,7 +158,7 @@ public:
     static proto_type str2proto(std::string const& s)
     {
         static char const* proto_type_s[] = {
-            "unkown",
+            "unknown",
             "tcp",
             "udp",
             "http",
@@ -177,13 +177,13 @@ public:
             }
         }
 
-        return proto_type::unkown;
+        return proto_type::unknown;
     }
 
     static std::string proto2str(proto_type proto)
     {
         static char const* proto_type_s[] = {
-            "unkown",
+            "unknown",
             "tcp",
             "udp",
             "http",
@@ -431,7 +431,7 @@ public:
     std::string ToString() const
     {
         std::string url;
-        if (proto() != proto_type::unkown)
+        if (proto() != proto_type::unknown)
         {
             url += AFSocket::proto2str(proto()) + "://";
         }
