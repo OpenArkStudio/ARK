@@ -8,6 +8,7 @@ function(TEST_FUNCION project_name)
     endif(UNIX AND (NOT APPLE))
     
     add_executable(${project_name} ${TEST_SRC})
+    set_target_properties(${project_name} PROPERTIES OUTPUT_NAME_DEBUG "${project_name}_d")
     set_target_properties(${project_name} PROPERTIES
     FOLDER "test"
     ARCHIVE_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}

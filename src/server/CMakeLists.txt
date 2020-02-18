@@ -26,7 +26,7 @@ function(BUILD_SERVER_MACRO project_name)
             protobuf)
     else()
         target_link_libraries(${project_name} 
-            debug :AFProto_d.a            
+            debug :AFProto_d.a
             optimized :AFProto.a
             protobuf)
     endif()

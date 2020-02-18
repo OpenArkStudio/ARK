@@ -240,7 +240,7 @@ protected:
             (timer->callback)(timer->idx, timer->entity_id);
 
             // forever timer
-            if (timer->count < 0 && timer->interval > 0)
+            if (timer->count == 0 && timer->interval > 0)
             {
                 timer->expires = static_cast<uint64_t>(now_slot_) + timer->interval;
                 AddTimerInternal(timer);

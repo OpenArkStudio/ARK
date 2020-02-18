@@ -48,10 +48,10 @@ matrix:
             - g++-6-multilib
             - cmake
             - lcov
-        sonarcloud:
-          organization: "ark-game"
-          token:
-            secure: "$TRAVIS_SONAR_TOKEN"
+        #sonarcloud:
+        #  organization: "ark-game"
+        #  token:
+        #    secure: "$TRAVIS_SONAR_TOKEN"
       env: USE_CC=gcc-6 USE_CXX=g++-6
 
     - os: linux
@@ -68,10 +68,10 @@ matrix:
             - g++-7-multilib
             - cmake
             - lcov
-        sonarcloud:
-          organization: "ark-game"
-          token:
-            secure: "$TRAVIS_SONAR_TOKEN"
+        #sonarcloud:
+        #  organization: "ark-game"
+        #  token:
+        #    secure: "$TRAVIS_SONAR_TOKEN"
       env: USE_CC=gcc-7 USE_CXX=g++-7
 
     - os: linux
@@ -88,21 +88,39 @@ matrix:
             - g++-8-multilib
             - cmake
             - lcov
-        #sonarcloud
         sonarcloud:
           organization: "ark-game"
           token:
             secure: "$TRAVIS_SONAR_TOKEN"
       env: USE_CC=gcc-8 USE_CXX=g++-8
 
+    - os: linux
+      dist: xenial
+      sudo: required
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-9
+            - gcc-9-multilib
+            - g++-9
+            - g++-9-multilib
+            - cmake
+            - lcov
+        #sonarcloud:
+        #  organization: "ark-game"
+        #  token:
+        #    secure: "$TRAVIS_SONAR_TOKEN"
+      env: USE_CC=gcc-9 USE_CXX=g++-9
+
     - os: osx
       osx_image: xcode11.2
-      addons:
-        #sonarcloud
-        sonarcloud:
-          organization: "ark-game"
-          token:
-            secure: "$TRAVIS_SONAR_TOKEN"
+      #addons:
+      #  sonarcloud:
+      #    organization: "ark-game"
+      #    token:
+      #      secure: "$TRAVIS_SONAR_TOKEN"
 
 before_install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get -qq update; fi

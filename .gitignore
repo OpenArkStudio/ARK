@@ -49,3 +49,13 @@ temp
 *.js
 *.exp
 build
+bin/bin/app_d
+bin/bin/protoc
+bin/bin/protoc-3.10.1.0
+bin/bin/test_base64_d
+bin/bin/test_datetime_d
+bin/bin/test_random_d
+bin/bin/test_singleton_d
+bin/bin/test_xxtea_d
+src/proto/proto-gen/protoc
+src/proto/proto-gen/protoc-3.10.1.0
