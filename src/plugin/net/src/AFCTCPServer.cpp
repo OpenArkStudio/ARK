@@ -181,7 +181,7 @@ void AFCTCPServer::UpdateNetMsg(AFTCPSessionPtr session)
     int msg_count = 0;
     while (session->PopNetMsg(msg))
     {
-        net_msg_cb_(msg);
+        net_msg_cb_(msg, session->GetSessionId());
         AFNetMsg::Release(msg);
 
         ++msg_count;

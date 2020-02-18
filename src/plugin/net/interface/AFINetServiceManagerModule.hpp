@@ -48,6 +48,9 @@ public:
     virtual std::shared_ptr<AFINet> GetNetConnectionBus(int src_bus, int target_bus) = 0;
 
     virtual std::shared_ptr<AFINetClientService> GetClientService(const ARK_APP_TYPE app_type) = 0;
+
+    virtual bool GetSessionID(const int32_t client_bus_id, AFGUID& session_id) = 0;
+    virtual bool RemoveSessionID(const AFGUID& session_id) = 0;
 };
 
 } // namespace ark

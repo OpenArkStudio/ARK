@@ -188,6 +188,12 @@ ananas::Future<std::pair<bool, std::string>> AFCNetServiceManagerModule::CreateS
 
     server_services_.insert(m_pBusModule->GetSelfBusID(), pServer);
 
+    auto pNetService = GetSelfNetServer();
+    if (pNetService)
+    {
+        pNetService->RegRegServerCallBack(this, &AFCNetServiceManagerModule::OnRegServerCallBack);
+    }
+
     // Register self to service discovery center(consul)
     return RegisterToConsul(m_pBusModule->GetSelfBusID());
 }
@@ -307,6 +313,32 @@ bool AFCNetServiceManagerModule::CreateClientService(const AFBusAddr& bus_addr, 
     return true;
 }
 
+bool AFCNetServiceManagerModule::GetSessionID(const int32_t client_bus_id, AFGUID& session_id)
+{
+    auto iter = bus_session_list_.find(client_bus_id);
+    if (iter == bus_session_list_.end())
+    {
+        return false;
+    }
+
+    session_id = iter->second;
+    return true;
+}
+
+bool AFCNetServiceManagerModule::RemoveSessionID(const AFGUID& session_id)
+{
+    for (auto& iter : bus_session_list_)
+    {
+        if (iter.second == session_id)
+        {
+            bus_session_list_.erase(iter.first);
+            break;
+        }
+    }
+
+    return true;
+}
+
 bool AFCNetServiceManagerModule::CheckConnectedTargetServer(const AFBusAddr& bus_addr)
 {
     return (GetTargetClientConnection(bus_addr) != nullptr);
@@ -321,6 +353,11 @@ std::shared_ptr<AFConnectionData> AFCNetServiceManagerModule::GetTargetClientCon
     }
 
     return client_service->GetConnectionInfo(bus_addr.bus_id);
+}
+
+void AFCNetServiceManagerModule::OnRegServerCallBack(const AFNetMsg* msg, const AFGUID& session_id)
+{
+    bus_session_list_.insert(std::make_pair(msg->GetSrcBus(), session_id));
 }
 
 } // namespace ark

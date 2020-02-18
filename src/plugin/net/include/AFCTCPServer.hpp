@@ -33,10 +33,10 @@ class AFCTCPServer final : public AFNoncopyable, public AFINet, public std::enab
 {
 public:
     template<typename BaseType>
-    AFCTCPServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFNetMsg*),
+    AFCTCPServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFNetMsg*, const AFGUID&),
         void (BaseType::*handleEvent)(const AFNetEvent*))
     {
-        net_msg_cb_ = std::bind(handleRecieve, pBaseType, std::placeholders::_1);
+        net_msg_cb_ = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2);
         net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
 
         brynet::net::base::InitSocket();
@@ -76,7 +76,7 @@ private:
     //int max_connection_{0}; // will use to limit the connection number
     int bus_id_{0};
 
-    NET_MSG_FUNCTOR net_msg_cb_;
+    NET_MSG_SESSION_FUNCTOR net_msg_cb_;
     NET_EVENT_FUNCTOR net_event_cb_;
 
     brynet::net::TcpService::Ptr tcp_service_ptr_{nullptr};

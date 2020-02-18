@@ -75,6 +75,13 @@ public:
         return RegNetEventCallback(std::move(functor));
     }
 
+    template<typename BaseType>
+    bool RegRegServerCallBack(BaseType* pBase, void (BaseType::*handler)(const AFNetMsg*, const AFGUID&))
+    {
+        NET_MSG_SESSION_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
+        return RegRegServerCallBack(std::move(functor));
+    }
+
     virtual bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count,
         const uint32_t max_connection) = 0;
     virtual bool Update() = 0;
@@ -90,6 +97,7 @@ public:
     virtual bool RegMsgCallback(const int msg_id, NET_MSG_FUNCTOR&& cb) = 0;
     virtual bool RegForwardMsgCallback(NET_MSG_FUNCTOR&& cb) = 0;
     virtual bool RegNetEventCallback(NET_EVENT_FUNCTOR&& cb) = 0;
+    virtual bool RegRegServerCallBack(NET_MSG_SESSION_FUNCTOR&& cb) = 0;
 };
 
 } // namespace ark

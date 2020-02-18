@@ -58,6 +58,9 @@ public:
 
     std::shared_ptr<AFINetClientService> GetClientService(const ARK_APP_TYPE app_type) override;
 
+    bool GetSessionID(const int32_t client_bus_id, AFGUID& session_id) override;
+    bool RemoveSessionID(const AFGUID& session_id) override;
+
 protected:
     ananas::Future<std::pair<bool, std::string>> RegisterToConsul(const int bus_id);
     int DeregisterFromConsul(const int bus_id);
@@ -69,6 +72,8 @@ protected:
     bool CheckConnectedTargetServer(const AFBusAddr& bus_addr);
     std::shared_ptr<AFConnectionData> GetTargetClientConnection(const AFBusAddr& bus_addr);
 
+    void OnRegServerCallBack(const AFNetMsg* msg, const AFGUID& session_id);
+
 private:
     // bus_id -> net_server_service - support multi-server in the same app
     AFSmartPtrMap<int, AFINetServerService> server_services_;
@@ -79,6 +84,9 @@ private:
 
     // All net relations, for finding AFINet
     AFSmartPtrMap<std::pair<int, int>, AFINet> net_bus_relations_;
+
+    //bus id <--> session id
+    std::map<int32_t, AFGUID> bus_session_list_;
 
     AFIBusModule* m_pBusModule;
     AFILogModule* m_pLogModule;

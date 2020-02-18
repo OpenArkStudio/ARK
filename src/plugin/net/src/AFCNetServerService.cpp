@@ -104,8 +104,20 @@ bool AFCNetServerService::RegNetEventCallback(NET_EVENT_FUNCTOR&& cb)
     return true;
 }
 
-void AFCNetServerService::OnNetMsg(const AFNetMsg* msg)
+bool AFCNetServerService::RegRegServerCallBack(NET_MSG_SESSION_FUNCTOR&& cb)
 {
+    reg_server_call_back_ = std::forward<NET_MSG_SESSION_FUNCTOR>(cb);
+    return true;
+}
+
+void AFCNetServerService::OnNetMsg(const AFNetMsg* msg, const AFGUID& session_id)
+{
+    if (msg->GetMsgId() == AFMsg::e_ss_msg_id::E_SS_MSG_ID_REG_TO_SERVER)
+    {
+        reg_server_call_back_(msg, session_id);
+        return;
+    }
+
     auto it = net_msg_callbacks_.find(msg->GetMsgId());
     if (it != net_msg_callbacks_.end())
     {

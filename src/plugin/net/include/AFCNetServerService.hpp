@@ -44,9 +44,10 @@ public:
     bool RegMsgCallback(const int msg_id, NET_MSG_FUNCTOR&& cb) override;
     bool RegForwardMsgCallback(NET_MSG_FUNCTOR&& cb) override;
     bool RegNetEventCallback(NET_EVENT_FUNCTOR&& cb) override;
+    bool RegRegServerCallBack(NET_MSG_SESSION_FUNCTOR&& cb) override;
 
 protected:
-    void OnNetMsg(const AFNetMsg* msg);
+    void OnNetMsg(const AFNetMsg* msg, const AFGUID& session_id);
     void OnNetEvent(const AFNetEvent* event);
 
     //void OnClientRegister(const AFNetMsg* msg, const int64_t session_id);
@@ -59,6 +60,8 @@ private:
     AFIMsgModule* m_pMsgModule;
 
     std::shared_ptr<AFINet> m_pNet{nullptr};
+
+    NET_MSG_SESSION_FUNCTOR reg_server_call_back_{nullptr};
 
     std::map<int, NET_MSG_FUNCTOR> net_msg_callbacks_;
     std::list<NET_MSG_FUNCTOR> net_forward_msg_callbacks_;

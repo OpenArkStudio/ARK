@@ -34,6 +34,8 @@ class AFINet;
 using NET_MSG_FUNCTOR = std::function<void(const AFNetMsg*)>;
 //using NET_MSG_FUNCTOR_PTR = std::shared_ptr<NET_MSG_FUNCTOR>;
 
+using NET_MSG_SESSION_FUNCTOR = std::function<void(const AFNetMsg*, const AFGUID&)>;
+
 using NET_EVENT_FUNCTOR = std::function<void(const AFNetEvent*)>;
 //using NET_EVENT_FUNCTOR_PTR = std::shared_ptr<NET_EVENT_FUNCTOR>;
 
