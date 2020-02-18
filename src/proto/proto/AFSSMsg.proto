@@ -14,4 +14,6 @@ enum e_ss_msg_id {
 
   E_SS_MSG_ID_DIR_START = 501;
   E_SS_MSG_ID_DIR_END = 600;
+
+  E_SS_MSG_ID_REG_TO_SERVER = 65535;
 }
