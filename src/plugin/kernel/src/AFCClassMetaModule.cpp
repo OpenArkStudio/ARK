@@ -76,6 +76,10 @@ bool AFCClassMetaModule::LoadConfig()
         auto pClassMeta = m_pClassMetaManager->CreateStaticMeta(meta_name);
         ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
 
+        // todo : use different meta
+        auto pEnityClassMeta = m_pClassMetaManager->CreateMeta(meta_name);
+        ARK_ASSERT_RET_VAL(pEnityClassMeta != nullptr, false);
+
         pClassMeta->SetResPath(res_path);
         ARK_ASSERT_RET_VAL(LoadConfigMeta(schema_path, pClassMeta), false);
     }

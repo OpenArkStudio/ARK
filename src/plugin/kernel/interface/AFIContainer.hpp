@@ -48,10 +48,6 @@ public:
     virtual bool Place(uint32_t index, std::shared_ptr<AFIEntity> pEntity) = 0;
     virtual bool Swap(const uint32_t src_index, const uint32_t dest_index) = 0;
     virtual bool Swap(const AFGUID& src_entity, const AFGUID& dest_entity) = 0;
-    virtual bool Swap(
-        std::shared_ptr<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index) = 0;
-    virtual bool Swap(
-        std::shared_ptr<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity) = 0;
 
     virtual bool Remove(const uint32_t index) = 0;
     virtual bool Remove(const AFGUID& id) = 0;

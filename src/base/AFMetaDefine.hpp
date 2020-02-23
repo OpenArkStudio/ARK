@@ -116,6 +116,10 @@ namespace ark
 		gate_id,
 		items,
 		bag,
+		equip_bag_container,
+		equip_container,
+		skill_container,
+		skill_bar_table,
 	};
 
 	using Player_rep_type = std::underlying_type<Player>::type;
@@ -187,6 +191,14 @@ namespace ark
 		static uint32_t items_index() { static const int items_index_ = static_cast<Player_rep_type>(Player::items); return items_index_; } // items
 		static const std::string& bag() { static const std::string bag_ = "bag"; return bag_; } // container
 		static uint32_t bag_index() { static const int bag_index_ = static_cast<Player_rep_type>(Player::bag); return bag_index_; } // bag
+		static const std::string& equip_bag_container() { static const std::string equip_bag_container_ = "equip_bag_container"; return equip_bag_container_; } // container
+		static uint32_t equip_bag_container_index() { static const int equip_bag_container_index_ = static_cast<Player_rep_type>(Player::equip_bag_container); return equip_bag_container_index_; } // equip_bag_container
+		static const std::string& equip_container() { static const std::string equip_container_ = "equip_container"; return equip_container_; } // container
+		static uint32_t equip_container_index() { static const int equip_container_index_ = static_cast<Player_rep_type>(Player::equip_container); return equip_container_index_; } // equip_container
+		static const std::string& skill_container() { static const std::string skill_container_ = "skill_container"; return skill_container_; } // container
+		static uint32_t skill_container_index() { static const int skill_container_index_ = static_cast<Player_rep_type>(Player::skill_container); return skill_container_index_; } // skill_container
+		static const std::string& skill_bar_table() { static const std::string skill_bar_table_ = "skill_bar_table"; return skill_bar_table_; } // table
+		static uint32_t skill_bar_table_index() { static const int skill_bar_table_index_ = static_cast<Player_rep_type>(Player::skill_bar_table); return skill_bar_table_index_; } // skill_bar_table
 	};
 
 	enum class ItemBag :std::uint32_t
@@ -226,29 +238,29 @@ namespace ark
 		static uint32_t expired_time_index() { static const int expired_time_index_ = static_cast<ItemBag_rep_type>(ItemBag::expired_time); return expired_time_index_; } // expired_time
 	};
 
-	enum class EquipBag :std::uint32_t
+	enum class SkillBarTable :std::uint32_t
 	{
 		enum_empty,
 
 		//self entity class enum
-		guid,
-		config_id,
+		index,
+		skill_id,
 	};
 
-	using EquipBag_rep_type = std::underlying_type<EquipBag>::type;
+	using SkillBarTable_rep_type = std::underlying_type<SkillBarTable>::type;
 
-	class AFEntityMetaEquipBag
+	class AFEntityMetaSkillBarTable
 	{
 	public:
-		AFEntityMetaEquipBag() = default;
-		static const std::string& self_name() { static const std:: string meta_EquipBag_ = "EquipBag"; return meta_EquipBag_; }
+		AFEntityMetaSkillBarTable() = default;
+		static const std::string& self_name() { static const std:: string meta_SkillBarTable_ = "SkillBarTable"; return meta_SkillBarTable_; }
 
 
 		//self entity class
-		static const std::string& guid() { static const std::string guid_ = "guid"; return guid_; } // int64
-		static uint32_t guid_index() { static const int guid_index_ = static_cast<EquipBag_rep_type>(EquipBag::guid); return guid_index_; } // guid
-		static const std::string& config_id() { static const std::string config_id_ = "config_id"; return config_id_; } // uint32
-		static uint32_t config_id_index() { static const int config_id_index_ = static_cast<EquipBag_rep_type>(EquipBag::config_id); return config_id_index_; } // config_id
+		static const std::string& index() { static const std::string index_ = "index"; return index_; } // int
+		static uint32_t index_index() { static const int index_index_ = static_cast<SkillBarTable_rep_type>(SkillBarTable::index); return index_index_; } // index
+		static const std::string& skill_id() { static const std::string skill_id_ = "skill_id"; return skill_id_; } // int64
+		static uint32_t skill_id_index() { static const int skill_id_index_ = static_cast<SkillBarTable_rep_type>(SkillBarTable::skill_id); return skill_id_index_; } // skill_id
 	};
 
 	//////////////////////////////////
@@ -414,6 +426,35 @@ namespace ark
 		static uint32_t sound_index() { static const int sound_index_ = static_cast<map_rep_type>(map::sound); return sound_index_; } // sound
 	};
 
+	enum class skill : std::uint32_t
+	{
+		meta_empty,
+		id,
+		name,
+		desc,
+		comment,
+		action,
+	};
+
+	using skill_rep_type = std::underlying_type<skill>::type;
+
+	class AFConfigMetaSkill
+	{
+	public:
+		static const std::string& self_name() { static const std::string meta_skill_ = "skill"; return meta_skill_; }
+
+		static const std::string& id() { static const std::string id_ = "id"; return id_; } // uint64
+		static uint32_t id_index() { static const int id_index_ = static_cast<skill_rep_type>(skill::id); return id_index_; } // id
+		static const std::string& name() { static const std::string name_ = "name"; return name_; } // uint32
+		static uint32_t name_index() { static const int name_index_ = static_cast<skill_rep_type>(skill::name); return name_index_; } // name
+		static const std::string& desc() { static const std::string desc_ = "desc"; return desc_; } // uint32
+		static uint32_t desc_index() { static const int desc_index_ = static_cast<skill_rep_type>(skill::desc); return desc_index_; } // desc
+		static const std::string& comment() { static const std::string comment_ = "comment"; return comment_; } // string
+		static uint32_t comment_index() { static const int comment_index_ = static_cast<skill_rep_type>(skill::comment); return comment_index_; } // comment
+		static const std::string& action() { static const std::string action_ = "action"; return action_; } // string
+		static uint32_t action_index() { static const int action_index_ = static_cast<skill_rep_type>(skill::action); return action_index_; } // action
+	};
+
 	class AFMetaNameIndex
 	{
 	public:
@@ -468,6 +509,10 @@ namespace ark
 						{"mp_max",static_cast<Player_rep_type>(Player::mp_max)},
 						{"items",static_cast<Player_rep_type>(Player::items)},
 						{"bag",static_cast<Player_rep_type>(Player::bag)},
+						{"equip_bag_container",static_cast<Player_rep_type>(Player::equip_bag_container)},
+						{"equip_container",static_cast<Player_rep_type>(Player::equip_container)},
+						{"skill_container",static_cast<Player_rep_type>(Player::skill_container)},
+						{"skill_bar_table",static_cast<Player_rep_type>(Player::skill_bar_table)},
 					}
 				},
 				{"ItemBag",
@@ -480,10 +525,10 @@ namespace ark
 						{"expired_time",static_cast<ItemBag_rep_type>(ItemBag::expired_time)},
 					}
 				},
-				{"EquipBag",
+				{"SkillBarTable",
 					{
-						{"guid",static_cast<EquipBag_rep_type>(EquipBag::guid)},
-						{"config_id",static_cast<EquipBag_rep_type>(EquipBag::config_id)},
+						{"index",static_cast<SkillBarTable_rep_type>(SkillBarTable::index)},
+						{"skill_id",static_cast<SkillBarTable_rep_type>(SkillBarTable::skill_id)},
 					}
 				},
 				{"attribute",
@@ -535,6 +580,15 @@ namespace ark
 						{"length",static_cast<map_rep_type>(map::length)},
 						{"width",static_cast<map_rep_type>(map::width)},
 						{"sound",static_cast<map_rep_type>(map::sound)},
+					}
+				},
+				{"skill",
+					{
+						{"id",static_cast<skill_rep_type>(skill::id)},
+						{"name",static_cast<skill_rep_type>(skill::name)},
+						{"desc",static_cast<skill_rep_type>(skill::desc)},
+						{"comment",static_cast<skill_rep_type>(skill::comment)},
+						{"action",static_cast<skill_rep_type>(skill::action)},
 					}
 				},
 			};

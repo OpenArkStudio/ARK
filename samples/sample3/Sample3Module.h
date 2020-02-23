@@ -56,6 +56,8 @@ protected:
     // event test
     void EventTest();
 
+    void ContainerTest();
+
     //------------inner interface----------------
     std::shared_ptr<AFIEntity> CreateAnPlayerAndInit();
     void QueryStringTest(const AFGUID& guid, size_t count, const uint32_t index);

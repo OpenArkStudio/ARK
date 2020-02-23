@@ -58,11 +58,13 @@ bool Sample3Module::PostInit()
     //DataCallBackTest();
     //TableCallBackTest();
     //EventTest();
-    ContainerCallBackTest();
+    //ContainerCallBackTest();
 
-    CreateEntityTest();
-    DataTest();
-    TableTest();
+    //CreateEntityTest();
+    //DataTest();
+    //TableTest();
+
+    ContainerTest();
 
     // m_pKernelModule->DestroyAll();
 
@@ -224,6 +226,57 @@ void Sample3Module::EventTest()
 
     auto pEntity = CreateAnPlayerAndInit();
     ARK_ASSERT_RET_NONE(pEntity != nullptr);
+}
+
+void Sample3Module::ContainerTest()
+{
+    // create player
+    auto pEntity = CreateAnPlayerAndInit();
+    ARK_ASSERT_RET_NONE(pEntity != nullptr);
+
+    auto entity_id = pEntity->GetID();
+
+    // add equips to bag
+    auto pEquipBagContainer = pEntity->FindContainer(AFEntityMetaPlayer::equip_bag_container_index());
+    ARK_ASSERT_RET_NONE(pEquipBagContainer != nullptr);
+
+    auto pItem = m_pKernelModule->CreateContainerEntity(
+        entity_id, AFEntityMetaPlayer::equip_bag_container_index(), AFConfigMetaItem::self_name(), 100133);
+    ARK_ASSERT_RET_NONE(pItem != nullptr);
+
+    pItem = m_pKernelModule->CreateContainerEntity(
+        entity_id, AFEntityMetaPlayer::equip_bag_container_index(), AFConfigMetaItem::self_name(), 100153);
+    ARK_ASSERT_RET_NONE(pItem != nullptr);
+
+    // destroy equip created firstly
+    pEquipBagContainer->Destroy(1U);
+
+    // player wear an equip
+    auto pEquipContainer = pEntity->FindContainer(AFEntityMetaPlayer::equip_container_index());
+    ARK_ASSERT_RET_NONE(pEquipContainer != nullptr);
+
+    if (pEquipContainer->Place(pItem))
+    {
+        pEquipBagContainer->Remove(pItem->GetID());
+    }
+
+    // add an skill
+    auto pSkillContainer = pEntity->FindContainer(AFEntityMetaPlayer::skill_container_index());
+    ARK_ASSERT_RET_NONE(pSkillContainer != nullptr);
+
+    auto pSkill = m_pKernelModule->CreateContainerEntity(
+        entity_id, AFEntityMetaPlayer::skill_container_index(), AFConfigMetaSkill::self_name(), 11000001);
+    ARK_ASSERT_RET_NONE(pSkill != nullptr);
+
+    // init skill bar
+    auto pSkillBarTable = pEntity->FindTable(AFEntityMetaPlayer::skill_bar_table_index());
+    ARK_ASSERT_RET_NONE(pSkillBarTable != nullptr);
+
+    auto pRow = pSkillBarTable->AddRow();
+    ARK_ASSERT_RET_NONE(pRow != nullptr);
+
+    pRow->SetInt64(AFEntityMetaSkillBarTable::skill_id_index(), pSkill->GetID());
+    pRow->SetUInt32(AFEntityMetaSkillBarTable::index_index(), 0);
 }
 
 //-----------------------------inner interface--------------------------------------------

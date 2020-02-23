@@ -511,8 +511,8 @@ bool AFCKernelModule::AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb, c
             continue;
         }
 
-        AddContainerCallBack(
-            AFEntityMetaPlayer::self_name(), pMeta->GetIndex(), std::forward<CONTAINER_EVENT_FUNCTOR>(cb), prio);
+        auto call_back = cb;
+        AddContainerCallBack(AFEntityMetaPlayer::self_name(), pMeta->GetIndex(), std::move(call_back), prio);
     }
 
     return true;
@@ -529,7 +529,8 @@ bool AFCKernelModule::AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb, const int32_
             continue;
         }
 
-        AddClassCallBack(iter.first, std::forward<CLASS_EVENT_FUNCTOR>(cb), prio);
+        auto call_back = cb;
+        AddClassCallBack(iter.first, std::move(call_back), prio);
     }
 
     return true;

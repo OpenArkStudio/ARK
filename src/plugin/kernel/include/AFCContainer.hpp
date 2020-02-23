@@ -80,11 +80,6 @@ public:
     bool Swap(const uint32_t src_index, const uint32_t dest_index) override;
     bool Swap(const AFGUID& src_entity, const AFGUID& dest_entity) override;
 
-    bool Swap(
-        std::shared_ptr<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index) override;
-    bool Swap(
-        std::shared_ptr<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity) override;
-
     bool Remove(const uint32_t index) override;
     bool Remove(const AFGUID& id) override;
 
