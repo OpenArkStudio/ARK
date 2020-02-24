@@ -24,6 +24,9 @@
 - [ ] 增加工具获取插件动态链接库版本号
 - [x] Linux下强杀进程处理(kill -9 xxx)
 - [ ] 配置meta和entity meta的区分
+- [ ] 网络修改为asio系
+- [ ] web serever/client修改为asio/beast系
+- [ ] redis client修改为asio系
 
 ## Low priority
 
