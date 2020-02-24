@@ -23,6 +23,7 @@
 - [ ] 增加插件动态热更新
 - [ ] 增加工具获取插件动态链接库版本号
 - [x] Linux下强杀进程处理(kill -9 xxx)
+- [ ] 配置meta和entity meta的区分
 
 ## Low priority
 
