@@ -107,7 +107,7 @@ private:
 
     void OnTableChanged(uint32_t row, ArkTableOpType op_type);
 
-    int OnRowDataChanged(uint32_t row, AFINode* pNode, const AFIData& old_data, const AFIData& new_data);
+    int OnRowChanged(uint32_t row, AFINode* pNode, const AFIData& old_data, const AFIData& new_data);
 
     AFIRow* CreateRow(uint32_t row, const AFIDataList& args);
 };

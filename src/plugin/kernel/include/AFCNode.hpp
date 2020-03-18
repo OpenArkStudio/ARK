@@ -25,12 +25,12 @@
 namespace ark {
 
 #define DATA_NODE_DECLARE                                                                                              \
-    void SetMeta(std::shared_ptr<AFNodeMeta> pDataMeta) override                                                         \
+    void SetMeta(std::shared_ptr<AFNodeMeta> pDataMeta) override                                                       \
     {                                                                                                                  \
         data_meta_ = pDataMeta;                                                                                        \
     }                                                                                                                  \
                                                                                                                        \
-    std::shared_ptr<AFNodeMeta> GetMeta() override                                                                       \
+    std::shared_ptr<AFNodeMeta> GetMeta() override                                                                     \
     {                                                                                                                  \
         return data_meta_;                                                                                             \
     }                                                                                                                  \
@@ -63,8 +63,14 @@ namespace ark {
         return data_meta_->HaveMask(mask);                                                                             \
     }                                                                                                                  \
                                                                                                                        \
+    ArkDataType GetType() const override                                                                               \
+    {                                                                                                                  \
+        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, ArkDataType::DT_EMPTY);                                              \
+        return data_meta_->GetType();                                                                                  \
+    }                                                                                                                  \
+                                                                                                                       \
 private:                                                                                                               \
-    std::shared_ptr<AFNodeMeta> data_meta_{nullptr};                                                                     \
+    std::shared_ptr<AFNodeMeta> data_meta_{nullptr};                                                                   \
                                                                                                                        \
 // data int32_t
 class AFNodeInt32 final : public AFINode
@@ -76,12 +82,6 @@ public:
     }
 
     ~AFNodeInt32() override = default;
-
-    ArkDataType GetType() const override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, ArkDataType::DT_EMPTY);
-        return data_meta_->GetType();
-    }
 
     void Reset() override
     {
@@ -151,12 +151,6 @@ public:
 
     ~AFNodeUInt32() override = default;
 
-    ArkDataType GetType() const override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, ArkDataType::DT_EMPTY);
-        return data_meta_->GetType();
-    }
-
     void Reset() override
     {
         data_ = NULL_INT;
@@ -224,12 +218,6 @@ public:
     }
 
     ~AFNodeString() override = default;
-
-    ArkDataType GetType() const override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, ArkDataType::DT_EMPTY);
-        return data_meta_->GetType();
-    }
 
     void Reset() override
     {
@@ -299,12 +287,6 @@ public:
 
     ~AFNodeBool() override = default;
 
-    ArkDataType GetType() const override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, ArkDataType::DT_EMPTY);
-        return data_meta_->GetType();
-    }
-
     void Reset() override
     {
         data_ = NULL_BOOLEAN;
@@ -372,12 +354,6 @@ public:
     }
 
     ~AFNodeInt64() override = default;
-
-    ArkDataType GetType() const override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, ArkDataType::DT_EMPTY);
-        return data_meta_->GetType();
-    }
 
     void Reset() override
     {
@@ -447,12 +423,6 @@ public:
 
     ~AFNodeUInt64() override = default;
 
-    ArkDataType GetType() const override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, ArkDataType::DT_EMPTY);
-        return data_meta_->GetType();
-    }
-
     void Reset() override
     {
         data_ = NULL_BOOLEAN;
@@ -520,12 +490,6 @@ public:
     }
 
     ~AFNodeFloat() override = default;
-
-    ArkDataType GetType() const override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, ArkDataType::DT_EMPTY);
-        return data_meta_->GetType();
-    }
 
     void Reset() override
     {
@@ -595,12 +559,6 @@ public:
 
     ~AFNodeDouble() override = default;
 
-    ArkDataType GetType() const override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, ArkDataType::DT_EMPTY);
-        return data_meta_->GetType();
-    }
-
     void Reset() override
     {
         data_ = NULL_BOOLEAN;
@@ -668,12 +626,6 @@ public:
     }
 
     ~AFNodeGUID() override = default;
-
-    ArkDataType GetType() const override
-    {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, ArkDataType::DT_EMPTY);
-        return data_meta_->GetType();
-    }
 
     void Reset() override
     {

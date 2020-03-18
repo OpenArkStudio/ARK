@@ -102,11 +102,9 @@ public:
     bool SetGUID(const std::string& name, const AFGUID& value) override;
 
 private:
-    void InitData(const AFIDataList& args);
-
     std::shared_ptr<AFNodeManager> GetNodeManager() const;
 
-    int OnDataCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data);
+    int OnNodeCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data);
 };
 
 } // namespace ark

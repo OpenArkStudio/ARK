@@ -24,7 +24,6 @@
 #include "kernel/include/AFCStaticEntity.hpp"
 #include "kernel/include/AFCEventManager.hpp"
 #include "kernel/include/AFCContainerManager.hpp"
-#include "kernel/include/AFCEntity.hpp"
 
 namespace ark {
 
@@ -40,7 +39,7 @@ AFCEntity::AFCEntity(std::shared_ptr<AFClassMeta> pClassMeta, const AFGUID& guid
 
     // data node
     auto func = std::bind(
-        &AFCEntity::OnDataCallBack, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+        &AFCEntity::OnNodeCallBack, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
     m_pNodeManager = std::make_shared<AFNodeManager>(pClassMeta, data_list, std::move(func));
 
     // data table
@@ -684,7 +683,7 @@ std::shared_ptr<AFIContainerManager> AFCEntity::GetContainerManager() const
     return opt_charactor_->m_pContainerManager;
 }
 
-int AFCEntity::OnDataCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data)
+int AFCEntity::OnNodeCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data)
 {
     ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr, 0);
 

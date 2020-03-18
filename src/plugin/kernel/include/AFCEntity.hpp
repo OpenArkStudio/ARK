@@ -254,7 +254,7 @@ private:
 
     std::shared_ptr<AFClassMeta> GetClassMeta() const;
 
-    int OnDataCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data);
+    int OnNodeCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data);
 
     int OnTableCallBack(const ArkMaskType mask, AFINode* pNode, const TABLE_EVENT_DATA& event_data,
         const AFIData& old_data, const AFIData& new_data);

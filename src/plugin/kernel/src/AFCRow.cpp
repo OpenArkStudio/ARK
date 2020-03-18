@@ -31,7 +31,7 @@ AFCRow::AFCRow(
 {
     // data node
     auto function =
-        std::bind(&AFCRow::OnDataCallBack, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+        std::bind(&AFCRow::OnNodeCallBack, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
     m_pNodeManager = std::make_shared<AFNodeManager>(pClassMeta, args, std::move(function));
 
     func_ = std::forward<ROW_CALLBACK_FUNCTOR>(func);
@@ -330,7 +330,7 @@ std::shared_ptr<AFNodeManager> AFCRow::GetNodeManager() const
     return m_pNodeManager;
 }
 
-int AFCRow::OnDataCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data)
+int AFCRow::OnNodeCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data)
 {
     if (func_)
     {

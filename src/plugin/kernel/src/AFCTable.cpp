@@ -356,7 +356,7 @@ void AFCTable::OnTableChanged(uint32_t row, ArkTableOpType op_type)
 }
 
 // mask of row's nodes are not used yet
-int AFCTable::OnRowDataChanged(uint32_t row, AFINode* pNode, const AFIData& old_data, const AFIData& new_data)
+int AFCTable::OnRowChanged(uint32_t row, AFINode* pNode, const AFIData& old_data, const AFIData& new_data)
 {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, false);
 
@@ -382,7 +382,7 @@ AFIRow* AFCTable::CreateRow(uint32_t row, const AFIDataList& args)
     auto pClassMeta = table_meta_->GetClassMeta();
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, nullptr);
 
-    auto func = std::bind(&AFCTable::OnRowDataChanged, this, std::placeholders::_1, std::placeholders::_2,
+    auto func = std::bind(&AFCTable::OnRowChanged, this, std::placeholders::_1, std::placeholders::_2,
         std::placeholders::_3, std::placeholders::_4);
 
     auto pRow = ARK_NEW AFCRow(pClassMeta, row, args, std::move(func));
