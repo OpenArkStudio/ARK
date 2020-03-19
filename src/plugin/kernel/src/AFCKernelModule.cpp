@@ -1127,7 +1127,7 @@ bool AFCKernelModule::DelayContainerToPB(std::shared_ptr<AFIEntity> pEntity, con
 }
 
 bool AFCKernelModule::TryAddContainerPBEntity(std::shared_ptr<AFIContainer> pContainer, const AFGUID& self,
-    AFMsg::pb_entity_data& pb_entity_data, AFGUID& parent_id, AFMsg::pb_entity_data* pb_container_entity)
+    AFMsg::pb_entity_data& pb_entity_data, AFGUID& parent_id, AFMsg::pb_entity_data*& pb_container_entity)
 {
     parent_id = pContainer->GetParentID();
     auto pParentEntity = GetEntity(parent_id);
@@ -1144,13 +1144,25 @@ bool AFCKernelModule::TryAddContainerPBEntity(std::shared_ptr<AFIContainer> pCon
         return false;
     }
 
-    AFMsg::pb_entity pb_entity;
-    pb_container_entity = pb_entity.mutable_data();
     AFMsg::pb_container pb_container;
+    auto result_container = pb_entity_data.mutable_datas_container()->insert({pContainer->GetIndex(), pb_container});
+    if (!result_container.second)
+    {
+        ARK_LOG_ERROR("entity insert container failed, self={} container index = {}", self, pContainer->GetIndex());
+        return false;
+    }
+    auto& container = result_container.first->second;
 
-    pb_container.mutable_datas_value()->insert({self_index, pb_entity});
-    pb_entity_data.mutable_datas_container()->insert({pContainer->GetIndex(), pb_container});
+    AFMsg::pb_entity pb_entity;
+    auto result_entity = container.mutable_datas_value()->insert({self_index, pb_entity});
+    if (!result_entity.second)
+    {
+        ARK_LOG_ERROR("container insert entity failed, self={} container index = {}", self, pContainer->GetIndex());
+        return false;
+    }
 
+    auto& entity = result_entity.first->second;
+    pb_container_entity = entity.mutable_data();
     return true;
 }
 

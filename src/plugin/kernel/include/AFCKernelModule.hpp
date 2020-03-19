@@ -144,7 +144,7 @@ protected:
         const uint32_t index, AFMsg::pb_delay_entity& data);
 
     bool TryAddContainerPBEntity(std::shared_ptr<AFIContainer> pContainer, const AFGUID& self,
-        AFMsg::pb_entity_data& pb_entity_data, AFGUID& parent_id, AFMsg::pb_entity_data* pb_container_entity);
+        AFMsg::pb_entity_data& pb_entity_data, AFGUID& parent_id, AFMsg::pb_entity_data*& pb_container_entity);
 
     int SendSyncMsg(const AFGUID& self, const ArkDataMask mask_value, const google::protobuf::Message& msg);
     int SendToView(const AFGUID& self, const google::protobuf::Message& msg);
