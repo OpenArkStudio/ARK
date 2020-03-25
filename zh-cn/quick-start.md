@@ -44,20 +44,18 @@ svn checkout https://github.com/ArkNX/ARK
     cd path/to/ARK
     git submodule update --init
     cd dep
-    build_dep.bat
-    cd ../
     md build
     cd build
     cmake -G "Visual Studio 16" -A x64 ..
     ```
-
+    
 3. 编译 `ark.sln`
-4. 运行 `ARK/bin/tools/gen-config.bat` 生成配置文件
+4. 运行 `path/to/ARK/bin/tools/gen-config.bat` 生成配置文件
 > [!WARNING]
 > 需要安装Python3环境，需要的第三方库请查看`ARK/bin/tools/config_tool/README.md`
 
 5. 安装[Consul](https://consul.io), 启动命令为:
-   
+  
    ```bash
    cd path/to/consul
    consul.exe agent -server -ui -bootstrap-expect=1 -data-dir=./ -node=ark_consul_service -client=0.0.0.0 -bind=127.0.0.1 -log-file=./log/ -datacenter=ARK
@@ -86,11 +84,8 @@ svn checkout https://github.com/ArkNX/ARK
     ```shell
     cd path/to/ARK
     git submodule update --init
-    cd dep
-    ./build_dep.sh
-    cd ../
-    mkdir build && cd build
-    cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug ..
+    mkdir -p build/debug && cd build/debug
+    cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug ../../
     make
     ```
 
@@ -98,13 +93,13 @@ svn checkout https://github.com/ArkNX/ARK
 > 如果你想编译`release`版本, 请使用`-DCMAKE_BUILD_TYPE=release`参数.</br>
 为了加速编译, 你可以使用 `make -j [num]` 开启多核编译. 不过可能会消耗完你的系统内存.
 
-3. 运行 `ARK/bin/tools/gen-config.sh` 生成配置文件
+3. 运行 `path/to/ARK/bin/tools/gen-config.sh` 生成配置文件
 
 > [!WARNING]
-> 需要安装python环境，需要的第三方库请查看`ARK/bin/tools/config_tool/README.md`
+> 需要安装Python3环境，需要的第三方库请查看`ARK/bin/tools/config_tool/README.md`
 
 4. 安装[Consul](https://consul.io), 启动命令为:
-   
+  
    ```shell
    cd path/to/consul
    ./consul agent -server -ui -bootstrap-expect=1 -data-dir=./ -node=ark_consul_service -client=0.0.0.0 -bind=127.0.0.1 -log-file=./log/ -datacenter=ARK

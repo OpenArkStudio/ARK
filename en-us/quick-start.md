@@ -44,15 +44,12 @@ Using CMake
     ```batch
     cd path/to/ARK
     git submodule update --init
-    cd dep
-    build_dep.bat
-    cd ../
     md build
     cd build
     cmake -G "Visual Studio 16" -A x64 ..
     ```
-
-3. Start `ark.sln`
+    
+3. Start and build `ark.sln`
 4. Run `ARK/bin/tools/gen-config.bat` to generate configuration files
 > [!WARNING]
 > Need python3 environment.The 3rd dependencies in `ARK/bin/tools/config_tool/README.md`.
@@ -64,7 +61,7 @@ Using CMake
 6. Run the binary file by `bin/rund.bat`
 
 > [!NOTE]
-> If you are using other Visual Studio version, please replace `%VS160COMNTOOLS%` in `dep/build_dep.bat` and `cmake -G "Visual Studio 15 Win64" ..` with the right Visual Studio version and path. </br>
+> If you are using other Visual Studio version, please use `cmake -G "Visual Studio 15 Win64" ..` with the right Visual Studio version. </br>
 
 ### linux
 
@@ -84,10 +81,7 @@ Using CMake
     ```shell
     cd path/to/ARK
     git submodule update --init
-    cd dep
-    ./build_dep.sh
-    cd ../
-    mkdir build && cd build
+    mkdir -p build/debug && cd build/debug
     cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug ..
     make
     ```
@@ -96,10 +90,10 @@ Using CMake
 > If you need build release version, please add `-DCMAKE_BUILD_TYPE=release` in cmake command.</br>
 To accelerate the building speed, you can use `make -j [num]` to run multiple complication jobs simultaneously. However, that may exhaust the memory.
 
-3. Run `ARK/bin/tools/gen-config.sh` to generate configuration files
+3. Run `path/to/ARK/bin/tools/gen-config.sh` to generate configuration files
 
 > [!WARNING] 
-> Need python3 environment.The 3rd dependencies in `ARK/bin/tools/config_tool/README.md`.
+> Need Python3 environment.The 3rd dependencies in `ARK/bin/tools/config_tool/README.md`.
 
 4. Install the [Consul](https://consul.io), run the command below,
     ```bash
