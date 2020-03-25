@@ -64,7 +64,7 @@ svn checkout https://github.com/ArkNX/ARK
 6. 运行脚本 `bin/rund.bat`
 
 > [!NOTE]
-> 如果你使用其他Visual Studio版本, 请将 `dep/build_dep.bat`中的`%VS160COMNTOOLS%`变量 和 `CMake命令行` 替换为正确的Visual Studio版本和路径.</br>
+> 如果你使用其他Visual Studio版本, 请将`CMake命令行` 替换为正确的Visual Studio版本.</br>
 
 ### Linux
 
