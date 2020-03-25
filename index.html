@@ -1,114 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ArkNX - ARK - open source plugin framework</title>
+    <link rel="icon" href="_images/ark.png" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="keywords"
+      content="server,plugin,module,game,network,linux,windows,performance"
+    />
+    <meta
+      name="description"
+      content="A lightweight, agility, scalable, distributed plugin framework."
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <link
+      rel="stylesheet"
+      href="//unpkg.com/docsify/lib/themes/vue.css"
+      title="vue"
+    />
+    <style>
+      nav.app-nav li ul {
+        min-width: 100px;
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <title>ArkNX - ARK - open source plugin framework</title>
-  <link rel="icon" href="_images/ark.png">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="keywords" content="server,plugin,module,game,network,linux,windows,performance">
-  <meta name="description" content="A lightweight, agility, scalable, distributed plugin framework.">
-  <meta name="viewport"
-    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css" title="vue">
-  <style>
-    nav.app-nav li ul {
-      min-width: 100px;
-    }
+      .markdown-section {
+        margin: 0 auto;
+        max-width: 960px;
+        padding: 30px 15px 40px;
+        position: relative;
+      }
+    </style>
+  </head>
 
-    .markdown-section {
-      margin: 0 auto;
-      max-width: 960px;
-      padding: 30px 15px 40px;
-      position: relative;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="app">Loading ...</div>
-  <script>
-    window.$docsify = {
-      plantuml: {
-        skin: 'default',
-      },
-      'flexible-alerts': {
-        style: 'flat',
-        comment: {
-          label: "Comment",
-          // Assuming that we use Font Awesome
-          icon: "fa fa-comments",
-          className: "info"
+  <body>
+    <div id="app">Loading ...</div>
+    <script>
+      window.$docsify = {
+        plantuml: {
+          skin: "default"
         },
-        attention: {
-          label: "Attention",
-          icon: "fa fa-ban",
-          className: "warning"
-        }
-      },
-      nameLink: [
-        '/zh-cn/',
-        '/'
-      ],
-      name: 'ARK',
-      repo: 'ArkNX/ARK',
-      coverpage: [
-        '/zh-cn/',
-        '/'
-      ],
-      loadSidebar: true,
-      loadNavbar: true,
-      mergeNavbar: true,
-      autoHeader: true,
-      auto2top: true,
-      maxLevel: 4,
-      subMaxLevel: 2,
-      formatUpdated: '{MM}/{DD} {HH}:{mm}',
-
-      search: {
-        noData: {
-          '/zh-cn/': '没有结果!',
-          '/': 'No results!'
+        "flexible-alerts": {
+          style: "flat",
+          comment: {
+            label: "Comment",
+            // Assuming that we use Font Awesome
+            icon: "fa fa-comments",
+            className: "info"
+          },
+          attention: {
+            label: "Attention",
+            icon: "fa fa-ban",
+            className: "warning"
+          }
         },
-        paths: 'auto',
-        placeholder: {
-          '/zh-cn/': '搜索',
-          '/': 'Search'
-        }
-      },
+        nameLink: ["/zh-cn/", "/"],
+        name: "ARK",
+        repo: "ArkNX/ARK",
+        coverpage: ["/zh-cn/", "/"],
+        loadSidebar: true,
+        loadNavbar: true,
+        mergeNavbar: true,
+        autoHeader: true,
+        auto2top: true,
+        maxLevel: 4,
+        subMaxLevel: 2,
+        formatUpdated: "{MM}/{DD} {HH}:{mm}",
 
-      plugins: [
-        function (hook) {
-          var footer = [
-            '<hr/>',
-            '<footer>',
-            '<span><a href="https://github.com/ArkNX">ArkNX</a> &copy; 2019. </span>',
-            'Please feel free to use and contribute to the development.',
-            '<p><span>Published with <a href="https://github.com/QingWei-Li/docsify" target="_blank">docsify</a>.</span></p>',
-            '</footer>'
-          ].join('')
+        search: {
+          noData: {
+            "/zh-cn/": "没有结果!",
+            "/": "No results!"
+          },
+          paths: "auto",
+          placeholder: {
+            "/zh-cn/": "搜索",
+            "/": "Search"
+          }
+        },
 
-          hook.afterEach(function (html) {
-            return html + footer
-          })
-        }
-      ]
-    }
-  </script>
-  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-  <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-bash.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-markdown.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-batch.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-c.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-clike.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-cpp.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-csharp.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-makefile.min.js"></script>
-  <script src="//unpkg.com/docsify-copy-code@2"></script>
-  <script src="//unpkg.com/docsify-edit-on-github@1.0.1/index.js"></script>
-  <script src="//unpkg.com/docsify-plantuml/dist/docsify-plantuml.min.js"></script>
-  <script src="//unpkg.com/docsify-plugin-flexible-alerts"></script>
-</body>
+        plugins: [
+          function(hook) {
+            var footer = [
+              "<hr/>",
+              "<footer>",
+              '<span><a href="https://github.com/ArkNX">ArkNX</a> &copy; 2020. </span>',
+              "Please feel free to use and contribute to the development.",
+              '<p><span>Published with <a href="https://github.com/QingWei-Li/docsify" target="_blank">docsify</a>.</span></p>',
+              "</footer>"
+            ].join("");
 
+            hook.afterEach(function(html) {
+              return html + footer;
+            });
+          }
+        ]
+      };
+    </script>
+    <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+    <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
+    <script src="//unpkg.com/prismjs/components/prism-bash.min.js"></script>
+    <script src="//unpkg.com/prismjs/components/prism-markdown.min.js"></script>
+    <script src="//unpkg.com/prismjs/components/prism-batch.min.js"></script>
+    <script src="//unpkg.com/prismjs/components/prism-c.min.js"></script>
+    <script src="//unpkg.com/prismjs/components/prism-clike.min.js"></script>
+    <script src="//unpkg.com/prismjs/components/prism-cpp.min.js"></script>
+    <script src="//unpkg.com/prismjs/components/prism-csharp.js"></script>
+    <script src="//unpkg.com/prismjs/components/prism-makefile.min.js"></script>
+    <script src="//unpkg.com/docsify-copy-code@2"></script>
+    <script src="//unpkg.com/docsify-edit-on-github@1.0.1/index.js"></script>
+    <script src="//unpkg.com/docsify-plantuml/dist/docsify-plantuml.min.js"></script>
+    <script src="//unpkg.com/docsify-plugin-flexible-alerts"></script>
+  </body>
 </html>
