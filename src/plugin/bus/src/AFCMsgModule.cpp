@@ -152,7 +152,7 @@ bool AFCMsgModule::SendMsg(std::shared_ptr<AFINet>& pNet, const int src_bus, con
     }
 
     std::string msg_data;
-    if (msg.SerializeToString(&msg_data))
+    if (!msg.SerializeToString(&msg_data))
     {
         ARK_LOG_ERROR("msg serializing failed, src_bus={} target_bus={} msg_id={} actor_id={}", src_bus, target_bus,
             msg_id, guid);
