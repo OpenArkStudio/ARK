@@ -12,7 +12,7 @@ mkdir build && cd build
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF -DBUILD_SAMPLES=ON -DBUILD_TESTS=ON ..
 
 if [ "$USE_CXX" != g++-9 ]; then
-    return
+    exit 0
 fi
 
 # make and sonar scanner
