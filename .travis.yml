@@ -130,7 +130,6 @@ before_install:
 script:
   - bash ./scripts/travis_compiler.sh
   # If you wanna get more info, please add the argument -X
-  - sonar-scanner #-X
   - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-5
 
 after_success:
