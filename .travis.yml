@@ -108,10 +108,10 @@ matrix:
             - g++-9-multilib
             - cmake
             - lcov
-        #sonarcloud:
-        #  organization: "ark-game"
-        #  token:
-        #    secure: "$TRAVIS_SONAR_TOKEN"
+        sonarcloud:
+          organization: "ark-game"
+          token:
+            secure: "$TRAVIS_SONAR_TOKEN"
       env: USE_CC=gcc-9 USE_CXX=g++-9
 
     - os: osx
