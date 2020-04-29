@@ -27,10 +27,10 @@ matrix:
             - g++-5-multilib
             - cmake
             - lcov
-        sonarcloud:
-          organization: "ark-game"
-          token:
-            secure: "$TRAVIS_SONAR_TOKEN"
+        # sonarcloud:
+        #   organization: "ark-game"
+        #   token:
+        #     secure: "$TRAVIS_SONAR_TOKEN"
       env: USE_CC=gcc-5 USE_CXX=g++-5
 
     - os: linux
@@ -88,10 +88,10 @@ matrix:
             - g++-8-multilib
             - cmake
             - lcov
-        sonarcloud:
-          organization: "ark-game"
-          token:
-            secure: "$TRAVIS_SONAR_TOKEN"
+        # sonarcloud:
+        #   organization: "ark-game"
+        #   token:
+        #     secure: "$TRAVIS_SONAR_TOKEN"
       env: USE_CC=gcc-8 USE_CXX=g++-8
 
     - os: linux

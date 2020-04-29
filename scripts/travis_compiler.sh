@@ -11,6 +11,10 @@ if [ -d "build" ]; then rm -rf build; fi
 mkdir build && cd build
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF -DBUILD_SAMPLES=ON -DBUILD_TESTS=ON ..
 
+if [ "$USE_CXX" != g++-9 ]; then
+    return
+fi
+
 # make and sonar scanner
 if [ "$os_name" = Linux ]; then
     build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
