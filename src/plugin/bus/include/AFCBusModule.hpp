@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ class AFCBusModule final : public AFIBusModule
 public:
     bool Init() override;
 
-    const std::string GetAppWholeName(const int bus_id) override;
+    const std::string GetAppWholeName(bus_id_t bus_id) override;
     const std::string& GetAppName(const ARK_APP_TYPE& app_type) override;
     ARK_APP_TYPE GetAppType(const std::string& name) override;
 
@@ -42,7 +42,7 @@ public:
 
     int CombineBusID(const ARK_APP_TYPE app_type, const uint8_t inst_id) override;
 
-    //uint16_t CalcProcPort(const int bus_id) override;
+    //uint16_t CalcProcPort(bus_id_t bus_id) override;
 
     const AFRegCenter& GetRegCenter() override
     {
@@ -51,10 +51,14 @@ public:
 
     bool GetTargetBusRelations(std::vector<ARK_APP_TYPE>& target_list) override;
 
+    bool GetOtherProc(bus_id_t bus_id, AFProcConfig& proc) const override;
+
+    int GetOtherProc(const ARK_APP_TYPE app_type, std::vector<const AFProcConfig*>& proc_list) const override;
+
 protected:
-    bool LoadBusRelationConfig();
-    bool LoadRegCenterConfig();
-    bool LoadProcConfig();
+    bool LoadBusRelationConfig(AFXmlNode& root_node);
+    bool LoadRegCenterConfig(AFXmlNode& root_node);
+    bool LoadProcConfig(AFXmlNode& root_node);
 
 private:
     AFAppConfig app_config_;

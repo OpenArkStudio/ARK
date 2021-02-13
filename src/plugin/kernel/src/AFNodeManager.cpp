@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ AFNodeManager::AFNodeManager(
     std::shared_ptr<AFClassMeta> pClassMeta, const AFIDataList& data_list, NODE_MANAGER_FUNCTOR&& func)
 {
     class_meta_ = pClassMeta;
-    func_ = std::forward<NODE_MANAGER_FUNCTOR>(func);
+    func_ = std::move(func);
 
     InitData(data_list);
 }
@@ -49,80 +49,80 @@ void AFNodeManager::InitData(const AFIDataList& args)
         auto index = args.UInt(i + 1);
         switch (data_type)
         {
-            case ark::ArkDataType::DT_BOOLEAN:
+        case ark::ArkDataType::DT_BOOLEAN:
+        {
+            AFINode* pNode = FindData(index);
+            if (pNode != nullptr)
             {
-                AFINode* pNode = FindData(index);
-                if (pNode != nullptr)
-                {
-                    pNode->SetBool(args.Bool(i));
-                }
+                pNode->SetBool(args.Bool(i));
             }
-            break;
-            case ark::ArkDataType::DT_INT32:
+        }
+        break;
+        case ark::ArkDataType::DT_INT32:
+        {
+            AFINode* pNode = FindData(index);
+            if (pNode != nullptr)
             {
-                AFINode* pNode = FindData(index);
-                if (pNode != nullptr)
-                {
-                    pNode->SetInt32(args.Int(i));
-                }
+                pNode->SetInt32(args.Int(i));
             }
-            break;
-            case ark::ArkDataType::DT_UINT32:
+        }
+        break;
+        case ark::ArkDataType::DT_UINT32:
+        {
+            AFINode* pNode = FindData(index);
+            if (pNode != nullptr)
             {
-                AFINode* pNode = FindData(index);
-                if (pNode != nullptr)
-                {
-                    pNode->SetUInt32(args.UInt(i));
-                }
+                pNode->SetUInt32(args.UInt(i));
             }
-            break;
-            case ark::ArkDataType::DT_INT64:
+        }
+        break;
+        case ark::ArkDataType::DT_INT64:
+        {
+            AFINode* pNode = FindData(index);
+            if (pNode != nullptr)
             {
-                AFINode* pNode = FindData(index);
-                if (pNode != nullptr)
-                {
-                    pNode->SetInt64(args.Int64(i));
-                }
+                pNode->SetInt64(args.Int64(i));
             }
-            break;
-            case ark::ArkDataType::DT_UINT64:
+        }
+        break;
+        case ark::ArkDataType::DT_UINT64:
+        {
+            AFINode* pNode = FindData(index);
+            if (pNode != nullptr)
             {
-                AFINode* pNode = FindData(index);
-                if (pNode != nullptr)
-                {
-                    pNode->SetUInt64(args.UInt64(i));
-                }
+                pNode->SetUInt64(args.UInt64(i));
             }
-            break;
-            case ark::ArkDataType::DT_FLOAT:
+        }
+        break;
+        case ark::ArkDataType::DT_FLOAT:
+        {
+            AFINode* pNode = FindData(index);
+            if (pNode != nullptr)
             {
-                AFINode* pNode = FindData(index);
-                if (pNode != nullptr)
-                {
-                    pNode->SetFloat(args.Float(i));
-                }
+                pNode->SetFloat(args.Float(i));
             }
-            break;
-            case ark::ArkDataType::DT_DOUBLE:
+        }
+        break;
+        case ark::ArkDataType::DT_DOUBLE:
+        {
+            AFINode* pNode = FindData(index);
+            if (pNode != nullptr)
             {
-                AFINode* pNode = FindData(index);
-                if (pNode != nullptr)
-                {
-                    pNode->SetDouble(args.Double(i));
-                }
+                pNode->SetDouble(args.Double(i));
             }
-            break;
-            case ark::ArkDataType::DT_STRING:
+        }
+        break;
+        case ark::ArkDataType::DT_STRING:
+        {
+            AFINode* pNode = FindData(index);
+            if (pNode != nullptr)
             {
-                AFINode* pNode = FindData(index);
-                if (pNode != nullptr)
-                {
-                    pNode->SetString(args.String(i));
-                }
+                pNode->SetString(args.String(i));
             }
+        }
+        break;
+        default:
             break;
-            default:
-                break;
         }
     }
 }
@@ -268,7 +268,7 @@ const std::wstring& AFNodeManager::GetWString(const std::string& name) const
     return GetWString(index);
 }
 
-const AFGUID& AFNodeManager::GetGUID(const std::string& name) const
+const guid_t& AFNodeManager::GetGUID(const std::string& name) const
 {
     auto index = GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, NULL_GUID);
@@ -348,7 +348,7 @@ const std::wstring& AFNodeManager::GetWString(const uint32_t index) const
     return pData->GetWString();
 }
 
-const AFGUID& AFNodeManager::GetGUID(const uint32_t index) const
+const guid_t& AFNodeManager::GetGUID(const uint32_t index) const
 {
     auto pData = FindData(index);
     ARK_ASSERT_RET_VAL(pData != nullptr, NULL_GUID);
@@ -429,7 +429,7 @@ bool AFNodeManager::SetWString(const std::string& name, const std::wstring& valu
     return SetWString(index, value);
 }
 
-bool AFNodeManager::SetGUID(const std::string& name, const AFGUID& value)
+bool AFNodeManager::SetGUID(const std::string& name, const guid_t& value)
 {
     auto index = GetIndex(name);
     ARK_ASSERT_RET_VAL(index > 0, false);
@@ -663,7 +663,7 @@ bool AFNodeManager::SetWString(const uint32_t index, const std::wstring& value)
     return true;
 }
 
-bool AFNodeManager::SetGUID(const uint32_t index, const AFGUID& value)
+bool AFNodeManager::SetGUID(const uint32_t index, const guid_t& value)
 {
     auto pData = FindData(index);
 

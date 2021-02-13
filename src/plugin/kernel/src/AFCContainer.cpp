@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 
 namespace ark {
 
-AFCContainer::AFCContainer(std::shared_ptr<AFContainerMeta> container_meta, const AFGUID& parent_id,
+AFCContainer::AFCContainer(std::shared_ptr<AFContainerMeta> container_meta, const guid_t& parent_id,
     std::shared_ptr<AFClassCallBackManager> call_back_mgr)
     : parent_(parent_id)
 {
@@ -31,7 +31,7 @@ AFCContainer::AFCContainer(std::shared_ptr<AFContainerMeta> container_meta, cons
 }
 
 // get parent unique id
-const AFGUID& AFCContainer::GetParentID() const
+const guid_t& AFCContainer::GetParentID() const
 {
     return parent_;
 }
@@ -75,7 +75,7 @@ std::shared_ptr<AFIEntity> AFCContainer::Find(uint32_t index) const
     return entity_data_list_.find_value(index);
 }
 
-uint32_t AFCContainer::Find(const AFGUID& id) const
+uint32_t AFCContainer::Find(const guid_t& id) const
 {
     for (auto iter : entity_data_list_)
     {
@@ -93,7 +93,7 @@ bool AFCContainer::Exist(uint32_t index) const
     return (entity_data_list_.find(index) != entity_data_list_.end());
 }
 
-bool AFCContainer::Exist(const AFGUID& id) const
+bool AFCContainer::Exist(const guid_t& id) const
 {
     return (Find(id) > 0);
 }
@@ -170,12 +170,80 @@ bool AFCContainer::Swap(const uint32_t src_index, const uint32_t dest_index)
     return true;
 }
 
-bool AFCContainer::Swap(const AFGUID& src_entity, const AFGUID& dest_entity)
+bool AFCContainer::Swap(const guid_t& src_entity, const guid_t& dest_entity)
 {
     auto src_index = Find(src_entity);
     auto dest_index = Find(dest_entity);
 
     return Swap(src_index, dest_index);
+}
+
+bool AFCContainer::Swap(
+    std::shared_ptr<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index)
+{
+    if (pSrcContainer == nullptr || src_index == 0 || dest_index == 0)
+    {
+        return false;
+    }
+
+    auto pSrcEntity = pSrcContainer->Find(src_index);
+    if (pSrcEntity == nullptr)
+    {
+        return false;
+    }
+
+    // class should be same
+    if (!container_meta_ || pSrcEntity->GetClassName() != container_meta_->GetClassName())
+    {
+        return false;
+    }
+
+    if (!pSrcContainer->Remove(src_index))
+    {
+        return false;
+    }
+
+    auto iter_dest = entity_data_list_.find(dest_index);
+    if (iter_dest == entity_data_list_.end())
+    {
+        if (!PlaceEntity(dest_index, pSrcEntity))
+        {
+            return false;
+        }
+
+        OnContainerPlace(dest_index, pSrcEntity);
+    }
+    else
+    {
+        if (!Remove(dest_index))
+        {
+            return false;
+        }
+
+        auto pDestSrcEntity = iter_dest->second;
+        if (!pSrcContainer->Place(src_index, pDestSrcEntity) || !PlaceEntity(dest_index, pSrcEntity))
+        {
+            return false;
+        }
+
+        OnContainerPlace(dest_index, pSrcEntity);
+    }
+
+    return true;
+}
+
+bool AFCContainer::Swap(
+    std::shared_ptr<AFIContainer> pSrcContainer, const guid_t& src_entity, const guid_t& dest_entity)
+{
+    if (pSrcContainer == nullptr)
+    {
+        return false;
+    }
+
+    auto src_index = pSrcContainer->Find(src_entity);
+    auto dest_index = Find(dest_entity);
+
+    return Swap(pSrcContainer, src_index, dest_index);
 }
 
 bool AFCContainer::Remove(const uint32_t index)
@@ -192,7 +260,7 @@ bool AFCContainer::Remove(const uint32_t index)
     return true;
 }
 
-bool AFCContainer::Remove(const AFGUID& id)
+bool AFCContainer::Remove(const guid_t& id)
 {
     auto index = Find(id);
     return Remove(index);
@@ -212,7 +280,7 @@ bool AFCContainer::Destroy(const uint32_t index)
     return true;
 }
 
-bool AFCContainer::Destroy(const AFGUID& id)
+bool AFCContainer::Destroy(const guid_t& id)
 {
     auto index = Find(id);
     return Destroy(index);

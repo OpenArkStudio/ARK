@@ -1,0 +1,11 @@
+FROM alpine:latest
+
+RUN apk add --no-cache libstdc++ protobuf zstd-dev bash
+
+RUN wget https://github.com/edenhill/librdkafka/archive/v1.5.0.tar.gz \
+    && tar -zxvf ./v1.5.0.tar.gz \
+    && cd librdkafka-1.5.0 \
+    && ./configure \
+    && make -j8 \
+    && make install \
+    && cd ..

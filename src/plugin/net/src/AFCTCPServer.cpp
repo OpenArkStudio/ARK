@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -18,21 +18,14 @@
  *
  */
 
+#include "base/AFLogger.hpp"
 #include "net/include/AFCTCPServer.hpp"
-
-#ifdef ARK_PLATFORM_WIN
-#include <WS2tcpip.h>
-#include <winsock2.h>
-#else
-#include <arpa/inet.h>
-#endif
 
 namespace ark {
 
 AFCTCPServer::~AFCTCPServer()
 {
     Shutdown();
-    brynet::net::base::DestroySocket();
 }
 
 void AFCTCPServer::Update()
@@ -40,93 +33,111 @@ void AFCTCPServer::Update()
     UpdateNetSession();
 }
 
-bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port,
-    const int thread_num, const unsigned int max_client, bool ip_v6 /* = false*/)
+bool AFCTCPServer::StartServer(std::shared_ptr<const AFIMsgHeader> head, bus_id_t bus_id, const std::string& host,
+    uint16_t port, uint8_t thread_num, uint32_t max_client, const size_t silent_timeout)
 {
-    using namespace brynet::base;
-    using namespace brynet::net;
+    using namespace zephyr;
+    using namespace zephyr::detail;
 
-    this->bus_id_ = busid;
+    server_ =
+        std::make_shared<zephyr::tcp_server>(silent_timeout, tcp_frame_size, ARK_TCP_RECV_BUFFER_SIZE, thread_num);
+    this->bus_id_ = bus_id;
+    std::ignore = max_client; // will use to limit connection number.
 
-    tcp_service_ptr_ = TcpService::Create();
-    tcp_service_ptr_->startWorkerThread(thread_num);
-
-    auto shared_this = shared_from_this();
-
-    auto OnEnterCallback = [shared_this, head_len](const TcpConnectionPtr& session) {
-        //int64_t cur_session_id = shared_this->trusted_session_id_++;
-        auto cur_session_id = shared_this->uid_generator_->GetUID(shared_this->bus_id_);
-        session->setUD(cur_session_id);
-
-        AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
-        net_connect_event->SetId(cur_session_id);
-        net_connect_event->SetType(AFNetEventType::CONNECTED);
-        net_connect_event->SetBusId(shared_this->bus_id_);
-        net_connect_event->SetIP(session->getIP());
-
-        // scope lock
-        {
-            AFScopeWLock guard(shared_this->rw_lock_);
-            AFTCPSessionPtr session_ptr = ARK_NEW AFTCPSession(head_len, cur_session_id, session);
-            if (shared_this->AddNetSession(session_ptr))
+    server_
+        ->bind_start([self = shared_from_this()](asio::error_code ec) {
+            if (ec)
             {
-                session_ptr->AddNetEvent(net_connect_event);
+                ARK_LOG_INFO("Server(TCP) start failed, error={}, errno={}", ec.message(), ec.value());
             }
-        }
-
-        session->setDataCallback([shared_this, session](const char* buffer, size_t len) {
-            auto pUD = cast<int64_t>(session->getUD());
-            if (pUD != nullptr)
+            else
             {
-                const AFTCPSessionPtr session_ptr = shared_this->GetNetSession(*pUD);
-                session_ptr->AddBuffer(buffer, len);
-                session_ptr->ParseBufferToMsg();
+                ARK_LOG_INFO("Server(TCP) start success, listen_addr={} listen_port={}",
+                    self->server_->listen_address(), self->server_->listen_port());
             }
+        })
+        .bind_stop(
+            [](asio::error_code ec) { ARK_LOG_INFO("Server(TCP) stop, error={} errno={}", ec.message(), ec.value()); })
+        .bind_connect([self = shared_from_this(), head](std::shared_ptr<zephyr::tcp_session>& session_ptr) {
+            ARK_LOG_INFO("Client(TCP) connected, client_addr={} client_port={} local_addr={} local_port={}",
+                session_ptr->remote_address(), session_ptr->remote_port(), session_ptr->local_address(),
+                session_ptr->local_port());
 
-            return len;
-        });
+            session_ptr->no_delay(true);
+            auto cur_session_id = self->trusted_session_id_++;
+            session_ptr->user_data(cur_session_id);
 
-        session->setDisConnectCallback([shared_this](const TcpConnectionPtr& session) {
-            auto pUD = cast<int64_t>(session->getUD());
-            if (pUD == nullptr)
+            AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
+            net_connect_event->SetId(cur_session_id);
+            net_connect_event->SetType(AFNetEventType::CONNECT);
+            net_connect_event->SetBusId(self->bus_id_);
+            net_connect_event->SetIP(session_ptr->remote_address());
+            // TODO: will add port
+
+            // add session scope
             {
-                return;
+                AFScopeWLock guard(self->rw_lock_);
+                AFTCPSessionPtr session = std::make_shared<AFTCPSession>(head, cur_session_id, session_ptr);
+                if (self->AddNetSession(session))
+                {
+                    session->AddNetEvent(net_connect_event);
+                }
             }
+        })
+        .bind_disconnect([self = shared_from_this()](std::shared_ptr<zephyr::tcp_session>& session_ptr) {
+            ARK_LOG_INFO("Client(TCP) disconnected, client_addr={} client_port={} error={}, errno={}",
+                session_ptr->remote_address(), session_ptr->remote_port(), zephyr::last_error_msg(),
+                zephyr::last_error_val());
 
-            int64_t session_id = *pUD;
+            auto session_id = session_ptr->user_data<conv_id_t>();
 
             AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
             net_disconnect_event->SetId(session_id);
-            net_disconnect_event->SetType(AFNetEventType::DISCONNECTED);
-            net_disconnect_event->SetBusId(shared_this->bus_id_);
-            net_disconnect_event->SetIP(session->getIP());
+            net_disconnect_event->SetType(AFNetEventType::DISCONNECT);
+            net_disconnect_event->SetBusId(self->bus_id_);
+            net_disconnect_event->SetIP(session_ptr->remote_address());
+            // TODO: will add port
 
-            const AFTCPSessionPtr session_ptr = shared_this->GetNetSession(session_id);
-            if (session_ptr == nullptr)
+            // remove session scope
             {
-                return;
+                AFScopeWLock xGuard(self->rw_lock_);
+                AFTCPSessionPtr session = self->GetNetSession(session_id);
+                if (session == nullptr)
+                {
+                    return;
+                }
+
+                session->AddNetEvent(net_disconnect_event);
+                session->NeedRemove(true);
+            }
+        })
+        .bind_recv([self = shared_from_this()](std::shared_ptr<zephyr::tcp_session>& session_ptr, std::string_view s) {
+            auto session_id = session_ptr->user_data<conv_id_t>();
+
+            // process msg data scope
+            {
+                AFScopeRLock guard(self->rw_lock_);
+                const AFTCPSessionPtr session = self->GetNetSession(session_id);
+                if (session == nullptr)
+                {
+                    return size_t(0);
+                }
+
+                session->AddBuffer(s.data(), s.length());
+                session->ParseBufferToMsg();
             }
 
-            session_ptr->AddNetEvent(net_disconnect_event);
-            session_ptr->SetNeedRemove(true);
+            return s.length();
         });
-    };
 
-    // Chain expression
-    listen_builder.configureService(tcp_service_ptr_)
-        .configureSocketOptions({[](TcpSocket& socket) { socket.setNodelay(); }})
-        .configureConnectionOptions({AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE),
-            AddSocketOption::AddEnterCallback(OnEnterCallback)})
-        .configureListen([=](wrapper::BuildListenConfig config) { config.setAddr(ip_v6, ip, port); })
-        .asyncRun();
-
-    SetWorking(true);
-    return true;
+    bool ret = server_->start(host, port);
+    SetWorking(ret);
+    return ret;
 }
 
 void AFCTCPServer::UpdateNetSession()
 {
-    std::list<int64_t> remove_sessions;
+    std::vector<AFTCPSessionPtr> remove_sessions;
 
     {
         AFScopeRLock guard(rw_lock_);
@@ -143,14 +154,13 @@ void AFCTCPServer::UpdateNetSession()
                 continue;
             }
 
-            remove_sessions.emplace_back(session->GetSessionId());
+            remove_sessions.emplace_back(session);
         }
     }
 
     for (auto& iter : remove_sessions)
     {
-        auto& session_id = iter;
-        auto session = GetNetSession(session_id);
+        auto& session = iter;
         if (session == nullptr)
         {
             continue;
@@ -161,7 +171,7 @@ void AFCTCPServer::UpdateNetSession()
     }
 }
 
-void AFCTCPServer::UpdateNetEvent(AFTCPSessionPtr session)
+void AFCTCPServer::UpdateNetEvent(const AFTCPSessionPtr& session)
 {
     ARK_ASSERT_RET_NONE(session != nullptr);
 
@@ -173,7 +183,7 @@ void AFCTCPServer::UpdateNetEvent(AFTCPSessionPtr session)
     }
 }
 
-void AFCTCPServer::UpdateNetMsg(AFTCPSessionPtr session)
+void AFCTCPServer::UpdateNetMsg(const AFTCPSessionPtr& session)
 {
     ARK_ASSERT_RET_NONE(session != nullptr);
 
@@ -192,20 +202,73 @@ void AFCTCPServer::UpdateNetMsg(AFTCPSessionPtr session)
     }
 }
 
-bool AFCTCPServer::Shutdown()
+void AFCTCPServer::Shutdown()
 {
     CloseAllSession();
+
+    server_->stop();
     SetWorking(false);
-
-    tcp_service_ptr_->stopWorkerThread();
-    listen_builder.stop();
-
-    return true;
 }
 
-bool AFCTCPServer::SendMsgToAllClient(const char* msg, const size_t msg_len)
+std::string AFCTCPServer::GetIP(const conv_id_t session_id)
 {
-    for (auto it : sessions_)
+    auto session = GetNetSession(session_id);
+    if (session == nullptr)
+    {
+        return NULL_STR;
+    }
+
+    return session->GetSession()->remote_address();
+}
+
+bool AFCTCPServer::AddNetSession(const AFTCPSessionPtr& session)
+{
+    return sessions_.insert(std::make_pair(session->GetSessionId(), session)).second;
+}
+
+void AFCTCPServer::CloseSession(AFTCPSessionPtr& session)
+{
+    ARK_ASSERT_RET_NONE(session != nullptr);
+
+    auto session_id = session->GetSessionId();
+    sessions_.erase(session_id);
+}
+
+void AFCTCPServer::CloseSession(conv_id_t session_id)
+{
+    AFTCPSessionPtr session = GetNetSession(session_id);
+    if (session == nullptr)
+    {
+        return;
+    }
+
+    session->NeedRemove(true);
+}
+
+void AFCTCPServer::CloseAllSession()
+{
+    sessions_.clear();
+}
+
+AFTCPSessionPtr AFCTCPServer::GetNetSession(conv_id_t session_id)
+{
+    auto iter = sessions_.find(session_id);
+    return (iter != sessions_.end() ? iter->second : nullptr);
+}
+
+bool AFCTCPServer::SendMsg(const char* msg, size_t msg_len, conv_id_t session_id)
+{
+    AFScopeRLock xGuard(rw_lock_);
+    auto session = GetNetSession(session_id);
+    ARK_ASSERT_RET_VAL(session != nullptr, false);
+
+    return session->GetSession()->send(msg, msg_len);
+}
+
+void AFCTCPServer::SendMsgToAllClient(const char* msg, size_t msg_len)
+{
+    AFScopeRLock guard(rw_lock_);
+    for (const auto& it : sessions_)
     {
         auto& session = it.second;
         if (session != nullptr && !session->NeedRemove())
@@ -213,146 +276,59 @@ bool AFCTCPServer::SendMsgToAllClient(const char* msg, const size_t msg_len)
             session->GetSession()->send(msg, msg_len);
         }
     }
-
-    return true;
 }
 
-bool AFCTCPServer::SendMsg(const char* msg, const size_t msg_len, const int64_t& session_id)
-{
-    AFScopeRLock xGuard(rw_lock_);
-    auto session = GetNetSession(session_id);
-    if (session == nullptr)
-    {
-        return false;
-    }
-    else
-    {
-        session->GetSession()->send(msg, msg_len);
-        return true;
-    }
-}
-
-bool AFCTCPServer::AddNetSession(AFTCPSessionPtr session)
-{
-    return sessions_.insert(std::make_pair(session->GetSessionId(), session)).second;
-}
-
-bool AFCTCPServer::CloseSession(AFTCPSessionPtr& session)
-{
-    ARK_ASSERT_RET_VAL(session != nullptr, false);
-
-    auto session_id = session->GetSessionId();
-    session->GetSession()->postShutdown();
-    ARK_DELETE(session);
-    sessions_.erase(session_id);
-    return true;
-}
-
-bool AFCTCPServer::CloseSession(const int64_t& session_id)
-{
-    AFTCPSessionPtr session = GetNetSession(session_id);
-    if (session == nullptr)
-    {
-        return false;
-    }
-
-    session->SetNeedRemove(true);
-    return true;
-}
-
-bool AFCTCPServer::CloseAllSession()
-{
-    for (auto& iter : sessions_)
-    {
-        auto& session = iter.second;
-        session->GetSession()->postShutdown();
-        ARK_DELETE(session);
-    }
-
-    sessions_.clear();
-    return true;
-}
-
-AFTCPSessionPtr AFCTCPServer::GetNetSession(const int64_t& session_id)
-{
-    auto iter = sessions_.find(session_id);
-    return (iter != sessions_.end() ? iter->second : nullptr);
-}
-
-// bool AFCTCPServer::SendMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& session_id,
-// const AFGUID& actor_id)
-//{
-//    //AFTCPMsg msg;
-
-//    //AFCSMsgHead head;
-//    //head.set_msg_id(msg_id);
-//    //head.set_uid(actor_id);
-//    //head.set_body_length(msg_len);
-
-//    //std::string out_data;
-//    //size_t whole_len = EnCode(head, msg, msg_len, out_data);
-//    //if (whole_len == msg_len + GetHeadLength())
-//    //{
-//    //    return SendMsg(out_data.c_str(), out_data.length(), session_id);
-//    //}
-//    //else
-//    //{
-//    //    return false;
-//    //}
-
-//    return true;
-//}
-
-bool AFCTCPServer::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id)
+bool AFCTCPServer::SendMsg(AFIMsgHeader* head, const char* msg_data, conv_id_t session_id)
 {
     ARK_ASSERT_RET_VAL(head != nullptr && msg_data != nullptr, false);
+
+    AFScopeRLock guard(rw_lock_);
     auto session = GetNetSession(session_id);
     ARK_ASSERT_RET_VAL(session != nullptr, false);
 
-    AFHeadLength head_length = static_cast<AFHeadLength>(session->GetHeadLen());
-    ARK_ASSERT_RET_VAL(
-        (head_length == AFHeadLength::CS_HEAD_LENGTH) || (head_length == AFHeadLength::SS_HEAD_LENGTH), false);
-
     std::string buffer;
-    buffer.append(reinterpret_cast<char*>(head), session->GetHeadLen());
-
+    head->SerializeToString(buffer);
     if (buffer.empty())
     {
         return false;
     }
 
-    buffer.append(msg_data, head->length_);
-    session->GetSession()->send(buffer.c_str(), buffer.length());
-    return true;
+    buffer.append(msg_data, head->MessageLength());
+    return session->GetSession()->send(buffer.c_str(), buffer.length());
 }
 
-bool AFCTCPServer::BroadcastMsg(AFMsgHead* head, const char* msg_data)
+void AFCTCPServer::BroadcastMsg(AFIMsgHeader* head, const char* msg_data)
 {
-    ARK_ASSERT_RET_VAL(head != nullptr && msg_data != nullptr, false);
+    ARK_ASSERT_RET_NONE(head != nullptr && msg_data != nullptr);
 
     if (sessions_.empty())
     {
-        return false;
+        return;
     }
 
-    auto iter = sessions_.begin();
-    auto first_session = iter->second;
+    auto it = sessions_.begin();
+    auto first_session = it->second;
     if (first_session == nullptr)
     {
-        return false;
+        return;
     }
 
-    char* new_buffer = reinterpret_cast<char*>(head);
-
-    uint32_t new_buffer_len = first_session->GetHeadLen() + head->length_;
-    memcpy(new_buffer + first_session->GetHeadLen(), msg_data, head->length_);
-
-    for (auto& session : sessions_)
+    std::string buffer;
+    head->SerializeToString(buffer);
+    if (buffer.empty())
     {
-        session.second->GetSession()->send(new_buffer, new_buffer_len);
+        return;
     }
+    buffer.append(msg_data, head->MessageLength());
 
-    return true;
+    for (const auto& iter : sessions_)
+    {
+        auto& session = iter.second;
+        if (session != nullptr && !session->NeedRemove())
+        {
+            session->GetSession()->send(buffer.c_str(), buffer.length());
+        }
+    }
 }
 
 } // namespace ark

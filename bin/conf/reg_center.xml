@@ -1,3 +1,0 @@
-<xml>
-    <center ip="127.0.0.1" port="8500" service_name="ark-service" check_interval="10s" check_timeout="3s" />
-</xml>

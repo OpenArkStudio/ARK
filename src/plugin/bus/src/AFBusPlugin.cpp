@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -34,8 +34,8 @@ void AFBusPlugin::Install()
 
 void AFBusPlugin::Uninstall()
 {
-    ARK_DEREGISTER_MODULE(AFIMsgModule, AFCMsgModule);
-    ARK_DEREGISTER_MODULE(AFIBusModule, AFCBusModule);
+    ARK_UNREGISTER_MODULE(AFIMsgModule, AFCMsgModule);
+    ARK_UNREGISTER_MODULE(AFIBusModule, AFCBusModule);
 }
 
 } // namespace ark

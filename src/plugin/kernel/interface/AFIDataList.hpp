@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -113,27 +113,27 @@ public:
 
         switch (xData.GetType())
         {
-            case ArkDataType::DT_BOOLEAN:
-                xData.SetBool(Bool(index));
-                break;
-            case ArkDataType::DT_INT32:
-                xData.SetInt(Int(index));
-                break;
-            case ArkDataType::DT_INT64:
-                xData.SetInt64(Int64(index));
-                break;
-            case ArkDataType::DT_FLOAT:
-                xData.SetFloat(Float(index));
-                break;
-            case ArkDataType::DT_DOUBLE:
-                xData.SetDouble(Double(index));
-                break;
-            case ArkDataType::DT_STRING:
-                xData.SetString(String(index));
-                break;
-            default:
-                ARK_ASSERT_RET_VAL(0, false);
-                break;
+        case ArkDataType::DT_BOOLEAN:
+            xData.SetBool(Bool(index));
+            break;
+        case ArkDataType::DT_INT32:
+            xData.SetInt(Int(index));
+            break;
+        case ArkDataType::DT_INT64:
+            xData.SetInt64(Int64(index));
+            break;
+        case ArkDataType::DT_FLOAT:
+            xData.SetFloat(Float(index));
+            break;
+        case ArkDataType::DT_DOUBLE:
+            xData.SetDouble(Double(index));
+            break;
+        case ArkDataType::DT_STRING:
+            xData.SetString(String(index));
+            break;
+        default:
+            ARK_ASSERT_RET_VAL(0, false);
+            break;
         }
 
         return true;
@@ -148,33 +148,33 @@ public:
 
         switch (xData.GetType())
         {
-            case ArkDataType::DT_BOOLEAN:
-                return xData.GetBool() == Bool(index);
-                break;
-            case ArkDataType::DT_INT32:
-                return xData.GetInt() == Int(index);
-                break;
-            case ArkDataType::DT_INT64:
-                return xData.GetInt64() == Int64(index);
-                break;
-            case ArkDataType::DT_UINT32:
-                return xData.GetUInt() == UInt(index);
-                break;
-            case ArkDataType::DT_UINT64:
-                return xData.GetUInt64() == UInt64(index);
-                break;
-            case ArkDataType::DT_FLOAT:
-                return AFMisc::IsZeroFloat(xData.GetFloat() - Float(index));
-                break;
-            case ArkDataType::DT_DOUBLE:
-                return AFMisc::IsZeroDouble(xData.GetDouble() - Double(index));
-                break;
-            case ArkDataType::DT_STRING:
-                return std::string(xData.GetString()) == std::string(String(index));
-                break;
-            default:
-                ARK_ASSERT_RET_VAL(0, false);
-                break;
+        case ArkDataType::DT_BOOLEAN:
+            return xData.GetBool() == Bool(index);
+            break;
+        case ArkDataType::DT_INT32:
+            return xData.GetInt() == Int(index);
+            break;
+        case ArkDataType::DT_INT64:
+            return xData.GetInt64() == Int64(index);
+            break;
+        case ArkDataType::DT_UINT32:
+            return xData.GetUInt() == UInt(index);
+            break;
+        case ArkDataType::DT_UINT64:
+            return xData.GetUInt64() == UInt64(index);
+            break;
+        case ArkDataType::DT_FLOAT:
+            return IS_FLOAT_ZERO(float, xData.GetFloat() - Float(index));
+            break;
+        case ArkDataType::DT_DOUBLE:
+            return IS_FLOAT_ZERO(double, xData.GetDouble() - Double(index));
+            break;
+        case ArkDataType::DT_STRING:
+            return std::string(xData.GetString()) == std::string(String(index));
+            break;
+        default:
+            ARK_ASSERT_RET_VAL(0, false);
+            break;
         }
 
         return true;

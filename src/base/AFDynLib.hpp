@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -42,13 +42,13 @@ public:
         name_.append(".dylib");
 #endif
 
-        CONSOLE_LOG << "LoadPlugin: " << name_ << std::endl;
+        ARK_LOG_INFO("LoadPlugin: {}", name_);
     }
 
     bool Load(const std::string& path)
     {
         std::string dynamic_lib_path = path + name_;
-        lib_inst_ = (DYNLIB_HANDLE)DYNLIB_LOAD(dynamic_lib_path.c_str());
+        lib_inst_ = DYNLIB_LOAD(dynamic_lib_path.c_str());
 
         return lib_inst_ != nullptr;
     }

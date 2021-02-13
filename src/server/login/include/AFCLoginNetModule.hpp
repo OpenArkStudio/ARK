@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@
 
 #include "base/AFPluginManager.hpp"
 #include "proto/AFProtoCPP.hpp"
-#include "log/interface/AFILogModule.hpp"
 #include "bus/interface/AFIMsgModule.hpp"
 #include "bus/interface/AFIBusModule.hpp"
 #include "net/interface/AFINetServiceManagerModule.hpp"
@@ -41,15 +40,14 @@ public:
 protected:
     int StartServer();
 
-    // void OnSocketClientEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip,  int bus_id);
+    // void OnSocketClientEvent(const NetEventType event, const guid_t& conn_id, const std::string& ip,  bus_id_t bus_id);
 
-    // void OnClientDisconnect(const AFGUID& xClientID);
-    // void OnClientConnected(const AFGUID& xClientID);
+    // void OnClientDisconnect(const guid_t& xClientID);
+    // void OnClientConnected(const guid_t& xClientID);
 
 private:
-    // AFSmartPtrMap<AFGUID, AFClientConnectionData> mmClientSessionData;
+    // AFSmartPtrMap<guid_t, AFClientConnectionData> mmClientSessionData;
 
-    AFILogModule* m_pLogModule;
     AFIBusModule* m_pBusModule;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
 

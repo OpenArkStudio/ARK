@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,6 @@ namespace ark {
 
 bool AFCClassMetaModule::Init()
 {
-    m_pLogModule = FindModule<AFILogModule>();
-
     m_pClassMetaManager = ARK_NEW AFClassMetaManager;
 
     ARK_ASSERT_RET_VAL(Load(), false);
@@ -59,7 +57,9 @@ bool AFCClassMetaModule::Load()
 
 bool AFCClassMetaModule::LoadConfig()
 {
-    std::string file_path = GetPluginManager()->GetResPath() + CONFIG_CLASS_FILE_PATH;
+    // TODO: will put the configuration fileds in kernel.plugin.conf
+    const static std::string res_dir = "resource";
+    std::string file_path = res_dir + CONFIG_CLASS_FILE_PATH;
 
     ARK_LOG_INFO("Load config class files: {}", file_path);
 
@@ -76,12 +76,8 @@ bool AFCClassMetaModule::LoadConfig()
         auto pClassMeta = m_pClassMetaManager->CreateStaticMeta(meta_name);
         ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
 
-        // todo : use different meta
-        auto pEnityClassMeta = m_pClassMetaManager->CreateMeta(meta_name);
-        ARK_ASSERT_RET_VAL(pEnityClassMeta != nullptr, false);
-
         pClassMeta->SetResPath(res_path);
-        ARK_ASSERT_RET_VAL(LoadConfigMeta(schema_path, pClassMeta), false);
+        ARK_ASSERT_RET_VAL(LoadConfigMeta(res_dir + schema_path, pClassMeta), false);
     }
 
     return true;
@@ -89,11 +85,9 @@ bool AFCClassMetaModule::LoadConfig()
 
 bool AFCClassMetaModule::LoadConfigMeta(const std::string& schema_path, std::shared_ptr<AFClassMeta> pClassMeta)
 {
-    std::string file_path = GetPluginManager()->GetResPath() + schema_path;
-
     ARK_LOG_INFO("Load meta files: {}", schema_path);
 
-    AFXml xml_doc(file_path);
+    AFXml xml_doc(schema_path);
     auto root_node = xml_doc.GetRootNode();
     ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
 
@@ -118,7 +112,9 @@ bool AFCClassMetaModule::LoadConfigMeta(const std::string& schema_path, std::sha
 
 bool AFCClassMetaModule::LoadEntity()
 {
-    std::string file_path = GetPluginManager()->GetResPath() + ENTITY_CLASS_FILE_PATH;
+    // TODO: will put the configuration fileds in kernel.plugin.conf
+    const static std::string res_dir = "resource";
+    std::string file_path = res_dir + ENTITY_CLASS_FILE_PATH;
 
     ARK_LOG_INFO("Load entity class files: {}", file_path);
 
@@ -129,7 +125,7 @@ bool AFCClassMetaModule::LoadEntity()
     for (auto meta_node = root_node.FindNode("config"); meta_node.IsValid(); meta_node.NextNode())
     {
         std::string schema_path = meta_node.GetString("meta");
-        ARK_ASSERT_RET_VAL(LoadEntityMeta(schema_path), false);
+        ARK_ASSERT_RET_VAL(LoadEntityMeta(res_dir + schema_path), false);
     }
 
     // exact table meta and object meta of a class meta after all loaded
@@ -140,11 +136,9 @@ bool AFCClassMetaModule::LoadEntity()
 
 bool AFCClassMetaModule::LoadEntityMeta(const std::string& schema_path)
 {
-    std::string file_path = GetPluginManager()->GetResPath() + schema_path;
+    ARK_LOG_INFO("Load entity class files: {}", schema_path);
 
-    ARK_LOG_INFO("Load entity class files: {}", file_path);
-
-    AFXml xml_doc(file_path);
+    AFXml xml_doc(schema_path);
     auto root_node = xml_doc.GetRootNode();
     ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
 
@@ -271,11 +265,11 @@ bool AFCClassMetaModule::AddClassCallBack(const std::string& class_name, CLASS_E
     auto pCallBack = pClassMeta->GetClassCallBackManager();
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
-    return pCallBack->AddClassCallBack(std::forward<CLASS_EVENT_FUNCTOR>(cb), prio);
+    return pCallBack->AddClassCallBack(std::move(cb), prio);
 }
 
 bool AFCClassMetaModule::DoClassEvent(
-    const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event, const AFIDataList& args)
+    const guid_t& id, const std::string& class_name, const ArkEntityEvent class_event, const AFIDataList& args)
 {
     auto pClassMeta = m_pClassMetaManager->FindMeta(class_name);
     ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);

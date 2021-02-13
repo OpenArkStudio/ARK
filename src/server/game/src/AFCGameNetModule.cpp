@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ namespace ark {
 bool AFCGameNetModule::Init()
 {
     m_pKernelModule = FindModule<AFIKernelModule>();
-    m_pLogModule = FindModule<AFILogModule>();
     m_pUUIDModule = FindModule<AFIGUIDModule>();
     m_pBusModule = FindModule<AFIBusModule>();
     m_pMsgModule = FindModule<AFIMsgModule>();
@@ -58,24 +57,19 @@ bool AFCGameNetModule::PostInit()
 int AFCGameNetModule::StartServer()
 {
     auto ret = m_pNetServiceManagerModule->CreateServer();
-    ret.Then([=](const std::pair<bool, std::string>& resp) {
-        if (!resp.first)
-        {
-            ARK_LOG_ERROR(
-                "Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), resp.second);
-            ARK_ASSERT_NO_EFFECT(0);
-            exit(0);
-        }
+    if (!ret)
+    {
+        ARK_LOG_ERROR("Cannot start server net, busid = {}", m_pBusModule->GetSelfBusName());
+        ARK_ASSERT_NO_EFFECT(0);
+        exit(0);
+    }
 
-        m_pNetServerService = m_pNetServiceManagerModule->GetSelfNetServer();
-        if (m_pNetServerService == nullptr)
-        {
-            ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
-            exit(0);
-        }
-
-        // m_pNetServerService->RegNetEventCallback(this, &AFCGameNetModule::OnSocketEvent);
-    });
+    m_pNetServerService = m_pNetServiceManagerModule->GetInterNetServer();
+    if (m_pNetServerService == nullptr)
+    {
+        ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+        exit(0);
+    }
 
     return 0;
 }
@@ -111,7 +105,7 @@ int AFCGameNetModule::StartServer()
 //    return 0;
 //}
 
-int AFCGameNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFGUID& self)
+int AFCGameNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const guid_t& self)
 {
     if (argVar.GetCount() <= 0 || self == 0)
     {
@@ -134,7 +128,7 @@ int AFCGameNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFGUI
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
-        AFGUID identOther = argVar.Int64(i);
+        guid_t identOther = argVar.Int64(i);
 
         if (self != identOther)
         {
@@ -145,7 +139,7 @@ int AFCGameNetModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFGUI
     return 0;
 }
 
-int AFCGameNetModule::OnSelfDataNodeEnter(const AFGUID& self)
+int AFCGameNetModule::OnSelfDataNodeEnter(const guid_t& self)
 {
     if (self == 0)
     {
@@ -170,7 +164,7 @@ int AFCGameNetModule::OnSelfDataNodeEnter(const AFGUID& self)
     return 0;
 }
 
-int AFCGameNetModule::OnSelfDataTableEnter(const AFGUID& self)
+int AFCGameNetModule::OnSelfDataTableEnter(const guid_t& self)
 {
     if (self == 0)
     {
@@ -196,7 +190,7 @@ int AFCGameNetModule::OnSelfDataTableEnter(const AFGUID& self)
     return 0;
 }
 
-int AFCGameNetModule::OnViewDataTableEnter(const AFIDataList& argVar, const AFGUID& self)
+int AFCGameNetModule::OnViewDataTableEnter(const AFIDataList& argVar, const guid_t& self)
 {
     if (argVar.GetCount() <= 0 || self == 0)
     {
@@ -220,7 +214,7 @@ int AFCGameNetModule::OnViewDataTableEnter(const AFIDataList& argVar, const AFGU
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
-        AFGUID identOther = argVar.Int64(i);
+        guid_t identOther = argVar.Int64(i);
 
         if (self != identOther && msg.data_list_size() > 0)
         {
@@ -231,7 +225,7 @@ int AFCGameNetModule::OnViewDataTableEnter(const AFIDataList& argVar, const AFGU
     return 0;
 }
 
-bool AFCGameNetModule::ProcessLeaveGroup(const AFGUID& self, int map_id, int old_inst_id)
+bool AFCGameNetModule::ProcessLeaveGroup(const guid_t& self, int map_id, int old_inst_id)
 {
     if (old_inst_id <= 0)
     {
@@ -247,7 +241,7 @@ bool AFCGameNetModule::ProcessLeaveGroup(const AFGUID& self, int map_id, int old
         //broadcast self to others around
         for (size_t i = 0; i < valueAllOldObjectList.GetCount(); i++)
         {
-            AFGUID identBC = valueAllOldObjectList.Int64(i);
+            guid_t identBC = valueAllOldObjectList.Int64(i);
             auto pEntity = m_pKernelModule->GetEntity(identBC);
             if (pEntity == nullptr)
             {
@@ -277,7 +271,7 @@ bool AFCGameNetModule::ProcessLeaveGroup(const AFGUID& self, int map_id, int old
     return true;
 }
 
-bool AFCGameNetModule::ProcessEnterGroup(const AFGUID& self, int nSceneID, int nNewGroupID)
+bool AFCGameNetModule::ProcessEnterGroup(const guid_t& self, int nSceneID, int nNewGroupID)
 {
     // broadcast self enter to others
     if (nNewGroupID <= 0)
@@ -295,7 +289,7 @@ bool AFCGameNetModule::ProcessEnterGroup(const AFGUID& self, int nSceneID, int n
 
     for (size_t i = 0; i < valueAllObjectList.GetCount(); i++)
     {
-        AFGUID identBC = valueAllObjectList.Int64(i);
+        guid_t identBC = valueAllObjectList.Int64(i);
         auto pEntity = m_pKernelModule->GetEntity(identBC);
         if (pEntity == nullptr)
         {
@@ -340,7 +334,7 @@ bool AFCGameNetModule::ProcessEnterGroup(const AFGUID& self, int nSceneID, int n
             for (size_t i = 0; i < valueAllObjectListNoSelf.GetCount(); i++)
             {
                 // broadcast myself data to others
-                AFGUID identOld = valueAllObjectListNoSelf.Int64(i);
+                guid_t identOld = valueAllObjectListNoSelf.Int64(i);
 
                 OnViewDataNodeEnter(AFCDataList() << self, identOld);
                 OnViewDataTableEnter(AFCDataList() << self, identOld);
@@ -362,7 +356,7 @@ int AFCGameNetModule::OnEntityListEnter(const AFIDataList& self, const AFIDataLi
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
-        AFGUID identOld = argVar.Int64(i);
+        guid_t identOld = argVar.Int64(i);
 
         // Exclude empty entity
         if (identOld == 0)
@@ -398,7 +392,7 @@ int AFCGameNetModule::OnEntityListEnter(const AFIDataList& self, const AFIDataLi
 
     for (size_t i = 0; i < self.GetCount(); i++)
     {
-        AFGUID ident = self.Int64(i);
+        guid_t ident = self.Int64(i);
 
         if (ident != 0)
         {
@@ -420,7 +414,7 @@ int AFCGameNetModule::OnEntityListLeave(const AFIDataList& self, const AFIDataLi
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
-        AFGUID identOld = argVar.Int64(i);
+        guid_t identOld = argVar.Int64(i);
 
         // Exclude empty entity
         if (identOld != 0)
@@ -431,7 +425,7 @@ int AFCGameNetModule::OnEntityListLeave(const AFIDataList& self, const AFIDataLi
 
     for (size_t i = 0; i < self.GetCount(); i++)
     {
-        AFGUID ident = self.Int64(i);
+        guid_t ident = self.Int64(i);
 
         if (ident != 0)
         {
@@ -442,7 +436,7 @@ int AFCGameNetModule::OnEntityListLeave(const AFIDataList& self, const AFIDataLi
     return 0;
 }
 
-int AFCGameNetModule::CommonClassDestoryEvent(const AFGUID& self)
+int AFCGameNetModule::CommonClassDestoryEvent(const guid_t& self)
 {
     auto pEntity = m_pKernelModule->GetEntity(self);
     if (nullptr == pEntity)
@@ -465,7 +459,7 @@ int AFCGameNetModule::CommonClassDestoryEvent(const AFGUID& self)
 
     for (size_t i = 0; i < valueAllObjectList.GetCount(); i++)
     {
-        AFGUID identBC = valueAllObjectList.Int64(i);
+        guid_t identBC = valueAllObjectList.Int64(i);
         auto pBCEntity = m_pKernelModule->GetEntity(identBC);
         if (nullptr == pBCEntity)
         {
@@ -490,48 +484,48 @@ int AFCGameNetModule::CommonClassDestoryEvent(const AFGUID& self)
 }
 
 int AFCGameNetModule::OnCommonClassEvent(
-    const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var)
+    const guid_t& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var)
 {
     switch (eClassEvent)
     {
-        case ArkEntityEvent::ENTITY_EVT_DESTROY:
-            CommonClassDestoryEvent(self);
-            break;
-
-        case ArkEntityEvent::ENTITY_EVT_PRE_LOAD_DATA:
-        {
-            // do something
-        }
+    case ArkEntityEvent::ENTITY_EVT_DESTROY:
+        CommonClassDestoryEvent(self);
         break;
 
-        case ArkEntityEvent::ENTITY_EVT_LOAD_DATA:
-            break;
+    case ArkEntityEvent::ENTITY_EVT_PRE_LOAD_DATA:
+    {
+        // do something
+    }
+    break;
 
-        case ArkEntityEvent::ENTITY_EVT_DATA_FINISHED:
-        {
-            // Just broadcast to self
-            if (strClassName == AFEntityMetaPlayer::self_name())
-            {
-                OnEntityListEnter(AFCDataList() << self, AFCDataList() << self);
-
-                OnSelfDataNodeEnter(self);
-                OnSelfDataTableEnter(self);
-            }
-        }
+    case ArkEntityEvent::ENTITY_EVT_LOAD_DATA:
         break;
 
-        case ArkEntityEvent::ENTITY_EVT_ALL_FINISHED:
-            break;
+    case ArkEntityEvent::ENTITY_EVT_DATA_FINISHED:
+    {
+        // Just broadcast to self
+        if (strClassName == AFEntityMetaPlayer::self_name())
+        {
+            OnEntityListEnter(AFCDataList() << self, AFCDataList() << self);
 
-        default:
-            break;
+            OnSelfDataNodeEnter(self);
+            OnSelfDataTableEnter(self);
+        }
+    }
+    break;
+
+    case ArkEntityEvent::ENTITY_EVT_ALL_FINISHED:
+        break;
+
+    default:
+        break;
     }
 
     return 0;
 }
 
 //int AFCGameNetModule::OnMapInstanceEvent(
-//    const AFGUID& self, const std::string& name, const uint32_t index, const AFIData& oldVar, const AFIData& newVar)
+//    const guid_t& self, const std::string& name, const uint32_t index, const AFIData& oldVar, const AFIData& newVar)
 //{
 //    // When the map changes, should be map A instance 0 to map B instance 0,
 //    auto pEntity = m_pKernelModule->GetEntity(self);
@@ -553,7 +547,7 @@ int AFCGameNetModule::OnCommonClassEvent(
 //}
 //
 //int AFCGameNetModule::OnContainerEvent(
-//    const AFGUID& self, const std::string& name, const uint32_t index, const AFIData& oldVar, const AFIData& newVar)
+//    const guid_t& self, const std::string& name, const uint32_t index, const AFIData& oldVar, const AFIData& newVar)
 //{
 //    int nOldSceneID = oldVar.GetInt();
 //    int nNowSceneID = newVar.GetInt();
@@ -571,7 +565,7 @@ int AFCGameNetModule::OnCommonClassEvent(
 //
 //    for (size_t i = 0; i < valueOldAllObjectList.GetCount(); i++)
 //    {
-//        AFGUID identBC = valueOldAllObjectList.Int64(i);
+//        guid_t identBC = valueOldAllObjectList.Int64(i);
 //
 //        if (identBC == self)
 //        {
@@ -581,7 +575,7 @@ int AFCGameNetModule::OnCommonClassEvent(
 //
 //    for (size_t i = 0; i < valueNewAllObjectList.GetCount(); i++)
 //    {
-//        AFGUID identBC = valueNewAllObjectList.Int64(i);
+//        guid_t identBC = valueNewAllObjectList.Int64(i);
 //        auto pBCEntity = m_pKernelModule->GetEntity(identBC);
 //        if (pBCEntity == nullptr)
 //        {
@@ -620,7 +614,7 @@ int AFCGameNetModule::OnCommonClassEvent(
 //
 //    for (size_t i = 0; i < valueAllObjectListNoSelf.GetCount(); i++)
 //    {
-//        AFGUID identOld = valueAllObjectListNoSelf.Int64(i);
+//        guid_t identOld = valueAllObjectListNoSelf.Int64(i);
 //        OnViewDataNodeEnter(AFCDataList() << self, identOld);
 //        OnViewDataTableEnter(AFCDataList() << self, identOld);
 //    }
@@ -634,13 +628,13 @@ int AFCGameNetModule::OnCommonClassEvent(
 //    return 0;
 //}
 
-int AFCGameNetModule::OnLeaveScene(const AFGUID& self, const int map_id, const int map_inst_id)
+int AFCGameNetModule::OnLeaveScene(const guid_t& self, const int map_id, const int map_inst_id)
 {
     ProcessLeaveGroup(self, map_id, map_inst_id);
     return 0;
 }
 
-int AFCGameNetModule::OnEnterScene(const AFGUID& self, const int map_id, const int map_inst_id)
+int AFCGameNetModule::OnEnterScene(const guid_t& self, const int map_id, const int map_inst_id)
 {
     ProcessEnterGroup(self, map_id, map_inst_id);
     return 0;
@@ -671,33 +665,33 @@ int AFCGameNetModule::GetBroadcastEntityList(const int map_id, const int inst_id
 }
 
 int AFCGameNetModule::OnEntityEvent(
-    const AFGUID& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var)
+    const guid_t& self, const std::string& strClassName, const ArkEntityEvent eClassEvent, const AFIDataList& var)
 {
     switch (eClassEvent)
     {
-        case ArkEntityEvent::ENTITY_EVT_DESTROY:
-            // save data to db by yourself logic
-            ARK_LOG_INFO("Player Offline, player_id = {}", self);
-            break;
+    case ArkEntityEvent::ENTITY_EVT_DESTROY:
+        // save data to db by yourself logic
+        ARK_LOG_INFO("Player Offline, player_id = {}", self);
+        break;
 
-        case ArkEntityEvent::ENTITY_EVT_LOAD_DATA:
-            // load data from db by yourself logic
-            ARK_LOG_INFO("Player online, player_id = {}", self);
-            break;
+    case ArkEntityEvent::ENTITY_EVT_LOAD_DATA:
+        // load data from db by yourself logic
+        ARK_LOG_INFO("Player online, player_id = {}", self);
+        break;
 
-        case ArkEntityEvent::ENTITY_EVT_ALL_FINISHED:
-            // load data finished from db by yourself logic
-            ARK_LOG_INFO("Player ready, player_id = {}", self);
-            break;
+    case ArkEntityEvent::ENTITY_EVT_ALL_FINISHED:
+        // load data finished from db by yourself logic
+        ARK_LOG_INFO("Player ready, player_id = {}", self);
+        break;
 
-        default:
-            break;
+    default:
+        break;
     }
 
     return 0;
 }
 
-void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self)
+void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const guid_t& self)
 {
     //std::shared_ptr<GateBaseInfo> pData = mRoleBaseData.find_value(self);
 
@@ -714,7 +708,7 @@ void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::
     //}
 }
 
-void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self)
+void AFCGameNetModule::SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const guid_t& self)
 {
     //std::shared_ptr<GateBaseInfo> pData = mRoleBaseData.find_value(self);
 
@@ -736,7 +730,7 @@ std::shared_ptr<AFINetServerService> AFCGameNetModule::GetNetServerService()
     return m_pNetServerService;
 }
 
-bool AFCGameNetModule::AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID)
+bool AFCGameNetModule::AddPlayerGateInfo(const guid_t& nRoleID, const guid_t& nClientID, const int nGateID)
 {
     //if (nGateID <= 0)
     //{
@@ -777,7 +771,7 @@ bool AFCGameNetModule::AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nC
     return true;
 }
 
-//bool AFCGameNetModule::AddPlayerGate(const AFGUID& actor_id, const int gate_bus)
+//bool AFCGameNetModule::AddPlayerGate(const guid_t& actor_id, const int gate_bus)
 //{
 //    if (actor_id == NULL_GUID)
 //    {
@@ -795,13 +789,13 @@ bool AFCGameNetModule::AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nC
 //    return mActorIDBusIDData.insert(std::make_pair(actor_id, gate_bus)).second;
 //}
 //
-//bool AFCGameNetModule::RemovePlayerGate(const AFGUID& actor_id)
+//bool AFCGameNetModule::RemovePlayerGate(const guid_t& actor_id)
 //{
 //    mActorIDBusIDData.erase(actor_id);
 //    return true;
 //}
 
-bool AFCGameNetModule::RemovePlayerGateInfo(const AFGUID& nRoleID)
+bool AFCGameNetModule::RemovePlayerGateInfo(const guid_t& nRoleID)
 {
     //std::shared_ptr<GateBaseInfo> pBaseData = mRoleBaseData.find_value(nRoleID);
 
@@ -823,7 +817,7 @@ bool AFCGameNetModule::RemovePlayerGateInfo(const AFGUID& nRoleID)
     return true;
 }
 
-//std::shared_ptr<AFIGameNetModule::GateBaseInfo> AFCGameNetModule::GetPlayerGateInfo(const AFGUID& nRoleID)
+//std::shared_ptr<AFIGameNetModule::GateBaseInfo> AFCGameNetModule::GetPlayerGateInfo(const guid_t& nRoleID)
 //{
 //    return mRoleBaseData.find_value(nRoleID);
 //}
@@ -833,7 +827,7 @@ bool AFCGameNetModule::RemovePlayerGateInfo(const AFGUID& nRoleID)
 //    return mProxyMap.find_value(nGateID);
 //}
 //
-//std::shared_ptr<AFIGameNetModule::GateServerInfo> AFCGameNetModule::GetGateServerInfoByClientID(const AFGUID& nClientID)
+//std::shared_ptr<AFIGameNetModule::GateServerInfo> AFCGameNetModule::GetGateServerInfoByClientID(const guid_t& nClientID)
 //{
 //    int nGateID = -1;
 //    for (auto iter : mProxyMap)

@@ -1,0 +1,229 @@
+apiVersion: v1
+data:
+  bus.plugin.conf: |
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <xml>
+        <applications>
+            <application name="master" type="1"/>
+            <application name="router" type="2"/>
+
+            <application name="world" type="30"/>
+            <application name="game" type="31"/>
+            <application name="login" type="32"/>
+            <application name="proxy" type="33"/>
+            <application name="db" type="34"/>
+        </applications>
+
+        <relations>
+            <!-- zone begin -->
+            <!-- proxy -->
+            <relation source="proxy" target="world"/>
+            <relation source="proxy" target="game"/>
+            <relation source="proxy" target="login"/>
+            <!-- login -->
+            <relation source="login" target="world"/>
+            <relation source="login" target="game"/>
+            <!-- game -->
+            <relation source="game" target="world"/>
+            <relation source="game" target="db"/>
+            <relation source="game" target="master"/>
+            <!-- db -->
+            <relation source="db" target="world"/>
+            <!-- world -->
+            <relation source="world" target="master"/>
+            <relation source="world" target="router"/>
+            <!-- zone end -->
+            <!-- router begin-->
+            <relation source="router" target="master"/>
+            <!-- router end-->
+            <!-- cluster begin -->
+            <!-- log -->
+            <!-- <relation source="log" target="router"/> -->
+            <!-- <relation source="log" target="master"/> -->
+        </relations>
+
+        <processes>
+            <proc busid="1.0.1.0" endpoint_server="udp://0.0.0.0:9001" endpoint_intranet="tcp://sts-photon-master-0.svc-photon-master:9002" max_connection="5000" thread_num="2"/>
+            <proc busid="1.0.31.0" endpoint_server="udp://0.0.0.0:9003" endpoint_intranet="tcp://127.0.0.1:9004" max_connection="5000" thread_num="2"/>
+            <proc busid="1.0.2.1" endpoint_server="tcp://0.0.0.0:9002" endpoint_intranet="tcp://127.0.0.1:9002" max_connection="5000" thread_num="2"/>
+            <proc busid="1.1.30.1" endpoint_server="tcp://0.0.0.0:10001" endpoint_intranet="tcp://127.0.0.1:10001" max_connection="5000" thread_num="2"/>
+            <proc busid="1.1.31.1" endpoint_server="tcp://0.0.0.0:10002" endpoint_intranet="tcp://127.0.0.1:10002" max_connection="5000" thread_num="2"/>
+            <proc busid="1.1.32.1" endpoint_server="tcp://0.0.0.0:10003" endpoint_intranet="tcp://127.0.0.1:10003" max_connection="5000" thread_num="2"/>
+            <proc busid="1.1.33.1" endpoint_server="tcp://0.0.0.0:10004" endpoint_intranet="tcp://127.0.0.1:10004" max_connection="5000" thread_num="2"/>
+            <!-- <proc busid="1.1.34.3" endpoint_server="tcp://0.0.0.0:10005" endpoint_intranet="tcp://127.0.0.1:10005" max_connection="5000" thread_num="2"/> -->
+        </processes>
+
+        <center ip="127.0.0.1" port="8500" service_name="ark-service" check_interval="10s" check_timeout="3s" />
+    </xml>
+  consul.plugin.conf: |-
+    <xml>
+        <conf ip="127.0.0.1" port="8500" />
+    </xml>
+  db.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"AFNetPlugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+  dir.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"AFNetPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFDirPlugin\" conf=\"\"
+    />\n\t</plugins>\n</xml>\n"
+  freebird.app.conf: |-
+    <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
+        <plugin name="AFUtilityPlugin" conf="" />
+        <plugin name="AFRedisPlugin" conf="redis.plugin.conf" />
+        <plugin name="AFHttpPlugin" conf="http.plugin.conf" />
+        <plugin name="AFFreeBirdPlugin" conf="freebird.plugin.conf" />
+    </Plugins>
+  game.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFKernelPlugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"AFUtilityPlugin\"
+    conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"AFNetPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFGamePlugin\" conf=\"\"
+    />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
+  http.plugin.conf: |-
+    <xml>
+        <conf ip="0.0.0.0" port="9090" thread="4" />
+    </xml>
+  kernel.plugin.conf: |-
+    <?xml version="1.0"?>
+    <xml>
+        <conf ConfDir="conf/" ConfigClassFilePath="../resource/meta/config_class.config" EntityClassFilePath="../resource/meta/entity_class.config" />
+    </xml>
+  log.conf: |-
+    <xml>
+        <!--
+        log level enum
+        #define SPDLOG_LEVEL_TRACE 0
+        #define SPDLOG_LEVEL_DEBUG 1
+        #define SPDLOG_LEVEL_INFO 2
+        #define SPDLOG_LEVEL_WARN 3
+        #define SPDLOG_LEVEL_ERROR 4
+        #define SPDLOG_LEVEL_CRITICAL 5
+        -->
+
+        <!-- We use spdlog for the frame default logger. -->
+        <logger name="default" queue_count="1024" path="./binlog">
+            <debug console="1" level="1" pattern="%^[%Y%m%d %H:%M:%S.%e][%-5l]%v%$"/>
+            <release console="1" level="2" pattern="[%Y%m%d %H:%M:%S.%e][%-5l]%v"/>
+        </logger>
+
+        <!-- other name will be added, like remote-log,  -->
+    </xml>
+  login.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"AFNetPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFLoginPlugin\" conf=\"\"
+    />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
+  master.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"AFNetPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFMasterPlugin\" conf=\"\"
+    />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
+  oss.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"AFNetPlugin\" conf=\"\" />\n\t</plugins>\n\t<res path=\"resource\" />\n</xml>\n"
+  photon.example.app.conf: "<?xml version=\"1.0\"?>\n<conf>\n\t<plugins plugin_lib_dir=\"bin/\"
+    plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"AFUtilityPlugin\" conf=\"\"/>\n\t\t<plugin
+    name=\"AFBusPlugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"AFNetPlugin\"
+    conf=\"\"/>\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"/>\n\t\t<plugin
+    name=\"PhotonPlugin\" conf=\"photon.example.plugin.conf\"/>\n\t</plugins>\n</conf>"
+  photon.example.plugin.conf: |-
+    <?xml version="1.0"?>
+    <conf>
+        <set OpenID="test1" Name="anna" Level="100" MaxPlayerCount="8" ModifyPlayerCount="6" ServerIP="127.0.0.1" />
+    </conf>
+  photon.game.app.conf: "<?xml version=\"1.0\"?>\n<conf>\n\t<plugins plugin_lib_dir=\"bin/\"
+    plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"AFUtilityPlugin\" conf=\"\"/>\n\t\t<plugin
+    name=\"AFBusPlugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"AFNetPlugin\"
+    conf=\"\"/>\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"/>\n\t\t<plugin
+    name=\"AFPhotonGamePlugin\" conf=\"photon.game.plugin.conf\"/>\n\t</plugins>\n</conf>"
+  photon.game.plugin.conf: |-
+    <?xml version="1.0"?>
+    <conf>
+        <common>
+            <set name="CompressType" value="1" />
+            <set name="CompressSize" value="100" />
+        </common>
+        <game>
+            <set name="MaxPlayerCount" value="8" />
+            <set name="SendInterval" value="33" />
+            <set name="IPAddress" value="127.0.0.1" />
+        </game>
+    </conf>
+  photon.master.app.conf: "<?xml version=\"1.0\"?>\n<conf>\n\t<plugins plugin_lib_dir=\"bin/\"
+    plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"AFUtilityPlugin\" conf=\"\"/>\n\t\t<plugin
+    name=\"AFBusPlugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"AFNetPlugin\"
+    conf=\"\"/>\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"/>\n\t\t<plugin
+    name=\"AFPhotonMasterPlugin\" conf=\"photon.master.plugin.conf\"/>\n\t</plugins>\n</conf>"
+  photon.master.plugin.conf: |-
+    <?xml version="1.0"?>
+    <conf>
+        <common>
+            <set name="CompressType" value="1" />
+            <set name="CompressSize" value="100" />
+        </common>
+        <master>
+            <set name="AppStatsPublishInterval" value="5000" />
+            <set name="GameExpiryCheckPeriod" value="1" />
+            <set name="PersistentGameExpiryMinute" value="60" />
+            <set name="GameListLimit" value="0" />
+            <set name="ReqRoomMaxCount" value="100" />
+        </master>
+    </conf>
+  physic.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFPhysicPlugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+  proxy.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFKernelPlugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"AFUtilityPlugin\"
+    conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"AFNetPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFProxyPlugin\" conf=\"\"
+    />\n\t</plugins>\n</xml>\n"
+  redis.plugin.conf: |-
+    <xml>
+        <conf ip="127.0.0.1" port="6379" auth="" />
+    </xml>
+  redis_sample.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFRedisPlugin\" conf=\"redis.plugin.conf\"
+    />\n\t\t<plugin name=\"RedisSamplePlugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+  remote_log.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"AFNetPlugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+  router.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"AFNetPlugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+  sample1.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"Sample1Plugin\" conf=\"\"
+    />\n\t</plugins>\n</xml>\n"
+  sample2.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFKernelPlugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"AFUtilityPlugin\"
+    conf=\"\" />\n\t\t<plugin name=\"Sample2Plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+  sample3.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFKernelPlugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"AFUtilityPlugin\"
+    conf=\"\" />\n\t\t<plugin name=\"Sample3Plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+  sample4.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFPhysicPlugin\" conf=\"\"
+    />\n\t\t<plugin name=\"Sample4Plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+  sample5.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFHttpPlugin\" conf=\"http.plugin.conf\"
+    />\n\t\t<plugin name=\"Sample5Plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+  simulate.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
+    name=\"AFPhysicPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\"
+    />\n\t\t<plugin name=\"AFNetPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\"
+    conf=\"consul.plugin.conf\" />\n\t\t<plugin name=\"AFUtilityPlugin\" conf=\"\"
+    />\n\t\t<plugin name=\"AFSimulatePlugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+  world.app.conf: "<xml>\n\t<plugins path=\"./\">\n\t\t<plugin name=\"AFKernelPlugin\"
+    />\n\t\t<plugin name=\"AFUtilityPlugin\" />\n\t\t<plugin name=\"AFConsulPlugin\"
+    />\n\t\t<plugin name=\"AFBusPlugin\" />\n\t\t<plugin name=\"AFNetPlugin\" />\n\t\t<plugin
+    name=\"AFWorldPlugin\" />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2020-06-04T11:02:29Z"
+  name: photon-config
+  namespace: default
+  resourceVersion: "4804924"
+  selfLink: /api/v1/namespaces/default/configmaps/cumulx-test
+  uid: f51806af-b54d-4ddc-84d7-4b39aa3ad26b

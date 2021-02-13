@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ bool AFCWorldNetModule::Init()
     mnLastCheckTime = GetPluginManager()->GetNowTime();
 
     m_pKernelModule = FindModule<AFIKernelModule>();
-    m_pLogModule = FindModule<AFILogModule>();
     m_pBusModule = FindModule<AFIBusModule>();
     m_pMsgModule = FindModule<AFIMsgModule>();
     m_pNetServiceManagerModule = FindModule<AFINetServiceManagerModule>();
@@ -49,22 +48,19 @@ bool AFCWorldNetModule::PostInit()
 int AFCWorldNetModule::StartServer()
 {
     auto ret = m_pNetServiceManagerModule->CreateServer();
-    ret.Then([=](const std::pair<bool, std::string>& resp) {
-        if (!resp.first)
-        {
-            ARK_LOG_ERROR(
-                "Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), resp.second);
-            ARK_ASSERT_NO_EFFECT(0);
-            exit(0);
-        }
+    if (!ret)
+    {
+        ARK_LOG_ERROR("Cannot start server net, busid = {}", m_pBusModule->GetSelfBusName());
+        ARK_ASSERT_NO_EFFECT(0);
+        exit(0);
+    }
 
-        m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
-        if (m_pNetServer == nullptr)
-        {
-            ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
-            exit(0);
-        }
-    });
+    m_pNetServer = m_pNetServiceManagerModule->GetInterNetServer();
+    if (m_pNetServer == nullptr)
+    {
+        ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+        exit(0);
+    }
 
     return 0;
 }
@@ -104,8 +100,8 @@ int AFCWorldNetModule::StartServer()
 //    return 0;
 //}
 
-// void AFCWorldNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip,
-// const int bus_id)
+// void AFCWorldNetServerModule::OnSocketEvent(const NetEventType event, const guid_t& conn_id, const std::string& ip,
+// bus_id_t bus_id)
 //{
 //    switch (event)
 //    {
@@ -126,7 +122,7 @@ int AFCWorldNetModule::StartServer()
 //    }
 //}
 
-// void AFCWorldNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
+// void AFCWorldNetServerModule::OnClientDisconnect(const guid_t& xClientID)
 //{
 //    //for (std::shared_ptr<AFServerData> pServerData = mGameMap.First(); nullptr != pServerData; pServerData =
 //    mGameMap.Next())
@@ -154,13 +150,13 @@ int AFCWorldNetModule::StartServer()
 //    //mProxyMap.RemoveElement(nServerID);
 //}
 
-// void AFCWorldNetServerModule::OnClientConnected(const AFGUID& xClientID)
+// void AFCWorldNetServerModule::OnClientConnected(const guid_t& xClientID)
 //{
 //    //log
 //}
 
 bool AFCWorldNetModule::SendMsgToGame(
-    const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer)
+    const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const guid_t nPlayer)
 {
     // std::shared_ptr<AFServerData> pData = mGameMap.GetElement(nGameID);
 
@@ -182,7 +178,7 @@ bool AFCWorldNetModule::SendMsgToGame(const AFIDataList& argObjectVar, const AFI
 
     for (size_t i = 0; i < argObjectVar.GetCount(); i++)
     {
-        AFGUID identOther = argObjectVar.Int64(i);
+        guid_t identOther = argObjectVar.Int64(i);
         int nGameID = argGameID.Int(i);
 
         SendMsgToGame(nGameID, eMsgID, xData, identOther);
@@ -192,7 +188,7 @@ bool AFCWorldNetModule::SendMsgToGame(const AFIDataList& argObjectVar, const AFI
 }
 
 bool AFCWorldNetModule::SendMsgToPlayer(
-    const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer)
+    const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const guid_t nPlayer)
 {
     int nGameID = GetPlayerGameID(nPlayer);
 
@@ -227,7 +223,7 @@ std::shared_ptr<AFINetServerService> AFCWorldNetModule::GetNetServer()
     return m_pNetServer;
 }
 
-int AFCWorldNetModule::GetPlayerGameID(const AFGUID& self)
+int AFCWorldNetModule::GetPlayerGameID(const guid_t& self)
 {
     // do something
     return -1;

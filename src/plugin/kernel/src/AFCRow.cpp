@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ AFCRow::AFCRow(
         std::bind(&AFCRow::OnNodeCallBack, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
     m_pNodeManager = std::make_shared<AFNodeManager>(pClassMeta, args, std::move(function));
 
-    func_ = std::forward<ROW_CALLBACK_FUNCTOR>(func);
+    func_ = std::move(func);
 }
 
 // get row
@@ -107,7 +107,7 @@ const std::wstring& AFCRow::GetWString(const uint32_t index) const
     return m_pNodeManager->GetWString(index);
 }
 
-const AFGUID& AFCRow::GetGUID(const uint32_t index) const
+const guid_t& AFCRow::GetGUID(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_GUID);
 
@@ -177,7 +177,7 @@ const std::wstring& AFCRow::GetWString(const std::string& name) const
     return m_pNodeManager->GetWString(name);
 }
 
-const AFGUID& AFCRow::GetGUID(const std::string& name) const
+const guid_t& AFCRow::GetGUID(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_GUID);
 
@@ -248,7 +248,7 @@ bool AFCRow::SetWString(const uint32_t index, const std::wstring& value)
     return m_pNodeManager->SetWString(index, value);
 }
 
-bool AFCRow::SetGUID(const uint32_t index, const AFGUID& value)
+bool AFCRow::SetGUID(const uint32_t index, const guid_t& value)
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
@@ -318,7 +318,7 @@ bool AFCRow::SetWString(const std::string& name, const std::wstring& value)
     return m_pNodeManager->SetWString(name, value);
 }
 
-bool AFCRow::SetGUID(const std::string& name, const AFGUID& value)
+bool AFCRow::SetGUID(const std::string& name, const guid_t& value)
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 

@@ -1,20 +1,18 @@
 [submodule "rapidxml"]
-	path = dep/rapidxml
+	path = 3rdparty/rapidxml
 	url = https://github.com/ArkNX/rapidxml.git
-	branch = master
 [submodule "args"]
-	path = dep/args
+	path = 3rdparty/args
 	url = https://github.com/Taywee/args.git
-	branch = master
-[submodule "protobuf"]
-	path = dep/protobuf
-	url = https://github.com/protocolbuffers/protobuf.git
-	branch = 3.10.x
 [submodule "spdlog"]
-	path = dep/spdlog
+	path = 3rdparty/spdlog
 	url = https://github.com/gabime/spdlog.git
-	branch = v1.x
-[submodule "brynet"]
-	path = dep/brynet
-	url = https://github.com/IronsDu/brynet.git
-	branch = master
+[submodule "zephyr"]
+	path = 3rdparty/zephyr
+	url = https://github.com/ArkNX/zephyr.git
+[submodule "readerwriterqueue"]
+	path = 3rdparty/readerwriterqueue
+	url = https://github.com/cameron314/readerwriterqueue
+[submodule "cpp-bredis"]
+	path = 3rdparty/cpp-bredis
+	url = https://github.com/basiliscos/cpp-bredis.git

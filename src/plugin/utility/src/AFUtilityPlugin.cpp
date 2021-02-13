@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
 #include "utility/include/AFCGUIDModule.hpp"
 #include "utility/include/AFCTimerModule.hpp"
 #include "utility/include/AFCScheduleModule.hpp"
+#include "utility/include/AFCCompressModule.hpp"
 
 namespace ark {
 
@@ -32,13 +33,15 @@ void AFUtilityPlugin::Install()
     ARK_REGISTER_MODULE(AFIGUIDModule, AFCGUIDModule);
     ARK_REGISTER_MODULE(AFITimerModule, AFCTimerModule);
     ARK_REGISTER_MODULE(AFIScheduleModule, AFCScheduleModule);
+    ARK_REGISTER_MODULE(AFICompressModule, AFCCompressModule);
 }
 
 void AFUtilityPlugin::Uninstall()
 {
-    ARK_DEREGISTER_MODULE(AFIScheduleModule, AFCScheduleModule);
-    ARK_DEREGISTER_MODULE(AFITimerModule, AFCTimerModule);
-    ARK_DEREGISTER_MODULE(AFIGUIDModule, AFCGUIDModule);
+    ARK_UNREGISTER_MODULE(AFICompressModule, AFCCompressModule);
+    ARK_UNREGISTER_MODULE(AFIScheduleModule, AFCScheduleModule);
+    ARK_UNREGISTER_MODULE(AFITimerModule, AFCTimerModule);
+    ARK_UNREGISTER_MODULE(AFIGUIDModule, AFCGUIDModule);
 }
 
 } // namespace ark

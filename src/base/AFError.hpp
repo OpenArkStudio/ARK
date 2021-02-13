@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,14 @@
 #pragma once
 
 #include "base/AFPlatform.hpp"
-#include "base/AFSingleton.hpp"
+#include "base/pattern/AFSingleton.hpp"
 
 namespace ark {
 
 // will be used for internal errors
-class AFErrorCategory : public std::error_category, public AFSingleton<AFErrorCategory>
+class AFErrorCategory
+    : public std::error_category
+    , public AFSingleton<AFErrorCategory>
 {
 public:
     const char* name() const noexcept override
@@ -38,13 +40,13 @@ public:
     {
         switch (err_val)
         {
-            case -1:
-                return "first error";
-            case -2:
-                return "second error";
-            default:
-                return "unknown error";
-                break;
+        case -1:
+            return "first error";
+        case -2:
+            return "second error";
+        default:
+            return "unknown error";
+            break;
         }
 
         return "";

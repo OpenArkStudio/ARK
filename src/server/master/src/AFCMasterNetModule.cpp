@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ namespace ark {
 
 bool AFCMasterNetModule::Init()
 {
-    m_pLogModule = FindModule<AFILogModule>();
     m_pBusModule = FindModule<AFIBusModule>();
     m_pNetServiceManagerModule = FindModule<AFINetServiceManagerModule>();
     m_pTimerModule = FindModule<AFITimerModule>();
@@ -51,32 +50,25 @@ bool AFCMasterNetModule::PostInit()
 int AFCMasterNetModule::StartServer()
 {
     auto ret = m_pNetServiceManagerModule->CreateServer();
-    ret.Then([=](const std::pair<bool, std::string>& resp) {
-        if (!resp.first)
-        {
-            ARK_LOG_ERROR(
-                "Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), resp.second);
-            ARK_ASSERT_NO_EFFECT(0);
-            exit(0);
-        }
+    if (!ret)
+    {
+        ARK_LOG_ERROR("Cannot start server net, busid = {}", m_pBusModule->GetSelfBusName());
+        ARK_ASSERT_NO_EFFECT(0);
+        exit(0);
+    }
 
-        m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
-        if (m_pNetServer == nullptr)
-        {
-            ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
-            exit(0);
-        }
-
-        // m_pNetServer->RegMsgCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCMasterNetServerModule::OnHeartBeat);
-
-        // m_pNetServer->AddEventCallBack(this, &AFCMasterNetServerModule::OnSocketEvent);
-    });
+    m_pNetServer = m_pNetServiceManagerModule->GetInterNetServer();
+    if (m_pNetServer == nullptr)
+    {
+        ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+        exit(0);
+    }
 
     return 0;
 }
 
-// void AFCMasterNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip,
-// const int bus_id)
+// void AFCMasterNetServerModule::OnSocketEvent(const NetEventType event, const guid_t& conn_id, const std::string& ip,
+// bus_id_t bus_id)
 //{
 //    switch (event)
 //    {
@@ -97,24 +89,24 @@ int AFCMasterNetModule::StartServer()
 //    }
 //}
 
-// void AFCMasterNetServerModule::OnClientConnected(const AFGUID& conn_id)
+// void AFCMasterNetServerModule::OnClientConnected(const guid_t& conn_id)
 //{
 //
 //}
 
-// void AFCMasterNetServerModule::OnClientDisconnect(int bus_id, const AFGUID& conn_id)
+// void AFCMasterNetServerModule::OnClientDisconnect(bus_id_t bus_id, const guid_t& conn_id)
 //{
 //    reg_servers_.RemoveElement(bus_id);
 //}
 
-// void AFCMasterNetServerModule::OnHeartBeat(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const
-// uint32_t msg_len, const AFGUID& conn_id)
+// void AFCMasterNetServerModule::OnHeartBeat(const ARK_PKG_BASE_HEAD& head, msg_id_t msg_id, const char* msg, const
+// uint32_t msg_len, const guid_t& conn_id)
 //{
 //    //do nothing
 //}
 
 //////////////////////////////////////////////////////////////////////////
-// void AFCMasterNetServerModule::OnTimerLogServer(const std::string& name, const AFGUID& id)
+// void AFCMasterNetServerModule::OnTimerLogServer(const std::string& name, const guid_t& id)
 //{
 //    ARK_LOG_INFO("---------------------------Start to log all registered server---------------------------");
 //    for (bool ret = reg_servers_.Begin(); ret; ret = reg_servers_.Increase())

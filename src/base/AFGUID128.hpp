@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,21 +24,21 @@
 
 namespace ark {
 
-class AFGUID128
+class guid_t128
 {
 public:
     uint64_t nHigh;
     uint64_t nLow;
 
-    AFGUID128() = default;
+    guid_t128() = default;
 
-    AFGUID128(uint64_t value)
+    guid_t128(uint64_t value)
         : nHigh(0)
         , nLow(value)
     {
     }
 
-    AFGUID128(uint64_t high, uint64_t low)
+    guid_t128(uint64_t high, uint64_t low)
         : nHigh(high)
         , nLow(low)
     {
@@ -54,21 +54,21 @@ public:
         return (0 == nHigh) && (0 == nLow);
     }
 
-    AFGUID128& operator=(const int& rhs)
+    guid_t128& operator=(const int& rhs)
     {
         nHigh = 0;
         nLow = rhs;
         return *this;
     }
 
-    AFGUID128& operator=(const int64_t& rhs)
+    guid_t128& operator=(const int64_t& rhs)
     {
         nHigh = 0;
         nLow = rhs;
         return *this;
     }
 
-    AFGUID128& operator=(const AFGUID128& rhs)
+    guid_t128& operator=(const guid_t128& rhs)
     {
         if (this != &rhs)
         {
@@ -78,17 +78,17 @@ public:
         return *this;
     }
 
-    bool operator==(const AFGUID128& rhs) const
+    bool operator==(const guid_t128& rhs) const
     {
         return (this->nHigh == rhs.nHigh) && (this->nLow == rhs.nLow);
     }
 
-    bool operator!=(const AFGUID128& rhs) const
+    bool operator!=(const guid_t128& rhs) const
     {
         return !(*this == rhs);
     }
 
-    bool operator<(const AFGUID128& rhs) const
+    bool operator<(const guid_t128& rhs) const
     {
         if (this->nHigh == rhs.nHigh)
         {
@@ -130,7 +130,7 @@ public:
         }
         catch (std::system_error& ex)
         {
-            CONSOLE_LOG_NO_FILE << "AFGUID from string failed, code = " << ex.code().message() << " msg = " << ex.what()
+            CONSOLE_LOG_NO_FILE << "guid_t from string failed, code = " << ex.code().message() << " msg = " << ex.what()
                                 << std::endl;
             ARK_ASSERT_NO_EFFECT(0);
             return false;

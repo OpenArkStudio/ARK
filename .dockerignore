@@ -1,0 +1,15 @@
+*.md
+.git
+.circleci
+.github
+.idea
+.vscode
+build/*.sh
+build/*.bat
+scripts
+docker
+kubernetes
+cmake-build-debug
+test
+examples
+src/proto/proto-gen

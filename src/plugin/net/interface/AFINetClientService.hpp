@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "base/AFMap.hpp"
-#include "base/AFCConsistentHash.hpp"
+#include "base/container/AFMap.hpp"
+#include "base/container/AFCConsistentHash.hpp"
 #include "base/AFNoncopyable.hpp"
 #include "base/AFSocketFunc.hpp"
 #include "proto/AFProtoCPP.hpp"
@@ -40,7 +40,7 @@ public:
         RECONNECT,
     };
 
-    AFHeadLength head_len_{AFHeadLength::SS_HEAD_LENGTH};
+    std::shared_ptr<const AFIMsgHeader> head_;
     int server_bus_id_{0};
     AFEndpoint endpoint_;
     std::shared_ptr<AFINet> net_client_{nullptr};
@@ -55,14 +55,15 @@ public:
     virtual ~AFINetClientService() = default;
 
     template<typename BaseType>
-    bool RegMsgCallback(const int msg_id, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*))
+    bool RegMsgCallback(
+        const msg_id_t msg_id, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, conv_id_t))
     {
-        NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1);
+        NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
         return RegMsgCallback(msg_id, std::move(functor));
     }
 
     template<typename BaseType>
-    bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t))
+    bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, conv_id_t))
     {
         NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
         return RegForwardMsgCallback(std::move(functor));
@@ -75,26 +76,26 @@ public:
         return RegNetEventCallback(std::move(functor));
     }
 
-    virtual bool StartClient(const AFHeadLength head_len, const int& target_bus_id, const AFEndpoint& endpoint) = 0;
+    virtual bool StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_t target_bus_id, const AFEndpoint& endpoint) = 0;
     virtual void Update() = 0;
     //virtual void Shutdown() = 0;
 
-    virtual std::shared_ptr<AFConnectionData> GetConnectionInfo(const int bus_id) = 0;
+    virtual std::shared_ptr<AFConnectionData> GetConnectionInfo(bus_id_t bus_id) = 0;
     //virtual AFMapEx<int, AFConnectionData>& GetServerList() = 0;
 
-    virtual bool RegMsgCallback(const int nMsgID, const NET_MSG_FUNCTOR&& cb) = 0;
+    virtual bool RegMsgCallback(msg_id_t msg_id, const NET_MSG_FUNCTOR&& cb) = 0;
     virtual bool RegForwardMsgCallback(const NET_MSG_FUNCTOR&& cb) = 0;
     virtual bool RegNetEventCallback(const NET_EVENT_FUNCTOR&& cb) = 0;
 
     virtual std::shared_ptr<AFConnectionData> GetSuitableConnect(const std::string& key) = 0;
 
-    virtual void AddAccountBusID(const std::string& account, const int bus_id) = 0;
+    virtual void AddAccountBusID(const std::string& account, bus_id_t bus_id) = 0;
     virtual void RemoveAccountBusID(const std::string& account) = 0;
     virtual int GetAccountBusID(const std::string& account) = 0;
 
-    virtual void AddActorBusID(const AFGUID& actor, const int bus_id) = 0;
-    virtual void RemoveActorBusID(const AFGUID& actor) = 0;
-    virtual int GetActorBusID(const AFGUID& actor) = 0;
+    virtual void AddActorBusID(const guid_t& actor, bus_id_t bus_id) = 0;
+    virtual void RemoveActorBusID(const guid_t& actor) = 0;
+    virtual int GetActorBusID(const guid_t& actor) = 0;
 };
 
 } // namespace ark

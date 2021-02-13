@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@
 #pragma once
 
 #include "base/AFMacros.hpp"
-#include "base/AFMap.hpp"
-#include "base/AFList.hpp"
+#include "base/container/AFMap.hpp"
+#include "base/container/AFList.hpp"
 #include "base/AFDefine.hpp"
 #include "kernel/include/AFCData.hpp"
 #include <set>
@@ -71,16 +71,16 @@ class AFClassCallBackManager final
 public:
     // delay sync data
     using DelaySyncMaskData = std::map<ArkDataMask, AFDelaySyncData>;
-    using DelaySyncDataList = std::map<AFGUID, DelaySyncMaskData>;
+    using DelaySyncDataList = std::map<guid_t, DelaySyncMaskData>;
 
     // call back functor
-    using NODE_SYNC_FUNCTOR = std::function<int(const AFGUID&, const uint32_t, const ArkDataMask, const AFIData&)>;
+    using NODE_SYNC_FUNCTOR = std::function<int(const guid_t&, const uint32_t, const ArkDataMask, const AFIData&)>;
     using TABLE_SYNC_FUNCTOR =
-        std::function<int(const AFGUID&, const TABLE_EVENT_DATA&, const ArkDataMask, const AFIData&)>;
+        std::function<int(const guid_t&, const TABLE_EVENT_DATA&, const ArkDataMask, const AFIData&)>;
     using CONTAINER_SYNC_FUNCTOR = std::function<int(
-        const AFGUID&, const uint32_t, const ArkDataMask, const ArkContainerOpType, uint32_t, uint32_t)>;
+        const guid_t&, const uint32_t, const ArkDataMask, const ArkContainerOpType, uint32_t, uint32_t)>;
 
-    using DELAY_SYNC_FUNCTOR = std::function<int(const AFGUID&, const ArkDataMask, const AFDelaySyncData& data)>;
+    using DELAY_SYNC_FUNCTOR = std::function<int(const guid_t&, const ArkDataMask, const AFDelaySyncData& data)>;
 
 private:
     // class event list
@@ -135,21 +135,21 @@ public:
     bool AddMoveEvent(MOVE_EVENT_FUNCTOR&& cb, const int32_t prio);
 
     // data call back
-    bool OnClassEvent(const AFGUID& id, const std::string& class_name, const ArkEntityEvent eClassEvent,
+    bool OnClassEvent(const guid_t& id, const std::string& class_name, const ArkEntityEvent eClassEvent,
         const AFIDataList& valueList);
-    bool OnNodeCallBack(const AFGUID& self, AFINode* pNode, const AFIData& old_data, const AFIData& new_data);
-    bool OnTableCallBack(const AFGUID& self, const ArkMaskType mask, AFINode* pNode, const TABLE_EVENT_DATA& event_data,
+    bool OnNodeCallBack(const guid_t& self, AFINode* pNode, const AFIData& old_data, const AFIData& new_data);
+    bool OnTableCallBack(const guid_t& self, const ArkMaskType mask, AFINode* pNode, const TABLE_EVENT_DATA& event_data,
         const AFIData& old_data, const AFIData& new_data);
-    bool OnContainerCallBack(const AFGUID& self, const uint32_t index, const ArkMaskType mask,
+    bool OnContainerCallBack(const guid_t& self, const uint32_t index, const ArkMaskType mask,
         const ArkContainerOpType op_type, uint32_t src_index, uint32_t dest_index,
         std::shared_ptr<AFIEntity> src_entity = nullptr);
 
     // scene call back
-    bool OnLeaveSceneEvent(const AFGUID& self, const int map_id, const int map_inst_id);
-    bool OnEnterSceneEvent(const AFGUID& self, const int map_id, const int map_inst_id);
+    bool OnLeaveSceneEvent(const guid_t& self, const int map_id, const int map_inst_id);
+    bool OnEnterSceneEvent(const guid_t& self, const int map_id, const int map_inst_id);
 
     // move call back
-    bool OnMoveEvent(const AFGUID& self, const AFVector3D& old_pos, const AFVector3D& new_pos);
+    bool OnMoveEvent(const guid_t& self, const AFVector3D& old_pos, const AFVector3D& new_pos);
 
     // data sync call back
     static void AddNodeSyncCallBack(const ArkDataMask mask_value, NODE_SYNC_FUNCTOR&& cb);
@@ -161,16 +161,16 @@ public:
     static bool OnDelaySync();
 
 private:
-    DelaySyncMaskData& GetDelaySyncMaskData(const AFGUID& self);
+    DelaySyncMaskData& GetDelaySyncMaskData(const guid_t& self);
     AFDelaySyncTable& GetDelaySyncMaskTable(
         DelaySyncMaskData& mask_data_map, const ArkDataMask mask_value, uint32_t index);
     AFDelaySyncContainer& GetDelaySyncMaskContainer(
         DelaySyncMaskData& mask_data_map, const ArkDataMask mask_value, uint32_t index);
 
-    void UpdateDelayNodeList(const AFGUID& self, AFINode* pNode);
-    void UpdateDelayTableList(const AFGUID& self, const ArkMaskType mask, const uint32_t table_index,
+    void UpdateDelayNodeList(const guid_t& self, AFINode* pNode);
+    void UpdateDelayTableList(const guid_t& self, const ArkMaskType mask, const uint32_t table_index,
         const uint32_t row_index, ArkTableOpType op_type, AFINode* pNode);
-    void UpdateDelayContainerList(const AFGUID& self, const uint32_t index, const ArkMaskType mask,
+    void UpdateDelayContainerList(const guid_t& self, const uint32_t index, const ArkMaskType mask,
         const ArkContainerOpType op_type, uint32_t src_index, uint32_t dest_index,
         std::shared_ptr<AFIEntity> src_entity);
 

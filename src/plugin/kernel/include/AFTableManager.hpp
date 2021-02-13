@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ public:
         auto pTableMeta = class_meta_->FindTableMeta(index);
         ARK_ASSERT_RET_VAL(pTableMeta != nullptr, nullptr);
 
-        pTable = ARK_NEW AFCTable(pTableMeta, std::forward<AFCTable::TABLE_CALLBACK_FUNCTOR>(func));
+        pTable = ARK_NEW AFCTable(pTableMeta, std::move(func));
         ARK_ASSERT_RET_VAL(pTable != nullptr, nullptr);
 
         if (!table_list_.insert(index, pTable).second)

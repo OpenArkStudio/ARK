@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ namespace ark {
 AFCTable::AFCTable(std::shared_ptr<AFTableMeta> pTableMeta, TABLE_CALLBACK_FUNCTOR&& func)
 {
     table_meta_ = pTableMeta;
-    func_ = std::forward<TABLE_CALLBACK_FUNCTOR>(func);
+    func_ = std::move(func);
 }
 
 const std::string& AFCTable::GetName() const
@@ -264,7 +264,7 @@ uint32_t AFCTable::FindWString(const uint32_t index, const std::wstring& value) 
     return 0u;
 }
 
-uint32_t AFCTable::FindGUID(const uint32_t index, const AFGUID& value) const
+uint32_t AFCTable::FindGUID(const uint32_t index, const guid_t& value) const
 {
     for (auto iter : data_)
     {

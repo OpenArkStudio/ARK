@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ public:
     virtual bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) = 0;
 
     virtual bool DoClassEvent(
-        const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event, const AFIDataList& args) = 0;
+        const guid_t& id, const std::string& class_name, const ArkEntityEvent class_event, const AFIDataList& args) = 0;
 
     virtual std::shared_ptr<AFClassMeta> FindMeta(const std::string& class_name) const = 0;
     virtual const AFClassMetaManager::ClassMetaList& GetMetaList() const = 0;

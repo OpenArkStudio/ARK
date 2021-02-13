@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@
 #pragma once
 
 #include "kernel/interface/AFIEntity.hpp"
-#include "base/AFMap.hpp"
-#include "base/AFList.hpp"
+#include "base/container/AFMap.hpp"
+#include "base/container/AFList.hpp"
 #include "kernel/interface/AFIData.hpp"
 #include "AFClassCallBackManager.hpp"
 #include "kernel/interface/AFIContainerManager.hpp"
@@ -68,7 +68,7 @@ private:
     friend class AFCKernelModule;
 
     // object unique id
-    AFGUID guid_{NULL_GUID};
+    guid_t guid_{NULL_GUID};
 
     // config id
     ID_TYPE config_id_{0};
@@ -104,13 +104,13 @@ private:
 public:
     AFCEntity() = delete;
 
-    explicit AFCEntity(std::shared_ptr<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE config_id,
+    explicit AFCEntity(std::shared_ptr<AFClassMeta> pClassMeta, const guid_t& guid, const ID_TYPE config_id,
         const int32_t map_id, const int32_t map_entity_id, const AFIDataList& data_list);
 
     void Update() override;
 
     // get unique id
-    const AFGUID& GetID() const override;
+    const guid_t& GetID() const override;
 
     // get parent unique id
     std::shared_ptr<AFIContainer> GetParentContainer() const override;
@@ -160,7 +160,7 @@ public:
     bool SetDouble(const std::string& name, const double value) override;
     bool SetString(const std::string& name, const std::string& value) override;
     bool SetWString(const std::string& name, const std::wstring& value) override;
-    bool SetGUID(const std::string& name, const AFGUID& value) override;
+    bool SetGUID(const std::string& name, const guid_t& value) override;
 
     bool SetBool(const uint32_t index, bool value) override;
     bool SetInt32(const uint32_t index, const int32_t value) override;
@@ -171,7 +171,7 @@ public:
     bool SetDouble(const uint32_t index, const double value) override;
     bool SetString(const uint32_t index, const std::string& value) override;
     bool SetWString(const uint32_t index, const std::wstring& value) override;
-    bool SetGUID(const uint32_t index, const AFGUID& value) override;
+    bool SetGUID(const uint32_t index, const guid_t& value) override;
 
     // get data
     bool GetNode(const std::string& name, AFIData& data) const override;
@@ -184,7 +184,7 @@ public:
     double GetDouble(const std::string& name) const override;
     const std::string& GetString(const std::string& name) const override;
     const std::wstring& GetWString(const std::string& name) const override;
-    const AFGUID& GetGUID(const std::string& name) const override;
+    const guid_t& GetGUID(const std::string& name) const override;
 
     bool GetNode(const uint32_t index, AFIData& data) const override;
     bool GetBool(const uint32_t index) const override;
@@ -196,7 +196,7 @@ public:
     double GetDouble(const uint32_t index) const override;
     const std::string& GetString(const uint32_t index) const override;
     const std::wstring& GetWString(const uint32_t index) const override;
-    const AFGUID& GetGUID(const uint32_t index) const override;
+    const guid_t& GetGUID(const uint32_t index) const override;
 
     // container operation
     std::shared_ptr<AFIContainer> FindContainer(const std::string& name) override;
@@ -215,7 +215,7 @@ public:
     bool AddCustomDouble(const std::string& name, const double value) override;
     bool AddCustomString(const std::string& name, const std::string& value) override;
     bool AddCustomWString(const std::string& name, const std::wstring& value) override;
-    bool AddCustomGUID(const std::string& name, const AFGUID& value) override;
+    bool AddCustomGUID(const std::string& name, const guid_t& value) override;
 
     bool SetCustomBool(const std::string& name, bool value) override;
     bool SetCustomInt32(const std::string& name, const int32_t value) override;
@@ -225,7 +225,7 @@ public:
     bool SetCustomDouble(const std::string& name, const double value) override;
     bool SetCustomString(const std::string& name, const std::string& value) override;
     bool SetCustomWString(const std::string& name, const std::wstring& value) override;
-    bool SetCustomGUID(const std::string& name, const AFGUID& value) override;
+    bool SetCustomGUID(const std::string& name, const guid_t& value) override;
 
     bool GetCustomBool(const std::string& name) const override;
     int32_t GetCustomInt32(const std::string& name) const override;
@@ -235,7 +235,7 @@ public:
     double GetCustomDouble(const std::string& name) const override;
     const char* GetCustomString(const std::string& name) const override;
     const std::wstring& GetCustomWString(const std::string& name) const override;
-    const AFGUID& GetCustomGUID(const std::string& name) const override;
+    const guid_t& GetCustomGUID(const std::string& name) const override;
 
     bool FindCustomData(const std::string& name) const override;
     bool RemoveCustomData(const std::string& name) override;

@@ -33,10 +33,8 @@
 *.layout
 *.depend
 
-# CMake
-[cC][mM]ake[lL]ists.txt
 
-dep/lib
+3rdparty/lib
 temp
 *.opendb
 *.user
@@ -48,14 +46,16 @@ temp
 *.cs
 *.js
 *.exp
-build
-bin/bin/app_d
-bin/bin/protoc
-bin/bin/protoc-3.10.1.0
-bin/bin/test_base64_d
-bin/bin/test_datetime_d
-bin/bin/test_random_d
-bin/bin/test_singleton_d
-bin/bin/test_xxtea_d
+cmake_build
+out
 src/proto/proto-gen/protoc
 src/proto/proto-gen/protoc-3.10.1.0
+build/bin/app_d
+build/bin/protoc
+build/bin/protoc-3.10.1.0
+build/bin/test_*
+app
+/cmake-build-debug/
+/cmake-build-release/
+.idea
+.DS_Store

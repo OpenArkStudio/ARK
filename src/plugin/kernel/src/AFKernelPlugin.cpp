@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -38,10 +38,10 @@ void AFKernelPlugin::Install()
 
 void AFKernelPlugin::Uninstall()
 {
-    ARK_DEREGISTER_MODULE(AFIMapModule, AFCMapModule);
-    ARK_DEREGISTER_MODULE(AFIKernelModule, AFCKernelModule);
-    ARK_DEREGISTER_MODULE(AFIConfigModule, AFCConfigModule);
-    ARK_DEREGISTER_MODULE(AFIClassMetaModule, AFCClassMetaModule);
+    ARK_UNREGISTER_MODULE(AFIMapModule, AFCMapModule);
+    ARK_UNREGISTER_MODULE(AFIKernelModule, AFCKernelModule);
+    ARK_UNREGISTER_MODULE(AFIConfigModule, AFCConfigModule);
+    ARK_UNREGISTER_MODULE(AFIClassMetaModule, AFCClassMetaModule);
 }
 
 } // namespace ark

@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,59 @@
 #pragma once
 
 #include "base/AFMacros.hpp"
-#include "base/AFDateTime.hpp"
+#include "base/time/AFDateTime.hpp"
+#include "base/AFDep.hpp"
 
 namespace ark {
+
+#if defined(ARK_USE_GUID_32)
+
+class AFUidGenerator
+{
+    guid_t last_sequence_{1000};
+
+public:
+    virtual ~AFUidGenerator() = default;
+    virtual guid_t GetUID()
+    {
+        return NextID();
+    }
+
+    std::string ParseUID(const guid_t uid)
+    {
+        return ARK_FORMAT("ID={}", uid);
+    }
+
+protected:
+    guid_t NextID()
+    {
+        if (last_sequence_ >= pow(2, 22))
+        {
+            last_sequence_ = 1000;
+        }
+
+        return last_sequence_++;
+    }
+};
+
+class AFUidGeneratorThreadSafe : public AFUidGenerator
+{
+public:
+    guid_t GetUID() override
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return NextID();
+    }
+
+private:
+    mutable std::mutex mutex_;
+};
+
+#elif defined(ARK_USE_GUID_128)
+
+// TODO: 128 bits guid
+
+#else
 
 class AFBitsAllocator
 {
@@ -108,23 +158,20 @@ private:
 | 1bit |     29bits    |     24bits     |  10bits  |
 */
 
+ARK_CONSTEXPR static const int time_bits = 29;
+ARK_CONSTEXPR static const int worker_bit = 24;
+ARK_CONSTEXPR static const int seq_bits = 10;               // generate pow(2, 10) = 1024 per second
+ARK_CONSTEXPR static const int64_t uid_epoch = 1542643200L; // 2018/11/20 00:00:00
+
 // TODO:remove sign and use uint64_t
 // then seq_bits is 12 bits, mean 2048/s
 class AFUidGenerator
 {
 public:
-    static const int time_bits = 29;
-    static const int worker_bit = 24;
-    static const int seq_bits = 10;               // generate pow(2, 10) = 1024 per second
-    static const int64_t uid_epoch = 1542643200L; // 2018/11/20 00:00:00
-
     AFUidGenerator()
     {
-#ifdef ARK_HAVE_LANG_CXX14
+
         bits_alloc_ = std::make_unique<AFBitsAllocator>(time_bits, worker_bit, seq_bits);
-#else
-        bits_alloc_.reset(ARK_NEW AFBitsAllocator(time_bits, worker_bit, seq_bits));
-#endif
     }
 
     virtual ~AFUidGenerator() = default;
@@ -134,7 +181,7 @@ public:
         return NextID(worker_id);
     }
 
-    std::string ParseUID(const int64_t uid)
+    std::string ParseUID(const guid_t uid)
     {
         int64_t total_bits = bits_alloc_->GetTotalBits();
         int64_t sign_bits = bits_alloc_->GetSignBits();
@@ -213,5 +260,7 @@ public:
 private:
     mutable std::mutex mutex_;
 };
+
+#endif
 
 } // namespace ark

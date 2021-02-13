@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -117,6 +117,13 @@ enum class ArkHttpMethod : uint8_t
     HTTP_METHOD_PUT,
     HTTP_METHOD_DELETE,
     HTTP_METHOD_MAX
+};
+
+enum class ArkCompressType : uint8_t
+{
+    COMPRESS_TYPE_NONE,
+    COMPRESS_TYPE_ZLIB,
+    COMPRESS_TYPE_ZSTD
 };
 
 } // namespace ark

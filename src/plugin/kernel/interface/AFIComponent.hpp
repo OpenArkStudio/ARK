@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "base/AFGUID128.hpp"
+#include "base/guid_t128.hpp"
 #include "interface/AFIModule.hpp"
 
 namespace ark {
@@ -29,7 +29,7 @@ class AFIComponent : public AFIModule
 {
 public:
     AFIComponent() = delete;
-    AFIComponent(AFGUID self, const std::string& strName)
+    AFIComponent(guid_t self, const std::string& strName)
     {
         mbHasInit = false;
         mbEnable = true;
@@ -79,7 +79,7 @@ public:
         return mbHasInit;
     }
 
-    virtual AFGUID Self()
+    virtual guid_t Self()
     {
         return NULL_GUID;
     }
@@ -89,7 +89,7 @@ public:
         return mstrName;
     }
 
-    virtual int OnASyncEvent(const AFGUID& self, const int event, std::string& arg)
+    virtual int OnASyncEvent(const guid_t& self, const int event, std::string& arg)
     {
         return 0;
     }
@@ -103,7 +103,7 @@ protected:
 private:
     bool mbEnable;
     bool mbHasInit;
-    AFGUID mSelf;
+    guid_t mSelf;
     std::string mstrName;
 };
 

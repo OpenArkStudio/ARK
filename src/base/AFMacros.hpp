@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,6 @@
 #pragma once
 
 #include "base/AFPlatform.hpp"
-#include <common/lexical_cast.hpp>
-#include <spdlog/common.h>
-#include <spdlog/fmt/fmt.h>
 
 // Input param type
 #ifndef IN
@@ -52,6 +49,7 @@
 #define MAX_PATH 256
 #endif
 
+#ifndef ARK_DOCKER_ALPINE
 #ifndef ARK_PLATFORM_DARWIN
 #ifndef strlcpy
 /*
@@ -59,7 +57,7 @@
  * will be copied.  Always NUL terminates (unless siz == 0).
  * Returns strlen(src); if retval >= siz, truncation occurred.
  */
-static size_t strlcpy(char* dst, const char* src, size_t siz)
+inline size_t strlcpy(char* dst, const char* src, size_t siz)
 {
     char* d = dst;
     const char* s = src;
@@ -89,6 +87,7 @@ static size_t strlcpy(char* dst, const char* src, size_t siz)
 }
 #endif // strlcpy
 #endif // ARK_PLATFORM_DARWIN
+#endif // ARK_DOCKER_ALPINE
 
 #ifdef ARK_PLATFORM_WIN
 
@@ -108,7 +107,7 @@ static size_t strlcpy(char* dst, const char* src, size_t siz)
             MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_" #exp_), MB_RETRYCANCEL | MB_ICONERROR);                 \
         }                                                                                                              \
         assert(exp_);                                                                                                  \
-    } while (false);
+    } while (false)
 
 #define ARK_EXPORT_FUNC extern "C" __declspec(dllexport)
 #define ARK_EXPORT __declspec(dllexport)
@@ -141,7 +140,7 @@ typedef struct HINSTANCE__* hInstance;
         if ((exp_))                                                                                                    \
             break;                                                                                                     \
         assert(exp_);                                                                                                  \
-    } while (0);
+    } while (false)
 
 #define ARK_EXPORT_FUNC extern "C" __attribute((visibility("default")))
 #define ARK_EXPORT __attribute((visibility("default")))
@@ -170,7 +169,7 @@ typedef struct HINSTANCE__* hInstance;
         if ((exp_))                                                                                                    \
             break;                                                                                                     \
         assert(exp_);                                                                                                  \
-    } while (0);
+    } while (0)
 
 #define ARK_EXPORT_FUNC extern "C" __attribute((visibility("default")))
 #define ARK_EXPORT __attribute((visibility("default")))
@@ -231,7 +230,7 @@ typedef struct HINSTANCE__* hInstance;
             break;                                                                                                     \
         assert(exp_);                                                                                                  \
         return val;                                                                                                    \
-    } while (false);
+    } while (false)
 
 #define ARK_ASSERT_RET_VAL_NO_EFFECT(exp_, val)                                                                        \
     do                                                                                                                 \
@@ -239,16 +238,13 @@ typedef struct HINSTANCE__* hInstance;
         if ((exp_))                                                                                                    \
             break;                                                                                                     \
         return val;                                                                                                    \
-    } while (false);
+    } while (false)
 
 #define ARK_ASSERT_BREAK(exp_)                                                                                         \
     if (!(exp_))                                                                                                       \
     {                                                                                                                  \
         assert(exp_);                                                                                                  \
         break;                                                                                                         \
-    }                                                                                                                  \
-    else                                                                                                               \
-    {                                                                                                                  \
     }
 
 #define ARK_ASSERT_CONTINUE(exp_)                                                                                      \
@@ -256,9 +252,6 @@ typedef struct HINSTANCE__* hInstance;
     {                                                                                                                  \
         assert(exp_);                                                                                                  \
         continue;                                                                                                      \
-    }                                                                                                                  \
-    else                                                                                                               \
-    {                                                                                                                  \
     }
 
 #define ARK_ASSERT_RET_NONE(exp_)                                                                                      \
@@ -268,7 +261,7 @@ typedef struct HINSTANCE__* hInstance;
             break;                                                                                                     \
         assert(exp_);                                                                                                  \
         return;                                                                                                        \
-    } while (false);
+    } while (false)
 
 #define ARK_ASSERT_NO_EFFECT(exp_)                                                                                     \
     do                                                                                                                 \
@@ -277,8 +270,6 @@ typedef struct HINSTANCE__* hInstance;
             break;                                                                                                     \
         assert(exp_);                                                                                                  \
     } while (false)
-
-#define ARK_LEXICAL_CAST lexical_cast
 
 // cpp version
 #if (__cplusplus >= 201103L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 201103L)
@@ -312,7 +303,7 @@ typedef struct HINSTANCE__* hInstance;
 #endif
 
 #ifndef ARK_NEW
-#define ARK_NEW new (nothrow) // when new failed, return nullptr
+#define ARK_NEW new (std::nothrow) // when new failed, return nullptr
 #endif
 
 #ifndef ARK_NEW_ARRAY
@@ -323,7 +314,7 @@ typedef struct HINSTANCE__* hInstance;
 #define ARK_NEW_ARRAY_RET(T, size)                                                                                     \
     do                                                                                                                 \
     {                                                                                                                  \
-        return new (nothrow) T[(size)];                                                                                \
+        return new (std::nothrow) T[(size)];                                                                           \
     } while (false);
 #endif // ARK_NEW_ARRAY_RET
 
@@ -354,11 +345,12 @@ typedef struct HINSTANCE__* hInstance;
 
 #define ARK_TO_STRING(value) std::to_string(value)
 
-#define CONSOLE_LOG std::cout << __FUNCTION__ << ":" << __LINE__ << " "
-#define CONSOLE_INFO_LOG std::cout << ""
-#define CONSOLE_ERROR_LOG std::cerr << ""
+/// math: is zero
+#define IS_FLOAT_ZERO(type, value) (std::abs(value) < std::numeric_limits<type>::epsilon())
 
-#define ARK_FORMAT(my_fmt, ...) fmt::format((my_fmt), ##__VA_ARGS__);
+#define IS_FLOAT_EQUAL(type, lhs, rhs) (std::abs(lhs - rhs) < std::numeric_limits<type>::epsilon())
+
+#define ARK_FORMAT(my_fmt, ...) fmt::format((my_fmt), ##__VA_ARGS__)
 #define ARK_FORMAT_FUNCTION(my_fmt, ...)                                                                               \
     fmt::format(std::string("[{}:{}]") + (my_fmt), ARK_FUNCTION_LINE, ##__VA_ARGS__);
 
@@ -389,24 +381,36 @@ typedef struct HINSTANCE__* hInstance;
             ARK_ASSERT_RET_NONE(p != nullptr);                                                                         \
             plugin_manager_ = p;                                                                                       \
         }                                                                                                              \
+        static std::string const& GetPluginConf()                                                                      \
+        {                                                                                                              \
+            return plugin_conf_;                                                                                       \
+        }                                                                                                              \
+        void SetPluginConf(std::string const& value) override                                                          \
+        {                                                                                                              \
+            plugin_conf_ = value;                                                                                      \
+        }                                                                                                              \
                                                                                                                        \
     private:                                                                                                           \
         std::unordered_map<std::string, AFIModule*> modules_;                                                          \
         AFPluginManager* plugin_manager_{nullptr};                                                                     \
+        static std::string plugin_conf_;                                                                               \
     };
 
 #define ARK_DECLARE_PLUGIN_DLL_FUNCTION(PLUGIN_CLASS)                                                                  \
-    ARK_EXPORT_FUNC void DllEntryPlugin(AFPluginManager* pPluginManager)                                               \
+    ARK_EXPORT_FUNC void DllEntryPlugin(                                                                               \
+        AFPluginManager* pPluginManager, std::string const& plugin_name, AFLogger* logger)                             \
     {                                                                                                                  \
-        pPluginManager->Register<PLUGIN_CLASS>();                                                                      \
+        AFLogger::Init(logger);                                                                                        \
+        pPluginManager->Register<PLUGIN_CLASS>(plugin_name);                                                           \
     }                                                                                                                  \
     ARK_EXPORT_FUNC void DllExitPlugin(AFPluginManager* pPluginManager)                                                \
     {                                                                                                                  \
-        pPluginManager->Deregister<PLUGIN_CLASS>();                                                                    \
-    }
+        pPluginManager->Unregister<PLUGIN_CLASS>();                                                                    \
+    }                                                                                                                  \
+    std::string PLUGIN_CLASS::plugin_conf_ = ""; // init the plugin_conf in here cuz the duplicate symbol
 
-#ifdef ARK_PLATFORM_WIN
 #define ARK_REGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                    \
+    do                                                                                                                 \
     {                                                                                                                  \
         ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                              \
         ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                         \
@@ -416,32 +420,13 @@ typedef struct HINSTANCE__* hInstance;
         pRegModule->SetName(GET_CLASS_NAME(MODULE));                                                                   \
         GetPluginManager()->AddModule(pRegModule->GetName(), pRegModule);                                              \
         modules_.insert(std::make_pair(pRegModule->GetName(), pRegModule));                                            \
-        std::string base_name = GET_CLASS_NAME(&AFIModule::Update);                                                    \
-        std::string child_name = GET_CLASS_NAME(&DERIVED_MODULE::Update);                                              \
-        if (base_name != child_name)                                                                                   \
+        if (typeid(&AFIModule::Update) != typeid(&DERIVED_MODULE::Update))                                             \
         {                                                                                                              \
             GetPluginManager()->AddUpdateModule(pRegModule);                                                           \
         }                                                                                                              \
-    }
-#else // UNIX
-#define ARK_REGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                    \
-    {                                                                                                                  \
-        ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                              \
-        ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                         \
-        AFIModule* pRegModule = ARK_NEW DERIVED_MODULE();                                                              \
-        ARK_ASSERT_RET_NONE(pRegModule != nullptr);                                                                    \
-        pRegModule->SetPluginManager(GetPluginManager());                                                              \
-        pRegModule->SetName(GET_CLASS_NAME(MODULE));                                                                   \
-        GetPluginManager()->AddModule(pRegModule->GetName(), pRegModule);                                              \
-        modules_.insert(std::make_pair(pRegModule->GetName(), pRegModule));                                            \
-        if (&AFIModule::Update == &DERIVED_MODULE::Update)                                                             \
-        {                                                                                                              \
-            GetPluginManager()->AddUpdateModule(pRegModule);                                                           \
-        }                                                                                                              \
-    }
-#endif
+    } while (0)
 
-#define ARK_DEREGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                  \
+#define ARK_UNREGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                  \
     {                                                                                                                  \
         ARK_ASSERT_RET_NONE((std::is_base_of<AFIModule, MODULE>::value));                                              \
         ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                         \
@@ -486,5 +471,18 @@ private:                                                                        
     AFPluginManager* plugin_manager_{nullptr};                                                                         \
     std::string name_{};
 ////////////////////////////////////////////////////////////////////////////
+
+#if !defined(ARK_CPP14_OR_GREATER) && !defined(ARK_CPP17_OR_GREATER)
+namespace std {
+
+template<typename T, typename... Ts>
+std::unique_ptr<T> make_unique(Ts&&... params)
+{
+    return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
+}
+
+} // namespace std
+#endif
+
 // clear player data time
-constexpr int CLEAR_HOUR = 5;
+ARK_CONSTEXPR int CLEAR_HOUR = 5;

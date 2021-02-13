@@ -1,8 +1,8 @@
-/*
+﻿/*
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -21,85 +21,300 @@
 #pragma once
 
 #include "base/AFPlatform.hpp"
-#include "base/AFMacros.hpp"
 #include "base/AFNoncopyable.hpp"
-
-#pragma pack(push, 1)
+#include "net/include/AFNetDefine.hpp"
 
 namespace ark {
 
-ARK_CONSTEXPR static const int ARK_TCP_RECV_BUFFER_SIZE = 10 * 1024 * 1024;                    // 10M
-ARK_CONSTEXPR static const int ARK_HTTP_RECV_BUFFER_SIZE = 1024 * 1024;                        // 1M
-ARK_CONSTEXPR static const std::chrono::seconds ARK_CONNECT_TIMEOUT = std::chrono::seconds(5); // 5s
-ARK_CONSTEXPR static const std::chrono::seconds ARK_NET_HEART_TIME = std::chrono::seconds(30); // 30s
-ARK_CONSTEXPR static const int ARK_PROCESS_NET_MSG_COUNT_ONCE = 100;
-ARK_CONSTEXPR static const int ARK_MSG_MAX_LENGTH = 1024 * 5; // 5K
-
-enum class AFHeadLength : uint32_t
-{
-    CS_HEAD_LENGTH = 6,  // cs head
-    SS_HEAD_LENGTH = 22, // ss head
-};
-
-class AFMsgHead
+/**
+ * @brief 协议头部接口类，通过它支持任意类型协议头部格式
+ */
+class AFIMsgHeader
 {
 public:
-    uint16_t id_{0};     // Msg id
-    uint32_t length_{0}; // Msg length(without header length)
+    virtual ~AFIMsgHeader() {}
+
+    // 协议头部必须实现的接口如下
+
+    // 返回包头大小
+    virtual uint32_t HeaderLength() const = 0;
+
+    // 把读取到的buffer解析成包头
+    virtual void ParseFromArray(const void* head_buf) = 0;
+    // 把包头序列化到string里
+    virtual void SerializeToString(std::string& buf) = 0;
+
+    virtual msg_id_t MessageId() const = 0;
+    virtual uint32_t MessageLength() const = 0;
+
+    virtual void SetMessageId(msg_id_t) = 0;
+    virtual void SetMessageLength(uint32_t) = 0;
+
+    // 新建包头对象
+    virtual AFIMsgHeader* New() const = 0;
+    // 包头深拷贝
+    virtual AFIMsgHeader* Clone() const = 0;
+
+    // 以下接口是为了兼容原来的代码
+
+    virtual bool IsCompressed() const
+    {
+        return false;
+    }
+
+    virtual guid_t ActorId() const
+    {
+        return 0;
+    }
+
+    virtual bus_id_t SourceBusId() const
+    {
+        return 0;
+    }
+
+    virtual bus_id_t DestBusId() const
+    {
+        return 0;
+    }
+
+    virtual void SetCompressed(bool compress)
+    {
+    }
+
+    virtual void SetActorId(guid_t)
+    {
+    }
+
+    virtual void SetSourceBusId(bus_id_t)
+    {
+    }
+
+    virtual void SetDestBusId(bus_id_t)
+    {
+    }
 };
 
-/*
-| msg id | msg len |
-|    2   |    4    | = 6
-*/
-class AFCSMsgHead : public AFMsgHead
-{
-    // same with base msg header
-};
-
-/*
-| msg id | msg len | actor id | src bus | dst bus |
-|    2   |    4    |     8    |    4    |    4    | = 22
-*/
-class AFSSMsgHead : public AFMsgHead
+// CS通信默认包头
+class AFCSMsgHeader : public AFIMsgHeader
 {
 public:
-    int64_t actor_id_{0}; // Actor id
-    int32_t src_bus_{0};  // Source bus id
-    int32_t dst_bus_{0};  // Destination bus id
+    // 返回包头大小
+    virtual uint32_t HeaderLength() const override
+    {
+        return sizeof header_;
+    }
+
+    // 把读取到的buffer解析成包头
+    virtual void ParseFromArray(const void* head_buf) override
+    {
+        const HeaderImpl* bb = reinterpret_cast<const HeaderImpl*>(head_buf);
+        const char* cc = reinterpret_cast<const char*>(head_buf);
+        memcpy(&header_, head_buf, sizeof header_);
+    }
+
+    // 把包头序列化到string里
+    virtual void SerializeToString(std::string& buf) override
+    {
+        buf.append(reinterpret_cast<char*>(&header_), sizeof header_);
+    }
+
+    virtual msg_id_t MessageId() const override
+    {
+        return header_.id_;
+    }
+
+    virtual uint32_t MessageLength() const override
+    {
+        return header_.length_;
+    }
+
+    virtual void SetMessageId(msg_id_t id) override
+    {
+        header_.id_ = id;
+    }
+
+    virtual void SetMessageLength(uint32_t msg_len) override
+    {
+        header_.length_ = msg_len;
+    }
+
+    // 新建包头对象
+    virtual AFIMsgHeader* New() const override
+    {
+        return ARK_NEW AFCSMsgHeader();
+    }
+
+    // 包头深拷贝
+    virtual AFIMsgHeader* Clone() const override
+    {
+        return ARK_NEW AFCSMsgHeader(*this);
+    }
+
+    virtual bool IsCompressed() const override
+    {
+        return header_.compress_;
+    }
+
+    virtual void SetCompressed(bool compress) override
+    {
+        header_.compress_ = compress;
+    }
+
+private:
+#pragma pack(push, 1)
+    struct HeaderImpl
+    {
+        msg_id_t id_{0};      // Msg id
+        uint32_t length_{0};  // Msg length(without header length)
+        uint8_t compress_{0}; // Msg data compressed
+    };
+#pragma pack(pop)
+
+private:
+    HeaderImpl header_;
 };
 
-class AFNetMsg final
+// SS通信默认包头
+class AFSSMsgHeader : public AFIMsgHeader
+{
+public:
+    // 返回包头大小
+    virtual uint32_t HeaderLength() const override
+    {
+        return sizeof header_;
+    }
+
+    // 把读取到的buffer解析成包头
+    virtual void ParseFromArray(const void* head_buf) override
+    {
+        memcpy(&header_, head_buf, sizeof header_);
+    }
+
+    // 把包头序列化到string里
+    virtual void SerializeToString(std::string& buf) override
+    {
+        buf.append(reinterpret_cast<char*>(&header_), sizeof header_);
+    }
+
+    virtual msg_id_t MessageId() const override
+    {
+        return header_.id_;
+    }
+
+    virtual uint32_t MessageLength() const override
+    {
+        return header_.length_;
+    }
+
+    virtual void SetMessageId(msg_id_t id) override
+    {
+        header_.id_ = id;
+    }
+
+    virtual void SetMessageLength(uint32_t msg_len) override
+    {
+        header_.length_ = msg_len;
+    }
+
+    // 新建包头对象
+    virtual AFIMsgHeader* New() const override
+    {
+        return ARK_NEW AFSSMsgHeader();
+    }
+
+    // 包头深拷贝
+    virtual AFIMsgHeader* Clone() const override
+    {
+        return ARK_NEW AFSSMsgHeader(*this);
+    }
+
+    virtual bool IsCompressed() const override
+    {
+        return header_.compress_;
+    }
+
+    virtual guid_t ActorId() const override
+    {
+        return header_.actor_id_;
+    }
+
+    virtual bus_id_t SourceBusId() const override
+    {
+        return header_.src_bus_;
+    }
+
+    virtual bus_id_t DestBusId() const override
+    {
+        return header_.dst_bus_;
+    }
+
+    virtual void SetCompressed(bool compress) override
+    {
+        header_.compress_ = compress;
+    }
+
+    virtual void SetActorId(guid_t actor_id) override
+    {
+        header_.actor_id_ = actor_id;
+    }
+
+    virtual void SetSourceBusId(bus_id_t src_bus) override
+    {
+        header_.src_bus_ = src_bus;
+    }
+
+    virtual void SetDestBusId(bus_id_t dst_bus) override
+    {
+        header_.dst_bus_ = dst_bus;
+    }
+
+private:
+#pragma pack(push, 1)
+    struct HeaderImpl
+    {
+        msg_id_t id_{0};      // Msg id
+        uint32_t length_{0};  // Msg length(without header length)
+        uint8_t compress_{0}; // Msg data compressed
+        guid_t actor_id_{0};  // Actor id
+        bus_id_t src_bus_{0}; // Source bus id
+        bus_id_t dst_bus_{0}; // Destination bus id
+    };
+#pragma pack(pop)
+
+private:
+    HeaderImpl header_;
+};
+
+class AFNetMsg final : private AFNoncopyable
 {
 protected:
-    AFNetMsg(const AFNetMsg&) = delete;
-    AFNetMsg& operator=(const AFNetMsg&) = delete;
-    AFNetMsg(AFNetMsg&&) = delete;
-    AFNetMsg& operator=(AFNetMsg&&) = delete;
+    AFNetMsg(AFIMsgHeader* head)
+    {
+        head_ = head;
+        msg_data_ = nullptr;
+        AllocData(head_->MessageLength());
+    }
+
+    ~AFNetMsg()
+    {
+        delete head_;
+        delete []msg_data_;
+    }
 
 public:
-    AFNetMsg() = default;
-    virtual ~AFNetMsg() = default;
-
-    static AFNetMsg* AllocMsg(uint32_t len)
+    static AFNetMsg* AllocMsg(AFIMsgHeader* head)
     {
-        AFNetMsg* msg = ARK_NEW AFNetMsg();
-        msg->AllocData(len);
-        return msg;
+        return ARK_NEW AFNetMsg(head);
     }
 
     static void Release(AFNetMsg*& msg)
     {
-        if (msg != nullptr)
-        {
-            msg->DeallocData();
-            ARK_DELETE(msg);
-        }
+        ARK_DELETE(msg);
     }
 
     void CopyData(const char* data, const uint32_t len)
     {
-        ARK_ASSERT_RET_NONE(data != nullptr && len > 0);
+        ARK_ASSERT_RET_NONE(data != nullptr);
 
         SetMsgLength(len);
         memcpy(this->msg_data_, data, len);
@@ -109,61 +324,64 @@ public:
     {
         ARK_ASSERT_RET_NONE(msg != nullptr);
 
-        head_ = msg->head_;
-        if (msg->head_.length_ > 0)
-        {
-            CopyData(msg->msg_data_, msg->GetMsgLength());
-        }
+        delete head_;
+        head_ = msg->head_->Clone();
+        CopyData(msg->msg_data_, msg->GetMsgLength());
     }
 
-    uint16_t GetMsgId() const
+    msg_id_t GetMsgId() const
     {
-        return head_.id_;
+        return head_->MessageId();
     }
 
     uint32_t GetMsgLength() const
     {
-        return head_.length_;
+        return head_->MessageLength();
     }
 
-    int64_t GetActorId() const
+    uint8_t GetCompress() const
     {
-        return head_.actor_id_;
+        return head_->IsCompressed();
     }
 
-    int32_t GetSrcBus() const
+    guid_t GetActorId() const
     {
-        return head_.src_bus_;
+        return head_->ActorId();
     }
 
-    int32_t GetDstBus() const
+    bus_id_t GetSrcBus() const
     {
-        return head_.dst_bus_;
+        return head_->SourceBusId();
     }
 
-    void SetMsgId(uint16_t value)
+    bus_id_t GetDstBus() const
     {
-        head_.id_ = value;
+        return head_->DestBusId();
+    }
+
+    void SetMsgId(msg_id_t value)
+    {
+        head_->SetMessageId(value);
     }
 
     void SetMsgLength(uint32_t value)
     {
-        head_.length_ = value;
+        head_->SetMessageLength(value);
     }
 
-    void SetActorId(int64_t value)
+    void SetActorId(guid_t value)
     {
-        head_.actor_id_ = value;
+        head_->SetActorId(value);
     }
 
-    void SetSrcBus(int32_t value)
+    void SetSrcBus(bus_id_t value)
     {
-        head_.src_bus_ = value;
+        head_->SetSourceBusId(value);
     }
 
-    void SetDstBus(int32_t value)
+    void SetDstBus(bus_id_t value)
     {
-        head_.dst_bus_ = value;
+        head_->SetDestBusId(value);
     }
 
     char* GetMsgData() const
@@ -171,12 +389,17 @@ public:
         return msg_data_;
     }
 
-    AFSSMsgHead& GetHead()
+    bool IsSSMsg() const
     {
-        return head_;
+        return head_->SourceBusId() != 0;
     }
 
-protected:
+    AFIMsgHeader& GetHead()
+    {
+        return *head_;
+    }
+
+private:
     void AllocData(uint32_t len)
     {
         if (len > 0)
@@ -192,14 +415,12 @@ protected:
             ARK_DELETE_ARRAY(char, msg_data_);
         }
 
-        head_.length_ = 0;
+        head_->SetMessageLength(0);
     }
 
 private:
-    AFSSMsgHead head_;
+    AFIMsgHeader* head_;
     char* msg_data_{nullptr};
 };
 
 } // namespace ark
-
-#pragma pack(pop)

@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -45,6 +45,7 @@
 #include <functional>
 #include <iterator>
 #include <unordered_map>
+#include <unordered_set>
 #include <functional>
 #include <memory>
 #include <chrono>
@@ -59,6 +60,8 @@
 #include <bitset>
 #include <regex>
 #include <iomanip>
+#include <new>
+#include <array>
 
 #if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64)
 #define ARK_PLATFORM_WIN
@@ -68,20 +71,12 @@
 #define ARK_PLATFORM_LINUX
 #endif
 
-#if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64)
+#ifdef ARK_PLATFORM_WIN
 // only windows include
 
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif // NOMINMAX
-
-#ifdef min
-#undef min
-#endif // min
-
-#ifdef max
-#undef max
-#endif // max
 
 #ifndef WIN32_LEAN_AND_MEAN
 #include <WinSock2.h>
@@ -99,6 +94,7 @@
 #define SIGCHLD 17
 #define SIGSYS 32
 
+#include <sdkddkver.h>
 #include <Dbghelp.h>
 #pragma comment(lib, "DbgHelp")
 #pragma comment(lib, "ws2_32")
@@ -106,18 +102,29 @@
 #else
 // only other Unix/Linux include
 #include <sys/socket.h>
-#include <sys/time.h>
 #include <pthread.h>
 #include <unistd.h>
 #include <netdb.h>
 #include <arpa/inet.h>
-#include <signal.h>
 #ifdef ARK_PLATFORM_LINUX
 #include <sys/prctl.h>
+#include <endian.h>
 #endif
 #include <dlfcn.h>
 
+#ifdef ARK_PLATFORM_DARWIN
+#include <spawn.h>
+#endif // ARK_PLATFORM_DARWIN
+
 #endif
+
+#ifdef min
+#undef min
+#endif // min
+
+#ifdef max
+#undef max
+#endif // max
 
 #define ARK_LITTLE_ENDIAN
 #define ARK_BIG_ENDIAN
@@ -208,5 +215,17 @@
 #endif
 
 namespace ark {
-using AFGUID = int64_t;
-}
+
+#if defined(ARK_USE_GUID_32)
+using guid_t = int32_t;
+#elif defined(ARK_USE_GUID_128)
+using guid_t = int128_t;
+#else
+using guid_t = int64_t;
+#endif
+
+using conv_id_t = uint32_t;
+using bus_id_t = int;
+using msg_id_t = uint16_t;
+
+} // namespace ark

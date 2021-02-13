@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,7 @@
 
 #include "kernel/interface/AFIClassMetaModule.hpp"
 #include "base/AFPluginManager.hpp"
-#include "log/interface/AFILogModule.hpp"
-#include "base/AFMap.hpp"
+#include "base/container/AFMap.hpp"
 #include "AFClassMeta.hpp"
 #include "AFClassMetaManager.hpp"
 
@@ -43,7 +42,7 @@ public:
 
     bool AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb, const int32_t prio) override;
 
-    bool DoClassEvent(const AFGUID& id, const std::string& class_name, const ArkEntityEvent class_event,
+    bool DoClassEvent(const guid_t& id, const std::string& class_name, const ArkEntityEvent class_event,
         const AFIDataList& args) override;
 
     std::shared_ptr<AFClassMeta> FindMeta(const std::string& class_name) const override;
@@ -65,8 +64,6 @@ protected:
     ArkDataType ConvertDataType(const std::string& type_name);
 
 private:
-    AFILogModule* m_pLogModule{nullptr};
-
     AFClassMetaManager* m_pClassMetaManager{nullptr};
 };
 

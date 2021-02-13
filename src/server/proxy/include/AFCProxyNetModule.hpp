@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,8 @@
 #pragma once
 
 #include "proto/AFProtoCPP.hpp"
-#include "base/AFCConsistentHash.hpp"
+#include "base/container/AFCConsistentHash.hpp"
 #include "base/AFPluginManager.hpp"
-#include "log/interface/AFILogModule.hpp"
 #include "bus/interface/AFIMsgModule.hpp"
 #include "bus/interface/AFIBusModule.hpp"
 #include "net/interface/AFINetServiceManagerModule.hpp"
@@ -44,19 +43,19 @@ public:
 protected:
     int StartServer();
 
-    void OnSelectServerResultProcess(const AFNetMsg* msg, const int64_t session_id);
-    void OnServerInfoProcess(const AFNetMsg* msg, const int64_t session_id);
+    void OnSelectServerResultProcess(const AFNetMsg* msg, conv_id_t session_id);
+    void OnServerInfoProcess(const AFNetMsg* msg, conv_id_t session_id);
 
-    void OnOtherMessage(const AFNetMsg* msg, const int64_t session_id);
-    void OnBrocastmsg(const AFNetMsg* msg, const int64_t session_id);
+    void OnOtherMessage(const AFNetMsg* msg, conv_id_t session_id);
+    void OnBrocastmsg(const AFNetMsg* msg, conv_id_t session_id);
 
     void OnSocketEvent(const AFNetEvent* event);
 
-    void OnClientDisconnect(const AFGUID& xClientID);
-    void OnClientConnected(const AFGUID& xClientID);
+    void OnClientDisconnect(const guid_t& xClientID);
+    void OnClientConnected(const guid_t& xClientID);
 
     // void OnTransMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const
-    // AFGUID& xClientID);
+    // guid_t& xClientID);
 
     template<class TypeName>
     void CheckSessionTransMsg(const AFNetMsg* msg)
@@ -69,7 +68,7 @@ protected:
         //}
     }
 
-    bool CheckSessionState(const int nGameID, const AFGUID& xClientID, const std::string& strAccount);
+    bool CheckSessionState(const int nGameID, const guid_t& xClientID, const std::string& strAccount);
 
     class ClientConnectData
     {
@@ -83,9 +82,8 @@ protected:
     AFSmartPtrMap<std::string, ClientConnectData> mxWantToConnectMap;
 
 private:
-    // AFSmartPtrMap<AFGUID, AFClientConnectionData> client_connections_; // net_conn_id <--> SessionData
+    // AFSmartPtrMap<guid_t, AFClientConnectionData> client_connections_; // net_conn_id <--> SessionData
 
-    AFILogModule* m_pLogModule;
     AFIBusModule* m_pBusModule;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
     AFIMsgModule* m_pMsgModule;

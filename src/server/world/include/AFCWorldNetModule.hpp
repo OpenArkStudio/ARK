@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@
 #include "proto/AFProtoCPP.hpp"
 #include "base/AFPluginManager.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
-#include "log/interface/AFILogModule.hpp"
 #include "utility/interface/AFITimerModule.hpp"
 #include "bus/interface/AFIMsgModule.hpp"
 #include "bus/interface/AFIBusModule.hpp"
@@ -42,7 +41,7 @@ public:
     //bool PreUpdate() override;
 
     bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData,
-        const AFGUID nPlayer = 0) override;
+        const guid_t nPlayer = 0) override;
     bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID, const AFMsg::EGameMsgID eMsgID,
         google::protobuf::Message& xData) override;
 
@@ -54,9 +53,9 @@ protected:
     int StartServer();
     //int StartClient();
 
-    bool SendMsgToPlayer(const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer);
+    bool SendMsgToPlayer(const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const guid_t nPlayer);
 
-    int GetPlayerGameID(const AFGUID& self);
+    int GetPlayerGameID(const guid_t& self);
 
 private:
     // AFSmartPtrMap<int, AFServerData> reg_servers_;
@@ -68,7 +67,6 @@ private:
     // AFSmartPtrMap<int, AFServerData> mProxyMap;
 
     AFIKernelModule* m_pKernelModule;
-    AFILogModule* m_pLogModule;
     AFIBusModule* m_pBusModule;
     AFIMsgModule* m_pMsgModule;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;

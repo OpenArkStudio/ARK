@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public:
 
     template<typename BaseType>
     bool AddEventCallBack(
-        const int nEventID, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const int, const AFIDataList&))
+        const int nEventID, BaseType* pBase, int (BaseType::*handler)(const guid_t&, const int, const AFIDataList&))
     {
         EVENT_PROCESS_FUNCTOR functor =
             std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);

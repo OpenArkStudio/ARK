@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -48,15 +48,15 @@ bool AFCTimerModule::RemoveTimer(const uint64_t timer_id)
 }
 
 uint64_t AFCTimerModule::AddSingleTimer(
-    const AFGUID& entity_id, const std::chrono::milliseconds interval, const uint32_t count, TIMER_FUNCTOR&& cb)
+    const guid_t& entity_id, const std::chrono::milliseconds interval, const uint32_t count, TIMER_FUNCTOR&& cb)
 {
-    return timer_manager_ptr->AddTimer(entity_id, count, interval, std::forward<TIMER_FUNCTOR>(cb));
+    return timer_manager_ptr->AddTimer(entity_id, count, interval, std::move(cb));
 }
 
 uint64_t AFCTimerModule::AddForeverTimer(
-    const AFGUID& entity_id, const std::chrono::milliseconds interval, TIMER_FUNCTOR&& cb)
+    const guid_t& entity_id, const std::chrono::milliseconds interval, TIMER_FUNCTOR&& cb)
 {
-    return timer_manager_ptr->AddTimer(entity_id, 0, interval, std::forward<TIMER_FUNCTOR>(cb));
+    return timer_manager_ptr->AddTimer(entity_id, 0, interval, std::move(cb));
 }
 
 } // namespace ark

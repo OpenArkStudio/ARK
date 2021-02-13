@@ -8,6 +8,7 @@ import "AFCommonSSMsg.proto";
 
 enum e_ss_msg_id {
   E_SS_MSG_ID_DEFUALT = 0;
+  E_SS_MSG_ID_HEART_BEAT = 1;
 
   E_SS_MSG_ID_COMMON_START = 100;
   E_SS_MSG_ID_COMMON_END = 500;

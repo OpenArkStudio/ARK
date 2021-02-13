@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -27,8 +27,8 @@ namespace ark {
 class AFIGUIDModule : public AFIModule
 {
 public:
-    virtual AFGUID CreateGUID() = 0;
-    virtual std::string ParseUID(const AFGUID& id) = 0;
+    virtual guid_t CreateGUID() = 0;
+    virtual std::string ParseUID(const guid_t& id) = 0;
 };
 
 } // namespace ark

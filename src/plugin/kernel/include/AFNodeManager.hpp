@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -72,7 +72,7 @@ public:
     double GetDouble(const std::string& name) const;
     const std::string& GetString(const std::string& name) const;
     const std::wstring& GetWString(const std::string& name) const;
-    const AFGUID& GetGUID(const std::string& name) const;
+    const guid_t& GetGUID(const std::string& name) const;
 
     bool GetBool(const uint32_t index) const;
     int32_t GetInt32(const uint32_t index) const;
@@ -83,7 +83,7 @@ public:
     double GetDouble(const uint32_t index) const;
     const std::string& GetString(const uint32_t index) const;
     const std::wstring& GetWString(const uint32_t index) const;
-    const AFGUID& GetGUID(const uint32_t index) const;
+    const guid_t& GetGUID(const uint32_t index) const;
 
     // set data
     bool SetBool(const std::string& name, bool value);
@@ -95,7 +95,7 @@ public:
     bool SetDouble(const std::string& name, const double value);
     bool SetString(const std::string& name, const std::string& value);
     bool SetWString(const std::string& name, const std::wstring& value);
-    bool SetGUID(const std::string& name, const AFGUID& value);
+    bool SetGUID(const std::string& name, const guid_t& value);
 
     bool SetBool(const uint32_t index, bool value);
     bool SetInt32(const uint32_t index, const int32_t value);
@@ -106,7 +106,7 @@ public:
     bool SetDouble(const uint32_t index, const double value);
     bool SetString(const uint32_t index, const std::string& value);
     bool SetWString(const uint32_t index, const std::wstring& value);
-    bool SetGUID(const uint32_t index, const AFGUID& value);
+    bool SetGUID(const uint32_t index, const guid_t& value);
 
     // other query
     const DataList& GetDataList() const;

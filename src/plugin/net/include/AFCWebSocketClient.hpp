@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -20,66 +20,54 @@
 
 #pragma once
 
-#include <brynet/net/TcpService.hpp>
-#include <brynet/net/AsyncConnector.hpp>
-#include <brynet/net/wrapper/HttpConnectionBuilder.hpp>
+#include <zephyr/zephyr.hpp>
 
-#include "base/AFUidGenerator.hpp"
 #include "net/interface/AFINet.hpp"
 #include "net/include/AFNetSession.hpp"
 
 namespace ark {
 
-class AFCWebSocketClient final : public AFNoncopyable,
-                                 public AFINet,
-                                 public std::enable_shared_from_this<AFCWebSocketClient>
+class AFCWebSocketClient final
+    : public AFINet
+    , public AFNoncopyable
+    , public std::enable_shared_from_this<AFCWebSocketClient>
 {
 public:
     template<typename BaseType>
-    AFCWebSocketClient(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFNetMsg*, const int64_t),
-        void (BaseType::*handleEvent)(const AFNetEvent*))
+    AFCWebSocketClient(BaseType* pBaseType, void (BaseType::*handleRecv)(AFNetMsg const*, conv_id_t const&),
+        void (BaseType::*handleEvent)(AFNetEvent const*))
     {
-        net_msg_cb_ = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2);
+        net_msg_cb_ = std::bind(handleRecv, pBaseType, std::placeholders::_1, std::placeholders::_2);
         net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
-
-        brynet::net::base::InitSocket();
-        tcp_service_ = brynet::net::TcpService::Create();
-        uid_generator_ = std::make_shared<AFUidGeneratorThreadSafe>();
     }
 
     ~AFCWebSocketClient() override;
 
     void Update() override;
-    bool StartClient(
-        AFHeadLength len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 = false) override;
+    bool StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_t dst_bus_id, const std::string& ip, uint16_t port) override;
 
-    bool Shutdown() override final;
-    bool SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id) override;
-    bool CloseSession(const AFGUID& session_id) override;
+    void Shutdown() final;
+    bool SendMsg(AFIMsgHeader* head, const char* msg_data, conv_id_t session_id) override;
+    void CloseSession(conv_id_t session_id) override;
 
 protected:
-    bool SendMsg(const char* msg, const size_t msg_len, const AFGUID& session_id = 0);
+    bool SendMsg(const char* msg, size_t msg_len);
 
-    void UpdateNetSession();
-    void UpdateNetEvent(AFHttpSessionPtr session);
-    void UpdateNetMsg(AFHttpSessionPtr session);
-
-    bool CloseSession();
+    void UpdateNetEvent();
+    void UpdateNetMsg();
 
 private:
-    std::unique_ptr<AFHttpSession> client_session_ptr_{nullptr};
-    int dst_bus_id_{0};
+    bus_id_t dst_bus_id_{0};
 
     NET_MSG_FUNCTOR net_msg_cb_;
     NET_EVENT_FUNCTOR net_event_cb_;
 
-    AFCReaderWriterLock rw_lock_;
-    brynet::net::TcpService::Ptr tcp_service_{nullptr};
-    brynet::net::AsyncConnector::Ptr connector_{nullptr};
-    brynet::net::wrapper::HttpConnectionBuilder connection_builder;
+    AFReaderWriterLock rw_lock_;
 
-    //uint64_t trust_session_id_{1};
-    std::shared_ptr<AFUidGeneratorThreadSafe> uid_generator_{nullptr};
+    std::atomic<conv_id_t> trust_session_id_{1000};
+
+    AFWSClientSessionPtr client_session_ptr_{nullptr};
+    std::shared_ptr<zephyr::ws_client> client_;
 };
 
 } // namespace ark

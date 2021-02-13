@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@
 #pragma once
 
 #include "AFIContainer.hpp"
-#include "base/AFMap.hpp"
-#include "base/AFList.hpp"
+#include "base/container/AFMap.hpp"
+#include "base/container/AFList.hpp"
 #include "AFITable.hpp"
 #include "AFIData.hpp"
 
@@ -35,7 +35,7 @@ public:
     virtual ~AFIEntity() = default;
 
     // get object unique id
-    virtual const AFGUID& GetID() const = 0;
+    virtual const guid_t& GetID() const = 0;
 
     // get object parent unique id
     virtual std::shared_ptr<AFIContainer> GetParentContainer() const = 0;
@@ -88,7 +88,7 @@ public:
     virtual bool SetDouble(const std::string& name, const double value) = 0;
     virtual bool SetString(const std::string& name, const std::string& value) = 0;
     virtual bool SetWString(const std::string& name, const std::wstring& value) = 0;
-    virtual bool SetGUID(const std::string& name, const AFGUID& value) = 0;
+    virtual bool SetGUID(const std::string& name, const guid_t& value) = 0;
 
     virtual bool SetBool(const uint32_t index, bool value) = 0;
     virtual bool SetInt32(const uint32_t index, const int32_t value) = 0;
@@ -99,7 +99,7 @@ public:
     virtual bool SetDouble(const uint32_t index, const double value) = 0;
     virtual bool SetString(const uint32_t index, const std::string& value) = 0;
     virtual bool SetWString(const uint32_t index, const std::wstring& value) = 0;
-    virtual bool SetGUID(const uint32_t index, const AFGUID& value) = 0;
+    virtual bool SetGUID(const uint32_t index, const guid_t& value) = 0;
 
     // Get data by field name
     virtual bool GetNode(const std::string& name, AFIData& data) const = 0;
@@ -112,7 +112,7 @@ public:
     virtual double GetDouble(const std::string& name) const = 0;
     virtual const std::string& GetString(const std::string& name) const = 0;
     virtual const std::wstring& GetWString(const std::string& name) const = 0;
-    virtual const AFGUID& GetGUID(const std::string& name) const = 0;
+    virtual const guid_t& GetGUID(const std::string& name) const = 0;
 
     // Get data by field index
     virtual bool GetNode(const uint32_t index, AFIData& data) const = 0;
@@ -125,7 +125,7 @@ public:
     virtual double GetDouble(const uint32_t index) const = 0;
     virtual const std::string& GetString(const uint32_t index) const = 0;
     virtual const std::wstring& GetWString(const uint32_t index) const = 0;
-    virtual const AFGUID& GetGUID(const uint32_t index) const = 0;
+    virtual const guid_t& GetGUID(const uint32_t index) const = 0;
 
     // table data
     virtual AFITable* FindTable(const std::string& name) = 0;
@@ -143,7 +143,7 @@ public:
     virtual bool AddCustomDouble(const std::string& name, const double value) = 0;
     virtual bool AddCustomString(const std::string& name, const std::string& value) = 0;
     virtual bool AddCustomWString(const std::string& name, const std::wstring& value) = 0;
-    virtual bool AddCustomGUID(const std::string& name, const AFGUID& value) = 0;
+    virtual bool AddCustomGUID(const std::string& name, const guid_t& value) = 0;
 
     virtual bool SetCustomBool(const std::string& name, bool value) = 0;
     virtual bool SetCustomInt32(const std::string& name, const int32_t value) = 0;
@@ -153,7 +153,7 @@ public:
     virtual bool SetCustomDouble(const std::string& name, const double value) = 0;
     virtual bool SetCustomString(const std::string& name, const std::string& value) = 0;
     virtual bool SetCustomWString(const std::string& name, const std::wstring& value) = 0;
-    virtual bool SetCustomGUID(const std::string& name, const AFGUID& value) = 0;
+    virtual bool SetCustomGUID(const std::string& name, const guid_t& value) = 0;
 
     virtual bool GetCustomBool(const std::string& name) const = 0;
     virtual int32_t GetCustomInt32(const std::string& name) const = 0;
@@ -163,7 +163,7 @@ public:
     virtual double GetCustomDouble(const std::string& name) const = 0;
     virtual const char* GetCustomString(const std::string& name) const = 0;
     virtual const std::wstring& GetCustomWString(const std::string& name) const = 0;
-    virtual const AFGUID& GetCustomGUID(const std::string& name) const = 0;
+    virtual const guid_t& GetCustomGUID(const std::string& name) const = 0;
 
     virtual bool FindCustomData(const std::string& name) const = 0;
     virtual bool RemoveCustomData(const std::string& name) = 0;

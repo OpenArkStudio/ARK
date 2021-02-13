@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * you may not use this file except in compliance with the License.
@@ -20,39 +20,60 @@
 
 #pragma once
 
-#include <ananas/future/Future.h>
-#include <brynet/net/http/HttpFormat.hpp>
+#include <zephyr/zephyr.hpp>
 
 #include "interface/AFIModule.hpp"
-// Protobuf header files below platform.hpp cuz the std::min and std::numberic_limit<T>::min;
+// Protobuf header files below platform.hpp cuz the std::min and std::numeric_limit<T>::min;
 #include <google/protobuf/message.h>
 
 namespace ark {
 
-class AFIHttpClientModule : public AFIModule
-{
+class AFIHttpClientModule : public AFIModule {
 public:
-    // Request with parameters and cookies and the http body data is protobuf message.
-    virtual ananas::Future<std::pair<bool, std::string>> AsyncRequest(
-        brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
-        const std::string& url, std::map<std::string, std::string>& params, const std::vector<std::string>& cookies,
-        const google::protobuf::Message& http_msg) = 0;
+    virtual std::future<std::pair<bool, std::string>> Get(const std::string& host, const uint16_t port,
+        const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
+        const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) = 0;
 
-    // Request without parameters and cookies and the http body data is protobuf message.
-    virtual ananas::Future<std::pair<bool, std::string>> AsyncRequest(
-        brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
-        const std::string& url, const google::protobuf::Message& http_msg) = 0;
+    virtual std::future<std::pair<bool, std::string>> Post(const std::string& host, const uint16_t port,
+        const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
+        const std::string* http_body = nullptr, const std::string* content_type = nullptr,
+        const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) = 0;
 
-    // Request without parameters, cookies and http body data.
-    virtual ananas::Future<std::pair<bool, std::string>> AsyncRequest(
-        brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
-        const std::string& url) = 0;
+    /**
+     * Post an HTTP request
+     * @param cb will be called in the same thread where AFIModule::Update is called
+     * @param host IP or Domain name
+     * @param port
+     * @param url /v3/kv/put for example
+     * @param url_params will be appended to url as `?k1=v1&k2=v2&k3=v3...`
+     * @param http_body
+     * @param content_type
+     * @param cookies
+     * @param ioTimeout in seconds
+     * @param connectTimeout in seconds
+     */
+    virtual void Post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& host, const uint16_t port,
+        const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
+        const std::string* http_body = nullptr, const std::string* content_type = nullptr,
+        const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) = 0;
 
-    // The final request function.
-    virtual ananas::Future<std::pair<bool, std::string>> AsyncRequest(
-        brynet::net::http::HttpRequest::HTTP_METHOD http_method, const std::string& ip, const uint16_t port,
-        const std::string& url, std::map<std::string, std::string>& params, const std::vector<std::string>& cookies,
-        const std::string& http_doby) = 0;
+    /**
+     * Post an HTTP request
+     * @param cb will be called in the same thread where AFIModule::Update is called
+     * @param host IP or Domain name
+     * @param service service name or port
+     * @param url /v3/kv/put for example
+     * @param url_params will be appended to url as `?k1=v1&k2=v2&k3=v3...`
+     * @param http_body
+     * @param content_type
+     * @param cookies
+     * @param ioTimeout in seconds
+     * @param connectTimeout in seconds
+     */
+    virtual void Post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& host,
+        const std::string& service, const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
+        const std::string* http_body = nullptr, const std::string* content_type = nullptr,
+        const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) = 0;
 };
 
 } // namespace ark

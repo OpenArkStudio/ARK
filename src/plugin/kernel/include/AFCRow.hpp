@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 
 #include "kernel/interface/AFIData.hpp"
 #include "base/AFMacros.hpp"
-#include "base/AFMap.hpp"
+#include "base/container/AFMap.hpp"
 #include "AFNodeManager.hpp"
 #include "kernel/interface/AFITable.hpp"
 #include "kernel/interface/AFIDataList.hpp"
@@ -65,7 +65,7 @@ public:
     double GetDouble(const uint32_t index) const override;
     const std::string& GetString(const uint32_t index) const override;
     const std::wstring& GetWString(const uint32_t index) const override;
-    const AFGUID& GetGUID(const uint32_t index) const override;
+    const guid_t& GetGUID(const uint32_t index) const override;
 
     bool GetBool(const std::string& name) const override;
     int32_t GetInt32(const std::string& name) const override;
@@ -76,7 +76,7 @@ public:
     double GetDouble(const std::string& name) const override;
     const std::string& GetString(const std::string& name) const override;
     const std::wstring& GetWString(const std::string& name) const override;
-    const AFGUID& GetGUID(const std::string& name) const override;
+    const guid_t& GetGUID(const std::string& name) const override;
 
     // set row data
     bool SetBool(const uint32_t index, bool value) override;
@@ -88,7 +88,7 @@ public:
     bool SetDouble(const uint32_t index, double value) override;
     bool SetString(const uint32_t index, const std::string& value) override;
     bool SetWString(const uint32_t index, const std::wstring& value) override;
-    bool SetGUID(const uint32_t index, const AFGUID& value) override;
+    bool SetGUID(const uint32_t index, const guid_t& value) override;
 
     bool SetBool(const std::string& name, bool value) override;
     bool SetInt32(const std::string& name, int32_t value) override;
@@ -99,7 +99,7 @@ public:
     bool SetDouble(const std::string& name, double value) override;
     bool SetString(const std::string& name, const std::string& value) override;
     bool SetWString(const std::string& name, const std::wstring& value) override;
-    bool SetGUID(const std::string& name, const AFGUID& value) override;
+    bool SetGUID(const std::string& name, const guid_t& value) override;
 
 private:
     std::shared_ptr<AFNodeManager> GetNodeManager() const;

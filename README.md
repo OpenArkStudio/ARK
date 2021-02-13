@@ -1,8 +1,10 @@
 English | [简体中文](./README_CN.md)
 
-<p align="right">Current version: <strong>v0.9.8</strong></p>
-<p align="center"><img src="https://raw.githubusercontent.com/ArkNX/ARK/gh-pages/_images/ark_logo.svg?sanitize=true" alt="ark" width="300"/></p>
-<center>ARK is a lightweight, agility, elastic, distributed plugin framework written by C++，make it easier and faster to create your own application service. Inspired by UnrealEngine and Ogre.
+<p align="right">Current version: <strong>v1.0.0</strong></p>
+<pre style="text-align:center">
+<img src="https://raw.githubusercontent.com/ArkNX/ARK/gh-pages/_images/ark_logo.svg?sanitize=true" alt="ark" width="300"/>
+</pre>
+ARK is a lightweight, agility, elastic, distributed plugin framework written in C++，make it easier and faster to create your own application service. Inspired by UnrealEngine and Ogre.
 
 ---
 
@@ -26,7 +28,8 @@ English | [简体中文](./README_CN.md)
 Website: https://arknx.com  
 Github: https://github.com/ArkNX/ARK  
 Gitee: https://gitee.com/ArkNX/ARK  
-QQ Group: [Join Us](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)  
+QQ
+Group: [Join Us](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)  
 Discord: [Join Us](https://discord.gg/GmyBbcv)
 
 | CI             | master branch                                                                                                             | develop branch                                                                                                                      |
@@ -37,7 +40,8 @@ Discord: [Join Us](https://discord.gg/GmyBbcv)
 
 ##### Wanna get the newest features? Please switch to the develop branch.
 
-**<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkNX/ARK/blob/master/.github/CONTRIBUTING.md)</font>**.
+**<font color=red>If you wanna commit PR or report issue, please refer
+to [Contribution Guide](https://github.com/ArkNX/ARK/blob/master/.github/CONTRIBUTING.md)</font>**.
 
 ## Features
 
@@ -49,7 +53,7 @@ Discord: [Join Us](https://discord.gg/GmyBbcv)
 - Use Excel as configuration files, easier for the designers
 - Lower training and education costs
 - Based on C++ standard, easy to handle and learn
-- Cross-platform (Include Windows and Linux)
+- Cross-platform (Windows, Linux, MacOS)
 - High availability architectures
 - High concurrency and performance of the network
 - With existed simple Unity3D client for rapid development
@@ -70,7 +74,7 @@ The ARK project is currently available under the [Apache License](https://github
 
 ## Donation
 
-Thank you for your donation, all income will be used as development and server fees.
+Thank you for your donation, all income will be used for development and server fees.
 
 [![Donate by Paypal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/nickyang4self)
 
@@ -84,13 +88,14 @@ Thank you for your donation, all income will be used as development and server f
 
 ---
 
-Our team has always specialized in the agile development and try to help different teams to develop game project quickly and easily. After years of development, we create this frame. We are still improving it.
+Our team has always specialized in the agile development and try to help different teams to develop game project quickly
+and easily. After years of development, we create this frame. We are still improving it.
 
 ---
 
-## Star trends
+## Stargazers over time
 
-[![Sparkline](https://stars.medv.io/ArkNX/ARK.svg)](https://github.com/ArkNX/ARK)
+[![Stargazers over time](https://starchart.cc/ArkNX/ARK.svg)](https://starchart.cc/ArkNX/ARK)
 
 #### Some Awesome projects
 

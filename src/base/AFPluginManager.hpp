@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -20,27 +20,37 @@
 
 #pragma once
 
-#include "base/AFSingleton.hpp"
-#include "base/AFMap.hpp"
-#include "base/AFArrayMap.hpp"
-#include "base/AFDateTime.hpp"
-#include "base/AFXml.hpp"
+#include "base/AFNoncopyable.hpp"
+#include "base/AFLogger.hpp"
 #include "base/AFDynLib.hpp"
 #include "interface/AFIPlugin.hpp"
 #include "interface/AFIModule.hpp"
 
 namespace ark {
 
-class AFPluginManager final : public AFSingleton<AFPluginManager>
+class AFPluginManager final : private AFNoncopyable
 {
 public:
-    AFPluginManager()
-        : timestamp_(AFDateTime::GetNowTime())
+    static auto instance() -> AFPluginManager*
     {
+        static AFPluginManager* instance_ = nullptr;
+        if (instance_ == nullptr)
+        {
+            instance_ = ARK_NEW AFPluginManager();
+        }
+
+        return instance_;
     }
 
-    bool Start()
+    auto Start(int64_t const timestamp, std::string const& lib_dir, std::string const& conf_dir,
+        std::unordered_map<std::string, std::string> const& plugins) -> bool
     {
+        timestamp_ = timestamp;
+
+        plugin_library_dir_ = lib_dir;
+        plugin_conf_dir_ = conf_dir;
+        plugins_ = plugins;
+
         ARK_ASSERT_RET_VAL(Init(), false);
         ARK_ASSERT_RET_VAL(PostInit(), false);
         ARK_ASSERT_RET_VAL(CheckConfig(), false);
@@ -49,17 +59,19 @@ public:
         return true;
     }
 
-    bool Stop()
+    auto Stop(const int64_t timestamp) -> bool
     {
+        timestamp_ = timestamp;
+
         PreShut();
         Shut();
 
         return true;
     }
 
-    bool Update()
+    auto Update(const int64_t timestamp) -> bool
     {
-        timestamp_ = AFDateTime::GetNowTime();
+        timestamp_ = timestamp;
 
         // Just loop the modules which have update function.
         for (const auto& iter : module_updates_)
@@ -73,46 +85,41 @@ public:
         return true;
     }
 
-    //////////////////////////////////////////////////////////////////////////
     template<typename DerivedModule>
-    DerivedModule* FindModule()
+    auto FindModule() -> DerivedModule*
     {
         AFIModule* pLogicModule = FindModule(GET_CLASS_NAME(DerivedModule));
         ARK_ASSERT_RET_VAL(pLogicModule != nullptr, nullptr);
 
-        if (!std::is_base_of<AFIModule, DerivedModule>::value)
-        {
-            return nullptr;
-        }
+        using derived_type =
+            typename std::enable_if<std::is_base_of<AFIModule, DerivedModule>::value, DerivedModule>::type;
 
-        DerivedModule* derived_module = dynamic_cast<DerivedModule*>(pLogicModule);
+        auto derived_module = dynamic_cast<derived_type*>(pLogicModule);
         ARK_ASSERT_RET_VAL(derived_module != nullptr, nullptr);
 
         return derived_module;
     }
 
     template<typename PLUGIN_TYPE>
-    void Register()
+    void Register(std::string const& plugin_name)
     {
         AFIPlugin* pNewPlugin = ARK_NEW PLUGIN_TYPE();
-        Register(pNewPlugin);
+        std::string runtime_plugin_name = GET_CLASS_NAME(PLUGIN_TYPE);
+        Register(pNewPlugin, plugin_name, runtime_plugin_name);
     }
 
     template<typename PLUGIN_TYPE>
-    void Deregister()
+    void Unregister()
     {
-        //! Delete plugin memory in Deregister
-        Deregister(GET_CLASS_NAME(PLUGIN_TYPE));
+        //! Delete plugin memory in Unregister
+        Unregister(GET_CLASS_NAME(PLUGIN_TYPE));
     }
 
-    void AddModule(const std::string& module_name, AFIModule* module_ptr)
+    auto AddModule(const std::string& module_name, AFIModule* module_ptr) -> bool
     {
-        ARK_ASSERT_RET_NONE(FindModule(module_name) == nullptr);
-
-        if (module_instances_.insert(std::make_pair(module_name, module_ptr)).second)
-        {
-            ordered_module_instances_.push_back(module_ptr);
-        }
+        ARK_ASSERT_RET_VAL(!module_name.empty(), false);
+        ARK_ASSERT_RET_VAL(FindModule(module_name) == nullptr, false);
+        return module_instances_.insert(std::make_pair(module_name, module_ptr)).second;
     }
 
     void RemoveModule(const std::string& module_name)
@@ -123,17 +130,10 @@ public:
             return;
         }
 
-        auto module_ptr = iter->second;
         module_instances_.erase(module_name);
-
-        auto it = std::find(ordered_module_instances_.begin(), ordered_module_instances_.end(), module_ptr);
-        if (it != ordered_module_instances_.end())
-        {
-            ordered_module_instances_.erase(it);
-        }
     }
 
-    bool AddUpdateModule(AFIModule* pModule)
+    auto AddUpdateModule(AFIModule* pModule) -> bool
     {
         ARK_ASSERT_RET_VAL(pModule != nullptr, false);
         return module_updates_.insert(std::make_pair(pModule->GetName(), pModule)).second;
@@ -144,22 +144,22 @@ public:
         module_updates_.erase(module_name);
     }
 
-    int64_t GetNowTime() const
+    auto GetNowTime() const -> int64_t
     {
         return timestamp_;
     }
 
-    int GetBusID() const
+    auto GetBusID() const -> bus_id_t
     {
         return bus_id_;
     }
 
-    void SetBusID(const int value)
+    void SetBusID(const bus_id_t value)
     {
         bus_id_ = value;
     }
 
-    const std::string& GetAppName() const
+    auto GetAppName() const -> const std::string&
     {
         return app_name_;
     }
@@ -169,41 +169,58 @@ public:
         app_name_ = value;
     }
 
-    const std::string& GetResPath() const
-    {
-        return res_path_;
-    }
-
-    void SetPluginConf(const std::string& value)
+    void SetAppConf(const std::string& value)
     {
         ARK_ASSERT_RET_NONE(!value.empty());
-        ARK_ASSERT_RET_NONE(value.find(".plugin") != string::npos);
+        ARK_ASSERT_RET_NONE(value.find(".app.conf") != std::string::npos);
 
-        plugin_conf_path_ = value;
+        app_conf_path_ = value;
     }
 
-    const std::string& GetLogPath() const
+    auto GetAppConf() const -> std::string const&
     {
-        return log_path_;
+        return app_conf_path_;
     }
 
-    void SetLogPath(const std::string& value)
+    auto GetPluginConf(std::string const& plugin_name) -> std::string const&
     {
-        log_path_ = value;
+        const static std::string null_str;
+        ARK_ASSERT_RET_VAL(!plugin_name.empty(), null_str);
+        auto iter = plugins_.find(plugin_name);
+        return iter != plugins_.end() ? iter->second : null_str;
+    }
+
+    template<typename PLUGIN_TYPE>
+    auto GetPluginConf() -> const std::string&
+    {
+        auto plugin = FindPlugin<PLUGIN_TYPE>();
+        ARK_ASSERT_RET_VAL(plugin != nullptr, NULL_STR);
+
+        return plugin->GetPluginConf();
     }
 
 protected:
-    void Register(AFIPlugin* plugin)
+    void Register(AFIPlugin* plugin, std::string const& plugin_name, std::string const& runtime_plugin_name)
     {
-        std::string plugin_name = plugin->GetPluginName();
+        // e.g. plugin_name = class ark::AFKernelPlugin
+        // It's a runtime name, so we cannot use it to find the plugin.conf file.
+        //std::string plugin_name = plugin->GetPluginName();
 
         ARK_ASSERT_RET_NONE(FindPlugin(plugin_name) == nullptr);
+
+        auto iter = plugins_.find(plugin_name);
+        ARK_ASSERT_NO_EFFECT(iter != plugins_.end());
+
         plugin->SetPluginManager(this);
-        plugin_instances_.insert(std::make_pair(plugin_name, plugin));
+        // set plugin self configuration
+        plugin->SetPluginConf(plugin_conf_dir_ + iter->second);
+        // Install modules
         plugin->Install();
+        // manage this plugin
+        plugin_instances_.insert(std::make_pair(runtime_plugin_name, plugin));
     }
 
-    void Deregister(const std::string& plugin_name)
+    void Unregister(const std::string& plugin_name)
     {
         ARK_ASSERT_RET_NONE(!plugin_name.empty());
 
@@ -211,13 +228,12 @@ protected:
         ARK_ASSERT_RET_NONE(plugin != nullptr);
 
         plugin->Uninstall();
-        plugin_instances_.erase(plugin->GetPluginName());
+        plugin_instances_.erase(plugin_name);
         ARK_DELETE(plugin);
     }
 
-    AFIPlugin* FindPlugin(const std::string& plugin_name)
+    auto FindPlugin(const std::string& plugin_name) -> AFIPlugin*
     {
-
         auto iter = plugin_instances_.find(plugin_name);
         if (iter != plugin_instances_.end())
         {
@@ -229,28 +245,41 @@ protected:
         }
     }
 
-    AFIModule* FindModule(const std::string& module_name)
+    template<typename PLUGIN_TYPE>
+    auto FindPlugin() -> AFIPlugin*
+    {
+        using derived_type = typename std::enable_if<std::is_base_of<AFIPlugin, PLUGIN_TYPE>::value, PLUGIN_TYPE>::type;
+        auto plugin_name = GET_CLASS_NAME(derived_type);
+        auto iter = plugin_instances_.find(plugin_name);
+        if (iter != plugin_instances_.end())
+        {
+            return iter->second;
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
+
+    auto FindModule(const std::string& module_name) -> AFIModule*
     {
         auto iter = module_instances_.find(module_name);
         return ((iter != module_instances_.end()) ? iter->second : nullptr);
     }
 
-    bool Init()
+    auto Init() -> bool
     {
-        // load plugin configuration
-        ARK_ASSERT_RET_VAL(LoadPluginConf(), false);
-
         // load plugin dynamic libraries
-        for (const auto& iter : ordered_plugin_names_)
+        for (auto const& iter : plugins_)
         {
-            bool ret = LoadPluginLibrary(iter);
+            bool ret = LoadPluginLibrary(iter.first);
             ARK_ASSERT_RET_VAL(ret, false);
         }
 
         // initialize all modules
-        for (const auto& iter : ordered_module_instances_)
+        for (auto const& iter : module_instances_)
         {
-            AFIModule* pModule = iter;
+            AFIModule* pModule = iter.second;
             ARK_ASSERT_CONTINUE(pModule != nullptr);
 
             pModule->Init();
@@ -259,11 +288,11 @@ protected:
         return true;
     }
 
-    bool PostInit()
+    auto PostInit() -> bool
     {
-        for (const auto& iter : ordered_module_instances_)
+        for (auto const& iter : module_instances_)
         {
-            AFIModule* pModule = iter;
+            AFIModule* pModule = iter.second;
             ARK_ASSERT_CONTINUE(pModule != nullptr);
 
             pModule->PostInit();
@@ -272,11 +301,11 @@ protected:
         return true;
     }
 
-    bool CheckConfig()
+    auto CheckConfig() -> bool
     {
-        for (const auto& iter : ordered_module_instances_)
+        for (auto const& iter : module_instances_)
         {
-            AFIModule* pModule = iter;
+            AFIModule* pModule = iter.second;
             ARK_ASSERT_CONTINUE(pModule != nullptr);
 
             pModule->CheckConfig();
@@ -285,11 +314,11 @@ protected:
         return true;
     }
 
-    bool PreUpdate()
+    auto PreUpdate() -> bool
     {
-        for (const auto& iter : ordered_module_instances_)
+        for (auto const& iter : module_instances_)
         {
-            AFIModule* pModule = iter;
+            AFIModule* pModule = iter.second;
             ARK_ASSERT_CONTINUE(pModule != nullptr);
 
             pModule->PreUpdate();
@@ -298,13 +327,11 @@ protected:
         return true;
     }
 
-    bool PreShut()
+    auto PreShut() -> bool
     {
-        timestamp_ = AFDateTime::GetNowTime();
-
-        for (const auto& iter : ordered_module_instances_)
+        for (auto const& iter : module_instances_)
         {
-            AFIModule* pModule = iter;
+            AFIModule* pModule = iter.second;
             ARK_ASSERT_CONTINUE(pModule != nullptr);
 
             pModule->PreShut();
@@ -313,17 +340,17 @@ protected:
         return true;
     }
 
-    bool Shut()
+    auto Shut() -> bool
     {
-        for (auto& iter : ordered_module_instances_)
+        for (auto const& iter : module_instances_)
         {
-            AFIModule* pModule = iter;
+            AFIModule* pModule = iter.second;
             ARK_ASSERT_CONTINUE(pModule != nullptr);
 
             pModule->Shut();
         }
 
-        for (auto& it : plugin_names_)
+        for (auto& it : plugins_)
         {
             UnloadPluginLibrary(it.first);
         }
@@ -337,78 +364,39 @@ protected:
         return true;
     }
 
-    bool LoadPluginConf()
-    {
-        AFXml xml_doc(plugin_conf_path_);
-
-        auto root_node = xml_doc.GetRootNode();
-        ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
-
-        auto plugins_node = root_node.FindNode("plugins");
-        ARK_ASSERT_RET_VAL(plugins_node.IsValid(), false);
-        plugin_path_ = plugins_node.GetString("path");
-        ARK_ASSERT_RET_VAL(!plugin_path_.empty(), false);
-
-        for (auto plugin_node = plugins_node.FindNode("plugin"); plugin_node.IsValid(); plugin_node.NextNode())
-        {
-            std::string plugin_name = plugin_node.GetString("name");
-            if (plugin_names_.insert(std::make_pair(plugin_name, true)).second)
-            {
-                ordered_plugin_names_.emplace_back(plugin_name);
-            }
-        }
-
-        auto res_node = root_node.FindNode("res");
-        ARK_ASSERT_RET_VAL(res_node.IsValid(), false);
-        res_path_ = res_node.GetString("path");
-        ARK_ASSERT_RET_VAL(!res_path_.empty(), false);
-
-        return true;
-    }
-
-    bool LoadPluginLibrary(const std::string& plugin_name)
+    auto LoadPluginLibrary(const std::string& plugin_name) -> bool
     {
         auto iter = plugin_libs_.find(plugin_name);
         ARK_ASSERT_RET_VAL(iter == plugin_libs_.end(), false);
 
-        AFDynLib* pLib = ARK_NEW AFDynLib(plugin_name);
+        auto* pLib = ARK_NEW AFDynLib(plugin_name);
         ARK_ASSERT_RET_VAL(pLib != nullptr, false);
 
-        bool load_ret = pLib->Load(plugin_path_);
+        bool load_ret = pLib->Load(plugin_library_dir_);
         if (load_ret)
         {
             plugin_libs_.insert(std::make_pair(plugin_name, pLib));
-            auto func = (DLL_ENTRY_PLUGIN_FUNC)pLib->GetSymbol("DllEntryPlugin");
+            auto func = reinterpret_cast<DLL_ENTRY_PLUGIN_FUNC>(pLib->GetSymbol("DllEntryPlugin"));
             ARK_ASSERT_RET_VAL(func != nullptr, false);
-            func(this);
+            func(this, plugin_name, AFLogger::instance());
 
             return true;
         }
         else
         {
 #ifdef ARK_PLATFORM_WIN
-            CONSOLE_LOG << "Load dynamic library[" << pLib->GetName() << "] failed, ErrorNo=[" << GetLastError() << "]"
-                        << std::endl;
-            CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
-            assert(0);
-            return false;
+            auto error = GetLastError();
 #else
-            char* error = dlerror();
-            if (error)
-            {
-                CONSOLE_LOG << stderr << " Load shared library[" << pLib->GetName() << "] failed, ErrorNo=[" << error
-                            << "]" << std::endl;
-                CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
-                assert(0);
-                return false;
-            }
+            auto error = dlerror();
 #endif
+            ARK_LOG_ERROR("Load shared library[{}] failed, ErrorNo[{}]", pLib->GetName(), error);
+            ARK_ASSERT_RET_VAL(0, false);
         }
 
         return true;
     }
 
-    bool UnloadPluginLibrary(const std::string& plugin_name)
+    auto UnloadPluginLibrary(const std::string& plugin_name) -> bool
     {
         auto iter = plugin_libs_.find(plugin_name);
         ARK_ASSERT_RET_VAL(iter != plugin_libs_.end(), false);
@@ -416,7 +404,7 @@ protected:
         AFDynLib* pDynLib = iter->second;
         ARK_ASSERT_RET_VAL(pDynLib != nullptr, false);
 
-        auto func = (DLL_EXIT_PLUGIN_FUNC)pDynLib->GetSymbol("DllExitPlugin");
+        auto func = reinterpret_cast<DLL_EXIT_PLUGIN_FUNC>(pDynLib->GetSymbol("DllExitPlugin"));
         ARK_ASSERT_RET_VAL(func != nullptr, false);
         func(this);
 
@@ -428,27 +416,27 @@ private:
     int bus_id_{0};
     // Current time(ms)
     int64_t timestamp_{0};
-    // plugin so/dll file path
-    std::string plugin_path_{};
-    // Resource path
-    std::string res_path_{};
-    // app.plugin file path
-    std::string plugin_conf_path_{};
+    // plugin so/dll file dir
+    std::string plugin_library_dir_{};
+    // xx.plugin.conf file path
+    std::string plugin_conf_dir_{};
+    // xx.app.conf file path
+    std::string app_conf_path_{};
     // app name
-    std::string app_name_{};
-    // log output path
-    std::string log_path_{};
+    std::string app_name_{"ark"};
 
-    using DLL_ENTRY_PLUGIN_FUNC = void (*)(AFPluginManager* p);
-    using DLL_EXIT_PLUGIN_FUNC = void (*)(AFPluginManager* p);
+    using DLL_ENTRY_PLUGIN_FUNC = void (*)(AFPluginManager*, std::string const&, AFLogger*);
+    using DLL_EXIT_PLUGIN_FUNC = void (*)(AFPluginManager*);
 
-    std::unordered_map<std::string, bool> plugin_names_;
-    std::vector<std::string> ordered_plugin_names_; // order
+    // plugin_code_name -> plugin_config
+    std::unordered_map<std::string, std::string> plugins_;
+    // plugin_code_name -> AFDynLib*
     std::unordered_map<std::string, AFDynLib*> plugin_libs_;
+    // plugin_code_name -> AFIPlugin*
     std::unordered_map<std::string, AFIPlugin*> plugin_instances_;
+    // module_runtime_name -> AFIModule*
     std::unordered_map<std::string, AFIModule*> module_instances_;
-    std::vector<AFIModule*> ordered_module_instances_; // order
-
+    // Only include the module with self Update function. module_runtime_name -> AFIModule*
     std::unordered_map<std::string, AFIModule*> module_updates_;
 };
 

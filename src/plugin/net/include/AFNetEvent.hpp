@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -22,21 +22,19 @@
 
 #include "base/AFPlatform.hpp"
 #include "base/AFMacros.hpp"
+#include "net/include/AFNetDefine.hpp"
 
 #pragma pack(push, 1)
 
 namespace ark {
 
-enum class AFNetEventType : uint8_t
-{
-    NONE = 0,
-    CONNECTED = 1,
-    DISCONNECTED = 2,
-    RECV_DATA = 3,
-};
-
 class AFNetEvent final
 {
+    AFNetEventType type_{AFNetEventType::NONE};
+    conv_id_t id_{0};
+    std::string ip_{};
+    bus_id_t bus_id_{0};
+
 public:
     static AFNetEvent* AllocEvent()
     {
@@ -53,7 +51,7 @@ public:
         return type_;
     }
 
-    int64_t GetId() const
+    conv_id_t GetId() const
     {
         return id_;
     }
@@ -63,7 +61,7 @@ public:
         return ip_;
     }
 
-    int GetBusId() const
+    bus_id_t GetBusId() const
     {
         return bus_id_;
     }
@@ -73,7 +71,7 @@ public:
         type_ = value;
     }
 
-    void SetId(int64_t value)
+    void SetId(conv_id_t value)
     {
         id_ = value;
     }
@@ -83,16 +81,10 @@ public:
         ip_ = value;
     }
 
-    void SetBusId(int value)
+    void SetBusId(bus_id_t value)
     {
         bus_id_ = value;
     }
-
-private:
-    AFNetEventType type_{AFNetEventType::NONE};
-    int64_t id_{0};
-    std::string ip_{};
-    int bus_id_{0};
 };
 
 } // namespace ark

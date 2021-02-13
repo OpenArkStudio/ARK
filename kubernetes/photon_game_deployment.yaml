@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sts-photon-game
+  namespace: default
+  labels:
+    app: photon-game
+spec:
+#  to match k8s service name
+  serviceName: "svc-photon-game"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: photon-game
+  template:
+    metadata:
+      labels:
+        app: photon-game
+    spec:
+      #      nodeSelector:
+      #        type: pvp
+      containers:
+        - name: photon-game
+          image: ark:photon
+          imagePullPolicy: Never
+          command: ["./bin/app"]
+          args:
+            - "--busid=1.0.31.${HOSTNAME##*-}"
+            - "--name=photon_game"
+            - "--app_conf=conf/photon.game.app.conf"
+          env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MY_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: MY_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          volumeMounts:
+            - name: tz-config
+              mountPath: /etc/localtime
+            - name: photon-config
+              mountPath: /root/build/conf
+      volumes:
+        - name: tz-config
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Shanghai
+        - name: photon-config
+          configMap:
+            name: photon-config

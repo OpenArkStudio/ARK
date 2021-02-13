@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ namespace ark {
 bool AFCMapModule::Init()
 {
     m_pKernelModule = FindModule<AFIKernelModule>();
-    m_pLogModule = FindModule<AFILogModule>();
 
     return true;
 }
@@ -45,7 +44,7 @@ std::shared_ptr<ark::AFMapInfo> AFCMapModule::GetMapInfo(const int map_id)
     return map_infos_.find_value(map_id);
 }
 
-bool AFCMapModule::IsInMapInstance(const AFGUID& self)
+bool AFCMapModule::IsInMapInstance(const guid_t& self)
 {
     auto pEntity = m_pKernelModule->GetEntity(self);
     if (pEntity != nullptr)
@@ -65,7 +64,7 @@ bool AFCMapModule::ExistMap(const int map_id)
     return (pMapInfo != nullptr);
 }
 
-bool AFCMapModule::SwitchMap(const AFGUID& self, const int target_map, const int target_inst, const AFVector3D& pos,
+bool AFCMapModule::SwitchMap(const guid_t& self, const int target_map, const int target_inst, const AFVector3D& pos,
     const float fOrient, const AFIDataList& args)
 {
     auto pEntity = m_pKernelModule->GetEntity(self);
@@ -277,7 +276,7 @@ bool AFCMapModule::ReleaseMapInstance(const int map_id, const int inst_id)
     {
         for (size_t i = 0; i < listObject.GetCount(); ++i)
         {
-            AFGUID ident = listObject.Int64(i);
+            guid_t ident = listObject.Int64(i);
 
             if (!m_pKernelModule->DestroyEntity(ident))
             {
@@ -338,7 +337,7 @@ int AFCMapModule::GetEntityByDataNode(
     size_t entity_count = varObjectList.GetCount();
     for (size_t i = 0; i < entity_count; ++i)
     {
-        AFGUID ident = varObjectList.Int64(i);
+        guid_t ident = varObjectList.Int64(i);
         auto pEntity = m_pKernelModule->GetEntity(ident);
         if (pEntity == nullptr)
         {
