@@ -12,7 +12,7 @@ void AFConsulPlugin::Install()
 
 void AFConsulPlugin::Uninstall()
 {
-    ARK_DEREGISTER_MODULE(AFIConsulModule, AFCConsulModule);
+    ARK_UNREGISTER_MODULE(AFIConsulModule, AFCConsulModule);
 }
 
 } // namespace ark

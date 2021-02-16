@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ namespace ark {
 
 bool AFCDirNetModule::Init()
 {
-    m_pLogModule = FindModule<AFILogModule>();
     m_pBusModule = FindModule<AFIBusModule>();
     m_pNetServiceManagerModule = FindModule<AFINetServiceManagerModule>();
 
@@ -40,22 +39,19 @@ bool AFCDirNetModule::PostInit()
 int AFCDirNetModule::StartServer()
 {
     auto ret = m_pNetServiceManagerModule->CreateServer();
-    ret.Then([=](const std::pair<bool, std::string>& resp) {
-        if (!resp.first)
-        {
-            ARK_LOG_ERROR(
-                "Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), resp.second);
-            ARK_ASSERT_NO_EFFECT(0);
-            exit(0);
-        }
+    if (!ret)
+    {
+        ARK_LOG_ERROR("Cannot start server net, busid = {}", m_pBusModule->GetSelfBusName());
+        ARK_ASSERT_NO_EFFECT(0);
+        exit(0);
+    }
 
-        m_pNetServer = m_pNetServiceManagerModule->GetSelfNetServer();
-        if (m_pNetServer == nullptr)
-        {
-            ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
-            exit(0);
-        }
-    });
+    m_pNetServer = m_pNetServiceManagerModule->GetInterNetServer();
+    if (m_pNetServer == nullptr)
+    {
+        ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+        exit(0);
+    }
 
     return 0;
 }

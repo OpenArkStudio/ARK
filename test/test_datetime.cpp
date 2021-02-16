@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,8 @@
 
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "base/AFDateTime.hpp"
+#include "base/time/AFDateTime.hpp"
+
 TEST_CASE("GetMilliseconds() should return now_UTC_time", "[GetMilliseconds()]")
 {
     ark::AFDateTime date_time_instance;
@@ -74,7 +75,7 @@ TEST_CASE("copy constructor should return instance same as copied instance", "AF
     REQUIRE(date_time_provider == date_time_instance);
 }
 
-TEST_CASE("= constructor with AFdateTime instance should return another instance same as assigned instance",
+TEST_CASE("= constructor with AFDateTime instance should return another instance same as assigned instance",
     "AFDateTime& operator=(const AFDateTime& other)")
 {
     ark::AFDateTime date_time_provider;

@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -29,13 +29,13 @@ namespace ark {
 //class AFServerData
 //{
 //public:
-//    void Init(const AFGUID& conn_id, const AFMsg::msg_ss_server_report& data)
+//    void Init(const guid_t& conn_id, const AFMsg::msg_ss_server_report& data)
 //    {
 //        conn_id_ = conn_id;
 //        server_info_ = data;
 //    }
 //
-//    AFGUID conn_id_{0};
+//    guid_t conn_id_{0};
 //    AFMsg::msg_ss_server_report server_info_;
 //};
 //
@@ -44,8 +44,8 @@ namespace ark {
 //public:
 //    int32_t logic_state_{0};
 //    int32_t game_id_{0};
-//    AFGUID actor_id_{0};
-//    AFGUID conn_id_{0};
+//    guid_t actor_id_{0};
+//    guid_t conn_id_{0};
 //    std::string account_{};
 //};
 
@@ -55,41 +55,52 @@ public:
     virtual ~AFINetServerService() = default;
 
     template<typename BaseType>
-    bool RegMsgCallback(const int msg_id, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*))
+    bool RegMsgCallback(
+        const msg_id_t msg_id, BaseType* pBase, void (BaseType::*handleRecv)(AFNetMsg const*, conv_id_t))
     {
-        NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1);
+        NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
         return RegMsgCallback(msg_id, std::move(functor));
     }
 
     template<typename BaseType>
-    bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int))
+    bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(AFNetMsg const*, int))
     {
         NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
         return RegForwardMsgCallback(std::move(functor));
     }
 
     template<typename BaseType>
-    bool RegNetEventCallback(BaseType* pBase, void (BaseType::*handler)(const AFNetEvent*))
+    bool RegNetEventCallback(BaseType* pBase, void (BaseType::*handler)(AFNetEvent const*))
     {
         NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1);
         return RegNetEventCallback(std::move(functor));
     }
 
-    virtual bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count,
-        const uint32_t max_connection) = 0;
+    template<typename BaseType>
+    bool RegRegServerCallBack(BaseType* pBase, void (BaseType::*handler)(AFNetMsg const*, conv_id_t))
+    {
+        NET_MSG_SESSION_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
+        return RegRegServerCallBack(std::move(functor));
+    }
+
+    virtual bool Start(
+        std::shared_ptr<const AFIMsgHeader> head, bus_id_t bus_id, const AFEndpoint& ep, uint8_t thread_count, uint32_t max_connection, const size_t silent_timeout) = 0;
     virtual bool Update() = 0;
 
-    // virtual bool SendBroadcastMsg(const int nMsgID, const std::string& msg, const AFGUID& player_id) = 0;
-    // virtual bool SendBroadcastPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID&
-    // player_id) = 0; virtual bool SendPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const
-    // AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) = 0; virtual bool
-    // SendMsg(const uint16_t msg_id, const std::string& data, const AFGUID& connect_id, const AFGUID& player_id, const
-    // std::vector<AFGUID>* target_list = nullptr) = 0;
+    // virtual bool SendBroadcastMsg(msg_id_t nMsgID, const std::string& msg, const guid_t& player_id) = 0;
+    // virtual bool SendBroadcastPBMsg(msg_id_t msg_id, const google::protobuf::Message& pb_msg, const guid_t&
+    // player_id) = 0; virtual bool SendPBMsg(msg_id_t msg_id, const google::protobuf::Message& pb_msg, const
+    // guid_t& connect_id, const guid_t& player_id, const std::vector<guid_t>* target_list = nullptr) = 0; virtual bool
+    // SendMsg(msg_id_t msg_id, const std::string& data, const guid_t& connect_id, const guid_t& player_id, const
+    // std::vector<guid_t>* target_list = nullptr) = 0;
     virtual std::shared_ptr<AFINet> GetNet() = 0;
 
-    virtual bool RegMsgCallback(const int msg_id, NET_MSG_FUNCTOR&& cb) = 0;
+    virtual bool RegMsgCallback(msg_id_t msg_id, NET_MSG_FUNCTOR&& cb) = 0;
     virtual bool RegForwardMsgCallback(NET_MSG_FUNCTOR&& cb) = 0;
     virtual bool RegNetEventCallback(NET_EVENT_FUNCTOR&& cb) = 0;
+    virtual bool RegRegServerCallBack(NET_MSG_SESSION_FUNCTOR&& cb) = 0;
+
+    virtual void SetTimeoutInterval(const int32_t interval) = 0;
 };
 
 } // namespace ark

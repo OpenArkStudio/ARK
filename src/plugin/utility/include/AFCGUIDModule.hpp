@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -32,15 +32,15 @@ class AFCGUIDModule final : public AFIGUIDModule
 public:
     bool Init() override;
 
-    AFGUID CreateGUID() override;
-    std::string ParseUID(const AFGUID& id) override;
+    guid_t CreateGUID() override;
+    std::string ParseUID(const guid_t& id) override;
 
 private:
-#ifdef AF_THREAD_SAFE
+#ifdef ARK_THREAD_SAFE
     std::unique_ptr<AFUidGeneratorThreadSafe> uid_generator_{nullptr};
 #else
     std::unique_ptr<AFUidGenerator> uid_generator_{nullptr};
-#endif // AF_THREAD_SAFE
+#endif // ARK_THREAD_SAFE
 };
 
 } // namespace ark

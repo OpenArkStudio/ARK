@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@
 #pragma once
 
 #include "base/AFPluginManager.hpp"
-#include "log/interface/AFILogModule.hpp"
 #include "kernel/interface/AFIEntity.hpp"
 #include "kernel/interface/AFIMapModule.hpp"
 #include "kernel/interface/AFIKernelModule.hpp"
@@ -37,10 +36,10 @@ public:
 
     std::shared_ptr<AFMapInfo> GetMapInfo(const int map_id) override;
 
-    bool IsInMapInstance(const AFGUID& self) override;
+    bool IsInMapInstance(const guid_t& self) override;
     bool ExistMap(const int map_id) override;
 
-    bool SwitchMap(const AFGUID& self, const int target_map, const int target_inst, const AFVector3D& pos,
+    bool SwitchMap(const guid_t& self, const int target_map, const int target_inst, const AFVector3D& pos,
         const float orient, const AFIDataList& args) override;
 
     bool CreateMap(const int map_id) override;
@@ -62,7 +61,6 @@ public:
 
 private:
     AFIKernelModule* m_pKernelModule;
-    AFILogModule* m_pLogModule;
 
     AFSmartPtrMap<int, AFMapInfo> map_infos_;
 };

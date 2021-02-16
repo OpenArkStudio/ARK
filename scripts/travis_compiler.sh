@@ -10,6 +10,11 @@ os_name=`uname`
 if [ -d "build" ]; then rm -rf build; fi
 mkdir build && cd build
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF -DBUILD_SAMPLES=ON -DBUILD_TESTS=ON ..
+make -j 4
+
+if [ "$USE_CXX" != g++-9 ]; then
+    exit 0
+fi
 
 # make and sonar scanner
 if [ "$os_name" = Linux ]; then
@@ -17,5 +22,7 @@ if [ "$os_name" = Linux ]; then
 elif [ "$os_name" = Darwin ]; then
     build-wrapper-macosx-x86 --out-dir bw-output make -j 4
 fi
+
+sonar-scanner #-X
 
 cd ..

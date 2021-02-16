@@ -1,4 +1,5 @@
 #include "consul/include/AFCConsulModule.hpp"
+#include "consul/include/AFConsulPlugin.hpp"
 
 namespace ark {
 
@@ -10,21 +11,36 @@ static const std::string HEALTH_CHECK_API("/v1/health/service/");
 bool AFCConsulModule::Init()
 {
     m_pHttpClientModule = FindModule<AFIHttpClientModule>();
-    return true;
+    return LoadConfig();
 }
 
-void AFCConsulModule::SetRegisterCenter(const std::string& center_ip, const uint16_t center_port)
+// void AFCConsulModule::SetRegisterCenter(const std::string& center_ip, const uint16_t center_port)
+// {
+//     consul_ip_ = center_ip;
+//     consul_port_ = center_port;
+// }
+
+bool AFCConsulModule::LoadConfig()
 {
-    consul_ip_ = center_ip;
-    consul_port_ = center_port;
+    AFXml xml(AFConsulPlugin::GetPluginConf());
+    auto root = xml.GetRootNode();
+    ARK_ASSERT_RET_VAL(root.IsValid(), false);
+
+    auto conf_node = root.FindNode("conf");
+    ARK_ASSERT_RET_VAL(conf_node.IsValid(), false);
+
+    consul_ip_ = conf_node.GetString("ip");
+    consul_port_ = conf_node.GetUint32("port");
+
+    return true;
 }
 
 ananas::Future<std::pair<bool, std::string>> AFCConsulModule::RegisterService(const consul::service_data& service)
 {
     std::map<std::string, std::string> params;
     std::vector<std::string> cookies;
-    return m_pHttpClientModule->AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_PUT, consul_ip_,
-        consul_port_, REGISTER_API, params, cookies, service);
+    return m_pHttpClientModule->AsyncRequest(
+        zephyr::http::verb::put, consul_ip_, consul_port_, REGISTER_API, params, cookies, service);
 }
 
 ananas::Future<std::pair<bool, std::string>> AFCConsulModule::DeregisterService(const std::string& service_id)
@@ -37,8 +53,7 @@ ananas::Future<std::pair<bool, std::string>> AFCConsulModule::DeregisterService(
     }
 
     auto url = DEREGISTER_API + service_id;
-    return m_pHttpClientModule->AsyncRequest(
-        brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_PUT, consul_ip_, consul_port_, url);
+    return m_pHttpClientModule->AsyncRequest(zephyr::http::verb::put, consul_ip_, consul_port_, url);
 }
 
 ananas::Future<std::pair<bool, std::string>> AFCConsulModule::GetKeyValue(const std::string& key)
@@ -51,8 +66,7 @@ ananas::Future<std::pair<bool, std::string>> AFCConsulModule::GetKeyValue(const 
     }
 
     std::string url = KV_API + key;
-    return m_pHttpClientModule->AsyncRequest(
-        brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_GET, consul_ip_, consul_port_, url);
+    return m_pHttpClientModule->AsyncRequest(zephyr::http::verb::get, consul_ip_, consul_port_, url);
 }
 
 ananas::Future<std::pair<bool, std::string>> AFCConsulModule::SetKeyValue(
@@ -67,8 +81,8 @@ ananas::Future<std::pair<bool, std::string>> AFCConsulModule::SetKeyValue(
 
     std::map<std::string, std::string> params;
     std::vector<std::string> cookies;
-    return m_pHttpClientModule->AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_PUT, consul_ip_,
-        consul_port_, KV_API, params, cookies, value);
+    return m_pHttpClientModule->AsyncRequest(
+        zephyr::http::verb::put, consul_ip_, consul_port_, KV_API, params, cookies, value);
 }
 
 ananas::Future<std::pair<bool, std::string>> AFCConsulModule::DelKeyValue(const std::string& key)
@@ -81,8 +95,7 @@ ananas::Future<std::pair<bool, std::string>> AFCConsulModule::DelKeyValue(const 
     }
 
     std::string url = KV_API + key;
-    return m_pHttpClientModule->AsyncRequest(
-        brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_DELETE, consul_ip_, consul_port_, url);
+    return m_pHttpClientModule->AsyncRequest(zephyr::http::verb::delete_, consul_ip_, consul_port_, url);
 }
 
 ananas::Future<std::pair<bool, std::string>> AFCConsulModule::GetHealthServices(
@@ -101,8 +114,10 @@ ananas::Future<std::pair<bool, std::string>> AFCConsulModule::GetHealthServices(
     params.insert(std::make_pair("passing", "1"));
 
     std::vector<std::string> cookies;
-    return m_pHttpClientModule->AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_GET, consul_ip_,
-        consul_port_, url, params, cookies, std::string(""));
+    //    return m_pHttpClientModule->AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_GET, consul_ip_,
+    //        consul_port_, url, params, cookies, std::string(""));
+
+    return promise.GetFuture();
 }
 
 //bool AFCConsulModule::GetHealthServices(

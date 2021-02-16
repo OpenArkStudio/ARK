@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -30,17 +30,17 @@ bool AFCScheduleModule::Init()
 
 void AFCScheduleModule::AddCronSchedule(const std::string& cron_expression, SCHEDULER_FUNCTOR&& cb)
 {
-    scheduler->cron(cron_expression, std::forward<SCHEDULER_FUNCTOR>(cb));
+    scheduler->cron(cron_expression, std::move(cb));
 }
 
 void AFCScheduleModule::AddIntervalSchedule(const std::chrono::system_clock::duration interval, SCHEDULER_FUNCTOR&& cb)
 {
-    scheduler->interval(interval, std::forward<SCHEDULER_FUNCTOR>(cb));
+    scheduler->interval(interval, std::move(cb));
 }
 
 void AFCScheduleModule::AddAtSchedule(const std::string& target_time, SCHEDULER_FUNCTOR&& cb)
 {
-    scheduler->at(target_time, std::forward<SCHEDULER_FUNCTOR>(cb));
+    scheduler->at(target_time, std::move(cb));
 }
 
 } // namespace ark

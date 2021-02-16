@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -23,22 +23,27 @@
 #include "base/AFXml.hpp"
 #include "base/AFPluginManager.hpp"
 #include "bus/include/AFCBusModule.hpp"
+#include "bus/include/AFBusPlugin.hpp"
 
 namespace ark {
 
 bool AFCBusModule::Init()
 {
-    if (!LoadBusRelationConfig())
+    AFXml xml_doc(AFBusPlugin::GetPluginConf());
+    auto root_node = xml_doc.GetRootNode();
+    ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
+
+    if (!LoadBusRelationConfig(root_node))
     {
         return false;
     }
 
-    if (!LoadRegCenterConfig())
+    if (!LoadRegCenterConfig(root_node))
     {
         return false;
     }
 
-    if (!LoadProcConfig())
+    if (!LoadProcConfig(root_node))
     {
         return false;
     }
@@ -46,14 +51,12 @@ bool AFCBusModule::Init()
     return true;
 }
 
-bool AFCBusModule::LoadProcConfig()
+bool AFCBusModule::LoadProcConfig(AFXmlNode& root_node)
 {
-    AFXml xml_doc(PROC_CONFIG_FILE_PATH);
+    auto processes_nodes = root_node.FindNode("processes");
+    ARK_ASSERT_RET_VAL(processes_nodes.IsValid(), false);
 
-    auto root_node = xml_doc.GetRootNode();
-    ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
-
-    for (auto proc_node = root_node.FindNode("proc"); proc_node.IsValid(); proc_node.NextNode())
+    for (auto proc_node = processes_nodes.FindNode("proc"); proc_node.IsValid(); proc_node.NextNode())
     {
         std::string bus_name = proc_node.GetString("busid");
         std::string endpoint_server = proc_node.GetString("endpoint_server");
@@ -64,36 +67,51 @@ bool AFCBusModule::LoadProcConfig()
         AFBusAddr bus_addr;
         ARK_ASSERT_CONTINUE(bus_addr.FromString(bus_name));
 
-        // just load self process configuration
-        if (bus_addr.bus_id != GetSelfBusID())
-        {
-            continue;
-        }
-
-        app_config_.self_proc.bus_id = bus_addr.bus_id;
-        app_config_.self_proc.thread_num = thread_num;
-        app_config_.self_proc.max_connection = max_connection;
+        AFProcConfig proc;
+        proc.bus_id = bus_addr.bus_id;
+        proc.thread_num = thread_num;
+        proc.max_connection = max_connection;
 
         std::error_code ec;
-        app_config_.self_proc.server_ep = AFEndpoint::FromString(endpoint_server, ec);
-        app_config_.self_proc.intranet_ep = AFEndpoint::FromString(endpoint_intranet, ec);
+        proc.server_ep = AFEndpoint::FromString(endpoint_server, ec);
+        proc.intranet_ep = AFEndpoint::FromString(endpoint_intranet, ec);
+        if (bus_addr.bus_id == GetSelfBusID())
+        {
+#ifdef ARK_DOCKER_ALPINE
+            proc.intranet_ep.SetIP(getenv("MY_POD_IP"));
+#endif
+            app_config_.self_proc = proc;
+        }
+        else
+        {
+            app_config_.other_proc_list.insert(std::make_pair(proc.bus_id, proc));
+        }
 
-        break;
+        // just load self process configuration
+        //if (bus_addr.bus_id != GetSelfBusID())
+        //{
+        //    continue;
+        //}
+
+        //app_config_.self_proc.bus_id = bus_addr.bus_id;
+        //app_config_.self_proc.thread_num = thread_num;
+        //app_config_.self_proc.max_connection = max_connection;
+
+        //std::error_code ec;
+        //app_config_.self_proc.server_ep = AFEndpoint::FromString(endpoint_server, ec);
+        //app_config_.self_proc.intranet_ep = AFEndpoint::FromString(endpoint_intranet, ec);
+
+        //break;
     }
 
     return true;
 }
 
-bool AFCBusModule::LoadBusRelationConfig()
+bool AFCBusModule::LoadBusRelationConfig(AFXmlNode& root_node)
 {
-    // load bus relation files
-    AFXml xml_doc(BUS_RELATION_CONFIG_FILE_PATH);
-
-    auto root_node = xml_doc.GetRootNode();
-    ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
-
     auto application_nodes = root_node.FindNode("applications");
     ARK_ASSERT_RET_VAL(application_nodes.IsValid(), false);
+
     for (auto app_node = application_nodes.FindNode("application"); app_node.IsValid(); app_node.NextNode())
     {
         std::string app_name = app_node.GetString("name");
@@ -104,6 +122,8 @@ bool AFCBusModule::LoadBusRelationConfig()
     }
 
     auto relation_nodes = root_node.FindNode("relations");
+    ARK_ASSERT_RET_VAL(relation_nodes.IsValid(), false);
+
     for (auto relation_node = relation_nodes.FindNode("relation"); relation_node.IsValid(); relation_node.NextNode())
     {
         std::string source_app = relation_node.GetString("source");
@@ -131,14 +151,8 @@ bool AFCBusModule::LoadBusRelationConfig()
     return true;
 }
 
-bool AFCBusModule::LoadRegCenterConfig()
+bool AFCBusModule::LoadRegCenterConfig(AFXmlNode& root_node)
 {
-    // load reg center files
-    AFXml xml_doc(REG_CENTER_CONFIG_FILE_PATH);
-
-    auto root_node = xml_doc.GetRootNode();
-    ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
-
     auto node = root_node.FindNode("center");
     ARK_ASSERT_RET_VAL(node.IsValid(), false);
 
@@ -163,7 +177,7 @@ ARK_APP_TYPE AFCBusModule::GetAppType(const std::string& name)
     return ((iter != app_config_.name2types.end()) ? iter->second : ARK_APP_TYPE::ARK_APP_DEFAULT);
 }
 
-//uint16_t AFCBusModule::CalcProcPort(const int bus_id)
+//uint16_t AFCBusModule::CalcProcPort(bus_id_t bus_id)
 //{
 //    AFBusAddr bus_addr(bus_id);
 //    const ARK_APP_TYPE& app_type = ARK_APP_TYPE(bus_addr.app_type);
@@ -189,7 +203,7 @@ const AFProcConfig& AFCBusModule::GetSelfProc()
     return app_config_.self_proc;
 }
 
-int AFCBusModule::GetSelfBusID()
+bus_id_t AFCBusModule::GetSelfBusID()
 {
     return GetPluginManager()->GetBusID();
 }
@@ -206,7 +220,7 @@ ARK_APP_TYPE AFCBusModule::GetSelfAppType()
     return ARK_APP_TYPE(bus_id.app_type);
 }
 
-const std::string AFCBusModule::GetAppWholeName(const int bus_id)
+const std::string AFCBusModule::GetAppWholeName(bus_id_t bus_id)
 {
     AFBusAddr addr(bus_id);
     std::string name = GetAppName(ARK_APP_TYPE(addr.app_type));
@@ -233,6 +247,35 @@ bool AFCBusModule::GetTargetBusRelations(std::vector<ARK_APP_TYPE>& target_list)
     }
 
     return true;
+}
+
+bool AFCBusModule::GetOtherProc(bus_id_t bus_id, AFProcConfig& proc) const
+{
+    auto iter = app_config_.other_proc_list.find(bus_id);
+    if (iter == app_config_.other_proc_list.end())
+    {
+        return false;
+    }
+
+    proc = iter->second;
+    return true;
+}
+
+int AFCBusModule::GetOtherProc(const ARK_APP_TYPE app_type, std::vector<const AFProcConfig*>& proc_list) const
+{
+    for (auto& iter : app_config_.other_proc_list)
+    {
+        auto& proc = iter.second;
+        AFBusAddr bus_id(proc.bus_id);
+        if ((ARK_APP_TYPE)bus_id.app_type != app_type)
+        {
+            continue;
+        }
+
+        proc_list.push_back(&proc);
+    }
+
+    return proc_list.size();
 }
 
 } // namespace ark

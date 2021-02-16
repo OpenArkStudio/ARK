@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -24,19 +24,28 @@
 #include "base/AFMacros.hpp"
 #include "base/AFApp.hpp"
 #include "base/AFSocketFunc.hpp"
-#include "base/AFSlice.hpp"
 #include "base/AFStringUtils.hpp"
 
 namespace ark {
 
 // bus address, like IP address, 8.8.8.8
-union AFBusAddr
+class AFBusAddr
 {
+public:
+    bus_id_t bus_id{ 0 };
+
+    uint8_t channel_id; // channel id
+    uint8_t zone_id;    // zone id
+    uint8_t app_type;   // application id
+    uint8_t inst_id;    // instance id
+
+public:
     AFBusAddr() = default;
 
     explicit AFBusAddr(const int id)
         : bus_id(id)
     {
+        InitFromBusID();
     }
 
     explicit AFBusAddr(const uint8_t c_id, const uint8_t z_id, const uint8_t p_id, const uint8_t i_id)
@@ -45,11 +54,13 @@ union AFBusAddr
         , app_type(p_id)
         , inst_id(i_id)
     {
+        InitToBusID();
     }
 
     inline AFBusAddr& operator=(const int rhs)
     {
         this->bus_id = rhs;
+        InitFromBusID();
         return *this;
     }
 
@@ -63,26 +74,33 @@ union AFBusAddr
     {
         ARK_ASSERT_RET_VAL(!bus_name.empty(), false);
 
-        std::vector<AFSlice> slices;
-        AFStringUtils::Split(slices, bus_name, ".");
+        std::vector<std::string> slices;
+        AFStringUtils::split(slices, bus_name, '.');
         ARK_ASSERT_RET_VAL(slices.size() >= 4, false);
 
-        channel_id = ARK_LEXICAL_CAST<uint8_t>(slices[0].data());
-        zone_id = ARK_LEXICAL_CAST<uint8_t>(slices[1].data());
-        app_type = ARK_LEXICAL_CAST<uint8_t>(slices[2].data());
-        inst_id = ARK_LEXICAL_CAST<uint8_t>(slices[3].data());
+        channel_id = ARK_LEXICAL_CAST<uint8_t>(slices[0]);
+        zone_id = ARK_LEXICAL_CAST<uint8_t>(slices[1]);
+        app_type = ARK_LEXICAL_CAST<uint8_t>(slices[2]);
+        inst_id = ARK_LEXICAL_CAST<uint8_t>(slices[3]);
+
+        InitToBusID();
 
         return true;
     }
 
-    int bus_id{0};
-    struct
+private:
+    void InitToBusID()
     {
-        uint8_t channel_id; // channel id
-        uint8_t zone_id;    // zone id
-        uint8_t app_type;   // application id
-        uint8_t inst_id;    // instance id
-    };
+        bus_id = (bus_id_t(channel_id) << 24) + (bus_id_t(zone_id) << 16) + (bus_id_t(app_type) << 8) + bus_id_t(inst_id);
+    }
+
+    void InitFromBusID()
+    {
+        inst_id = uint8_t(bus_id & 0x000000FF);
+        app_type = uint8_t((bus_id & 0x0000FF00) >> 8);
+        zone_id = uint8_t((bus_id & 0x00FF0000) >> 16);
+        channel_id = uint8_t((bus_id & 0xFF000000) >> 24);
+    }
 };
 
 // bus relation, app connect other app with direct way or waiting sync message
@@ -97,7 +115,7 @@ public:
 class AFProcConfig
 {
 public:
-    int bus_id{0};
+    bus_id_t bus_id{0};
     uint32_t max_connection{0};
     uint8_t thread_num{0};
     AFEndpoint intranet_ep;
@@ -126,6 +144,8 @@ public:
     std::map<ARK_APP_TYPE, std::vector<ARK_APP_TYPE>> connection_relations; // app_type -> target_types
 
     AFProcConfig self_proc; // self process info
+
+    std::map<bus_id_t, AFProcConfig> other_proc_list;
 };
 
 } // namespace ark

@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "base/AFVector3D.hpp"
+#include "base/math/AFVector3D.hpp"
 #include "proto/AFProtoCPP.hpp"
 #include "interface/AFIModule.hpp"
 #include "kernel/include/AFCNode.hpp"
@@ -34,36 +34,43 @@ namespace ark {
 class AFIMsgModule : public AFIModule
 {
 public:
-    //virtual bool SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, const int msg_id,
-    //    const google::protobuf::Message& msg, const AFGUID& actor_id = 0) = 0;
-    //virtual bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, const int msg_id,
-    //    const google::protobuf::Message& msg, const AFGUID& actor_id = 0) = 0;
-    //virtual bool SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg,
-    //    const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
+    //virtual bool SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, msg_id_t msg_id,
+    //    const google::protobuf::Message& msg, const guid_t& actor_id = 0) = 0;
+    //virtual bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, msg_id_t msg_id,
+    //    const google::protobuf::Message& msg, const guid_t& actor_id = 0) = 0;
+    //virtual bool SendParticularSSMsg(bus_id_t bus_id, msg_id_t msg_id, const google::protobuf::Message& msg,
+    //    const guid_t& conn_id, const guid_t& actor_id = 0) = 0;
 
-    //virtual bool SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg,
-    //    const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
-    //virtual bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg,
-    //    const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
-    //virtual bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len,
-    //    const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
+    //virtual bool SendSSMsg(bus_id_t src_bus, bus_id_t target_bus, msg_id_t msg_id, const char* msg,
+    //    const int msg_len, const guid_t& conn_id, const guid_t& actor_id = 0) = 0;
+    //virtual bool SendSSMsg(bus_id_t target_bus, msg_id_t msg_id, const google::protobuf::Message& msg,
+    //    const guid_t& conn_id, const guid_t& actor_id = 0) = 0;
+    //virtual bool SendSSMsg(bus_id_t target_bus, msg_id_t msg_id, const char* msg, const int msg_len,
+    //    const guid_t& conn_id, const guid_t& actor_id = 0) = 0;
 
     //virtual bool SendSSMsgByRouter(const AFSSMsgHead& head) = 0;
 
     //--------new interface---------
-    virtual bool SendMsgByAppType(const ARK_APP_TYPE app_type, const int msg_id, const google::protobuf::Message& msg,
-        const AFGUID& guid = NULL_GUID) = 0;
-    virtual bool SendMsgByBusID(
-        const int bus_id, const int msg_id, const google::protobuf::Message& msg, const AFGUID& guid = NULL_GUID) = 0;
+    virtual bool SendDefCSMsgByAppType(const ARK_APP_TYPE app_type, const msg_id_t msg_id, const google::protobuf::Message& msg) = 0;
+    virtual bool SendDefSSMsgByAppType(const ARK_APP_TYPE app_type, const msg_id_t msg_id, const google::protobuf::Message& msg) = 0;
+    virtual bool SendMsgByAppType(const ARK_APP_TYPE app_type, AFIMsgHeader* header, const google::protobuf::Message& msg) = 0;
+    virtual bool SendMsgByBusID(bus_id_t bus_id, msg_id_t msg_id, const google::protobuf::Message& msg,
+        const guid_t& guid = NULL_GUID) = 0;
+    virtual bool SendToClient(conv_id_t session_id, msg_id_t msg_id, const google::protobuf::Message& msg,
+        const guid_t& guid = NULL_GUID) = 0;
+    virtual bool SendToClient(conv_id_t session_id, msg_id_t msg_id, const std::string& msg_data,
+        bool compressed = false, const guid_t& guid = NULL_GUID) = 0;
+    virtual bool SendToIntra(conv_id_t session_id, msg_id_t msg_id, const google::protobuf::Message& msg,
+        const guid_t& guid = NULL_GUID) = 0;
 
-    static bool RecvPB(const AFNetMsg* msg, std::string& str_msg, AFGUID& actor_id)
+    static bool RecvPB(const AFNetMsg* msg, std::string& str_msg, guid_t& actor_id)
     {
         str_msg.assign(msg->GetMsgData(), msg->GetMsgLength());
         actor_id = msg->GetActorId();
         return true;
     }
 
-    static bool RecvPB(const AFNetMsg* msg, google::protobuf::Message& pb_msg, AFGUID& actor_id)
+    static bool RecvPB(const AFNetMsg* msg, google::protobuf::Message& pb_msg, guid_t& actor_id)
     {
         if (!pb_msg.ParseFromString(std::string(msg->GetMsgData(), msg->GetMsgLength())))
         {
@@ -94,7 +101,7 @@ public:
 };
 
 #define ARK_PROCESS_ACTOR_MSG(head, msg_id, msg, msg_len, pb_msg_type)                                                 \
-    AFGUID actor_id;                                                                                                   \
+    guid_t actor_id;                                                                                                   \
     pb_msg_type pb_msg;                                                                                                \
     if (!AFIMsgModule::RecvPB(head, msg, msg_len, pb_msg, actor_id))                                                   \
     {                                                                                                                  \
@@ -113,7 +120,7 @@ public:
     }
 
 #define ARK_PROCESS_MSG(msg, pb_msg_type)                                                                              \
-    AFGUID actor_id;                                                                                                   \
+    guid_t actor_id;                                                                                                   \
     pb_msg_type pb_msg;                                                                                                \
     if (!AFIMsgModule::RecvPB(msg, pb_msg, actor_id))                                                                  \
     {                                                                                                                  \
@@ -130,7 +137,7 @@ public:
 
 #define ARK_PROCESS_ACTOR_STRING_MSG(head, msg, msg_len)                                                               \
     std::string msg_data;                                                                                              \
-    AFGUID actor_id;                                                                                                   \
+    guid_t actor_id;                                                                                                   \
     if (!AFIMsgModule::RecvPB(head, msg, msg_len, msg_data, actor_id))                                                 \
     {                                                                                                                  \
         ARK_LOG_ERROR("Parse msg error, msg_id = {}", msg_id);                                                         \

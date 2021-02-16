@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,7 +85,7 @@ public:
         return NULL_WIDESTR;
     }
 
-    virtual const AFGUID& GetObject() const
+    virtual const guid_t& GetObject() const
     {
         return NULL_GUID;
     }
@@ -119,7 +119,7 @@ public:
     virtual void SetInt32(int32_t value) {}
     virtual void SetUInt32(uint32_t value) {}
     virtual void SetWString(const std::wstring& value) {}
-    virtual void SetObject(const AFGUID& guid) {}
+    virtual void SetObject(const guid_t& guid) {}
 
     // other handle
     virtual void Assign(const AFIData& src) {}

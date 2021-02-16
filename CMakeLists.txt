@@ -10,18 +10,18 @@ cmake_minimum_required(VERSION 3.0)
 #---------------------------------------------------------------------------------------
 # Set default build type to release
 #---------------------------------------------------------------------------------------
-if(UNIX)
-    if(NOT CMAKE_BUILD_TYPE)
+if (UNIX)
+    if (NOT CMAKE_BUILD_TYPE)
         set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose Release or Debug" FORCE)
-    endif()
-endif()
+    endif ()
+endif ()
 
 #---------------------------------------------------------------------------------------
 # Set CMAKE_MACOSX_RPATH
 #---------------------------------------------------------------------------------------
-if(APPLE)
+if (APPLE)
     set(CMAKE_MACOSX_RPATH 1)
-endif()
+endif ()
 
 # CMake 3.9 and newer remove any effect the following settings may have on the install_name of a target on macOS:
 # 
@@ -29,15 +29,16 @@ endif()
 # SKIP_BUILD_RPATH target property
 # CMAKE_SKIP_RPATH variable
 # CMAKE_SKIP_INSTALL_RPATH variable
-if(APPLE AND (${CMAKE_MAJOR_VERSION} GREATER_EQUAL 3 AND ${CMAKE_MINOR_VERSION} GREATER_EQUAL 9))
+if (APPLE AND (${CMAKE_MAJOR_VERSION} GREATER_EQUAL 3 AND ${CMAKE_MINOR_VERSION} GREATER_EQUAL 9))
     #message("cmake version is ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}")
     option(MACOS_NO_RPATH "CMake 3.9 and newer remove any effect of RPATH" ON)
-endif()
+endif ()
 
 #---------------------------------------------------------------------------------------
 # Compiler config
 #---------------------------------------------------------------------------------------
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -48,15 +49,30 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 #---------------------------------------------------------------------------------------
-# Coverage reporting
+# CMake switches
 #---------------------------------------------------------------------------------------
-option(ENABLE_COVERAGE "Enable coverage reporting for gcc/clang" OFF)
+option(ASIO_STANDALONE "Enable asio standalone" OFF) # used by zephyr
+
+option(ARK_BUILD_TESTS "Enable build tests" ON)
+option(ARK_BUILD_EXAMPLES "Enable build examples" ON)
 
 #---------------------------------------------------------------------------------------
-# Building tests and examples
+# project switches
 #---------------------------------------------------------------------------------------
-option(BUILD_TESTS "Enable build tests" ON)
-option(BUILD_SAMPLES "Enable build examples" ON) # TODO: will change to examples
+option(ARK_USE_GUID_32 "use 32 bits GUID" OFF)
+if (ARK_USE_GUID_32)
+    add_definitions(-DARK_USE_GUID_32)
+endif (ARK_USE_GUID_32)
+
+option(ARK_DOCKER_ALPINE "build docker image by alpine" OFF)
+if (ARK_DOCKER_ALPINE)
+    add_definitions(-DARK_DOCKER_ALPINE)
+endif (ARK_DOCKER_ALPINE)
+
+option(ARK_OPEN_FILE_LOG "write log into file" ON)
+if (ARK_OPEN_FILE_LOG)
+    add_definitions(-DOPEN_FILE_LOG)
+endif (ARK_OPEN_FILE_LOG)
 
 #---------------------------------------------------------------------------------------
 # Get version number.
@@ -67,34 +83,27 @@ ark_extract_version()
 #---------------------------------------------------------------------------------------
 # ARK project
 #---------------------------------------------------------------------------------------
-project(ark VERSION ${ARK_VERSION} LANGUAGES CXX)
+project(ark VERSION ${ARK_VERSION} LANGUAGES CXX C)
 message(STATUS "Build ark: v${ARK_VERSION}")
 
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
-
-include_directories(
-    ${ROOT_DIR}
-    ${ROOT_DIR}/dep
-    ${ROOT_DIR}/dep/common
-    ${ROOT_DIR}/dep/protobuf/src
-    ${ROOT_DIR}/dep/brynet/include
-    ${ROOT_DIR}/dep/spdlog/include
-    ${ROOT_DIR}/src
-    ${ROOT_DIR}/src/plugin
-    ${ROOT_DIR}/src/server)
-
-set(BIN_OUTPUT_DIR ${ROOT_DIR}/bin/bin)
-set(DEP_LIB_DIR ${BIN_OUTPUT_DIR})
+set(BIN_OUTPUT_DIR ${ROOT_DIR}/build/bin)
+set(3RD_PARTY_DIR ${ROOT_DIR}/3rdparty)
+set(3RD_PARTY_LIB_DIR ${BIN_OUTPUT_DIR})
 
 #---------------------------------------------------------------------------------------
-# Dependencies
-set(SELF_BUILD_TYPE ${CMAKE_BUILD_TYPE})
-add_subdirectory(dep)
-set(CMAKE_BUILD_TYPE ${SELF_BUILD_TYPE})
+# 3rdparty
 #---------------------------------------------------------------------------------------
+#set(SELF_BUILD_TYPE ${CMAKE_BUILD_TYPE})
+#add_subdirectory(3rdparty)
+#set(CMAKE_BUILD_TYPE ${SELF_BUILD_TYPE})
 
-if(WIN32)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest -D_CRT_SECURE_NO_WARNINGS -D_SILENCE_CXX17_C_HEADER_DEPRECATION_WARNING")
+if (WIN32)
+    if (MSVC_VERSION LESS 1911)
+        message(FATAL_ERROR "need msvc++ 14.1 Visual Studio 2017+")
+    endif (MSVC_VERSION LESS 1911)
+
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest /bigobj -D_CRT_SECURE_NO_WARNINGS -D_SILENCE_CXX17_C_HEADER_DEPRECATION_WARNING")
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
@@ -102,28 +111,20 @@ if(WIN32)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
-else(UNIX)
-    SET(CMAKE_CXX_FLAGS_DEBUG   "-O0 -g -ggdb -Wall -Wextra -D_DEBUG -fPIC")
-    SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -Wextra -DNDEBUG -fPIC")
-    
+	
+	add_definitions(-DWIN32_LEAN_AND_MEAN -D_WIN32_WINNT=0x0601)
+else (UNIX)
     if (CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-        set(CMAKE_CXX_STANDARD 11)
-    else()
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
-        set(CMAKE_CXX_STANDARD 17)
-    endif()
+        message(FATAL_ERROR "need gcc7.0+ to support C++17")
+    endif ()
+
+    set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -ggdb -Wall -Wextra -D_DEBUG -fPIC")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -Wextra -DNDEBUG -fPIC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
     #add_definitions(-Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wno-strict-aliasing -Wno-pmf-conversions -Wignored-qualifiers)
     add_definitions(-Wno-unused-parameter -Wno-unused-variable -Wno-unused-function)
-    if(ENABLE_COVERAGE)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
-        SET(CMAKE_CXX_FLAGS_DEBUG "-lgcov --coverage")
-        SET(CMAKE_CXX_FLAGS_RELEASE "-lgcov --coverage")
-        message("Build with coverage")
-        add_compile_options(--coverage -O0)
-    endif()
 
-    if(XCODE)
+    if (XCODE)
         # set the output dir for xcode
         set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
         set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
@@ -132,36 +133,66 @@ else(UNIX)
         set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
         set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
         set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
-    endif(XCODE)
-    
-endif()
+    endif (XCODE)
 
-link_directories(${DEP_LIB_DIR})
+endif ()
+
+# protobuf
+find_package(Protobuf 3.0.0 REQUIRED)
+if (PROTOBUF_FOUND)
+    message(STATUS "protobuf library found")
+    include_directories(${Protobuf_INCLUDE_DIRS})
+else ()
+    message(FATAL_ERROR "protobuf library is needed but can't be found")
+endif ()
+
+if (${ASIO_STANDALONE})
+    # standalone asio
+    add_definitions(-DASIO_STANDALONE)
+    include_directories(${3RD_PARTY_DIR}/zephyr/asio/asio/include)
+else ()
+    # boost.asio
+    find_package(Boost 1.69.0 REQUIRED)
+    if (Boost_FOUND)
+        message(STATUS "boost library found")
+    else ()
+        message(FATAL_ERROR "boost library is needed but can‘t be found")
+    endif ()
+    include_directories(${Boost_INCLUDE_DIRS})
+    link_directories(${Boost_LIBRARY_DIRS})
+endif ()
+
+# include and link directories
+include_directories(
+        ${3RD_PARTY_DIR}
+        ${3RD_PARTY_DIR}/zephyr/include
+        ${3RD_PARTY_DIR}/spdlog/include
+        ${ROOT_DIR}
+        ${ROOT_DIR}/src
+        ${ROOT_DIR}/src/plugin
+        ${ROOT_DIR}/src/server
+        ${ROOT_DIR}/src/escort)
+
+link_directories(${3RD_PARTY_LIB_DIR})
 
 #---------------------------------------------------------------------------------------
 # log
 #---------------------------------------------------------------------------------------
 message(STATUS "Current system is [${CMAKE_SYSTEM}]")
 message(STATUS "ROOT_DIR=${ROOT_DIR}")
-message(STATUS "DEP_LIB_DIR=${DEP_LIB_DIR}")
+message(STATUS "3RD_PARTY_LIB_DIR=${3RD_PARTY_LIB_DIR}")
 message(STATUS "BIN_OUTPUT_DIR=${BIN_OUTPUT_DIR}")
 message(STATUS "CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
 
 #---------------------------------------------------------------------------------------
 # codecov
 #---------------------------------------------------------------------------------------
-find_package(codecov)
+#find_package(codecov)
 
 #---------------------------------------------------------------------------------------
 # sub projects
 #---------------------------------------------------------------------------------------
 message(STATUS "Start to build all ...")
-
-#---------------------------------------------------------------------------------------
-# Building 3rd party dependencies.
-#---------------------------------------------------------------------------------------
-# message(STATUS "Start to build all 3rd party dependencies...")
-# add_subdirectory(dep)
 
 #---------------------------------------------------------------------------------------
 # Self defined postfix
@@ -180,16 +211,16 @@ add_subdirectory(src/server)
 #---------------------------------------------------------------------------------------
 # Building samples
 #---------------------------------------------------------------------------------------
-if(BUILD_SAMPLES)
-    message(STATUS "Buiding samples ...")
-    add_subdirectory(samples)    
-endif(BUILD_SAMPLES)
+if (${ARK_BUILD_EXAMPLES})
+    message(STATUS "Building examples ...")
+    add_subdirectory(examples)
+endif ()
 
 #---------------------------------------------------------------------------------------
 # Building tests
 #---------------------------------------------------------------------------------------
-if(BUILD_TESTS)
-    message(STATUS "Buiding tests ...")
+if (${ARK_BUILD_TESTS})
+    message(STATUS "Building tests ...")
     enable_testing()
     add_subdirectory(test)
-endif(BUILD_TESTS)
+endif ()

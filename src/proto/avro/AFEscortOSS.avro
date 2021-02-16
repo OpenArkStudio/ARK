@@ -1,0 +1,678 @@
+{
+  "type" : "record",
+  "name" : "PlayerEnterRoom",
+  "namespace" : "xd_game_hff_",
+  "fields" : [ {
+    "name" : "type",
+    "type" : {
+      "type" : "enum",
+      "name" : "EPlayerEnterRoomType",
+      "symbols" : [ "PLAYER_ENTER_ROOM_TYPE_CREATE", "PLAYER_ENTER_ROOM_TYPE_JOIN" ]
+    },
+    "default" : "PLAYER_ENTER_ROOM_TYPE_CREATE"
+  }, {
+    "name" : "base",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "BasicInfo",
+      "fields" : [ {
+        "name" : "serverId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "eventTime",
+        "type" : "long",
+        "default" : 0
+      }, {
+        "name" : "logId",
+        "type" : "long",
+        "default" : 0
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "room",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "RoomBasicInfo",
+      "fields" : [ {
+        "name" : "roomId",
+        "type" : "int",
+        "default" : 0
+      }, {
+        "name" : "roomName",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "curPlayerCount",
+        "type" : "int",
+        "default" : 0
+      }, {
+        "name" : "maxPlayerCount",
+        "type" : "int",
+        "default" : 0
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "player",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "PlayerBasicInfo",
+      "fields" : [ {
+        "name" : "openId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "playerName",
+        "type" : "string",
+        "default" : ""
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "owner",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "OtherBasicInfo",
+      "fields" : [ {
+        "name" : "openId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "playerName",
+        "type" : "string",
+        "default" : ""
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "computer",
+    "type" : [ "null", "OtherBasicInfo" ],
+    "default" : null
+  }, {
+    "name" : "skin",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "PlayerSkinInfo",
+      "fields" : [ {
+        "name" : "modelFull",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "modelHead",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "modelUpperBody",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "modelLowerBody",
+        "type" : "string",
+        "default" : ""
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "channelType",
+    "type" : "int",
+    "default" : 0
+  } ]
+}
+{
+  "type" : "record",
+  "name" : "PlayerLeaveRoom",
+  "namespace" : "xd_game_hff_",
+  "fields" : [ {
+    "name" : "type",
+    "type" : {
+      "type" : "enum",
+      "name" : "EPlayerLeaveRoomType",
+      "symbols" : [ "PLAYER_LEAVE_ROOM_TYPE_SELF", "PLAYER_LEAVE_ROOM_TYPE_KICKED_BY_OWNER", "PLAYER_LEAVE_ROOM_TYPE_KICKED_BY_SERVER" ]
+    },
+    "default" : "PLAYER_LEAVE_ROOM_TYPE_SELF"
+  }, {
+    "name" : "base",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "BasicInfo",
+      "fields" : [ {
+        "name" : "serverId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "eventTime",
+        "type" : "long",
+        "default" : 0
+      }, {
+        "name" : "logId",
+        "type" : "long",
+        "default" : 0
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "room",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "RoomBasicInfo",
+      "fields" : [ {
+        "name" : "roomId",
+        "type" : "int",
+        "default" : 0
+      }, {
+        "name" : "roomName",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "curPlayerCount",
+        "type" : "int",
+        "default" : 0
+      }, {
+        "name" : "maxPlayerCount",
+        "type" : "int",
+        "default" : 0
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "player",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "PlayerBasicInfo",
+      "fields" : [ {
+        "name" : "openId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "playerName",
+        "type" : "string",
+        "default" : ""
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "owner",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "OtherBasicInfo",
+      "fields" : [ {
+        "name" : "openId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "playerName",
+        "type" : "string",
+        "default" : ""
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "computer",
+    "type" : [ "null", "OtherBasicInfo" ],
+    "default" : null
+  }, {
+    "name" : "mapID",
+    "type" : "int",
+    "default" : 0
+  } ]
+}
+{
+  "type" : "record",
+  "name" : "RoomCountChange",
+  "namespace" : "xd_game_hff_",
+  "fields" : [ {
+    "name" : "type",
+    "type" : {
+      "type" : "enum",
+      "name" : "ERoomCountChangeType",
+      "symbols" : [ "ROOM_COUNT_CHANGE_TYPE_CREATED", "ROOM_COUNT_CHANGE_TYPE_DESTROY" ]
+    },
+    "default" : "ROOM_COUNT_CHANGE_TYPE_CREATED"
+  }, {
+    "name" : "base",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "BasicInfo",
+      "fields" : [ {
+        "name" : "serverId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "eventTime",
+        "type" : "long",
+        "default" : 0
+      }, {
+        "name" : "logId",
+        "type" : "long",
+        "default" : 0
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "room",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "RoomBasicInfo",
+      "fields" : [ {
+        "name" : "roomId",
+        "type" : "int",
+        "default" : 0
+      }, {
+        "name" : "roomName",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "curPlayerCount",
+        "type" : "int",
+        "default" : 0
+      }, {
+        "name" : "maxPlayerCount",
+        "type" : "int",
+        "default" : 0
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "roomCount",
+    "type" : "int",
+    "default" : 0
+  } ]
+}
+{
+  "type" : "record",
+  "name" : "PlayerChangeOperation",
+  "namespace" : "escort_oss",
+  "fields" : [ {
+    "name" : "base",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "BasicInfo",
+      "fields" : [ {
+        "name" : "serverId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "eventTime",
+        "type" : "long",
+        "default" : 0
+      }, {
+        "name" : "logId",
+        "type" : "long",
+        "default" : 0
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "player",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "PlayerBasicInfo",
+      "fields" : [ {
+        "name" : "openId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "playerName",
+        "type" : "string",
+        "default" : ""
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "result",
+    "type" : "boolean",
+    "default" : false
+  } ]
+}
+{
+  "type" : "record",
+  "name" : "PlayerRoleChange",
+  "namespace" : "xd_game_hff_",
+  "fields" : [ {
+    "name" : "type",
+    "type" : {
+      "type" : "enum",
+      "name" : "EPlayerRoleChangeType",
+      "symbols" : [ "PLAYER_ROLE_CHANGE_TYPE_COMPUTER" ]
+    },
+    "default" : "PLAYER_ROLE_CHANGE_TYPE_COMPUTER"
+  }, {
+    "name" : "base",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "BasicInfo",
+      "fields" : [ {
+        "name" : "serverId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "eventTime",
+        "type" : "long",
+        "default" : 0
+      }, {
+        "name" : "logId",
+        "type" : "long",
+        "default" : 0
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "oldComputer",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "PlayerBasicInfo",
+      "fields" : [ {
+        "name" : "openId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "playerName",
+        "type" : "string",
+        "default" : ""
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "newComputer",
+    "type" : [ "null", "PlayerBasicInfo" ],
+    "default" : null
+  } ]
+}
+{
+  "type" : "record",
+  "name" : "PlayerReportPing",
+  "namespace" : "xd_game_hff_",
+  "fields" : [ {
+    "name" : "type",
+    "type" : {
+      "type" : "enum",
+      "name" : "EPlayerReportPingType",
+      "symbols" : [ "PLAYER_REPORT_PING_COMPUTER" ]
+    },
+    "default" : "PLAYER_REPORT_PING_COMPUTER"
+  }, {
+    "name" : "base",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "BasicInfo",
+      "fields" : [ {
+        "name" : "serverId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "eventTime",
+        "type" : "long",
+        "default" : 0
+      }, {
+        "name" : "logId",
+        "type" : "long",
+        "default" : 0
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "room",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "RoomBasicInfo",
+      "fields" : [ {
+        "name" : "roomId",
+        "type" : "int",
+        "default" : 0
+      }, {
+        "name" : "roomName",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "curPlayerCount",
+        "type" : "int",
+        "default" : 0
+      }, {
+        "name" : "maxPlayerCount",
+        "type" : "int",
+        "default" : 0
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "player",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "PlayerBasicInfo",
+      "fields" : [ {
+        "name" : "openId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "playerName",
+        "type" : "string",
+        "default" : ""
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "ip",
+    "type" : "string",
+    "default" : ""
+  }, {
+    "name" : "ping",
+    "type" : "int",
+    "default" : 0
+  } ]
+}
+{
+  "type" : "record",
+  "name" : "PlayerSkin",
+  "namespace" : "xd_game_hff_",
+  "fields" : [ {
+    "name" : "type",
+    "type" : {
+      "type" : "enum",
+      "name" : "EPlayerSkinType",
+      "symbols" : [ "PLAYER_OBTAIN_ACTIVITY_SKIN", "PLAYER_CHANGE_SKIN" ]
+    },
+    "default" : "PLAYER_OBTAIN_ACTIVITY_SKIN"
+  }, {
+    "name" : "player",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "PlayerBasicInfo",
+      "fields" : [ {
+        "name" : "openId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "playerName",
+        "type" : "string",
+        "default" : ""
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "base",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "BasicInfo",
+      "fields" : [ {
+        "name" : "serverId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "eventTime",
+        "type" : "long",
+        "default" : 0
+      }, {
+        "name" : "logId",
+        "type" : "long",
+        "default" : 0
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "skinReference",
+    "type" : "string",
+    "default" : ""
+  }, {
+    "name" : "skin",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "PlayerSkinInfo",
+      "fields" : [ {
+        "name" : "modelFull",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "modelHead",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "modelUpperBody",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "modelLowerBody",
+        "type" : "string",
+        "default" : ""
+      } ]
+    } ],
+    "default" : null
+  } ]
+}
+{
+  "type" : "record",
+  "name" : "PlayerAchieves",
+  "namespace" : "xd_game_hff_",
+  "fields" : [ {
+    "name" : "type",
+    "type" : {
+      "type" : "enum",
+      "name" : "EPlayerAchievesType",
+      "symbols" : [ "PLAYER_OBTAIN_ACHIEVES" ]
+    },
+    "default" : "PLAYER_OBTAIN_ACHIEVES"
+  }, {
+    "name" : "achieve",
+    "type" : "int",
+    "default" : 0
+  }, {
+    "name" : "totalAchieves",
+    "type" : "int",
+    "default" : 0
+  }, {
+    "name" : "base",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "BasicInfo",
+      "fields" : [ {
+        "name" : "serverId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "eventTime",
+        "type" : "long",
+        "default" : 0
+      }, {
+        "name" : "logId",
+        "type" : "long",
+        "default" : 0
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "player",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "PlayerBasicInfo",
+      "fields" : [ {
+        "name" : "openId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "playerName",
+        "type" : "string",
+        "default" : ""
+      } ]
+    } ],
+    "default" : null
+  } ]
+}
+{
+  "type" : "record",
+  "name" : "MissionRecord",
+  "namespace" : "xd_game_hff_",
+  "fields" : [ {
+    "name" : "type",
+    "type" : {
+      "type" : "enum",
+      "name" : "EMissionRecordType",
+      "symbols" : [ "SINGLE_PLAYER_ENTER_MISSION", "TEAM_ENTER_MISSION", "SINGLE_PLAYER_FINISH_MISSION", "TEAM_FINISH_MISSION", "SINGLE_PLAYER_EXIT_MISSION" ]
+    },
+    "default" : "SINGLE_PLAYER_ENTER_MISSION"
+  }, {
+    "name" : "mapID",
+    "type" : "int",
+    "default" : 0
+  }, {
+    "name" : "player",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "PlayerBasicInfo",
+      "fields" : [ {
+        "name" : "openId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "playerName",
+        "type" : "string",
+        "default" : ""
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "room",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "RoomBasicInfo",
+      "fields" : [ {
+        "name" : "roomId",
+        "type" : "int",
+        "default" : 0
+      }, {
+        "name" : "roomName",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "curPlayerCount",
+        "type" : "int",
+        "default" : 0
+      }, {
+        "name" : "maxPlayerCount",
+        "type" : "int",
+        "default" : 0
+      } ]
+    } ],
+    "default" : null
+  }, {
+    "name" : "base",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "BasicInfo",
+      "fields" : [ {
+        "name" : "serverId",
+        "type" : "string",
+        "default" : ""
+      }, {
+        "name" : "eventTime",
+        "type" : "long",
+        "default" : 0
+      }, {
+        "name" : "logId",
+        "type" : "long",
+        "default" : 0
+      } ]
+    } ],
+    "default" : null
+  } ]
+}

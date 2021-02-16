@@ -1,0 +1,87 @@
+syntax = "proto3";
+package photon_oss;
+//日志
+message OSS_LOG_DATA {
+  player_change_operation player_login = 1;
+  room_count_change player_logout = 2;
+}
+message basic_info {
+  string server_id = 1;
+  //
+  string event_time = 2;
+  //datetime
+}
+message other_basic_info {
+  string open_id = 1;
+  //
+  string player_name = 2;
+}
+message player_basic_info {
+  string open_id = 1;
+  //
+  string player_name = 2;
+}
+message player_change_operation {
+  player_enter_room_type type = 1;
+  basic_info base = 2;
+  //
+  player_basic_info player = 3;
+}
+message player_enter_room {
+  player_enter_room_type type = 1;
+  //
+  basic_info base = 2;
+  //
+  room_basic_info room = 3;
+  //
+  player_basic_info player = 4;
+  //
+  other_basic_info owner = 5;
+  //
+  other_basic_info computer = 6;
+  //
+  string skin_id = 7;
+  //
+  int32 channel_type = 8;
+}
+message player_leave_room {
+  player_enter_room_type type = 1;
+  //
+  basic_info base = 2;
+  //
+  room_basic_info room = 3;
+  //
+  player_basic_info player = 4;
+  //
+  other_basic_info owner = 5;
+  //
+  other_basic_info computer = 6;
+}
+message room_basic_info {
+  int32 room_id = 1;
+  //
+  string room_name = 2;
+  //
+  int32 cur_player_count = 3;
+  //
+  int32 max_player_count = 4;
+}
+message room_count_change {
+  player_enter_room_type type = 1;
+  //
+  basic_info base = 2;
+  //
+  player_basic_info old_computer = 3;
+  //
+  player_basic_info new_computer = 4;
+}
+//LOG类型
+enum OSS_LOG_TYPE {
+  E_OSS_MSG_ID_ERROR = 0;
+  E_OSS_MSG_ID_SEND = 1001;
+}
+//LOG类型
+enum player_enter_room_type {
+  player_enter_room_type_1 = 0;
+  player_enter_room_type_2 = 1001;
+}

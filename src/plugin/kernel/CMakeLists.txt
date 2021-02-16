@@ -1,18 +1,16 @@
 if(WIN32)
     BUILD_PLUGIN_MACRO(AFKernelPlugin 
         debug AFProto_d.lib
-        debug libprotobufd.lib
-
         optimized AFProto.lib
-        optimized libprotobuf.lib)
+        ${PROTOBUF_LIBRARIES})
 elseif(APPLE)
     BUILD_PLUGIN_MACRO(AFKernelPlugin 
         debug ${BIN_OUTPUT_DIR}/AFProto_d.a
         optimized ${BIN_OUTPUT_DIR}/AFProto.a
-        protobuf)
+        ${PROTOBUF_LIBRARIES})
 else(UNIX)
     BUILD_PLUGIN_MACRO(AFKernelPlugin 
         debug :AFProto_d.a
         optimized :AFProto.a
-        protobuf)
+        ${PROTOBUF_LIBRARIES})
 endif()

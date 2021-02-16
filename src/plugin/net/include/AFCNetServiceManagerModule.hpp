@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,9 @@
 
 #pragma once
 
-#include "base/AFMap.hpp"
+#include "base/container/AFMap.hpp"
 #include "base/AFPluginManager.hpp"
 #include "bus/interface/AFIBusModule.hpp"
-#include "log/interface/AFILogModule.hpp"
-#include "consul/interface/AFIConsulModule.hpp"
 #include "utility/interface/AFITimerModule.hpp"
 #include "net/interface/AFINetServiceManagerModule.hpp"
 #include "net/interface/AFINetServerService.hpp"
@@ -41,48 +39,59 @@ public:
     bool Update() override;
     bool Shut() override;
 
-    ananas::Future<std::pair<bool, std::string>> CreateServer(
-        const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
+    bool CreateServer(const size_t silent_timeout, const AFIMsgHeader& csReqHeader, const AFIMsgHeader& ssReqHeader) override;
 
-    std::shared_ptr<AFINetServerService> GetSelfNetServer() override;
+    std::shared_ptr<AFINetServerService> GetInterNetServer() override;
+    std::shared_ptr<AFINetServerService> GetIntraNetServer() override;
 
-    //int CreateClusterClients(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
-    //int CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url) override;
+    //int CreateClusterClients(AFHeaderLen head_len = AFHeaderLen::SS_HEAD_LENGTH) override;
+    //int CreateClusterClient(AFHeaderLen head_len, bus_id_t bus_id, const std::string& url) override;
 
     //AFINetClientService* GetNetClientService(const ARK_APP_TYPE& app_type) override;
-    //AFINetClientService* GetNetClientServiceByBusID(const int bus_id) override;
+    //AFINetClientService* GetNetClientServiceByBusID(bus_id_t bus_id) override;
 
-    bool AddNetConnectionBus(int client_bus_id, std::shared_ptr<AFINet> net_ptr) override;
-    bool RemoveNetConnectionBus(int client_bus_id) override;
-    std::shared_ptr<AFINet> GetNetConnectionBus(int src_bus, int target_bus) override;
+    bool AddNetConnectionBus(bus_id_t target_bus_id, std::shared_ptr<AFINet> net_ptr) override;
+    bool RemoveNetConnectionBus(bus_id_t target_bus_id) override;
+    std::shared_ptr<AFINet> GetNetConnectionBus(bus_id_t src_bus, bus_id_t target_bus) override;
 
     std::shared_ptr<AFINetClientService> GetClientService(const ARK_APP_TYPE app_type) override;
 
+    conv_id_t GetSessionID(bus_id_t target_bus_id) override;
+    bool RemoveSessionID(conv_id_t session_id) override;
+
+    bool CreateClientService(const AFBusAddr& bus_addr, proto_type proto, const std::string& ip, uint16_t port,
+        std::shared_ptr<const AFIMsgHeader> head = std::shared_ptr<const AFIMsgHeader>(new AFSSMsgHeader)) override;
+
 protected:
-    ananas::Future<std::pair<bool, std::string>> RegisterToConsul(const int bus_id);
-    int DeregisterFromConsul(const int bus_id);
+    //ananas::Future<std::pair<bool, std::string>> RegisterToConsul(bus_id_t bus_id);
+    //int DeregisterFromConsul(bus_id_t bus_id);
 
-    void HealthCheck(uint64_t timer_id, const AFGUID& entity_id);
-
-    bool CreateClientService(const AFBusAddr& bus_addr, const std::string& ip, uint16_t port);
+    void HealthCheck(uint64_t timer_id, const guid_t& entity_id);
 
     bool CheckConnectedTargetServer(const AFBusAddr& bus_addr);
     std::shared_ptr<AFConnectionData> GetTargetClientConnection(const AFBusAddr& bus_addr);
 
+    void OnRegServerCallBack(const AFNetMsg* msg, conv_id_t session_id);
+
 private:
     // bus_id -> net_server_service - support multi-server in the same app
-    AFSmartPtrMap<int, AFINetServerService> server_services_;
+    using ServerService = AFSmartPtrMap<bus_id_t, AFINetServerService>;
+    ServerService server_services_;
+
+    ServerService intra_services_;
 
     // target_app_type -> net_client_service
     // the NetClientService have target multi-client info.
     AFSmartPtrMap<ARK_APP_TYPE, AFINetClientService> client_services_;
 
     // All net relations, for finding AFINet
-    AFSmartPtrMap<std::pair<int, int>, AFINet> net_bus_relations_;
+    // <self_bus, client_bus> -> AFINet
+    AFSmartPtrMap<std::pair<bus_id_t, bus_id_t>, AFINet> net_bus_relations_;
+
+    //bus id <--> session id
+    std::map<bus_id_t, conv_id_t> bus_session_list_;
 
     AFIBusModule* m_pBusModule;
-    AFILogModule* m_pLogModule;
-    AFIConsulModule* m_pConsulModule;
     AFITimerModule* m_pTimerModule;
 };
 

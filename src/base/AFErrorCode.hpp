@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,17 @@
 
 namespace ark {
 
-enum AFErrorCode
+enum class AFErrorCode : uint32_t
 {
-    // will add error code
-};
+    SUCCESS = 0,
 
+    KCP_SERVER_DISCONNECT = 1000,   // kcp server disconnect when dtor
+    KCP_TIME_OUT_DISCONNECT = 1001, // kcp timeout disconnect
+    KCP_FORCE_DISCONNECT = 1002,    // force disconnect
+    KCP_CONNECT_TIMEOUT = 1003,     // connect timeout
+    PEER_DISCONNECT = 1004,         // peer(client/server) disconnect
+
+    // will add error code
+    LOGIC_ERROR_CODE_START = 10000,
+};
 }

@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -63,38 +63,38 @@ public:
         bool bRet = false;
         switch (this->GetType())
         {
-            case ArkDataType::DT_BOOLEAN:
-                bRet = (GetBool() == src.GetBool());
-                break;
-            case ArkDataType::DT_INT32:
-                bRet = (GetInt() == src.GetInt());
-                break;
-            case ArkDataType::DT_INT64:
-                bRet = (GetInt64() == src.GetInt64());
-                break;
-            case ArkDataType::DT_UINT32:
-                bRet = (GetUInt() == src.GetUInt());
-                break;
-            case ArkDataType::DT_UINT64:
-                bRet = (GetUInt64() == src.GetUInt64());
-                break;
-            case ArkDataType::DT_FLOAT:
-                bRet = (GetFloat() == src.GetFloat());
-                break;
-            case ArkDataType::DT_DOUBLE:
-                bRet = (GetDouble() == src.GetDouble());
-                break;
-            case ArkDataType::DT_STRING:
-                bRet = (GetString() == src.GetString());
-                break;
-            case ArkDataType::DT_POINTER:
-                bRet = (GetPointer() == src.GetPointer());
-                break;
-            case ArkDataType::DT_USERDATA:
-                break;
-            default:
-                ARK_ASSERT_NO_EFFECT(false);
-                break;
+        case ArkDataType::DT_BOOLEAN:
+            bRet = (GetBool() == src.GetBool());
+            break;
+        case ArkDataType::DT_INT32:
+            bRet = (GetInt() == src.GetInt());
+            break;
+        case ArkDataType::DT_INT64:
+            bRet = (GetInt64() == src.GetInt64());
+            break;
+        case ArkDataType::DT_UINT32:
+            bRet = (GetUInt() == src.GetUInt());
+            break;
+        case ArkDataType::DT_UINT64:
+            bRet = (GetUInt64() == src.GetUInt64());
+            break;
+        case ArkDataType::DT_FLOAT:
+            bRet = (GetFloat() == src.GetFloat());
+            break;
+        case ArkDataType::DT_DOUBLE:
+            bRet = (GetDouble() == src.GetDouble());
+            break;
+        case ArkDataType::DT_STRING:
+            bRet = (GetString() == src.GetString());
+            break;
+        case ArkDataType::DT_POINTER:
+            bRet = (GetPointer() == src.GetPointer());
+            break;
+        case ArkDataType::DT_USERDATA:
+            break;
+        default:
+            ARK_ASSERT_NO_EFFECT(false);
+            break;
         }
 
         return bRet;
@@ -160,7 +160,7 @@ public:
         return GetString() == value;
     }
 
-	bool equal(const void* value)
+    bool equal(const void* value)
     {
         if (this->GetType() != ArkDataType::DT_POINTER)
         {

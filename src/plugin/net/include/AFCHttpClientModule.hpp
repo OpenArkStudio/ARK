@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 #pragma once
 
 #include "base/AFPluginManager.hpp"
-#include "net/interface/AFIHttpClient.hpp"
+#include "base/container/AFLockFreeQueue.hpp"
 #include "net/interface/AFIHttpClientModule.hpp"
 
 namespace ark {
@@ -32,25 +32,81 @@ class AFCHttpClientModule final : public AFIHttpClientModule
 public:
     explicit AFCHttpClientModule();
 
-    bool Update() override;
+    ~AFCHttpClientModule()
+    {
+        ioc_.stop();
+    }
 
-    ananas::Future<std::pair<bool, std::string>> AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method,
-        const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
-        const std::vector<std::string>& cookies, const google::protobuf::Message& http_msg) override;
+    bool Update() override
+    {
+        std::shared_ptr<Callback> cb;
+        while (finishedRequests_.Pop(cb))
+        {
+            cb->Cb(cb->Arg);
+        }
+        return true;
+    }
 
-    ananas::Future<std::pair<bool, std::string>> AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method,
-        const std::string& ip, const uint16_t port, const std::string& url,
-        const google::protobuf::Message& http_msg) override;
+    std::future<std::pair<bool, std::string>> Get(const std::string& host, const uint16_t port, const std::string& url,
+        const std::map<std::string, std::string>* url_params = nullptr,
+        const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) override
+    {
+        return asyncRequest(zephyr::http::verb::get, host, std::to_string(port),
+                            url, url_params, cookies, nullptr, nullptr, ioTimeout, connectTimeout);
+    }
 
-    ananas::Future<std::pair<bool, std::string>> AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method,
-        const std::string& ip, const uint16_t port, const std::string& url) override;
+    std::future<std::pair<bool, std::string>> Post(const std::string& host, const uint16_t port, const std::string& url,
+        const std::map<std::string, std::string>* url_params = nullptr, const std::string* http_body = nullptr,
+        const std::string* content_type = nullptr, const std::vector<std::string>* cookies = nullptr,
+        int ioTimeout = 20, int connectTimeout = 5) override
+    {
+        return asyncRequest(zephyr::http::verb::post, host, std::to_string(port),
+                            url, url_params, cookies, http_body, content_type, ioTimeout, connectTimeout);
+    }
 
-    ananas::Future<std::pair<bool, std::string>> AsyncRequest(brynet::net::http::HttpRequest::HTTP_METHOD http_method,
-        const std::string& ip, const uint16_t port, const std::string& url, std::map<std::string, std::string>& params,
-        const std::vector<std::string>& cookies, const std::string& http_body) override;
+    void Post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& host, const uint16_t port,
+              const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
+              const std::string* http_body = nullptr, const std::string* content_type = nullptr,
+              const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) override
+    {
+        asyncRequest(std::move(cb),zephyr::http::verb::post, host, std::to_string(port), url, url_params,
+                     cookies, http_body, content_type, ioTimeout, connectTimeout);
+    }
+
+    void Post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& host,
+        const std::string& service, const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
+        const std::string* http_body = nullptr, const std::string* content_type = nullptr,
+        const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) override
+    {
+        asyncRequest(std::move(cb),zephyr::http::verb::post, host, service, url, url_params,
+                     cookies, http_body, content_type, ioTimeout, connectTimeout);
+    }
 
 private:
-    std::shared_ptr<AFIHttpClient> http_client_{nullptr};
+    std::future<std::pair<bool, std::string>> asyncRequest(zephyr::http::verb method, const std::string& host,
+        const std::string& service, const std::string& target, const std::map<std::string, std::string>* params = nullptr,
+        const std::vector<std::string>* cookies = nullptr, const std::string* http_body = nullptr,
+        const std::string* content_type = nullptr, int ioTimeout = 20, int connectTimeout = 5);
+
+    void asyncRequest(std::function<void(std::pair<bool, std::string>)> cb, zephyr::http::verb method, const std::string& host,
+                      const std::string& service, const std::string& target, const std::map<std::string, std::string>* params = nullptr,
+                      const std::vector<std::string>* cookies = nullptr, const std::string* http_body = nullptr,
+                      const std::string* content_type = nullptr, int ioTimeout = 20, int connectTimeout = 5);
+
+private:
+    struct Callback {
+        Callback(std::function<void(std::pair<bool, std::string>)> cb, std::pair<bool, std::string> arg)
+            : Cb(std::move(cb)), Arg(move(arg))
+        {
+        }
+
+        std::function<void(std::pair<bool, std::string>)> Cb;
+        std::pair<bool, std::string> Arg;
+    };
+
+private:
+    boost::asio::io_context ioc_;
+    AFLockFreeQueue<std::shared_ptr<Callback>> finishedRequests_;
 };
 
 } // namespace ark

@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ AFClassCallBackManager::DelaySyncDataList AFClassCallBackManager::delay_sync_dat
 
 bool AFClassCallBackManager::AddClassCallBack(CLASS_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
-    class_events_.insert(std::make_pair(prio, std::forward<CLASS_EVENT_FUNCTOR>(cb)));
+    class_events_.insert(std::make_pair(prio, std::move(cb)));
     return true;
 }
 
@@ -40,12 +40,12 @@ bool AFClassCallBackManager::AddDataCallBack(const uint32_t index, DATA_NODE_EVE
     if (iter == data_call_backs_list_.end())
     {
         NodeCallBacks call_backs;
-        call_backs.insert(std::make_pair(prio, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb)));
+        call_backs.insert(std::make_pair(prio, std::move(cb)));
         data_call_backs_list_.insert(std::make_pair(index, call_backs));
     }
     else
     {
-        iter->second.insert(std::make_pair(prio, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb)));
+        iter->second.insert(std::make_pair(prio, std::move(cb)));
     }
 
     return true;
@@ -58,12 +58,12 @@ bool AFClassCallBackManager::AddTableCallBack(const uint32_t index, DATA_TABLE_E
     {
         TableCallBacks call_backs;
 
-        call_backs.insert(std::make_pair(prio, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb)));
+        call_backs.insert(std::make_pair(prio, std::move(cb)));
         table_call_backs_list_.insert(std::make_pair(index, call_backs));
     }
     else
     {
-        iter->second.insert(std::make_pair(prio, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb)));
+        iter->second.insert(std::make_pair(prio, std::move(cb)));
     }
 
     return true;
@@ -77,12 +77,12 @@ bool AFClassCallBackManager::AddContainerCallBack(
     {
         ContainerCallBacks call_backs;
 
-        call_backs.insert(std::make_pair(prio, std::forward<CONTAINER_EVENT_FUNCTOR>(cb)));
+        call_backs.insert(std::make_pair(prio, std::move(cb)));
         container_call_backs_list_.insert(std::make_pair(index, call_backs));
     }
     else
     {
-        iter->second.insert(std::make_pair(prio, std::forward<CONTAINER_EVENT_FUNCTOR>(cb)));
+        iter->second.insert(std::make_pair(prio, std::move(cb)));
     }
 
     return true;
@@ -90,24 +90,24 @@ bool AFClassCallBackManager::AddContainerCallBack(
 
 bool AFClassCallBackManager::AddLeaveSceneEvent(SCENE_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
-    leave_scene_events_.insert(std::make_pair(prio, std::forward<SCENE_EVENT_FUNCTOR>(cb)));
+    leave_scene_events_.insert(std::make_pair(prio, std::move(cb)));
     return true;
 }
 
 bool AFClassCallBackManager::AddEnterSceneEvent(SCENE_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
-    enter_scene_events_.insert(std::make_pair(prio, std::forward<SCENE_EVENT_FUNCTOR>(cb)));
+    enter_scene_events_.insert(std::make_pair(prio, std::move(cb)));
     return true;
 }
 
 bool AFClassCallBackManager::AddMoveEvent(MOVE_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
-    move_events_.insert(std::make_pair(prio, std::forward<MOVE_EVENT_FUNCTOR>(cb)));
+    move_events_.insert(std::make_pair(prio, std::move(cb)));
     return true;
 }
 
 bool AFClassCallBackManager::OnClassEvent(
-    const AFGUID& id, const std::string& class_name, const ArkEntityEvent eClassEvent, const AFIDataList& valueList)
+    const guid_t& id, const std::string& class_name, const ArkEntityEvent eClassEvent, const AFIDataList& valueList)
 {
     for (auto& iter : class_events_)
     {
@@ -118,7 +118,7 @@ bool AFClassCallBackManager::OnClassEvent(
 }
 
 bool AFClassCallBackManager::OnNodeCallBack(
-    const AFGUID& self, AFINode* pNode, const AFIData& old_data, const AFIData& new_data)
+    const guid_t& self, AFINode* pNode, const AFIData& old_data, const AFIData& new_data)
 {
     auto index = pNode->GetIndex();
     auto& name = pNode->GetName();
@@ -155,7 +155,7 @@ bool AFClassCallBackManager::OnNodeCallBack(
     return true;
 }
 
-bool AFClassCallBackManager::OnTableCallBack(const AFGUID& self, const ArkMaskType mask, AFINode* pNode,
+bool AFClassCallBackManager::OnTableCallBack(const guid_t& self, const ArkMaskType mask, AFINode* pNode,
     const TABLE_EVENT_DATA& event_data, const AFIData& old_data, const AFIData& new_data)
 {
     // sync call back
@@ -191,7 +191,7 @@ bool AFClassCallBackManager::OnTableCallBack(const AFGUID& self, const ArkMaskTy
     return true;
 }
 
-bool AFClassCallBackManager::OnContainerCallBack(const AFGUID& self, const uint32_t index, const ArkMaskType mask,
+bool AFClassCallBackManager::OnContainerCallBack(const guid_t& self, const uint32_t index, const ArkMaskType mask,
     const ArkContainerOpType op_type, uint32_t src_index, uint32_t dest_index,
     std::shared_ptr<AFIEntity> src_entity /* = nullptr*/)
 {
@@ -226,7 +226,7 @@ bool AFClassCallBackManager::OnContainerCallBack(const AFGUID& self, const uint3
     return true;
 }
 
-bool AFClassCallBackManager::OnLeaveSceneEvent(const AFGUID& self, const int map_id, const int map_inst_id)
+bool AFClassCallBackManager::OnLeaveSceneEvent(const guid_t& self, const int map_id, const int map_inst_id)
 {
     for (auto& iter : leave_scene_events_)
     {
@@ -236,7 +236,7 @@ bool AFClassCallBackManager::OnLeaveSceneEvent(const AFGUID& self, const int map
     return true;
 }
 
-bool AFClassCallBackManager::OnEnterSceneEvent(const AFGUID& self, const int map_id, const int map_inst_id)
+bool AFClassCallBackManager::OnEnterSceneEvent(const guid_t& self, const int map_id, const int map_inst_id)
 {
     for (auto& iter : enter_scene_events_)
     {
@@ -246,7 +246,7 @@ bool AFClassCallBackManager::OnEnterSceneEvent(const AFGUID& self, const int map
     return true;
 }
 
-bool AFClassCallBackManager::OnMoveEvent(const AFGUID& self, const AFVector3D& old_pos, const AFVector3D& new_pos)
+bool AFClassCallBackManager::OnMoveEvent(const guid_t& self, const AFVector3D& old_pos, const AFVector3D& new_pos)
 {
     for (auto& iter : move_events_)
     {
@@ -259,17 +259,17 @@ bool AFClassCallBackManager::OnMoveEvent(const AFGUID& self, const AFVector3D& o
 // sync call back
 void AFClassCallBackManager::AddNodeSyncCallBack(const ArkDataMask mask_value, NODE_SYNC_FUNCTOR&& cb)
 {
-    node_sync_call_back_list_.insert(std::make_pair(mask_value, std::forward<NODE_SYNC_FUNCTOR>(cb)));
+    node_sync_call_back_list_.insert(std::make_pair(mask_value, std::move(cb)));
 }
 
 void AFClassCallBackManager::AddTableSyncCallBack(const ArkDataMask mask_value, TABLE_SYNC_FUNCTOR&& cb)
 {
-    table_sync_call_back_list_.insert(std::make_pair(mask_value, std::forward<TABLE_SYNC_FUNCTOR>(cb)));
+    table_sync_call_back_list_.insert(std::make_pair(mask_value, std::move(cb)));
 }
 
 void AFClassCallBackManager::AddContainerSyncCallBack(const ArkDataMask mask_value, CONTAINER_SYNC_FUNCTOR&& cb)
 {
-    container_sync_call_backs_list_.insert(std::make_pair(mask_value, std::forward<CONTAINER_SYNC_FUNCTOR>(cb)));
+    container_sync_call_backs_list_.insert(std::make_pair(mask_value, std::move(cb)));
 }
 
 void AFClassCallBackManager::AddDelaySyncCallBack(const ArkDataMask mask_value, DELAY_SYNC_FUNCTOR&& cb)
@@ -300,7 +300,7 @@ bool AFClassCallBackManager::OnDelaySync()
     return true;
 }
 
-AFClassCallBackManager::DelaySyncMaskData& AFClassCallBackManager::GetDelaySyncMaskData(const AFGUID& self)
+AFClassCallBackManager::DelaySyncMaskData& AFClassCallBackManager::GetDelaySyncMaskData(const guid_t& self)
 {
     auto iter_data = delay_sync_data_list_.find(self);
     if (iter_data == delay_sync_data_list_.end())
@@ -354,7 +354,7 @@ AFDelaySyncContainer& AFClassCallBackManager::GetDelaySyncMaskContainer(
     return iter_container->second;
 }
 
-void AFClassCallBackManager::UpdateDelayNodeList(const AFGUID& self, AFINode* pNode)
+void AFClassCallBackManager::UpdateDelayNodeList(const guid_t& self, AFINode* pNode)
 {
     // update node list
     auto& mask_data_map = GetDelaySyncMaskData(self);
@@ -380,7 +380,7 @@ void AFClassCallBackManager::UpdateDelayNodeList(const AFGUID& self, AFINode* pN
     }
 }
 
-void AFClassCallBackManager::UpdateDelayTableList(const AFGUID& self, const ArkMaskType mask,
+void AFClassCallBackManager::UpdateDelayTableList(const guid_t& self, const ArkMaskType mask,
     const uint32_t table_index, const uint32_t row_index, ArkTableOpType op_type, AFINode* pNode)
 {
     auto& mask_data_map = GetDelaySyncMaskData(self);
@@ -416,7 +416,7 @@ void AFClassCallBackManager::UpdateDelayTableList(const AFGUID& self, const ArkM
     }
 }
 
-void AFClassCallBackManager::UpdateDelayContainerList(const AFGUID& self, const uint32_t index, const ArkMaskType mask,
+void AFClassCallBackManager::UpdateDelayContainerList(const guid_t& self, const uint32_t index, const ArkMaskType mask,
     const ArkContainerOpType op_type, uint32_t src_index, uint32_t dest_index,
     std::shared_ptr<AFIEntity> src_entity = nullptr)
 {

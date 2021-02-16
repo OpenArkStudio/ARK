@@ -10,12 +10,12 @@ class AFIConsulModule : public AFIModule
 {
 public:
     // Set register center url(You should call this function first)
-    virtual void SetRegisterCenter(const std::string& center_ip, const uint16_t center_port) = 0;
+    // virtual void SetRegisterCenter(const std::string& center_ip, const uint16_t center_port) = 0;
 
     // Register a service to register center
     virtual ananas::Future<std::pair<bool, std::string>> RegisterService(const consul::service_data& service) = 0;
 
-    // Deregister service form register center
+    // Unregister service form register center
     virtual ananas::Future<std::pair<bool, std::string>> DeregisterService(const std::string& service_id) = 0;
 
     // Get all health service with tag filter

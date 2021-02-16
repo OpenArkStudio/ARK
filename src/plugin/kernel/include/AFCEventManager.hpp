@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@
 #pragma once
 
 #include "base/AFDefine.hpp"
-#include "base/AFList.hpp"
-#include "base/AFMap.hpp"
+#include "base/container/AFList.hpp"
+#include "base/container/AFMap.hpp"
 #include "kernel/interface/AFIEventManager.hpp"
 #include "kernel/include/AFCDataList.hpp"
 
@@ -33,7 +33,7 @@ class AFCEventManager final : public AFIEventManager
 public:
     AFCEventManager() = delete;
 
-    explicit AFCEventManager(AFGUID self)
+    explicit AFCEventManager(guid_t self)
         : self_(self)
     {
     }
@@ -102,7 +102,7 @@ protected:
     }
 
 private:
-    AFGUID self_;
+    guid_t self_;
 
     AFList<int> need_remove_events_;
     AFSmartPtrMap<int, AFList<EVENT_PROCESS_FUNCTOR>> event_callbacks_;

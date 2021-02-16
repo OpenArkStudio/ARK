@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,9 @@
  *
  */
 
-#include "base/AFDateTime.hpp"
+#include "base/time/AFDateTime.hpp"
 #include "net/include/AFCTCPClient.hpp"
+#include "net/include/AFCRDPClient.hpp"
 #include "net/include/AFCNetClientService.hpp"
 
 namespace ark {
@@ -30,18 +31,14 @@ AFCNetClientService::AFCNetClientService(AFPluginManager* p)
     m_pNetServiceManagerModule = m_pPluginManager->FindModule<AFINetServiceManagerModule>();
     m_pBusModule = m_pPluginManager->FindModule<AFIBusModule>();
     m_pMsgModule = m_pPluginManager->FindModule<AFIMsgModule>();
-    m_pLogModule = m_pPluginManager->FindModule<AFILogModule>();
-
-    ARK_ASSERT_RET_NONE(m_pNetServiceManagerModule != nullptr && m_pBusModule != nullptr && m_pMsgModule != nullptr &&
-                        m_pLogModule != nullptr);
 
     consistent_hashmap_.set_vnode_count(EConstDefine_DefaultWeight);
 }
 
-bool AFCNetClientService::StartClient(const AFHeadLength head_len, const int& target_bus_id, const AFEndpoint& endpoint)
+bool AFCNetClientService::StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_t target_bus_id, const AFEndpoint& endpoint)
 {
     AFConnectionData data;
-    data.head_len_ = head_len;
+    data.head_ = head;
     data.server_bus_id_ = target_bus_id;
     data.endpoint_ = endpoint;
 
@@ -55,7 +52,7 @@ void AFCNetClientService::Update()
     ProcessUpdate();
 }
 
-bool AFCNetClientService::RegMsgCallback(const int msg_id, const NET_MSG_FUNCTOR&& cb)
+bool AFCNetClientService::RegMsgCallback(msg_id_t msg_id, const NET_MSG_FUNCTOR&& cb)
 {
     if (net_msg_callbacks_.find(msg_id) != net_msg_callbacks_.end())
     {
@@ -85,66 +82,59 @@ void AFCNetClientService::ProcessUpdate()
     for (auto iter : real_connections_)
     {
         auto connection_data = iter.second;
+        if (connection_data->net_client_ == nullptr)
+        {
+	        continue;
+        }
+    	
         switch (connection_data->net_state_)
         {
-            case AFConnectionData::DISCONNECT:
+        case AFConnectionData::DISCONNECT:
+        {
+            connection_data->net_state_ = AFConnectionData::RECONNECT;
+            connection_data->net_client_->Shutdown();
+        }
+        break;
+        case AFConnectionData::CONNECTING:
+        {
+            connection_data->net_client_->Update();
+        }
+        break;
+        case AFConnectionData::CONNECTED:
+        {
+            connection_data->net_client_->Update();
+
+            KeepAlive(connection_data);
+        }
+        break;
+        case AFConnectionData::RECONNECT:
+        {
+            // RECONNECT 30s/time
+            if ((connection_data->last_active_time_ + 30 * AFTimespan::SECOND_MS) >= m_pPluginManager->GetNowTime())
+            {
+                break;
+            }
+
+            connection_data->last_active_time_ = m_pPluginManager->GetNowTime();
+
+            connection_data->net_client_->Shutdown();
+
+            // based on protocol to create a new client
+            bool ret = connection_data->net_client_->StartClient(connection_data->head_,
+                connection_data->server_bus_id_, connection_data->endpoint_.GetIP(),
+                connection_data->endpoint_.GetPort());
+            if (!ret)
             {
                 connection_data->net_state_ = AFConnectionData::RECONNECT;
-                if (connection_data->net_client_ != nullptr)
-                {
-                    connection_data->net_client_->Shutdown();
-                }
             }
-            break;
-            case AFConnectionData::CONNECTING:
+            else
             {
-                if (connection_data->net_client_ != nullptr)
-                {
-                    connection_data->net_client_->Update();
-                }
+                connection_data->net_state_ = AFConnectionData::CONNECTING;
             }
+        }
+        break;
+        default:
             break;
-            case AFConnectionData::CONNECTED:
-            {
-                if (connection_data->net_client_ != nullptr)
-                {
-                    connection_data->net_client_->Update();
-
-                    KeepAlive(connection_data);
-                }
-            }
-            break;
-            case AFConnectionData::RECONNECT:
-            {
-                // RECONNECT 30s/time
-                if ((connection_data->last_active_time_ + 30 * AFTimespan::SECOND_MS) >= m_pPluginManager->GetNowTime())
-                {
-                    break;
-                }
-
-                connection_data->last_active_time_ = m_pPluginManager->GetNowTime();
-
-                if (connection_data->net_client_ != nullptr)
-                {
-                    connection_data->net_client_->Shutdown();
-                }
-
-                // based on protocol to create a new client
-                bool ret = connection_data->net_client_->StartClient(connection_data->head_len_,
-                    connection_data->server_bus_id_, connection_data->endpoint_.GetIP(),
-                    connection_data->endpoint_.GetPort(), connection_data->endpoint_.IsV6());
-                if (!ret)
-                {
-                    connection_data->net_state_ = AFConnectionData::RECONNECT;
-                }
-                else
-                {
-                    connection_data->net_state_ = AFConnectionData::CONNECTING;
-                }
-            }
-            break;
-            default:
-                break;
         }
     }
 }
@@ -157,11 +147,11 @@ std::shared_ptr<AFINet> AFCNetClientService::CreateNet(const proto_type proto)
     }
     else if (proto == proto_type::udp)
     {
-        // for now, do not support udp server
+        return std::make_shared<AFCRDPClient>(this, &AFCNetClientService::OnNetMsg, &AFCNetClientService::OnNetEvent);
     }
     else if (proto == proto_type::ws)
     {
-        // will add web-socket server
+        // will add web-socket client
     }
 
     // other protocol will be supported
@@ -188,10 +178,12 @@ void AFCNetClientService::LogServerInfo()
 
 void AFCNetClientService::KeepAlive(std::shared_ptr<AFConnectionData> pServerData)
 {
-    if ((pServerData->last_active_time_ + 10) > m_pPluginManager->GetNowTime())
+    if ((pServerData->last_active_time_ + 5000) > m_pPluginManager->GetNowTime())
     {
         return;
     }
+
+    SendReport(pServerData);
 
     pServerData->last_active_time_ = m_pPluginManager->GetNowTime();
 
@@ -239,6 +231,9 @@ int AFCNetClientService::OnConnect(const AFNetEvent* event)
 
         // add server-bus-id -> client-bus-id
         m_pNetServiceManagerModule->AddNetConnectionBus(event->GetBusId(), connection_info->net_client_);
+
+        // send reg message to server
+        RegToServer(*(connection_info->head_.get()), event->GetBusId());
     }
 
     return 0;
@@ -282,7 +277,7 @@ void AFCNetClientService::ProcessAddConnection()
 
         // based on protocol to create a new client
         target_connection_data->net_client_ = CreateNet(target_connection_data->endpoint_.proto());
-        int ret = target_connection_data->net_client_->StartClient(target_connection_data->head_len_,
+        int ret = target_connection_data->net_client_->StartClient(target_connection_data->head_,
             target_connection_data->server_bus_id_, target_connection_data->endpoint_.GetIP(),
             target_connection_data->endpoint_.GetPort());
         if (!ret)
@@ -300,13 +295,15 @@ void AFCNetClientService::ProcessAddConnection()
     tmp_connections_.clear();
 }
 
-void AFCNetClientService::OnNetMsg(const AFNetMsg* msg)
+void AFCNetClientService::OnNetMsg(const AFNetMsg* msg, conv_id_t session_id)
 {
+    ARK_LOG_DEBUG("[msg][recv] msg id = {} session id = {}", msg->GetMsgId(), session_id);
+
     auto it = net_msg_callbacks_.find(msg->GetMsgId());
 
     if (it != net_msg_callbacks_.end())
     {
-        (it->second)(msg);
+        (it->second)(msg, session_id);
     }
     else
     {
@@ -319,14 +316,14 @@ void AFCNetClientService::OnNetEvent(const AFNetEvent* event)
 {
     switch (event->GetType())
     {
-        case AFNetEventType::CONNECTED:
-            OnConnect(event);
-            break;
-        case AFNetEventType::DISCONNECTED:
-            OnDisconnect(event);
-            break;
-        default:
-            break;
+    case AFNetEventType::CONNECT:
+        OnConnect(event);
+        break;
+    case AFNetEventType::DISCONNECT:
+        OnDisconnect(event);
+        break;
+    default:
+        break;
     }
 
     for (const auto& it : net_event_callbacks_)
@@ -335,7 +332,7 @@ void AFCNetClientService::OnNetEvent(const AFNetEvent* event)
     }
 }
 
-std::shared_ptr<AFConnectionData> AFCNetClientService::GetConnectionInfo(const int bus_id)
+std::shared_ptr<AFConnectionData> AFCNetClientService::GetConnectionInfo(bus_id_t bus_id)
 {
     return real_connections_.find_value(bus_id);
 }
@@ -351,7 +348,7 @@ std::shared_ptr<AFConnectionData> AFCNetClientService::GetSuitableConnect(const 
     return GetConnectionInfo(vnode.bus_id);
 }
 
-void AFCNetClientService::AddAccountBusID(const std::string& account, const int bus_id)
+void AFCNetClientService::AddAccountBusID(const std::string& account, bus_id_t bus_id)
 {
     account_bus_map_.insert(std::make_pair(account, bus_id));
 }
@@ -372,17 +369,17 @@ int AFCNetClientService::GetAccountBusID(const std::string& account)
     return iter->second;
 }
 
-void AFCNetClientService::AddActorBusID(const AFGUID& actor, const int bus_id)
+void AFCNetClientService::AddActorBusID(const guid_t& actor, bus_id_t bus_id)
 {
     actor_bus_map_.insert(std::make_pair(actor, bus_id));
 }
 
-void AFCNetClientService::RemoveActorBusID(const AFGUID& actor)
+void AFCNetClientService::RemoveActorBusID(const guid_t& actor)
 {
     actor_bus_map_.erase(actor);
 }
 
-int AFCNetClientService::GetActorBusID(const AFGUID& actor)
+int AFCNetClientService::GetActorBusID(const guid_t& actor)
 {
     auto iter = actor_bus_map_.find(actor);
     if (iter == actor_bus_map_.end())
@@ -391,6 +388,37 @@ int AFCNetClientService::GetActorBusID(const AFGUID& actor)
     }
 
     return iter->second;
+}
+
+void AFCNetClientService::RegToServer(const AFIMsgHeader& head, bus_id_t target_bus_id)
+{
+    auto bus_id = m_pBusModule->GetSelfBusID();
+    auto pNet = m_pNetServiceManagerModule->GetNetConnectionBus(bus_id, target_bus_id);
+    if (!pNet)
+    {
+        return;
+    }
+
+    auto new_head = head.New();
+    new_head->SetMessageId(AFMsg::E_SS_MSG_ID_REG_TO_SERVER);
+    new_head->SetSourceBusId(bus_id);
+    new_head->SetDestBusId(target_bus_id);
+
+    pNet->SendMsg(new_head, "", 0);
+
+    delete new_head;
+}
+
+void AFCNetClientService::SendReport(std::shared_ptr<AFConnectionData> pServerData)
+{
+    auto head = pServerData->head_->New();
+    head->SetMessageId(AFMsg::E_SS_MSG_ID_HEART_BEAT);
+    head->SetSourceBusId(m_pBusModule->GetSelfBusID());
+    head->SetDestBusId(pServerData->server_bus_id_);
+
+    pServerData->net_client_->SendMsg(head, "", 0);
+
+    delete head;
 }
 
 } // namespace ark

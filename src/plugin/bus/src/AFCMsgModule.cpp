@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -27,27 +27,26 @@ bool AFCMsgModule::Init()
 {
     m_pBusModule = FindModule<AFIBusModule>();
     m_pNetServiceManagerModule = FindModule<AFINetServiceManagerModule>();
-    m_pLogModule = FindModule<AFILogModule>();
 
     return true;
 }
 
-//bool AFCMsgModule::SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, const int msg_id,
-//    const google::protobuf::Message& msg, const AFGUID& actor_id /* = 0*/)
+//bool AFCMsgModule::SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, msg_id_t msg_id,
+//    const google::protobuf::Message& msg, const guid_t& actor_id /* = 0*/)
 //{
 //    uint32_t crc32 = AFCRC::crc32(hash_key);
 //    return SendSuitSSMsg(app_type, crc32, msg_id, msg, actor_id);
 //}
 //
-//bool AFCMsgModule::SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, const int msg_id,
-//    const google::protobuf::Message& msg, const AFGUID& actor_id /* = 0*/)
+//bool AFCMsgModule::SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, msg_id_t msg_id,
+//    const google::protobuf::Message& msg, const guid_t& actor_id /* = 0*/)
 //{
 //    int suit_bus_id = 0; // GetSuitBus(app_type, hash_value);
 //    return SendSSMsg(suit_bus_id, msg_id, msg, actor_id);
 //}
 //
-//bool AFCMsgModule::SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg,
-//    const AFGUID& conn_id, const AFGUID& actor_id /* = 0*/)
+//bool AFCMsgModule::SendParticularSSMsg(bus_id_t bus_id, msg_id_t msg_id, const google::protobuf::Message& msg,
+//    conv_id_t conn_id, const guid_t& actor_id /* = 0*/)
 //{
 //    std::string msg_data = msg.SerializeAsString();
 //    return SendSSMsg(bus_id, msg_id, msg, conn_id, actor_id);
@@ -55,13 +54,13 @@ bool AFCMsgModule::Init()
 //
 ////////////////////////////////////////////////////////////////////////////
 //
-//bool AFCMsgModule::SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg,
-//    const AFGUID& conn_id, const AFGUID& actor_id /* = 0*/)
+//bool AFCMsgModule::SendSSMsg(bus_id_t target_bus, msg_id_t msg_id, const google::protobuf::Message& msg,
+//    conv_id_t conn_id, const guid_t& actor_id /* = 0*/)
 //{
 //    std::string msg_data;
 //    ARK_ASSERT_RET_VAL(msg.SerializeToString(&msg_data), false);
 //
-//    int src_bus = m_pBusModule->GetSelfBusID();
+//    auto src_bus = m_pBusModule->GetSelfBusID();
 //#ifdef ARK_RUN_MODE_DEBUG
 //    std::string pb_json;
 //    auto status = google::protobuf::util::MessageToJsonString(msg, &pb_json);
@@ -76,14 +75,14 @@ bool AFCMsgModule::Init()
 //    return SendSSMsg(src_bus, target_bus, msg_id, msg_data.c_str(), msg_data.length(), conn_id, actor_id);
 //}
 //
-//bool AFCMsgModule::SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len,
-//    const AFGUID& conn_id, const AFGUID& actor_id /*= 0*/)
+//bool AFCMsgModule::SendSSMsg(bus_id_t target_bus, msg_id_t msg_id, const char* msg, const int msg_len,
+//    conv_id_t conn_id, const guid_t& actor_id /*= 0*/)
 //{
 //    return SendSSMsg(m_pBusModule->GetSelfBusID(), target_bus, msg_id, msg, msg_len, conn_id, actor_id);
 //}
 //
-//bool AFCMsgModule::SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg_data,
-//    const int msg_len, const AFGUID& session_id, const AFGUID& actor_id /* = 0*/)
+//bool AFCMsgModule::SendSSMsg(bus_id_t src_bus, bus_id_t target_bus, msg_id_t msg_id, const char* msg_data,
+//    const int msg_len, conv_id_t session_id, const guid_t& actor_id /* = 0*/)
 //{
 //    AFSSMsgHead head;
 //    head.id_ = msg_id;
@@ -110,63 +109,144 @@ bool AFCMsgModule::Init()
 //    return true;
 //}
 
-bool AFCMsgModule::SendMsgByAppType(const ARK_APP_TYPE app_type, const int msg_id, const google::protobuf::Message& msg,
-    const AFGUID& guid /* = NULL_GUID*/)
+bool AFCMsgModule::SendDefCSMsgByAppType(const ARK_APP_TYPE app_type, const msg_id_t msg_id, const google::protobuf::Message& msg)
 {
+    AFCSMsgHeader head;
+    head.SetMessageId(msg_id);
+    return SendMsgByAppType(app_type, &head, msg);
+}
+
+bool AFCMsgModule::SendDefSSMsgByAppType(const ARK_APP_TYPE app_type, const msg_id_t msg_id, const google::protobuf::Message& msg)
+{
+    AFSSMsgHeader head;
+    head.SetMessageId(msg_id);
+    return SendMsgByAppType(app_type, &head, msg);
+}
+
+bool AFCMsgModule::SendMsgByAppType(const ARK_APP_TYPE app_type, AFIMsgHeader* header, const google::protobuf::Message& msg)
+{
+    /// firstly find net client service
     auto pClientService = m_pNetServiceManagerModule->GetClientService(app_type);
     if (pClientService == nullptr)
     {
         ARK_LOG_ERROR("net client service not be found, src_bus={} app_type={} msg_id={} actor_id={}",
-            m_pBusModule->GetSelfBusID(), (uint8_t)app_type, msg_id, guid);
+            m_pBusModule->GetSelfBusID(), (uint8_t)app_type, header->MessageId(), header->ActorId());
         return false;
     }
+
+    /// todo : if no client service then try net service
 
     auto busid = m_pBusModule->GetSelfBusID();
     auto pConnetionInfo = pClientService->GetSuitableConnect(AFMisc::ToString(busid));
     if (pConnetionInfo == nullptr)
     {
         ARK_LOG_ERROR("connection info not be found, src_bus={} app_type={} msg_id={} actor_id={}",
-            m_pBusModule->GetSelfBusID(), (uint8_t)app_type, msg_id, guid);
+            busid, (uint8_t)app_type, header->MessageId(), header->ActorId());
         return false;
     }
 
-    return SendMsg(pConnetionInfo->net_client_, busid, pConnetionInfo->server_bus_id_, msg_id, msg, guid);
+    header->SetSourceBusId(busid);
+    header->SetDestBusId(pConnetionInfo->server_bus_id_);
+    return SendMsg(pConnetionInfo->net_client_, header, msg);
 }
 
 bool AFCMsgModule::SendMsgByBusID(
-    const int bus_id, const int msg_id, const google::protobuf::Message& msg, const AFGUID& guid /* = NULL_GUID*/)
+    bus_id_t bus_id, msg_id_t msg_id, const google::protobuf::Message& msg, const guid_t& guid /* = NULL_GUID*/)
 {
     auto src_bus = m_pBusModule->GetSelfBusID();
     auto pNet = m_pNetServiceManagerModule->GetNetConnectionBus(src_bus, bus_id);
-    return SendMsg(pNet, src_bus, bus_id, msg_id, msg, guid);
+
+    AFSSMsgHeader header;
+    header.SetMessageId(msg_id);
+    header.SetActorId(guid);
+    header.SetSourceBusId(src_bus);
+    header.SetDestBusId(bus_id);
+    return SendMsg(pNet, &header, msg);
 }
 
-bool AFCMsgModule::SendMsg(std::shared_ptr<AFINet>& pNet, const int src_bus, const int target_bus, const int msg_id,
-    const google::protobuf::Message& msg, const AFGUID& guid)
+bool AFCMsgModule::SendToClient(
+    conv_id_t session_id, msg_id_t msg_id, const google::protobuf::Message& msg, const guid_t& guid)
+{
+    std::string msg_data;
+    if (!msg.SerializeToString(&msg_data))
+    {
+        ARK_LOG_ERROR("msg serializing failed, src_bus={} target_bus={} msg_id={} actor_id={}", msg_id, guid);
+        return false;
+    }
+
+    return SendToClient(session_id, msg_id, msg_data, false, guid);
+}
+
+bool AFCMsgModule::SendToClient(conv_id_t session_id, msg_id_t msg_id, const std::string& msg_data,
+    bool compressed /* = false*/, const guid_t& guid)
+{
+    auto pNetService = m_pNetServiceManagerModule->GetInterNetServer();
+    if (pNetService == nullptr)
+    {
+        ARK_LOG_ERROR("net service is null, src_bus={} session id ={} msg_id={} actor_id={}",
+            m_pBusModule->GetSelfBusID(), session_id, msg_id, guid);
+        return false;
+    }
+
+    AFCSMsgHeader header;
+    header.SetMessageId(msg_id);
+    header.SetCompressed(compressed);
+    auto pNet = pNetService->GetNet();
+    return SendMsg(pNet, &header, msg_data, session_id);
+}
+
+bool AFCMsgModule::SendToIntra(
+    conv_id_t session_id, msg_id_t msg_id, const google::protobuf::Message& msg, const guid_t& guid)
+{
+    auto pNetService = m_pNetServiceManagerModule->GetIntraNetServer();
+    if (pNetService == nullptr)
+    {
+        ARK_LOG_ERROR("net service is null, src_bus={} session id ={} msg_id={} actor_id={}",
+            m_pBusModule->GetSelfBusID(), session_id, msg_id, guid);
+        return false;
+    }
+
+    auto pNet = pNetService->GetNet();
+    AFSSMsgHeader header;
+    header.SetMessageId(msg_id);
+    header.SetActorId(guid);
+    header.SetSourceBusId(m_pBusModule->GetSelfBusID());
+    header.SetDestBusId(0);
+    return SendMsg(pNet, &header, msg, session_id);
+}
+
+bool AFCMsgModule::SendMsg(std::shared_ptr<AFINet>& pNet, AFIMsgHeader* header, const google::protobuf::Message& msg, const conv_id_t session_id)
+{
+    std::string msg_data;
+    if (!msg.SerializeToString(&msg_data))
+    {
+        ARK_LOG_ERROR("msg serializing failed, src_bus={} target_bus={} msg_id={} actor_id={}", header->SourceBusId(), header->DestBusId(),
+            header->MessageId(), header->ActorId());
+        return false;
+    }
+
+    return SendMsg(pNet, header, msg_data, session_id);
+}
+
+bool AFCMsgModule::SendMsg(std::shared_ptr<AFINet>& pNet, AFIMsgHeader* header, const std::string& msg_data, const conv_id_t session_id)
 {
     if (pNet == nullptr)
     {
         ARK_LOG_ERROR(
-            "net is invalid, src_bus={} target_bus={} msg_id={} actor_id={}", src_bus, target_bus, msg_id, guid);
+            "net is invalid, src_bus={} target_bus={} msg_id={} actor_id={}", header->SourceBusId(), header->DestBusId(), header->MessageId(), header->ActorId());
         return false;
     }
 
-    std::string msg_data;
-    if (msg.SerializeToString(&msg_data))
+    auto conv_id = session_id;
+    if (conv_id == 0)
     {
-        ARK_LOG_ERROR("msg serializing failed, src_bus={} target_bus={} msg_id={} actor_id={}", src_bus, target_bus,
-            msg_id, guid);
-        return false;
+        conv_id = m_pNetServiceManagerModule->GetSessionID(header->DestBusId());
     }
 
-    AFSSMsgHead head;
-    head.id_ = msg_id;
-    head.length_ = msg_data.length();
-    head.actor_id_ = guid;
-    head.src_bus_ = src_bus;
-    head.dst_bus_ = target_bus;
+    ARK_LOG_DEBUG("[msg][ack] msg id = {} session id = {} msg len = {}", header->MessageId(), conv_id, msg_data.length());
 
-    return pNet->SendMsg(&head, msg_data.c_str(), 0); // do not need session id
+    header->SetMessageLength(msg_data.size());
+    return pNet->SendMsg(header, msg_data.data(), conv_id);
 }
 
 } // namespace ark

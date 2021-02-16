@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ class AFIWorldNetModule : public AFIModule
 {
 public:
     virtual bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData,
-        const AFGUID nPlayer = AFGUID()) = 0;
+        const guid_t nPlayer = guid_t()) = 0;
     virtual bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID,
         const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData) = 0;
 

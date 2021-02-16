@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "base/AFTimer.hpp"
+#include "base/time/AFTimer.hpp"
 #include "base/AFPluginManager.hpp"
 #include "utility/interface/AFITimerModule.hpp"
 
@@ -37,10 +37,10 @@ public:
     bool RemoveTimer(const uint64_t timer_id) override;
 
 protected:
-    uint64_t AddSingleTimer(const AFGUID& entity_id, const std::chrono::milliseconds interval, const uint32_t count,
+    uint64_t AddSingleTimer(const guid_t& entity_id, const std::chrono::milliseconds interval, const uint32_t count,
         TIMER_FUNCTOR&& cb) override;
     uint64_t AddForeverTimer(
-        const AFGUID& entity_id, const std::chrono::milliseconds interval, TIMER_FUNCTOR&& cb) override;
+        const guid_t& entity_id, const std::chrono::milliseconds interval, TIMER_FUNCTOR&& cb) override;
 
 private:
     std::shared_ptr<AFTimeWheelManager> timer_manager_ptr{nullptr};

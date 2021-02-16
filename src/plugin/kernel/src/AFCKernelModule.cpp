@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@
 #include "base/AFDefine.hpp"
 #include "kernel/include/AFCKernelModule.hpp"
 #include "kernel/include/AFCEntity.hpp"
-#include "log/interface/AFILogModule.hpp"
 #include "kernel/include/AFCTable.hpp"
 #include "kernel/include/AFCDataList.hpp"
 #include "kernel/include/AFCContainer.hpp"
@@ -48,7 +47,6 @@ bool AFCKernelModule::Init()
     m_pMapModule = FindModule<AFIMapModule>();
     m_pClassModule = FindModule<AFIClassMetaModule>();
     m_pConfigModule = FindModule<AFIConfigModule>();
-    m_pLogModule = FindModule<AFILogModule>();
     m_pGUIDModule = FindModule<AFIGUIDModule>();
 
     auto container_func = std::bind(&AFCKernelModule::OnContainerCallBack, this, std::placeholders::_1,
@@ -127,10 +125,10 @@ bool AFCKernelModule::CopyData(std::shared_ptr<AFIEntity> pEntity, std::shared_p
     return true;
 }
 
-std::shared_ptr<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const int map_id,
+std::shared_ptr<AFIEntity> AFCKernelModule::CreateEntity(const guid_t& self, const int map_id,
     const int map_instance_id, const std::string& class_name, const ID_TYPE config_id, const AFIDataList& args)
 {
-    AFGUID object_id = self;
+    guid_t object_id = self;
 
     auto pMapInfo = m_pMapModule->GetMapInfo(map_id);
     if (pMapInfo == nullptr)
@@ -218,7 +216,7 @@ std::shared_ptr<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, con
 }
 
 std::shared_ptr<AFIEntity> AFCKernelModule::CreateContainerEntity(
-    const AFGUID& self, const uint32_t container_index, const std::string& class_name, const ID_TYPE config_id)
+    const guid_t& self, const uint32_t container_index, const std::string& class_name, const ID_TYPE config_id)
 {
     auto pEntity = GetEntity(self);
     if (pEntity == nullptr)
@@ -273,7 +271,7 @@ std::shared_ptr<AFIEntity> AFCKernelModule::CreateContainerEntity(
         return nullptr;
     }
 
-    AFGUID object_id = m_pGUIDModule->CreateGUID();
+    guid_t object_id = m_pGUIDModule->CreateGUID();
 
     // Check if the entity exists
     if (GetEntity(object_id) != nullptr)
@@ -308,7 +306,7 @@ std::shared_ptr<AFIStaticEntity> AFCKernelModule::GetStaticEntity(const ID_TYPE 
     return m_pConfigModule->FindStaticEntity(config_id);
 }
 
-std::shared_ptr<AFIEntity> AFCKernelModule::GetEntity(const AFGUID& self)
+std::shared_ptr<AFIEntity> AFCKernelModule::GetEntity(const guid_t& self)
 {
     return objects_.find_value(self);
 }
@@ -332,7 +330,7 @@ bool AFCKernelModule::DestroyAll()
     return true;
 }
 
-bool AFCKernelModule::DestroyEntity(const AFGUID& self)
+bool AFCKernelModule::DestroyEntity(const guid_t& self)
 {
     if (self == cur_exec_object_ && self != NULL_GUID)
     {
@@ -358,7 +356,7 @@ bool AFCKernelModule::DestroyEntity(const AFGUID& self)
     }
 }
 
-bool AFCKernelModule::DestroySelf(const AFGUID& self)
+bool AFCKernelModule::DestroySelf(const guid_t& self)
 {
     delete_list_.push_back(self);
     return true;
@@ -396,7 +394,7 @@ bool AFCKernelModule::InnerDestroyEntity(std::shared_ptr<AFIEntity> pEntity)
     }
 }
 
-bool AFCKernelModule::AddEventCallBack(const AFGUID& self, const int nEventID, EVENT_PROCESS_FUNCTOR&& cb)
+bool AFCKernelModule::AddEventCallBack(const guid_t& self, const int nEventID, EVENT_PROCESS_FUNCTOR&& cb)
 {
     std::shared_ptr<AFIEntity> pEntity = GetEntity(self);
     ARK_ASSERT_RET_VAL(pEntity != nullptr, false);
@@ -404,12 +402,12 @@ bool AFCKernelModule::AddEventCallBack(const AFGUID& self, const int nEventID, E
     auto pEventManager = GetEventManager(pEntity);
     ARK_ASSERT_RET_VAL(pEventManager != nullptr, false);
 
-    return pEventManager->AddEventCallBack(nEventID, std::forward<EVENT_PROCESS_FUNCTOR>(cb));
+    return pEventManager->AddEventCallBack(nEventID, std::move(cb));
 }
 
 bool AFCKernelModule::AddClassCallBack(const std::string& class_name, CLASS_EVENT_FUNCTOR&& cb, const int32_t prio)
 {
-    return m_pClassModule->AddClassCallBack(class_name, std::forward<CLASS_EVENT_FUNCTOR>(cb), prio);
+    return m_pClassModule->AddClassCallBack(class_name, std::move(cb), prio);
 }
 
 bool AFCKernelModule::AddNodeCallBack(
@@ -424,7 +422,7 @@ bool AFCKernelModule::AddNodeCallBack(
         return false;
     }
 
-    AddNodeCallBack(class_name, index, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb), prio);
+    AddNodeCallBack(class_name, index, std::move(cb), prio);
 
     return true;
 }
@@ -441,7 +439,7 @@ bool AFCKernelModule::AddTableCallBack(
         return false;
     }
 
-    AddTableCallBack(class_name, index, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb), prio);
+    AddTableCallBack(class_name, index, std::move(cb), prio);
 
     return true;
 }
@@ -458,7 +456,7 @@ bool AFCKernelModule::AddNodeCallBack(
     auto pCallBack = pClassMeta->GetClassCallBackManager();
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
-    pCallBack->AddDataCallBack(index, std::forward<DATA_NODE_EVENT_FUNCTOR>(cb), prio);
+    pCallBack->AddDataCallBack(index, std::move(cb), prio);
 
     return true;
 }
@@ -475,7 +473,7 @@ bool AFCKernelModule::AddTableCallBack(
     auto pCallBack = pClassMeta->GetClassCallBackManager();
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
-    pCallBack->AddTableCallBack(index, std::forward<DATA_TABLE_EVENT_FUNCTOR>(cb), prio);
+    pCallBack->AddTableCallBack(index, std::move(cb), prio);
 
     return true;
 }
@@ -492,7 +490,7 @@ bool AFCKernelModule::AddContainerCallBack(
     auto pCallBack = pClassMeta->GetClassCallBackManager();
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
-    pCallBack->AddContainerCallBack(index, std::forward<CONTAINER_EVENT_FUNCTOR>(cb), prio);
+    pCallBack->AddContainerCallBack(index, std::move(cb), prio);
 
     return true;
 }
@@ -511,8 +509,7 @@ bool AFCKernelModule::AddCommonContainerCallBack(CONTAINER_EVENT_FUNCTOR&& cb, c
             continue;
         }
 
-        AddContainerCallBack(
-            AFEntityMetaPlayer::self_name(), pMeta->GetIndex(), std::forward<CONTAINER_EVENT_FUNCTOR>(cb), prio);
+        AddContainerCallBack(AFEntityMetaPlayer::self_name(), pMeta->GetIndex(), std::move(cb), prio);
     }
 
     return true;
@@ -529,7 +526,7 @@ bool AFCKernelModule::AddCommonClassEvent(CLASS_EVENT_FUNCTOR&& cb, const int32_
             continue;
         }
 
-        AddClassCallBack(iter.first, std::forward<CLASS_EVENT_FUNCTOR>(cb), prio);
+        AddClassCallBack(iter.first, std::move(cb), prio);
     }
 
     return true;
@@ -543,7 +540,7 @@ bool AFCKernelModule::AddLeaveSceneEvent(const std::string& class_name, SCENE_EV
     auto pCallBack = pClassMeta->GetClassCallBackManager();
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
-    return pCallBack->AddLeaveSceneEvent(std::forward<SCENE_EVENT_FUNCTOR>(cb), prio);
+    return pCallBack->AddLeaveSceneEvent(std::move(cb), prio);
 }
 
 bool AFCKernelModule::AddEnterSceneEvent(const std::string& class_name, SCENE_EVENT_FUNCTOR&& cb, const int32_t prio)
@@ -554,7 +551,7 @@ bool AFCKernelModule::AddEnterSceneEvent(const std::string& class_name, SCENE_EV
     auto pCallBack = pClassMeta->GetClassCallBackManager();
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
-    return pCallBack->AddEnterSceneEvent(std::forward<SCENE_EVENT_FUNCTOR>(cb), prio);
+    return pCallBack->AddEnterSceneEvent(std::move(cb), prio);
 }
 
 bool AFCKernelModule::AddMoveEvent(const std::string& class_name, MOVE_EVENT_FUNCTOR&& cb, const int32_t prio)
@@ -565,7 +562,7 @@ bool AFCKernelModule::AddMoveEvent(const std::string& class_name, MOVE_EVENT_FUN
     auto pCallBack = pClassMeta->GetClassCallBackManager();
     ARK_ASSERT_RET_VAL(pCallBack != nullptr, false);
 
-    return pCallBack->AddMoveEvent(std::forward<MOVE_EVENT_FUNCTOR>(cb), prio);
+    return pCallBack->AddMoveEvent(std::move(cb), prio);
 }
 
 void AFCKernelModule::AddSyncCallBack()
@@ -608,7 +605,7 @@ void AFCKernelModule::AddSyncCallBack()
 }
 
 int AFCKernelModule::OnSyncNode(
-    const AFGUID& self, const uint32_t index, const ArkDataMask mask_value, const AFIData& data)
+    const guid_t& self, const uint32_t index, const ArkDataMask mask_value, const AFIData& data)
 {
     // find parent entity
     auto pEntity = GetEntity(self);
@@ -649,71 +646,71 @@ int AFCKernelModule::OnSyncNode(
 }
 
 int AFCKernelModule::OnSyncTable(
-    const AFGUID& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value, const AFIData& data)
+    const guid_t& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value, const AFIData& data)
 {
     ArkTableOpType op_type = static_cast<ArkTableOpType>(event.op_type_);
     switch (op_type)
     {
-        case ArkTableOpType::TABLE_ADD:
-        {
-            OnSyncTableAdd(self, event, mask_value);
-        }
+    case ArkTableOpType::TABLE_ADD:
+    {
+        OnSyncTableAdd(self, event, mask_value);
+    }
+    break;
+    case ArkTableOpType::TABLE_DELETE:
+    {
+        OnSyncTableDelete(self, event, mask_value);
+    }
+    break;
+    case ArkTableOpType::TABLE_SWAP:
+        // do not have yet
         break;
-        case ArkTableOpType::TABLE_DELETE:
-        {
-            OnSyncTableDelete(self, event, mask_value);
-        }
+    case ArkTableOpType::TABLE_UPDATE:
+    {
+        OnSyncTableUpdate(self, event, mask_value, data);
+    }
+    break;
+    case ArkTableOpType::TABLE_COVERAGE:
+        // will do something
         break;
-        case ArkTableOpType::TABLE_SWAP:
-            // do not have yet
-            break;
-        case ArkTableOpType::TABLE_UPDATE:
-        {
-            OnSyncTableUpdate(self, event, mask_value, data);
-        }
+    default:
         break;
-        case ArkTableOpType::TABLE_COVERAGE:
-            // will do something
-            break;
-        default:
-            break;
     }
 
     return 0;
 }
 
-int AFCKernelModule::OnSyncContainer(const AFGUID& self, const uint32_t index, const ArkDataMask mask,
+int AFCKernelModule::OnSyncContainer(const guid_t& self, const uint32_t index, const ArkDataMask mask,
     const ArkContainerOpType op_type, uint32_t src_index, uint32_t dest_index)
 {
     switch (op_type)
     {
-        case ArkContainerOpType::OP_PLACE:
-        {
-            OnSyncContainerPlace(self, index, mask, src_index);
-        }
+    case ArkContainerOpType::OP_PLACE:
+    {
+        OnSyncContainerPlace(self, index, mask, src_index);
+    }
+    break;
+    case ArkContainerOpType::OP_REMOVE:
+    {
+        OnSyncContainerRemove(self, index, mask, src_index);
+    }
+    break;
+    case ArkContainerOpType::OP_DESTROY:
+    {
+        OnSyncContainerDestroy(self, index, mask, src_index);
+    }
+    break;
+    case ArkContainerOpType::OP_SWAP:
+    {
+        OnSyncContainerSwap(self, index, mask, src_index, dest_index);
+    }
+    break;
+    default:
         break;
-        case ArkContainerOpType::OP_REMOVE:
-        {
-            OnSyncContainerRemove(self, index, mask, src_index);
-        }
-        break;
-        case ArkContainerOpType::OP_DESTROY:
-        {
-            OnSyncContainerDestroy(self, index, mask, src_index);
-        }
-        break;
-        case ArkContainerOpType::OP_SWAP:
-        {
-            OnSyncContainerSwap(self, index, mask, src_index, dest_index);
-        }
-        break;
-        default:
-            break;
     }
     return 0;
 }
 
-int AFCKernelModule::OnDelaySyncData(const AFGUID& self, const ArkDataMask mask_value, const AFDelaySyncData& data)
+int AFCKernelModule::OnDelaySyncData(const guid_t& self, const ArkDataMask mask_value, const AFDelaySyncData& data)
 {
     if (data.node_list_.size() == 0 && data.table_list_.size() == 0)
     {
@@ -779,7 +776,7 @@ int AFCKernelModule::OnDelaySyncData(const AFGUID& self, const ArkDataMask mask_
     return 0;
 }
 
-int AFCKernelModule::OnSyncTableAdd(const AFGUID& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value)
+int AFCKernelModule::OnSyncTableAdd(const guid_t& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value)
 {
     // find parent entity
     auto pEntity = GetEntity(self);
@@ -836,7 +833,7 @@ int AFCKernelModule::OnSyncTableAdd(const AFGUID& self, const TABLE_EVENT_DATA& 
     return 0;
 }
 
-int AFCKernelModule::OnSyncTableDelete(const AFGUID& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value)
+int AFCKernelModule::OnSyncTableDelete(const guid_t& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value)
 {
     // find parent entity
     auto pEntity = GetEntity(self);
@@ -870,7 +867,7 @@ int AFCKernelModule::OnSyncTableDelete(const AFGUID& self, const TABLE_EVENT_DAT
 }
 
 int AFCKernelModule::OnSyncTableUpdate(
-    const AFGUID& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value, const AFIData& data)
+    const guid_t& self, const TABLE_EVENT_DATA& event, const ArkDataMask mask_value, const AFIData& data)
 {
     // find parent entity
     auto pEntity = GetEntity(self);
@@ -912,7 +909,7 @@ int AFCKernelModule::OnSyncTableUpdate(
 }
 
 int AFCKernelModule::OnSyncContainerPlace(
-    const AFGUID& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index)
+    const guid_t& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index)
 {
     // find parent entity
     auto pEntity = GetEntity(self);
@@ -968,7 +965,7 @@ int AFCKernelModule::OnSyncContainerPlace(
 }
 
 int AFCKernelModule::OnSyncContainerRemove(
-    const AFGUID& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index)
+    const guid_t& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index)
 {
     // find parent entity
     auto pEntity = GetEntity(self);
@@ -989,7 +986,7 @@ int AFCKernelModule::OnSyncContainerRemove(
 }
 
 int AFCKernelModule::OnSyncContainerDestroy(
-    const AFGUID& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index)
+    const guid_t& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index)
 {
     // find parent entity
     auto pEntity = GetEntity(self);
@@ -1010,7 +1007,7 @@ int AFCKernelModule::OnSyncContainerDestroy(
 }
 
 int AFCKernelModule::OnSyncContainerSwap(
-    const AFGUID& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index, uint32_t dest_index)
+    const guid_t& self, const uint32_t index, const ArkDataMask mask, uint32_t src_index, uint32_t dest_index)
 {
     // find parent entity
     auto pEntity = GetEntity(self);
@@ -1125,8 +1122,8 @@ bool AFCKernelModule::DelayContainerToPB(std::shared_ptr<AFIEntity> pEntity, con
     return true;
 }
 
-bool AFCKernelModule::TryAddContainerPBEntity(std::shared_ptr<AFIContainer> pContainer, const AFGUID& self,
-    AFMsg::pb_entity_data& pb_entity_data, AFGUID& parent_id, AFMsg::pb_entity_data* pb_container_entity)
+bool AFCKernelModule::TryAddContainerPBEntity(std::shared_ptr<AFIContainer> pContainer, const guid_t& self,
+    AFMsg::pb_entity_data& pb_entity_data, guid_t& parent_id, AFMsg::pb_entity_data*& pb_container_entity)
 {
     parent_id = pContainer->GetParentID();
     auto pParentEntity = GetEntity(parent_id);
@@ -1143,17 +1140,29 @@ bool AFCKernelModule::TryAddContainerPBEntity(std::shared_ptr<AFIContainer> pCon
         return false;
     }
 
-    AFMsg::pb_entity pb_entity;
-    pb_container_entity = pb_entity.mutable_data();
     AFMsg::pb_container pb_container;
+    auto result_container = pb_entity_data.mutable_datas_container()->insert({pContainer->GetIndex(), pb_container});
+    if (!result_container.second)
+    {
+        ARK_LOG_ERROR("entity insert container failed, self={} container index = {}", self, pContainer->GetIndex());
+        return false;
+    }
+    auto& container = result_container.first->second;
 
-    pb_container.mutable_datas_value()->insert({self_index, pb_entity});
-    pb_entity_data.mutable_datas_container()->insert({pContainer->GetIndex(), pb_container});
+    AFMsg::pb_entity pb_entity;
+    auto result_entity = container.mutable_datas_value()->insert({self_index, pb_entity});
+    if (!result_entity.second)
+    {
+        ARK_LOG_ERROR("container insert entity failed, self={} container index = {}", self, pContainer->GetIndex());
+        return false;
+    }
 
+    auto& entity = result_entity.first->second;
+    pb_container_entity = entity.mutable_data();
     return true;
 }
 
-int AFCKernelModule::SendSyncMsg(const AFGUID& self, const ArkDataMask mask_value, const google::protobuf::Message& msg)
+int AFCKernelModule::SendSyncMsg(const guid_t& self, const ArkDataMask mask_value, const google::protobuf::Message& msg)
 {
     auto iter = sync_functors.find(mask_value);
     if (iter == sync_functors.end())
@@ -1166,7 +1175,7 @@ int AFCKernelModule::SendSyncMsg(const AFGUID& self, const ArkDataMask mask_valu
     return 0;
 }
 
-int AFCKernelModule::SendToView(const AFGUID& self, const google::protobuf::Message& msg)
+int AFCKernelModule::SendToView(const guid_t& self, const google::protobuf::Message& msg)
 {
     auto pEntity = GetEntity(self);
     if (nullptr == pEntity)
@@ -1198,19 +1207,19 @@ int AFCKernelModule::SendToView(const AFGUID& self, const google::protobuf::Mess
     return 0;
 }
 
-int AFCKernelModule::SendToSelf(const AFGUID& self, const google::protobuf::Message& msg)
+int AFCKernelModule::SendToSelf(const guid_t& self, const google::protobuf::Message& msg)
 {
     //SendMsgPBToGate(AFMsg::EGMI_ACK_NODE_DATA, entity, ident);
     return 0;
 }
 
 bool AFCKernelModule::DoEvent(
-    const AFGUID& self, const std::string& class_name, ArkEntityEvent class_event, const AFIDataList& args)
+    const guid_t& self, const std::string& class_name, ArkEntityEvent class_event, const AFIDataList& args)
 {
     return m_pClassModule->DoClassEvent(self, class_name, class_event, args);
 }
 
-bool AFCKernelModule::DoEvent(const AFGUID& self, const int event_id, const AFIDataList& args)
+bool AFCKernelModule::DoEvent(const guid_t& self, const int event_id, const AFIDataList& args)
 {
     std::shared_ptr<AFIEntity> pEntity = GetEntity(self);
     ARK_ASSERT_RET_VAL(pEntity != nullptr, false);
@@ -1221,17 +1230,17 @@ bool AFCKernelModule::DoEvent(const AFGUID& self, const int event_id, const AFID
     return pEventManager->DoEvent(event_id, args);
 }
 
-bool AFCKernelModule::Exist(const AFGUID& self)
+bool AFCKernelModule::Exist(const guid_t& self)
 {
     return (objects_.find_value(self) != nullptr);
 }
 
-bool AFCKernelModule::LogSelfInfo(const AFGUID& id)
+bool AFCKernelModule::LogSelfInfo(const guid_t& id)
 {
     return false;
 }
 
-int AFCKernelModule::LogObjectData(const AFGUID& guid)
+int AFCKernelModule::LogObjectData(const guid_t& guid)
 {
     auto entity = GetEntity(guid);
     if (entity == nullptr)
@@ -1292,7 +1301,7 @@ int AFCKernelModule::LogObjectData(const AFGUID& guid)
     return 0;
 }
 
-bool AFCKernelModule::LogInfo(const AFGUID& id)
+bool AFCKernelModule::LogInfo(const guid_t& id)
 {
     std::shared_ptr<AFIEntity> pEntity = GetEntity(id);
     if (pEntity == nullptr)
@@ -1310,7 +1319,7 @@ bool AFCKernelModule::LogInfo(const AFGUID& id)
         int online_count = m_pMapModule->GetMapOnlineList(map_id, entity_list);
         for (int i = 0; i < online_count; ++i)
         {
-            AFGUID target_entity_id = entity_list.Int64(i);
+            guid_t target_entity_id = entity_list.Int64(i);
             ARK_LOG_INFO("id = {} mapid = {}", target_entity_id, map_id);
         }
     }
@@ -1324,7 +1333,7 @@ bool AFCKernelModule::LogInfo(const AFGUID& id)
 }
 
 //--------------entity to pb db data------------------
-bool AFCKernelModule::EntityToDBData(const AFGUID& self, AFMsg::pb_db_entity& pb_data)
+bool AFCKernelModule::EntityToDBData(const guid_t& self, AFMsg::pb_db_entity& pb_data)
 {
     std::shared_ptr<AFIEntity> pEntity = GetEntity(self);
     return EntityToDBData(pEntity, pb_data);
@@ -1507,7 +1516,7 @@ std::shared_ptr<AFIEntity> AFCKernelModule::CreateEntity(const AFMsg::pb_db_enti
     return pEntity;
 }
 
-bool AFCKernelModule::SendCustomMessage(const AFGUID& target, const uint32_t msg_id, const AFIDataList& args)
+bool AFCKernelModule::SendCustomMessage(const guid_t& target, const uint32_t msg_id, const AFIDataList& args)
 {
     ARK_ASSERT_RET_VAL(Exist(target) && msg_id > 0, false);
 
@@ -1520,32 +1529,32 @@ bool AFCKernelModule::SendCustomMessage(const AFGUID& target, const uint32_t msg
         auto data_type = args.GetType(i);
         switch (data_type)
         {
-            case ark::ArkDataType::DT_BOOLEAN:
-                custom_message.add_data_list()->set_bool_value(args.Bool(i));
-                break;
-            case ark::ArkDataType::DT_INT32:
-                custom_message.add_data_list()->set_int_value(args.Int(i));
-                break;
-            case ark::ArkDataType::DT_UINT32:
-                custom_message.add_data_list()->set_uint_value(args.UInt(i));
-                break;
-            case ark::ArkDataType::DT_INT64:
-                custom_message.add_data_list()->set_int64_value(args.Int64(i));
-                break;
-            case ark::ArkDataType::DT_UINT64:
-                custom_message.add_data_list()->set_uint64_value(args.UInt64(i));
-                break;
-            case ark::ArkDataType::DT_FLOAT:
-                custom_message.add_data_list()->set_float_value(args.Float(i));
-                break;
-            case ark::ArkDataType::DT_DOUBLE:
-                custom_message.add_data_list()->set_double_value(args.Double(i));
-                break;
-            case ark::ArkDataType::DT_STRING:
-                custom_message.add_data_list()->set_str_value(args.String(i));
-                break;
-            default:
-                break;
+        case ark::ArkDataType::DT_BOOLEAN:
+            custom_message.add_data_list()->set_bool_value(args.Bool(i));
+            break;
+        case ark::ArkDataType::DT_INT32:
+            custom_message.add_data_list()->set_int_value(args.Int(i));
+            break;
+        case ark::ArkDataType::DT_UINT32:
+            custom_message.add_data_list()->set_uint_value(args.UInt(i));
+            break;
+        case ark::ArkDataType::DT_INT64:
+            custom_message.add_data_list()->set_int64_value(args.Int64(i));
+            break;
+        case ark::ArkDataType::DT_UINT64:
+            custom_message.add_data_list()->set_uint64_value(args.UInt64(i));
+            break;
+        case ark::ArkDataType::DT_FLOAT:
+            custom_message.add_data_list()->set_float_value(args.Float(i));
+            break;
+        case ark::ArkDataType::DT_DOUBLE:
+            custom_message.add_data_list()->set_double_value(args.Double(i));
+            break;
+        case ark::ArkDataType::DT_STRING:
+            custom_message.add_data_list()->set_str_value(args.String(i));
+            break;
+        default:
+            break;
         }
     }
 
@@ -1620,7 +1629,7 @@ bool AFCKernelModule::DBDataToContainer(
     return true;
 }
 
-int AFCKernelModule::OnContainerCallBack(const AFGUID& self, const uint32_t index, const ArkContainerOpType op_type,
+int AFCKernelModule::OnContainerCallBack(const guid_t& self, const uint32_t index, const ArkContainerOpType op_type,
     const uint32_t src_index, const uint32_t dest_index)
 {
     if (op_type == ArkContainerOpType::OP_DESTROY)
@@ -1751,33 +1760,33 @@ bool AFCKernelModule::NodeToDBData(AFINode* pNode, AFMsg::pb_db_entity_data& pb_
     auto& name = pNode->GetName();
     switch (pNode->GetType())
     {
-        case ArkDataType::DT_BOOLEAN:
-            pb_data.mutable_datas_bool()->insert({name, pNode->GetBool()});
-            break;
-        case ArkDataType::DT_INT32:
-            pb_data.mutable_datas_int32()->insert({name, pNode->GetInt32()});
-            break;
-        case ArkDataType::DT_UINT32:
-            pb_data.mutable_datas_uint32()->insert({name, pNode->GetUInt32()});
-            break;
-        case ArkDataType::DT_INT64:
-            pb_data.mutable_datas_int64()->insert({name, pNode->GetInt64()});
-            break;
-        case ArkDataType::DT_UINT64:
-            pb_data.mutable_datas_uint64()->insert({name, pNode->GetUInt64()});
-            break;
-        case ArkDataType::DT_FLOAT:
-            pb_data.mutable_datas_float()->insert({name, pNode->GetFloat()});
-            break;
-        case ArkDataType::DT_DOUBLE:
-            pb_data.mutable_datas_double()->insert({name, pNode->GetDouble()});
-            break;
-        case ArkDataType::DT_STRING:
-            pb_data.mutable_datas_string()->insert({name, pNode->GetString()});
-            break;
-        default:
-            ARK_ASSERT_RET_VAL(0, false);
-            break;
+    case ArkDataType::DT_BOOLEAN:
+        pb_data.mutable_datas_bool()->insert({name, pNode->GetBool()});
+        break;
+    case ArkDataType::DT_INT32:
+        pb_data.mutable_datas_int32()->insert({name, pNode->GetInt32()});
+        break;
+    case ArkDataType::DT_UINT32:
+        pb_data.mutable_datas_uint32()->insert({name, pNode->GetUInt32()});
+        break;
+    case ArkDataType::DT_INT64:
+        pb_data.mutable_datas_int64()->insert({name, pNode->GetInt64()});
+        break;
+    case ArkDataType::DT_UINT64:
+        pb_data.mutable_datas_uint64()->insert({name, pNode->GetUInt64()});
+        break;
+    case ArkDataType::DT_FLOAT:
+        pb_data.mutable_datas_float()->insert({name, pNode->GetFloat()});
+        break;
+    case ArkDataType::DT_DOUBLE:
+        pb_data.mutable_datas_double()->insert({name, pNode->GetDouble()});
+        break;
+    case ArkDataType::DT_STRING:
+        pb_data.mutable_datas_string()->insert({name, pNode->GetString()});
+        break;
+    default:
+        ARK_ASSERT_RET_VAL(0, false);
+        break;
     }
 
     return true;
@@ -1817,33 +1826,33 @@ bool AFCKernelModule::NodeToPBData(AFINode* pNode, AFMsg::pb_entity_data* pb_dat
     auto index = pNode->GetIndex();
     switch (pNode->GetType())
     {
-        case ArkDataType::DT_BOOLEAN:
-            pb_data->mutable_datas_bool()->insert({index, pNode->GetBool()});
-            break;
-        case ArkDataType::DT_INT32:
-            pb_data->mutable_datas_int32()->insert({index, pNode->GetInt32()});
-            break;
-        case ArkDataType::DT_UINT32:
-            pb_data->mutable_datas_uint32()->insert({index, pNode->GetUInt32()});
-            break;
-        case ArkDataType::DT_INT64:
-            pb_data->mutable_datas_int64()->insert({index, pNode->GetInt64()});
-            break;
-        case ArkDataType::DT_UINT64:
-            pb_data->mutable_datas_uint64()->insert({index, pNode->GetUInt64()});
-            break;
-        case ArkDataType::DT_FLOAT:
-            pb_data->mutable_datas_float()->insert({index, pNode->GetFloat()});
-            break;
-        case ArkDataType::DT_DOUBLE:
-            pb_data->mutable_datas_double()->insert({index, pNode->GetDouble()});
-            break;
-        case ArkDataType::DT_STRING:
-            pb_data->mutable_datas_string()->insert({index, pNode->GetString()});
-            break;
-        default:
-            ARK_ASSERT_RET_VAL(0, false);
-            break;
+    case ArkDataType::DT_BOOLEAN:
+        pb_data->mutable_datas_bool()->insert({index, pNode->GetBool()});
+        break;
+    case ArkDataType::DT_INT32:
+        pb_data->mutable_datas_int32()->insert({index, pNode->GetInt32()});
+        break;
+    case ArkDataType::DT_UINT32:
+        pb_data->mutable_datas_uint32()->insert({index, pNode->GetUInt32()});
+        break;
+    case ArkDataType::DT_INT64:
+        pb_data->mutable_datas_int64()->insert({index, pNode->GetInt64()});
+        break;
+    case ArkDataType::DT_UINT64:
+        pb_data->mutable_datas_uint64()->insert({index, pNode->GetUInt64()});
+        break;
+    case ArkDataType::DT_FLOAT:
+        pb_data->mutable_datas_float()->insert({index, pNode->GetFloat()});
+        break;
+    case ArkDataType::DT_DOUBLE:
+        pb_data->mutable_datas_double()->insert({index, pNode->GetDouble()});
+        break;
+    case ArkDataType::DT_STRING:
+        pb_data->mutable_datas_string()->insert({index, pNode->GetString()});
+        break;
+    default:
+        ARK_ASSERT_RET_VAL(0, false);
+        break;
     }
 
     return true;
@@ -1855,33 +1864,33 @@ bool AFCKernelModule::NodeToPBData(const uint32_t index, const AFIData& data, AF
 
     switch (data.GetType())
     {
-        case ArkDataType::DT_BOOLEAN:
-            pb_data->mutable_datas_bool()->insert({index, data.GetBool()});
-            break;
-        case ArkDataType::DT_INT32:
-            pb_data->mutable_datas_int32()->insert({index, data.GetInt()});
-            break;
-        case ArkDataType::DT_UINT32:
-            pb_data->mutable_datas_uint32()->insert({index, data.GetUInt()});
-            break;
-        case ArkDataType::DT_INT64:
-            pb_data->mutable_datas_int64()->insert({index, data.GetInt64()});
-            break;
-        case ArkDataType::DT_UINT64:
-            pb_data->mutable_datas_uint64()->insert({index, data.GetUInt64()});
-            break;
-        case ArkDataType::DT_FLOAT:
-            pb_data->mutable_datas_float()->insert({index, data.GetFloat()});
-            break;
-        case ArkDataType::DT_DOUBLE:
-            pb_data->mutable_datas_double()->insert({index, data.GetDouble()});
-            break;
-        case ArkDataType::DT_STRING:
-            pb_data->mutable_datas_string()->insert({index, data.GetString()});
-            break;
-        default:
-            ARK_ASSERT_RET_VAL(0, false);
-            break;
+    case ArkDataType::DT_BOOLEAN:
+        pb_data->mutable_datas_bool()->insert({index, data.GetBool()});
+        break;
+    case ArkDataType::DT_INT32:
+        pb_data->mutable_datas_int32()->insert({index, data.GetInt()});
+        break;
+    case ArkDataType::DT_UINT32:
+        pb_data->mutable_datas_uint32()->insert({index, data.GetUInt()});
+        break;
+    case ArkDataType::DT_INT64:
+        pb_data->mutable_datas_int64()->insert({index, data.GetInt64()});
+        break;
+    case ArkDataType::DT_UINT64:
+        pb_data->mutable_datas_uint64()->insert({index, data.GetUInt64()});
+        break;
+    case ArkDataType::DT_FLOAT:
+        pb_data->mutable_datas_float()->insert({index, data.GetFloat()});
+        break;
+    case ArkDataType::DT_DOUBLE:
+        pb_data->mutable_datas_double()->insert({index, data.GetDouble()});
+        break;
+    case ArkDataType::DT_STRING:
+        pb_data->mutable_datas_string()->insert({index, data.GetString()});
+        break;
+    default:
+        ARK_ASSERT_RET_VAL(0, false);
+        break;
     }
 
     return true;

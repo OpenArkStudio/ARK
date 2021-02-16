@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,10 @@
 #include "kernel/include/AFCStaticEntity.hpp"
 #include "kernel/include/AFCEventManager.hpp"
 #include "kernel/include/AFCContainerManager.hpp"
-#include "kernel/include/AFCEntity.hpp"
 
 namespace ark {
 
-AFCEntity::AFCEntity(std::shared_ptr<AFClassMeta> pClassMeta, const AFGUID& guid, const ID_TYPE config_id,
+AFCEntity::AFCEntity(std::shared_ptr<AFClassMeta> pClassMeta, const guid_t& guid, const ID_TYPE config_id,
     const int32_t map_id, const int32_t map_entity_id, const AFIDataList& data_list)
     : guid_(guid)
     , config_id_(config_id)
@@ -40,7 +39,7 @@ AFCEntity::AFCEntity(std::shared_ptr<AFClassMeta> pClassMeta, const AFGUID& guid
 
     // data node
     auto func = std::bind(
-        &AFCEntity::OnDataCallBack, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+        &AFCEntity::OnNodeCallBack, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
     m_pNodeManager = std::make_shared<AFNodeManager>(pClassMeta, data_list, std::move(func));
 
     // data table
@@ -56,7 +55,7 @@ void AFCEntity::Update()
 }
 
 // get unique id
-const AFGUID& AFCEntity::GetID() const
+const guid_t& AFCEntity::GetID() const
 {
     return guid_;
 }
@@ -369,7 +368,7 @@ bool AFCEntity::SetWString(const std::string& name, const std::wstring& value)
     return m_pNodeManager->SetWString(name, value);
 }
 
-bool AFCEntity::SetGUID(const std::string& name, const AFGUID& value)
+bool AFCEntity::SetGUID(const std::string& name, const guid_t& value)
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
@@ -439,7 +438,7 @@ bool AFCEntity::SetWString(const uint32_t index, const std::wstring& value)
     return m_pNodeManager->SetWString(index, value);
 }
 
-bool AFCEntity::SetGUID(const uint32_t index, const AFGUID& value)
+bool AFCEntity::SetGUID(const uint32_t index, const guid_t& value)
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, false);
 
@@ -520,7 +519,7 @@ const std::wstring& AFCEntity::GetWString(const std::string& name) const
     return m_pNodeManager->GetWString(name);
 }
 
-const AFGUID& AFCEntity::GetGUID(const std::string& name) const
+const guid_t& AFCEntity::GetGUID(const std::string& name) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_GUID);
 
@@ -600,7 +599,7 @@ const std::wstring& AFCEntity::GetWString(const uint32_t index) const
     return m_pNodeManager->GetWString(index);
 }
 
-const AFGUID& AFCEntity::GetGUID(const uint32_t index) const
+const guid_t& AFCEntity::GetGUID(const uint32_t index) const
 {
     ARK_ASSERT_RET_VAL(m_pNodeManager != nullptr, NULL_GUID);
 
@@ -684,7 +683,7 @@ std::shared_ptr<AFIContainerManager> AFCEntity::GetContainerManager() const
     return opt_charactor_->m_pContainerManager;
 }
 
-int AFCEntity::OnDataCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data)
+int AFCEntity::OnNodeCallBack(AFINode* pNode, const AFIData& old_data, const AFIData& new_data)
 {
     ARK_ASSERT_RET_VAL(m_pCallBackManager != nullptr, 0);
 
@@ -827,7 +826,7 @@ bool AFCEntity::AddCustomWString(const std::string& name, const std::wstring& va
     return false;
 }
 
-bool AFCEntity::AddCustomGUID(const std::string& name, const AFGUID& value)
+bool AFCEntity::AddCustomGUID(const std::string& name, const guid_t& value)
 {
     return false;
 }
@@ -914,7 +913,7 @@ bool AFCEntity::SetCustomWString(const std::string& name, const std::wstring& va
     return false;
 }
 
-bool AFCEntity::SetCustomGUID(const std::string& name, const AFGUID& value)
+bool AFCEntity::SetCustomGUID(const std::string& name, const guid_t& value)
 {
     return false;
 }
@@ -980,7 +979,7 @@ const std::wstring& AFCEntity::GetCustomWString(const std::string& name) const
     return NULL_WIDESTR;
 }
 
-const AFGUID& AFCEntity::GetCustomGUID(const std::string& name) const
+const guid_t& AFCEntity::GetCustomGUID(const std::string& name) const
 {
     return NULL_GUID;
 }

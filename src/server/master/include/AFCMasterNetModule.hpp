@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,13 @@
 
 #pragma once
 
-#include "base/AFMap.hpp"
+#include "base/container/AFMap.hpp"
 #include "base/AFPluginManager.hpp"
 #include "proto/AFProtoCPP.hpp"
 #include "bus/interface/AFIMsgModule.hpp"
 #include "bus/interface/AFIBusModule.hpp"
 #include "bus/interface/AFIMsgModule.hpp"
 #include "net/interface/AFINetServiceManagerModule.hpp"
-#include "log/interface/AFILogModule.hpp"
 #include "utility/interface/AFITimerModule.hpp"
 #include "master/interface/AFIMasterNetModule.hpp"
 
@@ -42,19 +41,17 @@ public:
 
 protected:
     int StartServer();
-    // void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
+    // void OnSocketEvent(const NetEventType event, const guid_t& conn_id, const std::string& ip, bus_id_t bus_id);
 
-    // void OnClientConnected(const AFGUID& xClientID);
-    // void OnClientDisconnect(int bus_id, const AFGUID& xClientID);
+    // void OnClientConnected(const guid_t& xClientID);
+    // void OnClientDisconnect(bus_id_t bus_id, const guid_t& xClientID);
 
     //////////////////////////////////////////////////////////////////////////
-    // void OnTimerLogServer(const std::string& name, const AFGUID& id);
+    // void OnTimerLogServer(const std::string& name, const guid_t& id);
 
-    // void OnHeartBeat(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const
-    // AFGUID& conn_id);
+    // void OnHeartBeat(const ARK_PKG_BASE_HEAD& head, msg_id_t msg_id, const char* msg, const uint32_t msg_len, conv_id_t conn_id);
 
 private:
-    AFILogModule* m_pLogModule;
     AFIBusModule* m_pBusModule;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
     AFITimerModule* m_pTimerModule;

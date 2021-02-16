@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include "base/AFList.hpp"
-#include "base/AFMap.hpp"
-#include "base/AFVector3D.hpp"
+#include "base/container/AFList.hpp"
+#include "base/container/AFMap.hpp"
+#include "base/math/AFVector3D.hpp"
 #include "interface/AFIModule.hpp"
 #include "kernel/interface/AFIDataList.hpp"
 
@@ -37,8 +37,8 @@ public:
     {
     }
 
-    AFSmartPtrMap<AFGUID, bool> player_entities_;
-    AFSmartPtrMap<AFGUID, bool> other_entities_;
+    AFSmartPtrMap<guid_t, bool> player_entities_;
+    AFSmartPtrMap<guid_t, bool> other_entities_;
     int inst_id_;
 };
 
@@ -91,7 +91,7 @@ public:
         return true;
     }
 
-    bool AddEntityToInstance(const int inst_id, const AFGUID& entity_id, bool is_player)
+    bool AddEntityToInstance(const int inst_id, const guid_t& entity_id, bool is_player)
     {
         std::shared_ptr<AFMapInstance> pInfo = map_instances_.find_value(inst_id);
         if (pInfo == nullptr)
@@ -111,7 +111,7 @@ public:
         }
     }
 
-    bool RemoveEntityFromInstance(const int inst_id, const AFGUID& entity_id, bool is_player)
+    bool RemoveEntityFromInstance(const int inst_id, const guid_t& entity_id, bool is_player)
     {
         std::shared_ptr<AFMapInstance> pInfo = map_instances_.find_value(inst_id);
         if (nullptr == pInfo)
@@ -143,10 +143,10 @@ class AFIMapModule : public AFIModule
 public:
     virtual std::shared_ptr<AFMapInfo> GetMapInfo(const int map_id) = 0;
 
-    virtual bool IsInMapInstance(const AFGUID& self) = 0;
+    virtual bool IsInMapInstance(const guid_t& self) = 0;
     virtual bool ExistMap(const int map_id) = 0;
 
-    virtual bool SwitchMap(const AFGUID& self, const int target_map, const int target_inst, const AFVector3D& pos,
+    virtual bool SwitchMap(const guid_t& self, const int target_map, const int target_inst, const AFVector3D& pos,
         const float orient, const AFIDataList& args) = 0;
 
     virtual bool CreateMap(const int map_id) = 0;

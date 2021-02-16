@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@
 #include "kernel/include/AFCConfigModule.hpp"
 #include "interface/AFIModule.hpp"
 #include "kernel/interface/AFIStaticEntity.hpp"
-#include "log/interface/AFILogModule.hpp"
 #include "base/AFPluginManager.hpp"
 #include "base/AFMacros.hpp"
 #include "kernel/include/AFCStaticEntity.hpp"
@@ -33,13 +32,12 @@ namespace ark {
 
 bool AFCConfigModule::Init()
 {
-    m_pLogModule = FindModule<AFILogModule>();
     m_pClassModule = FindModule<AFIClassMetaModule>();
 
     m_pStaticEntityManager = ARK_NEW AFStaticEntityManager();
 
     return Load();
-}
+} // namespace ark
 
 bool AFCConfigModule::Shut()
 {
@@ -86,7 +84,8 @@ bool AFCConfigModule::LoadConfig(std::shared_ptr<AFClassMeta> pClassMeta)
         return true;
     }
 
-    std::string file_path = GetPluginManager()->GetResPath() + res_path;
+    // TODO: put the config filed in kernel.plgin.conf
+    std::string file_path = "resource" + res_path;
 
     ARK_LOG_INFO("Load data config files: {}", file_path);
 

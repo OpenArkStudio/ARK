@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,14 @@
 #pragma once
 
 #include "plugin/kernel/interface/AFIContainer.hpp"
-#include "base/AFMap.hpp"
+#include "base/container/AFMap.hpp"
 #include "AFClassMeta.hpp"
 
 namespace ark {
 
-class AFCContainer final : public AFIContainer, public std::enable_shared_from_this<AFCContainer>
+class AFCContainer final
+    : public AFIContainer
+    , public std::enable_shared_from_this<AFCContainer>
 {
 public:
     using EntityDataList = AFSmartPtrMap<uint32_t, AFIEntity>;
@@ -41,7 +43,7 @@ private:
     uint32_t current_index_{0};
 
     // parent id
-    AFGUID parent_{NULL_GUID};
+    guid_t parent_{NULL_GUID};
 
     // entity data
     EntityDataList::iterator iter_;
@@ -53,7 +55,7 @@ private:
 public:
     AFCContainer() = delete;
 
-    explicit AFCContainer(std::shared_ptr<AFContainerMeta> container_meta, const AFGUID& parent_id,
+    explicit AFCContainer(std::shared_ptr<AFContainerMeta> container_meta, const guid_t& parent_id,
         std::shared_ptr<AFClassCallBackManager> class_meta);
 
     const std::string& GetName() const override;
@@ -61,7 +63,7 @@ public:
     const ArkMaskType GetMask() const override;
 
     // get parent unique id
-    const AFGUID& GetParentID() const override;
+    const guid_t& GetParentID() const override;
 
     uint32_t GetIndex() const override;
 
@@ -69,27 +71,27 @@ public:
     uint32_t Next() override;
 
     std::shared_ptr<AFIEntity> Find(uint32_t index) const override;
-    uint32_t Find(const AFGUID& id) const override;
+    uint32_t Find(const guid_t& id) const override;
 
     bool Exist(uint32_t index) const override;
-    bool Exist(const AFGUID& id) const override;
+    bool Exist(const guid_t& id) const override;
 
     bool Place(std::shared_ptr<AFIEntity> pEntity) override;
     bool Place(uint32_t index, std::shared_ptr<AFIEntity> pEntity) override;
 
     bool Swap(const uint32_t src_index, const uint32_t dest_index) override;
-    bool Swap(const AFGUID& src_entity, const AFGUID& dest_entity) override;
+    bool Swap(const guid_t& src_entity, const guid_t& dest_entity) override;
 
     bool Swap(
         std::shared_ptr<AFIContainer> pSrcContainer, const uint32_t src_index, const uint32_t dest_index) override;
     bool Swap(
-        std::shared_ptr<AFIContainer> pSrcContainer, const AFGUID& src_entity, const AFGUID& dest_entity) override;
+        std::shared_ptr<AFIContainer> pSrcContainer, const guid_t& src_entity, const guid_t& dest_entity) override;
 
     bool Remove(const uint32_t index) override;
-    bool Remove(const AFGUID& id) override;
+    bool Remove(const guid_t& id) override;
 
     bool Destroy(const uint32_t index) override;
-    bool Destroy(const AFGUID& id) override;
+    bool Destroy(const guid_t& id) override;
 
 private:
     uint32_t SelectIndex() const;

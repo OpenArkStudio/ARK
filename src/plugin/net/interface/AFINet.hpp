@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,9 @@
 #pragma once
 
 #include "base/AFMacros.hpp"
-#include "base/AFLockFreeQueue.hpp"
+#include "base/container/AFLockFreeQueue.hpp"
 #include "base/AFBuffer.hpp"
+#include "base/AFDefine.hpp"
 #include "net/include/AFNetMsg.hpp"
 #include "net/include/AFNetEvent.hpp"
 #include "proto/AFProtoCPP.hpp"
@@ -31,40 +32,34 @@ namespace ark {
 
 class AFINet;
 
-using NET_MSG_FUNCTOR = std::function<void(const AFNetMsg*)>;
-//using NET_MSG_FUNCTOR_PTR = std::shared_ptr<NET_MSG_FUNCTOR>;
-
-using NET_EVENT_FUNCTOR = std::function<void(const AFNetEvent*)>;
-//using NET_EVENT_FUNCTOR_PTR = std::shared_ptr<NET_EVENT_FUNCTOR>;
+using NET_MSG_FUNCTOR = std::function<void(const AFNetMsg*, conv_id_t)>;
+using NET_MSG_SESSION_FUNCTOR = std::function<void(AFNetMsg const*, conv_id_t)>;
+using NET_EVENT_FUNCTOR = std::function<void(AFNetEvent const*)>;
 
 class AFINet
 {
 public:
     virtual ~AFINet() = default;
 
-    // need to call this function every frame to drive network library
+    // need to call this function every frame to drive network frame
     virtual void Update() = 0;
-    virtual bool StartClient(
-        AFHeadLength head_len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 = false)
+    virtual bool StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_t dst_bus_id, const std::string& host, uint16_t port)
     {
         return false;
     }
 
-    virtual bool StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port,
-        const int thread_num, const unsigned int max_client, bool ip_v6 = false)
+    virtual bool StartServer(std::shared_ptr<const AFIMsgHeader> head, bus_id_t bus_id, const std::string& host, uint16_t port,
+        uint8_t thread_num, uint32_t max_client, const size_t silent_timeout)
     {
         return false;
     }
 
-    virtual bool Shutdown() = 0;
+    virtual void Shutdown() = 0;
 
-    virtual bool SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id) = 0;
-    virtual bool BroadcastMsg(AFMsgHead* head, const char* msg_data)
-    {
-        return false;
-    }
+    virtual bool SendMsg(AFIMsgHeader* head, const char* msg_data, conv_id_t session_id) = 0;
+    virtual void BroadcastMsg(AFIMsgHeader* head, const char* msg_data) {}
 
-    virtual bool CloseSession(const int64_t& session_id) = 0;
+    virtual void CloseSession(conv_id_t session_id) = 0;
 
     bool IsWorking() const
     {
@@ -76,10 +71,16 @@ public:
         working_ = value;
     }
 
+    virtual std::string GetIP(const conv_id_t session_id)
+    {
+        return NULL_STR;
+    };
+
 private:
     bool working_{false};
 
 public:
+    // TODO: use this to statistic net traffic.
     size_t statistic_recv_size_{0};
     size_t statistic_send_size_{0};
 };

@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public:
     //public:
     //    GateBaseInfo() {}
 
-    //    GateBaseInfo(const int gateID, const AFGUID xIdent)
+    //    GateBaseInfo(const int gateID, const guid_t xIdent)
     //        : nGateID(gateID)
     //        , xClientID(xIdent)
     //    {
@@ -41,7 +41,7 @@ public:
 
     //    int nActorID{0};
     //    int nGateID{0};
-    //    AFGUID xClientID{0};
+    //    guid_t xClientID{0};
     //};
 
     //class GateServerInfo
@@ -49,15 +49,15 @@ public:
     //public:
     //    AFServerData xServerData;
     //    //actor id -> gate fd
-    //    std::map<AFGUID, AFGUID> xRoleInfo;
+    //    std::map<guid_t, guid_t> xRoleInfo;
     //};
 
     virtual std::shared_ptr<AFINetServerService> GetNetServerService() = 0;
-    virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self) = 0;
-    virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self) = 0;
-    virtual bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID) = 0;
-    virtual bool RemovePlayerGateInfo(const AFGUID& nRoleID) = 0;
-    // virtual std::shared_ptr<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID) = 0;
+    virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const guid_t& self) = 0;
+    virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const guid_t& self) = 0;
+    virtual bool AddPlayerGateInfo(const guid_t& nRoleID, const guid_t& nClientID, const int nGateID) = 0;
+    virtual bool RemovePlayerGateInfo(const guid_t& nRoleID) = 0;
+    // virtual std::shared_ptr<GateBaseInfo> GetPlayerGateInfo(const guid_t& nRoleID) = 0;
 };
 
 } // namespace ark

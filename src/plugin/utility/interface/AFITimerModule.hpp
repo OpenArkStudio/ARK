@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -29,29 +29,29 @@ class AFITimerModule : public AFIModule
 {
 public:
     template<typename BaseType>
-    uint64_t AddSingleTimer(const AFGUID& entity_id, const std::chrono::milliseconds interval, const uint32_t count,
-        BaseType* pBase, void (BaseType::*handler)(uint64_t, const AFGUID&))
+    uint64_t AddSingleTimer(const guid_t& entity_id, const std::chrono::milliseconds interval, const uint32_t count,
+        BaseType* pBase, void (BaseType::*handler)(uint64_t, const guid_t&))
     {
         TIMER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
         return AddSingleTimer(entity_id, interval, count, std::move(functor));
     }
 
     template<typename BaseType>
-    uint64_t AddForeverTimer(const AFGUID& entity_id, const std::chrono::milliseconds interval, BaseType* pBase,
-        void (BaseType::*handler)(uint64_t, const AFGUID&))
+    uint64_t AddForeverTimer(const guid_t& entity_id, const std::chrono::milliseconds interval, BaseType* pBase,
+        void (BaseType::*handler)(uint64_t, const guid_t&))
     {
         TIMER_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
         return AddForeverTimer(entity_id, interval, std::move(functor));
     }
 
     virtual bool RemoveTimer(const uint64_t timer_id) = 0;
-    //virtual bool RemoveTimer(const std::string& name, const AFGUID& entity_id) = 0;
+    //virtual bool RemoveTimer(const std::string& name, const guid_t& entity_id) = 0;
 
 protected:
-    virtual uint64_t AddSingleTimer(const AFGUID& entity_id, const std::chrono::milliseconds interval,
+    virtual uint64_t AddSingleTimer(const guid_t& entity_id, const std::chrono::milliseconds interval,
         const uint32_t count, TIMER_FUNCTOR&& cb) = 0;
     virtual uint64_t AddForeverTimer(
-        const AFGUID& entity_id, const std::chrono::milliseconds interval, TIMER_FUNCTOR&& cb) = 0;
+        const guid_t& entity_id, const std::chrono::milliseconds interval, TIMER_FUNCTOR&& cb) = 0;
 };
 
 } // namespace ark

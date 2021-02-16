@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 
 #include "kernel/interface/AFIData.hpp"
 #include "base/AFMacros.hpp"
-#include "base/AFMap.hpp"
+#include "base/container/AFMap.hpp"
 #include "kernel/interface/AFITable.hpp"
 #include "AFTableMeta.hpp"
 
@@ -92,7 +92,7 @@ public:
     uint32_t FindDouble(const uint32_t index, double value) const override;
     uint32_t FindString(const uint32_t index, const std::string& value) const override;
     uint32_t FindWString(const uint32_t index, const std::wstring& value) const override;
-    uint32_t FindGUID(const uint32_t index, const AFGUID& value) const override;
+    uint32_t FindGUID(const uint32_t index, const guid_t& value) const override;
 
     AFIRow* First() override;
     AFIRow* Next() override;
@@ -107,7 +107,7 @@ private:
 
     void OnTableChanged(uint32_t row, ArkTableOpType op_type);
 
-    int OnRowDataChanged(uint32_t row, AFINode* pNode, const AFIData& old_data, const AFIData& new_data);
+    int OnRowChanged(uint32_t row, AFINode* pNode, const AFIData& old_data, const AFIData& new_data);
 
     AFIRow* CreateRow(uint32_t row, const AFIDataList& args);
 };

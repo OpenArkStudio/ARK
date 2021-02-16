@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,13 @@
 
 #pragma once
 
-#include "base/AFMap.hpp"
-#include "base/AFCConsistentHash.hpp"
+#include "base/container/AFMap.hpp"
+#include "base/container/AFCConsistentHash.hpp"
 #include "base/AFPluginManager.hpp"
 #include "net/interface/AFINetClientService.hpp"
 #include "net/interface/AFINetServiceManagerModule.hpp"
 #include "bus/interface/AFIBusModule.hpp"
 #include "bus/interface/AFIMsgModule.hpp"
-#include "log/interface/AFILogModule.hpp"
 
 namespace ark {
 
@@ -41,26 +40,26 @@ public:
 
     AFCNetClientService(AFPluginManager* p);
 
-    bool StartClient(const AFHeadLength head_len, const int& target_bus_id, const AFEndpoint& endpoint) override;
+    bool StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_t target_bus_id, const AFEndpoint& endpoint) override;
     void Update() override;
     //void Shutdown() override;
 
-    bool RegMsgCallback(const int msg_id, const NET_MSG_FUNCTOR&& cb) override;
+    bool RegMsgCallback(msg_id_t msg_id, const NET_MSG_FUNCTOR&& cb) override;
     bool RegForwardMsgCallback(const NET_MSG_FUNCTOR&& cb) override;
     bool RegNetEventCallback(const NET_EVENT_FUNCTOR&& cb) override;
 
-    std::shared_ptr<AFConnectionData> GetConnectionInfo(const int bus_id) override;
+    std::shared_ptr<AFConnectionData> GetConnectionInfo(bus_id_t bus_id) override;
     //AFMapEx<int, AFConnectionData>& GetServerList() override;
 
     std::shared_ptr<AFConnectionData> GetSuitableConnect(const std::string& key) override;
 
-    void AddAccountBusID(const std::string& account, const int bus_id) override;
+    void AddAccountBusID(const std::string& account, bus_id_t bus_id) override;
     void RemoveAccountBusID(const std::string& account) override;
     int GetAccountBusID(const std::string& account) override;
 
-    void AddActorBusID(const AFGUID& actor, const int bus_id) override;
-    void RemoveActorBusID(const AFGUID& actor) override;
-    int GetActorBusID(const AFGUID& actor) override;
+    void AddActorBusID(const guid_t& actor, const bus_id_t bus_id) override;
+    void RemoveActorBusID(const guid_t& actor) override;
+    int GetActorBusID(const guid_t& actor) override;
 
 protected:
     void ProcessUpdate();
@@ -68,11 +67,11 @@ protected:
 
     std::shared_ptr<AFINet> CreateNet(const proto_type proto);
 
-    //void RegisterToServer(const AFGUID& session_id, const int bus_id);
+    //void RegisterToServer(conv_id_t session_id, bus_id_t bus_id);
     int OnConnect(const AFNetEvent* event);
     int OnDisconnect(const AFNetEvent* event);
 
-    void OnNetMsg(const AFNetMsg* msg);
+    void OnNetMsg(const AFNetMsg* msg, conv_id_t session_id);
     void OnNetEvent(const AFNetEvent* event);
 
     void KeepReport(std::shared_ptr<AFConnectionData>& connection_data)
@@ -98,25 +97,27 @@ protected:
     bool GetServerNode(const std::string& hash_key, AFVNode& vnode);
     void RemoveServerNode(std::shared_ptr<AFConnectionData> data);
 
+    void RegToServer(const AFIMsgHeader& head, bus_id_t target_bus_id);
+    void SendReport(std::shared_ptr<AFConnectionData> pServerData);
+
 private:
     AFPluginManager* m_pPluginManager;
     AFINetServiceManagerModule* m_pNetServiceManagerModule;
     AFIBusModule* m_pBusModule;
     AFIMsgModule* m_pMsgModule;
-    AFILogModule* m_pLogModule;
 
     // Connected connections(may the ConnectState is different)
-    AFSmartPtrMap<int, AFConnectionData> real_connections_;
+    AFSmartPtrMap<bus_id_t, AFConnectionData> real_connections_;
 
-    std::map<AFGUID, int> actor_bus_map_;                  // actor id bus id
-    std::unordered_map<std::string, int> account_bus_map_; // account bus id
+    std::map<guid_t, bus_id_t> actor_bus_map_;                  // actor id bus id
+    std::unordered_map<std::string, bus_id_t> account_bus_map_; // account bus id
 
     // the new consistent hash map
     AFConsistentHashmapType consistent_hashmap_;
 
     std::list<AFConnectionData> tmp_connections_;
 
-    std::map<int, NET_MSG_FUNCTOR> net_msg_callbacks_;
+    std::map<msg_id_t, NET_MSG_FUNCTOR> net_msg_callbacks_;
     std::list<NET_EVENT_FUNCTOR> net_event_callbacks_;
 
     // [NOT USE now] - forward to other processes

@@ -2,14 +2,14 @@
 
 <p align="right">当前版本: <strong>v0.9.8</strong></p>
 <p align="center"><img src="https://raw.githubusercontent.com/ArkNX/ARK/gh-pages/_images/ark_logo.svg?sanitize=true" alt="ark" width="300"/></p>
-<center>ARK 是一个使用C++开发的轻量级,敏捷型,弹性的,分布式的插件开发框架, 让你更快更简单的开发服务端应用. 部分思路来自UE4和Ogre.(当前主要用在游戏领域)
+ARK 是一个使用C++开发的轻量级,敏捷型,弹性的,分布式的插件开发框架, 让你更快更简单的开发服务端应用. 部分思路来自UE4和Ogre.(当前主要用在游戏领域)
 
 ---
 
 ![GitHub release](https://img.shields.io/github/release/ArkNX/ARK.svg?style=flat-square)
 ![GitHub pre-release](https://img.shields.io/github/release-pre/ArkNX/ARK.svg?label=pre-release&style=flat-square)
 [![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows,%20MacOSX-green.svg?style=flat-square)](https://github.com/ArkNX/ARK)
-[![C++11](https://img.shields.io/badge/C++-11-4c7e9f.svg?style=flat-square)](https://github.com/ArkNX/ARK)
+[![C++17](https://img.shields.io/badge/C++-17-4c7e9f.svg?style=flat-square)](https://github.com/ArkNX/ARK)
 [![License](https://img.shields.io/github/license/ArkNX/ARK.svg?colorB=f48041&style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 ![GitHub stars](https://img.shields.io/github/stars/ArkNX/ARK.svg?style=flat-square&label=Stars&style=flat-square)
 ![GitHub issues](https://img.shields.io/github/issues-raw/ArkNX/ARK.svg?style=flat-square)
@@ -31,13 +31,12 @@ Discord: [Join Us](https://discord.gg/GmyBbcv)
 
 | CI             | master分支                                                                                                                | develop分支                                                                                                                         |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| Travis CI      | [![Build Status](https://travis-ci.org/ArkNX/ARK.svg?branch=master)](https://travis-ci.org/ArkNX/ARK)                     | [![Build Status](https://travis-ci.org/ArkNX/ARK.svg?branch=develop)](https://travis-ci.org/ArkNX/ARK)                              |
-| Cricle CI      | [![CircleCI](https://circleci.com/gh/ArkNX/ARK/tree/master.svg?style=svg)](https://circleci.com/gh/ArkNX/ARK/tree/master) | [![CircleCI](https://circleci.com/gh/ArkNX/ARK/tree/develop.svg?style=svg)](https://circleci.com/gh/ArkNX/ARK/tree/develop)         |
 | Github Actions | [![Github Action](https://github.com/ArkNX/ARK/workflows/Github-CI/badge.svg)](https://github.com/ArkNX/ARK/actions)      | [![Github Action](https://github.com/ArkNX/ARK/workflows/Github-CI/badge.svg?branch=develop)](https://github.com/ArkNX/ARK/actions) |
 
 ##### 如果你想体验更多的特性，请切换至 develop 分支.
 
-**<font color=red>如果你想提交一个`pull request` 或 报告问题, 请先阅读贡献指南[Contribution Guide](https://github.com/ArkNX/ARK/blob/master/.github/CONTRIBUTING.md)</font>**.
+**<font color=red>如果你想提交一个`pull request` 或 报告问题,
+请先阅读贡献指南[Contribution Guide](https://github.com/ArkNX/ARK/blob/master/.github/CONTRIBUTING.md)</font>**.
 
 ## 特性
 
@@ -49,7 +48,7 @@ Discord: [Join Us](https://discord.gg/GmyBbcv)
 - 面向策划人员友好，使用 Excel 作为配置文件
 - 较低的学习和培训成本
 - 基于标准 C++开发，更容易学习和使用
-- 跨平台
+- 跨平台(Windows, Linux, MacOS)
 - 高可用的系统架构
 - 高并发和高性能的网络模块
 - 配套的 U3D 客户端
@@ -70,7 +69,7 @@ ARK 项目当前使用[Apache License](https://github.com/ArkNX/ARK/blob/master/
 
 ## 捐赠
 
-如有捐赠意向，欢迎入群讨论并捐赠该项目，非常感谢你的付出. 捐赠的收益将会用在网站服务器和部分资源的购买上.
+如有捐赠意向，欢迎入群讨论并捐赠本项目，非常感谢你的付出. 捐赠的收益将会用在网站服务器和部分资源的购买上.
 
 <img src="https://ww1.sinaimg.cn/large/68d69121gy1g24nbkglxqj20yi1au0xm.jpg" alt="donate by wechat" width="200px"/><img src="https://ws1.sinaimg.cn/mw690/68d69121gy1g24ncojoabj20go0p0mzq.jpg" alt="donate by alipay" width="200px"/>
 
@@ -82,13 +81,13 @@ ARK 项目当前使用[Apache License](https://github.com/ArkNX/ARK/blob/master/
 
 ---
 
-## Star 趋势图
-
-[![Sparkline](https://stars.medv.io/ArkNX/ARK.svg)](https://github.com/ArkNX/ARK)
-
 我们开源团队长期致力于敏捷开发, 并且一直帮助不同的团队降低开发后台应用的难度. 经过多年的积累和开发, 我们开放了该框架并将会持续维护改进该项目.
 
 ---
+
+## Star 趋势图
+
+[![Stargazers over time](https://starchart.cc/ArkNX/ARK.svg)](https://starchart.cc/ArkNX/ARK)
 
 #### 一些很赞的项目
 

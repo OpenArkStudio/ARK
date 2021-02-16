@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
  */
 
 #include "base/AFDefine.hpp"
-#include "base/AFDateTime.hpp"
+#include "base/time/AFDateTime.hpp"
 #include "base/AFBus.hpp"
 #include "utility/include/AFCGUIDModule.hpp"
 
@@ -27,34 +27,31 @@ namespace ark {
 
 bool AFCGUIDModule::Init()
 {
-#ifdef ARK_HAVE_LANG_CXX14
-#ifdef AF_THREAD_SAFE
+#ifdef ARK_THREAD_SAFE
     uid_generator_ = std::make_unique<AFUidGeneratorThreadSafe>();
 #else
     uid_generator_ = std::make_unique<AFUidGenerator>();
-#endif
-#else
-#ifdef AF_THREAD_SAFE
-    uid_generator_.reset(ARK_NEW AFUidGeneratorThreadSafe());
-#else
-    uid_generator_.reset(ARK_NEW AFUidGenerator());
-#endif
-#endif
+#endif //ARK_THREAD_SAFE
 
     return true;
 }
 
-AFGUID AFCGUIDModule::CreateGUID()
+guid_t AFCGUIDModule::CreateGUID()
 {
     ARK_ASSERT_RET_VAL(uid_generator_ != nullptr, NULL_GUID);
 
+#if defined(ARK_USE_GUID_32)
+    return uid_generator_->GetUID();
+#elif defined(ARK_USE_GUID_128)
+#else
     AFBusAddr bus_addr(GetPluginManager()->GetBusID());
     int64_t id = int64_t(bus_addr.zone_id) << (2 * 8) | int64_t(bus_addr.app_type) << (1 * 8) |
                  int64_t(bus_addr.inst_id) << (0 * 8);
     return uid_generator_->GetUID(id);
+#endif
 }
 
-std::string AFCGUIDModule::ParseUID(const AFGUID& id)
+std::string AFCGUIDModule::ParseUID(const guid_t& id)
 {
     return uid_generator_->ParseUID(id);
 }

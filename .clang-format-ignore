@@ -1,2 +1,5 @@
+# ignore some code from clang-format checks
+
 src/base/AFMetaDefine.hpp
-dep/*
+src/proto/.*
+3rdparty/.*

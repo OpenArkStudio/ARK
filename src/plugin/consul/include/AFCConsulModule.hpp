@@ -12,7 +12,7 @@ class AFCConsulModule final : public AFIConsulModule
 public:
     bool Init() override;
 
-    void SetRegisterCenter(const std::string& center_ip, const uint16_t center_port) override;
+    // void SetRegisterCenter(const std::string& center_ip, const uint16_t center_port) override;
 
     ananas::Future<std::pair<bool, std::string>> RegisterService(const consul::service_data& service) override;
 
@@ -27,6 +27,9 @@ public:
     ananas::Future<std::pair<bool, std::string>> GetKeyValue(const std::string& key) override;
     ananas::Future<std::pair<bool, std::string>> SetKeyValue(const std::string& key, const std::string& value) override;
     ananas::Future<std::pair<bool, std::string>> DelKeyValue(const std::string& key) override;
+
+protected:
+    bool LoadConfig();
 
 private:
     std::string consul_ip_{};

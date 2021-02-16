@@ -2,7 +2,7 @@
  * This source file is part of ArkNX
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ public:
     virtual double GetDouble(const uint32_t index) const = 0;
     virtual const std::string& GetString(const uint32_t index) const = 0;
     virtual const std::wstring& GetWString(const uint32_t index) const = 0;
-    virtual const AFGUID& GetGUID(const uint32_t index) const = 0;
+    virtual const guid_t& GetGUID(const uint32_t index) const = 0;
 
     virtual bool GetBool(const std::string& name) const = 0;
     virtual int32_t GetInt32(const std::string& name) const = 0;
@@ -54,7 +54,7 @@ public:
     virtual double GetDouble(const std::string& name) const = 0;
     virtual const std::string& GetString(const std::string& name) const = 0;
     virtual const std::wstring& GetWString(const std::string& name) const = 0;
-    virtual const AFGUID& GetGUID(const std::string& name) const = 0;
+    virtual const guid_t& GetGUID(const std::string& name) const = 0;
 
     // set row data
     virtual bool SetBool(const uint32_t index, bool value) = 0;
@@ -66,7 +66,7 @@ public:
     virtual bool SetDouble(const uint32_t index, double value) = 0;
     virtual bool SetString(const uint32_t index, const std::string& value) = 0;
     virtual bool SetWString(const uint32_t index, const std::wstring& value) = 0;
-    virtual bool SetGUID(const uint32_t index, const AFGUID& value) = 0;
+    virtual bool SetGUID(const uint32_t index, const guid_t& value) = 0;
 
     virtual bool SetBool(const std::string& name, bool value) = 0;
     virtual bool SetInt32(const std::string& name, int32_t value) = 0;
@@ -77,7 +77,7 @@ public:
     virtual bool SetDouble(const std::string& name, double value) = 0;
     virtual bool SetString(const std::string& name, const std::string& value) = 0;
     virtual bool SetWString(const std::string& name, const std::wstring& value) = 0;
-    virtual bool SetGUID(const std::string& name, const AFGUID& value) = 0;
+    virtual bool SetGUID(const std::string& name, const guid_t& value) = 0;
 };
 
 class AFITable
@@ -104,7 +104,7 @@ public:
     virtual uint32_t FindDouble(const uint32_t index, double value) const = 0;
     virtual uint32_t FindString(const uint32_t index, const std::string& value) const = 0;
     virtual uint32_t FindWString(const uint32_t index, const std::wstring& value) const = 0;
-    virtual uint32_t FindGUID(const uint32_t index, const AFGUID& value) const = 0;
+    virtual uint32_t FindGUID(const uint32_t index, const guid_t& value) const = 0;
 
     virtual AFIRow* First() = 0;
     virtual AFIRow* Next() = 0;

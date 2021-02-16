@@ -1,0 +1,16 @@
+FROM alpine:latest
+
+RUN apk add --no-cache boost-dev libexecinfo-dev protobuf-dev zstd-dev zlib-dev protobuf gcc g++ make cmake bash openssl openssl-dev libssl1.1 lz4 lz4-dev
+
+#RUN wget https://tangentsoft.com/mysqlpp/releases/mysql++-3.2.5.tar.gz \
+#    && tar -zxvf ./mysql++-3.2.5.tar.gz \
+#    && cd mysql++-3.2.5/ \
+#    && ./configure \
+#    && make install
+RUN wget https://github.com/edenhill/librdkafka/archive/v1.5.0.tar.gz \
+    && tar -zxvf ./v1.5.0.tar.gz \
+    && cd librdkafka-1.5.0 \
+    && ./configure \
+    && make -j8 \
+    && make install \
+    && cd ..
