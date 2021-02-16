@@ -49,19 +49,9 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 #---------------------------------------------------------------------------------------
-# Coverage reporting
-#---------------------------------------------------------------------------------------
-option(ENABLE_COVERAGE "Enable coverage reporting for gcc/clang" OFF)
-
-#---------------------------------------------------------------------------------------
 # CMake switches
 #---------------------------------------------------------------------------------------
 option(ASIO_STANDALONE "Enable asio standalone" OFF) # used by zephyr
-option(ZEPHYR_USE_XD_KCP "Enable XD KCP" ON) # used by zephyr
-
-if (ZEPHYR_USE_XD_KCP)
-    add_definitions(-DXD_KCP) # XD KCP
-endif ()
 
 option(ARK_BUILD_TESTS "Enable build tests" ON)
 option(ARK_BUILD_EXAMPLES "Enable build examples" ON)
@@ -104,9 +94,9 @@ set(3RD_PARTY_LIB_DIR ${BIN_OUTPUT_DIR})
 #---------------------------------------------------------------------------------------
 # 3rdparty
 #---------------------------------------------------------------------------------------
-set(SELF_BUILD_TYPE ${CMAKE_BUILD_TYPE})
-add_subdirectory(3rdparty)
-set(CMAKE_BUILD_TYPE ${SELF_BUILD_TYPE})
+#set(SELF_BUILD_TYPE ${CMAKE_BUILD_TYPE})
+#add_subdirectory(3rdparty)
+#set(CMAKE_BUILD_TYPE ${SELF_BUILD_TYPE})
 
 if (WIN32)
     if (MSVC_VERSION LESS 1911)
@@ -156,13 +146,13 @@ else ()
     message(FATAL_ERROR "protobuf library is needed but can't be found")
 endif ()
 
-if (ASIO_STANDALONE)
+if (${ASIO_STANDALONE})
     # standalone asio
     add_definitions(-DASIO_STANDALONE)
-    #include_directories(${3rdparty}/zephyr/asio/asio/include)
+    include_directories(${3RD_PARTY_DIR}/zephyr/asio/asio/include)
 else ()
     # boost.asio
-    find_package(Boost 1.72.0 REQUIRED)
+    find_package(Boost 1.69.0 REQUIRED)
     if (Boost_FOUND)
         message(STATUS "boost library found")
     else ()
@@ -221,16 +211,16 @@ add_subdirectory(src/server)
 #---------------------------------------------------------------------------------------
 # Building samples
 #---------------------------------------------------------------------------------------
-if (ARK_BUILD_EXAMPLES)
-    message(STATUS "Building samples ...")
+if (${ARK_BUILD_EXAMPLES})
+    message(STATUS "Building examples ...")
     add_subdirectory(examples)
-endif (ARK_BUILD_EXAMPLES)
+endif ()
 
 #---------------------------------------------------------------------------------------
 # Building tests
 #---------------------------------------------------------------------------------------
-if (ARK_BUILD_TESTS)
+if (${ARK_BUILD_TESTS})
     message(STATUS "Building tests ...")
     enable_testing()
     add_subdirectory(test)
-endif (ARK_BUILD_TESTS)
+endif ()

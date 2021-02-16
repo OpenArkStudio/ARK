@@ -1,9 +1,7 @@
 English | [简体中文](./README_CN.md)
 
 <p align="right">Current version: <strong>v1.0.0</strong></p>
-<pre style="text-align:center">
-<img src="https://raw.githubusercontent.com/ArkNX/ARK/gh-pages/_images/ark_logo.svg?sanitize=true" alt="ark" width="300"/>
-</pre>
+<p align="center"><img src="https://raw.githubusercontent.com/ArkNX/ARK/gh-pages/_images/ark_logo.svg?sanitize=true" alt="ark" width="300"/></p>
 ARK is a lightweight, agility, elastic, distributed plugin framework written in C++，make it easier and faster to create your own application service. Inspired by UnrealEngine and Ogre.
 
 ---
@@ -11,7 +9,7 @@ ARK is a lightweight, agility, elastic, distributed plugin framework written in 
 ![GitHub release](https://img.shields.io/github/release/ArkNX/ARK.svg?style=flat-square)
 ![GitHub pre-release](https://img.shields.io/github/release-pre/ArkNX/ARK.svg?label=pre-release&style=flat-square)
 [![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows,%20MacOSX-green.svg?style=flat-square)](https://github.com/ArkNX/ARK)
-[![C++11](https://img.shields.io/badge/C++-11-4c7e9f.svg?style=flat-square)](https://github.com/ArkNX/ARK)
+[![C++17](https://img.shields.io/badge/C++-17-4c7e9f.svg?style=flat-square)](https://github.com/ArkNX/ARK)
 [![License](https://img.shields.io/github/license/ArkNX/ARK.svg?colorB=f48041&style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 ![GitHub stars](https://img.shields.io/github/stars/ArkNX/ARK.svg?style=flat-square&label=Stars&style=flat-square)
 ![GitHub issues](https://img.shields.io/github/issues-raw/ArkNX/ARK.svg?style=flat-square)
@@ -34,8 +32,6 @@ Discord: [Join Us](https://discord.gg/GmyBbcv)
 
 | CI             | master branch                                                                                                             | develop branch                                                                                                                      |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| Travis CI      | [![Build Status](https://travis-ci.org/ArkNX/ARK.svg?branch=master)](https://travis-ci.org/ArkNX/ARK)                     | [![Build Status](https://travis-ci.org/ArkNX/ARK.svg?branch=develop)](https://travis-ci.org/ArkNX/ARK)                              |
-| Cricle CI      | [![CircleCI](https://circleci.com/gh/ArkNX/ARK/tree/master.svg?style=svg)](https://circleci.com/gh/ArkNX/ARK/tree/master) | [![CircleCI](https://circleci.com/gh/ArkNX/ARK/tree/develop.svg?style=svg)](https://circleci.com/gh/ArkNX/ARK/tree/develop)         |
 | Github Actions | [![Github Action](https://github.com/ArkNX/ARK/workflows/Github-CI/badge.svg)](https://github.com/ArkNX/ARK/actions)      | [![Github Action](https://github.com/ArkNX/ARK/workflows/Github-CI/badge.svg?branch=develop)](https://github.com/ArkNX/ARK/actions) |
 
 ##### Wanna get the newest features? Please switch to the develop branch.

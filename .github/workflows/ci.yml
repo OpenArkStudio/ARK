@@ -11,37 +11,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-
-      #- name: Install C++ build wrapper
-      #  run: |
-      #    wget https://binaries.sonarsource.com/CommercialDistribution/sonar-cpp-plugin/build-wrapper-3.11.zip
-      #    unzip build-wrapper-3.11.zip
-      #    mv build-wrapper-3.11 build-wrapper
-
       - name: Build ARK
         run: |
-          # git submodules
-          git submodule sync
-          git submodule update --init
-
-          # build ark
-          if [ -d "build" ]; then rm -rf build; fi
-          mkdir build && cd build
-          cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=OFF -DBUILD_SAMPLES=ON -DBUILD_TESTS=ON ..
-
-          ## sonar build wrapper and make
-          #if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-          #    ../build-wrapper/linux-x86-64/build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
-          #elif [ "${{ matrix.os }}" = "macOS-latest" ]; then
-          #    ../build-wrapper/macosx-x86/build-wrapper-macosx-x86 --out-dir bw-output make -j 4
-          #fi
-          make -j 4
-          #ctest -j 2
-          cd ..
-
-      #- name: SonarCloud Scan
-      #  if: matrix.os == 'ubuntu-latest'
-      #  uses: sonarsource/sonarcloud-github-action@master
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+            chmod -x .github/workflows/build-ubuntu.sh && sh .github/workflows/build-ubuntu.sh
+          elif [ "${{ matrix.os }}" = "macOS-latest" ]; then
+            chmod -x .github/workflows/build-macos.sh && sh .github/workflows/build-macos.sh
+          fi

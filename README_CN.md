@@ -1,9 +1,7 @@
 简体中文 | [English](./README.md)
 
 <p align="right">当前版本: <strong>v0.9.8</strong></p>
-<pre style="text-align:center">
-<img src="https://raw.githubusercontent.com/ArkNX/ARK/gh-pages/_images/ark_logo.svg?sanitize=true" alt="ark" width="300"/>
-</pre>
+<p align="center"><img src="https://raw.githubusercontent.com/ArkNX/ARK/gh-pages/_images/ark_logo.svg?sanitize=true" alt="ark" width="300"/></p>
 ARK 是一个使用C++开发的轻量级,敏捷型,弹性的,分布式的插件开发框架, 让你更快更简单的开发服务端应用. 部分思路来自UE4和Ogre.(当前主要用在游戏领域)
 
 ---
@@ -11,7 +9,7 @@ ARK 是一个使用C++开发的轻量级,敏捷型,弹性的,分布式的插件�
 ![GitHub release](https://img.shields.io/github/release/ArkNX/ARK.svg?style=flat-square)
 ![GitHub pre-release](https://img.shields.io/github/release-pre/ArkNX/ARK.svg?label=pre-release&style=flat-square)
 [![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows,%20MacOSX-green.svg?style=flat-square)](https://github.com/ArkNX/ARK)
-[![C++11](https://img.shields.io/badge/C++-11-4c7e9f.svg?style=flat-square)](https://github.com/ArkNX/ARK)
+[![C++17](https://img.shields.io/badge/C++-17-4c7e9f.svg?style=flat-square)](https://github.com/ArkNX/ARK)
 [![License](https://img.shields.io/github/license/ArkNX/ARK.svg?colorB=f48041&style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 ![GitHub stars](https://img.shields.io/github/stars/ArkNX/ARK.svg?style=flat-square&label=Stars&style=flat-square)
 ![GitHub issues](https://img.shields.io/github/issues-raw/ArkNX/ARK.svg?style=flat-square)
@@ -33,8 +31,6 @@ Discord: [Join Us](https://discord.gg/GmyBbcv)
 
 | CI             | master分支                                                                                                                | develop分支                                                                                                                         |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| Travis CI      | [![Build Status](https://travis-ci.org/ArkNX/ARK.svg?branch=master)](https://travis-ci.org/ArkNX/ARK)                     | [![Build Status](https://travis-ci.org/ArkNX/ARK.svg?branch=develop)](https://travis-ci.org/ArkNX/ARK)                              |
-| Cricle CI      | [![CircleCI](https://circleci.com/gh/ArkNX/ARK/tree/master.svg?style=svg)](https://circleci.com/gh/ArkNX/ARK/tree/master) | [![CircleCI](https://circleci.com/gh/ArkNX/ARK/tree/develop.svg?style=svg)](https://circleci.com/gh/ArkNX/ARK/tree/develop)         |
 | Github Actions | [![Github Action](https://github.com/ArkNX/ARK/workflows/Github-CI/badge.svg)](https://github.com/ArkNX/ARK/actions)      | [![Github Action](https://github.com/ArkNX/ARK/workflows/Github-CI/badge.svg?branch=develop)](https://github.com/ArkNX/ARK/actions) |
 
 ##### 如果你想体验更多的特性，请切换至 develop 分支.
