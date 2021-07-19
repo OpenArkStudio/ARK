@@ -48,12 +48,12 @@ jobs:
     # If this step fails, then you should remove it and run the build manually (see below)
     - uses: github/codeql-action/autobuild@v1
     - name: Build
-        run:|
-          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-            chmod -x .github/workflows/build-ubuntu.sh && sh .github/workflows/build-ubuntu.sh
-          elif [ "${{ matrix.os }}" = "macOS-latest" ]; then
-            chmod -x .github/workflows/build-macos.sh && sh .github/workflows/build-macos.sh
-          fi
+    - run: |
+        if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+          chmod -x .github/workflows/build-ubuntu.sh && sh .github/workflows/build-ubuntu.sh
+        elif [ "${{ matrix.os }}" = "macOS-latest" ]; then
+          chmod -x .github/workflows/build-macos.sh && sh .github/workflows/build-macos.sh
+        fi
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
