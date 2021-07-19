@@ -46,8 +46,8 @@ jobs:
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
-    - uses: github/codeql-action/autobuild@v1
     - name: Build
+      uses: github/codeql-action/autobuild@v1
     - run: |
         if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
           chmod -x .github/workflows/build-ubuntu.sh && sh .github/workflows/build-ubuntu.sh
