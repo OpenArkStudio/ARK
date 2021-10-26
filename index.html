@@ -15,23 +15,39 @@
     />
     <meta
       name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
     />
     <link
       rel="stylesheet"
-      href="//unpkg.com/docsify/lib/themes/vue.css"
+      href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css"
       title="vue"
+    />
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css"
+      title="dark"
+      disabled
+    />
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/buble.css"
+      title="buble"
+      disabled
+    />
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/pure.css"
+      title="pure"
+      disabled
     />
     <style>
       nav.app-nav li ul {
         min-width: 100px;
       }
 
-      .markdown-section {
-        margin: 0 auto;
-        max-width: 960px;
-        padding: 30px 15px 40px;
-        position: relative;
+      #carbonads {
+        box-shadow: none !important;
+        width: auto !important;
       }
     </style>
   </head>
@@ -87,9 +103,9 @@
             var footer = [
               "<hr/>",
               "<footer>",
-              '<span><a href="https://github.com/ArkNX">ArkNX</a> &copy; 2020. </span>',
+              '<span><a href="https://github.com/ArkNX">ArkNX</a> &copy; 2021. </span>',
               "Please feel free to use and contribute to the development.",
-              '<p><span>Published with <a href="https://github.com/QingWei-Li/docsify" target="_blank">docsify</a>.</span></p>',
+              '<p><span>Published with <a href="https://github.com/docsifyjs/docsify/" target="_blank">docsify</a>.</span></p>',
               "</footer>"
             ].join("");
 
@@ -100,19 +116,22 @@
         ]
       };
     </script>
-    <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-    <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
-    <script src="//unpkg.com/prismjs/components/prism-bash.min.js"></script>
-    <script src="//unpkg.com/prismjs/components/prism-markdown.min.js"></script>
-    <script src="//unpkg.com/prismjs/components/prism-batch.min.js"></script>
-    <script src="//unpkg.com/prismjs/components/prism-c.min.js"></script>
-    <script src="//unpkg.com/prismjs/components/prism-clike.min.js"></script>
-    <script src="//unpkg.com/prismjs/components/prism-cpp.min.js"></script>
-    <script src="//unpkg.com/prismjs/components/prism-csharp.js"></script>
-    <script src="//unpkg.com/prismjs/components/prism-makefile.min.js"></script>
-    <script src="//unpkg.com/docsify-copy-code@2"></script>
-    <script src="//unpkg.com/docsify-edit-on-github@1.0.1/index.js"></script>
-    <script src="//unpkg.com/docsify-plantuml/dist/docsify-plantuml.min.js"></script>
-    <script src="//unpkg.com/docsify-plugin-flexible-alerts"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify-plantuml/dist/docsify-plantuml.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-go.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-markdown.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-groovy.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-less.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-docker.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-scala.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-sql.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-properties.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify-plugin-flexible-alerts"></script>
   </body>
 </html>
