@@ -22,8 +22,8 @@ ARK 是一个使用C++开发的轻量级,敏捷型,弹性的,分布式的插件�
 
 </center>
 
-**Copyright © [OpenArkStudio](https://arknx.com "OpenArkStudio")**  
-官网: https://openark.io  
+**Copyright © [OpenArkStudio](https://github.com/OpenArkStudio "OpenArkStudio")**  
+官网: https://openarkstudio.github.io/ARK
 GitHub: https://github.com/OpenArkStudio/ARK  
 码云: https://gitee.com/OpenArkStudio/ARK  
 QQ 群: [点击加群](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)  
@@ -57,7 +57,7 @@ Discord: [Join Us](https://discord.gg/GmyBbcv)
 
 ## 文档
 
-请访问文档页面: [文档](https://openark.io/ARK)
+请访问文档页面: [文档](https://openarkstudio.github.io/ARK)
 
 ## Unity3D 客户端
 

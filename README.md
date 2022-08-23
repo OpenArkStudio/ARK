@@ -23,7 +23,7 @@ ARK is a lightweight, agility, elastic, distributed plugin framework written in 
 </center>
 
 **Copyright © [OpenArkStudio](https://openark.io "OpenArkStudio")**  
-Website: https://openark.io  
+Website: https://github.com/OpenArkStudio  
 GitHub: https://github.com/OpenArkStudio/ARK  
 Gitee: https://gitee.com/ArkNX/ARK  
 QQ
@@ -58,7 +58,7 @@ to [Contribution Guide](https://github.com/OpenArkStudio/ARK/blob/master/.github
 
 ## Document
 
-Please visit doc website: [Document](https://openark.io/ARK)
+Please visit doc website: [Document](https://openarkstudio.github.io/ARK/)
 
 ## Unity3D client
 
