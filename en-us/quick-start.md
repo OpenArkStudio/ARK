@@ -82,7 +82,7 @@ Using CMake
     cd path/to/ARK
     git submodule update --init
     mkdir -p build/debug && cd build/debug
-    cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug ..
+    cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug ../..
     make
     ```
 
