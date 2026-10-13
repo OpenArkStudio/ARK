@@ -6,7 +6,7 @@
 | [arknet](https://github.com/OpenArkStudio/arknet)                                       |        | v0.1.0 |
 | [RapidXML](https://rapidxml.sourceforge.net/)                                          |        | 1.13   |
 | [args](https://github.com/Taywee/args/releases/tag/6.2.2)                                |        | 6.2.2  |
-| [spdlog](https://github.com/gabime/spdlog/releases/tag/v1.8.2)                           | v1.x   | v1.8.2 |
+| [spdlog](https://github.com/gabime/spdlog/releases/tag/v1.17.0)                          | v1.x   | v1.17.0 |
 | [json](https://github.com/nlohmann/json/releases/download/v3.9.1/json.hpp)               | v3.9.1 |        |
 | [cpp-bredis](https://github.com/basiliscos/cpp-bredis/releases/tag/v0.11)                |        | v0.11  |
 | [readerwriterqueue](https://github.com/cameron314/readerwriterqueue/releases/tag/v1.0.3) |        | v1.0.3 |

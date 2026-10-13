@@ -11,7 +11,7 @@ ARK 使用 C++20，直接采用独立仓库的
 
 - CMake 3.21 及以上；GCC 12+、支持 C++20 的 Clang，或 VS 2022。
 - Standalone Asio 1.38.0+；设置 `ASIO_STANDALONE=OFF` 时使用 Boost 1.90+。
-- RapidXML 1.13，以及仓库固定版本的 spdlog、readerwriterqueue、args 子模块。
+- RapidXML 1.13、spdlog 1.17.0，以及仓库固定版本的 readerwriterqueue、args 子模块。
 - 构建应用和插件时需要 Protobuf、Zstandard 和 zlib。
 
 vcpkg 清单固定包版本基线。CMake 从 arknet 的独立仓库获取发行标签。
@@ -34,12 +34,13 @@ cmake --build network-build --target check-network
 测试程序，或用 `--test-case=RUDP*` 选择用例。不需要 Python 或 Ruby。
 
 测试覆盖拆包、二进制数据、重连、连接上限、超时、Update 线程分发、回调中关闭连接、
-HTTP 状态和请求数据、停机取消、非法输入。CI 检查 Linux、macOS、Windows 的两种后端，
+HTTP 状态和请求数据、停机取消、非法输入，以及日志格式、目录创建和文件轮转。
+CI 检查 Linux、macOS、Windows 的两种后端，
 并在 Linux 上运行内存、未定义行为和线程检查。
 
 2026-10-13 本机验证使用 Apple M4 Pro（14 核 CPU、48 GiB 内存）、macOS 27.0.1 arm64
 和 Apple Clang 21.0.0。Standalone Asio 1.38.2、Boost 1.90、ASan/UBSan 和 TSan
-四组网络回归均通过 29 个用例、829 条断言。macOS ASan 未启用泄漏检测，Linux CI
+四组网络与日志回归均通过 31 个用例、843 条断言。macOS ASan 未启用泄漏检测，Linux CI
 启用 LeakSanitizer。这些结果用于验证正确性，不表示部署容量。
 默认 C++20 应用构建、示例和 8 个原有测试程序也均在本机通过。
 

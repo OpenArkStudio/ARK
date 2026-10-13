@@ -346,7 +346,7 @@ void StaleSessionCannotSendOrCloseReplacement()
     stale_header.SetMessageLength(static_cast<uint32_t>(stale_body.size()));
     CHECK_FALSE(client->SendMsg(&stale_header, stale_body.data(), old_id));
     REQUIRE(replaced);
-    REQUIRE(connections.load() == 2);
+    REQUIRE(Wait([&] { return connections.load() == 2; }));
     const auto current_id = receiver.Events().back().session;
     REQUIRE(current_id != old_id);
     client->CloseSession(old_id);
