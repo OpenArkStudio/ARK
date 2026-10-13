@@ -20,8 +20,10 @@
 
 #pragma once
 
+#include <memory>
+#include <thread>
+
 #include "base/AFPluginManager.hpp"
-#include "base/container/AFLockFreeQueue.hpp"
 #include "net/interface/AFIHttpClientModule.hpp"
 
 namespace ark {
@@ -30,29 +32,27 @@ class AFCHttpClientModule final : public AFIHttpClientModule
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
-    explicit AFCHttpClientModule();
+    AFCHttpClientModule();
+    ~AFCHttpClientModule() override;
 
-    ~AFCHttpClientModule()
-    {
-        ioc_.stop();
-    }
+    bool Update() override;
+    bool PreShut() override;
 
-    bool Update() override
+    std::future<std::pair<bool, std::string>> AsyncRequest(arknet::http::verb method, const std::string& host,
+        const uint16_t port, const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
+        const std::vector<std::string>* cookies = nullptr, const std::string* http_body = nullptr,
+        const std::string* content_type = nullptr, int ioTimeout = 20, int connectTimeout = 5) override
     {
-        std::shared_ptr<Callback> cb;
-        while (finishedRequests_.Pop(cb))
-        {
-            cb->Cb(cb->Arg);
-        }
-        return true;
+        return asyncRequest(method, host, std::to_string(port), url, url_params, cookies, http_body, content_type,
+            ioTimeout, connectTimeout);
     }
 
     std::future<std::pair<bool, std::string>> Get(const std::string& host, const uint16_t port, const std::string& url,
         const std::map<std::string, std::string>* url_params = nullptr,
         const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) override
     {
-        return asyncRequest(zephyr::http::verb::get, host, std::to_string(port),
-                            url, url_params, cookies, nullptr, nullptr, ioTimeout, connectTimeout);
+        return asyncRequest(arknet::http::verb::get, host, std::to_string(port), url, url_params, cookies, nullptr,
+            nullptr, ioTimeout, connectTimeout);
     }
 
     std::future<std::pair<bool, std::string>> Post(const std::string& host, const uint16_t port, const std::string& url,
@@ -60,53 +60,45 @@ public:
         const std::string* content_type = nullptr, const std::vector<std::string>* cookies = nullptr,
         int ioTimeout = 20, int connectTimeout = 5) override
     {
-        return asyncRequest(zephyr::http::verb::post, host, std::to_string(port),
-                            url, url_params, cookies, http_body, content_type, ioTimeout, connectTimeout);
+        return asyncRequest(arknet::http::verb::post, host, std::to_string(port), url, url_params, cookies, http_body,
+            content_type, ioTimeout, connectTimeout);
     }
 
     void Post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& host, const uint16_t port,
-              const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
-              const std::string* http_body = nullptr, const std::string* content_type = nullptr,
-              const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) override
-    {
-        asyncRequest(std::move(cb),zephyr::http::verb::post, host, std::to_string(port), url, url_params,
-                     cookies, http_body, content_type, ioTimeout, connectTimeout);
-    }
-
-    void Post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& host,
-        const std::string& service, const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
+        const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
         const std::string* http_body = nullptr, const std::string* content_type = nullptr,
         const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) override
     {
-        asyncRequest(std::move(cb),zephyr::http::verb::post, host, service, url, url_params,
-                     cookies, http_body, content_type, ioTimeout, connectTimeout);
+        asyncRequest(std::move(cb), arknet::http::verb::post, host, std::to_string(port), url, url_params, cookies,
+            http_body, content_type, ioTimeout, connectTimeout);
+    }
+
+    void Post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& host, const std::string& service,
+        const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
+        const std::string* http_body = nullptr, const std::string* content_type = nullptr,
+        const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) override
+    {
+        asyncRequest(std::move(cb), arknet::http::verb::post, host, service, url, url_params, cookies, http_body,
+            content_type, ioTimeout, connectTimeout);
     }
 
 private:
-    std::future<std::pair<bool, std::string>> asyncRequest(zephyr::http::verb method, const std::string& host,
-        const std::string& service, const std::string& target, const std::map<std::string, std::string>* params = nullptr,
-        const std::vector<std::string>* cookies = nullptr, const std::string* http_body = nullptr,
-        const std::string* content_type = nullptr, int ioTimeout = 20, int connectTimeout = 5);
+    std::future<std::pair<bool, std::string>> asyncRequest(arknet::http::verb method, const std::string& host,
+        const std::string& service, const std::string& target,
+        const std::map<std::string, std::string>* params = nullptr, const std::vector<std::string>* cookies = nullptr,
+        const std::string* http_body = nullptr, const std::string* content_type = nullptr, int ioTimeout = 20,
+        int connectTimeout = 5);
 
-    void asyncRequest(std::function<void(std::pair<bool, std::string>)> cb, zephyr::http::verb method, const std::string& host,
-                      const std::string& service, const std::string& target, const std::map<std::string, std::string>* params = nullptr,
-                      const std::vector<std::string>* cookies = nullptr, const std::string* http_body = nullptr,
-                      const std::string* content_type = nullptr, int ioTimeout = 20, int connectTimeout = 5);
-
-private:
-    struct Callback {
-        Callback(std::function<void(std::pair<bool, std::string>)> cb, std::pair<bool, std::string> arg)
-            : Cb(std::move(cb)), Arg(move(arg))
-        {
-        }
-
-        std::function<void(std::pair<bool, std::string>)> Cb;
-        std::pair<bool, std::string> Arg;
-    };
+    void asyncRequest(std::function<void(std::pair<bool, std::string>)> cb, arknet::http::verb method,
+        const std::string& host, const std::string& service, const std::string& target,
+        const std::map<std::string, std::string>* params = nullptr, const std::vector<std::string>* cookies = nullptr,
+        const std::string* http_body = nullptr, const std::string* content_type = nullptr, int ioTimeout = 20,
+        int connectTimeout = 5);
 
 private:
-    boost::asio::io_context ioc_;
-    AFLockFreeQueue<std::shared_ptr<Callback>> finishedRequests_;
+    struct State;
+    std::shared_ptr<State> state_;
+    std::thread worker_;
 };
 
 } // namespace ark

@@ -18,6 +18,11 @@
  *
  */
 
+#include <algorithm>
+#include <chrono>
+#include <utility>
+#include <vector>
+
 #include "base/AFLogger.hpp"
 #include "net/include/AFCWebSocketServer.hpp"
 
@@ -36,16 +41,24 @@ void AFCWebSocketServer::Update()
 bool AFCWebSocketServer::StartServer(std::shared_ptr<const AFIMsgHeader> head, bus_id_t bus_id, const std::string& host,
     uint16_t port, uint8_t thread_num, uint32_t max_client, const size_t silent_timeout)
 {
-    using namespace zephyr;
-    using namespace zephyr::detail;
-
-    server_ =
-        std::make_shared<zephyr::ws_server>(silent_timeout, tcp_frame_size, ARK_TCP_RECV_BUFFER_SIZE, thread_num);
+    ARK_ASSERT_RET_VAL(head != nullptr, false);
+    if (server_ != nullptr)
+    {
+        Shutdown();
+    }
+    server_ = std::make_shared<arknet::ws_server>(
+        arknet::detail::tcp_frame_size, ARK_TCP_RECV_BUFFER_SIZE, std::max<size_t>(thread_num, 1));
     this->bus_id_ = bus_id;
-    std::ignore = max_client;
+    const auto weak = weak_from_this();
 
     server_
-        ->bind_start([self = shared_from_this()](asio::error_code ec) {
+        ->bind_start([weak] {
+            const auto ec = arknet::get_last_error();
+            const auto self = weak.lock();
+            if (self == nullptr)
+            {
+                return;
+            }
             if (ec)
             {
                 ARK_LOG_INFO("Server(WS) start failed, error={} errno={}", ec.message(), ec.value());
@@ -56,82 +69,116 @@ bool AFCWebSocketServer::StartServer(std::shared_ptr<const AFIMsgHeader> head, b
                     self->server_->listen_port());
             }
         })
-        .bind_stop(
-            [](asio::error_code ec) { ARK_LOG_INFO("Server(WS) stop, error={} errno={}", ec.message(), ec.value()); })
-        .bind_connect([self = shared_from_this(), head](std::shared_ptr<zephyr::ws_session>& session_ptr) {
+        .bind_stop([] {
+            const auto ec = arknet::get_last_error();
+            ARK_LOG_INFO("Server(WS) stop, error={} errno={}", ec.message(), ec.value());
+        })
+        .bind_accept([silent_timeout](std::shared_ptr<arknet::ws_session>& session_ptr) {
+            session_ptr->set_silence_timeout(std::chrono::milliseconds(silent_timeout));
+            session_ptr->set_no_delay(true);
+        })
+        .bind_connect([weak, head, max_client](std::shared_ptr<arknet::ws_session>& session_ptr) {
+            const auto self = weak.lock();
+            if (self == nullptr)
+            {
+                session_ptr->stop();
+                return;
+            }
             ARK_LOG_INFO("Client(WS) connected, remote_addr={} remote_port={}, local_addr={} local_port={}",
                 session_ptr->remote_address(), session_ptr->remote_port(), session_ptr->local_address(),
                 session_ptr->local_port());
 
-            session_ptr->no_delay(true);
+            session_ptr->ws_stream().binary(true);
             auto cur_session_id = self->trusted_session_id_++;
-            session_ptr->user_data(cur_session_id);
-
-            AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
-            net_connect_event->SetId(cur_session_id);
-            net_connect_event->SetType(AFNetEventType::CONNECT);
-            net_connect_event->SetBusId(self->bus_id_);
-            net_connect_event->SetIP(session_ptr->remote_address());
-            // TODO: will add port
-
-            // add session scope
+            bool admitted = false;
             {
                 AFScopeWLock guard(self->rw_lock_);
-                AFWSSessionPtr session = std::make_shared<AFWSSession>(head, cur_session_id, session_ptr);
-                if (self->AddNetSession(session))
+                if (max_client == 0 || self->active_session_count_ < max_client)
                 {
-                    session->AddNetEvent(net_connect_event);
+                    session_ptr->set_user_data(cur_session_id);
+                    AFWSSessionPtr session = std::make_shared<AFWSSession>(head, cur_session_id, session_ptr);
+                    admitted = self->AddNetSession(session);
+                    if (admitted)
+                    {
+                        ++self->active_session_count_;
+                        AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
+                        net_connect_event->SetId(cur_session_id);
+                        net_connect_event->SetType(AFNetEventType::CONNECT);
+                        net_connect_event->SetBusId(self->bus_id_);
+                        net_connect_event->SetIP(session_ptr->remote_address());
+                        if (!session->AddNetEvent(net_connect_event))
+                        {
+                            AFNetEvent::Release(net_connect_event);
+                        }
+                    }
                 }
             }
+            if (!admitted)
+            {
+                session_ptr->stop();
+            }
         })
-        .bind_disconnect([self = shared_from_this()](std::shared_ptr<zephyr::ws_session>& session_ptr) {
+        .bind_disconnect([weak](std::shared_ptr<arknet::ws_session>& session_ptr) {
+            const auto ec = arknet::get_last_error();
+            const auto self = weak.lock();
+            if (self == nullptr)
+            {
+                return;
+            }
             ARK_LOG_INFO("Client(WS) disconnected, client_addr={} client_port={} error={}",
-                session_ptr->remote_address(), session_ptr->remote_port(), zephyr::last_error_msg());
+                session_ptr->remote_address(), session_ptr->remote_port(), ec.message());
 
-            auto session_id = session_ptr->user_data<conv_id_t>();
+            auto session_id = session_ptr->get_user_data<conv_id_t>();
+
+            AFScopeWLock guard(self->rw_lock_);
+            AFWSSessionPtr session = self->GetNetSession(session_id);
+            if (session == nullptr || session->NeedRemove())
+            {
+                return;
+            }
 
             AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
             net_disconnect_event->SetId(session_id);
             net_disconnect_event->SetType(AFNetEventType::DISCONNECT);
             net_disconnect_event->SetBusId(self->bus_id_);
             net_disconnect_event->SetIP(session_ptr->remote_address());
-            // TODO: will add port
-
-            // remove session scope
+            session->NeedRemove(true);
+            --self->active_session_count_;
+            if (!session->AddNetEvent(net_disconnect_event))
             {
-                AFScopeWLock xGuard(self->rw_lock_);
-                AFWSSessionPtr session = self->GetNetSession(session_id);
-                if (session == nullptr)
+                AFNetEvent::Release(net_disconnect_event);
+            }
+        })
+        .bind_upgrade([](std::shared_ptr<arknet::ws_session>& session_ptr) {
+            const auto ec = arknet::get_last_error();
+            ARK_LOG_INFO("Client(WS) upgrade, client_addr={} client_port={} error={}", session_ptr->remote_address(),
+                session_ptr->remote_port(), ec.message());
+        })
+        .bind_recv([weak](std::shared_ptr<arknet::ws_session>& session_ptr, std::string_view s) {
+            const auto self = weak.lock();
+            if (self == nullptr)
+            {
+                return;
+            }
+            auto session_id = session_ptr->get_user_data<conv_id_t>();
+
+            // process msg data scope
+            bool parsed = false;
+            {
+                AFScopeRLock guard(self->rw_lock_);
+                const AFWSSessionPtr session = self->GetNetSession(session_id);
+                if (session == nullptr || session->NeedRemove())
                 {
                     return;
                 }
 
-                session->AddNetEvent(net_disconnect_event);
-                session->NeedRemove(true);
-            }
-        })
-        .bind_upgrade([](std::shared_ptr<zephyr::ws_session>& session_ptr, asio::error_code ec) {
-            std::ignore = ec;
-            ARK_LOG_INFO("Client(WS) upgrade, client_addr={} client_port={} error={}", session_ptr->remote_address(),
-                session_ptr->remote_port(), zephyr::last_error_msg());
-        })
-        .bind_recv([self = shared_from_this()](std::shared_ptr<zephyr::ws_session>& session_ptr, std::string_view s) {
-            auto session_id = session_ptr->user_data<conv_id_t>();
-
-            // process msg data scope
-            {
-                AFScopeRLock guard(self->rw_lock_);
-                const AFWSSessionPtr session = self->GetNetSession(session_id);
-                if (session == nullptr)
-                {
-                    return size_t(0);
-                }
-
                 session->AddBuffer(s.data(), s.length());
-                session->ParseBufferToMsg();
+                parsed = session->ParseBufferToMsg();
             }
-
-            return s.length();
+            if (!parsed)
+            {
+                session_ptr->stop();
+            }
         });
 
     bool ret = server_->start(host, port);
@@ -141,56 +188,41 @@ bool AFCWebSocketServer::StartServer(std::shared_ptr<const AFIMsgHeader> head, b
 
 void AFCWebSocketServer::UpdateNetSession()
 {
-    std::list<conv_id_t> remove_sessions;
-
+    std::vector<AFWSSessionPtr> sessions;
     {
         AFScopeRLock guard(rw_lock_);
-        for (auto& iter : sessions_)
+        sessions.reserve(sessions_.size());
+        for (const auto& iter : sessions_)
         {
-            auto& session = iter.second;
-            if (session == nullptr)
-            {
-                continue;
-            }
-
-            UpdateNetEvent(session);
-            UpdateNetMsg(session);
-
-            if (!session->NeedRemove())
-            {
-                continue;
-            }
-
-            remove_sessions.push_back(session->GetSessionId());
+            sessions.push_back(iter.second);
         }
     }
-
-    for (auto& iter : remove_sessions)
+    for (const auto& session : sessions)
     {
-        auto& session_id = iter;
-        auto session = GetNetSession(session_id);
-        if (session == nullptr)
+        ARK_ASSERT_CONTINUE(session != nullptr);
+        const bool disconnected = UpdateNetEvent(session);
+        UpdateNetMsg(session);
+        if (disconnected)
         {
-            continue;
+            AFScopeWLock guard(rw_lock_);
+            CloseSession(session);
         }
-
-        AFScopeWLock guard(rw_lock_);
-        CloseSession(session);
     }
-
-    remove_sessions.clear();
 }
 
-void AFCWebSocketServer::UpdateNetEvent(const AFWSSessionPtr& session)
+bool AFCWebSocketServer::UpdateNetEvent(const AFWSSessionPtr& session)
 {
-    ARK_ASSERT_RET_NONE(session != nullptr);
+    ARK_ASSERT_RET_VAL(session != nullptr, false);
 
+    bool disconnected = false;
     AFNetEvent* event{nullptr};
     while (session->PopNetEvent(event))
     {
+        disconnected = disconnected || event->GetType() == AFNetEventType::DISCONNECT;
         net_event_cb_(event);
         AFNetEvent::Release(event);
     }
+    return disconnected;
 }
 
 void AFCWebSocketServer::UpdateNetMsg(const AFWSSessionPtr& session)
@@ -205,7 +237,7 @@ void AFCWebSocketServer::UpdateNetMsg(const AFWSSessionPtr& session)
         AFNetMsg::Release(msg);
 
         ++msg_count;
-        if (msg_count > ARK_PROCESS_NET_MSG_COUNT_ONCE)
+        if (msg_count >= ARK_PROCESS_NET_MSG_COUNT_ONCE && !session->NeedRemove())
         {
             break;
         }
@@ -214,9 +246,10 @@ void AFCWebSocketServer::UpdateNetMsg(const AFWSSessionPtr& session)
 
 void AFCWebSocketServer::Shutdown()
 {
-    CloseAllSession();
-
-    server_->stop();
+    if (server_ != nullptr)
+    {
+        server_->stop();
+    }
     SetWorking(false);
 }
 
@@ -235,18 +268,31 @@ void AFCWebSocketServer::CloseSession(const AFWSSessionPtr& session)
 
 void AFCWebSocketServer::CloseSession(conv_id_t session_id)
 {
-    auto session = GetNetSession(session_id);
-    if (session == nullptr)
+    AFWSSessionPtr session;
     {
-        return;
+        AFScopeRLock guard(rw_lock_);
+        session = GetNetSession(session_id);
     }
-
-    session->NeedRemove(true);
+    if (session != nullptr)
+    {
+        session->GetSession()->stop();
+    }
 }
 
 void AFCWebSocketServer::CloseAllSession()
 {
-    sessions_.clear();
+    std::vector<AFWSSessionPtr> sessions;
+    {
+        AFScopeRLock guard(rw_lock_);
+        for (const auto& entry : sessions_)
+        {
+            sessions.push_back(entry.second);
+        }
+    }
+    for (const auto& session : sessions)
+    {
+        session->GetSession()->stop();
+    }
 }
 
 AFWSSessionPtr AFCWebSocketServer::GetNetSession(conv_id_t session_id)
@@ -259,18 +305,28 @@ bool AFCWebSocketServer::SendMsg(const char* msg, const size_t msg_len, conv_id_
 {
     AFScopeRLock xGuard(rw_lock_);
     auto session = GetNetSession(session_id);
-    ARK_ASSERT_RET_VAL(session != nullptr, false);
+    if (session == nullptr || session->NeedRemove())
+    {
+        return false;
+    }
 
-    return session->GetSession()->send(msg, msg_len);
+    return session->GetSession()->async_send(msg, msg_len);
 }
 
 bool AFCWebSocketServer::SendMsg(AFIMsgHeader* head, const char* msg_data, conv_id_t session_id)
 {
     ARK_ASSERT_RET_VAL(head != nullptr && msg_data != nullptr, false);
+    if (head->MessageLength() > ARK_MSG_MAX_LENGTH)
+    {
+        return false;
+    }
 
     AFScopeRLock guard(rw_lock_);
     auto session = GetNetSession(session_id);
-    ARK_ASSERT_RET_VAL(session != nullptr, false);
+    if (session == nullptr || session->NeedRemove())
+    {
+        return false;
+    }
 
     std::string buffer;
     head->SerializeToString(buffer);
@@ -280,7 +336,7 @@ bool AFCWebSocketServer::SendMsg(AFIMsgHeader* head, const char* msg_data, conv_
     }
 
     buffer.append(msg_data, head->MessageLength());
-    return session->GetSession()->send(buffer.c_str(), buffer.length());
+    return session->GetSession()->async_send(std::move(buffer));
 }
 
 void AFCWebSocketServer::SendMsgToAllClient(const char* msg, size_t msg_len)
@@ -291,7 +347,7 @@ void AFCWebSocketServer::SendMsgToAllClient(const char* msg, size_t msg_len)
         auto& session = it.second;
         if (session != nullptr && !session->NeedRemove())
         {
-            session->GetSession()->send(msg, msg_len);
+            session->GetSession()->async_send(msg, msg_len);
         }
     }
 }
@@ -299,20 +355,12 @@ void AFCWebSocketServer::SendMsgToAllClient(const char* msg, size_t msg_len)
 void AFCWebSocketServer::BroadcastMsg(AFIMsgHeader* head, const char* msg_data)
 {
     ARK_ASSERT_RET_NONE(head != nullptr && msg_data != nullptr);
-
-    if (sessions_.empty())
+    if (head->MessageLength() > ARK_MSG_MAX_LENGTH)
     {
         return;
     }
 
-    auto it = sessions_.begin();
-    auto first_session = it->second;
-    if (first_session == nullptr)
-    {
-        return;
-    }
-
-    string buffer;
+    std::string buffer;
     head->SerializeToString(buffer);
     if (buffer.empty())
     {
@@ -320,14 +368,7 @@ void AFCWebSocketServer::BroadcastMsg(AFIMsgHeader* head, const char* msg_data)
     }
     buffer.append(msg_data, head->MessageLength());
 
-    for (const auto& iter : sessions_)
-    {
-        auto& session = iter.second;
-        if (session != nullptr && !session->NeedRemove())
-        {
-            session->GetSession()->send(buffer.c_str(), buffer.length());
-        }
-    }
+    SendMsgToAllClient(buffer.data(), buffer.size());
 }
 
 } // namespace ark

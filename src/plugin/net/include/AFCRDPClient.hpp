@@ -20,7 +20,10 @@
 
 #pragma once
 
-#include <zephyr/zephyr.hpp>
+#include <deque>
+#include <memory>
+
+#include <arknet/rudp/rudp_client.hpp>
 
 #include "base/AFPlatform.hpp"
 #include "net/interface/AFINet.hpp"
@@ -46,7 +49,8 @@ private:
     std::atomic<conv_id_t> trust_session_id_{ARK_CONV_START_ID};
 
     AFRDPClientSessionPtr session_;
-    std::shared_ptr<zephyr::udp_client> client_;
+    std::deque<AFRDPClientSessionPtr> sessions_;
+    std::shared_ptr<arknet::rudp_client> client_;
 
 public:
     template<typename BaseType>
@@ -60,7 +64,8 @@ public:
     ~AFCRDPClient() override;
 
     void Update() override;
-    bool StartClient(std::shared_ptr<const AFIMsgHeader>, bus_id_t dst_busid, const std::string& host, uint16_t port) override;
+    bool StartClient(
+        std::shared_ptr<const AFIMsgHeader>, bus_id_t dst_busid, const std::string& host, uint16_t port) override;
 
     void Shutdown() override;
 
@@ -68,8 +73,8 @@ public:
     void CloseSession(conv_id_t session_id) override;
 
 protected:
-    void UpdateNetEvent();
-    void UpdateNetMsg();
+    void UpdateNetEvent(const AFRDPClientSessionPtr& session);
+    bool UpdateNetMsg(const AFRDPClientSessionPtr& session);
 };
 
 } // namespace ark

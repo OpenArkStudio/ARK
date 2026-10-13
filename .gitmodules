@@ -1,15 +1,9 @@
-[submodule "rapidxml"]
-	path = 3rdparty/rapidxml
-	url = https://github.com/ArkNX/rapidxml.git
 [submodule "args"]
 	path = 3rdparty/args
 	url = https://github.com/Taywee/args.git
 [submodule "spdlog"]
 	path = 3rdparty/spdlog
 	url = https://github.com/gabime/spdlog.git
-[submodule "zephyr"]
-	path = 3rdparty/zephyr
-	url = https://github.com/ArkNX/zephyr.git
 [submodule "readerwriterqueue"]
 	path = 3rdparty/readerwriterqueue
 	url = https://github.com/cameron314/readerwriterqueue

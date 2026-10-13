@@ -1,22 +1,19 @@
 #pragma once
 
-#include <zephyr/zephyr.hpp>
-#include "net/interface/AFINet.hpp"
+#include <memory>
+
+#include <arknet/http/http_server.hpp>
 
 namespace ark {
-
-#ifndef ASIO_STANDALONE
 
 class AFCHttpServer
 {
 private:
-    std::shared_ptr<zephyr::http_server> server_;
+    std::shared_ptr<arknet::http_server> server_;
 
 public:
     AFCHttpServer();
     ~AFCHttpServer();
 };
-
-#endif //ASIO_STANDALONE
 
 } // namespace ark

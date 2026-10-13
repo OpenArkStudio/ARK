@@ -18,9 +18,11 @@
  *
  */
 
+#include <algorithm>
+
 #include "base/AFXml.hpp"
-#include "http/include/AFHttpPlugin.hpp"
 #include "http/include/AFCHttpServerModule.hpp"
+#include "http/include/AFHttpPlugin.hpp"
 
 namespace ark {
 
@@ -34,12 +36,10 @@ bool AFCHttpServerModule::Init()
 
 bool AFCHttpServerModule::PreShut()
 {
-    for (auto& t : thread_pool_)
+    if (server_)
     {
-        if (t.joinable())
-        {
-            t.join();
-        }
+        server_->stop();
+        server_.reset();
     }
 
     return true;
@@ -53,42 +53,22 @@ bool AFCHttpServerModule::StartServer()
 bool AFCHttpServerModule::StartServer(
     std::string const& ip /* = "0.0.0.0"*/, uint16_t port /* = 8080 */, uint8_t thread_num /* = 1*/)
 {
-    // handle errors and warnings
-    const auto& on_error = [this](boost::system::error_code ec, beast::string_view from) {
-        // log
-        if (ec == boost::system::errc::address_in_use || ec == boost::system::errc::permission_denied)
-        {
-            this->ioc_.stop();
-        }
-    };
-
-    // handle connections
-    const auto& on_accept = [&](asio_socket sock) {
-        auto endpoint = sock.remote_endpoint();
-        // log
-        http_session::recv(std::move(sock), router_, on_error);
-    };
-
-    //auto const address = boost::asio::ip::address_v4::any();
-    auto const address = boost::asio::ip::address_v4::from_string(ip);
-
-    // accept
-    http_listener::launch(ioc_, {address, port}, on_accept, on_error);
-
-    // capture SIGINT & SIGTERM
-    sig_set_.async_wait([this](boost::system::error_code const&, int sig) {
-        // log
-        this->ioc_.stop();
-    });
-
-    // Run io service on the number of the thread
-    thread_pool_.reserve(thread_num > 0 ? thread_num : 4);
-    for (uint8_t i = 0; i < thread_num; ++i)
+    if (server_ && server_->is_started())
     {
-        thread_pool_.emplace_back(std::bind(
-            static_cast<std::size_t (boost::asio::io_context::*)()>(&boost::asio::io_context::run), std::ref(ioc_)));
+        return false;
     }
-
+    auto server = std::make_unique<arknet::http_server>(
+        arknet::detail::http_frame_size, arknet::detail::max_buffer_size, std::max<unsigned>(thread_num, 1));
+    server->bind_recv([this](std::shared_ptr<arknet::http_session>& session, arknet::http_route_request& request) {
+        auto response = router_(request);
+        response.set(arknet::http::field::server, "ARK");
+        session->async_send(std::move(response));
+    });
+    if (!server->start(ip, port))
+    {
+        return false;
+    }
+    server_ = std::move(server);
     return true;
 }
 

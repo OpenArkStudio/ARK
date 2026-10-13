@@ -1,6 +1,6 @@
 # Contributing to ARK
 
-Welcome to [report Issues](https://github.com/QuadHex/ARK/issues) or [pull requests](https://github.com/QuadHex/ARK/pulls). It's recommended to read the following Contributing Guide first before contributing.
+Welcome to [report Issues](https://github.com/OpenArkStudio/ARK/issues) or [pull requests](https://github.com/OpenArkStudio/ARK/pulls). It's recommended to read the following Contributing Guide first before contributing.
 
 ## Issues
 
@@ -20,32 +20,24 @@ We strongly welcome your pull request to make `ARK` better.
 
 ### Branch Management
 
-There are two main branches here:
-
-1. `master` branch.
-
-- It is the latest (pre-)release branch. We use `master` for tags.
-- **Don't submit any PR(Pull Request) on `master` branch.**
-
-2. `develop` branch.
-
-- There is a `develop` for `ARK` developing version. It is our stable developing branch. After full testing, `develop` branch will be merged to `master` branch for the next release.
-- **You are recommended to submit bugfix or feature PR on `develop` branch.**
-
-Normal bugfix or feature request should be submitted to `develop` branch. After full testing, we will merge them to `master` branch for the next release.
+Create a branch from `main` and submit changes through a pull request targeting
+`main`. The branch requires passing CI and resolved conversations; force pushes
+and deletion are prohibited, including for administrators. Merge with squash
+and use an English commit subject. A second-maintainer approval is currently
+optional.
 
 ### Make Pull Requests
 
-The code team will monitor all pull request, we run some code check and test on it. After all tests passed, we will accept this PR. But it won't merge to `master` branch at once, which have some delay.
+Pull requests must pass the `CI - required` check before merging.
 
 Before submitting a pull request, please make sure the followings are done:
 
-1. Fork the repo and create your branch from `master` or `develop`.
+1. Fork the repo and create your branch from `main`.
 2. Update code or documentation if you have changed APIs or important functions.
 3. Add the copyright notice to the top of any new files you've added.
 4. Check your code lints and check styles.
 5. Test and test again your code.
-6. Now, you can submit your pull request on `develop` branch.
+6. Submit your pull request to `main`.
 
 ## Code Style Guide
 
@@ -54,4 +46,4 @@ Try to be similar with the other authors.
 ## License
 
 By contributing to `ARK`, you agree that your contributions will be licensed
-under [Apache LICENSE](https://github.com/QuadHex/ARK/blob/master/LICENSE)
+under [Apache LICENSE](https://github.com/OpenArkStudio/ARK/blob/main/LICENSE)

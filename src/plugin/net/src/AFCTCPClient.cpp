@@ -18,8 +18,9 @@
  *
  */
 
+#include <utility>
+
 #include "base/AFLogger.hpp"
-#include "base/AFBus.hpp"
 #include "net/include/AFCTCPClient.hpp"
 
 namespace ark {
@@ -34,19 +35,34 @@ void AFCTCPClient::Update()
     UpdateNetSession();
 }
 
-bool AFCTCPClient::StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_t dst_bus_id, const std::string& host,
-    uint16_t port)
+bool AFCTCPClient::StartClient(
+    std::shared_ptr<const AFIMsgHeader> head, bus_id_t dst_bus_id, const std::string& host, uint16_t port)
 {
-    using namespace zephyr;
-    using namespace zephyr::detail;
-
-    client_ = std::make_shared<zephyr::tcp_client>(tcp_frame_size, ARK_TCP_RECV_BUFFER_SIZE);
+    ARK_ASSERT_RET_VAL(head != nullptr, false);
+    if (client_ != nullptr)
+    {
+        Shutdown();
+    }
+    client_ = std::make_shared<arknet::tcp_client>(arknet::detail::tcp_frame_size, ARK_TCP_RECV_BUFFER_SIZE);
     this->dst_bus_id_ = dst_bus_id;
+    const auto weak = weak_from_this();
 
-    client_->auto_reconnect(true, ARK_RECONNECT_TIME);
-    client_->no_delay(true);
+    client_->set_auto_reconnect(true, ARK_RECONNECT_TIME);
+    client_->set_connect_timeout(ARK_CONNECT_TIMEOUT);
     client_
-        ->bind_connect([self = shared_from_this(), head](asio::error_code ec) {
+        ->bind_init([weak] {
+            if (auto self = weak.lock())
+            {
+                self->client_->set_no_delay(true);
+            }
+        })
+        .bind_connect([weak, head] {
+            const auto ec = arknet::get_last_error();
+            const auto self = weak.lock();
+            if (self == nullptr)
+            {
+                return;
+            }
             if (ec)
             {
                 ARK_LOG_INFO("Client(TCP) connect server failed, error={} errno={}, server_addr={} server_port={} "
@@ -65,7 +81,7 @@ bool AFCTCPClient::StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_
             // now session_id
             auto cur_session_id = self->trust_session_id_++;
             // set session ud
-            self->client_->user_data(cur_session_id);
+            self->client_->set_user_data(cur_session_id);
 
             // create net event
             AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
@@ -78,17 +94,37 @@ bool AFCTCPClient::StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_
             // net event & session scope
             {
                 AFScopeWLock guard(self->rw_lock_);
+                if (self->session_ != nullptr)
+                {
+                    self->retired_sessions_.push_back(self->session_);
+                }
                 self->session_ = std::make_shared<AFTCPClientSession>(head, cur_session_id, nullptr);
-                self->session_->AddNetEvent(net_connect_event);
+                if (!self->session_->AddNetEvent(net_connect_event))
+                {
+                    AFNetEvent::Release(net_connect_event);
+                }
             }
         })
-        .bind_disconnect([self = shared_from_this()](asio::error_code ec) {
-            ARK_LOG_INFO("Disconnect server(TCP), error={} errno={} local_addr={} local_port={}", ec.message(),
-                ec.value(), self->client_->remote_address(), self->client_->remote_port(),
+        .bind_disconnect([weak] {
+            const auto ec = arknet::get_last_error();
+            const auto self = weak.lock();
+            if (self == nullptr)
+            {
+                return;
+            }
+            ARK_LOG_INFO(
+                "Disconnect server(TCP), error={} errno={} remote_addr={} remote_port={} local_addr={} local_port={}",
+                ec.message(), ec.value(), self->client_->remote_address(), self->client_->remote_port(),
                 self->client_->local_address(), self->client_->local_port());
 
-            auto session_id = self->client_->user_data<conv_id_t>();
-            // TODO: checking session is same.
+            auto session_id = self->client_->get_user_data<conv_id_t>();
+
+            AFScopeWLock guard(self->rw_lock_);
+            if (self->session_ == nullptr || self->session_->GetSessionId() != session_id ||
+                self->session_->NeedRemove())
+            {
+                return;
+            }
 
             // create net event
             AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
@@ -97,17 +133,32 @@ bool AFCTCPClient::StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_
             net_disconnect_event->SetBusId(self->dst_bus_id_);
             net_disconnect_event->SetIP(self->client_->remote_address());
 
-            // scope lock
+            self->session_->NeedRemove(true);
+            if (!self->session_->AddNetEvent(net_disconnect_event))
             {
-                AFScopeWLock guard(self->rw_lock_);
-                self->session_->AddNetEvent(net_disconnect_event);
-                self->session_->NeedRemove(true);
+                AFNetEvent::Release(net_disconnect_event);
             }
         })
-        .bind_recv([self = shared_from_this()](std::string_view s) {
-            AFScopeRLock guard(self->rw_lock_);
-            self->session_->AddBuffer(s.data(), s.length());
-            self->session_->ParseBufferToMsg();
+        .bind_recv([weak](std::string_view s) {
+            const auto self = weak.lock();
+            if (self == nullptr)
+            {
+                return;
+            }
+            bool parsed = false;
+            {
+                AFScopeRLock guard(self->rw_lock_);
+                if (self->session_ == nullptr || self->session_->NeedRemove())
+                {
+                    return;
+                }
+                self->session_->AddBuffer(s.data(), s.length());
+                parsed = self->session_->ParseBufferToMsg();
+            }
+            if (!parsed)
+            {
+                self->client_->stop();
+            }
         });
 
     bool ret = client_->start(host, port);
@@ -118,47 +169,56 @@ bool AFCTCPClient::StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_
 
 void AFCTCPClient::Shutdown()
 {
-    client_->stop();
+    if (client_ != nullptr)
+    {
+        client_->stop();
+    }
     SetWorking(false);
 }
 
 void AFCTCPClient::UpdateNetSession()
 {
-    if (session_ == nullptr)
+    std::vector<AFTCPClientSessionPtr> sessions;
     {
-        return;
+        AFScopeWLock guard(rw_lock_);
+        sessions.swap(retired_sessions_);
+        if (session_ != nullptr)
+        {
+            sessions.push_back(session_);
+        }
     }
-
-    AFScopeRLock guard(rw_lock_);
-    UpdateNetEvent();
-    UpdateNetMsg();
+    for (const auto& session : sessions)
+    {
+        UpdateNetEvent(session);
+        UpdateNetMsg(session);
+    }
 }
 
-void AFCTCPClient::UpdateNetEvent()
+void AFCTCPClient::UpdateNetEvent(const AFTCPClientSessionPtr& session)
 {
-    ARK_ASSERT_RET_NONE(session_ != nullptr);
+    ARK_ASSERT_RET_NONE(session != nullptr);
 
     AFNetEvent* event(nullptr);
-    while (session_->PopNetEvent(event))
+    while (session->PopNetEvent(event))
     {
         net_event_cb_(event);
         AFNetEvent::Release(event);
     }
 }
 
-void AFCTCPClient::UpdateNetMsg()
+void AFCTCPClient::UpdateNetMsg(const AFTCPClientSessionPtr& session)
 {
-    ARK_ASSERT_RET_NONE(session_ != nullptr);
+    ARK_ASSERT_RET_NONE(session != nullptr);
 
     AFNetMsg* msg(nullptr);
     int msg_count = 0;
-    while (session_->PopNetMsg(msg))
+    while (session->PopNetMsg(msg))
     {
-        net_msg_cb_(msg, session_->GetSessionId());
+        net_msg_cb_(msg, session->GetSessionId());
         AFNetMsg::Release(msg);
 
         ++msg_count;
-        if (msg_count > ARK_PROCESS_NET_MSG_COUNT_ONCE)
+        if (msg_count >= ARK_PROCESS_NET_MSG_COUNT_ONCE && !session->NeedRemove())
         {
             break;
         }
@@ -167,30 +227,51 @@ void AFCTCPClient::UpdateNetMsg()
 
 bool AFCTCPClient::SendMsg(AFIMsgHeader* head, const char* msg_data, conv_id_t session_id)
 {
-    std::ignore = session_id;
-
     ARK_ASSERT_RET_VAL(head != nullptr && msg_data != nullptr, false);
-    ARK_ASSERT_RET_VAL(session_ != nullptr, false);
-
+    // Header serialization can run application code and reconnect the client.
     std::string buffer;
     head->SerializeToString(buffer);
-    if (buffer.empty())
+    const auto message_length = head->MessageLength();
+    if (buffer.empty() || message_length > ARK_MSG_MAX_LENGTH)
     {
         return false;
     }
 
-    buffer.append(msg_data, head->MessageLength());
-    return client_->send(buffer.c_str(), buffer.length());
+    buffer.append(msg_data, message_length);
+    AFScopeRLock guard(rw_lock_);
+    if (client_ == nullptr || session_ == nullptr || session_->NeedRemove() ||
+        (session_id != 0 && session_->GetSessionId() != session_id))
+    {
+        return false;
+    }
+    return client_->async_send(std::move(buffer));
 }
 
 bool AFCTCPClient::SendMsg(const char* msg, size_t msg_len)
 {
-    return client_->send(msg, msg_len);
+    return client_ != nullptr && client_->async_send(msg, msg_len);
 }
 
 void AFCTCPClient::CloseSession(conv_id_t session_id)
 {
-    std::ignore = session_id;
+    std::shared_ptr<arknet::tcp_client> client;
+    {
+        AFScopeRLock guard(rw_lock_);
+        if (client_ == nullptr || session_ == nullptr || session_->NeedRemove() ||
+            session_->GetSessionId() != session_id)
+        {
+            return;
+        }
+        session_id = session_->GetSessionId();
+        client = client_;
+    }
+    client->post([weak = std::weak_ptr(client), session_id] {
+        if (const auto current = weak.lock();
+            current != nullptr && current->is_started() && current->get_user_data<conv_id_t>() == session_id)
+        {
+            current->stop();
+        }
+    });
 }
 
 } // namespace ark

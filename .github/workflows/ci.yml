@@ -1,20 +1,106 @@
-name: Github-CI
+name: CI
+run-name: CI - ${{ github.event_name }} - ${{ github.ref_name }}
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
+  network:
+    name: Network - ${{ matrix.os }} - ${{ matrix.standalone == 'ON' && 'Standalone' || 'Boost' }} - ${{ matrix.sanitizer }}
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macOS-latest]
-
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        standalone: ["ON", "OFF"]
+        sanitizer: [none]
+        include:
+          - {os: ubuntu-latest, standalone: "ON", sanitizer: address}
+          - {os: ubuntu-latest, standalone: "OFF", sanitizer: address}
+          - {os: ubuntu-latest, standalone: "ON", sanitizer: thread}
     steps:
-      - uses: actions/checkout@v1
-      - name: Build ARK
-        run: |
-          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-            chmod -x .github/workflows/build-ubuntu.sh && sh .github/workflows/build-ubuntu.sh
-          elif [ "${{ matrix.os }}" = "macOS-latest" ]; then
-            chmod -x .github/workflows/build-macos.sh && sh .github/workflows/build-macos.sh
-          fi
+      - uses: actions/checkout@v4
+      - name: Initialize pinned dependencies
+        run: git submodule update --init 3rdparty/args 3rdparty/spdlog 3rdparty/readerwriterqueue
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
+      - uses: lukka/get-cmake@latest
+      - uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: 0699a19d0c6386247ce50d4dedbb8217d484d536
+          vcpkgJsonGlob: vcpkg.json
+      - name: Configure TSan address space
+        if: matrix.sanitizer == 'thread'
+        run: sudo sysctl -w vm.mmap_rnd_bits=28
+      - name: Configure network regressions
+        shell: pwsh
+        run: >-
+          cmake -S . -B ci-build -G Ninja
+          "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+          "-DVCPKG_MANIFEST_FEATURES=${{ matrix.standalone == 'OFF' && 'boost' || '' }}"
+          -DCMAKE_BUILD_TYPE=Debug
+          -DARK_BUILD_APPLICATIONS=OFF
+          -DARK_BUILD_NETWORK_TESTS=ON
+          -DASIO_STANDALONE=${{ matrix.standalone }}
+          ${{ matrix.sanitizer == 'address' && '"-DCMAKE_CXX_FLAGS=-fsanitize=address,undefined -fno-omit-frame-pointer" "-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined"' || matrix.sanitizer == 'thread' && '"-DCMAKE_CXX_FLAGS=-fsanitize=thread -fno-omit-frame-pointer" "-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=thread"' || '' }}
+      - run: cmake --build ci-build --parallel 2
+      - name: Run network regressions
+        env:
+          ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+          TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
+        run: cmake --build ci-build --target check-network
+  applications:
+    name: Applications - ${{ matrix.os }} - C++20
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Initialize pinned dependencies
+        run: git submodule update --init 3rdparty/args 3rdparty/spdlog 3rdparty/readerwriterqueue
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
+      - uses: lukka/get-cmake@latest
+      - uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: 0699a19d0c6386247ce50d4dedbb8217d484d536
+          vcpkgJsonGlob: vcpkg.json
+      - name: Configure applications
+        shell: pwsh
+        run: >-
+          cmake -S . -B ci-build -G Ninja
+          "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+          -DVCPKG_MANIFEST_FEATURES=application
+          -DCMAKE_BUILD_TYPE=Debug
+          -DARK_BUILD_TESTS=ON
+          -DARK_BUILD_EXAMPLES=ON
+          -DASIO_STANDALONE=ON
+      - run: cmake --build ci-build --parallel 2
+  required:
+    name: CI - required
+    if: always()
+    needs: [network, applications]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require successful builds and regressions
+        env:
+          NETWORK_RESULT: ${{ needs.network.result }}
+          APPLICATION_RESULT: ${{ needs.applications.result }}
+        run: test "$NETWORK_RESULT" = success && test "$APPLICATION_RESULT" = success

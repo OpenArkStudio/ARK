@@ -1,0 +1,18 @@
+{
+  "name": "ark",
+  "version": "1.0.0",
+  "description": "C++20 distributed plugin framework",
+  "license": "Apache-2.0",
+  "builtin-baseline": "0699a19d0c6386247ce50d4dedbb8217d484d536",
+  "dependencies": ["asio", "rapidxml"],
+  "features": {
+    "boost": {
+      "description": "Use Boost.Asio and Boost.Beast",
+      "dependencies": ["boost-asio", "boost-beast"]
+    },
+    "application": {
+      "description": "Build ARK applications and plugins",
+      "dependencies": ["protobuf", "zlib", "zstd"]
+    }
+  }
+}

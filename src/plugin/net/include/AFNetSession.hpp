@@ -20,12 +20,13 @@
 
 #pragma once
 
-//#include <brynet/net/TcpService.hpp>
-//#include <brynet/net/http/HttpService.hpp>
-//#include <brynet/net/SocketLibFunction.hpp>
-//#include <brynet/net/AsyncConnector.hpp>
+#include <atomic>
+#include <memory>
 
-#include <zephyr/zephyr.hpp>
+#include <arknet/http/http_session.hpp>
+#include <arknet/rudp/rudp_session.hpp>
+#include <arknet/tcp/tcp_session.hpp>
+#include <arknet/websocket/ws_session.hpp>
 
 #include "base/AFMacros.hpp"
 #include "base/AFNoncopyable.hpp"
@@ -34,8 +35,7 @@
 #include "base/container/AFLockFreeQueue.hpp"
 #include "net/include/AFNetMsg.hpp"
 #include "net/include/AFNetDefine.hpp"
-//#include "net/include/AFKcpConnection.hpp"
-//#include "net/include/AFKcpClientSession.hpp"
+#include "net/include/AFNetEvent.hpp"
 
 namespace ark {
 
@@ -43,7 +43,8 @@ template<typename SessionPTR, bool isSession>
 class AFNetSession : public AFNoncopyable
 {
 public:
-    explicit AFNetSession(std::shared_ptr<const AFIMsgHeader> req_head, conv_id_t session_id, const SessionPTR session_ptr = nullptr)
+    explicit AFNetSession(
+        std::shared_ptr<const AFIMsgHeader> req_head, conv_id_t session_id, const SessionPTR session_ptr = nullptr)
         : req_header_(req_head)
         , session_id_(session_id)
         , session_(session_ptr)
@@ -58,23 +59,15 @@ public:
     void ReleaseQueueData()
     {
         AFNetEvent* event = nullptr;
-        if (PopNetEvent(event))
+        while (PopNetEvent(event))
         {
-            while (event != nullptr)
-            {
-                AFNetEvent::Release(event);
-                PopNetEvent(event);
-            }
+            AFNetEvent::Release(event);
         }
 
         AFNetMsg* msg = nullptr;
-        if (PopNetMsg(msg))
+        while (PopNetMsg(msg))
         {
-            while (msg != nullptr)
-            {
-                AFNetMsg::Release(msg);
-                PopNetMsg(msg);
-            }
+            AFNetMsg::Release(msg);
         }
     }
 
@@ -142,12 +135,12 @@ public:
 
     bool NeedRemove()
     {
-        return need_remove_;
+        return need_remove_.load();
     }
 
     void NeedRemove(bool value)
     {
-        need_remove_ = value;
+        need_remove_.store(value);
     }
 
     bool AddNetEvent(AFNetEvent*& event)
@@ -170,36 +163,37 @@ public:
         return msg_queue_.Pop(msg);
     }
 
-    void ParseBufferToMsg()
+    bool ParseBufferToMsg()
     {
-        uint32_t pos = 0;
-        auto msg_head = CheckRecvDataValid(pos);
-        if (msg_head == nullptr)
+        size_t pos = 0;
+        const size_t head_len = GetHeadLen();
+        while (GetBufferLen() - pos >= head_len)
         {
-            return;
-        }
+            std::unique_ptr<AFIMsgHeader> msg_head(req_header_->New());
+            msg_head->ParseFromArray(GetBuffer() + pos);
+            const size_t msg_len = msg_head->MessageLength();
+            if (msg_len > ARK_MSG_MAX_LENGTH)
+            {
+                return false;
+            }
+            if (GetBufferLen() - pos - head_len < msg_len)
+            {
+                break;
+            }
 
-        auto head_len = GetHeadLen();
-        auto msg_len = msg_head->MessageLength();
-        while (GetBufferLen() >= static_cast<size_t>(pos + head_len + msg_len))
-        {
             AFNetMsg* msg = AFNetMsg::AllocMsg(msg_head.release());
             pos += head_len;
             if (msg_len > 0)
             {
-                ARK_ASSERT_BREAK(GetBufferLen() - pos >= msg_len);
                 msg->CopyData(GetBuffer() + pos, msg_len);
                 pos += msg_len;
             }
 
-            AddNetMsg(msg);
-
-            msg_head = CheckRecvDataValid(pos);
-            if (msg_head == nullptr)
+            if (!AddNetMsg(msg))
             {
-                break;
+                AFNetMsg::Release(msg);
+                return false;
             }
-            msg_len = msg_head->MessageLength();
         }
 
         // remove [0, pos] buffers
@@ -207,21 +201,7 @@ public:
         {
             RemoveBuffer(pos);
         }
-    }
-
-protected:
-    std::unique_ptr<AFIMsgHeader> CheckRecvDataValid(uint32_t pos)
-    {
-        if (GetBufferLen() < (pos + GetHeadLen()))
-        {
-            return nullptr;
-        }
-
-        std::unique_ptr<AFIMsgHeader> new_head(req_header_->New());
-        new_head->ParseFromArray(GetBuffer() + pos);
-        ARK_ASSERT_RET_VAL(new_head->MessageLength() <= ARK_MSG_MAX_LENGTH, nullptr);
-
-        return new_head;
+        return true;
     }
 
 private:
@@ -234,33 +214,33 @@ private:
     // this field is meaning when isSession is true
     const SessionPTR session_{nullptr};
 
-    volatile bool need_remove_{false};
+    std::atomic<bool> need_remove_{false};
 };
 
 /// server-side
-using AFTCPSession = AFNetSession<std::shared_ptr<zephyr::tcp_session>, true>;
+using AFTCPSession = AFNetSession<std::shared_ptr<arknet::tcp_session>, true>;
 using AFTCPSessionPtr = std::shared_ptr<AFTCPSession>;
 
-using AFUDPSession = AFNetSession<std::shared_ptr<zephyr::udp_session>, true>;
+using AFUDPSession = AFNetSession<std::shared_ptr<arknet::rudp_session>, true>;
 using AFUDPSessionPtr = std::shared_ptr<AFUDPSession>;
 
-using AFWSSession = AFNetSession<std::shared_ptr<zephyr::ws_session>, true>;
+using AFWSSession = AFNetSession<std::shared_ptr<arknet::ws_session>, true>;
 using AFWSSessionPtr = std::shared_ptr<AFWSSession>;
 
-using AFHttpSession = AFNetSession<std::shared_ptr<zephyr::http_session>, true>;
+using AFHttpSession = AFNetSession<std::shared_ptr<arknet::http_session>, true>;
 using AFHttpSessionPtr = std::shared_ptr<AFHttpSession>;
 
 /// client-side
-using AFTCPClientSession = AFNetSession<std::shared_ptr<zephyr::tcp_session>, false>;
+using AFTCPClientSession = AFNetSession<std::shared_ptr<arknet::tcp_session>, false>;
 using AFTCPClientSessionPtr = std::shared_ptr<AFTCPClientSession>;
 
-using AFRDPClientSession = AFNetSession<std::shared_ptr<zephyr::udp_session>, false>;
+using AFRDPClientSession = AFNetSession<std::shared_ptr<arknet::rudp_session>, false>;
 using AFRDPClientSessionPtr = std::shared_ptr<AFRDPClientSession>;
 
-using AFWSClientSession = AFNetSession<std::shared_ptr<zephyr::ws_session>, false>;
+using AFWSClientSession = AFNetSession<std::shared_ptr<arknet::ws_session>, false>;
 using AFWSClientSessionPtr = std::shared_ptr<AFWSClientSession>;
 
-using AFHttpClientSession = AFNetSession<std::shared_ptr<zephyr::http_session>, false>;
-using AFHttpClientSessionPtr = std::shared_ptr<AFWSClientSession>;
+using AFHttpClientSession = AFNetSession<std::shared_ptr<arknet::http_session>, false>;
+using AFHttpClientSessionPtr = std::shared_ptr<AFHttpClientSession>;
 
 } // namespace ark

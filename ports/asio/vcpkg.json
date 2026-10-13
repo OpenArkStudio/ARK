@@ -1,0 +1,7 @@
+{
+  "name": "asio",
+  "version": "1.38.2",
+  "description": "Standalone Asio with the upstream kqueue descriptor publication fix",
+  "homepage": "https://think-async.com/Asio/",
+  "license": "BSL-1.0"
+}

@@ -20,9 +20,10 @@
 
 #pragma once
 
-#include "rapidxml/rapidxml.hpp"
-#include "rapidxml/rapidxml_iterators.hpp"
-#include "rapidxml/rapidxml_utils.hpp"
+#include <memory>
+
+#include <rapidxml.hpp>
+#include <rapidxml_utils.hpp>
 #include "base/AFPlatform.hpp"
 #include "base/AFMisc.hpp"
 #include "base/AFDefine.hpp"
@@ -168,17 +169,12 @@ public:
     AFXml(const std::string& file_path)
         : file_path_(file_path)
     {
-        xml_file_ = ARK_NEW rapidxml::file<>();
-        xml_document_ = ARK_NEW rapidxml::xml_document<>();
+        xml_document_ = std::make_unique<rapidxml::xml_document<>>();
 
         ParseFile();
     }
 
-    ~AFXml()
-    {
-        ARK_DELETE(xml_file_);
-        ARK_DELETE(xml_document_);
-    }
+    ~AFXml() = default;
 
     AFXmlNode GetRootNode()
     {
@@ -212,13 +208,13 @@ public:
 protected:
     void ParseFile()
     {
-        xml_file_->from(file_path_.c_str());
+        xml_file_ = std::make_unique<rapidxml::file<>>(file_path_.c_str());
         xml_document_->parse<0>(xml_file_->data());
     }
 
 private:
-    rapidxml::xml_document<>* xml_document_;
-    rapidxml::file<>* xml_file_;
+    std::unique_ptr<rapidxml::xml_document<>> xml_document_;
+    std::unique_ptr<rapidxml::file<>> xml_file_;
     std::string file_path_;
 };
 

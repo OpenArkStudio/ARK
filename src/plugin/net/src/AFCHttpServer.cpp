@@ -2,19 +2,14 @@
 
 namespace ark {
 
-#ifndef ASIO_STANDALONE
-
 AFCHttpServer::AFCHttpServer()
 {
-    server_ = std::make_shared<zephyr::http_server>();
-    //server_->
+    server_ = std::make_shared<arknet::http_server>();
 }
 
 AFCHttpServer::~AFCHttpServer()
 {
-    // TODO
+    server_->stop();
 }
-
-#endif //ASIO_STANDALONE
 
 } // namespace ark

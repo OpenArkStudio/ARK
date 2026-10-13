@@ -20,7 +20,11 @@
 
 #pragma once
 
-#include <zephyr/zephyr.hpp>
+#include <atomic>
+#include <memory>
+#include <vector>
+
+#include <arknet/tcp/tcp_client.hpp>
 
 #include "net/interface/AFINet.hpp"
 #include "net/include/AFNetSession.hpp"
@@ -45,7 +49,8 @@ public:
 
     void Update() override;
 
-    bool StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_t dst_bus_id, const std::string& host, uint16_t port) override;
+    bool StartClient(
+        std::shared_ptr<const AFIMsgHeader> head, bus_id_t dst_bus_id, const std::string& host, uint16_t port) override;
 
     void Shutdown() final;
     bool SendMsg(AFIMsgHeader* head, const char* msg_data, conv_id_t session_id) override;
@@ -56,8 +61,8 @@ protected:
     bool SendMsg(const char* msg, size_t msg_len);
 
     void UpdateNetSession();
-    void UpdateNetEvent();
-    void UpdateNetMsg();
+    void UpdateNetEvent(const AFTCPClientSessionPtr& session);
+    void UpdateNetMsg(const AFTCPClientSessionPtr& session);
 
 private:
     bus_id_t dst_bus_id_{0};
@@ -69,7 +74,8 @@ private:
     std::atomic<conv_id_t> trust_session_id_{1000};
 
     AFTCPClientSessionPtr session_{nullptr};
-    std::shared_ptr<zephyr::tcp_client> client_;
+    std::vector<AFTCPClientSessionPtr> retired_sessions_;
+    std::shared_ptr<arknet::tcp_client> client_;
 };
 
 } // namespace ark
