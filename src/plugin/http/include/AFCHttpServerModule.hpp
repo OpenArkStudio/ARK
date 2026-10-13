@@ -20,12 +20,15 @@
 
 #pragma once
 
+#include <memory>
+#include <string>
+
+#include <arknet/http/http_server.hpp>
+
 #include "base/AFPluginManager.hpp"
 #include "http/interface/AFIHttpServerModule.hpp"
 
 namespace ark {
-
-using namespace _0xdead4ead;
 
 class AFCHttpServerModule final : public AFIHttpServerModule
 {
@@ -37,7 +40,7 @@ public:
     bool StartServer() override;
     bool StartServer(std::string const& ip = "0.0.0.0", uint16_t port = 8080, uint8_t thread_num = 1) override;
 
-    http::basic_router<http_session>& GetRouter() override
+    arknet::http_router& GetRouter() override
     {
         return router_;
     }
@@ -49,12 +52,9 @@ protected:
     uint8_t http_thread_num_{1};
 
 private:
-    // TODO: 替换为cinatra
-    boost::asio::io_context ioc_;
-    boost::asio::posix::stream_descriptor out_{ioc_, STDERR_FILENO};
-    boost::asio::signal_set sig_set_{ioc_, SIGINT, SIGTERM};
-    http::basic_router<http_session> router_{std::regex::ECMAScript};
-    std::vector<std::thread> thread_pool_;
+    arknet::http_router router_;
+    std::unique_ptr<arknet::http_server> server_;
+    std::string listen_key_;
 };
 
 } // namespace ark

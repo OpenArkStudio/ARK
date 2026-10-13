@@ -20,16 +20,28 @@
 
 #pragma once
 
-#include <zephyr/zephyr.hpp>
+#include <cstdint>
+#include <functional>
+#include <future>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include <arknet/external/beast.hpp>
 
 #include "interface/AFIModule.hpp"
-// Protobuf header files below platform.hpp cuz the std::min and std::numeric_limit<T>::min;
-#include <google/protobuf/message.h>
 
 namespace ark {
 
-class AFIHttpClientModule : public AFIModule {
+class AFIHttpClientModule : public AFIModule
+{
 public:
+    virtual std::future<std::pair<bool, std::string>> AsyncRequest(arknet::http::verb method, const std::string& host,
+        const uint16_t port, const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
+        const std::vector<std::string>* cookies = nullptr, const std::string* http_body = nullptr,
+        const std::string* content_type = nullptr, int ioTimeout = 20, int connectTimeout = 5) = 0;
+
     virtual std::future<std::pair<bool, std::string>> Get(const std::string& host, const uint16_t port,
         const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
         const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) = 0;
@@ -52,8 +64,8 @@ public:
      * @param ioTimeout in seconds
      * @param connectTimeout in seconds
      */
-    virtual void Post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& host, const uint16_t port,
-        const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
+    virtual void Post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& host,
+        const uint16_t port, const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
         const std::string* http_body = nullptr, const std::string* content_type = nullptr,
         const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) = 0;
 
@@ -71,9 +83,10 @@ public:
      * @param connectTimeout in seconds
      */
     virtual void Post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& host,
-        const std::string& service, const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
-        const std::string* http_body = nullptr, const std::string* content_type = nullptr,
-        const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) = 0;
+        const std::string& service, const std::string& url,
+        const std::map<std::string, std::string>* url_params = nullptr, const std::string* http_body = nullptr,
+        const std::string* content_type = nullptr, const std::vector<std::string>* cookies = nullptr,
+        int ioTimeout = 20, int connectTimeout = 5) = 0;
 };
 
 } // namespace ark

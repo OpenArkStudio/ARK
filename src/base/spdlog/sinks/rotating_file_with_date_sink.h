@@ -13,6 +13,7 @@
 #include <chrono>
 #include <mutex>
 #include <string>
+#include <tuple>
 
 namespace spdlog {
 namespace sinks {

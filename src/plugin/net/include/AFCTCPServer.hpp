@@ -20,8 +20,11 @@
 
 #pragma once
 
-//#include <brynet/net/TcpService.hpp>
-//#include <brynet/net/wrapper/ServiceBuilder.hpp>
+#include <atomic>
+#include <map>
+#include <memory>
+
+#include <arknet/tcp/tcp_server.hpp>
 
 #include "base/AFUidGenerator.hpp"
 #include "net/interface/AFINet.hpp"
@@ -67,13 +70,14 @@ protected:
     void CloseSession(AFTCPSessionPtr& session);
 
     void UpdateNetSession();
-    void UpdateNetEvent(const AFTCPSessionPtr& session);
+    bool UpdateNetEvent(const AFTCPSessionPtr& session);
     void UpdateNetMsg(const AFTCPSessionPtr& session);
 
     void CloseAllSession();
 
 private:
     std::map<conv_id_t, AFTCPSessionPtr> sessions_;
+    size_t active_session_count_{0};
     AFReaderWriterLock rw_lock_;
     bus_id_t bus_id_{0};
 
@@ -81,7 +85,7 @@ private:
     NET_EVENT_FUNCTOR net_event_cb_;
 
     std::atomic<conv_id_t> trusted_session_id_{ARK_CONV_START_ID}; // 1000 means a readable number.
-    std::shared_ptr<zephyr::tcp_server> server_;
+    std::shared_ptr<arknet::tcp_server> server_;
 };
 
 } // namespace ark

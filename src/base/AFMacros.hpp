@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <spdlog/fmt/fmt.h>
+
 #include "base/AFPlatform.hpp"
 
 // Input param type
@@ -212,7 +214,8 @@ typedef struct HINSTANCE__* hInstance;
 
 /* last resort (big-endian w/o __builtin_bswap) */
 #ifndef BYTESWAP32
-#define BYTESWAP32(x) ((((x)&0xFF) << 24) | (((x) >> 24) & 0xFF) | (((x)&0x0000FF00) << 8) | (((x)&0x00FF0000) >> 8))
+#define BYTESWAP32(x)                                                                                                  \
+    ((((x) & 0xFF) << 24) | (((x) >> 24) & 0xFF) | (((x) & 0x0000FF00) << 8) | (((x) & 0x00FF0000) >> 8))
 #endif
 
 #ifndef BYTESWAP64
@@ -350,9 +353,9 @@ typedef struct HINSTANCE__* hInstance;
 
 #define IS_FLOAT_EQUAL(type, lhs, rhs) (std::abs(lhs - rhs) < std::numeric_limits<type>::epsilon())
 
-#define ARK_FORMAT(my_fmt, ...) fmt::format((my_fmt), ##__VA_ARGS__)
+#define ARK_FORMAT(my_fmt, ...) fmt::format(fmt::runtime((my_fmt)), ##__VA_ARGS__)
 #define ARK_FORMAT_FUNCTION(my_fmt, ...)                                                                               \
-    fmt::format(std::string("[{}:{}]") + (my_fmt), ARK_FUNCTION_LINE, ##__VA_ARGS__);
+    fmt::format(fmt::runtime(std::string("[{}:{}]") + (my_fmt)), ARK_FUNCTION_LINE, ##__VA_ARGS__);
 
 #define ARK_SRATIC_ASSERT static_assert
 #define GET_CLASS_NAME(class_name) (typeid(class_name).name())

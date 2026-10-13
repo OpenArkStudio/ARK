@@ -18,248 +18,223 @@
  *
  */
 
+#include <chrono>
+#include <deque>
+#include <mutex>
+#include <unordered_map>
+
+#include <arknet/http/request.hpp>
+
 #include "net/include/AFCHttpClientModule.hpp"
-#include <google/protobuf/util/json_util.h>
 
 namespace ark {
 
-using namespace std;
+namespace {
 
-class HttpClientImpl : public enable_shared_from_this<HttpClientImpl>
+using HttpResult = std::pair<bool, std::string>;
+using HttpCallback = std::function<void(HttpResult)>;
+
+std::string EncodeParameter(const std::string& text)
 {
-public:
-    explicit HttpClientImpl(boost::asio::io_context& ioc, int connectTimeout, int ioTimeout)
-        : connectTimeout_(connectTimeout), ioTimeout_(ioTimeout), resolver_(ioc), stream_(ioc)
+    constexpr char hex[] = "0123456789ABCDEF";
+    std::string encoded;
+    for (unsigned char character : text)
     {
-    }
-
-    // Start the asynchronous operation
-    std::future<pair<bool, string>> AsyncRequest(zephyr::http::verb method, const string& host, const string& service,
-        const string& target, const std::map<string, string>* params = nullptr, const vector<string>* cookies = nullptr,
-        const string* http_body = nullptr, const string* content_type = nullptr)
-    {
-        initRequest(method, host, target, params, cookies, http_body, content_type);
-        // Look up the domain name
-        resolver_.async_resolve(
-            host, service, boost::beast::bind_front_handler(&HttpClientImpl::onResolve, shared_from_this()));
-        return promise_.get_future();
-    }
-
-    // Start the asynchronous operation
-    void AsyncRequest(function<void(pair<bool, string>)> cb, zephyr::http::verb method, const string& host, const string service,
-                      const string& target, const std::map<string, string>* params = nullptr, const vector<string>* cookies = nullptr,
-                      const string* http_body = nullptr, const string* content_type = nullptr)
-    {
-        cb_ = move(cb);
-        initRequest(method, host, target, params, cookies, http_body, content_type);
-        // Look up the domain name
-        resolver_.async_resolve(
-            host, service, boost::beast::bind_front_handler(&HttpClientImpl::onResolve, shared_from_this()));
-    }
-
-private:
-    void initRequest(zephyr::http::verb method, const string& host, const string& target,
-        const std::map<string, string>* params = nullptr, const vector<string>* cookies = nullptr,
-        const string* http_body = nullptr, const string* content_type = nullptr)
-    {
-        // Set up an HTTP GET request message
-        req_.version(11);
-        req_.method(method);
-        req_.set(http::field::host, host);
-        req_.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
-
-        string url;
-        url.reserve(512);
-        url.append(target);
-        if (params)
+        if ((character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') ||
+            (character >= '0' && character <= '9') || character == '-' || character == '_' || character == '.' ||
+            character == '~')
         {
-            url.append("?");
-            for (const auto& kv : *params)
-            {
-                url.append(kv.first).append("=").append(kv.second).append("&");
-            }
-            url.resize(url.size() - 1);
-        }
-        req_.target(url);
-
-        if (cookies)
-        {
-            string cookie;
-            cookie.reserve(512);
-            for (const auto& ck : *cookies)
-            {
-                cookie.append(ck).append("; ");
-            }
-            if (cookie.size() >= 2)
-            {
-                cookie.resize(cookie.size() - 2);
-            }
-            req_.set(zephyr::http::field::cookie, cookie);
-        }
-
-        if (http_body)
-        {
-            req_.body() = *http_body;
-        }
-
-        if (content_type)
-        {
-            req_.set(zephyr::http::field::content_type, *content_type);
-        }
-        req_.prepare_payload();
-    }
-
-    void onResolve(const boost::beast::error_code& ec, boost::asio::ip::tcp::resolver::results_type results)
-    {
-        if (ec)
-        {
-            if (cb_)
-            {
-                cb_(make_pair(false, ec.message()));
-                cb_ = nullptr;
-            }
-            else
-            {
-                promise_.set_value(make_pair(false, ec.message()));
-            }
-
-            return;
-        }
-
-        // Set a timeout on the operation
-        stream_.expires_after(connectTimeout_);
-        // Make the connection on the IP address we get from a lookup
-        stream_.async_connect(
-            results, boost::beast::bind_front_handler(&HttpClientImpl::onConnect, shared_from_this()));
-    }
-
-    void onConnect(const boost::beast::error_code& ec, boost::asio::ip::tcp::resolver::results_type::endpoint_type)
-    {
-        if (ec)
-        {
-            if (cb_)
-            {
-                cb_(make_pair(false, ec.message()));
-                cb_ = nullptr;
-            }
-            else
-            {
-                promise_.set_value(make_pair(false, ec.message()));
-            }
-
-            return;
-        }
-
-        // Set a timeout on the operation
-        stream_.expires_after(ioTimeout_);
-        // Send the HTTP request to the remote host
-        boost::beast::http::async_write(
-            stream_, req_, boost::beast::bind_front_handler(&HttpClientImpl::onWrite, shared_from_this()));
-    }
-
-    void onWrite(const boost::beast::error_code& ec, size_t)
-    {
-        if (ec)
-        {
-            if (cb_)
-            {
-                cb_(make_pair(false, ec.message()));
-                cb_ = nullptr;
-            }
-            else
-            {
-                promise_.set_value(make_pair(false, ec.message()));
-            }
-
-            return;
-        }
-
-        // Set a timeout on the operation
-        stream_.expires_after(ioTimeout_);
-        // Receive the HTTP response
-        boost::beast::http::async_read(
-            stream_, buffer_, res_, boost::beast::bind_front_handler(&HttpClientImpl::onRead, shared_from_this()));
-    }
-
-    void onRead(const boost::beast::error_code& ec, size_t)
-    {
-        if (ec)
-        {
-            if (cb_)
-            {
-                cb_(make_pair(false, ec.message()));
-                cb_ = nullptr;
-            }
-            else
-            {
-                promise_.set_value(make_pair(false, ec.message()));
-            }
-
-            return;
-        }
-
-        if (res_.result() != boost::beast::http::status::ok)
-        {
-            if (cb_)
-            {
-                cb_(make_pair(false, res_.reason().to_string()));
-                cb_ = nullptr;
-            }
-            else
-            {
-                promise_.set_value(make_pair(false, res_.reason().to_string()));
-            }
-
-            return;
-        }
-
-        if (cb_)
-        {
-            cb_(make_pair(true, res_.body()));
-            cb_ = nullptr;
+            encoded += static_cast<char>(character);
         }
         else
         {
-            promise_.set_value(make_pair(true, res_.body()));
+            encoded += '%';
+            encoded += hex[character >> 4];
+            encoded += hex[character & 15];
         }
     }
+    return encoded;
+}
 
-private:
-    chrono::seconds connectTimeout_;
-    chrono::seconds ioTimeout_;
-    boost::asio::ip::tcp::resolver resolver_;
-    boost::beast::tcp_stream stream_;
-    boost::beast::http::request<boost::beast::http::string_body> req_;
-    boost::beast::flat_buffer buffer_;
-    boost::beast::http::response<boost::beast::http::string_body> res_;
-    promise<pair<bool, string>> promise_;
-    function<void(pair<bool, string>)> cb_;
+arknet::http_request::request_type MakeRequest(arknet::http::verb method, const std::string& target,
+    const std::map<std::string, std::string>* params, const std::vector<std::string>* cookies, const std::string* body,
+    const std::string* content_type)
+{
+    std::string url = target.empty() ? "/" : target;
+    if (params)
+    {
+        for (const auto& [key, value] : *params)
+        {
+            if (url.back() != '?' && url.back() != '&')
+            {
+                url += url.find('?') == std::string::npos ? '?' : '&';
+            }
+            url += EncodeParameter(key) + "=" + EncodeParameter(value);
+        }
+    }
+    arknet::http_request::request_type request(method, url, 11);
+    request.set(arknet::http::field::user_agent, "ARK");
+    if (cookies)
+    {
+        std::string cookie;
+        for (const auto& value : *cookies)
+        {
+            if (!cookie.empty())
+            {
+                cookie += "; ";
+            }
+            cookie += value;
+        }
+        request.set(arknet::http::field::cookie, cookie);
+    }
+    if (body)
+    {
+        request.body() = *body;
+    }
+    if (content_type)
+    {
+        request.set(arknet::http::field::content_type, *content_type);
+    }
+    return request;
+}
+
+HttpResult MakeResult(arknet::error_code error, arknet::http_request::response_type response)
+{
+    if (error)
+    {
+        return {false, error.message()};
+    }
+    if (response.result() != arknet::http::status::ok)
+    {
+        return {false, std::string(response.reason())};
+    }
+    return {true, std::move(response.body())};
+}
+
+} // namespace
+
+struct AFCHttpClientModule::State : std::enable_shared_from_this<State>
+{
+    struct Callback
+    {
+        HttpCallback function;
+        HttpResult result;
+    };
+
+    asio::io_context context;
+    asio::executor_work_guard<asio::io_context::executor_type> work{asio::make_work_guard(context)};
+    std::mutex mutex;
+    std::unordered_map<std::uint64_t, std::shared_ptr<arknet::http_request>> requests;
+    std::deque<Callback> finished;
+    std::uint64_t next_request = 0;
+    bool accepting = true;
+
+    void Submit(arknet::http::verb method, const std::string& host, const std::string& service,
+        const std::string& target, const std::map<std::string, std::string>* params,
+        const std::vector<std::string>* cookies, const std::string* body, const std::string* content_type,
+        int io_timeout, int connect_timeout, HttpCallback completion)
+    {
+        auto message = MakeRequest(method, target, params, cookies, body, content_type);
+        arknet::http_request_options options;
+        options.io_timeout = std::chrono::seconds(io_timeout);
+        options.connect_timeout = std::chrono::seconds(connect_timeout);
+        std::unique_lock<std::mutex> lock(mutex);
+        if (!accepting)
+        {
+            lock.unlock();
+            completion(MakeResult(asio::error::operation_aborted, {}));
+            return;
+        }
+        auto operation = std::make_shared<arknet::http_request>(context);
+        const auto id = ++next_request;
+        requests.emplace(id, operation);
+        operation->async_request(host, service, std::move(message), options,
+            [self = shared_from_this(), id, completion = std::move(completion)](
+                arknet::error_code error, arknet::http_request::response_type response) mutable {
+                {
+                    std::lock_guard<std::mutex> completed_lock(self->mutex);
+                    self->requests.erase(id);
+                }
+                completion(MakeResult(error, std::move(response)));
+            });
+    }
+
+    void Queue(HttpCallback callback, HttpResult result)
+    {
+        std::lock_guard<std::mutex> lock(mutex);
+        finished.push_back({std::move(callback), std::move(result)});
+    }
+
+    void Stop()
+    {
+        std::lock_guard<std::mutex> lock(mutex);
+        accepting = false;
+        for (const auto& [id, operation] : requests)
+        {
+            operation->cancel();
+        }
+        work.reset();
+    }
 };
 
 AFCHttpClientModule::AFCHttpClientModule()
+    : state_(std::make_shared<State>())
 {
-    thread t([this]() {
-        boost::asio::io_context::work w(ioc_);
-        ioc_.run();
-    });
-    t.detach();
+    worker_ = std::thread([state = state_] { state->context.run(); });
 }
 
-future<pair<bool, string>> AFCHttpClientModule::asyncRequest(zephyr::http::verb method, const string& host,
-    const string& service, const string& target, const std::map<string, string>* params, const vector<string>* cookies,
-    const string* http_body, const string* content_type, int ioTimeout, int connectTimeout)
+AFCHttpClientModule::~AFCHttpClientModule()
 {
-    return make_shared<HttpClientImpl>(ioc_, connectTimeout, ioTimeout)
-        ->AsyncRequest(method, host, service, target, params, cookies, http_body, content_type);
+    PreShut();
 }
 
-void AFCHttpClientModule::asyncRequest(function<void(std::pair<bool, string>)> cb, zephyr::http::verb method, const string& host,
-                  const string& service, const string& target, const std::map<string, string>* params,
-                  const vector<string>* cookies, const string* http_body, const string* content_type, int ioTimeout, int connectTimeout)
+bool AFCHttpClientModule::PreShut()
 {
-    return make_shared<HttpClientImpl>(ioc_, connectTimeout, ioTimeout)->AsyncRequest([cb=move(cb), this](pair<bool, string> arg) {
-      this->finishedRequests_.Push(make_shared<Callback>(move(cb), move(arg)));
-    }, method, host, service, target, params, cookies, http_body, content_type);
+    state_->Stop();
+    if (worker_.joinable())
+    {
+        worker_.join();
+    }
+    return true;
+}
+
+bool AFCHttpClientModule::Update()
+{
+    std::deque<State::Callback> callbacks;
+    {
+        std::lock_guard<std::mutex> lock(state_->mutex);
+        callbacks.swap(state_->finished);
+    }
+    for (auto& callback : callbacks)
+    {
+        if (callback.function)
+        {
+            callback.function(std::move(callback.result));
+        }
+    }
+    return true;
+}
+
+std::future<HttpResult> AFCHttpClientModule::asyncRequest(arknet::http::verb method, const std::string& host,
+    const std::string& service, const std::string& target, const std::map<std::string, std::string>* params,
+    const std::vector<std::string>* cookies, const std::string* body, const std::string* content_type, int ioTimeout,
+    int connectTimeout)
+{
+    auto promise = std::make_shared<std::promise<HttpResult>>();
+    auto future = promise->get_future();
+    state_->Submit(method, host, service, target, params, cookies, body, content_type, ioTimeout, connectTimeout,
+        [promise = std::move(promise)](HttpResult result) { promise->set_value(std::move(result)); });
+    return future;
+}
+
+void AFCHttpClientModule::asyncRequest(HttpCallback callback, arknet::http::verb method, const std::string& host,
+    const std::string& service, const std::string& target, const std::map<std::string, std::string>* params,
+    const std::vector<std::string>* cookies, const std::string* body, const std::string* content_type, int ioTimeout,
+    int connectTimeout)
+{
+    state_->Submit(method, host, service, target, params, cookies, body, content_type, ioTimeout, connectTimeout,
+        [state = state_, callback = std::move(callback)](
+            HttpResult result) mutable { state->Queue(std::move(callback), std::move(result)); });
 }
 
 } // namespace ark

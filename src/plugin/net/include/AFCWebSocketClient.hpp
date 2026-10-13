@@ -20,7 +20,11 @@
 
 #pragma once
 
-#include <zephyr/zephyr.hpp>
+#include <atomic>
+#include <memory>
+#include <vector>
+
+#include <arknet/websocket/ws_client.hpp>
 
 #include "net/interface/AFINet.hpp"
 #include "net/include/AFNetSession.hpp"
@@ -44,7 +48,8 @@ public:
     ~AFCWebSocketClient() override;
 
     void Update() override;
-    bool StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_t dst_bus_id, const std::string& ip, uint16_t port) override;
+    bool StartClient(
+        std::shared_ptr<const AFIMsgHeader> head, bus_id_t dst_bus_id, const std::string& ip, uint16_t port) override;
 
     void Shutdown() final;
     bool SendMsg(AFIMsgHeader* head, const char* msg_data, conv_id_t session_id) override;
@@ -53,8 +58,8 @@ public:
 protected:
     bool SendMsg(const char* msg, size_t msg_len);
 
-    void UpdateNetEvent();
-    void UpdateNetMsg();
+    void UpdateNetEvent(const AFWSClientSessionPtr& session);
+    void UpdateNetMsg(const AFWSClientSessionPtr& session);
 
 private:
     bus_id_t dst_bus_id_{0};
@@ -67,7 +72,8 @@ private:
     std::atomic<conv_id_t> trust_session_id_{1000};
 
     AFWSClientSessionPtr client_session_ptr_{nullptr};
-    std::shared_ptr<zephyr::ws_client> client_;
+    std::vector<AFWSClientSessionPtr> retired_sessions_;
+    std::shared_ptr<arknet::ws_client> client_;
 };
 
 } // namespace ark

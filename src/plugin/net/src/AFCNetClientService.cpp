@@ -35,7 +35,8 @@ AFCNetClientService::AFCNetClientService(AFPluginManager* p)
     consistent_hashmap_.set_vnode_count(EConstDefine_DefaultWeight);
 }
 
-bool AFCNetClientService::StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_t target_bus_id, const AFEndpoint& endpoint)
+bool AFCNetClientService::StartClient(
+    std::shared_ptr<const AFIMsgHeader> head, bus_id_t target_bus_id, const AFEndpoint& endpoint)
 {
     AFConnectionData data;
     data.head_ = head;
@@ -84,9 +85,9 @@ void AFCNetClientService::ProcessUpdate()
         auto connection_data = iter.second;
         if (connection_data->net_client_ == nullptr)
         {
-	        continue;
+            continue;
         }
-    	
+
         switch (connection_data->net_state_)
         {
         case AFConnectionData::DISCONNECT:
@@ -120,9 +121,9 @@ void AFCNetClientService::ProcessUpdate()
             connection_data->net_client_->Shutdown();
 
             // based on protocol to create a new client
-            bool ret = connection_data->net_client_->StartClient(connection_data->head_,
-                connection_data->server_bus_id_, connection_data->endpoint_.GetIP(),
-                connection_data->endpoint_.GetPort());
+            bool ret =
+                connection_data->net_client_->StartClient(connection_data->head_, connection_data->server_bus_id_,
+                    connection_data->endpoint_.GetIP(), connection_data->endpoint_.GetPort());
             if (!ret)
             {
                 connection_data->net_state_ = AFConnectionData::RECONNECT;
@@ -168,7 +169,7 @@ void AFCNetClientService::LogServerInfo()
         if (connection_data != nullptr)
         {
             std::string info = ARK_FORMAT("TargetBusID={} State={} url={}", connection_data->server_bus_id_,
-                connection_data->net_state_, connection_data->endpoint_.ToString());
+                static_cast<int>(connection_data->net_state_), connection_data->endpoint_.ToString());
             LogServerInfo(info);
         }
     }

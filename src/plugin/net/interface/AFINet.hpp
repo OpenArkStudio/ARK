@@ -26,7 +26,6 @@
 #include "base/AFDefine.hpp"
 #include "net/include/AFNetMsg.hpp"
 #include "net/include/AFNetEvent.hpp"
-#include "proto/AFProtoCPP.hpp"
 
 namespace ark {
 
@@ -43,13 +42,14 @@ public:
 
     // need to call this function every frame to drive network frame
     virtual void Update() = 0;
-    virtual bool StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_t dst_bus_id, const std::string& host, uint16_t port)
+    virtual bool StartClient(
+        std::shared_ptr<const AFIMsgHeader> head, bus_id_t dst_bus_id, const std::string& host, uint16_t port)
     {
         return false;
     }
 
-    virtual bool StartServer(std::shared_ptr<const AFIMsgHeader> head, bus_id_t bus_id, const std::string& host, uint16_t port,
-        uint8_t thread_num, uint32_t max_client, const size_t silent_timeout)
+    virtual bool StartServer(std::shared_ptr<const AFIMsgHeader> head, bus_id_t bus_id, const std::string& host,
+        uint16_t port, uint8_t thread_num, uint32_t max_client, const size_t silent_timeout)
     {
         return false;
     }

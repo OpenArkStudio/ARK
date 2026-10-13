@@ -3,3 +3,5 @@
 src/base/AFMetaDefine.hpp
 src/proto/.*
 3rdparty/.*
+test/catch.hpp
+test/network/doctest.h

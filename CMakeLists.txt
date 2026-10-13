@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.21)
 
 # UNIX : is TRUE on all UNIX-like OS's, including Apple OS X and CygWin
 # WIN32 : is TRUE on Windows. Prior to 2.8.4 this included CygWin
@@ -38,7 +38,7 @@ endif ()
 # Compiler config
 #---------------------------------------------------------------------------------------
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -51,7 +51,10 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 #---------------------------------------------------------------------------------------
 # CMake switches
 #---------------------------------------------------------------------------------------
-option(ASIO_STANDALONE "Enable asio standalone" OFF) # used by zephyr
+option(ASIO_STANDALONE "Use Standalone Asio instead of Boost.Asio" ON)
+option(ARK_BUILD_APPLICATIONS "Build ARK applications and plugins" ON)
+option(ARK_BUILD_NETWORK_TESTS "Build network migration regressions" OFF)
+set(ARKNET_SOURCE_DIR "" CACHE PATH "Use a local arknet checkout for development")
 
 option(ARK_BUILD_TESTS "Enable build tests" ON)
 option(ARK_BUILD_EXAMPLES "Enable build examples" ON)
@@ -99,11 +102,11 @@ set(3RD_PARTY_LIB_DIR ${BIN_OUTPUT_DIR})
 #set(CMAKE_BUILD_TYPE ${SELF_BUILD_TYPE})
 
 if (WIN32)
-    if (MSVC_VERSION LESS 1911)
-        message(FATAL_ERROR "need msvc++ 14.1 Visual Studio 2017+")
-    endif (MSVC_VERSION LESS 1911)
+    if (MSVC_VERSION LESS 1930)
+        message(FATAL_ERROR "C++20 requires Visual Studio 2022 or newer")
+    endif ()
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest /bigobj -D_CRT_SECURE_NO_WARNINGS -D_SILENCE_CXX17_C_HEADER_DEPRECATION_WARNING")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /utf-8 /Zc:__cplusplus -D_CRT_SECURE_NO_WARNINGS")
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
@@ -114,13 +117,12 @@ if (WIN32)
 	
 	add_definitions(-DWIN32_LEAN_AND_MEAN -D_WIN32_WINNT=0x0601)
 else (UNIX)
-    if (CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
-        message(FATAL_ERROR "need gcc7.0+ to support C++17")
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 12.0)
+        message(FATAL_ERROR "C++20 requires GCC 12 or newer")
     endif ()
 
     set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -ggdb -Wall -Wextra -D_DEBUG -fPIC")
     set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -Wextra -DNDEBUG -fPIC")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
     #add_definitions(-Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wno-strict-aliasing -Wno-pmf-conversions -Wignored-qualifiers)
     add_definitions(-Wno-unused-parameter -Wno-unused-variable -Wno-unused-function)
 
@@ -138,40 +140,61 @@ else (UNIX)
 endif ()
 
 # protobuf
-find_package(Protobuf 3.0.0 REQUIRED)
-if (PROTOBUF_FOUND)
-    message(STATUS "protobuf library found")
-    include_directories(${Protobuf_INCLUDE_DIRS})
-else ()
-    message(FATAL_ERROR "protobuf library is needed but can't be found")
-endif ()
-
-if (${ASIO_STANDALONE})
-    # standalone asio
-    add_definitions(-DASIO_STANDALONE)
-    include_directories(${3RD_PARTY_DIR}/zephyr/asio/asio/include)
-else ()
-    # boost.asio
-    find_package(Boost 1.69.0 REQUIRED)
-    if (Boost_FOUND)
-        message(STATUS "boost library found")
+if(ARK_BUILD_APPLICATIONS)
+    set(protobuf_MODULE_COMPATIBLE ON)
+    find_package(Protobuf CONFIG QUIET)
+    if(NOT Protobuf_FOUND)
+        find_package(Protobuf 3.0.0 REQUIRED)
+    endif()
+    if (Protobuf_FOUND)
+        message(STATUS "protobuf library found")
+        if(TARGET protobuf::libprotobuf)
+            set(PROTOBUF_LIBRARIES protobuf::libprotobuf)
+        else()
+            set(PROTOBUF_LIBRARIES ${Protobuf_LIBRARIES})
+        endif()
+        if(TARGET protobuf::protoc)
+            set(PROTOBUF_PROTOC_EXECUTABLE $<TARGET_FILE:protobuf::protoc>)
+        else()
+            set(PROTOBUF_PROTOC_EXECUTABLE ${Protobuf_PROTOC_EXECUTABLE})
+        endif()
     else ()
-        message(FATAL_ERROR "boost library is needed but can‘t be found")
-    endif ()
-    include_directories(${Boost_INCLUDE_DIRS})
-    link_directories(${Boost_LIBRARY_DIRS})
-endif ()
+        message(FATAL_ERROR "protobuf library is needed but can't be found")
+    endif()
+endif()
+
+if(ASIO_STANDALONE)
+    set(ARKNET_USE_BOOST_ASIO OFF CACHE BOOL "Use Boost.Asio" FORCE)
+else()
+    set(ARKNET_USE_BOOST_ASIO ON CACHE BOOL "Use Boost.Asio" FORCE)
+endif()
+set(ARKNET_BUILD_TESTS OFF CACHE BOOL "Build arknet tests" FORCE)
+set(ARKNET_BUILD_EXAMPLES OFF CACHE BOOL "Build arknet examples" FORCE)
+set(ARKNET_BUILD_BENCHMARKS OFF CACHE BOOL "Build arknet benchmarks" FORCE)
+if(ARKNET_SOURCE_DIR)
+    add_subdirectory("${ARKNET_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/arknet")
+else()
+    include(FetchContent)
+    FetchContent_Declare(arknet
+        GIT_REPOSITORY https://github.com/OpenArkStudio/arknet.git
+        GIT_TAG v0.1.0
+        GIT_SHALLOW TRUE)
+    FetchContent_MakeAvailable(arknet)
+endif()
+link_libraries(arknet::arknet)
+
+find_path(RAPIDXML_INCLUDE_DIR rapidxml.hpp PATH_SUFFIXES rapidxml REQUIRED)
 
 # include and link directories
 include_directories(
         ${3RD_PARTY_DIR}
-        ${3RD_PARTY_DIR}/zephyr/include
         ${3RD_PARTY_DIR}/spdlog/include
-        ${ROOT_DIR}
+        ${RAPIDXML_INCLUDE_DIR}
         ${ROOT_DIR}/src
         ${ROOT_DIR}/src/plugin
         ${ROOT_DIR}/src/server
         ${ROOT_DIR}/src/escort)
+include_directories(BEFORE ${3RD_PARTY_DIR}/spdlog/include)
 
 link_directories(${3RD_PARTY_LIB_DIR})
 
@@ -203,15 +226,17 @@ set(CMAKE_DEBUG_POSTFIX "_d" CACHE STRING "Set debug library postfix")
 # Building ARK source.
 #---------------------------------------------------------------------------------------
 message(STATUS "Start to build all source...")
-add_subdirectory(src/app)
-add_subdirectory(src/proto)
-add_subdirectory(src/plugin)
-add_subdirectory(src/server)
+if(ARK_BUILD_APPLICATIONS)
+    add_subdirectory(src/app)
+    add_subdirectory(src/proto)
+    add_subdirectory(src/plugin)
+    add_subdirectory(src/server)
+endif()
 
 #---------------------------------------------------------------------------------------
 # Building samples
 #---------------------------------------------------------------------------------------
-if (${ARK_BUILD_EXAMPLES})
+if (ARK_BUILD_APPLICATIONS AND ARK_BUILD_EXAMPLES)
     message(STATUS "Building examples ...")
     add_subdirectory(examples)
 endif ()
@@ -219,8 +244,12 @@ endif ()
 #---------------------------------------------------------------------------------------
 # Building tests
 #---------------------------------------------------------------------------------------
-if (${ARK_BUILD_TESTS})
+if (ARK_BUILD_APPLICATIONS AND ARK_BUILD_TESTS)
     message(STATUS "Building tests ...")
     enable_testing()
     add_subdirectory(test)
 endif ()
+
+if(ARK_BUILD_NETWORK_TESTS)
+    add_subdirectory(test/network)
+endif()

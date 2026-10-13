@@ -170,7 +170,8 @@ bool AFCNetServiceManagerModule::Shut()
     return true;
 }
 
-bool AFCNetServiceManagerModule::CreateServer(const size_t silent_timeout, const AFIMsgHeader& csReqHeader, const AFIMsgHeader& ssReqHeader)
+bool AFCNetServiceManagerModule::CreateServer(
+    const size_t silent_timeout, const AFIMsgHeader& csReqHeader, const AFIMsgHeader& ssReqHeader)
 {
     //    ananas::Promise<std::pair<bool, std::string>> promise;
 
@@ -181,7 +182,8 @@ bool AFCNetServiceManagerModule::CreateServer(const size_t silent_timeout, const
     auto func = [this, &self_proc, silent_timeout](
                     const AFEndpoint& ep, shared_ptr<const AFIMsgHeader> header, ServerService& server_service) {
         auto pServer = std::make_shared<AFCNetServerService>(GetPluginManager());
-        bool ret = pServer->Start(header, self_proc.bus_id, ep, self_proc.thread_num, self_proc.max_connection, silent_timeout);
+        bool ret = pServer->Start(
+            header, self_proc.bus_id, ep, self_proc.thread_num, self_proc.max_connection, silent_timeout);
         if (ret)
         {
             auto pIServer = static_pointer_cast<AFINetServerService>(pServer);
@@ -214,16 +216,15 @@ bool AFCNetServiceManagerModule::CreateServer(const size_t silent_timeout, const
     auto& intra_ep = self_proc.intranet_ep;
     if (intra_ep.GetPort() == self_proc.server_ep.GetPort())
     {
-        ARK_LOG_ERROR(
-            "Cannot start intra server net, has the same port with server, url = {}", intra_ep.ToString());
+        ARK_LOG_ERROR("Cannot start intra server net, has the same port with server, url = {}", intra_ep.ToString());
         //            promise.SetValue(std::make_pair(false, std::string()));
         //            return promise.GetFuture();
         return false;
     }
     else
     {
-	    if (!intra_ep.GetIP().empty())
-	    {
+        if (!intra_ep.GetIP().empty())
+        {
             // create intra server
             auto result = func(intra_ep, ss_req_head, intra_services_);
             if (!result)
@@ -233,7 +234,7 @@ bool AFCNetServiceManagerModule::CreateServer(const size_t silent_timeout, const
                 //            return promise.GetFuture();
                 return false;
             }
-	    }
+        }
     }
 
     // Register self to service discovery center(consul)
@@ -253,7 +254,7 @@ std::shared_ptr<AFINetServerService> AFCNetServiceManagerModule::GetIntraNetServ
 
 bool AFCNetServiceManagerModule::AddNetConnectionBus(bus_id_t target_bus_id, std::shared_ptr<AFINet> net_ptr)
 {
-    if (/*target_bus_id <= 0 || */net_ptr == nullptr)
+    if (/*target_bus_id <= 0 || */ net_ptr == nullptr)
     {
         return false;
     }
@@ -348,32 +349,6 @@ bool AFCNetServiceManagerModule::CreateClientService(const AFBusAddr& bus_addr, 
     target_ep.SetProtocol(proto);
     target_ep.SetIP(ip);
     target_ep.SetPort(port);
-
-#ifdef ARK_DOCKER_ALPINE
-    // TODO: need remove, now zephyr support domain.
-    auto GetIP = [](std::string strHostName) -> std::string {
-        if (strHostName.empty())
-        {
-            return NULL_STR;
-        }
-
-        hostent* pHost = gethostbyname(strHostName.c_str());
-        if (!pHost)
-        {
-            return NULL_STR;
-        }
-
-        if (pHost->h_addr_list[0])
-        {
-            char strIp[32] = {0};
-            inet_ntop(pHost->h_addrtype, pHost->h_addr_list[0], strIp, sizeof(strIp));
-            return std::string(strIp);
-        }
-
-        return NULL_STR;
-    };
-    target_ep.SetIP(GetIP(ip));
-#endif
 
     bool ret = pClient->StartClient(head, bus_addr.bus_id, target_ep);
     if (!ret)

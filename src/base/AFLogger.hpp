@@ -162,7 +162,8 @@ public:
 
     void Init(std::string const& filename)
     {
-        log_name_ = ARK_FORMAT("{}{}{}", log_conf_->output_path_, spdlog::details::os::folder_sep, filename);
+        log_name_ =
+            ARK_FORMAT("{}{}{}", log_conf_->output_path_, spdlog::details::os::folder_seps_filename[0], filename);
         std::vector<spdlog::sink_ptr> sinks_vec;
 
 #ifdef OPEN_FILE_LOG

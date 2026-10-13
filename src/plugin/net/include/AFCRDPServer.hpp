@@ -1,6 +1,9 @@
 #pragma once
 
-#include <zephyr/zephyr.hpp>
+#include <map>
+#include <memory>
+
+#include <arknet/rudp/rudp_server.hpp>
 
 #include "base/AFUidGenerator.hpp"
 #include "net/interface/AFINet.hpp"
@@ -21,7 +24,7 @@ class AFCRDPServer final
     std::atomic<conv_id_t> trusted_session_id_{ARK_CONV_START_ID};
     std::map<conv_id_t, AFUDPSessionPtr> sessions_;
 
-    std::shared_ptr<zephyr::udp_server> server_;
+    std::shared_ptr<arknet::rudp_server> server_;
 
 public:
     template<typename BaseType>
@@ -37,7 +40,7 @@ public:
     void Update() override;
 
     bool StartServer(std::shared_ptr<const AFIMsgHeader> head, bus_id_t bus_id, const std::string& ip, uint16_t port,
-                     uint8_t thread_num, uint32_t max_client, const size_t silent_timeout) override;
+        uint8_t thread_num, uint32_t max_client, const size_t silent_timeout) override;
 
     void Shutdown() final;
     bool SendMsg(AFIMsgHeader* head, const char* msg_data, conv_id_t session_id) override;
@@ -57,9 +60,7 @@ protected:
 
     void UpdateNetSession();
     void UpdateNetEvent(const AFUDPSessionPtr& session);
-    void UpdateNetMsg(const AFUDPSessionPtr& session);
-
-    void CloseAllSession();
+    bool UpdateNetMsg(const AFUDPSessionPtr& session);
 };
 
 } // namespace ark

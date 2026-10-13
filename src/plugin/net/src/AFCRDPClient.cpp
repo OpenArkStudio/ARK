@@ -18,6 +18,9 @@
  *
  */
 
+#include <algorithm>
+#include <vector>
+
 #include "base/AFLogger.hpp"
 #include "net/include/AFCRDPClient.hpp"
 
@@ -28,21 +31,34 @@ AFCRDPClient::~AFCRDPClient()
     Shutdown();
 }
 
-bool AFCRDPClient::StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_t dst_bus_id, const std::string& host, uint16_t port)
+bool AFCRDPClient::StartClient(
+    std::shared_ptr<const AFIMsgHeader> head, bus_id_t dst_bus_id, const std::string& host, uint16_t port)
 {
-    using namespace zephyr;
-    using namespace zephyr::detail;
-
-    client_ = std::make_shared<zephyr::udp_client>(udp_frame_size, ARK_TCP_RECV_BUFFER_SIZE);
+    if (!head)
+    {
+        return false;
+    }
+    Shutdown();
+    client_ = std::make_shared<arknet::rudp_client>(65536, ARK_TCP_RECV_BUFFER_SIZE);
     this->dst_bus_id_ = dst_bus_id;
-
-    client_->auto_reconnect(true, ARK_RECONNECT_TIME);
-    client_->no_delay(true);
+    arknet::arq::options transport_options;
+    transport_options.mtu = 1400;
+    transport_options.congestion_control = false;
+    client_->set_rudp_options(transport_options);
+    client_->set_auto_reconnect(true, ARK_RECONNECT_TIME);
+    client_->set_connect_timeout(ARK_CONNECT_TIMEOUT);
+    auto weak = weak_from_this();
     client_
-        ->bind_connect([self = shared_from_this(), head](asio::error_code ec) {
+        ->bind_connect([weak, head] {
+            const auto ec = arknet::get_last_error();
+            auto self = weak.lock();
+            if (!self)
+            {
+                return;
+            }
             if (ec)
             {
-                ARK_LOG_INFO("Client(UDP) connect server failed, error={} errno={}, server_addr={} "
+                ARK_LOG_INFO("Client(RUDP) connect server failed, error={} errno={}, server_addr={} "
                              "server_port={},local_addr={} local_port={}",
                     ec.message(), ec.value(), self->client_->remote_address(), self->client_->remote_port(),
                     self->client_->local_address(), self->client_->local_port());
@@ -51,110 +67,152 @@ bool AFCRDPClient::StartClient(std::shared_ptr<const AFIMsgHeader> head, bus_id_
             else
             {
                 ARK_LOG_INFO(
-                    "Client(UDP) connect server success, server_addr={} server_port={} local_addr={} local_port={}",
+                    "Client(RUDP) connect server success, server_addr={} server_port={} local_addr={} local_port={}",
                     self->client_->remote_address(), self->client_->remote_port(), self->client_->local_address(),
                     self->client_->local_port());
             }
 
-            // now session_id
             auto cur_session_id = self->trust_session_id_++;
-            // set session ud
-            self->client_->user_data(cur_session_id);
+            self->client_->set_user_data(cur_session_id);
 
-            // create net event
             AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
             net_connect_event->SetId(cur_session_id);
             net_connect_event->SetType(AFNetEventType::CONNECT);
             net_connect_event->SetBusId(self->dst_bus_id_);
             net_connect_event->SetIP(self->client_->remote_address());
-            // TODO: will add port
-
-            // net event & session scope
             {
                 AFScopeWLock guard(self->rw_lock_);
                 self->session_ = std::make_shared<AFRDPClientSession>(head, cur_session_id, nullptr);
-                self->session_->AddNetEvent(net_connect_event);
+                self->sessions_.push_back(self->session_);
+                if (!self->session_->AddNetEvent(net_connect_event))
+                {
+                    AFNetEvent::Release(net_connect_event);
+                }
             }
         })
-        .bind_disconnect([self = shared_from_this()](asio::error_code ec) {
-            ARK_LOG_INFO("Client(WS) disconnect server, error={} errno={} local_addr={} local_port={}", ec.message(),
-                ec.value(), self->client_->remote_address(), self->client_->remote_port(),
+        .bind_disconnect([weak] {
+            const auto ec = arknet::get_last_error();
+            auto self = weak.lock();
+            if (!self)
+            {
+                return;
+            }
+            ARK_LOG_INFO("Client(RUDP) disconnect server, error={} errno={} remote_addr={} remote_port={} "
+                         "local_addr={} local_port={}",
+                ec.message(), ec.value(), self->client_->remote_address(), self->client_->remote_port(),
                 self->client_->local_address(), self->client_->local_port());
 
-            auto session_id = self->client_->user_data<conv_id_t>();
+            auto session_id = self->client_->get_user_data<conv_id_t>();
 
-            // create net event
+            AFScopeWLock guard(self->rw_lock_);
+            if (!self->session_ || self->session_->GetSessionId() != session_id || self->session_->NeedRemove())
+            {
+                return;
+            }
             AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
             net_disconnect_event->SetId(session_id);
             net_disconnect_event->SetType(AFNetEventType::DISCONNECT);
             net_disconnect_event->SetBusId(self->dst_bus_id_);
             net_disconnect_event->SetIP(self->client_->remote_address());
-            // TODO: will add port
-
-            // scope lock
+            if (!self->session_->AddNetEvent(net_disconnect_event))
             {
-                AFScopeWLock guard(self->rw_lock_);
-                self->session_->AddNetEvent(net_disconnect_event);
-                self->session_->NeedRemove(true);
+                AFNetEvent::Release(net_disconnect_event);
             }
+            self->session_->NeedRemove(true);
         })
-        .bind_recv([self = shared_from_this()](std::string_view s) {
-            AFScopeRLock guard(self->rw_lock_);
-            self->session_->AddBuffer(s.data(), s.length());
-            self->session_->ParseBufferToMsg();
+        .bind_recv([weak](std::string_view s) {
+            auto self = weak.lock();
+            if (!self)
+            {
+                return;
+            }
+            AFRDPClientSessionPtr session;
+            {
+                AFScopeRLock guard(self->rw_lock_);
+                session = self->session_;
+            }
+            if (session && !session->NeedRemove())
+            {
+                session->AddBuffer(s.data(), s.length());
+                if (!session->ParseBufferToMsg())
+                {
+                    self->client_->stop();
+                }
+            }
         });
 
-    bool ret = client_->start(host, port, zephyr::use_kcp);
+    bool ret = client_->start(host, port);
     SetWorking(ret);
     return ret;
 }
 
 void AFCRDPClient::Update()
 {
-    UpdateNetEvent();
-    UpdateNetMsg();
+    std::vector<AFRDPClientSessionPtr> sessions;
+    {
+        AFScopeRLock guard(rw_lock_);
+        sessions.assign(sessions_.begin(), sessions_.end());
+    }
+    for (const auto& session : sessions)
+    {
+        const auto disconnected = session->NeedRemove();
+        UpdateNetEvent(session);
+        const auto drained = UpdateNetMsg(session);
+        if (disconnected && drained)
+        {
+            AFScopeWLock guard(rw_lock_);
+            sessions_.erase(std::remove(sessions_.begin(), sessions_.end(), session), sessions_.end());
+            if (session_ == session)
+            {
+                session_.reset();
+            }
+        }
+    }
 }
 
-void AFCRDPClient::UpdateNetEvent()
+void AFCRDPClient::UpdateNetEvent(const AFRDPClientSessionPtr& session)
 {
-    ARK_ASSERT_RET_NONE(session_ != nullptr);
-
     AFNetEvent* event{nullptr};
-    while (session_->PopNetEvent(event))
+    while (session->PopNetEvent(event))
     {
         net_event_cb_(event);
         AFNetEvent::Release(event);
     }
 }
 
-void AFCRDPClient::UpdateNetMsg()
+bool AFCRDPClient::UpdateNetMsg(const AFRDPClientSessionPtr& session)
 {
-    ARK_ASSERT_RET_NONE(session_ != nullptr);
-
     AFNetMsg* msg{nullptr};
     int msg_count = 0;
-    while (session_->PopNetMsg(msg))
+    while (session->PopNetMsg(msg))
     {
-        net_msg_cb_(msg, session_->GetSessionId());
+        net_msg_cb_(msg, session->GetSessionId());
         AFNetMsg::Release(msg);
 
         ++msg_count;
-        if (msg_count > ARK_PROCESS_NET_MSG_COUNT_ONCE)
+        if (msg_count >= ARK_PROCESS_NET_MSG_COUNT_ONCE)
         {
-            break;
+            return false;
         }
     }
+    return true;
 }
 
 void AFCRDPClient::Shutdown()
 {
-    client_->stop();
+    if (client_)
+    {
+        client_->stop();
+    }
     SetWorking(false);
 }
 
 bool AFCRDPClient::SendMsg(AFIMsgHeader* head, const char* msg_data, conv_id_t session_id)
 {
-    ARK_ASSERT_RET_VAL(head != nullptr && msg_data != nullptr, false);
+    if (!head || !msg_data || head->MessageLength() > ARK_MSG_MAX_LENGTH || !client_)
+    {
+        return false;
+    }
 
     std::string buffer;
     head->SerializeToString(buffer);
@@ -164,12 +222,45 @@ bool AFCRDPClient::SendMsg(AFIMsgHeader* head, const char* msg_data, conv_id_t s
     }
 
     buffer.append(msg_data, head->MessageLength());
-    return client_->send(buffer);
+    AFScopeRLock guard(rw_lock_);
+    const auto session = session_;
+    if (!session || session->NeedRemove() || (session_id != 0 && session_id != session->GetSessionId()))
+    {
+        return false;
+    }
+
+    return client_->async_send(std::move(buffer), [weak = std::weak_ptr<arknet::rudp_client>(client_),
+                                                      id = session->GetSessionId()](arknet::error_code ec, size_t) {
+        if (!ec)
+        {
+            return;
+        }
+        ARK_LOG_ERROR("Client(RUDP) send failed, session={} error={} errno={}", id, ec.message(), ec.value());
+        if (auto client = weak.lock(); client && client->is_started())
+        {
+            // Check the session on its executor so an old send cannot stop a reconnected client.
+            client->post([weak, id] {
+                if (auto current = weak.lock(); current && current->get_user_data<conv_id_t>() == id)
+                {
+                    current->stop();
+                }
+            });
+        }
+    });
 }
 
 void AFCRDPClient::CloseSession(conv_id_t session_id)
 {
-    std::ignore = session_id;
+    if (!client_)
+    {
+        return;
+    }
+    client_->post([weak = std::weak_ptr<arknet::rudp_client>(client_), session_id] {
+        if (auto client = weak.lock(); client && (session_id == 0 || client->get_user_data<conv_id_t>() == session_id))
+        {
+            client->stop();
+        }
+    });
 }
 
 } // namespace ark

@@ -8733,7 +8733,12 @@ bool isDebuggerActive();
 
 #ifdef CATCH_PLATFORM_MAC
 
+#if defined(__i386__) || defined(__x86_64__)
 #define CATCH_TRAP() __asm__("int $3\n" : :) /* NOLINT */
+#else
+#include <signal.h>
+#define CATCH_TRAP() raise(SIGTRAP)
+#endif
 
 #elif defined(CATCH_PLATFORM_LINUX)
 // If we can use inline assembler, do it because this allows us to break
@@ -8831,7 +8836,7 @@ struct FatalConditionHandler
     static bool isSet;
     static struct sigaction oldSigActions[];
     static stack_t oldSigStack;
-    static char altStackMem[];
+    static std::unique_ptr<char[]> altStackMem;
 
     static void handleSignal(int sig);
 
@@ -12054,7 +12059,7 @@ struct SignalDefs
 
 // 32kb for the alternate stack seems to be sufficient. However, this value
 // is experimentally determined, so that's not guaranteed.
-constexpr static std::size_t sigStackSize = 32768 >= MINSIGSTKSZ ? 32768 : MINSIGSTKSZ;
+static const std::size_t sigStackSize = 32768 >= MINSIGSTKSZ ? 32768 : MINSIGSTKSZ;
 
 static SignalDefs signalDefs[] = {{SIGINT, "SIGINT - Terminal interrupt signal"},
     {SIGILL, "SIGILL - Illegal instruction signal"}, {SIGFPE, "SIGFPE - Floating point error signal"},
@@ -12081,7 +12086,7 @@ FatalConditionHandler::FatalConditionHandler()
 {
     isSet = true;
     stack_t sigStack;
-    sigStack.ss_sp = altStackMem;
+    sigStack.ss_sp = altStackMem.get();
     sigStack.ss_size = sigStackSize;
     sigStack.ss_flags = 0;
     sigaltstack(&sigStack, &oldSigStack);
@@ -12118,7 +12123,7 @@ void FatalConditionHandler::reset()
 bool FatalConditionHandler::isSet = false;
 struct sigaction FatalConditionHandler::oldSigActions[sizeof(signalDefs) / sizeof(SignalDefs)] = {};
 stack_t FatalConditionHandler::oldSigStack = {};
-char FatalConditionHandler::altStackMem[sigStackSize] = {};
+std::unique_ptr<char[]> FatalConditionHandler::altStackMem = std::make_unique<char[]>(sigStackSize);
 
 } // namespace Catch
 

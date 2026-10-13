@@ -20,7 +20,11 @@
 
 #pragma once
 
-#include <zephyr/zephyr.hpp>
+#include <atomic>
+#include <map>
+#include <memory>
+
+#include <arknet/websocket/ws_server.hpp>
 
 #include "net/interface/AFINet.hpp"
 #include "net/include/AFNetSession.hpp"
@@ -45,8 +49,8 @@ public:
 
     void Update() override;
 
-    bool StartServer(std::shared_ptr<const AFIMsgHeader> head, bus_id_t bus_id, const std::string& host, uint16_t port, uint8_t thread_num,
-        uint32_t max_client, const size_t silent_timeout) override;
+    bool StartServer(std::shared_ptr<const AFIMsgHeader> head, bus_id_t bus_id, const std::string& host, uint16_t port,
+        uint8_t thread_num, uint32_t max_client, const size_t silent_timeout) override;
     void Shutdown() final;
 
     bool SendMsg(AFIMsgHeader* head, const char* msg_data, conv_id_t session_id) override;
@@ -63,13 +67,14 @@ protected:
     void CloseSession(const AFWSSessionPtr& session);
 
     void UpdateNetSession();
-    void UpdateNetEvent(const AFWSSessionPtr& session);
+    bool UpdateNetEvent(const AFWSSessionPtr& session);
     void UpdateNetMsg(const AFWSSessionPtr& session);
 
     void CloseAllSession();
 
 private:
     std::map<conv_id_t, AFWSSessionPtr> sessions_;
+    size_t active_session_count_{0};
     AFReaderWriterLock rw_lock_;
     bus_id_t bus_id_{0};
 
@@ -77,7 +82,7 @@ private:
     NET_EVENT_FUNCTOR net_event_cb_;
 
     std::atomic<conv_id_t> trusted_session_id_{ARK_CONV_START_ID};
-    std::shared_ptr<zephyr::ws_server> server_;
+    std::shared_ptr<arknet::ws_server> server_;
 };
 
 } // namespace ark

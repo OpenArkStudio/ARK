@@ -20,43 +20,32 @@
 
 #pragma once
 
-#include <boost/asio/posix/stream_descriptor.hpp>
-#include <boost/asio/signal_set.hpp>
+#include <cstdint>
+#include <string>
+#include <string_view>
+#include <utility>
 
-#include <http/reactor/listener.hxx>
-#include <http/reactor/session.hxx>
-#include <http/basic_router.hxx>
-#include <http/out.hxx>
+#include <arknet/http/router.hpp>
 
 #include "interface/AFIModule.hpp"
 
 namespace ark {
 
-namespace beast = boost::beast;
-
-using namespace _0xdead4ead;
-
 class AFIHttpServerModule : public AFIModule
 {
 public:
-    using http_session = http::reactor::_default::session_type;
-    using http_listener = http::reactor::_default::listener_type;
-    using http_context = typename http_session::context_type;
-    using beast_http_request = typename http_session::request_type;
-    using asio_socket = typename http_session::socket_type;
-
-    virtual http::basic_router<http_session>& GetRouter() = 0;
+    virtual arknet::http_router& GetRouter() = 0;
     virtual bool StartServer() = 0;
     virtual bool StartServer(std::string const& ip = "0.0.0.0", uint16_t port = 8080, uint8_t thread_num = 1) = 0;
 
     template<typename ResponseBody, class RequestBody>
-    beast::http::response<ResponseBody> make_200(const beast::http::request<RequestBody>& request,
-        typename ResponseBody::value_type body, beast::string_view content_type)
+    arknet::http::response<ResponseBody> make_200(const arknet::http::request<RequestBody>& request,
+        typename ResponseBody::value_type body, std::string_view content_type)
     {
-        beast::http::response<ResponseBody> response{beast::http::status::ok, request.version()};
-        response.set(beast::http::field::server, "FreeBird/1.0");
-        response.set(beast::http::field::content_type, content_type);
-        response.body() = body;
+        arknet::http::response<ResponseBody> response{arknet::http::status::ok, request.version()};
+        response.set(arknet::http::field::server, "ARK");
+        response.set(arknet::http::field::content_type, content_type);
+        response.body() = std::move(body);
         response.prepare_payload();
         response.keep_alive(request.keep_alive());
 

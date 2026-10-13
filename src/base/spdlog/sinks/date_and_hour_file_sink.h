@@ -16,26 +16,11 @@
 #include <ctime>
 #include <mutex>
 #include <string>
+#include <tuple>
 
 namespace spdlog {
 
 namespace sinks {
-
-#ifdef _WIN32
-#include <direct.h>
-#include <io.h>
-#elif _LINUX
-#include <stdarg.h>
-#include <sys/stat.h>
-#endif
-
-#ifdef _WIN32
-#define ACCESS _access
-#define MKDIR(a) _mkdir((a))
-#else
-#define ACCESS access
-#define MKDIR(a) mkdir((a), 0755)
-#endif
 
 /*
  * Default generator of daily log file names.
@@ -66,7 +51,7 @@ struct default_date_and_hour_file_name_calculator
         }
 
         // treat cases like "/etc/rc.d/somelogfile or "/abc/.hiddenfile"
-        auto folder_index = fname.rfind(details::os::folder_sep);
+        auto folder_index = fname.find_last_of(details::os::folder_seps_filename);
         if (folder_index != fname.npos && folder_index >= ext_index - 1)
         {
             return std::make_tuple(fname.substr(0, folder_index), fname.substr(folder_index + 1), spdlog::filename_t());
@@ -83,32 +68,11 @@ struct default_date_and_hour_file_name_calculator
         std::tm tm = spdlog::details::os::localtime();
         filename_t pre_dir, basename, ext;
         std::tie(pre_dir, basename, ext) = split_by_dir_and_extenstion(filename);
-        auto dir_path =
-            fmt::format(SPDLOG_FILENAME_T("{}{}{:04d}{:02d}{:02d}{}"), pre_dir, spdlog::details::os::folder_sep,
-                tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, spdlog::details::os::folder_sep);
+        auto dir_path = fmt::format(SPDLOG_FILENAME_T("{}{}{:04d}{:02d}{:02d}{}"), pre_dir,
+            spdlog::details::os::folder_seps_filename[0], tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+            spdlog::details::os::folder_seps_filename[0]);
 
-        // CHECK if directory is already existed
-#if _WIN32
-        char tmp_dir_path[MAX_PATH] = {0};
-#else
-        char tmp_dir_path[PATH_MAX] = {0};
-#endif
-        for (size_t i = 0; i < dir_path.length(); ++i)
-        {
-            tmp_dir_path[i] = dir_path[i];
-            if (tmp_dir_path[i] == spdlog::details::os::folder_sep)
-            {
-                if (ACCESS(tmp_dir_path, 0) == -1)
-                {
-                    MKDIR(tmp_dir_path);
-                }
-            }
-        }
-
-        typename std::conditional<std::is_same<filename_t::value_type, char>::value, fmt::memory_buffer,
-            fmt::wmemory_buffer>::type w;
-        fmt::format_to(w, SPDLOG_FILENAME_T("{}{}_{:02d}{}"), dir_path, basename, tm.tm_hour, ext);
-        return fmt::to_string(w);
+        return fmt::format(SPDLOG_FILENAME_T("{}{}_{:02d}{}"), dir_path, basename, tm.tm_hour, ext);
     }
 };
 

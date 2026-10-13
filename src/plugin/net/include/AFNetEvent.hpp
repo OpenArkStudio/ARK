@@ -24,8 +24,6 @@
 #include "base/AFMacros.hpp"
 #include "net/include/AFNetDefine.hpp"
 
-#pragma pack(push, 1)
-
 namespace ark {
 
 class AFNetEvent final
@@ -88,5 +86,3 @@ public:
 };
 
 } // namespace ark
-
-#pragma pack(pop)
