@@ -288,8 +288,8 @@ TEST_CASE("HTTP IO timeout completes futures and queues callback failure exactly
     HttpCallbacks callbacks;
     ark::AFCHttpClientModule client;
     const auto start = std::chrono::steady_clock::now();
-    auto future = client.Get("localhost", peer.Port(), "/stall", nullptr, nullptr, 1, 1);
-    client.Post([&](HttpResult result) { callbacks.Receive(std::move(result)); }, "localhost", peer.Port(), "/stall",
+    auto future = client.Get("127.0.0.1", peer.Port(), "/stall", nullptr, nullptr, 1, 1);
+    client.Post([&](HttpResult result) { callbacks.Receive(std::move(result)); }, "127.0.0.1", peer.Port(), "/stall",
         nullptr, nullptr, nullptr, nullptr, 1, 1);
     REQUIRE(WaitHttp([&] { return peer.Count() == 2; }));
     const auto result = AwaitHttp(future);

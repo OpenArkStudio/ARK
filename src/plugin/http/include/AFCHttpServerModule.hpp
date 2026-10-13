@@ -21,6 +21,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
 #include <arknet/http/http_server.hpp>
 
@@ -53,6 +54,7 @@ protected:
 private:
     arknet::http_router router_;
     std::unique_ptr<arknet::http_server> server_;
+    std::string listen_key_;
 };
 
 } // namespace ark

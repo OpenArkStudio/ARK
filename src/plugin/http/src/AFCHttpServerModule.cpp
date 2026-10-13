@@ -19,12 +19,43 @@
  */
 
 #include <algorithm>
+#include <mutex>
+#include <set>
 
 #include "base/AFXml.hpp"
 #include "http/include/AFCHttpServerModule.hpp"
 #include "http/include/AFHttpPlugin.hpp"
 
 namespace ark {
+
+namespace {
+
+std::mutex http_endpoint_mutex;
+std::set<std::string> http_endpoints;
+
+std::string EndpointKey(const std::string& ip, uint16_t port)
+{
+    return ip + '\0' + std::to_string(port);
+}
+
+bool ReserveEndpoint(const std::string& key)
+{
+    std::lock_guard lock(http_endpoint_mutex);
+    return http_endpoints.insert(key).second;
+}
+
+void ReleaseEndpoint(std::string& key)
+{
+    if (key.empty())
+    {
+        return;
+    }
+    std::lock_guard lock(http_endpoint_mutex);
+    http_endpoints.erase(key);
+    key.clear();
+}
+
+} // namespace
 
 bool AFCHttpServerModule::Init()
 {
@@ -41,6 +72,7 @@ bool AFCHttpServerModule::PreShut()
         server_->stop();
         server_.reset();
     }
+    ReleaseEndpoint(listen_key_);
 
     return true;
 }
@@ -57,6 +89,11 @@ bool AFCHttpServerModule::StartServer(
     {
         return false;
     }
+    const auto endpoint = port == 0 ? std::string{} : EndpointKey(ip, port);
+    if (!endpoint.empty() && !ReserveEndpoint(endpoint))
+    {
+        return false;
+    }
     auto server = std::make_unique<arknet::http_server>(
         arknet::detail::http_frame_size, arknet::detail::max_buffer_size, std::max<unsigned>(thread_num, 1));
     server->bind_recv([this](std::shared_ptr<arknet::http_session>& session, arknet::http_route_request& request) {
@@ -66,9 +103,12 @@ bool AFCHttpServerModule::StartServer(
     });
     if (!server->start(ip, port))
     {
+        auto reserved_endpoint = endpoint;
+        ReleaseEndpoint(reserved_endpoint);
         return false;
     }
     server_ = std::move(server);
+    listen_key_ = endpoint;
     return true;
 }
 
