@@ -46,6 +46,8 @@ macOS 27.0.1 arm64 and Apple Clang 21.0.0. Standalone Asio 1.38.2, Boost 1.90,
 ASan/UBSan and TSan each passed 29 network cases with 829 assertions. macOS
 ASan ran without leak detection; Linux CI enables LeakSanitizer. These are
 correctness checks, not capacity measurements.
+The default C++20 application build, examples and all eight legacy test
+executables also passed locally.
 
 ## Build applications
 
@@ -54,8 +56,7 @@ Enable the `application` manifest feature to install Protobuf:
 ```sh
 cmake -S . -B app-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
-  -DVCPKG_MANIFEST_FEATURES=application \
-  -DARK_BUILD_TESTS=OFF -DARK_BUILD_EXAMPLES=OFF
+  -DVCPKG_MANIFEST_FEATURES=application
 cmake --build app-build --parallel 2
 ```
 

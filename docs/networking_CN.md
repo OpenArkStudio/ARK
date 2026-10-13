@@ -41,6 +41,7 @@ HTTP 状态和请求数据、停机取消、非法输入。CI 检查 Linux、mac
 和 Apple Clang 21.0.0。Standalone Asio 1.38.2、Boost 1.90、ASan/UBSan 和 TSan
 四组网络回归均通过 29 个用例、829 条断言。macOS ASan 未启用泄漏检测，Linux CI
 启用 LeakSanitizer。这些结果用于验证正确性，不表示部署容量。
+默认 C++20 应用构建、示例和 8 个原有测试程序也均在本机通过。
 
 ## 构建应用
 
@@ -49,8 +50,7 @@ HTTP 状态和请求数据、停机取消、非法输入。CI 检查 Linux、mac
 ```sh
 cmake -S . -B app-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
-  -DVCPKG_MANIFEST_FEATURES=application \
-  -DARK_BUILD_TESTS=OFF -DARK_BUILD_EXAMPLES=OFF
+  -DVCPKG_MANIFEST_FEATURES=application
 cmake --build app-build --parallel 2
 ```
 

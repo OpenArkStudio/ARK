@@ -2,7 +2,7 @@
 
 | lib                                                                                      | branch | tag    |
 | ---------------------------------------------------------------------------------------- | ------ | ------ |
-| [google protobuf](https://github.com/protocolbuffers/protobuf/releases/tag/v3.14.0)      | 3.14.x | 3.14.0 |
+| [Protobuf](https://github.com/protocolbuffers/protobuf)                                |        | vcpkg baseline |
 | [arknet](https://github.com/OpenArkStudio/arknet)                                       |        | v0.1.0 |
 | [RapidXML](https://rapidxml.sourceforge.net/)                                          |        | 1.13   |
 | [args](https://github.com/Taywee/args/releases/tag/6.2.2)                                |        | 6.2.2  |
@@ -13,6 +13,8 @@
 | [librdkafka](https://github.com/edenhill/librdkafka/releases/tag/v1.6.0)                 |        | v1.6.0 |
 | [mysqlpp](https://tangentsoft.com/mysqlpp/home)                                          |        | v3.2.5 |
 | [doctest](https://github.com/doctest/doctest) (network tests only)                       |        | 2.5.3  |
+| [Standalone Asio](https://github.com/chriskohlhoff/asio)                                |        | 1.38.2 |
+| [Boost.Asio/Beast](https://www.boost.org/) (optional backend)                           |        | vcpkg baseline |
 
 arknet is maintained in its own repository and acquired by CMake at the release
 tag. RapidXML is supplied by the package manager; the unavailable ArkNX fork is
