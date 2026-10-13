@@ -1,0 +1,29 @@
+name: Discord Notifications
+
+on:
+  workflow_run:
+    workflows: [CI, Documentation, Build, Github-CI, CMake, CodeQL, PSS_ASIO_CMake, Notification checks]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Completed workflow run ID to resend
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: discord-${{ github.event.workflow_run.id || inputs.run_id }}-${{ github.event.workflow_run.run_attempt || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    name: Discord workflow summary
+    uses: OpenArkStudio/.github/.github/workflows/discord-summary.yml@main
+    with:
+      run_id: ${{ github.event_name == 'workflow_dispatch' && inputs.run_id || format('{0}', github.event.workflow_run.id) }}
+    secrets:
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
