@@ -128,15 +128,18 @@ void check_redis() {
     };
     auto sequence = [&]() -> module_task<> {
         const auto binary = std::string("ark\0coroutine", 13);
-        auto first = co_await redis_command(service, bridge, {"ECHO", binary});
+        arknet::redis::command echo{"ECHO", binary};
+        auto first = co_await redis_command(service, bridge, std::move(echo));
         require(runtime->get_executor().running_in_this_thread(), "Redis resumed outside its manual executor");
         require(bool(first) && first.replies.size() == 1 && first.replies[0].text == binary,
             "Redis coroutine lost the native binary reply");
-        auto second = co_await redis_command(service, bridge, {"PING"});
+        arknet::redis::command ping{"PING"};
+        auto second = co_await redis_command(service, bridge, std::move(ping));
         require(bool(second) && second.replies.size() == 1 && second.replies[0].text == "PONG",
             "Redis second operation failed with a one-operation quota");
         require(first.replies[0].text == binary, "Redis owning result changed after the next operation");
-        auto refused = co_await redis_command(service, bridge, {});
+        arknet::redis::command empty;
+        auto refused = co_await redis_command(service, bridge, std::move(empty));
         require(refused.error == arknet::redis::client_errc::invalid_command,
             "Redis inline rejection was not returned as its native error");
     };
@@ -151,7 +154,8 @@ void check_redis() {
     auto cancel_pending = [&]() -> module_task<> {
         const auto stream =
             "ark_coroutine_cancel_" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
-        auto cancelled = co_await redis_command(service, bridge, {"XREAD", "BLOCK", "20000", "STREAMS", stream, "$"});
+        arknet::redis::command read{"XREAD", "BLOCK", "20000", "STREAMS", stream, "$"};
+        auto cancelled = co_await redis_command(service, bridge, std::move(read));
         require(cancelled.error == arknet::redis::client_errc::cancelled,
             "Redis accepted coroutine did not drain its native cancellation terminal");
         require(runtime->get_executor().running_in_this_thread(), "Cancelled Redis task escaped its manual executor");
