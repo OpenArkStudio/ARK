@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-15",
+  "machine": {
+    "model": "Mac16,11",
+    "cpu": "Apple M4 Pro",
+    "physical_cores": 14,
+    "logical_cores": 14,
+    "memory_bytes": 51539607552,
+    "os": "27.0.1",
+    "os_build": "26A434",
+    "architecture": "arm64"
+  },
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+  "cmake": "cmake version 4.3.3",
+  "language": "C++20",
+  "build": "Release (-O3 -DNDEBUG -std=gnu++20 -fPIC)",
+  "dependency": "Boost 1.90.0; arknet 848588e409bf7e5f86bc30b8ffae7efb022eb6e4",
+  "baseline_commit": "1f02377cceba8660af4b0432aa566cad8164e1cb",
+  "optimized_commit": "1389414f0d555948594bfc40991136159a92b701",
+  "repetitions": 3,
+  "order": "Baseline round, optimized round, then configured capacities; repeated three times; one fresh process per case; no concurrent compilation or other project tests. Normal desktop services remain running.",
+  "warmup_iterations": 10000,
+  "cpu_percent_per_logical_core": 100,
+  "array_allocation_scope": "Ordinary C++ array allocation requests during the measured phase. Session mode retains created sessions; framing totals are cumulative requested bytes, not RSS. Excludes aligned allocations, queue-internal malloc and socket buffers.",
+  "object_allocation_scope": "Ordinary C++ object allocation requests; excludes aligned allocations, queue-internal malloc and socket buffers.",
+  "baseline": {
+    "source_sha256": {
+      "include/ark/buffer.hpp": "7d404291bd5abca5fee1cc72144dd9f1a869c6060ef1c3c42852ac5f9a467610",
+      "plugins/net/include/ark/net/net.hpp": "d47a2ce5904bf1b33ce4d07d4f6ce97783a71ff1b0954078cd7b964cdafc293e",
+      "plugins/net/include/ark/net/net_define.hpp": "6bdac4c412ece75a4b3e6213038756e99630d147709aee6627abd08f2e995793",
+      "plugins/net/include/ark/net/net_session.hpp": "81f9a1bb5d118c51c20c4b30af6b336a8a7018ec4b622a7c6ca5420941cb8604",
+      "plugins/net/src/rudp_client.cpp": "bff69d6f6a82a4d0ea9f391c11173b23a0b4adb52c209681c8aa179fd2911044",
+      "plugins/net/src/rudp_server.cpp": "14819bcfe1475fc370b4c2e373eb5c4bd65f5ceca521b5c1a1bb6b7b188e1bbc",
+      "plugins/net/src/tcp_client.cpp": "c8f56b932234337f852288c9eb02f0654731005bb1e13c056d1f4782ee005837",
+      "plugins/net/src/tcp_server.cpp": "1c7ce867e11c29ff4f8b834d1a9867217c553142b1d9c9d74f35cca0d141ccd4",
+      "plugins/net/src/websocket_client.cpp": "759ed9239d77f9ae3dad1347efc66a3b45c2bbc568c030ae3271a6a02f87c0bb",
+      "plugins/net/src/websocket_server.cpp": "55389bebb2b18edb7f7d4f56179129a6fa90729122ed0a2a994a57e4b68e9ea8"
+    },
+    "benchmark_sha256": "dbe0c7db2c2ab0d246c45f1a1cfc7b240916ca70578aed9bca5eb45948f25982",
+    "binary_sha256": "2ebbe4d9ffa04d5c4b5fb1df99be1ca95261ee40d0dd64cb6968a96d66229fa9"
+  },
+  "optimized": {
+    "source_sha256": {
+      "include/ark/buffer.hpp": "cfd60429b83e55f4448931dccc16aaf1c2f9c35f27c31eb5e1ee1d22d7ddcff8",
+      "plugins/net/include/ark/net/net.hpp": "09053c1dd39eb134c0c5cb27ef88ce8b3c6f971a2816f81dbe3872d86bd757d0",
+      "plugins/net/include/ark/net/net_define.hpp": "e85342431b84d18aa2620b8314009038bad23532d747406ed0b3c4cfbea47590",
+      "plugins/net/include/ark/net/net_session.hpp": "93ae782066ca9a49d5da222b08c92da47ec80e4f0170ace0868c19dc6a0929d0",
+      "plugins/net/src/rudp_client.cpp": "611f0bda7d1d6f98948aaecaac0045268ad664cd3b172aaddb4462163b1824e8",
+      "plugins/net/src/rudp_server.cpp": "5fe581140ac1c38b168bc72f31087dfeb0029364cf10e82b276cf71218424ec1",
+      "plugins/net/src/tcp_client.cpp": "cad2b98aa2d49417c1e7369a158dcd004d86800f0f199b3be516a2c8dc934865",
+      "plugins/net/src/tcp_server.cpp": "29cc83e6d9b072e783b0ce2624d57cd9edfa7b55fc2efd3aa47ca215e636fddf",
+      "plugins/net/src/websocket_client.cpp": "351b77ed03bc78989af628cab488849367c7bf7e2f9b60bcaa8a9895b9ccaa34",
+      "plugins/net/src/websocket_server.cpp": "8efbf99f988ab48f414afdfaf762939a46de7aef6c606874a073715259c3b78b"
+    },
+    "benchmark_sha256": "dbe0c7db2c2ab0d246c45f1a1cfc7b240916ca70578aed9bca5eb45948f25982",
+    "binary_sha256": "895d50197b49b5dff77cc8c5eed643be2f9213ee57f3a3dcdbe7006c36fa0be3"
+  },
+  "configured_capacities_bytes": [
+    4096,
+    65536,
+    524288
+  ],
+  "measurements": 66
+}

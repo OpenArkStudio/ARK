@@ -43,10 +43,12 @@ template<typename session_ptr_type, bool is_session>
 class net_session : public noncopyable
 {
 public:
-    explicit net_session(
-        std::shared_ptr<const msg_header> req_head, conv_id_t session_id, const session_ptr_type session_ptr = nullptr)
+    explicit net_session(std::shared_ptr<const msg_header> req_head, conv_id_t session_id,
+        const session_ptr_type session_ptr = nullptr,
+        size_t initial_receive_buffer_size = default_initial_receive_buffer_size)
         : req_header_(req_head)
         , session_id_(session_id)
+        , buffer_(initial_receive_buffer_size)
         , session_(session_ptr) {
     }
 
@@ -98,11 +100,19 @@ public:
         }
 
         buffer_.remove_data(len);
+        if (len > 0)
+        {
+            pending_header_.reset();
+        }
         return buffer_.get_length();
     }
 
     char* get_buffer() {
         return buffer_.get_data();
+    }
+
+    size_t get_buffer_capacity() {
+        return buffer_.get_capacity();
     }
 
     size_t get_buffer_len() {
@@ -150,8 +160,12 @@ public:
         const size_t head_len = get_head_len();
         while (get_buffer_len() - pos >= head_len)
         {
-            std::unique_ptr<msg_header> msg_head(req_header_->create());
-            msg_head->parse_from_array(get_buffer() + pos);
+            auto msg_head = std::move(pending_header_);
+            if (msg_head == nullptr)
+            {
+                msg_head.reset(req_header_->create());
+                msg_head->parse_from_array(get_buffer() + pos);
+            }
             const size_t msg_len = msg_head->message_length();
             if (msg_len > ark_msg_max_length)
             {
@@ -159,6 +173,7 @@ public:
             }
             if (get_buffer_len() - pos - head_len < msg_len)
             {
+                pending_header_ = std::move(msg_head);
                 break;
             }
 
@@ -194,6 +209,7 @@ private:
     lock_free_queue<net_event*> event_queue_;
     // this field is meaning when isSession is true
     const session_ptr_type session_{nullptr};
+    std::unique_ptr<msg_header> pending_header_;
 
     std::atomic<bool> need_remove_{false};
 };

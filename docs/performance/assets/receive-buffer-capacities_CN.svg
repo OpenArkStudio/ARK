@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="340" viewBox="0 0 960 340" role="img" aria-labelledby="title description">
+<title id="title">初始缓冲容量与拆包吞吐量</title>
+<desc id="description">4、64、512 KiB 初始缓冲容量的三次测量中位数，横线为最小值和最大值。</desc>
+<style>text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;fill:#0f172a}.muted{fill:#475569;font-size:12px}</style>
+<rect width="960" height="340" fill="#f8fafc"/>
+<text x="20" y="30" font-size="22" font-weight="650">初始容量选择 · 相同拆包实现</text>
+<g transform="translate(20 55)"><rect width="440" height="265" rx="12" fill="white" stroke="#e2e8f0"/>
+<text x="18" y="27" font-size="15" font-weight="600">1 KiB 消息 · 64 B 输入块 · 每批 1 条</text>
+<text x="18" y="82" font-size="12">4 KiB</text>
+<text x="410" y="58" text-anchor="end" font-size="13" font-weight="600">5.98 M msg/s</text>
+<rect x="90" y="65" width="273.34" height="25" rx="3" fill="#2563eb"/>
+<path d="M363.00937142857146 77.5H363.37325714285714 M363.00937142857146 71V84 M363.37325714285714 71V84" stroke="#0f172a" stroke-width="1.5" fill="none"/>
+<text x="18" y="139" font-size="12">64 KiB</text>
+<text x="410" y="115" text-anchor="end" font-size="13" font-weight="600">5.98 M msg/s</text>
+<rect x="90" y="122" width="273.35" height="25" rx="3" fill="#0d9488"/>
+<path d="M361.1017142857143 134.5H367.78331428571425 M361.1017142857143 128V141 M367.78331428571425 128V141" stroke="#0f172a" stroke-width="1.5" fill="none"/>
+<text x="18" y="196" font-size="12">512 KiB</text>
+<text x="410" y="172" text-anchor="end" font-size="13" font-weight="600">5.93 M msg/s</text>
+<rect x="90" y="179" width="271.19" height="25" rx="3" fill="#7c3aed"/>
+<path d="M273.64982857142854 191.5H361.4208 M273.64982857142854 185V198 M361.4208 185V198" stroke="#0f172a" stroke-width="1.5" fill="none"/>
+<path d="M90 228H410" stroke="#cbd5e1"/>
+<text x="90" y="249" text-anchor="middle" class="muted">0.0</text>
+<text x="250" y="249" text-anchor="middle" class="muted">3.5</text>
+<text x="410" y="249" text-anchor="middle" class="muted">7.0</text>
+</g>
+<g transform="translate(500 55)"><rect width="440" height="265" rx="12" fill="white" stroke="#e2e8f0"/>
+<text x="18" y="27" font-size="15" font-weight="600">4 KiB 消息 · 64 KiB 输入块 · 每批 16 条</text>
+<text x="18" y="82" font-size="12">4 KiB</text>
+<text x="410" y="58" text-anchor="end" font-size="13" font-weight="600">3.30 M msg/s</text>
+<rect x="90" y="65" width="263.67" height="25" rx="3" fill="#2563eb"/>
+<path d="M352.9576 77.5H355.72880000000004 M352.9576 71V84 M355.72880000000004 71V84" stroke="#0f172a" stroke-width="1.5" fill="none"/>
+<text x="18" y="139" font-size="12">64 KiB</text>
+<text x="410" y="115" text-anchor="end" font-size="13" font-weight="600">3.32 M msg/s</text>
+<rect x="90" y="122" width="265.63" height="25" rx="3" fill="#0d9488"/>
+<path d="M353.444 134.5H364.56399999999996 M353.444 128V141 M364.56399999999996 128V141" stroke="#0f172a" stroke-width="1.5" fill="none"/>
+<text x="18" y="196" font-size="12">512 KiB</text>
+<text x="410" y="172" text-anchor="end" font-size="13" font-weight="600">3.83 M msg/s</text>
+<rect x="90" y="179" width="306.41" height="25" rx="3" fill="#7c3aed"/>
+<path d="M394.24559999999997 191.5H404.9872 M394.24559999999997 185V198 M404.9872 185V198" stroke="#0f172a" stroke-width="1.5" fill="none"/>
+<path d="M90 228H410" stroke="#cbd5e1"/>
+<text x="90" y="249" text-anchor="middle" class="muted">0.0</text>
+<text x="250" y="249" text-anchor="middle" class="muted">2.0</text>
+<text x="410" y="249" text-anchor="middle" class="muted">4.0</text>
+</g>
+</svg>

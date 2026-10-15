@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640" role="img" aria-labelledby="title description">
+<title id="title">ark 收包缓冲与拆包基准</title>
+<desc id="description">三次独立运行的中位数；横线为最小值与最大值。内存图统计初始数组申请容量。同时包含完整批量输入组。</desc>
+<style>text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;fill:#0f172a} .muted{fill:#475569;font-size:12px}</style>
+<rect width="960" height="640" fill="#f8fafc"/>
+<text x="20" y="30" font-size="22" font-weight="650">ark 收包缓冲与拆包基准</text>
+<text x="940" y="53" text-anchor="end" class="muted">3 次测量：中位数与最小／最大范围</text>
+<g transform="translate(20 75)"><rect width="440" height="250" rx="12" fill="white" stroke="#e2e8f0"/>
+<text x="18" y="28" font-size="16" font-weight="600">每会话初始收包缓冲</text>
+<text x="18" y="49" class="muted">10000 个会话对象；缓冲按需增长</text>
+<text x="18" y="102" font-size="12">原实现</text>
+<text x="410" y="75" text-anchor="end" font-size="13" font-weight="600">512 KiB</text>
+<rect x="90" y="84" width="273.07" height="26" rx="3" fill="#94a3b8"/>
+<text x="18" y="164" font-size="12">优化实现</text>
+<text x="410" y="137" text-anchor="end" font-size="13" font-weight="600">4 KiB</text>
+<rect x="90" y="146" width="2.13" height="26" rx="3" fill="#2563eb"/>
+<path d="M90 201H410" stroke="#cbd5e1"/>
+<text x="90" y="222" text-anchor="middle" class="muted">0</text>
+<text x="250" y="222" text-anchor="middle" class="muted">300</text>
+<text x="410" y="222" text-anchor="middle" class="muted">600</text>
+<text x="410" y="240" text-anchor="end" class="muted">KiB</text></g>
+<g transform="translate(500 75)"><rect width="440" height="250" rx="12" fill="white" stroke="#e2e8f0"/>
+<text x="18" y="28" font-size="16" font-weight="600">分次输入：1 KiB 消息</text>
+<text x="18" y="49" class="muted">输入块 64 B；每批 1 条</text>
+<text x="18" y="102" font-size="12">原实现</text>
+<text x="410" y="75" text-anchor="end" font-size="13" font-weight="600">2.37 M msg/s</text>
+<rect x="90" y="84" width="94.97" height="26" rx="3" fill="#94a3b8"/>
+<path d="M182.5036 97H186.8924 M182.5036 91V103 M186.8924 91V103" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+<text x="18" y="164" font-size="12">优化实现</text>
+<text x="410" y="137" text-anchor="end" font-size="13" font-weight="600">5.94 M msg/s</text>
+<rect x="90" y="146" width="237.41" height="26" rx="3" fill="#2563eb"/>
+<path d="M324.4388 159H331.1488 M324.4388 153V165 M331.1488 153V165" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+<path d="M90 201H410" stroke="#cbd5e1"/>
+<text x="90" y="222" text-anchor="middle" class="muted">0.0</text>
+<text x="250" y="222" text-anchor="middle" class="muted">4.0</text>
+<text x="410" y="222" text-anchor="middle" class="muted">8.0</text>
+<text x="410" y="240" text-anchor="end" class="muted">M msg/s</text></g>
+<g transform="translate(20 350)"><rect width="440" height="250" rx="12" fill="white" stroke="#e2e8f0"/>
+<text x="18" y="28" font-size="16" font-weight="600">逐字节输入：4 KiB 消息</text>
+<text x="18" y="49" class="muted">输入块 1 B；每批 1 条</text>
+<text x="18" y="102" font-size="12">原实现</text>
+<text x="410" y="75" text-anchor="end" font-size="13" font-weight="600">12.32 k msg/s</text>
+<rect x="90" y="84" width="49.27" height="26" rx="3" fill="#94a3b8"/>
+<path d="M137.8076 97H139.464 M137.8076 91V103 M139.464 91V103" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+<text x="18" y="164" font-size="12">优化实现</text>
+<text x="410" y="137" text-anchor="end" font-size="13" font-weight="600">56.78 k msg/s</text>
+<rect x="90" y="146" width="227.13" height="26" rx="3" fill="#2563eb"/>
+<path d="M309.926 159H321.76 M309.926 153V165 M321.76 153V165" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+<path d="M90 201H410" stroke="#cbd5e1"/>
+<text x="90" y="222" text-anchor="middle" class="muted">0.0</text>
+<text x="250" y="222" text-anchor="middle" class="muted">40.0</text>
+<text x="410" y="222" text-anchor="middle" class="muted">80.0</text>
+<text x="410" y="240" text-anchor="end" class="muted">k msg/s</text></g>
+<g transform="translate(500 350)"><rect width="440" height="250" rx="12" fill="white" stroke="#e2e8f0"/>
+<text x="18" y="28" font-size="16" font-weight="600">批量输入：每批 16 条</text>
+<text x="18" y="49" class="muted">消息体 4 KiB；输入块 64 KiB</text>
+<text x="18" y="102" font-size="12">原实现</text>
+<text x="410" y="75" text-anchor="end" font-size="13" font-weight="600">3.93 M msg/s</text>
+<rect x="90" y="84" width="251.67" height="26" rx="3" fill="#94a3b8"/>
+<path d="M336.21248 97H347.3024 M336.21248 91V103 M347.3024 91V103" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+<text x="18" y="164" font-size="12">优化实现</text>
+<text x="410" y="137" text-anchor="end" font-size="13" font-weight="600">3.40 M msg/s</text>
+<rect x="90" y="146" width="217.39" height="26" rx="3" fill="#2563eb"/>
+<path d="M281.1936 159H307.86432 M281.1936 153V165 M307.86432 153V165" fill="none" stroke="#0f172a" stroke-width="1.5"/>
+<path d="M90 201H410" stroke="#cbd5e1"/>
+<text x="90" y="222" text-anchor="middle" class="muted">0.0</text>
+<text x="250" y="222" text-anchor="middle" class="muted">2.5</text>
+<text x="410" y="222" text-anchor="middle" class="muted">5.0</text>
+<text x="410" y="240" text-anchor="end" class="muted">M msg/s</text></g>
+</svg>

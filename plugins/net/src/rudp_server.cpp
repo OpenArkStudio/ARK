@@ -24,6 +24,7 @@ bool rudp_server::start_server(std::shared_ptr<const msg_header> head, bus_id_t 
     transport_options.congestion_control = false;
     server_->set_rudp_options(transport_options).set_max_sessions(max_client);
     auto weak = weak_from_this();
+    const auto initial_buffer_size = get_initial_receive_buffer_size();
 
     server_
         ->bind_start([weak] {
@@ -59,40 +60,42 @@ bool rudp_server::start_server(std::shared_ptr<const msg_header> head, bus_id_t 
                     session_ptr->remote_address(), session_ptr->remote_port());
             }
         })
-        .bind_connect([weak, head, silent_timeout](std::shared_ptr<arknet::rudp_session>& session_ptr) {
-            auto self = weak.lock();
-            if (!self)
-            {
-                session_ptr->stop();
-                return;
-            }
-            session_ptr->set_silence_timeout(std::chrono::milliseconds(silent_timeout));
-            ARK_LOG_INFO("Client(RUDP) connected, remote_addr={} remote_port={} local_addr={} local_port={}",
-                session_ptr->remote_address(), session_ptr->remote_port(), session_ptr->local_address(),
-                session_ptr->local_port());
+        .bind_connect(
+            [weak, head, initial_buffer_size, silent_timeout](std::shared_ptr<arknet::rudp_session>& session_ptr) {
+                auto self = weak.lock();
+                if (!self)
+                {
+                    session_ptr->stop();
+                    return;
+                }
+                session_ptr->set_silence_timeout(std::chrono::milliseconds(silent_timeout));
+                ARK_LOG_INFO("Client(RUDP) connected, remote_addr={} remote_port={} local_addr={} local_port={}",
+                    session_ptr->remote_address(), session_ptr->remote_port(), session_ptr->local_address(),
+                    session_ptr->local_port());
 
-            auto cur_session_id = self->trusted_session_id_++;
-            session_ptr->set_user_data(cur_session_id);
+                auto cur_session_id = self->trusted_session_id_++;
+                session_ptr->set_user_data(cur_session_id);
 
-            net_event* net_connect_event = net_event::alloc_event();
-            net_connect_event->set_id(cur_session_id);
-            net_connect_event->set_type(net_event_type::connect);
-            net_connect_event->set_bus_id(self->bus_id_);
-            net_connect_event->set_ip(session_ptr->remote_address());
-            udp_session_ptr session = std::make_shared<udp_session>(head, cur_session_id, session_ptr);
-            if (self->add_net_session(session))
-            {
-                if (!session->add_net_event(net_connect_event))
+                net_event* net_connect_event = net_event::alloc_event();
+                net_connect_event->set_id(cur_session_id);
+                net_connect_event->set_type(net_event_type::connect);
+                net_connect_event->set_bus_id(self->bus_id_);
+                net_connect_event->set_ip(session_ptr->remote_address());
+                udp_session_ptr session =
+                    std::make_shared<udp_session>(head, cur_session_id, session_ptr, initial_buffer_size);
+                if (self->add_net_session(session))
+                {
+                    if (!session->add_net_event(net_connect_event))
+                    {
+                        net_event::release(net_connect_event);
+                    }
+                }
+                else
                 {
                     net_event::release(net_connect_event);
+                    session_ptr->stop();
                 }
-            }
-            else
-            {
-                net_event::release(net_connect_event);
-                session_ptr->stop();
-            }
-        })
+            })
         .bind_disconnect([weak](std::shared_ptr<arknet::rudp_session>& session_ptr) {
             const auto ec = arknet::get_last_error();
             auto self = weak.lock();

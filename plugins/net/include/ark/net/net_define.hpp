@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <cstddef>
+
 #include "ark/macros.hpp"
 
 // open kcp console log
@@ -33,6 +35,8 @@ namespace ark {
 class net;
 class net_msg;
 class net_event;
+
+inline constexpr std::size_t default_initial_receive_buffer_size = 4 * 1024;
 
 ARK_CONSTEXPR static const int ark_socket_send_size = 32 * 1024; // 32K
 ARK_CONSTEXPR static const int ark_socket_recv_size = 32 * 1024; // 32K
