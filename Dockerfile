@@ -7,8 +7,7 @@ WORKDIR /server/escort
 
 COPY . /server/escort
 
-RUN rm -rf ./build/bin/* \
-    && cd ./src/proto \
+RUN cd ./src/proto \
     #&& sh ./gen-proto.sh \
     && cd ../../ \
     && rm -rf ./cmake-build | true \
@@ -18,7 +17,7 @@ RUN rm -rf ./build/bin/* \
     && make -j16 \
     && cd ../ \
     && mkdir -p /home/server/escort \
-    && cp -r ./build/bin /home/server/escort \
+    && cp -r ./cmake-build/bin /home/server/escort \
     && cp -r ./build/conf /home/server/escort
 
 FROM  docker/ark-alpine-build:latest
