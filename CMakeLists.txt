@@ -65,7 +65,7 @@ if(ARK_BUILD_APPLICATIONS AND NOT ARK_BUILD_PROTO)
 endif()
 option(ARK_BUILD_BENCHMARKS "Build standalone benchmark programs" OFF)
 set(ARKNET_SOURCE_DIR "" CACHE PATH "Use a local arknet checkout for development")
-set(ARKNET_REVISION "848588e409bf7e5f86bc30b8ffae7efb022eb6e4" CACHE STRING "Pinned arknet revision")
+set(ARKNET_REVISION "25fe2e5fac4e09edee597f312d58b0362b9e0681" CACHE STRING "Pinned arknet revision")
 
 option(ARK_BUILD_TESTS "Enable build tests" ON)
 option(ARK_BUILD_CORE_TESTS "Build core C++20 regressions" ${ARK_BUILD_TESTS})

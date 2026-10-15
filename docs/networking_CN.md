@@ -53,6 +53,7 @@ CI 在 Linux、macOS、Windows 上检查 Boost 配置，并在 Linux 上运行�
 | Release、Boost 1.90、128 位 GUID、Protobuf、启用 TLS | 22／1,873 | 36／953 |
 | Debug、Boost、128 位 GUID、ASan/UBSan，仅网络 | — | 36／953 |
 | Release、Boost、ASan/UBSan，仅内核初始化 | 1／88 | — |
+| Debug、Standalone Asio 1.38.2，仅核心、关闭 Protobuf/TLS | 14／1,734 | — |
 
 Protobuf 用例包含正常消息、截断输入、Actor ID、含 NUL 的二进制消息、
 旧版报文字节、对外 JSON 字段名，以及新的公开描述符和枚举名称。

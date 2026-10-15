@@ -59,6 +59,7 @@ macOS 27.0.1 arm64 and Apple Clang 21.0.0. Local results:
 | Release, Boost 1.90, 128-bit GUID, Protobuf, TLS enabled | 22 / 1,873 | 36 / 953 |
 | Debug, Boost, 128-bit GUID, ASan/UBSan, network only | — | 36 / 953 |
 | Release, Boost, ASan/UBSan, kernel initialization only | 1 / 88 | — |
+| Debug, Standalone Asio 1.38.2, core only, Protobuf/TLS disabled | 14 / 1,734 | — |
 
 Protobuf cases cover valid messages, truncated input, actor identity, binary messages containing NUL,
 existing wire payloads, external JSON field names and the new public descriptor/enum names.
