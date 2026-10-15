@@ -1,0 +1,75 @@
+# Project layout and SDK
+
+English | [简体中文](project-layout_CN.md)
+
+ark uses C++20. Core headers and official plugins live in this repository;
+application-specific business plugins live with their application. The network
+library remains in the independent [arknet repository](https://github.com/OpenArkStudio/arknet).
+
+## Directories
+
+| Path | Contents |
+| --- | --- |
+| `include/ark/` | Public core headers |
+| `src/app/` | Application entry point |
+| `src/proto/` | Protocol schemas and codec implementation |
+| `src/server/` | Built-in server applications |
+| `plugins/<name>/include/ark/<name>/` | Public headers for an official plugin |
+| `plugins/<name>/src/` | Plugin implementation |
+| `plugins/<name>/tests/` | Tests specific to that plugin, when provided |
+| `tests/network/` | Network and logging regressions |
+| `tests/consumer/` | An independent project consuming the public SDK |
+| `examples/` | Application examples |
+
+Include public headers as `<ark/plugin_manager.hpp>` or `<ark/net/tcp_client.hpp>`.
+Do not add implementation directories to an application's include path. Generated
+Protobuf headers are placed under the build directory, exposed through `ark::proto`.
+
+## CMake targets
+
+| Target | Usage |
+| --- | --- |
+| `ark::core` | Core headers, C++20 requirements and shared compile definitions |
+| `ark::net`, `ark::kernel`, `ark::utility`, etc. | Headers and transitive public API dependencies of a plugin |
+| `ark::proto` | Generated protocol messages and their compiled library; requires `ARK_BUILD_PROTO=ON` |
+| `ark::ark` | Aggregate SDK for applications using multiple official plugins |
+
+The core and plugin API targets carry CMake usage requirements. They do not load
+runtime plugins. Shared plugin libraries are built with `ARK_BUILD_APPLICATIONS=ON`
+and selected with `ARK_BUILD_PLUGIN_<NAME>`. Existing shared-library filenames and
+plugin configuration names are retained; applications must be rebuilt for the new C++ API.
+
+```cmake
+add_subdirectory(path/to/ark ark-build)
+add_executable(my_service main.cpp)
+target_link_libraries(my_service PRIVATE ark::core ark::net)
+```
+
+The default runtime plugin selection is `kernel`, `net`, `bus`, `utility` and
+`etcd_client`. Other existing plugins are opt-in and require their driver dependencies;
+the directory migration alone does not validate those integrations.
+
+## Naming and formatting
+
+- Namespaces, types, functions and filenames use `snake_case`: `ark::plugin_manager`,
+  `find_module()`, `plugin_manager.hpp`.
+- Private and protected members end in `_`, for example `module_name_`.
+- Include system headers first, followed by third-party headers, then ark headers.
+- Use clang-format 18 and the checked-in `.clang-format`. Third-party and generated
+  files are excluded from project formatting.
+
+## Verify SDK consumption
+
+Initialize the pinned submodules and install the dependencies described in
+[Network builds and regression tests](networking.md), then build the independent consumer:
+
+```sh
+cmake -S tests/consumer -B sdk-build -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DASIO_STANDALONE=OFF
+cmake --build sdk-build --target check-sdk
+```
+
+The consumer builds with applications and Protobuf disabled. It verifies public
+include paths, inherited C++20 settings, module overrides and exported GUID configuration.
+Use `-DARK_USE_GUID_32=ON` to check the 32-bit GUID configuration.

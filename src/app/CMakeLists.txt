@@ -6,7 +6,7 @@ if(UNIX AND (NOT APPLE))
     set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif(UNIX AND (NOT APPLE))
 
-file(GLOB_RECURSE APP_SRC AFMain.cpp)
+file(GLOB_RECURSE APP_SRC main.cpp)
 add_executable(${project_name} ${APP_SRC})
 
 if(WIN32)

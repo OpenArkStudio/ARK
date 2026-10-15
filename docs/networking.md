@@ -2,7 +2,7 @@
 
 English | [简体中文](networking_CN.md)
 
-ARK requires C++20 and uses [arknet v0.1.0](https://github.com/OpenArkStudio/arknet)
+ARK requires C++20 and uses [arknet](https://github.com/OpenArkStudio/arknet)
 directly for TCP, WebSocket, HTTP and RDP. RDP uses arknet's RUDP endpoints with
 the legacy ARQ wire format, MTU 1400 and FEC disabled. Application message headers
 and Update-thread callback dispatch remain the same. No coroutine API migration
@@ -16,7 +16,7 @@ is included.
 - Protobuf, Zstandard and zlib when building applications and plugins.
 
 The vcpkg manifest pins the package baseline. CMake retrieves arknet from its
-release tag in the independent repository. To validate a development checkout,
+pinned revision in the independent repository. To validate a development checkout,
 set `ARKNET_SOURCE_DIR` to its absolute path.
 
 ## Build and run the network tests
@@ -26,20 +26,20 @@ git submodule update --init 3rdparty/args 3rdparty/spdlog 3rdparty/readerwriterq
 cmake -S . -B network-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
   -DARK_BUILD_APPLICATIONS=OFF -DARK_BUILD_NETWORK_TESTS=ON \
-  -DASIO_STANDALONE=ON -DCMAKE_BUILD_TYPE=Debug
+  -DASIO_STANDALONE=OFF -DCMAKE_BUILD_TYPE=Debug
 cmake --build network-build --parallel 2
 cmake --build network-build --target check-network
 ```
 
-For the Boost backend, add `-DVCPKG_MANIFEST_FEATURES=boost` and use
-`-DASIO_STANDALONE=OFF`. The tests are permanent C++ doctest cases under
-`test/network/`; the binary can also run directly or select cases with
+Boost is the default dependency. For Standalone Asio, use `-DASIO_STANDALONE=ON`;
+add `-DVCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON` to omit the Boost installation. The tests are permanent C++ doctest cases under
+`tests/network/`; the binary can also run directly or select cases with
 `--test-case=RUDP*`. Python and Ruby are not required.
 
 Coverage includes framing, binary payloads, reconnection, limits and timeouts,
 Update-thread dispatch, reentrant callbacks, HTTP status/headers/query data,
-shutdown cancellation, malformed input and log formatting/directory creation/rotation.
-CI checks both backends on Linux,
+shutdown cancellation, owner release inside receive callbacks, malformed input and log formatting/directory creation/rotation.
+CI checks both dependency configurations on Linux,
 macOS and Windows, plus memory/undefined-behavior and thread sanitizers on Linux.
 
 Local validation on 2026-10-13 used an Apple M4 Pro (14 CPU cores, 48 GiB RAM),

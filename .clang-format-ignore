@@ -1,7 +1,9 @@
-# ignore some code from clang-format checks
-
-src/base/AFMetaDefine.hpp
-src/proto/.*
-3rdparty/.*
-test/catch.hpp
-test/network/doctest.h
+3rdparty/
+src/proto/cpp/
+include/ark/meta_define.hpp
+tests/catch.hpp
+tests/network/doctest.h
+plugins/utility/include/ark/utility/ctpl.h
+plugins/utility/include/ark/utility/ctpl_stl.h
+plugins/physic/include/ark/physic/wave_front.cpp
+plugins/physic/include/ark/physic/wave_front.hpp

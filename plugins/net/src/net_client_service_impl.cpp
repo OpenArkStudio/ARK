@@ -1,0 +1,399 @@
+/*
+ * This source file is part of ARK
+ * For the latest info, see https://github.com/ArkNX
+ *
+ * Copyright (c) 2013-2020 ArkNX authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"),
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+#include "ark/net/net_client_service_impl.hpp"
+#include "ark/net/rudp_client.hpp"
+#include "ark/net/tcp_client.hpp"
+#include "ark/time/date_time.hpp"
+
+namespace ark {
+
+net_client_service_impl::net_client_service_impl(plugin_manager* p)
+    : m_pPluginManager(p) {
+    m_pNetServiceManagerModule = m_pPluginManager->find_module<net_service_manager_module>();
+    m_pBusModule = m_pPluginManager->find_module<bus_module>();
+    m_pMsgModule = m_pPluginManager->find_module<msg_module>();
+
+    consistent_hashmap_.set_vnode_count(EConstDefine_DefaultWeight);
+}
+
+bool net_client_service_impl::start_client(
+    std::shared_ptr<const msg_header> head, bus_id_t target_bus_id, const endpoint& endpoint) {
+    connection_data data;
+    data.head_ = head;
+    data.server_bus_id_ = target_bus_id;
+    data.endpoint_ = endpoint;
+
+    tmp_connections_.push_back(data);
+    return true;
+}
+
+void net_client_service_impl::update() {
+    process_add_connection();
+    process_update();
+}
+
+bool net_client_service_impl::reg_msg_callback(msg_id_t msg_id, const net_msg_functor&& cb) {
+    if (net_msg_callbacks_.find(msg_id) != net_msg_callbacks_.end())
+    {
+        return false;
+    }
+    else
+    {
+        net_msg_callbacks_.insert(std::make_pair(msg_id, std::forward<const net_msg_functor>(cb)));
+        return true;
+    }
+}
+
+bool net_client_service_impl::reg_forward_msg_callback(const net_msg_functor&& cb) {
+    net_msg_forward_callbacks_.push_back(std::forward<const net_msg_functor>(cb));
+    return true;
+}
+
+bool net_client_service_impl::reg_net_event_callback(const net_event_functor&& cb) {
+    net_event_callbacks_.push_back(std::forward<const net_event_functor>(cb));
+    return true;
+}
+
+void net_client_service_impl::process_update() {
+    for (auto iter : real_connections_)
+    {
+        auto connection_data = iter.second;
+        if (connection_data->net_client_ == nullptr)
+        {
+            continue;
+        }
+
+        switch (connection_data->net_state_)
+        {
+        case connection_data::DISCONNECT:
+        {
+            connection_data->net_state_ = connection_data::RECONNECT;
+            connection_data->net_client_->shutdown();
+        }
+        break;
+        case connection_data::CONNECTING:
+        {
+            connection_data->net_client_->update();
+        }
+        break;
+        case connection_data::CONNECTED:
+        {
+            connection_data->net_client_->update();
+
+            keep_alive(connection_data);
+        }
+        break;
+        case connection_data::RECONNECT:
+        {
+            // RECONNECT 30s/time
+            if ((connection_data->last_active_time_ + 30 * timespan::SECOND_MS) >= m_pPluginManager->get_now_time())
+            {
+                break;
+            }
+
+            connection_data->last_active_time_ = m_pPluginManager->get_now_time();
+
+            connection_data->net_client_->shutdown();
+
+            // based on protocol to create a new client
+            bool ret =
+                connection_data->net_client_->start_client(connection_data->head_, connection_data->server_bus_id_,
+                    connection_data->endpoint_.get_ip(), connection_data->endpoint_.get_port());
+            if (!ret)
+            {
+                connection_data->net_state_ = connection_data::RECONNECT;
+            }
+            else
+            {
+                connection_data->net_state_ = connection_data::CONNECTING;
+            }
+        }
+        break;
+        default:
+            break;
+        }
+    }
+}
+
+std::shared_ptr<net> net_client_service_impl::create_net(const proto_type proto) {
+    if (proto == proto_type::tcp)
+    {
+        return std::make_shared<tcp_client>(
+            this, &net_client_service_impl::on_net_msg, &net_client_service_impl::on_net_event);
+    }
+    else if (proto == proto_type::udp)
+    {
+        return std::make_shared<rudp_client>(
+            this, &net_client_service_impl::on_net_msg, &net_client_service_impl::on_net_event);
+    }
+    else if (proto == proto_type::ws)
+    {
+        // will add web-socket client
+    }
+
+    // other protocol will be supported
+    return nullptr;
+}
+
+void net_client_service_impl::log_server_info() {
+    log_server_info("This is a client, begin to print Server Info----------------------------------");
+
+    for (auto iter : real_connections_)
+    {
+        auto connection_data = iter.second;
+        if (connection_data != nullptr)
+        {
+            std::string info = ARK_FORMAT("TargetBusID={} State={} url={}", connection_data->server_bus_id_,
+                static_cast<int>(connection_data->net_state_), connection_data->endpoint_.to_string());
+            log_server_info(info);
+        }
+    }
+
+    log_server_info("This is a client, end to print Server Info----------------------------------");
+}
+
+void net_client_service_impl::keep_alive(std::shared_ptr<connection_data> pServerData) {
+    if ((pServerData->last_active_time_ + 5000) > m_pPluginManager->get_now_time())
+    {
+        return;
+    }
+
+    send_report(pServerData);
+
+    pServerData->last_active_time_ = m_pPluginManager->get_now_time();
+
+    keep_report(pServerData);
+    log_server_info();
+}
+
+bool net_client_service_impl::add_server_node(std::shared_ptr<connection_data> data) {
+    consistent_hashmap_.insert(data->server_bus_id_, data->endpoint_.get_ip(), data->endpoint_.get_port());
+    return true;
+}
+
+bool net_client_service_impl::get_server_node(const std::string& hash_key, v_node& vnode) {
+    auto iter = consistent_hashmap_.find(hash_key);
+    if (iter == consistent_hashmap_.end())
+    {
+        return false;
+    }
+    else
+    {
+        vnode = iter->second;
+        return true;
+    }
+}
+
+void net_client_service_impl::remove_server_node(std::shared_ptr<connection_data> data) {
+    v_node vnode(data->server_bus_id_, data->endpoint_.get_ip(), data->endpoint_.get_port(), 0);
+    consistent_hashmap_.erase(vnode);
+}
+
+int net_client_service_impl::on_connect(const net_event* event) {
+    ARK_LOG_INFO("Connected [{}] successfully, ip={} session_id={}", bus_addr(event->get_bus_id()).to_string(),
+        event->get_ip(), event->get_id());
+
+    auto connection_info = get_connection_info(event->get_bus_id());
+
+    if (connection_info != nullptr)
+    {
+        add_server_node(connection_info);
+        connection_info->net_state_ = connection_data::CONNECTED;
+
+        // add server-bus-id -> client-bus-id
+        m_pNetServiceManagerModule->add_net_connection_bus(event->get_bus_id(), connection_info->net_client_);
+
+        // send reg message to server
+        reg_to_server(*(connection_info->head_.get()), event->get_bus_id());
+    }
+
+    return 0;
+}
+
+int net_client_service_impl::on_disconnect(const net_event* event) {
+    ARK_LOG_ERROR("Disconnect [{}] successfully, ip={} session_id={}", bus_addr(event->get_bus_id()).to_string(),
+        event->get_ip(), event->get_id());
+
+    std::shared_ptr<connection_data> connection_info = get_connection_info(event->get_bus_id());
+
+    if (connection_info != nullptr)
+    {
+        remove_server_node(connection_info);
+        connection_info->net_state_ = connection_data::DISCONNECT;
+        connection_info->last_active_time_ = m_pPluginManager->get_now_time();
+        // remove net bus
+        m_pNetServiceManagerModule->remove_net_connection_bus(event->get_bus_id());
+    }
+
+    return 0;
+}
+
+void net_client_service_impl::process_add_connection() {
+    for (auto& iter : tmp_connections_)
+    {
+        const connection_data& pending_connection = iter;
+        std::shared_ptr<connection_data> target_connection_data =
+            real_connections_.find_value(pending_connection.server_bus_id_);
+        if (target_connection_data != nullptr)
+        {
+            continue;
+        }
+        // add new server
+        target_connection_data = std::make_shared<connection_data>();
+
+        *target_connection_data = pending_connection;
+        target_connection_data->last_active_time_ = m_pPluginManager->get_now_time();
+
+        // based on protocol to create a new client
+        target_connection_data->net_client_ = create_net(target_connection_data->endpoint_.proto());
+        int ret = target_connection_data->net_client_->start_client(target_connection_data->head_,
+            target_connection_data->server_bus_id_, target_connection_data->endpoint_.get_ip(),
+            target_connection_data->endpoint_.get_port());
+        if (!ret)
+        {
+            target_connection_data->net_state_ = connection_data::RECONNECT;
+        }
+        else
+        {
+            target_connection_data->net_state_ = connection_data::CONNECTING;
+        }
+
+        real_connections_.insert(target_connection_data->server_bus_id_, target_connection_data);
+    }
+
+    tmp_connections_.clear();
+}
+
+void net_client_service_impl::on_net_msg(const net_msg* msg, conv_id_t session_id) {
+    ARK_LOG_DEBUG("[msg][recv] msg id = {} session id = {}", msg->get_msg_id(), session_id);
+
+    auto it = net_msg_callbacks_.find(msg->get_msg_id());
+
+    if (it != net_msg_callbacks_.end())
+    {
+        (it->second)(msg, session_id);
+    }
+    else
+    {
+        ARK_LOG_ERROR("Invalid message, id = {}", msg->get_msg_id());
+        // TODO:forward to other server process
+    }
+}
+
+void net_client_service_impl::on_net_event(const net_event* event) {
+    switch (event->get_type())
+    {
+    case net_event_type::CONNECT:
+        on_connect(event);
+        break;
+    case net_event_type::DISCONNECT:
+        on_disconnect(event);
+        break;
+    default:
+        break;
+    }
+
+    for (const auto& it : net_event_callbacks_)
+    {
+        (it)(event);
+    }
+}
+
+std::shared_ptr<connection_data> net_client_service_impl::get_connection_info(bus_id_t bus_id) {
+    return real_connections_.find_value(bus_id);
+}
+
+std::shared_ptr<connection_data> net_client_service_impl::get_suitable_connect(const std::string& key) {
+    static v_node vnode(0, NULL_STR, 0, 0);
+    if (!get_server_node(key, vnode))
+    {
+        return nullptr;
+    }
+
+    return get_connection_info(vnode.bus_id);
+}
+
+void net_client_service_impl::add_account_bus_id(const std::string& account, bus_id_t bus_id) {
+    account_bus_map_.insert(std::make_pair(account, bus_id));
+}
+
+void net_client_service_impl::remove_account_bus_id(const std::string& account) {
+    account_bus_map_.erase(account);
+}
+
+int net_client_service_impl::get_account_bus_id(const std::string& account) {
+    auto iter = account_bus_map_.find(account);
+    if (iter == account_bus_map_.end())
+    {
+        return -1;
+    }
+
+    return iter->second;
+}
+
+void net_client_service_impl::add_actor_bus_id(const guid_t& actor, bus_id_t bus_id) {
+    actor_bus_map_.insert(std::make_pair(actor, bus_id));
+}
+
+void net_client_service_impl::remove_actor_bus_id(const guid_t& actor) {
+    actor_bus_map_.erase(actor);
+}
+
+int net_client_service_impl::get_actor_bus_id(const guid_t& actor) {
+    auto iter = actor_bus_map_.find(actor);
+    if (iter == actor_bus_map_.end())
+    {
+        return -1;
+    }
+
+    return iter->second;
+}
+
+void net_client_service_impl::reg_to_server(const msg_header& head, bus_id_t target_bus_id) {
+    auto bus_id = m_pBusModule->get_self_bus_id();
+    auto pNet = m_pNetServiceManagerModule->get_net_connection_bus(bus_id, target_bus_id);
+    if (!pNet)
+    {
+        return;
+    }
+
+    auto new_head = head.create();
+    new_head->set_message_id(AFMsg::E_SS_MSG_ID_REG_TO_SERVER);
+    new_head->set_source_bus_id(bus_id);
+    new_head->set_dest_bus_id(target_bus_id);
+
+    pNet->send_msg(new_head, "", 0);
+
+    delete new_head;
+}
+
+void net_client_service_impl::send_report(std::shared_ptr<connection_data> pServerData) {
+    auto head = pServerData->head_->create();
+    head->set_message_id(AFMsg::E_SS_MSG_ID_HEART_BEAT);
+    head->set_source_bus_id(m_pBusModule->get_self_bus_id());
+    head->set_dest_bus_id(pServerData->server_bus_id_);
+
+    pServerData->net_client_->send_msg(head, "", 0);
+
+    delete head;
+}
+
+} // namespace ark

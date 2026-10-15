@@ -51,10 +51,15 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 #---------------------------------------------------------------------------------------
 # CMake switches
 #---------------------------------------------------------------------------------------
-option(ASIO_STANDALONE "Use Standalone Asio instead of Boost.Asio" ON)
-option(ARK_BUILD_APPLICATIONS "Build ARK applications and plugins" ON)
+option(ASIO_STANDALONE "Use Standalone Asio instead of Boost.Asio" OFF)
+option(ARK_BUILD_APPLICATIONS "Build ark applications and plugins" ON)
+option(ARK_BUILD_PROTO "Generate and build protocol messages" ${ARK_BUILD_APPLICATIONS})
+if(ARK_BUILD_APPLICATIONS AND NOT ARK_BUILD_PROTO)
+    message(FATAL_ERROR "ARK_BUILD_APPLICATIONS requires ARK_BUILD_PROTO")
+endif()
 option(ARK_BUILD_NETWORK_TESTS "Build network migration regressions" OFF)
 set(ARKNET_SOURCE_DIR "" CACHE PATH "Use a local arknet checkout for development")
+set(ARKNET_REVISION "fd6f2cac07a848e1327092a92f218ad17a774aa8" CACHE STRING "Pinned arknet revision")
 
 option(ARK_BUILD_TESTS "Enable build tests" ON)
 option(ARK_BUILD_EXAMPLES "Enable build examples" ON)
@@ -140,7 +145,7 @@ else (UNIX)
 endif ()
 
 # protobuf
-if(ARK_BUILD_APPLICATIONS)
+if(ARK_BUILD_PROTO)
     set(protobuf_MODULE_COMPATIBLE ON)
     find_package(Protobuf CONFIG QUIET)
     if(NOT Protobuf_FOUND)
@@ -177,13 +182,36 @@ else()
     include(FetchContent)
     FetchContent_Declare(arknet
         GIT_REPOSITORY https://github.com/OpenArkStudio/arknet.git
-        GIT_TAG v0.1.0
-        GIT_SHALLOW TRUE)
+        GIT_TAG ${ARKNET_REVISION}
+        GIT_SHALLOW FALSE)
     FetchContent_MakeAvailable(arknet)
 endif()
-link_libraries(arknet::arknet)
 
 find_path(RAPIDXML_INCLUDE_DIR rapidxml.hpp PATH_SUFFIXES rapidxml REQUIRED)
+
+add_library(ark_core INTERFACE)
+add_library(ark::core ALIAS ark_core)
+target_compile_features(ark_core INTERFACE cxx_std_20)
+target_include_directories(ark_core INTERFACE
+    "$<BUILD_INTERFACE:${ROOT_DIR}/include>"
+    "$<BUILD_INTERFACE:${3RD_PARTY_DIR}>"
+    "$<BUILD_INTERFACE:${3RD_PARTY_DIR}/spdlog/include>"
+    "${RAPIDXML_INCLUDE_DIR}")
+target_link_libraries(ark_core INTERFACE arknet::arknet ${CMAKE_DL_LIBS})
+target_compile_definitions(ark_core INTERFACE
+    $<$<BOOL:${ARK_USE_GUID_32}>:ARK_USE_GUID_32>
+    $<$<BOOL:${ARK_DOCKER_ALPINE}>:ARK_DOCKER_ALPINE>
+    $<$<BOOL:${ARK_OPEN_FILE_LOG}>:OPEN_FILE_LOG>
+    $<$<CONFIG:Debug>:_DEBUG>)
+if(MSVC)
+    target_compile_options(ark_core INTERFACE /bigobj /utf-8 /Zc:__cplusplus)
+    target_compile_definitions(ark_core INTERFACE WIN32_LEAN_AND_MEAN _WIN32_WINNT=0x0601)
+endif()
+
+add_library(ark_sdk INTERFACE)
+add_library(ark::ark ALIAS ark_sdk)
+target_link_libraries(ark_sdk INTERFACE ark::core)
+
 
 # include and link directories
 include_directories(
@@ -191,9 +219,7 @@ include_directories(
         ${3RD_PARTY_DIR}/spdlog/include
         ${RAPIDXML_INCLUDE_DIR}
         ${ROOT_DIR}/src
-        ${ROOT_DIR}/src/plugin
-        ${ROOT_DIR}/src/server
-        ${ROOT_DIR}/src/escort)
+        ${ROOT_DIR}/src/server)
 include_directories(BEFORE ${3RD_PARTY_DIR}/spdlog/include)
 
 link_directories(${3RD_PARTY_LIB_DIR})
@@ -226,10 +252,14 @@ set(CMAKE_DEBUG_POSTFIX "_d" CACHE STRING "Set debug library postfix")
 # Building ARK source.
 #---------------------------------------------------------------------------------------
 message(STATUS "Start to build all source...")
+if(ARK_BUILD_PROTO)
+    add_subdirectory(src/proto)
+    target_link_libraries(ark_sdk INTERFACE ark::proto)
+endif()
+add_subdirectory(plugins)
+link_libraries(ark::ark)
 if(ARK_BUILD_APPLICATIONS)
     add_subdirectory(src/app)
-    add_subdirectory(src/proto)
-    add_subdirectory(src/plugin)
     add_subdirectory(src/server)
 endif()
 
@@ -247,9 +277,9 @@ endif ()
 if (ARK_BUILD_APPLICATIONS AND ARK_BUILD_TESTS)
     message(STATUS "Building tests ...")
     enable_testing()
-    add_subdirectory(test)
+    add_subdirectory(tests)
 endif ()
 
 if(ARK_BUILD_NETWORK_TESTS)
-    add_subdirectory(test/network)
+    add_subdirectory(tests/network)
 endif()

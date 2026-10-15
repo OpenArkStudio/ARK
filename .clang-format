@@ -1,9 +1,8 @@
 ---
 Language: Cpp
-# BasedOnStyle:  LLVM
+# BasedOnStyle: LLVM
 AccessModifierOffset: -4
 AlignAfterOpenBracket: DontAlign
-#IndentCaseBlocks: true
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 AlignEscapedNewlines: Right
@@ -25,7 +24,7 @@ BraceWrapping:
   AfterClass: true
   AfterControlStatement: true
   AfterEnum: true
-  AfterFunction: true
+  AfterFunction: false
   AfterNamespace: false
   AfterObjCDeclaration: true
   AfterStruct: true
@@ -37,7 +36,6 @@ BraceWrapping:
   SplitEmptyFunction: true
   SplitEmptyRecord: true
   SplitEmptyNamespace: true
-  #BeforeLambdaBody: true
 BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Custom
 BreakBeforeInheritanceComma: true
@@ -61,28 +59,37 @@ ForEachMacros:
   - foreach
   - Q_FOREACH
   - BOOST_FOREACH
+IncludeBlocks: Regroup
+IncludeIsMainRegex: "a^"
 IncludeCategories:
-  - Regex: '^"(llvm|llvm-c|clang|clang-c)/'
+  - Regex: '^["<](arknet/|vendor/|asio([/.]|>)|boost/|openssl/|spdlog/|doctest/)'
     Priority: 2
-  - Regex: '^(<|"(gtest|gmock|isl|json)/)'
-    Priority: 3
-  - Regex: ".*"
+    SortPriority: 3
+  # Windows SDK headers such as psapi.h require windows.h first.
+  - Regex: '^<windows\.h>$'
     Priority: 1
-IncludeIsMainRegex: "(Test)?$"
+    SortPriority: 1
+  - Regex: '^<([[:alnum:]_]+|(assert|ctype|errno|fenv|float|inttypes|iso646|limits|locale|math|setjmp|signal|std[a-z]+|string|tgmath|threads|time|uchar|wchar|wctype|unistd|fcntl|pthread|poll|windows|winsock2|ws2tcpip|mstcpip|psapi|targetconditionals)\.h|(arpa|net|netinet|sys|mach|mach-o|linux)/.*)>$'
+    Priority: 1
+    SortPriority: 2
+  - Regex: '^<ark/'
+    Priority: 3
+    SortPriority: 4
+  - Regex: '^<'
+    Priority: 2
+    SortPriority: 3
+  - Regex: '.*'
+    Priority: 3
+    SortPriority: 5
 IndentCaseLabels: false
-IndentPPDirectives: None #BeforeHash is not available, don't know why.
+IndentPPDirectives: None
 IndentWidth: 4
 IndentWrappedFunctionNames: false
-JavaScriptQuotes: Leave
-JavaScriptWrapImports: true
+InsertBraces: true
 KeepEmptyLinesAtTheStartOfBlocks: true
-MacroBlockBegin: ""
-MacroBlockEnd: ""
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
-ObjCBlockIndentWidth: 2
-ObjCSpaceAfterProperty: false
-ObjCSpaceBeforeProtocolList: true
+SeparateDefinitionBlocks: Always
 PenaltyBreakAssignment: 2
 PenaltyBreakBeforeFirstCallParameter: 19
 PenaltyBreakComment: 300
@@ -91,8 +98,9 @@ PenaltyBreakString: 1000
 PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 60
 PointerAlignment: Left
+ReferenceAlignment: Left
 ReflowComments: false
-SortIncludes: false
+SortIncludes: CaseSensitive
 SortUsingDeclarations: true
 SpaceAfterCStyleCast: false
 SpaceAfterTemplateKeyword: false
@@ -105,7 +113,7 @@ SpacesInContainerLiterals: true
 SpacesInCStyleCastParentheses: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-Standard: c++17
+Standard: c++20
 TabWidth: 4
 UseTab: Never
 ---

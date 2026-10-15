@@ -6,16 +6,16 @@ ARK is a lightweight, agility, elastic, distributed plugin framework written in 
 
 ---
 
-![GitHub release](https://img.shields.io/github/release/OpenArkStudio/ARK.svg?style=flat-square)
-![GitHub pre-release](https://img.shields.io/github/release-pre/OpenArkStudio/ARK.svg?label=pre-release&style=flat-square)
-[![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows,%20MacOSX-green.svg?style=flat-square)](https://github.com/OpenArkStudio/ARK)
-[![C++20](https://img.shields.io/badge/C++-20-4c7e9f.svg?style=flat-square)](https://github.com/OpenArkStudio/ARK)
-[![License](https://img.shields.io/github/license/OpenArkStudio/ARK.svg?colorB=f48041&style=flat-square)](https://opensource.org/licenses/Apache-2.0)
-![GitHub stars](https://img.shields.io/github/stars/OpenArkStudio/ARK.svg?style=flat-square&label=Stars&style=flat-square)
-![GitHub issues](https://img.shields.io/github/issues-raw/OpenArkStudio/ARK.svg?style=flat-square)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/OpenArkStudio/ARK.svg?style=flat-square)  
+![GitHub release](https://img.shields.io/github/release/OpenArkStudio/ark.svg?style=flat-square)
+![GitHub pre-release](https://img.shields.io/github/release-pre/OpenArkStudio/ark.svg?label=pre-release&style=flat-square)
+[![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows,%20MacOSX-green.svg?style=flat-square)](https://github.com/OpenArkStudio/ark)
+[![C++20](https://img.shields.io/badge/C++-20-4c7e9f.svg?style=flat-square)](https://github.com/OpenArkStudio/ark)
+[![License](https://img.shields.io/github/license/OpenArkStudio/ark.svg?colorB=f48041&style=flat-square)](https://opensource.org/licenses/Apache-2.0)
+![GitHub stars](https://img.shields.io/github/stars/OpenArkStudio/ark.svg?style=flat-square&label=Stars&style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues-raw/OpenArkStudio/ark.svg?style=flat-square)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/OpenArkStudio/ark.svg?style=flat-square)<br>
 [![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=ark&metric=alert_status)](https://sonarcloud.io/dashboard/index/ark)
-[![codecov](https://codecov.io/gh/OpenArkStudio/ARK/branch/main/graph/badge.svg)](https://codecov.io/gh/OpenArkStudio/ARK)
+[![codecov](https://codecov.io/gh/OpenArkStudio/ark/branch/main/graph/badge.svg)](https://codecov.io/gh/OpenArkStudio/ark)
 [![QQ Group](https://img.shields.io/badge/Chat%20on-QQ%20Group-orange.svg?longCache=true&style=flat-square)](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
 [![Discord](https://img.shields.io/discord/471890201124536320.svg?label=Discord&style=flat-square)](https://discord.gg/GmyBbcv)
 [![996.icu](https://img.shields.io/badge/Link-996.icu-red.svg?&style=flat-square)](https://996.icu)
@@ -24,13 +24,13 @@ ARK is a lightweight, agility, elastic, distributed plugin framework written in 
 
 **Copyright © [OpenArkStudio](https://openark.io "OpenArkStudio")**  
 Website: https://github.com/OpenArkStudio  
-GitHub: https://github.com/OpenArkStudio/ARK  
+GitHub: https://github.com/OpenArkStudio/ark<br>
 Gitee: https://gitee.com/ArkNX/ARK  
 QQ
 Group: [Join Us](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)  
 Discord: [Join Us](https://discord.gg/GmyBbcv)
 
-[![CI](https://github.com/OpenArkStudio/ARK/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/OpenArkStudio/ARK/actions/workflows/ci.yml)
+[![CI](https://github.com/OpenArkStudio/ark/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/OpenArkStudio/ark/actions/workflows/ci.yml)
 
 Development targets the protected `main` branch. Changes require a pull request
 and passing CI, then merge with squash and an English commit subject.
@@ -55,7 +55,7 @@ See the [Contribution Guide](.github/CONTRIBUTING.md).
 
 ## Document
 
-Please visit doc website: [Document](https://openarkstudio.github.io/ARK/)
+Please visit doc website: [Document](https://openarkstudio.github.io/ark/)
 
 ARK requires C++20 and uses [arknet](https://github.com/OpenArkStudio/arknet) for
 TCP, WebSocket, HTTP and RDP. Build instructions and permanent network tests
@@ -92,7 +92,7 @@ and easily. After years of development, we create this frame. We are still impro
 
 ## Stargazers over time
 
-[![Stargazers over time](https://starchart.cc/OpenArkStudio/ARK.svg)](https://starchart.cc/OpenArkStudio/ARK)
+[![Stargazers over time](https://starchart.cc/OpenArkStudio/ark.svg)](https://starchart.cc/OpenArkStudio/ark)
 
 #### Some Awesome projects
 

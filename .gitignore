@@ -54,7 +54,8 @@ build/bin/app_d
 build/bin/protoc
 build/bin/protoc-3.10.1.0
 build/bin/test_*
-app
+/app
+/build/bin/app
 /cmake-build-debug/
 /cmake-build-release/
 .idea

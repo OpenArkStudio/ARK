@@ -7,8 +7,8 @@ function(BUILD_PLUGIN_MACRO project_name)
 
     file(GLOB_RECURSE PLUGIN_SRC 
         tool.cpp 
-        ${CMAKE_SOURCE_DIR}/src/plugin/net/src/kcp_client.cpp
-        ${CMAKE_SOURCE_DIR}/src/plugin/net/src/AFCKcpClient.cpp
+        ${CMAKE_SOURCE_DIR}/plugins/net/src/kcp_client.cpp
+        ${CMAKE_SOURCE_DIR}/plugins/net/src/AFCKcpClient.cpp
     )
     add_library(${project_name} SHARED ${PLUGIN_SRC})
     set_target_properties(${project_name} PROPERTIES PREFIX "")

@@ -1,20 +1,17 @@
 set(project_name AFProto)
 
-if (UNIX AND (NOT APPLE))
-    #Set rpath
-    set(CMAKE_INSTALL_RPATH ".")
-    set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-endif (UNIX AND (NOT APPLE))
-
-file(GLOB PROTO_DEFINATION proto/*.proto)
-MY_PROTOBUF_GENERATE_CPP(${CMAKE_CURRENT_SOURCE_DIR}/cpp PROTO_SRC PROTO_HEADER ${PROTO_DEFINATION})
+set(ark_proto_generated "${CMAKE_CURRENT_BINARY_DIR}/generated")
+file(GLOB PROTO_DEFINITION CONFIGURE_DEPENDS proto/*.proto)
+MY_PROTOBUF_GENERATE_CPP("${ark_proto_generated}/ark/proto" PROTO_SRC PROTO_HEADER ${PROTO_DEFINITION})
 add_library(${project_name} STATIC ${PROTO_HEADER} ${PROTO_SRC})
-
-set_target_properties(${project_name} PROPERTIES PREFIX "")
+add_library(ark::proto ALIAS ${project_name})
+target_include_directories(${project_name} PUBLIC
+    "$<BUILD_INTERFACE:${ark_proto_generated}>")
+target_compile_definitions(${project_name} PUBLIC ARK_HAS_PROTOBUF=1)
+target_link_libraries(${project_name} PUBLIC ${PROTOBUF_LIBRARIES})
 set_target_properties(${project_name} PROPERTIES
-        FOLDER "proto"
-        ARCHIVE_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
-        RUNTIME_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
-        LIBRARY_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR})
-
-target_link_libraries(${project_name} ${PROTOBUF_LIBRARIES})
+    PREFIX ""
+    FOLDER "proto"
+    ARCHIVE_OUTPUT_DIRECTORY "${BIN_OUTPUT_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY "${BIN_OUTPUT_DIR}"
+    LIBRARY_OUTPUT_DIRECTORY "${BIN_OUTPUT_DIR}")
