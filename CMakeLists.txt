@@ -59,7 +59,7 @@ if(ARK_BUILD_APPLICATIONS AND NOT ARK_BUILD_PROTO)
 endif()
 option(ARK_BUILD_NETWORK_TESTS "Build network migration regressions" OFF)
 set(ARKNET_SOURCE_DIR "" CACHE PATH "Use a local arknet checkout for development")
-set(ARKNET_REVISION "fd6f2cac07a848e1327092a92f218ad17a774aa8" CACHE STRING "Pinned arknet revision")
+set(ARKNET_REVISION "848588e409bf7e5f86bc30b8ffae7efb022eb6e4" CACHE STRING "Pinned arknet revision")
 
 option(ARK_BUILD_TESTS "Enable build tests" ON)
 option(ARK_BUILD_EXAMPLES "Enable build examples" ON)
