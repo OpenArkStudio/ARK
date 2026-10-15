@@ -16,6 +16,7 @@
 ```sh
 cmake -S . -B database-build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  "-DVCPKG_MANIFEST_FEATURES=boost;database" \
   -DARK_BUILD_APPLICATIONS=OFF -DARK_BUILD_PROTO=OFF \
   -DARK_BUILD_TESTS=OFF -DARK_BUILD_CORE_TESTS=OFF \
   -DARK_BUILD_DATABASE_TESTS=ON -DARKNET_SOURCE_DIR=/absolute/path/to/arknet \
@@ -26,8 +27,9 @@ cmake --build database-build --target ark_database_queue_tests \
   ark_database_service_awaitable_tests --parallel 2
 ```
 
-使用 Standalone Asio 时设为 `ASIO_STANDALONE=ON`，必要时指定
-`ARKNET_ASIO_INCLUDE_DIR`。仅在 `ARKNET_ENABLE_SSL=ON` 时构建 MySQL 测试；
+使用 Standalone Asio 时设为 `ASIO_STANDALONE=ON`、
+`VCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON` 和 `VCPKG_MANIFEST_FEATURES=database`，
+必要时指定 `ARKNET_ASIO_INCLUDE_DIR`。仅在 `ARKNET_ENABLE_SSL=ON` 时构建 MySQL 测试；
 即使显式使用明文 MySQL 连接，认证仍需要 OpenSSL。Redis 明文连接测试不要求此选项。
 队列测试与 core/network 一样复用既有 `tests/network/doctest.h`，
 真实服务检查是独立 C++ 可执行程序，不下载新测试框架。

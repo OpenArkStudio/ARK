@@ -17,6 +17,7 @@ these tests never change the production dependency pin or fetch a feature branch
 ```sh
 cmake -S . -B database-build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  "-DVCPKG_MANIFEST_FEATURES=boost;database" \
   -DARK_BUILD_APPLICATIONS=OFF -DARK_BUILD_PROTO=OFF \
   -DARK_BUILD_TESTS=OFF -DARK_BUILD_CORE_TESTS=OFF \
   -DARK_BUILD_DATABASE_TESTS=ON -DARKNET_SOURCE_DIR=/absolute/path/to/arknet \
@@ -27,8 +28,9 @@ cmake --build database-build --target ark_database_queue_tests \
   ark_database_service_awaitable_tests --parallel 2
 ```
 
-For Standalone Asio, set `ASIO_STANDALONE=ON` and provide
-`ARKNET_ASIO_INCLUDE_DIR` when needed. MySQL is built only when
+For Standalone Asio, set `ASIO_STANDALONE=ON`,
+`VCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON` and `VCPKG_MANIFEST_FEATURES=database`;
+provide `ARKNET_ASIO_INCLUDE_DIR` when needed. MySQL is built only when
 `ARKNET_ENABLE_SSL=ON`: OpenSSL is required for authentication even with an
 explicit unencrypted MySQL connection. Redis's plain connection tests can be built
 without this option. No new test framework is downloaded: queue tests use the
