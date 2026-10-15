@@ -95,7 +95,7 @@ bool physic_module_impl::post_init() {
     if (config_.bSimulate)
     {
         std::chrono::milliseconds interval((int)(config_.step_ * 1000));
-        m_pTimerModule->AddForeverTimer(guid_t(), interval, this, &physic_module_impl::OnSimulate);
+        m_pTimerModule->add_forever_timer(guid_t(), interval, this, &physic_module_impl::OnSimulate);
     }
 
     return true;
@@ -110,7 +110,7 @@ guid_t physic_module_impl::CreateScene(const std::string& scene_id) {
     }
 
     ///generate guid
-    auto guid = m_pGUIDModule->CreateGUID();
+    auto guid = m_pGUIDModule->create_guid();
     if (guid == NULL_GUID)
     {
         ARK_LOG_ERROR("create scene failed scene id = {}", scene_id);
@@ -317,7 +317,7 @@ guid_t physic_module_impl::CreateDynamicActor(
     px_scene->addActor(*actor);
 
     ///generate guid
-    auto guid = m_pGUIDModule->CreateGUID();
+    auto guid = m_pGUIDModule->create_guid();
     actor->userData = (void*)guid_t(guid);
     actor_list_.insert(std::make_pair(guid, actor));
     return guid;
@@ -337,7 +337,7 @@ guid_t physic_module_impl::CreateStaticActor(
     px_scene->addActor(*actor);
 
     ///generate guid
-    auto guid = m_pGUIDModule->CreateGUID();
+    auto guid = m_pGUIDModule->create_guid();
     actor->userData = (void*)guid_t(guid);
     actor_list_.insert(std::make_pair(guid, actor));
     return guid;

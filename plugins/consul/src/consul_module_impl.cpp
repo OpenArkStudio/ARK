@@ -33,14 +33,14 @@ bool consul_module_impl::init() {
 
 bool consul_module_impl::LoadConfig() {
     xml xml(consul_plugin::get_plugin_conf());
-    auto root = xml.GetRootNode();
-    ARK_ASSERT_RET_VAL(root.IsValid(), false);
+    auto root = xml.get_root_node();
+    ARK_ASSERT_RET_VAL(root.is_valid(), false);
 
-    auto conf_node = root.FindNode("conf");
-    ARK_ASSERT_RET_VAL(conf_node.IsValid(), false);
+    auto conf_node = root.find_node("conf");
+    ARK_ASSERT_RET_VAL(conf_node.is_valid(), false);
 
-    consul_ip_ = conf_node.GetString("ip");
-    consul_port_ = conf_node.GetUint32("port");
+    consul_ip_ = conf_node.get_string("ip");
+    consul_port_ = conf_node.get_uint32("port");
 
     return true;
 }
@@ -52,7 +52,7 @@ std::future<std::pair<bool, std::string>> consul_module_impl::RegisterService(co
         return FailedRequest();
     }
     const std::string content_type = "application/json";
-    return m_pHttpClientModule->AsyncRequest(
+    return m_pHttpClientModule->async_request(
         arknet::http::verb::put, consul_ip_, consul_port_, REGISTER_API, nullptr, nullptr, &body, &content_type);
 }
 
@@ -63,7 +63,7 @@ std::future<std::pair<bool, std::string>> consul_module_impl::DeregisterService(
     }
 
     auto url = DEREGISTER_API + service_id;
-    return m_pHttpClientModule->AsyncRequest(arknet::http::verb::put, consul_ip_, consul_port_, url);
+    return m_pHttpClientModule->async_request(arknet::http::verb::put, consul_ip_, consul_port_, url);
 }
 
 std::future<std::pair<bool, std::string>> consul_module_impl::GetKeyValue(const std::string& key) {
@@ -73,7 +73,7 @@ std::future<std::pair<bool, std::string>> consul_module_impl::GetKeyValue(const 
     }
 
     std::string url = KV_API + key;
-    return m_pHttpClientModule->AsyncRequest(arknet::http::verb::get, consul_ip_, consul_port_, url);
+    return m_pHttpClientModule->async_request(arknet::http::verb::get, consul_ip_, consul_port_, url);
 }
 
 std::future<std::pair<bool, std::string>> consul_module_impl::SetKeyValue(
@@ -83,7 +83,7 @@ std::future<std::pair<bool, std::string>> consul_module_impl::SetKeyValue(
         return FailedRequest();
     }
 
-    return m_pHttpClientModule->AsyncRequest(
+    return m_pHttpClientModule->async_request(
         arknet::http::verb::put, consul_ip_, consul_port_, KV_API + key, nullptr, nullptr, &value);
 }
 
@@ -94,7 +94,7 @@ std::future<std::pair<bool, std::string>> consul_module_impl::DelKeyValue(const 
     }
 
     std::string url = KV_API + key;
-    return m_pHttpClientModule->AsyncRequest(arknet::http::verb::delete_, consul_ip_, consul_port_, url);
+    return m_pHttpClientModule->async_request(arknet::http::verb::delete_, consul_ip_, consul_port_, url);
 }
 
 std::future<std::pair<bool, std::string>> consul_module_impl::GetHealthServices(
@@ -109,7 +109,7 @@ std::future<std::pair<bool, std::string>> consul_module_impl::GetHealthServices(
     params.insert(std::make_pair("tag", tag_filter));
     params.insert(std::make_pair("passing", "1"));
 
-    return m_pHttpClientModule->AsyncRequest(arknet::http::verb::get, consul_ip_, consul_port_, url, &params);
+    return m_pHttpClientModule->async_request(arknet::http::verb::get, consul_ip_, consul_port_, url, &params);
 }
 
 //bool AFCConsulModule::GetHealthServices(

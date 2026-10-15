@@ -33,21 +33,21 @@ bool mysql_module_impl::init() {
     mysql_driver_manager = std::make_shared<mysql_driver_manager_module_impl>();
 
     xml xml_doc(mysql_plugin::get_plugin_conf());
-    auto root_node = xml_doc.GetRootNode();
-    ARK_ASSERT_RET_VAL(root_node.IsValid(), false);
+    auto root_node = xml_doc.get_root_node();
+    ARK_ASSERT_RET_VAL(root_node.is_valid(), false);
 
-    auto mysql_node = root_node.FindNode("mysql");
-    ARK_ASSERT_RET_VAL(mysql_node.IsValid(), false);
+    auto mysql_node = root_node.find_node("mysql");
+    ARK_ASSERT_RET_VAL(mysql_node.is_valid(), false);
 
-    for (auto instance_node = mysql_node.FindNode("instance"); instance_node.IsValid(); instance_node.NextNode())
+    for (auto instance_node = mysql_node.find_node("instance"); instance_node.is_valid(); instance_node.next_node())
     {
-        auto server_id = instance_node.GetUint32("id");
-        auto dns = instance_node.GetString("dns");
-        auto ip = instance_node.GetString("ip");
-        auto port = instance_node.GetUint32("port");
-        auto db_name = instance_node.GetString("dbname");
-        auto db_user = instance_node.GetString("dbuser");
-        auto db_pwd = instance_node.GetString("dbpwd");
+        auto server_id = instance_node.get_uint32("id");
+        auto dns = instance_node.get_string("dns");
+        auto ip = instance_node.get_string("ip");
+        auto port = instance_node.get_uint32("port");
+        auto db_name = instance_node.get_string("dbname");
+        auto db_user = instance_node.get_string("dbuser");
+        auto db_pwd = instance_node.get_string("dbpwd");
 
         std::cout << "----------\n";
         std::cout << server_id << "\n"

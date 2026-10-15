@@ -132,26 +132,26 @@ bool physic_config_module_impl::LoadTerrain(physic_scene& scene, const std::stri
 
 bool physic_config_module_impl::LoadCollider(physic_scene& scene, const std::string& file_path) {
     xml xml_doc(file_path);
-    auto root = xml_doc.GetRootNode();
-    ARK_ASSERT_RET_VAL(root.IsValid(), false);
+    auto root = xml_doc.get_root_node();
+    ARK_ASSERT_RET_VAL(root.is_valid(), false);
 
-    for (auto node = root.FindNode("node"); node.IsValid(); node.NextNode())
+    for (auto node = root.find_node("node"); node.is_valid(); node.next_node())
     {
         collider* collider = nullptr;
 
-        auto name = node.GetString("Collider");
+        auto name = node.get_string("Collider");
         if (name == "BoxCollider")
         {
             auto box_collider = ARK_NEW box_collider();
             collider = box_collider;
 
-            auto value = node.GetString("Position");
+            auto value = node.get_string("Position");
             ARK_ASSERT_RET_VAL(Vec3FromString(box_collider->position_, value), false);
 
-            value = node.GetString("Center");
+            value = node.get_string("Center");
             ARK_ASSERT_RET_VAL(Vec3FromString(box_collider->center_, value), false);
 
-            value = node.GetString("Size");
+            value = node.get_string("Size");
             ARK_ASSERT_RET_VAL(Vec3FromString(box_collider->size_, value), false);
         }
         else if (name == "CapsuleCollider")
@@ -159,34 +159,34 @@ bool physic_config_module_impl::LoadCollider(physic_scene& scene, const std::str
             auto capsule_collider = ARK_NEW capsule_collider();
             collider = capsule_collider;
 
-            auto value = node.GetString("Position");
+            auto value = node.get_string("Position");
             ARK_ASSERT_RET_VAL(Vec3FromString(capsule_collider->position_, value), false);
 
-            value = node.GetString("Center");
+            value = node.get_string("Center");
             ARK_ASSERT_RET_VAL(Vec3FromString(capsule_collider->center_, value), false);
 
-            capsule_collider->radius_ = misc::FromString<physx::PxReal>(node.GetString("Radius"));
-            capsule_collider->height_ = misc::FromString<physx::PxReal>(node.GetString("Height"));
+            capsule_collider->radius_ = misc::from_string<physx::PxReal>(node.get_string("Radius"));
+            capsule_collider->height_ = misc::from_string<physx::PxReal>(node.get_string("Height"));
         }
         else if (name == "SphereCollider")
         {
             auto sphere_collider = ARK_NEW sphere_collider();
             collider = sphere_collider;
 
-            auto value = node.GetString("Position");
+            auto value = node.get_string("Position");
             ARK_ASSERT_RET_VAL(Vec3FromString(sphere_collider->position_, value), false);
 
-            value = node.GetString("Center");
+            value = node.get_string("Center");
             ARK_ASSERT_RET_VAL(Vec3FromString(sphere_collider->center_, value), false);
 
-            sphere_collider->radius_ = misc::FromString<physx::PxReal>(node.GetString("Radius"));
+            sphere_collider->radius_ = misc::from_string<physx::PxReal>(node.get_string("Radius"));
         }
         else if (name == "MeshCollider")
         {
             auto mesh_collider = ARK_NEW mesh_collider();
             collider = mesh_collider;
 
-            auto value = node.GetString("Vertices");
+            auto value = node.get_string("Vertices");
             std::vector<std::string> slices;
             string_utils::split(slices, value, ',');
             ARK_ASSERT_RET_VAL(slices.size() % 3 == 0, false);
@@ -205,7 +205,7 @@ bool physic_config_module_impl::LoadCollider(physic_scene& scene, const std::str
             mesh_collider->vertices_num_ = count;
 
             ///indices
-            value = node.GetString("Triangles");
+            value = node.get_string("Triangles");
             slices.clear();
             string_utils::split(slices, value, ',');
             ARK_ASSERT_RET_VAL(slices.size() % 3 == 0, false);
@@ -216,14 +216,14 @@ bool physic_config_module_impl::LoadCollider(physic_scene& scene, const std::str
 
             for (size_t i = 0; i < count; i++)
             {
-                mesh_collider->triangles_[i] = misc::FromString<physx::PxU32>(slices[i].data());
+                mesh_collider->triangles_[i] = misc::from_string<physx::PxU32>(slices[i].data());
             }
             mesh_collider->triangles_num_ = count;
 
-            value = node.GetString("Position");
+            value = node.get_string("Position");
             ARK_ASSERT_RET_VAL(Vec3FromString(mesh_collider->position_, value), false);
 
-            if (misc::FromString<int32_t>(node.GetString("IsConvex")) > 0)
+            if (misc::from_string<int32_t>(node.get_string("IsConvex")) > 0)
             {
                 mesh_collider->bConvex = true;
             }
@@ -237,7 +237,7 @@ bool physic_config_module_impl::LoadCollider(physic_scene& scene, const std::str
         else if (name == "TerrainCollider")
         {
             ///terrain collider position
-            auto value = node.GetString("Position");
+            auto value = node.get_string("Position");
             ARK_ASSERT_RET_VAL(Vec3FromString(scene.position_, value), false);
             continue;
         }
@@ -248,7 +248,7 @@ bool physic_config_module_impl::LoadCollider(physic_scene& scene, const std::str
             return false;
         }
 
-        collider->bTrigger_ = misc::FromString<int32_t>(node.GetString("IsTrigger")) > 0 ? true : false;
+        collider->bTrigger_ = misc::from_string<int32_t>(node.get_string("IsTrigger")) > 0 ? true : false;
         scene.collider_list_.push_back(collider);
     }
 
@@ -360,22 +360,22 @@ bool physic_config_module_impl::LoadConfig() {
     std::string file_path = get_plugin_manager()->GetResPath() + PHYSIC_CONFIG_PATH;
 
     xml xml_doc(file_path);
-    auto root = xml_doc.GetRootNode();
-    ARK_ASSERT_RET_VAL(root.IsValid(), false);
+    auto root = xml_doc.get_root_node();
+    ARK_ASSERT_RET_VAL(root.is_valid(), false);
 
-    for (auto node = root.FindNode("node"); node.IsValid(); node.NextNode())
+    for (auto node = root.find_node("node"); node.is_valid(); node.next_node())
     {
-        config_.bSimulate = (misc::FromString<int32_t>(node.GetString("SimulateOn")) > 0);
+        config_.bSimulate = (misc::from_string<int32_t>(node.get_string("SimulateOn")) > 0);
 
-        config_.dispatcher_treads_num_ = misc::FromString<physx::PxU32>(node.GetString("DispatcherThreadsNum"));
+        config_.dispatcher_treads_num_ = misc::from_string<physx::PxU32>(node.get_string("DispatcherThreadsNum"));
 
-        auto frequency = misc::FromString<physx::PxU32>(node.GetString("Frequency"));
+        auto frequency = misc::from_string<physx::PxU32>(node.get_string("Frequency"));
         ARK_ASSERT_RET_VAL(frequency > 0, false);
         config_.step_ = 1.0F / frequency;
 
-        config_.pvd_host = node.GetString("PVDHost");
-        config_.pvd_port = misc::FromString<int32_t>(node.GetString("PVDPort"));
-        config_.pvd_timeout = misc::FromString<uint32_t>(node.GetString("PVDTimeOut"));
+        config_.pvd_host = node.get_string("PVDHost");
+        config_.pvd_port = misc::from_string<int32_t>(node.get_string("PVDPort"));
+        config_.pvd_timeout = misc::from_string<uint32_t>(node.get_string("PVDTimeOut"));
     }
 
     return true;
@@ -394,8 +394,8 @@ bool physic_config_module_impl::Vec3FromString(physx::PxVec3& vec3, const std::s
 
 physx::PxVec3 physic_config_module_impl::GetVec3(
     const AFSlice& slice_x, const AFSlice& slice_y, const AFSlice& slice_z) {
-    return physx::PxVec3(misc::FromString<physx::PxReal>(slice_x.data()),
-        misc::FromString<physx::PxReal>(slice_y.data()), misc::FromString<physx::PxReal>(slice_z.data()));
+    return physx::PxVec3(misc::from_string<physx::PxReal>(slice_x.data()),
+        misc::from_string<physx::PxReal>(slice_y.data()), misc::from_string<physx::PxReal>(slice_z.data()));
 }
 
 std::string physic_config_module_impl::GenCookedFilePath(const std::string& file_path) {

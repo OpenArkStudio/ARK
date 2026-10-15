@@ -40,7 +40,7 @@ bool simulate_net_module_impl::post_init() {
 }
 
 int simulate_net_module_impl::StartServer() {
-    auto ret = m_pNetServiceManagerModule->CreateServer();
+    auto ret = m_pNetServiceManagerModule->create_server();
     //ret.Then([=](const std::pair<bool, std::string>& resp) {
     //    if (!resp.first)
     //    {
@@ -59,35 +59,35 @@ int simulate_net_module_impl::StartServer() {
 
     //    m_pNetServerService->RegMsgCallback(0, this, &AFCSimulateNetModule::OnRecvMsg);
     //});
-    m_pNetServerService = m_pNetServiceManagerModule->GetInterNetServer();
+    m_pNetServerService = m_pNetServiceManagerModule->get_inter_net_server();
     if (m_pNetServerService == nullptr)
     {
-        ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->GetSelfBusName());
+        ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->get_self_bus_name());
         exit(0);
     }
 
     using namespace simulate;
-    m_pNetServerService->RegMsgCallback(
+    m_pNetServerService->reg_msg_callback(
         (int)simulate_msg_type::SIMULATE_MSG_REQ_CREATE_SCENE, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->RegMsgCallback(
+    m_pNetServerService->reg_msg_callback(
         (int)simulate_msg_type::SIMULATE_MSG_REQ_DESTROY_SCENE, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->RegMsgCallback(
+    m_pNetServerService->reg_msg_callback(
         (int)simulate_msg_type::SIMULATE_MSG_REQ_CREATE_DYNAMIC_BOX, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->RegMsgCallback(
+    m_pNetServerService->reg_msg_callback(
         (int)simulate_msg_type::SIMULATE_MSG_REQ_CREATE_DYNAMIC_CAPSULE, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->RegMsgCallback(
+    m_pNetServerService->reg_msg_callback(
         (int)simulate_msg_type::SIMULATE_MSG_REQ_CREATE_DYNAMIC_SPHERE, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->RegMsgCallback(
+    m_pNetServerService->reg_msg_callback(
         (int)simulate_msg_type::SIMULATE_MSG_REQ_CREATE_STATIC_BOX, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->RegMsgCallback(
+    m_pNetServerService->reg_msg_callback(
         (int)simulate_msg_type::SIMULATE_MSG_REQ_CREATE_STATIC_CAPSULE, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->RegMsgCallback(
+    m_pNetServerService->reg_msg_callback(
         (int)simulate_msg_type::SIMULATE_MSG_REQ_CREATE_STATIC_SPHERE, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->RegMsgCallback(
+    m_pNetServerService->reg_msg_callback(
         (int)simulate_msg_type::SIMULATE_MSG_REQ_UPDATE_ACTOR, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->RegMsgCallback(
+    m_pNetServerService->reg_msg_callback(
         (int)simulate_msg_type::SIMULATE_MSG_REQ_DESTROY_ACTOR, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->RegMsgCallback(
+    m_pNetServerService->reg_msg_callback(
         (int)simulate_msg_type::SIMULATE_MSG_REQ_RAY_CAST, this, &simulate_net_module_impl::OnRecvMsg);
 
     return 0;
@@ -95,23 +95,23 @@ int simulate_net_module_impl::StartServer() {
 
 void simulate_net_module_impl::OnRecvMsg(const net_msg* msg, conv_id_t session_id) {
     msgpack::object_handle obj_handle;
-    msgpack::unpack(obj_handle, msg->GetMsgData(), msg->GetMsgLength());
+    msgpack::unpack(obj_handle, msg->get_msg_data(), msg->get_msg_length());
     auto unpack_obj = obj_handle.get();
     if (unpack_obj.is_nil())
     {
-        ARK_LOG_ERROR("unpack failed, busid = {} msg id = {}", m_pBusModule->GetSelfBusName(), msg->GetMsgId());
+        ARK_LOG_ERROR("unpack failed, busid = {} msg id = {}", m_pBusModule->get_self_bus_name(), msg->get_msg_id());
         return;
     }
 
     using namespace simulate;
     bool bResult = false;
-    auto msg_id = (simulate_msg_type)msg->GetMsgId();
+    auto msg_id = (simulate_msg_type)msg->get_msg_id();
     switch (msg_id)
     {
     case simulate_msg_type::SIMULATE_MSG_REQ_CREATE_SCENE:
     {
         auto obj = unpack_obj.as<req_create_scene>();
-        UpdateBusID(obj.scene_id, obj.index, msg->GetSrcBus());
+        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
 
         bResult = m_pSimulateModule->CreateScene(obj.scene_id, obj.index);
     }
@@ -119,7 +119,7 @@ void simulate_net_module_impl::OnRecvMsg(const net_msg* msg, conv_id_t session_i
     case simulate_msg_type::SIMULATE_MSG_REQ_DESTROY_SCENE:
     {
         auto obj = unpack_obj.as<req_destroy_scene>();
-        UpdateBusID(obj.scene_id, obj.index, msg->GetSrcBus());
+        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
 
         bResult = m_pSimulateModule->DestroyScene(obj.scene_id, obj.index);
     }
@@ -127,7 +127,7 @@ void simulate_net_module_impl::OnRecvMsg(const net_msg* msg, conv_id_t session_i
     case simulate_msg_type::SIMULATE_MSG_REQ_CREATE_DYNAMIC_BOX:
     {
         auto obj = unpack_obj.as<req_create_dynamic_box>();
-        UpdateBusID(obj.scene_id, obj.index, msg->GetSrcBus());
+        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
 
         auto position = SimulateVec3ToAFVec(obj.position);
         auto size = SimulateVec3ToAFVec(obj.size);
@@ -137,7 +137,7 @@ void simulate_net_module_impl::OnRecvMsg(const net_msg* msg, conv_id_t session_i
     case simulate_msg_type::SIMULATE_MSG_REQ_CREATE_DYNAMIC_CAPSULE:
     {
         auto obj = unpack_obj.as<req_create_dynamic_capsule>();
-        UpdateBusID(obj.scene_id, obj.index, msg->GetSrcBus());
+        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
 
         auto position = SimulateVec3ToAFVec(obj.position);
         bResult = m_pSimulateModule->CreateCapsule(
@@ -147,7 +147,7 @@ void simulate_net_module_impl::OnRecvMsg(const net_msg* msg, conv_id_t session_i
     case simulate_msg_type::SIMULATE_MSG_REQ_CREATE_DYNAMIC_SPHERE:
     {
         auto obj = unpack_obj.as<req_create_dynamic_sphere>();
-        UpdateBusID(obj.scene_id, obj.index, msg->GetSrcBus());
+        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
 
         auto position = SimulateVec3ToAFVec(obj.position);
         bResult = m_pSimulateModule->CreateSphere(obj.scene_id, obj.index, obj.obj_id, position, obj.raidus, true);
@@ -156,7 +156,7 @@ void simulate_net_module_impl::OnRecvMsg(const net_msg* msg, conv_id_t session_i
     case simulate_msg_type::SIMULATE_MSG_REQ_CREATE_STATIC_BOX:
     {
         auto obj = unpack_obj.as<req_create_static_box>();
-        UpdateBusID(obj.scene_id, obj.index, msg->GetSrcBus());
+        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
 
         auto position = SimulateVec3ToAFVec(obj.position);
         auto size = SimulateVec3ToAFVec(obj.size);
@@ -166,7 +166,7 @@ void simulate_net_module_impl::OnRecvMsg(const net_msg* msg, conv_id_t session_i
     case simulate_msg_type::SIMULATE_MSG_REQ_CREATE_STATIC_CAPSULE:
     {
         auto obj = unpack_obj.as<req_create_static_capsule>();
-        UpdateBusID(obj.scene_id, obj.index, msg->GetSrcBus());
+        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
 
         auto position = SimulateVec3ToAFVec(obj.position);
         bResult = m_pSimulateModule->CreateCapsule(
@@ -176,7 +176,7 @@ void simulate_net_module_impl::OnRecvMsg(const net_msg* msg, conv_id_t session_i
     case simulate_msg_type::SIMULATE_MSG_REQ_CREATE_STATIC_SPHERE:
     {
         auto obj = unpack_obj.as<req_create_static_sphere>();
-        UpdateBusID(obj.scene_id, obj.index, msg->GetSrcBus());
+        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
 
         auto position = SimulateVec3ToAFVec(obj.position);
         bResult = m_pSimulateModule->CreateSphere(obj.scene_id, obj.index, obj.obj_id, position, obj.raidus, false);
@@ -185,7 +185,7 @@ void simulate_net_module_impl::OnRecvMsg(const net_msg* msg, conv_id_t session_i
     case simulate_msg_type::SIMULATE_MSG_REQ_UPDATE_ACTOR:
     {
         auto obj = unpack_obj.as<req_update_actor>();
-        UpdateBusID(obj.scene_id, obj.index, msg->GetSrcBus());
+        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
 
         auto position = SimulateVec3ToAFVec(obj.position);
         bResult = m_pSimulateModule->UpdateActor(obj.scene_id, obj.index, obj.obj_id, position);
@@ -194,7 +194,7 @@ void simulate_net_module_impl::OnRecvMsg(const net_msg* msg, conv_id_t session_i
     case simulate_msg_type::SIMULATE_MSG_REQ_DESTROY_ACTOR:
     {
         auto obj = unpack_obj.as<req_destroy_actor>();
-        UpdateBusID(obj.scene_id, obj.index, msg->GetSrcBus());
+        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
 
         bResult = m_pSimulateModule->DestroyActor(obj.scene_id, obj.index, obj.obj_id);
     }
@@ -202,7 +202,7 @@ void simulate_net_module_impl::OnRecvMsg(const net_msg* msg, conv_id_t session_i
     case simulate_msg_type::SIMULATE_MSG_REQ_RAY_CAST:
     {
         auto obj = unpack_obj.as<req_ray_cast>();
-        UpdateBusID(obj.scene_id, obj.index, msg->GetSrcBus());
+        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
 
         auto start = SimulateVec3ToAFVec(obj.start);
         auto direction = SimulateVec3ToAFVec(obj.direction);
@@ -217,14 +217,14 @@ void simulate_net_module_impl::OnRecvMsg(const net_msg* msg, conv_id_t session_i
     break;
     default:
     {
-        ARK_LOG_ERROR("unknown msg id = {}", msg->GetMsgId());
+        ARK_LOG_ERROR("unknown msg id = {}", msg->get_msg_id());
     }
     break;
     }
 
     if (!bResult)
     {
-        ARK_LOG_ERROR("deal message failed, busid = {} msg id = {}", m_pBusModule->GetSelfBusName(), msg->GetMsgId());
+        ARK_LOG_ERROR("deal message failed, busid = {} msg id = {}", m_pBusModule->get_self_bus_name(), msg->get_msg_id());
         return;
     }
 }
@@ -252,22 +252,22 @@ void simulate_net_module_impl::SendMsg(const std::string& scene_id, const int32_
         return;
     }
 
-    auto bus_id = m_pBusModule->GetSelfBusID();
-    auto pNetService = m_pNetServiceManagerModule->GetInterNetServer();
+    auto bus_id = m_pBusModule->get_self_bus_id();
+    auto pNetService = m_pNetServiceManagerModule->get_inter_net_server();
     if (!pNetService)
     {
         ARK_LOG_ERROR("get net service failed scene id = {} index = {} msg id = {}", scene_id, index, (int)msg_id);
         return;
     }
 
-    auto pNet = pNetService->GetNet();
+    auto pNet = pNetService->get_net();
     if (!pNet)
     {
         ARK_LOG_ERROR("get net failed scene id = {} index = {} msg id = {}", scene_id, index, (int)msg_id);
         return;
     }
 
-    auto session_id = m_pNetServiceManagerModule->GetSessionID(target_bus_id);
+    auto session_id = m_pNetServiceManagerModule->get_session_id(target_bus_id);
     if (session_id == 0)
     {
         ARK_LOG_ERROR("get session id failed scene id = {} index = {} msg id = {}", scene_id, index, (int)msg_id);
@@ -275,12 +275,12 @@ void simulate_net_module_impl::SendMsg(const std::string& scene_id, const int32_
     }
 
     ss_msg_header head;
-    head.SetMessageId((msg_id_t)msg_id);
-    head.SetMessageLength(buffer.size());
+    head.set_message_id((msg_id_t)msg_id);
+    head.set_message_length(buffer.size());
     head.SetSourceBusId(bus_id);
     head.SetDestBusId(target_bus_id);
 
-    pNet->SendMsg(&head, buffer.data(), session_id);
+    pNet->send_msg(&head, buffer.data(), session_id);
 }
 
 void simulate_net_module_impl::SendAckRayCast(

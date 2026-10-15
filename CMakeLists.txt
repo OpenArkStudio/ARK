@@ -274,6 +274,11 @@ endif ()
 #---------------------------------------------------------------------------------------
 # Building tests
 #---------------------------------------------------------------------------------------
+if(ARK_BUILD_TESTS)
+    add_library(ark_public_header_checks OBJECT tests/headers/queue.cpp)
+    target_link_libraries(ark_public_header_checks PRIVATE ark::core)
+endif()
+
 if (ARK_BUILD_APPLICATIONS AND ARK_BUILD_TESTS)
     message(STATUS "Building tests ...")
     enable_testing()

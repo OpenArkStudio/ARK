@@ -99,48 +99,4 @@ public:
     }
 };
 
-#define ARK_PROCESS_ACTOR_MSG(head, msg_id, msg, msg_len, pb_msg_type)                                                 \
-    guid_t actor_id;                                                                                                   \
-    pb_msg_type pb_msg;                                                                                                \
-    if (!msg_module::RecvPB(head, msg, msg_len, pb_msg, actor_id))                                                     \
-    {                                                                                                                  \
-        ARK_LOG_ERROR("Parse msg error, msg_id = {}", msg_id);                                                         \
-        return;                                                                                                        \
-    }                                                                                                                  \
-                                                                                                                       \
-    ARK_LOG_DEBUG("Recv msg log src={} dst={} msg_name={} msg_id={} msg_len={}\nmsg_data={}", "", "",                  \
-        pb_msg.GetTypeName(), msg_id, msg_len, pb_msg.DebugString());                                                  \
-                                                                                                                       \
-    std::shared_ptr<entity> pEntity = m_pKernelModule->GetEntity(actor_id);                                            \
-    if (nullptr == pEntity)                                                                                            \
-    {                                                                                                                  \
-        ARK_LOG_ERROR("FromClient actor_entity do not Exist, msg_id={} player_id={}", msg_id, actor_id.ToString());    \
-        return;                                                                                                        \
-    }
-
-#define ARK_PROCESS_MSG(msg, pb_msg_type)                                                                              \
-    guid_t actor_id;                                                                                                   \
-    pb_msg_type pb_msg;                                                                                                \
-    if (!msg_module::RecvPB(msg, pb_msg, actor_id))                                                                    \
-    {                                                                                                                  \
-        ARK_LOG_ERROR("Parse msg error, msg_id={} pb_msg_type={}", msg->GetMsgId(), pb_msg.GetTypeName());             \
-        return;                                                                                                        \
-    }                                                                                                                  \
-    else                                                                                                               \
-    {                                                                                                                  \
-        std::string pb_json;                                                                                           \
-        google::protobuf::util::MessageToJsonString(pb_msg, &pb_json);                                                 \
-        ARK_LOG_DEBUG("Recv msg log src={} dst={} msg_name={} msg_id={} msg_len={}\nmsg_data={}", msg->GetSrcBus(),    \
-            msg->GetDstBus(), pb_msg.GetTypeName(), msg->GetMsgId(), msg->GetMsgLength(), pb_json);                    \
-    }
-
-#define ARK_PROCESS_ACTOR_STRING_MSG(head, msg, msg_len)                                                               \
-    std::string msg_data;                                                                                              \
-    guid_t actor_id;                                                                                                   \
-    if (!msg_module::RecvPB(head, msg, msg_len, msg_data, actor_id))                                                   \
-    {                                                                                                                  \
-        ARK_LOG_ERROR("Parse msg error, msg_id = {}", msg_id);                                                         \
-        return;                                                                                                        \
-    }
-
 } // namespace ark

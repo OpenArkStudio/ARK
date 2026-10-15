@@ -9,7 +9,7 @@ bool kafka_module_impl::init() {
 }
 
 bool kafka_module_impl::update() {
-    for (size_t i = 0; i < producers_.GetCount(); ++i)
+    for (size_t i = 0; i < producers_.get_count(); ++i)
     {
         producers_[i]->Poll();
     }
@@ -23,19 +23,19 @@ bool kafka_module_impl::InitProducer(std::string const& brokers, std::string con
         return false;
     }
 
-    auto* found = producers_.GetElement(topic);
+    auto* found = producers_.get_element(topic);
     if (found != nullptr)
     {
         return false;
     }
 
     kafka_producer* producer = new kafka_producer(brokers, topic, this, this);
-    producers_.AddElement(topic, producer);
+    producers_.add_element(topic, producer);
     return true;
 }
 
 int kafka_module_impl::Produce(std::string const& topic, std::string const& payload, void* user_data) {
-    auto* producer = producers_.GetElement(topic);
+    auto* producer = producers_.get_element(topic);
     if (producer == nullptr)
     {
         return false;

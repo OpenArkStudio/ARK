@@ -38,14 +38,14 @@ bool redis_module_impl::init() {
 bool redis_module_impl::LoadConfig() {
     ///load config
     xml xml(redis_plugin::get_plugin_conf());
-    auto root = xml.GetRootNode();
-    ARK_ASSERT_RET_VAL(root.IsValid(), false);
+    auto root = xml.get_root_node();
+    ARK_ASSERT_RET_VAL(root.is_valid(), false);
 
     std::unordered_map<std::string, std::string> key_value_list;
-    for (auto set = root.FindNode("set"); set.IsValid(); set.NextNode())
+    for (auto set = root.find_node("set"); set.is_valid(); set.next_node())
     {
-        auto name = set.GetString("name");
-        auto value = set.GetString("value");
+        auto name = set.get_string("name");
+        auto value = set.get_string("value");
         bool result = key_value_list.insert(std::make_pair(name, value)).second;
         ARK_ASSERT_RET_VAL(result, false);
     }
@@ -61,8 +61,8 @@ bool redis_module_impl::LoadConfig() {
     };
 
     ip_ = func("Ip");
-    port_ = misc::FromString<uint16_t>(func("Port"));
-    pool_size_ = misc::FromString<uint32_t>(func("PoolSize"));
+    port_ = misc::from_string<uint16_t>(func("Port"));
+    pool_size_ = misc::from_string<uint32_t>(func("PoolSize"));
     auth_keys_ = func("Password");
     return true;
 }

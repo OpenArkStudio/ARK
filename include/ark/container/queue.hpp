@@ -20,19 +20,21 @@
 
 #pragma once
 
+#include <atomic>
+#include <list>
+
 #include "ark/noncopyable.hpp"
-#include "ark/platform.hpp"
 
 namespace ark {
 
-class lock : public noncopyable
+class queue_lock : public noncopyable
 {
 public:
-    explicit lock() {
+    explicit queue_lock() {
         flag.clear();
     }
 
-    ~lock() {}
+    ~queue_lock() {}
 
     void lock() {
         while (flag.test_and_set(std::memory_order_acquire))
@@ -46,6 +48,8 @@ public:
 private:
     mutable std::atomic_flag flag;
 };
+
+using lock = queue_lock;
 
 template<typename T>
 class queue : public lock
