@@ -46,6 +46,11 @@ bool kernel_module_impl::init() {
     config_module_ = find_module<config_module>();
     guid_module_ = find_module<guid_module>();
 
+    return true;
+}
+
+bool kernel_module_impl::post_init() {
+    // Schema loading completes in the metadata module's init phase.
     auto container_func = std::bind(&kernel_module_impl::on_container_call_back, this, std::placeholders::_1,
         std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
     add_common_container_call_back(std::move(container_func), 999999); // after other callbacks being done

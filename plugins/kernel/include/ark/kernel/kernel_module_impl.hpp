@@ -45,6 +45,7 @@ public:
     ~kernel_module_impl() override;
 
     bool init() override;
+    bool post_init() override;
     bool update() override;
     bool pre_shut() override;
 

@@ -35,8 +35,13 @@ bool config_module_impl::init() {
 
     static_entity_manager_ = ARK_NEW static_entity_manager();
 
+    return true;
+}
+
+bool config_module_impl::post_init() {
+    // Static data requires the schema loaded during the metadata module's init phase.
     return load();
-} // namespace ark
+}
 
 bool config_module_impl::shut() {
     return clear();
