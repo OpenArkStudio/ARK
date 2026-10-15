@@ -138,6 +138,7 @@ jobs:
           -DARK_BUILD_CORE_TESTS=OFF
           -DARK_BUILD_EXAMPLES=OFF
           -DARK_BUILD_DATABASE_TESTS=ON
+          -DARK_BUILD_DATABASE_BENCHMARKS=ON
           "-DARKNET_SOURCE_DIR=$env:GITHUB_WORKSPACE/ci-arknet"
           -DARKNET_ENABLE_SSL=ON
           -DASIO_STANDALONE=${{ matrix.standalone }}
@@ -145,6 +146,8 @@ jobs:
         run: cmake --build ci-database --parallel 2
       - name: Run local database lifetime regressions
         run: cmake --build ci-database --target check-database
+      - name: Run local database benchmark self-tests
+        run: cmake --build ci-database --target check-database-benchmark
   required:
     name: CI - required
     if: always()

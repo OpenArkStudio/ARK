@@ -77,4 +77,6 @@ The measured interval starts before the first measured submission and ends after
 
 Process CPU percentage uses all client process threads; 100% means one logical core. External database CPU is excluded, even if the server shares the machine. Peak RSS is the process lifetime resident-memory high-water mark, including startup, warmup and preallocated latency storage; it is not interval-only memory, allocation traffic or database memory. The JSON record states both scopes. Throughput is successful logical operations divided by measured wall seconds. Error counters distinguish native outcomes, C++ exceptions, content/ownership failures, admission refusals, task failures and phase deadlines; categories may overlap for a single failed request.
 
+Callback mode also constructs an empty bridge, manual runtime and task group, so RSS does not represent the minimum callback API footprint or isolate coroutine frame allocation costs.
+
 For comparable performance evidence, use a quiet machine, fixed server placement/configuration and repeated separate processes, alternating callback/coroutine order. Sanitizer and bounded functional runs verify correctness and must not be reported as performance measurements. No performance results are included with this development target.
