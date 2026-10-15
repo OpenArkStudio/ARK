@@ -25,6 +25,7 @@
 
 #include "base/AFLogger.hpp"
 #include "net/include/AFCTCPServer.hpp"
+#include "net/include/AFNetEndpoint.hpp"
 
 namespace ark {
 
@@ -46,7 +47,7 @@ bool AFCTCPServer::StartServer(std::shared_ptr<const AFIMsgHeader> head, bus_id_
     {
         Shutdown();
     }
-    server_ = std::make_shared<arknet::tcp_server>(
+    server_ = detail::MakeNetEndpoint<arknet::tcp_server>(
         arknet::detail::tcp_frame_size, ARK_TCP_RECV_BUFFER_SIZE, std::max<size_t>(thread_num, 1));
     this->bus_id_ = bus_id;
     const auto weak = weak_from_this();

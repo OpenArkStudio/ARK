@@ -22,6 +22,7 @@
 
 #include "base/AFLogger.hpp"
 #include "net/include/AFCTCPClient.hpp"
+#include "net/include/AFNetEndpoint.hpp"
 
 namespace ark {
 
@@ -43,7 +44,7 @@ bool AFCTCPClient::StartClient(
     {
         Shutdown();
     }
-    client_ = std::make_shared<arknet::tcp_client>(arknet::detail::tcp_frame_size, ARK_TCP_RECV_BUFFER_SIZE);
+    client_ = detail::MakeNetEndpoint<arknet::tcp_client>(arknet::detail::tcp_frame_size, ARK_TCP_RECV_BUFFER_SIZE);
     this->dst_bus_id_ = dst_bus_id;
     const auto weak = weak_from_this();
 

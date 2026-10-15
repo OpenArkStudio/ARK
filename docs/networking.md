@@ -67,3 +67,12 @@ Loopback regression is not a 100,000–200,000 PCU capacity result. Cross-machin
 load, endurance and the application's complete business flows require separate
 acceptance before production rollout. ARQ/FEC performance measurements are in
 [arknet's reports](https://openarkstudio.github.io/arknet/performance/).
+
+## Endpoint teardown
+
+ARK's TCP, WebSocket and RUDP clients and servers may retain their wrapper while
+an IO callback is running. When that callback releases the final owner, the owned
+arknet endpoint is deleted by a shared cleanup executor with one thread. This
+keeps worker joins outside the pool being stopped. Destruction from an external
+thread remains synchronous; the cleanup executor drains its queued deletions at
+shutdown. Application message and connection callbacks still run through `Update()`.

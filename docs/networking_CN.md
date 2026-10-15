@@ -60,3 +60,10 @@ cmake --build app-build --parallel 2
 本机回归结果不能作为 10–20 万 PCU 的容量结论。生产部署前仍需进行跨机器负载、
 长时间运行和完整业务流程验收。ARQ/FEC 的性能数据见
 [arknet 性能报告](https://openarkstudio.github.io/arknet/zh/performance/)。
+
+## 端点销毁
+
+ARK 的 TCP、WebSocket 和 RUDP 客户端、服务端可能在 IO 回调期间继续持有封装对象。
+回调释放最后一个所有者时，底层 arknet 端点交给共享的单线程清理执行器销毁，
+从外部线程完成关闭和线程回收。外部线程发起的销毁仍同步完成；清理执行器退出时
+会排空已提交的销毁任务。业务消息和连接事件仍通过 `Update()` 派发。

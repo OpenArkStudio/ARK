@@ -1,6 +1,7 @@
 add_executable(ark_network_tests
     main.cpp
     framing.cpp
+    endpoint_lifetime.cpp
     logging.cpp
     tcp_websocket.cpp
     rudp.cpp

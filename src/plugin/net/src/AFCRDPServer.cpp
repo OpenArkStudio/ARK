@@ -3,6 +3,7 @@
 
 #include "base/AFLogger.hpp"
 #include "net/include/AFCRDPServer.hpp"
+#include "net/include/AFNetEndpoint.hpp"
 
 namespace ark {
 
@@ -19,7 +20,8 @@ bool AFCRDPServer::StartServer(std::shared_ptr<const AFIMsgHeader> head, bus_id_
         return false;
     }
     Shutdown();
-    server_ = std::make_shared<arknet::rudp_server>(65536, ARK_TCP_RECV_BUFFER_SIZE, thread_num == 0 ? 1 : thread_num);
+    server_ =
+        detail::MakeNetEndpoint<arknet::rudp_server>(65536, ARK_TCP_RECV_BUFFER_SIZE, thread_num == 0 ? 1 : thread_num);
     this->bus_id_ = bus_id;
     arknet::arq::options transport_options;
     transport_options.mtu = 1400;

@@ -23,6 +23,7 @@
 
 #include "base/AFLogger.hpp"
 #include "net/include/AFCRDPClient.hpp"
+#include "net/include/AFNetEndpoint.hpp"
 
 namespace ark {
 
@@ -39,7 +40,7 @@ bool AFCRDPClient::StartClient(
         return false;
     }
     Shutdown();
-    client_ = std::make_shared<arknet::rudp_client>(65536, ARK_TCP_RECV_BUFFER_SIZE);
+    client_ = detail::MakeNetEndpoint<arknet::rudp_client>(65536, ARK_TCP_RECV_BUFFER_SIZE);
     this->dst_bus_id_ = dst_bus_id;
     arknet::arq::options transport_options;
     transport_options.mtu = 1400;
