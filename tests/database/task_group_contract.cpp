@@ -5,9 +5,34 @@
 #include <string_view>
 #include <thread>
 
+#if defined(_WIN32)
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#endif
+
 #include "detail/module_task_group.hpp"
 
 namespace {
+
+[[noreturn]] void exit_on_contract_violation() noexcept {
+#if defined(_WIN32)
+    // This child intentionally terminates. Avoid CRT error dialogs and DLL
+    // teardown while its other thread may be waiting for this one to finish.
+    ::TerminateProcess(::GetCurrentProcess(), 77);
+    std::_Exit(78);
+#else
+    std::_Exit(77);
+#endif
+}
+
+void install_contract_exit() noexcept {
+    std::set_terminate(exit_on_contract_violation);
+}
 
 ark::detail::module_task<> pending_task() {
     co_return;
@@ -20,7 +45,7 @@ int main(int argc, char** argv) {
     {
         return 2;
     }
-    std::set_terminate([] { std::_Exit(77); });
+    install_contract_exit();
     const std::string_view mode(argv[1]);
     if (mode == "--pending-destruction")
     {
@@ -35,7 +60,11 @@ int main(int argc, char** argv) {
     {
         auto runtime = std::make_shared<arknet::manual_runtime>();
         auto group = std::make_unique<ark::detail::module_task_group>(runtime);
-        std::thread worker([owned = std::move(group)]() mutable { owned.reset(); });
+        std::thread worker([owned = std::move(group)]() mutable {
+            // MSVC terminate handlers are per-thread.
+            install_contract_exit();
+            owned.reset();
+        });
         worker.join();
         return 0;
     }
