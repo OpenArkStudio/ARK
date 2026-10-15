@@ -26,12 +26,12 @@
 
 namespace ark {
 
-const uint32_t FREE_TIMER_SIZE = 1000; // free timer count, predefined
-const uint32_t TIMER_PRECISION = 10;   // 10 ms per step
-const uint32_t TV_BITS = 8;
-const uint32_t TV_SIZE = 1 << TV_BITS; // 256 slots each time_vec
-const uint32_t TV_MASK = TV_SIZE - 1;
-const uint32_t TV_NUM = 6; // 6 levels
+const uint32_t free_timer_size = 1000; // free timer count, predefined
+const uint32_t timer_precision = 10;   // 10 ms per step
+const uint32_t tv_bits = 8;
+const uint32_t tv_size = 1 << tv_bits; // 256 slots each time_vec
+const uint32_t tv_mask = tv_size - 1;
+const uint32_t tv_num = 6; // 6 levels
 
 class time_wheel_data
 {
@@ -43,7 +43,7 @@ public:
     timer_functor callback;
 
     // callback data
-    guid_t entity_id{NULL_GUID};
+    guid_t entity_id{null_guid};
 };
 
 class time_wheel_vec
@@ -61,17 +61,17 @@ public:
         timer_idx_ = 0;
         last_update_time_ = now_time;
 
-        for (uint32_t i = 0; i < FREE_TIMER_SIZE; ++i)
+        for (uint32_t i = 0; i < free_timer_size; ++i)
         {
             time_wheel_data* data = ARK_NEW time_wheel_data();
             ARK_ASSERT_RET_NONE(data != nullptr);
             free_timers_.push_back(data);
         }
 
-        for (uint32_t i = 0; i < TV_NUM; ++i)
+        for (uint32_t i = 0; i < tv_num; ++i)
         {
             time_wheel_vec* tv = ARK_NEW time_wheel_vec();
-            init_timer_vec(tv, TV_SIZE);
+            init_timer_vec(tv, tv_size);
             tw_vecs_[i] = tv;
         }
     }
@@ -104,9 +104,9 @@ public:
         const guid_t& entity_id, uint32_t count, const std ::chrono::milliseconds interval, timer_functor&& callback) {
         time_wheel_data* timer = get_free_timer();
         timer->idx = ++timer_idx_;
-        timer->expires = (interval.count() / TIMER_PRECISION) + now_slot_;
+        timer->expires = (interval.count() / timer_precision) + now_slot_;
         timer->count = count;
-        timer->interval = (interval.count() / TIMER_PRECISION);
+        timer->interval = (interval.count() / timer_precision);
         timer->callback = callback;
         timer->entity_id = entity_id;
 
@@ -161,16 +161,16 @@ protected:
     }
 
     void update_timer(int64_t now_time) {
-        uint64_t passedSlot = (now_time - last_update_time_) / TIMER_PRECISION;
+        uint64_t passed_slot = (now_time - last_update_time_) / timer_precision;
 
-        if (passedSlot == 0)
+        if (passed_slot == 0)
         {
             return;
         }
 
-        last_update_time_ += passedSlot * TIMER_PRECISION;
+        last_update_time_ += passed_slot * timer_precision;
 
-        for (uint64_t i = 0; i < passedSlot; ++i)
+        for (uint64_t i = 0; i < passed_slot; ++i)
         {
             update_slot_timer();
         }
@@ -188,12 +188,12 @@ protected:
 
         uint32_t index = 0;
         uint64_t max_tv_num = 0;
-        for (uint32_t i = 0; i < TV_NUM; ++i)
+        for (uint32_t i = 0; i < tv_num; ++i)
         {
-            max_tv_num = ((uint64_t)1 << ((i + 1) * TV_BITS));
+            max_tv_num = ((uint64_t)1 << ((i + 1) * tv_bits));
             if ((uint64_t)idx < max_tv_num)
             {
-                index = ((expires >> (i * TV_BITS)) & TV_MASK);
+                index = ((expires >> (i * tv_bits)) & tv_mask);
                 tw_vecs_[i]->vec[index].push_back(timer_data);
                 return;
             }
@@ -209,7 +209,7 @@ protected:
             do
             {
                 carry_timers(tw_vecs_[n]);
-            } while (tw_vecs_[n]->index == 1 && (++n < TV_NUM));
+            } while (tw_vecs_[n]->index == 1 && (++n < tv_num));
         }
 
         int32_t index = tw_vecs_[0]->index;
@@ -249,7 +249,7 @@ protected:
         }
 
         now_slot_++;
-        tw_vecs_[0]->index = (tw_vecs_[0]->index + 1) & TV_MASK;
+        tw_vecs_[0]->index = (tw_vecs_[0]->index + 1) & tv_mask;
     }
 
     void carry_timers(time_wheel_vec* tv) {
@@ -261,12 +261,12 @@ protected:
             tv->vec[index].pop_front();
         }
 
-        tv->index = (tv->index + 1) & TV_MASK;
+        tv->index = (tv->index + 1) & tv_mask;
     }
 
 private:
     uint32_t now_slot_{0};
-    time_wheel_vec* tw_vecs_[TV_NUM];
+    time_wheel_vec* tw_vecs_[tv_num];
     uint64_t last_update_time_{0};
     uint64_t timer_idx_{0};
     std::unordered_map<uint64_t, time_wheel_data*> timers_;

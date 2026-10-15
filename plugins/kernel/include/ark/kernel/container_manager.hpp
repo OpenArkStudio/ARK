@@ -34,7 +34,7 @@ public:
 
     virtual std::shared_ptr<container> find_container(const uint32_t index) const = 0;
     virtual std::shared_ptr<container> create_container(
-        std::shared_ptr<class_meta> pClassMeta, const uint32_t index, const guid_t& parent_id) = 0;
+        std::shared_ptr<class_meta> class_meta_ptr, const uint32_t index, const guid_t& parent_id) = 0;
     virtual bool destroy_container(const uint32_t index) = 0;
     virtual const container_list& get_container_list() const = 0;
 };

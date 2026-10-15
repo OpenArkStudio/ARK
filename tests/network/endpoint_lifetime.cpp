@@ -7,6 +7,7 @@
 #include <thread>
 #include <type_traits>
 
+#include "doctest.h"
 #include <arknet/arknet.hpp>
 
 #include "ark/net/rudp_client.hpp"
@@ -15,7 +16,6 @@
 #include "ark/net/tcp_server.hpp"
 #include "ark/net/websocket_client.hpp"
 #include "ark/net/websocket_server.hpp"
-#include "doctest.h"
 
 namespace {
 
@@ -23,18 +23,22 @@ using namespace std::chrono_literals;
 
 struct receiver
 {
-    void on_message(const ark::net_msg*, ark::conv_id_t) {}
+    void on_message(const ark::net_msg*, ark::conv_id_t) {
+    }
 
-    void on_websocket_message(const ark::net_msg*, const ark::conv_id_t&) {}
+    void on_websocket_message(const ark::net_msg*, const ark::conv_id_t&) {
+    }
 
-    void on_event(const ark::net_event*) {}
+    void on_event(const ark::net_event*) {
+    }
 };
 
 class releasing_header final : public ark::s_msg_header
 {
 public:
     explicit releasing_header(std::function<void()> release)
-        : release_(std::move(release)) {}
+        : release_(std::move(release)) {
+    }
 
     ark::msg_header* create() const override {
         release_();
@@ -45,10 +49,11 @@ private:
     std::function<void()> release_;
 };
 
-template<class Server, class Client>
+template<class server_type, class client_type>
 void release_server_from_receive() {
     receiver receiver;
-    std::shared_ptr<Server> server = std::make_shared<Server>(&receiver, &receiver::on_message, &receiver::on_event);
+    std::shared_ptr<server_type> server =
+        std::make_shared<server_type>(&receiver, &receiver::on_message, &receiver::on_event);
     std::atomic<bool> released{};
     auto header = std::make_shared<releasing_header>([&] {
         server.reset();
@@ -56,7 +61,7 @@ void release_server_from_receive() {
     });
     asio::io_context context;
     const auto port = [&] {
-        if constexpr (std::is_same_v<Client, arknet::rudp_client>)
+        if constexpr (std::is_same_v<client_type, arknet::rudp_client>)
         {
             asio::ip::udp::socket listener(context, {asio::ip::udp::v4(), 0});
             return listener.local_endpoint().port();
@@ -69,7 +74,7 @@ void release_server_from_receive() {
     }();
     REQUIRE(server->start_server(header, 11, "127.0.0.1", port, 2, 10, 30000));
     const std::weak_ptr weak = server;
-    Client client;
+    client_type client;
     client.set_auto_reconnect(false);
     REQUIRE(client.start("127.0.0.1", port));
     header->set_message_id(7);
@@ -89,17 +94,17 @@ void release_server_from_receive() {
     client.stop();
 }
 
-template<class Client, class Server>
+template<class client_type, class server_type>
 void release_client_from_receive() {
     receiver receiver;
-    std::shared_ptr<Client> client;
-    if constexpr (std::is_same_v<Client, ark::websocket_client>)
+    std::shared_ptr<client_type> client;
+    if constexpr (std::is_same_v<client_type, ark::websocket_client>)
     {
-        client = std::make_shared<Client>(&receiver, &receiver::on_websocket_message, &receiver::on_event);
+        client = std::make_shared<client_type>(&receiver, &receiver::on_websocket_message, &receiver::on_event);
     }
     else
     {
-        client = std::make_shared<Client>(&receiver, &receiver::on_message, &receiver::on_event);
+        client = std::make_shared<client_type>(&receiver, &receiver::on_message, &receiver::on_event);
     }
     std::atomic<bool> released{};
     auto header = std::make_shared<releasing_header>([&] {
@@ -111,7 +116,7 @@ void release_client_from_receive() {
     std::string frame;
     header->serialize_to_string(frame);
     frame += "test";
-    Server server(1024, 1024 * 1024, 2);
+    server_type server(1024, 1024 * 1024, 2);
     REQUIRE(server.start("127.0.0.1", 0));
     REQUIRE(client->start_client(header, 11, "127.0.0.1", server.listen_port()));
     const std::weak_ptr weak = client;

@@ -89,51 +89,51 @@ private:
     int max_reconnect_time_;
     int max_reconnect_count_;
 
-    const static std::string DefaultKey;
-    const static std::string DefaultTable;
+    const static std::string default_key_;
+    const static std::string default_table_;
 
 public:
-    explicit mysql_driver_module_impl(int nReconnectTime = 60, int nReconnectCount = -1);
-    mysql_driver_module_impl(const std::string& strDBName, const std::string& strDBHost, int nDBPort,
-        const std::string& strDBUser, const std::string& strDBPwd);
+    explicit mysql_driver_module_impl(int reconnect_time = 60, int reconnect_count = -1);
+    mysql_driver_module_impl(const std::string& db_name, const std::string& db_host, int db_port,
+        const std::string& db_user, const std::string& db_pwd);
     ~mysql_driver_module_impl();
 
     bool update() override;
 
-    bool Connect(const std::string& strDBName, const std::string& strDBHost, const int nDBPort,
-        const std::string& strDBUser, const std::string& strDBPwd) override;
-    void CloseConnection() override;
-    mysqlpp::Connection* GetConnection() override;
+    bool connect(const std::string& db_name, const std::string& db_host, const int db_port, const std::string& db_user,
+        const std::string& db_pwd) override;
+    void close_connection() override;
+    mysqlpp::Connection* get_connection() override;
 
-    bool IsAvailable() override;
-    bool CanReconnect() override;
-    bool Reconnect() override;
+    bool is_available() override;
+    bool can_reconnect() override;
+    bool reconnect() override;
 
-    bool Query(const std::string& qstr) override;
-    bool Query(const std::string& qstr, mysqlpp::StoreQueryResult& queryResult) override;
-    bool Query(const std::string& tableName, const std::string& strKey, const std::vector<std::string>& fieldVec,
-        std::vector<std::string>& valueVec) override;
-    bool UpdateOrInsert(const std::string& tableName, const std::string& strKey,
-        const std::vector<std::string>& fieldVec, const std::vector<std::string>& valueVec) override;
-    bool Select(const std::string& tableName, const std::string& strKey, const std::vector<std::string>& fieldVec,
-        std::vector<std::string>& valueVec) override;
-    bool Delete(const std::string& tableName, const std::string& strKey) override;
-    bool Exists(const std::string& tableName, const std::string& strKey, bool& bExit) override;
-    bool Keys(const std::string& tableName, const std::string& strKeyName, std::vector<std::string>& valueVec) override;
+    bool query(const std::string& qstr) override;
+    bool query(const std::string& qstr, mysqlpp::StoreQueryResult& query_result) override;
+    bool query(const std::string& table_name, const std::string& key, const std::vector<std::string>& field_vec,
+        std::vector<std::string>& value_vec) override;
+    bool update_or_insert(const std::string& table_name, const std::string& key,
+        const std::vector<std::string>& field_vec, const std::vector<std::string>& value_vec) override;
+    bool select(const std::string& table_name, const std::string& key, const std::vector<std::string>& field_vec,
+        std::vector<std::string>& value_vec) override;
+    bool erase(const std::string& table_name, const std::string& key) override;
+    bool exists(const std::string& table_name, const std::string& key, bool& exists) override;
+    bool keys(const std::string& table_name, const std::string& key_name, std::vector<std::string>& value_vec) override;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    bool Insert(const std::string& document, std::vector<kv_pair>& data) override;
-    bool UpdateRecord(const std::string& document, std::vector<kv_pair>& data, std::vector<where>& where) override;
-    bool Select(const std::string& document, std::vector<std::string>& columns, std::vector<where>& where,
+    bool insert(const std::string& document, std::vector<kv_pair>& data) override;
+    bool update_record(const std::string& document, std::vector<kv_pair>& data, std::vector<where>& where) override;
+    bool select(const std::string& document, std::vector<std::string>& columns, std::vector<where>& where,
         order_by& order, int limit, result_arr& results) override;
-    bool SelectOne(const std::string& document, std::vector<std::string>& columns, std::vector<where>& where,
+    bool select_one(const std::string& document, std::vector<std::string>& columns, std::vector<where>& where,
         order_by& order, result& result) override;
 
 protected:
-    bool IsNeedReconnect();
-    bool Connect();
+    bool is_need_reconnect();
+    bool connect();
 };
 
 } // namespace ark

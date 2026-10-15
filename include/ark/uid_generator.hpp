@@ -75,7 +75,7 @@ private:
 class bits_allocator
 {
 public:
-    static const int TOTAL_BITS = 1 << 6;
+    static const int total_bits = 1 << 6;
 
     bits_allocator(int ts_bits, int worker_bits, int seq_bits)
         : sign_bits_(1)
@@ -83,7 +83,7 @@ public:
         , worker_id_bits_(worker_bits)
         , sequence_bits_{seq_bits} {
         int alloc_total_bit = sign_bits_ + ts_bits + worker_bits + seq_bits;
-        ARK_ASSERT_NO_EFFECT(alloc_total_bit == TOTAL_BITS); // allocate not enough 64 bits
+        ARK_ASSERT_NO_EFFECT(alloc_total_bit == total_bits); // allocate not enough 64 bits
 
         max_delta_seconds_ = ~(uint64_t(-1L) << timestamp_bits_);
         max_worker_id_ = ~(uint64_t(-1L) << worker_id_bits_);
@@ -98,7 +98,7 @@ public:
     }
 
     int get_total_bits() {
-        return TOTAL_BITS;
+        return total_bits;
     }
 
     int get_sign_bits() {

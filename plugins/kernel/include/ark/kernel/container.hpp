@@ -45,14 +45,14 @@ public:
     virtual uint32_t find(const guid_t& id) const = 0;
     virtual bool exist(uint32_t index) const = 0;
     virtual bool exist(const guid_t& id) const = 0;
-    virtual bool place(std::shared_ptr<entity> pEntity) = 0;
-    virtual bool place(uint32_t index, std::shared_ptr<entity> pEntity) = 0;
+    virtual bool place(std::shared_ptr<entity> entity_ptr) = 0;
+    virtual bool place(uint32_t index, std::shared_ptr<entity> entity_ptr) = 0;
     virtual bool swap(const uint32_t src_index, const uint32_t dest_index) = 0;
     virtual bool swap(const guid_t& src_entity, const guid_t& dest_entity) = 0;
     virtual bool swap(
-        std::shared_ptr<container> pSrcContainer, const uint32_t src_index, const uint32_t dest_index) = 0;
+        std::shared_ptr<container> src_container_ptr, const uint32_t src_index, const uint32_t dest_index) = 0;
     virtual bool swap(
-        std::shared_ptr<container> pSrcContainer, const guid_t& src_entity, const guid_t& dest_entity) = 0;
+        std::shared_ptr<container> src_container_ptr, const guid_t& src_entity, const guid_t& dest_entity) = 0;
 
     virtual bool remove(const uint32_t index) = 0;
     virtual bool remove(const guid_t& id) = 0;

@@ -3,11 +3,13 @@
 #include <memory>
 #include <string>
 
-#include "ark/net/net_session.hpp"
 #include "doctest.h"
 
+#include "ark/net/net_session.hpp"
+
 namespace {
-std::string MakeFrame(ark::msg_id_t id, const std::string& body) {
+
+std::string make_frame(ark::msg_id_t id, const std::string& body) {
     ark::s_msg_header header;
     header.set_message_id(id);
     header.set_message_length(static_cast<uint32_t>(body.size()));
@@ -20,13 +22,13 @@ std::string MakeFrame(ark::msg_id_t id, const std::string& body) {
 TEST_CASE("Framing preserves split headers, binary payloads and coalesced messages") {
     ark::tcp_client_session session(std::make_shared<ark::s_msg_header>(), 1);
     const std::string payload("a\0b", 3);
-    const auto first = MakeFrame(7, payload);
+    const auto first = make_frame(7, payload);
     session.add_buffer(first.data(), 2);
     CHECK(session.parse_buffer_to_msg());
     ark::net_msg* message = nullptr;
     CHECK_FALSE(session.pop_net_msg(message));
     session.add_buffer(first.data() + 2, first.size() - 2);
-    session.add_buffer(MakeFrame(8, ""));
+    session.add_buffer(make_frame(8, ""));
     CHECK(session.parse_buffer_to_msg());
     REQUIRE(session.pop_net_msg(message));
     CHECK(message->get_msg_id() == 7);
@@ -43,7 +45,7 @@ TEST_CASE("Framing preserves split headers, binary payloads and coalesced messag
 TEST_CASE("Framing rejects oversized input without preempting disconnect bookkeeping") {
     ark::tcp_client_session session(std::make_shared<ark::s_msg_header>(), 1);
     ark::s_msg_header header;
-    header.set_message_length(ark::ARK_MSG_MAX_LENGTH + 1);
+    header.set_message_length(ark::ark_msg_max_length + 1);
     std::string bytes;
     header.serialize_to_string(bytes);
     session.add_buffer(bytes);

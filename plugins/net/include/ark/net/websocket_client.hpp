@@ -37,11 +37,11 @@ class websocket_client final
     , public std::enable_shared_from_this<websocket_client>
 {
 public:
-    template<typename BaseType>
-    websocket_client(BaseType* pBaseType, void (BaseType::*handleRecv)(net_msg const*, conv_id_t const&),
-        void (BaseType::*handleEvent)(net_event const*)) {
-        net_msg_cb_ = std::bind(handleRecv, pBaseType, std::placeholders::_1, std::placeholders::_2);
-        net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
+    template<typename base_type>
+    websocket_client(base_type* base_type_ptr, void (base_type::*handle_recv)(net_msg const*, conv_id_t const&),
+        void (base_type::*handle_event)(net_event const*)) {
+        net_msg_cb_ = std::bind(handle_recv, base_type_ptr, std::placeholders::_1, std::placeholders::_2);
+        net_event_cb_ = std::bind(handle_event, base_type_ptr, std::placeholders::_1);
     }
 
     ~websocket_client() override;

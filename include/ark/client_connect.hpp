@@ -80,7 +80,7 @@ public:
         auto iter_session_id = sesssion_user_list_.find(sesssion_id);
         if (iter_session_id == sesssion_user_list_.end())
         {
-            return NULL_STR;
+            return null_str;
         }
 
         return iter_session_id->second;
@@ -90,7 +90,7 @@ public:
         auto iter_open_id = user_sesssion_list_.find(open_id);
         if (iter_open_id == user_sesssion_list_.end())
         {
-            return NULL_INT64;
+            return null_int64;
         }
 
         return iter_open_id->second;

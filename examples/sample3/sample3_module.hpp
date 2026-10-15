@@ -39,45 +39,45 @@ public:
 
 protected:
     // create test
-    void CreateEntityTest();
+    void create_entity_test();
 
     // query test
-    void DataTest();
-    void TableTest();
-    void DestroyTest();
+    void data_test();
+    void table_test();
+    void destroy_test();
 
     // call back test
-    void CalssCallBackTest();
-    void DataCallBackTest();
-    void TableCallBackTest();
-    void ContainerCallBackTest();
+    void calss_call_back_test();
+    void data_call_back_test();
+    void table_call_back_test();
+    void container_call_back_test();
 
     // event test
-    void EventTest();
+    void event_test();
 
     //------------inner interface----------------
-    std::shared_ptr<entity> CreateAnPlayerAndInit();
-    void QueryStringTest(const guid_t& guid, size_t count, const uint32_t index);
-    void QueryIntTest(const guid_t& guid, size_t count, const uint32_t index);
-    void SetDataTest(const guid_t& guid, size_t count, const uint32_t index);
-    void CustomDataTest(const guid_t& guid, size_t count, const uint32_t index);
+    std::shared_ptr<entity> create_an_player_and_init();
+    void query_string_test(const guid_t& guid, size_t count, const uint32_t index);
+    void query_int_test(const guid_t& guid, size_t count, const uint32_t index);
+    void set_data_test(const guid_t& guid, size_t count, const uint32_t index);
+    void custom_data_test(const guid_t& guid, size_t count, const uint32_t index);
 
     //------------callback----------------------
-    int OnClassCallBackEvent(
-        const guid_t& self, const std::string& strClassName, const entity_event event, const data_list& arg);
+    int on_class_call_back_event(
+        const guid_t& self, const std::string& class_name, const entity_event event, const data_list& arg);
 
-    int OnDataCallBackEvent(const guid_t& self, const std::string& data_name, const uint32_t index,
+    int on_data_call_back_event(const guid_t& self, const std::string& data_name, const uint32_t index,
         const ark::data& old_value, const ark::data& new_value);
 
-    int OnTableCallBackEvent(
+    int on_table_call_back_event(
         const guid_t& self, const table_event_data& data, const ark::data& old_value, const ark::data& new_value);
 
-    int OnContainerCallBackEvent(const guid_t& self, const uint32_t index, const container_op_type op_type,
+    int on_container_call_back_event(const guid_t& self, const uint32_t index, const container_op_type op_type,
         const uint32_t src_index, const uint32_t dest_index);
 
 protected:
-    kernel_module* m_pKernelModule;
-    map_module* m_pMapModule;
+    kernel_module* kernel_module_;
+    map_module* map_module_;
 };
 
 } // namespace ark

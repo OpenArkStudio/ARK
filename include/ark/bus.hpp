@@ -101,8 +101,8 @@ private:
 class bus_relation
 {
 public:
-    uint8_t app_type{std::underlying_type<ark::app_type>::type(ark::app_type::ARK_APP_DEFAULT)};
-    uint8_t target_app_type{std::underlying_type<ark::app_type>::type(ark::app_type::ARK_APP_DEFAULT)};
+    uint8_t app_type{std::underlying_type<ark::app_type>::type(ark::app_type::ark_app_default)};
+    uint8_t target_app_type{std::underlying_type<ark::app_type>::type(ark::app_type::ark_app_default)};
     bool connection_type{false};
 };
 

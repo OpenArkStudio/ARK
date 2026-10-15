@@ -21,26 +21,27 @@
 #include "simulate/include/simulate_net_module_impl.hpp"
 
 namespace ark {
+
 //method realization
 
 bool simulate_net_module_impl::init() {
-    m_pSimulateModule = find_module<simulate_module>();
-    m_pBusModule = find_module<bus_module>();
-    m_pNetServiceManagerModule = find_module<net_service_manager_module>();
+    simulate_module_ = find_module<simulate_module>();
+    bus_module_ = find_module<bus_module>();
+    net_service_manager_module_ = find_module<net_service_manager_module>();
 
-    m_pSimulateModule->RegisterTriggerCallBack(this, &simulate_net_module_impl::TriggerCallBack);
+    simulate_module_->register_trigger_call_back(this, &simulate_net_module_impl::trigger_call_back);
 
     return true;
 }
 
 bool simulate_net_module_impl::post_init() {
-    StartServer();
+    start_server();
 
     return true;
 }
 
-int simulate_net_module_impl::StartServer() {
-    auto ret = m_pNetServiceManagerModule->create_server();
+int simulate_net_module_impl::start_server() {
+    auto ret = net_service_manager_module_->create_server();
     //ret.Then([=](const std::pair<bool, std::string>& resp) {
     //    if (!resp.first)
     //    {
@@ -59,159 +60,159 @@ int simulate_net_module_impl::StartServer() {
 
     //    m_pNetServerService->RegMsgCallback(0, this, &AFCSimulateNetModule::OnRecvMsg);
     //});
-    m_pNetServerService = m_pNetServiceManagerModule->get_inter_net_server();
-    if (m_pNetServerService == nullptr)
+    net_server_service_ = net_service_manager_module_->get_inter_net_server();
+    if (net_server_service_ == nullptr)
     {
-        ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->get_self_bus_name());
+        ARK_LOG_ERROR("Cannot find server net, busid = {}", bus_module_->get_self_bus_name());
         exit(0);
     }
 
     using namespace simulate;
-    m_pNetServerService->reg_msg_callback(
-        (int)simulate_msg_type::SIMULATE_MSG_REQ_CREATE_SCENE, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->reg_msg_callback(
-        (int)simulate_msg_type::SIMULATE_MSG_REQ_DESTROY_SCENE, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->reg_msg_callback(
-        (int)simulate_msg_type::SIMULATE_MSG_REQ_CREATE_DYNAMIC_BOX, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->reg_msg_callback(
-        (int)simulate_msg_type::SIMULATE_MSG_REQ_CREATE_DYNAMIC_CAPSULE, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->reg_msg_callback(
-        (int)simulate_msg_type::SIMULATE_MSG_REQ_CREATE_DYNAMIC_SPHERE, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->reg_msg_callback(
-        (int)simulate_msg_type::SIMULATE_MSG_REQ_CREATE_STATIC_BOX, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->reg_msg_callback(
-        (int)simulate_msg_type::SIMULATE_MSG_REQ_CREATE_STATIC_CAPSULE, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->reg_msg_callback(
-        (int)simulate_msg_type::SIMULATE_MSG_REQ_CREATE_STATIC_SPHERE, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->reg_msg_callback(
-        (int)simulate_msg_type::SIMULATE_MSG_REQ_UPDATE_ACTOR, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->reg_msg_callback(
-        (int)simulate_msg_type::SIMULATE_MSG_REQ_DESTROY_ACTOR, this, &simulate_net_module_impl::OnRecvMsg);
-    m_pNetServerService->reg_msg_callback(
-        (int)simulate_msg_type::SIMULATE_MSG_REQ_RAY_CAST, this, &simulate_net_module_impl::OnRecvMsg);
+    net_server_service_->reg_msg_callback(
+        (int)simulate_msg_type::simulate_msg_req_create_scene, this, &simulate_net_module_impl::on_recv_msg);
+    net_server_service_->reg_msg_callback(
+        (int)simulate_msg_type::simulate_msg_req_destroy_scene, this, &simulate_net_module_impl::on_recv_msg);
+    net_server_service_->reg_msg_callback(
+        (int)simulate_msg_type::simulate_msg_req_create_dynamic_box, this, &simulate_net_module_impl::on_recv_msg);
+    net_server_service_->reg_msg_callback(
+        (int)simulate_msg_type::simulate_msg_req_create_dynamic_capsule, this, &simulate_net_module_impl::on_recv_msg);
+    net_server_service_->reg_msg_callback(
+        (int)simulate_msg_type::simulate_msg_req_create_dynamic_sphere, this, &simulate_net_module_impl::on_recv_msg);
+    net_server_service_->reg_msg_callback(
+        (int)simulate_msg_type::simulate_msg_req_create_static_box, this, &simulate_net_module_impl::on_recv_msg);
+    net_server_service_->reg_msg_callback(
+        (int)simulate_msg_type::simulate_msg_req_create_static_capsule, this, &simulate_net_module_impl::on_recv_msg);
+    net_server_service_->reg_msg_callback(
+        (int)simulate_msg_type::simulate_msg_req_create_static_sphere, this, &simulate_net_module_impl::on_recv_msg);
+    net_server_service_->reg_msg_callback(
+        (int)simulate_msg_type::simulate_msg_req_update_actor, this, &simulate_net_module_impl::on_recv_msg);
+    net_server_service_->reg_msg_callback(
+        (int)simulate_msg_type::simulate_msg_req_destroy_actor, this, &simulate_net_module_impl::on_recv_msg);
+    net_server_service_->reg_msg_callback(
+        (int)simulate_msg_type::simulate_msg_req_ray_cast, this, &simulate_net_module_impl::on_recv_msg);
 
     return 0;
 }
 
-void simulate_net_module_impl::OnRecvMsg(const net_msg* msg, conv_id_t session_id) {
+void simulate_net_module_impl::on_recv_msg(const net_msg* msg, conv_id_t session_id) {
     msgpack::object_handle obj_handle;
     msgpack::unpack(obj_handle, msg->get_msg_data(), msg->get_msg_length());
     auto unpack_obj = obj_handle.get();
     if (unpack_obj.is_nil())
     {
-        ARK_LOG_ERROR("unpack failed, busid = {} msg id = {}", m_pBusModule->get_self_bus_name(), msg->get_msg_id());
+        ARK_LOG_ERROR("unpack failed, busid = {} msg id = {}", bus_module_->get_self_bus_name(), msg->get_msg_id());
         return;
     }
 
     using namespace simulate;
-    bool bResult = false;
+    bool result = false;
     auto msg_id = (simulate_msg_type)msg->get_msg_id();
     switch (msg_id)
     {
-    case simulate_msg_type::SIMULATE_MSG_REQ_CREATE_SCENE:
+    case simulate_msg_type::simulate_msg_req_create_scene:
     {
         auto obj = unpack_obj.as<req_create_scene>();
-        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
+        update_bus_id(obj.scene_id, obj.index, msg->get_src_bus());
 
-        bResult = m_pSimulateModule->CreateScene(obj.scene_id, obj.index);
+        result = simulate_module_->create_scene(obj.scene_id, obj.index);
     }
     break;
-    case simulate_msg_type::SIMULATE_MSG_REQ_DESTROY_SCENE:
+    case simulate_msg_type::simulate_msg_req_destroy_scene:
     {
         auto obj = unpack_obj.as<req_destroy_scene>();
-        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
+        update_bus_id(obj.scene_id, obj.index, msg->get_src_bus());
 
-        bResult = m_pSimulateModule->DestroyScene(obj.scene_id, obj.index);
+        result = simulate_module_->destroy_scene(obj.scene_id, obj.index);
     }
     break;
-    case simulate_msg_type::SIMULATE_MSG_REQ_CREATE_DYNAMIC_BOX:
+    case simulate_msg_type::simulate_msg_req_create_dynamic_box:
     {
         auto obj = unpack_obj.as<req_create_dynamic_box>();
-        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
+        update_bus_id(obj.scene_id, obj.index, msg->get_src_bus());
 
-        auto position = SimulateVec3ToAFVec(obj.position);
-        auto size = SimulateVec3ToAFVec(obj.size);
-        bResult = m_pSimulateModule->CreateBox(obj.scene_id, obj.index, obj.obj_id, position, size, true);
+        auto position = from_simulation_vector(obj.position);
+        auto size = from_simulation_vector(obj.size);
+        result = simulate_module_->create_box(obj.scene_id, obj.index, obj.obj_id, position, size, true);
     }
     break;
-    case simulate_msg_type::SIMULATE_MSG_REQ_CREATE_DYNAMIC_CAPSULE:
+    case simulate_msg_type::simulate_msg_req_create_dynamic_capsule:
     {
         auto obj = unpack_obj.as<req_create_dynamic_capsule>();
-        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
+        update_bus_id(obj.scene_id, obj.index, msg->get_src_bus());
 
-        auto position = SimulateVec3ToAFVec(obj.position);
-        bResult = m_pSimulateModule->CreateCapsule(
+        auto position = from_simulation_vector(obj.position);
+        result = simulate_module_->create_capsule(
             obj.scene_id, obj.index, obj.obj_id, position, obj.raidus, obj.height, true);
     }
     break;
-    case simulate_msg_type::SIMULATE_MSG_REQ_CREATE_DYNAMIC_SPHERE:
+    case simulate_msg_type::simulate_msg_req_create_dynamic_sphere:
     {
         auto obj = unpack_obj.as<req_create_dynamic_sphere>();
-        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
+        update_bus_id(obj.scene_id, obj.index, msg->get_src_bus());
 
-        auto position = SimulateVec3ToAFVec(obj.position);
-        bResult = m_pSimulateModule->CreateSphere(obj.scene_id, obj.index, obj.obj_id, position, obj.raidus, true);
+        auto position = from_simulation_vector(obj.position);
+        result = simulate_module_->create_sphere(obj.scene_id, obj.index, obj.obj_id, position, obj.raidus, true);
     }
     break;
-    case simulate_msg_type::SIMULATE_MSG_REQ_CREATE_STATIC_BOX:
+    case simulate_msg_type::simulate_msg_req_create_static_box:
     {
         auto obj = unpack_obj.as<req_create_static_box>();
-        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
+        update_bus_id(obj.scene_id, obj.index, msg->get_src_bus());
 
-        auto position = SimulateVec3ToAFVec(obj.position);
-        auto size = SimulateVec3ToAFVec(obj.size);
-        bResult = m_pSimulateModule->CreateBox(obj.scene_id, obj.index, obj.obj_id, position, size, false);
+        auto position = from_simulation_vector(obj.position);
+        auto size = from_simulation_vector(obj.size);
+        result = simulate_module_->create_box(obj.scene_id, obj.index, obj.obj_id, position, size, false);
     }
     break;
-    case simulate_msg_type::SIMULATE_MSG_REQ_CREATE_STATIC_CAPSULE:
+    case simulate_msg_type::simulate_msg_req_create_static_capsule:
     {
         auto obj = unpack_obj.as<req_create_static_capsule>();
-        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
+        update_bus_id(obj.scene_id, obj.index, msg->get_src_bus());
 
-        auto position = SimulateVec3ToAFVec(obj.position);
-        bResult = m_pSimulateModule->CreateCapsule(
+        auto position = from_simulation_vector(obj.position);
+        result = simulate_module_->create_capsule(
             obj.scene_id, obj.index, obj.obj_id, position, obj.raidus, obj.height, false);
     }
     break;
-    case simulate_msg_type::SIMULATE_MSG_REQ_CREATE_STATIC_SPHERE:
+    case simulate_msg_type::simulate_msg_req_create_static_sphere:
     {
         auto obj = unpack_obj.as<req_create_static_sphere>();
-        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
+        update_bus_id(obj.scene_id, obj.index, msg->get_src_bus());
 
-        auto position = SimulateVec3ToAFVec(obj.position);
-        bResult = m_pSimulateModule->CreateSphere(obj.scene_id, obj.index, obj.obj_id, position, obj.raidus, false);
+        auto position = from_simulation_vector(obj.position);
+        result = simulate_module_->create_sphere(obj.scene_id, obj.index, obj.obj_id, position, obj.raidus, false);
     }
     break;
-    case simulate_msg_type::SIMULATE_MSG_REQ_UPDATE_ACTOR:
+    case simulate_msg_type::simulate_msg_req_update_actor:
     {
         auto obj = unpack_obj.as<req_update_actor>();
-        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
+        update_bus_id(obj.scene_id, obj.index, msg->get_src_bus());
 
-        auto position = SimulateVec3ToAFVec(obj.position);
-        bResult = m_pSimulateModule->UpdateActor(obj.scene_id, obj.index, obj.obj_id, position);
+        auto position = from_simulation_vector(obj.position);
+        result = simulate_module_->update_actor(obj.scene_id, obj.index, obj.obj_id, position);
     }
     break;
-    case simulate_msg_type::SIMULATE_MSG_REQ_DESTROY_ACTOR:
+    case simulate_msg_type::simulate_msg_req_destroy_actor:
     {
         auto obj = unpack_obj.as<req_destroy_actor>();
-        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
+        update_bus_id(obj.scene_id, obj.index, msg->get_src_bus());
 
-        bResult = m_pSimulateModule->DestroyActor(obj.scene_id, obj.index, obj.obj_id);
+        result = simulate_module_->destroy_actor(obj.scene_id, obj.index, obj.obj_id);
     }
     break;
-    case simulate_msg_type::SIMULATE_MSG_REQ_RAY_CAST:
+    case simulate_msg_type::simulate_msg_req_ray_cast:
     {
         auto obj = unpack_obj.as<req_ray_cast>();
-        UpdateBusID(obj.scene_id, obj.index, msg->get_src_bus());
+        update_bus_id(obj.scene_id, obj.index, msg->get_src_bus());
 
-        auto start = SimulateVec3ToAFVec(obj.start);
-        auto direction = SimulateVec3ToAFVec(obj.direction);
+        auto start = from_simulation_vector(obj.start);
+        auto direction = from_simulation_vector(obj.direction);
 
-        ack_ray_cast ackRayCast;
-        bResult = m_pSimulateModule->RayCast(obj.scene_id, obj.index, start, direction, obj.distance, ackRayCast);
-        if (bResult)
+        ack_ray_cast ack_ray_cast;
+        result = simulate_module_->ray_cast(obj.scene_id, obj.index, start, direction, obj.distance, ack_ray_cast);
+        if (result)
         {
-            SendAckRayCast(obj.scene_id, obj.index, ackRayCast);
+            send_ack_ray_cast(obj.scene_id, obj.index, ack_ray_cast);
         }
     }
     break;
@@ -222,28 +223,29 @@ void simulate_net_module_impl::OnRecvMsg(const net_msg* msg, conv_id_t session_i
     break;
     }
 
-    if (!bResult)
+    if (!result)
     {
-        ARK_LOG_ERROR("deal message failed, busid = {} msg id = {}", m_pBusModule->get_self_bus_name(), msg->get_msg_id());
+        ARK_LOG_ERROR(
+            "deal message failed, busid = {} msg id = {}", bus_module_->get_self_bus_name(), msg->get_msg_id());
         return;
     }
 }
 
-physic3_d simulate_net_module_impl::SimulateVec3ToAFVec(const simulate::simulate_vec3& vec3) {
+physic3_d simulate_net_module_impl::from_simulation_vector(const simulate::simulate_vec3& vec3) {
     return physic3_d(vec3.x, vec3.y, vec3.z);
 }
 
-void simulate_net_module_impl::TriggerCallBack(
+void simulate_net_module_impl::trigger_call_back(
     const std::string& scene_id, const int32_t index, const simulate::trigger_pair& pair) {
     simulate::ack_trigger trigger;
     trigger.scene_id = scene_id;
     trigger.index = index;
     trigger.pairs.push_back(pair);
 
-    SendAckTrigger(scene_id, index, trigger);
+    send_ack_trigger(scene_id, index, trigger);
 }
 
-void simulate_net_module_impl::SendMsg(const std::string& scene_id, const int32_t index,
+void simulate_net_module_impl::send_msg(const std::string& scene_id, const int32_t index,
     const simulate::simulate_msg_type msg_id, const msgpack::sbuffer& buffer) {
     int32_t target_bus_id;
     if (!get_bus_id(scene_id, index, target_bus_id))
@@ -252,22 +254,22 @@ void simulate_net_module_impl::SendMsg(const std::string& scene_id, const int32_
         return;
     }
 
-    auto bus_id = m_pBusModule->get_self_bus_id();
-    auto pNetService = m_pNetServiceManagerModule->get_inter_net_server();
-    if (!pNetService)
+    auto bus_id = bus_module_->get_self_bus_id();
+    auto net_service_ptr = net_service_manager_module_->get_inter_net_server();
+    if (!net_service_ptr)
     {
         ARK_LOG_ERROR("get net service failed scene id = {} index = {} msg id = {}", scene_id, index, (int)msg_id);
         return;
     }
 
-    auto pNet = pNetService->get_net();
-    if (!pNet)
+    auto net_ptr = net_service_ptr->get_net();
+    if (!net_ptr)
     {
         ARK_LOG_ERROR("get net failed scene id = {} index = {} msg id = {}", scene_id, index, (int)msg_id);
         return;
     }
 
-    auto session_id = m_pNetServiceManagerModule->get_session_id(target_bus_id);
+    auto session_id = net_service_manager_module_->get_session_id(target_bus_id);
     if (session_id == 0)
     {
         ARK_LOG_ERROR("get session id failed scene id = {} index = {} msg id = {}", scene_id, index, (int)msg_id);
@@ -277,29 +279,29 @@ void simulate_net_module_impl::SendMsg(const std::string& scene_id, const int32_
     ss_msg_header head;
     head.set_message_id((msg_id_t)msg_id);
     head.set_message_length(buffer.size());
-    head.SetSourceBusId(bus_id);
-    head.SetDestBusId(target_bus_id);
+    head.set_source_bus_id(bus_id);
+    head.set_dest_bus_id(target_bus_id);
 
-    pNet->send_msg(&head, buffer.data(), session_id);
+    net_ptr->send_msg(&head, buffer.data(), session_id);
 }
 
-void simulate_net_module_impl::SendAckRayCast(
-    const std::string& scene_id, const int32_t index, const simulate::ack_ray_cast& ackMsg) {
+void simulate_net_module_impl::send_ack_ray_cast(
+    const std::string& scene_id, const int32_t index, const simulate::ack_ray_cast& ack_msg) {
     msgpack::sbuffer buffer;
-    msgpack::pack(buffer, ackMsg);
+    msgpack::pack(buffer, ack_msg);
 
-    SendMsg(scene_id, index, simulate::simulate_msg_type::SIMULATE_MSG_ACK_RAY_CAST, buffer);
+    send_msg(scene_id, index, simulate::simulate_msg_type::simulate_msg_ack_ray_cast, buffer);
 }
 
-void simulate_net_module_impl::SendAckTrigger(
-    const std::string& scene_id, const int32_t index, const simulate::ack_trigger& ackMsg) {
+void simulate_net_module_impl::send_ack_trigger(
+    const std::string& scene_id, const int32_t index, const simulate::ack_trigger& ack_msg) {
     msgpack::sbuffer buffer;
-    msgpack::pack(buffer, ackMsg);
+    msgpack::pack(buffer, ack_msg);
 
-    SendMsg(scene_id, index, simulate::simulate_msg_type::SIMULATE_MSG_ACK_TRIGGER, buffer);
+    send_msg(scene_id, index, simulate::simulate_msg_type::simulate_msg_ack_trigger, buffer);
 }
 
-void simulate_net_module_impl::UpdateBusID(const std::string& scene_id, const int32_t index, const int32_t bus_id) {
+void simulate_net_module_impl::update_bus_id(const std::string& scene_id, const int32_t index, const int32_t bus_id) {
     auto iter = scene_index_bus_list_.find(scene_id);
     if (iter == scene_index_bus_list_.end())
     {

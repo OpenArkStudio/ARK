@@ -28,28 +28,28 @@ std::shared_ptr<container> container_manager_impl::find_container(const uint32_t
 }
 
 std::shared_ptr<container> container_manager_impl::create_container(
-    std::shared_ptr<class_meta> pClassMeta, const uint32_t index, const guid_t& parent_id) {
+    std::shared_ptr<class_meta> class_meta_ptr, const uint32_t index, const guid_t& parent_id) {
     // return if found
-    auto pContainer = find_container(index);
-    if (nullptr != pContainer)
+    auto container_ptr = find_container(index);
+    if (nullptr != container_ptr)
     {
-        return pContainer;
+        return container_ptr;
     }
 
-    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, nullptr);
+    ARK_ASSERT_RET_VAL(class_meta_ptr != nullptr, nullptr);
 
-    auto pContainerClassMeta = pClassMeta->find_container_meta(index);
-    ARK_ASSERT_RET_VAL(pContainerClassMeta != nullptr, nullptr);
+    auto container_class_meta_ptr = class_meta_ptr->find_container_meta(index);
+    ARK_ASSERT_RET_VAL(container_class_meta_ptr != nullptr, nullptr);
 
-    auto pCallBack = pClassMeta->get_class_call_back_manager();
-    ARK_ASSERT_RET_VAL(pCallBack != nullptr, nullptr);
+    auto callback_ptr = class_meta_ptr->get_class_call_back_manager();
+    ARK_ASSERT_RET_VAL(callback_ptr != nullptr, nullptr);
 
-    pContainer = std::make_shared<container_impl>(pContainerClassMeta, parent_id, pCallBack);
-    ARK_ASSERT_RET_VAL(pContainer != nullptr, nullptr);
+    container_ptr = std::make_shared<container_impl>(container_class_meta_ptr, parent_id, callback_ptr);
+    ARK_ASSERT_RET_VAL(container_ptr != nullptr, nullptr);
 
-    container_data_.insert(index, pContainer);
+    container_data_.insert(index, container_ptr);
 
-    return pContainer;
+    return container_ptr;
 }
 
 bool container_manager_impl::destroy_container(const uint32_t index) {

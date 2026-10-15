@@ -34,35 +34,36 @@ namespace ark {
 struct delay_sync_row
 {
     delay_sync_row(const uint32_t row)
-        : row_(row) {}
+        : row(row) {
+    }
 
-    bool need_clear_{false};
-    uint32_t row_{0};
-    std::set<node*> node_list_;
+    bool need_clear{false};
+    uint32_t row{0};
+    std::set<node*> node_list;
 };
 
 struct delay_sync_table
 {
-    bool need_clear_{false};
-    std::map<uint32_t, delay_sync_row> row_list_;
+    bool need_clear{false};
+    std::map<uint32_t, delay_sync_row> row_list;
 };
 
 struct delay_sync_container
 {
-    std::set<uint32_t> index_list_;
-    std::set<uint32_t> destroy_list_;
+    std::set<uint32_t> index_list;
+    std::set<uint32_t> destroy_list;
 };
 
 struct delay_sync_data
 {
     // node list
-    std::set<node*> node_list_;
+    std::set<node*> node_list;
 
     // table list
-    std::map<uint32_t, delay_sync_table> table_list_;
+    std::map<uint32_t, delay_sync_table> table_list;
 
     // container list
-    std::map<uint32_t, delay_sync_container> container_list_;
+    std::map<uint32_t, delay_sync_container> container_list;
 };
 
 class class_call_back_manager final
@@ -134,10 +135,10 @@ public:
 
     // data call back
     bool on_class_event(
-        const guid_t& id, const std::string& class_name, const entity_event eClassEvent, const data_list& valueList);
-    bool on_node_call_back(const guid_t& self, node* pNode, const data& old_data, const data& new_data);
-    bool on_table_call_back(const guid_t& self, const mask_type mask, node* pNode, const table_event_data& event_data,
-        const data& old_data, const data& new_data);
+        const guid_t& id, const std::string& class_name, const entity_event class_event, const data_list& value_list);
+    bool on_node_call_back(const guid_t& self, node* node_ptr, const data& old_data, const data& new_data);
+    bool on_table_call_back(const guid_t& self, const mask_type mask, node* node_ptr,
+        const table_event_data& event_data, const data& old_data, const data& new_data);
     bool on_container_call_back(const guid_t& self, const uint32_t index, const mask_type mask,
         const container_op_type op_type, uint32_t src_index, uint32_t dest_index,
         std::shared_ptr<entity> src_entity = nullptr);
@@ -165,15 +166,15 @@ private:
     delay_sync_container& get_delay_sync_mask_container(
         delay_sync_mask_data& mask_data_map, const data_mask mask_value, uint32_t index);
 
-    void update_delay_node_list(const guid_t& self, node* pNode);
+    void update_delay_node_list(const guid_t& self, node* node_ptr);
     void update_delay_table_list(const guid_t& self, const mask_type mask, const uint32_t table_index,
-        const uint32_t row_index, table_op_type op_type, node* pNode);
+        const uint32_t row_index, table_op_type op_type, node* node_ptr);
     void update_delay_container_list(const guid_t& self, const uint32_t index, const mask_type mask,
         const container_op_type op_type, uint32_t src_index, uint32_t dest_index, std::shared_ptr<entity> src_entity);
 
     void on_table_add(delay_sync_table& table, const int row);
     void on_table_delete(delay_sync_table& table, const int row);
-    void on_table_row_update(delay_sync_table& table, const int row, node* pNode);
+    void on_table_row_update(delay_sync_table& table, const int row, node* node_ptr);
     void on_table_clear(delay_sync_table& table);
 
     void on_container_place(delay_sync_container& container, uint32_t index);

@@ -33,13 +33,15 @@ public:
         : bus_id(server_id)
         , vnode_ip(ip)
         , vnode_port(port)
-        , vnode_id(id) {}
+        , vnode_id(id) {
+    }
 
     v_node(int server_id, const char* ip, std::size_t port, std::size_t id)
         : bus_id(server_id)
         , vnode_ip(ip)
         , vnode_port(port)
-        , vnode_id(id) {}
+        , vnode_id(id) {
+    }
 
     std::string to_str() const {
         return ARK_FORMAT("{}-{}-{}-{}", bus_id, vnode_ip, vnode_port, vnode_id);
@@ -51,18 +53,19 @@ public:
     std::size_t vnode_id;      // node id
 };
 
-template<typename T, typename Hash, typename Alloc = std::allocator<std::pair<const typename Hash::result_type, T>>>
+template<typename element_type, typename hasher_type,
+    typename allocator_param_type = std::allocator<std::pair<const typename hasher_type::result_type, element_type>>>
 class consistent_hashmap
 {
 public:
-    using size_type = typename Hash::result_type;
-    using map_type = std::map<size_type, T, std::less<size_type>, Alloc>;
+    using size_type = typename hasher_type::result_type;
+    using map_type = std::map<size_type, element_type, std::less<size_type>, allocator_param_type>;
     using value_type = typename map_type::value_type;
     using reference = value_type&;
     using const_reference = const value_type&;
     using iterator = typename map_type::iterator;
     using reverse_iterator = typename map_type::reverse_iterator;
-    using allocator_type = Alloc;
+    using allocator_type = allocator_param_type;
 
     consistent_hashmap() = default;
     ~consistent_hashmap() = default;
@@ -92,7 +95,7 @@ public:
         return find(hasher_.hash(key));
     }
 
-    std::size_t erase(const T& node) {
+    std::size_t erase(const element_type& node) {
         size_type hash = hasher_(node);
         return nodes_.erase(hash);
     }
@@ -114,7 +117,7 @@ public:
     }
 
 protected:
-    std::pair<iterator, bool> insert(const T& node) {
+    std::pair<iterator, bool> insert(const element_type& node) {
         size_type hash = hasher_(node);
         return nodes_.insert(value_type(hash, node));
     }
@@ -140,7 +143,7 @@ protected:
     }
 
 private:
-    Hash hasher_;
+    hasher_type hasher_;
     map_type nodes_;
     std::size_t vnode_count_{100}; // default virtual node count is 100
 };

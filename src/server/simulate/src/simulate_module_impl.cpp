@@ -22,158 +22,159 @@
 #include "simulate/include/simulate_module_impl.hpp"
 
 namespace ark {
+
 //method realization
 
 #define GET_AND_CHECK_OBJ_EXIST(scene_id, index)                                                                       \
-    auto simulate_scene = FindSceneObjActors(scene_id, index);                                                         \
+    auto simulate_scene = find_scene_obj_actors(scene_id, index);                                                      \
     if (!simulate_scene)                                                                                               \
     {                                                                                                                  \
         ARK_LOG_ERROR("scene has not been created scene id = {} index = {} obj id = {}", scene_id, index, obj_id);     \
         return false;                                                                                                  \
     }                                                                                                                  \
                                                                                                                        \
-    if (simulate_scene->Exist(obj_id))                                                                                 \
+    if (simulate_scene->exist(obj_id))                                                                                 \
     {                                                                                                                  \
         ARK_LOG_ERROR("has created this obj scene id = {} index = {} obj id = {}", scene_id, index, obj_id);           \
         return false;                                                                                                  \
     }
 
 bool simulate_module_impl::init() {
-    m_pPhysicModule = find_module<physic_module>();
+    physic_module_ = find_module<physic_module>();
 
-    m_pPhysicModule->RegisterTriggerCallBack(this, &simulate_module_impl::TriggerCallBack);
+    physic_module_->register_trigger_call_back(this, &simulate_module_impl::trigger_call_back);
 
     return true;
 }
 
-bool simulate_module_impl::CreateScene(const std::string& scene_id, const int32_t index) {
-    auto simulate_scene = FindSceneObjActors(scene_id, index);
+bool simulate_module_impl::create_scene(const std::string& scene_id, const int32_t index) {
+    auto simulate_scene = find_scene_obj_actors(scene_id, index);
     if (simulate_scene)
     {
         ARK_LOG_ERROR("has created this scene id = {} index = {}", scene_id, index);
         return false;
     }
 
-    auto scene_obj_id = m_pPhysicModule->CreateScene(scene_id);
-    if (scene_obj_id == NULL_GUID)
+    auto scene_obj_id = physic_module_->create_scene(scene_id);
+    if (scene_obj_id == null_guid)
     {
         ARK_LOG_ERROR("create scene failed scene id = {} index = {}", scene_id, index);
         return false;
     }
 
-    InsertSceneObjActors(scene_obj_id, scene_id, index);
+    insert_scene_obj_actors(scene_obj_id, scene_id, index);
     return true;
 }
 
-bool simulate_module_impl::DestroyScene(const std::string& scene_id, const int32_t index) {
-    auto simulate_scene = FindSceneObjActors(scene_id, index);
+bool simulate_module_impl::destroy_scene(const std::string& scene_id, const int32_t index) {
+    auto simulate_scene = find_scene_obj_actors(scene_id, index);
     if (!simulate_scene)
     {
         ARK_LOG_ERROR("does not have this scene id = {} index = {}", scene_id, index);
         return false;
     }
 
-    if (!m_pPhysicModule->DestroyScene(simulate_scene->GetSceneObjID()))
+    if (!physic_module_->destroy_scene(simulate_scene->get_scene_obj_id()))
     {
         ARK_LOG_ERROR("destroy scene failed scene id = {} index = {}", scene_id, index);
         return false;
     }
 
-    RemoveSceneObjActors(scene_id, index);
+    remove_scene_obj_actors(scene_id, index);
     return true;
 }
 
-bool simulate_module_impl::CreateBox(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id,
-    const physic3_d& position, const physic3_d& size, bool bDynamic) {
+bool simulate_module_impl::create_box(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id,
+    const physic3_d& position, const physic3_d& size, bool dynamic) {
     GET_AND_CHECK_OBJ_EXIST(scene_id, index);
 
     guid_t actor_obj_id;
-    if (bDynamic)
+    if (dynamic)
     {
-        actor_obj_id = m_pPhysicModule->CreateDynamicBoxActor(simulate_scene->GetSceneObjID(), position, size);
+        actor_obj_id = physic_module_->create_dynamic_box_actor(simulate_scene->get_scene_obj_id(), position, size);
     }
     else
     {
-        actor_obj_id = m_pPhysicModule->CreateStaticBoxActor(simulate_scene->GetSceneObjID(), position, size);
+        actor_obj_id = physic_module_->create_static_box_actor(simulate_scene->get_scene_obj_id(), position, size);
     }
 
-    if (actor_obj_id == NULL_GUID)
+    if (actor_obj_id == null_guid)
     {
         ARK_LOG_ERROR("create actor failed scene id = {} index = {} obj id = {}", scene_id, index, obj_id);
         return false;
     }
 
-    simulate_scene->InsertObjActor(obj_id, actor_obj_id);
+    simulate_scene->insert_obj_actor(obj_id, actor_obj_id);
     return true;
 }
 
-bool simulate_module_impl::CreateCapsule(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id,
-    const physic3_d& position, const float raius, const float height, bool bDynamic) {
+bool simulate_module_impl::create_capsule(const std::string& scene_id, const int32_t index,
+    const simulate_net_id obj_id, const physic3_d& position, const float raius, const float height, bool dynamic) {
     GET_AND_CHECK_OBJ_EXIST(scene_id, index);
 
     guid_t actor_obj_id;
-    if (bDynamic)
+    if (dynamic)
     {
         actor_obj_id =
-            m_pPhysicModule->CreateDynamicCapsuleActor(simulate_scene->GetSceneObjID(), position, raius, height);
+            physic_module_->create_dynamic_capsule_actor(simulate_scene->get_scene_obj_id(), position, raius, height);
     }
     else
     {
         actor_obj_id =
-            m_pPhysicModule->CreateStaticCapsuleActor(simulate_scene->GetSceneObjID(), position, raius, height);
+            physic_module_->create_static_capsule_actor(simulate_scene->get_scene_obj_id(), position, raius, height);
     }
 
-    if (actor_obj_id == NULL_GUID)
+    if (actor_obj_id == null_guid)
     {
         ARK_LOG_ERROR("create actor failed scene id = {} index = {} obj id = {}", scene_id, index, obj_id);
         return false;
     }
 
-    simulate_scene->InsertObjActor(obj_id, actor_obj_id);
+    simulate_scene->insert_obj_actor(obj_id, actor_obj_id);
     return true;
 }
 
-bool simulate_module_impl::CreateSphere(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id,
-    const physic3_d& position, const float raius, bool bDynamic) {
+bool simulate_module_impl::create_sphere(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id,
+    const physic3_d& position, const float raius, bool dynamic) {
     GET_AND_CHECK_OBJ_EXIST(scene_id, index);
 
     guid_t actor_obj_id;
-    if (bDynamic)
+    if (dynamic)
     {
-        actor_obj_id = m_pPhysicModule->CreateDynamicSphereActor(simulate_scene->GetSceneObjID(), position, raius);
+        actor_obj_id = physic_module_->create_dynamic_sphere_actor(simulate_scene->get_scene_obj_id(), position, raius);
     }
     else
     {
-        actor_obj_id = m_pPhysicModule->CreateStaticSphereActor(simulate_scene->GetSceneObjID(), position, raius);
+        actor_obj_id = physic_module_->create_static_sphere_actor(simulate_scene->get_scene_obj_id(), position, raius);
     }
 
-    if (actor_obj_id == NULL_GUID)
+    if (actor_obj_id == null_guid)
     {
         ARK_LOG_ERROR("create actor failed scene id = {} index = {} obj id = {}", scene_id, index, obj_id);
         return false;
     }
 
-    simulate_scene->InsertObjActor(obj_id, actor_obj_id);
+    simulate_scene->insert_obj_actor(obj_id, actor_obj_id);
     return true;
 }
 
-bool simulate_module_impl::UpdateActor(
+bool simulate_module_impl::update_actor(
     const std::string& scene_id, const int32_t index, const simulate_net_id obj_id, const physic3_d& position) {
-    auto simulate_scene = FindSceneObjActors(scene_id, index);
+    auto simulate_scene = find_scene_obj_actors(scene_id, index);
     if (!simulate_scene)
     {
         ARK_LOG_ERROR("scene has not been created scene id = {} index = {} obj id = {}", scene_id, index, obj_id);
         return false;
     }
 
-    auto actor_obj_id = simulate_scene->FindActor(obj_id);
-    if (actor_obj_id == NULL_GUID)
+    auto actor_obj_id = simulate_scene->find_actor(obj_id);
+    if (actor_obj_id == null_guid)
     {
         ARK_LOG_ERROR("does not have this obj scene id = {} index = {} obj id = {}", scene_id, index, obj_id);
         return false;
     }
 
-    if (!m_pPhysicModule->UpdateActor(actor_obj_id, position))
+    if (!physic_module_->update_actor(actor_obj_id, position))
     {
         ARK_LOG_ERROR("update acotr failed scene id = {} index = {} obj id = {}", scene_id, index, obj_id);
         return false;
@@ -182,66 +183,66 @@ bool simulate_module_impl::UpdateActor(
     return true;
 }
 
-bool simulate_module_impl::DestroyActor(
+bool simulate_module_impl::destroy_actor(
     const std::string& scene_id, const int32_t index, const simulate_net_id obj_id) {
-    auto simulate_scene = FindSceneObjActors(scene_id, index);
+    auto simulate_scene = find_scene_obj_actors(scene_id, index);
     if (!simulate_scene)
     {
         ARK_LOG_ERROR("scene has not been created scene id = {} index = {} obj id = {}", scene_id, index, obj_id);
         return false;
     }
 
-    auto actor_obj_id = simulate_scene->FindActor(obj_id);
-    if (actor_obj_id == NULL_GUID)
+    auto actor_obj_id = simulate_scene->find_actor(obj_id);
+    if (actor_obj_id == null_guid)
     {
         ARK_LOG_ERROR("does not have this obj scene id = {} index = {} obj id = {}", scene_id, index, obj_id);
         return false;
     }
 
-    if (!m_pPhysicModule->DestroyActor(actor_obj_id))
+    if (!physic_module_->destroy_actor(actor_obj_id))
     {
         ARK_LOG_ERROR("destroy acotr failed scene id = {} index = {} obj id = {}", scene_id, index, obj_id);
         return false;
     }
 
-    simulate_scene->RemoveObj(obj_id);
+    simulate_scene->remove_obj(obj_id);
     return true;
 }
 
-bool simulate_module_impl::RayCast(const std::string& scene_id, const int32_t index, const physic3_d& start,
-    const physic3_d& direction, const float distance, simulate::ack_ray_cast& ackRayCast) {
-    auto simulate_scene = FindSceneObjActors(scene_id, index);
+bool simulate_module_impl::ray_cast(const std::string& scene_id, const int32_t index, const physic3_d& start,
+    const physic3_d& direction, const float distance, simulate::ack_ray_cast& ack_ray_cast) {
+    auto simulate_scene = find_scene_obj_actors(scene_id, index);
     if (!simulate_scene)
     {
         ARK_LOG_ERROR("has created this scene id = {} index = {}", scene_id, index);
         return false;
     }
 
-    physic_ray_hit rayHit;
-    if (!m_pPhysicModule->RayCast(simulate_scene->GetSceneObjID(), start, direction, distance, rayHit))
+    physic_ray_hit ray_hit;
+    if (!physic_module_->ray_cast(simulate_scene->get_scene_obj_id(), start, direction, distance, ray_hit))
     {
         ARK_LOG_ERROR("ray cast failed scene id = {} index = {}", scene_id, index);
         return false;
     }
 
-    ackRayCast.scene_id = scene_id;
-    ackRayCast.index = index;
-    ackRayCast.is_hit = rayHit.is_hit;
+    ack_ray_cast.scene_id = scene_id;
+    ack_ray_cast.index = index;
+    ack_ray_cast.is_hit = ray_hit.is_hit;
 
-    auto actor_obj_id = rayHit.hit_obj_id;
-    auto obj_id = simulate_scene->FindObj(actor_obj_id);
-    ackRayCast.hit_obj_id = obj_id;
-    ackRayCast.hit_pos = AFVecToSimulateVec3(rayHit.hit_pos);
+    auto actor_obj_id = ray_hit.hit_obj_id;
+    auto obj_id = simulate_scene->find_obj(actor_obj_id);
+    ack_ray_cast.hit_obj_id = obj_id;
+    ack_ray_cast.hit_pos = to_simulation_vector(ray_hit.hit_pos);
 
     return true;
 }
 
-bool simulate_module_impl::RegisterTriggerCallBack(simulate_trigger_cb_function&& cb) {
+bool simulate_module_impl::register_trigger_call_back(simulate_trigger_cb_function&& cb) {
     trigger_call_back_function_ = cb;
     return true;
 }
 
-void simulate_module_impl::InsertSceneObjActors(
+void simulate_module_impl::insert_scene_obj_actors(
     const guid_t& scene_obj_id, const std::string& scene_id, const int32_t index) {
     auto iter = scene_index_scene_list_.find(scene_id);
     if (iter == scene_index_scene_list_.end())
@@ -267,7 +268,7 @@ void simulate_module_impl::InsertSceneObjActors(
     scene_index_pair_list_.insert(std::make_pair(scene_obj_id, scene_index_pair(scene_id, index)));
 }
 
-void simulate_module_impl::RemoveSceneObjActors(const std::string& scene_id, const int32_t index) {
+void simulate_module_impl::remove_scene_obj_actors(const std::string& scene_id, const int32_t index) {
     auto iter = scene_index_scene_list_.find(scene_id);
     if (iter == scene_index_scene_list_.end())
     {
@@ -281,13 +282,13 @@ void simulate_module_impl::RemoveSceneObjActors(const std::string& scene_id, con
         return;
     }
 
-    auto scene_obj_id = iter_index->second.GetSceneObjID();
+    auto scene_obj_id = iter_index->second.get_scene_obj_id();
     scene_index_pair_list_.erase(scene_obj_id);
 
     index_obj_list.erase(iter_index);
 }
 
-simulate_scene* simulate_module_impl::FindSceneObjActors(const std::string& scene_id, const int32_t index) {
+simulate_scene* simulate_module_impl::find_scene_obj_actors(const std::string& scene_id, const int32_t index) {
     auto iter = scene_index_scene_list_.find(scene_id);
     if (iter == scene_index_scene_list_.end())
     {
@@ -304,11 +305,11 @@ simulate_scene* simulate_module_impl::FindSceneObjActors(const std::string& scen
     return &iter_index->second;
 }
 
-simulate::simulate_vec3 simulate_module_impl::AFVecToSimulateVec3(const physic3_d& vec3) {
+simulate::simulate_vec3 simulate_module_impl::to_simulation_vector(const physic3_d& vec3) {
     return simulate::simulate_vec3(vec3.x, vec3.y, vec3.z);
 }
 
-void simulate_module_impl::TriggerCallBack(const guid_t& scene_obj_id, const physic_trigger_pair& trigger_pair) {
+void simulate_module_impl::trigger_call_back(const guid_t& scene_obj_id, const physic_trigger_pair& trigger_pair) {
     auto iter = scene_index_pair_list_.find(scene_obj_id);
     if (iter == scene_index_pair_list_.end())
     {
@@ -320,7 +321,7 @@ void simulate_module_impl::TriggerCallBack(const guid_t& scene_obj_id, const phy
     auto& scene_id = scene_pair.first;
     auto index = scene_pair.second;
 
-    auto simulate_scene = FindSceneObjActors(scene_id, index);
+    auto simulate_scene = find_scene_obj_actors(scene_id, index);
     if (!simulate_scene)
     {
         ARK_LOG_ERROR("does not find scene");
@@ -330,8 +331,8 @@ void simulate_module_impl::TriggerCallBack(const guid_t& scene_obj_id, const phy
     if (trigger_call_back_function_)
     {
         simulate::trigger_pair trigger_pair;
-        trigger_pair.trigger_obj_id = simulate_scene->FindObj(trigger_pair.trigger_obj_id);
-        trigger_pair.other_obj_id = simulate_scene->FindObj(trigger_pair.other_obj_id);
+        trigger_pair.trigger_obj_id = simulate_scene->find_obj(trigger_pair.trigger_obj_id);
+        trigger_pair.other_obj_id = simulate_scene->find_obj(trigger_pair.other_obj_id);
 
         trigger_call_back_function_(scene_id, index, trigger_pair);
     }

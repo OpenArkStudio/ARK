@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <shared_mutex>
+
 #include "ark/noncopyable.hpp"
 #include "ark/platform.hpp"
 
@@ -51,16 +53,16 @@ class scope_r_lock : public noncopyable
 {
 public:
     explicit scope_r_lock(reader_writer_lock& lock)
-        : rwlock(lock) {
-        rwlock.read_lock();
+        : rwlock_(lock) {
+        rwlock_.read_lock();
     }
 
     ~scope_r_lock() {
-        rwlock.read_unlock();
+        rwlock_.read_unlock();
     }
 
 private:
-    reader_writer_lock& rwlock;
+    reader_writer_lock& rwlock_;
 };
 
 class scope_w_lock : public noncopyable

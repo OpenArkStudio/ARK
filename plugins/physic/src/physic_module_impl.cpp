@@ -31,12 +31,12 @@ namespace ark {
         x = NULL;                                                                                                      \
     }
 
-#define SCENE_WRITE_LOCK(x) physx::PxSceneWriteLock writeLock(*x);
+#define SCENE_WRITE_LOCK(x) physx::PxSceneWriteLock write_lock(*x);
 
 bool physic_module_impl::init() {
-    m_pPhysicConfigModule = find_module<physic_config_module>();
-    m_pTimerModule = find_module<timer_module>();
-    m_pGUIDModule = find_module<guid_module>();
+    physic_config_module_ = find_module<physic_config_module>();
+    timer_module_ = find_module<timer_module>();
+    guid_module_ = find_module<guid_module>();
 
     return true;
 }
@@ -52,27 +52,27 @@ bool physic_module_impl::shut() {
 
     PxCloseExtensions();
 
-    SAFE_RELEASE(mCooking);
-    SAFE_RELEASE(mPhysics);
-    SAFE_RELEASE(mPvd);
-    SAFE_RELEASE(mPVDTransport);
-    SAFE_RELEASE(mCpuDispatcher);
-    SAFE_RELEASE(mFoundation);
+    SAFE_RELEASE(cooking_);
+    SAFE_RELEASE(physics_);
+    SAFE_RELEASE(pvd_);
+    SAFE_RELEASE(pvd_transport_);
+    SAFE_RELEASE(cpu_dispatcher_);
+    SAFE_RELEASE(foundation_);
 
     return true;
 }
 
 bool physic_module_impl::post_init() {
     ///store physic config
-    config_ = m_pPhysicConfigModule->GetPhysicConfig();
-    if (config_.step_ <= 0.0001)
+    config_ = physic_config_module_->get_physic_config();
+    if (config_.step <= 0.0001)
     {
         ARK_LOG_ERROR("physic simulate step <= 0");
         exit(0);
     }
 
     ///init physic
-    if (!InitPhysic())
+    if (!init_physic())
     {
         ARK_LOG_ERROR("physic init failed");
         exit(0);
@@ -80,66 +80,66 @@ bool physic_module_impl::post_init() {
 
     ///cook mesh
     cooked_scene_list_.clear();
-    auto& scene_list = m_pPhysicConfigModule->GetPhysicSceneList();
+    auto& scene_list = physic_config_module_->get_physic_scene_list();
     for (auto& iter : scene_list)
     {
         auto& scene = iter.second;
-        if (!CookSceneMesh(scene))
+        if (!cook_scene_mesh(scene))
         {
-            ARK_LOG_ERROR("cook physic scene failed scene id = {}", scene.scene_id_);
+            ARK_LOG_ERROR("cook physic scene failed scene id = {}", scene.scene_id);
             exit(0);
         }
     }
 
     ///add simulate timer
-    if (config_.bSimulate)
+    if (config_.simulate)
     {
-        std::chrono::milliseconds interval((int)(config_.step_ * 1000));
-        m_pTimerModule->add_forever_timer(guid_t(), interval, this, &physic_module_impl::OnSimulate);
+        std::chrono::milliseconds interval((int)(config_.step * 1000));
+        timer_module_->add_forever_timer(guid_t(), interval, this, &physic_module_impl::on_simulate);
     }
 
     return true;
 }
 
-guid_t physic_module_impl::CreateScene(const std::string& scene_id) {
+guid_t physic_module_impl::create_scene(const std::string& scene_id) {
     physic_scene_cooked scene_cooked;
-    if (!FindPhysicScene(scene_id, scene_cooked))
+    if (!find_physic_scene(scene_id, scene_cooked))
     {
         ARK_LOG_ERROR("create scene failed scene id = {}", scene_id);
-        return NULL_GUID;
+        return null_guid;
     }
 
     ///generate guid
-    auto guid = m_pGUIDModule->create_guid();
-    if (guid == NULL_GUID)
+    auto guid = guid_module_->create_guid();
+    if (guid == null_guid)
     {
         ARK_LOG_ERROR("create scene failed scene id = {}", scene_id);
-        return NULL_GUID;
+        return null_guid;
     }
 
     ///create physic scene
-    physx::PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
-    sceneDesc.simulationEventCallback = &mSimulationEventCallback;
-    sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
-    sceneDesc.cpuDispatcher = mCpuDispatcher;
-    sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
+    physx::PxSceneDesc scene_desc(physics_->getTolerancesScale());
+    scene_desc.simulationEventCallback = &simulation_event_callback_;
+    scene_desc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
+    scene_desc.cpuDispatcher = cpu_dispatcher_;
+    scene_desc.filterShader = physx::PxDefaultSimulationFilterShader;
 
-    auto px_scene = mPhysics->createScene(sceneDesc);
+    auto px_scene = physics_->createScene(scene_desc);
     if (px_scene == nullptr)
     {
         ARK_LOG_ERROR("create scene failed");
-        return NULL_GUID;
+        return null_guid;
     }
 
-    if (!InitScene(px_scene, scene_cooked))
+    if (!init_scene(px_scene, scene_cooked))
     {
         ARK_LOG_ERROR("init scene failed scene");
         SAFE_RELEASE(px_scene)
-        return NULL_GUID;
+        return null_guid;
     }
 
     ///for pvd
-    ScenePVDSetting(px_scene);
+    scene_pvd_setting(px_scene);
 
     ///save to list
     px_scene->userData = (void*)guid_t(guid);
@@ -147,9 +147,9 @@ guid_t physic_module_impl::CreateScene(const std::string& scene_id) {
     return guid;
 }
 
-bool physic_module_impl::DestroyScene(const guid_t& scene_obj_id) {
+bool physic_module_impl::destroy_scene(const guid_t& scene_obj_id) {
     ///check whether the particular scene exists
-    auto px_scene = FindScene(scene_obj_id);
+    auto px_scene = find_scene(scene_obj_id);
     if (px_scene == nullptr)
     {
         ARK_LOG_ERROR("scene does not exist");
@@ -162,189 +162,189 @@ bool physic_module_impl::DestroyScene(const guid_t& scene_obj_id) {
     return true;
 }
 
-bool physic_module_impl::RayCast(const guid_t& scene_obj_id, const physic3_d& origin, const physic3_d& direction,
-    const float distance, physic_ray_hit& rayHit) {
-    auto px_origin = AFVector3DToPxVec3(origin);
-    auto px_direction = AFVector3DToPxVec3(direction);
+bool physic_module_impl::ray_cast(const guid_t& scene_obj_id, const physic3_d& origin, const physic3_d& direction,
+    const float distance, physic_ray_hit& ray_hit) {
+    auto px_origin = to_physx_vector(origin);
+    auto px_direction = to_physx_vector(direction);
 
     physx::PxRaycastBuffer px_ray_hit;
-    auto result = RayCast(scene_obj_id, px_origin, px_direction, distance, px_ray_hit);
+    auto result = ray_cast(scene_obj_id, px_origin, px_direction, distance, px_ray_hit);
     if (result)
     {
-        auto hitActor = px_ray_hit.block.actor;
-        if (hitActor && hitActor->userData)
+        auto hit_actor = px_ray_hit.block.actor;
+        if (hit_actor && hit_actor->userData)
         {
-            rayHit.hit_obj_id = reinterpret_cast<guid_t>(hitActor->userData);
+            ray_hit.hit_obj_id = reinterpret_cast<guid_t>(hit_actor->userData);
         }
 
-        rayHit.is_hit = result;
-        rayHit.hit_distance = px_ray_hit.block.distance;
-        rayHit.hit_pos = PxVec3ToAFVector3D(px_ray_hit.block.position);
+        ray_hit.is_hit = result;
+        ray_hit.hit_distance = px_ray_hit.block.distance;
+        ray_hit.hit_pos = from_physx_vector(px_ray_hit.block.position);
     }
 
     return result;
 }
 
-bool physic_module_impl::RayCast(const guid_t& scene_obj_id, const physx::PxVec3& origin,
-    const physx::PxVec3& direction, const float distance, physx::PxRaycastBuffer& rayHit) {
-    auto px_scene = FindScene(scene_obj_id);
+bool physic_module_impl::ray_cast(const guid_t& scene_obj_id, const physx::PxVec3& origin,
+    const physx::PxVec3& direction, const float distance, physx::PxRaycastBuffer& ray_hit) {
+    auto px_scene = find_scene(scene_obj_id);
     if (px_scene == nullptr)
     {
         ARK_LOG_ERROR("this scene does not exist");
         return false;
     }
 
-    auto normalDir = direction;
-    if (!normalDir.isNormalized())
+    auto normal_dir = direction;
+    if (!normal_dir.isNormalized())
     {
-        normalDir = normalDir.getNormalized();
+        normal_dir = normal_dir.getNormalized();
     }
 
-    return px_scene->raycast(origin, normalDir, distance, rayHit);
+    return px_scene->raycast(origin, normal_dir, distance, ray_hit);
 }
 
-guid_t physic_module_impl::CreateDynamicBoxActor(
+guid_t physic_module_impl::create_dynamic_box_actor(
     const guid_t& scene_obj_id, const physic3_d& position, const physic3_d& size) {
-    auto px_scene = FindScene(scene_obj_id);
+    auto px_scene = find_scene(scene_obj_id);
     if (px_scene == nullptr)
     {
         ARK_LOG_ERROR("this scene does not exist");
-        return NULL_GUID;
+        return null_guid;
     }
 
-    auto px_size = AFVector3DToPxVec3(size);
-    auto px_position = AFVector3DToPxVec3(position);
+    auto px_size = to_physx_vector(size);
+    auto px_position = to_physx_vector(position);
 
     physx::PxBoxGeometry geometry(px_size * 0.5F);
     auto transform = physx::PxTransform(px_position);
-    return CreateDynamicActor(px_scene, transform, geometry);
+    return create_dynamic_actor(px_scene, transform, geometry);
 }
 
-guid_t physic_module_impl::CreateStaticBoxActor(
+guid_t physic_module_impl::create_static_box_actor(
     const guid_t& scene_obj_id, const physic3_d& position, const physic3_d& size) {
-    auto px_scene = FindScene(scene_obj_id);
+    auto px_scene = find_scene(scene_obj_id);
     if (px_scene == nullptr)
     {
         ARK_LOG_ERROR("this scene does not exist");
-        return NULL_GUID;
+        return null_guid;
     }
 
-    auto px_size = AFVector3DToPxVec3(size);
-    auto px_position = AFVector3DToPxVec3(position);
+    auto px_size = to_physx_vector(size);
+    auto px_position = to_physx_vector(position);
 
     physx::PxBoxGeometry geometry(px_size * 0.5F);
     auto transform = physx::PxTransform(px_position);
-    return CreateStaticActor(px_scene, transform, geometry);
+    return create_static_actor(px_scene, transform, geometry);
 }
 
-guid_t physic_module_impl::CreateDynamicCapsuleActor(
+guid_t physic_module_impl::create_dynamic_capsule_actor(
     const guid_t& scene_obj_id, const physic3_d& position, const float radius, const float height) {
-    auto px_scene = FindScene(scene_obj_id);
+    auto px_scene = find_scene(scene_obj_id);
     if (px_scene == nullptr)
     {
         ARK_LOG_ERROR("this scene does not exist");
-        return NULL_GUID;
+        return null_guid;
     }
 
     physx::PxCapsuleGeometry geometry(radius, height * 0.5F);
 
-    auto px_position = AFVector3DToPxVec3(position);
+    auto px_position = to_physx_vector(position);
     auto transform = physx::PxTransform(px_position);
-    QuatRoate(transform);
-    return CreateDynamicActor(px_scene, transform, geometry);
+    quat_roate(transform);
+    return create_dynamic_actor(px_scene, transform, geometry);
 }
 
-guid_t physic_module_impl::CreateStaticCapsuleActor(
+guid_t physic_module_impl::create_static_capsule_actor(
     const guid_t& scene_obj_id, const physic3_d& position, const float radius, const float height) {
-    auto px_scene = FindScene(scene_obj_id);
+    auto px_scene = find_scene(scene_obj_id);
     if (px_scene == nullptr)
     {
         ARK_LOG_ERROR("this scene does not exist scene id={} index={}");
-        return NULL_GUID;
+        return null_guid;
     }
 
     physx::PxCapsuleGeometry geometry(radius, height * 0.5F);
 
-    auto px_position = AFVector3DToPxVec3(position);
+    auto px_position = to_physx_vector(position);
     auto transform = physx::PxTransform(px_position);
-    QuatRoate(transform);
-    return CreateStaticActor(px_scene, transform, geometry);
+    quat_roate(transform);
+    return create_static_actor(px_scene, transform, geometry);
 }
 
-guid_t physic_module_impl::CreateDynamicSphereActor(
+guid_t physic_module_impl::create_dynamic_sphere_actor(
     const guid_t& scene_obj_id, const physic3_d& position, const float radius) {
-    auto px_scene = FindScene(scene_obj_id);
+    auto px_scene = find_scene(scene_obj_id);
     if (px_scene == nullptr)
     {
         ARK_LOG_ERROR("this scene does not exist");
-        return NULL_GUID;
+        return null_guid;
     }
 
     physx::PxSphereGeometry geometry(radius);
 
-    auto px_position = AFVector3DToPxVec3(position);
+    auto px_position = to_physx_vector(position);
     auto transform = physx::PxTransform(px_position);
-    return CreateDynamicActor(px_scene, transform, geometry);
+    return create_dynamic_actor(px_scene, transform, geometry);
 }
 
-guid_t physic_module_impl::CreateStaticSphereActor(
+guid_t physic_module_impl::create_static_sphere_actor(
     const guid_t& scene_obj_id, const physic3_d& position, const float radius) {
-    auto px_scene = FindScene(scene_obj_id);
+    auto px_scene = find_scene(scene_obj_id);
     if (px_scene == nullptr)
     {
         ARK_LOG_ERROR("this scene does not exist");
-        return NULL_GUID;
+        return null_guid;
     }
 
     physx::PxSphereGeometry geometry(radius);
 
-    auto px_position = AFVector3DToPxVec3(position);
+    auto px_position = to_physx_vector(position);
     auto transform = physx::PxTransform(px_position);
-    return CreateStaticActor(px_scene, transform, geometry);
+    return create_static_actor(px_scene, transform, geometry);
 }
 
-guid_t physic_module_impl::CreateDynamicActor(
+guid_t physic_module_impl::create_dynamic_actor(
     physx::PxScene* px_scene, const physx::PxTransform& transform, const physx::PxGeometry& geometry) {
     SCENE_WRITE_LOCK(px_scene);
 
-    auto actor = CreateDynamic(transform, geometry, *mMaterial);
+    auto actor = create_dynamic(transform, geometry, *material_);
     if (actor == nullptr)
     {
         ARK_LOG_ERROR("create actor failed");
-        return NULL_GUID;
+        return null_guid;
     }
 
     px_scene->addActor(*actor);
 
     ///generate guid
-    auto guid = m_pGUIDModule->create_guid();
+    auto guid = guid_module_->create_guid();
     actor->userData = (void*)guid_t(guid);
     actor_list_.insert(std::make_pair(guid, actor));
     return guid;
 }
 
-guid_t physic_module_impl::CreateStaticActor(
+guid_t physic_module_impl::create_static_actor(
     physx::PxScene* px_scene, const physx::PxTransform& transform, const physx::PxGeometry& geometry) {
     SCENE_WRITE_LOCK(px_scene);
 
-    auto actor = CreateStatic(transform, geometry, *mMaterial);
+    auto actor = create_static(transform, geometry, *material_);
     if (actor == nullptr)
     {
         ARK_LOG_ERROR("create actor failed");
-        return NULL_GUID;
+        return null_guid;
     }
 
     px_scene->addActor(*actor);
 
     ///generate guid
-    auto guid = m_pGUIDModule->create_guid();
+    auto guid = guid_module_->create_guid();
     actor->userData = (void*)guid_t(guid);
     actor_list_.insert(std::make_pair(guid, actor));
     return guid;
 }
 
-bool physic_module_impl::UpdateActor(const guid_t& actor_obj_id, const physic3_d& position) {
-    auto actor = FindActor(actor_obj_id);
+bool physic_module_impl::update_actor(const guid_t& actor_obj_id, const physic3_d& position) {
+    auto actor = find_actor(actor_obj_id);
     if (actor == nullptr)
     {
         ARK_LOG_ERROR("actor does not exist actor id = {}", actor_obj_id);
@@ -369,9 +369,9 @@ bool physic_module_impl::UpdateActor(const guid_t& actor_obj_id, const physic3_d
 
     physx::PxTransform transform = rigid_dynamic->getGlobalPose();
 
-    auto px_position = AFVector3DToPxVec3(position);
+    auto px_position = to_physx_vector(position);
     transform.p = px_position;
-    if (config_.bSimulate)
+    if (config_.simulate)
     {
         rigid_dynamic->setKinematicTarget(transform);
     }
@@ -383,8 +383,8 @@ bool physic_module_impl::UpdateActor(const guid_t& actor_obj_id, const physic3_d
     return true;
 }
 
-bool physic_module_impl::DestroyActor(const guid_t& actor_obj_id) {
-    auto actor = FindActor(actor_obj_id);
+bool physic_module_impl::destroy_actor(const guid_t& actor_obj_id) {
+    auto actor = find_actor(actor_obj_id);
     if (actor == nullptr)
     {
         ARK_LOG_ERROR("actor does not exist actor id = {}", actor_obj_id);
@@ -406,8 +406,8 @@ bool physic_module_impl::DestroyActor(const guid_t& actor_obj_id) {
     return true;
 }
 
-bool physic_module_impl::GetActorPosition(const guid_t& actor_obj_id, physic3_d& position) {
-    auto actor = FindActor(actor_obj_id);
+bool physic_module_impl::get_actor_position(const guid_t& actor_obj_id, physic3_d& position) {
+    auto actor = find_actor(actor_obj_id);
     if (actor == nullptr)
     {
         ARK_LOG_ERROR("actor does not exist actor id = {}", actor_obj_id);
@@ -421,7 +421,7 @@ bool physic_module_impl::GetActorPosition(const guid_t& actor_obj_id, physic3_d&
         return false;
     }
 
-    position = PxVec3ToAFVector3D(rigid_actor->getGlobalPose().p);
+    position = from_physx_vector(rigid_actor->getGlobalPose().p);
     return true;
 }
 
@@ -465,66 +465,66 @@ bool physic_module_impl::GetActorPosition(const guid_t& actor_obj_id, physic3_d&
 //    return false;
 //}
 
-physic3_d physic_module_impl::RayGetPoint(const physic3_d& origin, const physic3_d& direction, const float distance) {
-    auto px_origin = AFVector3DToPxVec3(origin);
-    auto px_direction = AFVector3DToPxVec3(direction);
+physic3_d physic_module_impl::ray_get_point(const physic3_d& origin, const physic3_d& direction, const float distance) {
+    auto px_origin = to_physx_vector(origin);
+    auto px_direction = to_physx_vector(direction);
 
-    auto normalDir = px_direction;
+    auto normal_dir = px_direction;
     if (!px_direction.isNormalized())
     {
-        normalDir = px_direction.getNormalized();
+        normal_dir = px_direction.getNormalized();
     }
 
-    auto destPoint = px_origin + normalDir * distance;
-    return PxVec3ToAFVector3D(destPoint);
+    auto dest_point = px_origin + normal_dir * distance;
+    return from_physx_vector(dest_point);
 }
 
-float physic_module_impl::GetHeight(const guid_t& scene_obj_id, const physic3_d& position) {
+float physic_module_impl::get_height(const guid_t& scene_obj_id, const physic3_d& position) {
     float distance = 100.0F;
 
     ///firstly ray cast down
-    auto px_position = AFVector3DToPxVec3(position);
+    auto px_position = to_physx_vector(position);
     physx::PxVec3 dir(0.0F, -1.0F, 0.0F);
-    physx::PxRaycastBuffer rayHit;
-    auto result = RayCast(scene_obj_id, px_position, dir, distance, rayHit);
+    physx::PxRaycastBuffer ray_hit;
+    auto result = ray_cast(scene_obj_id, px_position, dir, distance, ray_hit);
     if (result)
     {
-        return rayHit.block.position.y;
+        return ray_hit.block.position.y;
     }
 
     ///then ray cast up
     dir.y = -dir.y;
-    result = RayCast(scene_obj_id, px_position, dir, distance, rayHit);
+    result = ray_cast(scene_obj_id, px_position, dir, distance, ray_hit);
     if (result)
     {
-        return rayHit.block.position.y;
+        return ray_hit.block.position.y;
     }
 
     return position.y;
 }
 
-bool physic_module_impl::RegisterTriggerCallBack(trigger_call_back_function&& cb) {
-    mSimulationEventCallback.RegisterTriggerCallBack(std::forward<trigger_call_back_function>(cb));
+bool physic_module_impl::register_trigger_call_back(trigger_call_back_function&& cb) {
+    simulation_event_callback_.register_trigger_call_back(std::forward<trigger_call_back_function>(cb));
     return true;
 }
 
-bool physic_module_impl::CookSceneMesh(const physic_scene& scene) {
+bool physic_module_impl::cook_scene_mesh(const physic_scene& scene) {
     physic_scene_cooked scene_cooked;
 
     ///cook terrain mesh
-    auto terrain_mesh = CreateTriangleMesh(scene);
+    auto terrain_mesh = create_triangle_mesh(scene);
     if (terrain_mesh == nullptr)
     {
         ARK_LOG_ERROR("mesh is null");
         return false;
     }
 
-    scene_cooked.terrain_mesh_ = terrain_mesh;
+    scene_cooked.terrain_mesh = terrain_mesh;
 
-    for (auto& iter_collider : scene.collider_list_)
+    for (auto& iter_collider : scene.colliders)
     {
         auto collider = iter_collider;
-        if (collider->IsMeshCollider())
+        if (collider->is_mesh_collider())
         {
             ///cook scene object mesh
             auto mesh_collider = dynamic_cast<mesh_collider*>(collider);
@@ -534,44 +534,44 @@ bool physic_module_impl::CookSceneMesh(const physic_scene& scene) {
                 return false;
             }
 
-            if (mesh_collider->bConvex)
+            if (mesh_collider->convex)
             {
-                auto collider_mesh = CreateConvexMesh(mesh_collider);
+                auto collider_mesh = create_convex_mesh(mesh_collider);
                 if (!collider_mesh)
                 {
                     ARK_LOG_ERROR("mesh is null");
                     return false;
                 }
 
-                scene_cooked.collider_convex_list_.insert(std::make_pair(collider_mesh, mesh_collider->position_));
+                scene_cooked.convex_colliders.insert(std::make_pair(collider_mesh, mesh_collider->position));
             }
             else
             {
-                auto collider_mesh = CreateTriangleMesh(mesh_collider);
+                auto collider_mesh = create_triangle_mesh(mesh_collider);
                 if (!collider_mesh)
                 {
                     ARK_LOG_ERROR("mesh is null");
                     return false;
                 }
 
-                scene_cooked.collider_triangle_list_.insert(std::make_pair(collider_mesh, mesh_collider->position_));
+                scene_cooked.triangle_colliders.insert(std::make_pair(collider_mesh, mesh_collider->position));
             }
 
             continue;
         }
 
-        scene_cooked.collider_list_.push_back(collider);
+        scene_cooked.colliders.push_back(collider);
     }
 
-    scene_cooked.scene_ = &const_cast<physic_scene&>(scene);
-    cooked_scene_list_.insert(std::make_pair(scene_cooked.scene_->scene_id_, scene_cooked));
+    scene_cooked.scene = &const_cast<physic_scene&>(scene);
+    cooked_scene_list_.insert(std::make_pair(scene_cooked.scene->scene_id, scene_cooked));
 
-    ARK_LOG_DEBUG("scene cooked scene id = {}", scene.scene_id_);
+    ARK_LOG_DEBUG("scene cooked scene id = {}", scene.scene_id);
 
     return true;
 }
 
-bool physic_module_impl::FindPhysicScene(const std::string& scene_id, physic_scene_cooked& scene_cooked) {
+bool physic_module_impl::find_physic_scene(const std::string& scene_id, physic_scene_cooked& scene_cooked) {
     auto iter = cooked_scene_list_.find(scene_id);
     if (iter == cooked_scene_list_.end())
     {
@@ -582,32 +582,32 @@ bool physic_module_impl::FindPhysicScene(const std::string& scene_id, physic_sce
     return true;
 }
 
-bool physic_module_impl::InitPhysic() {
-    mDefaultAllocatorCallback = physx::PxDefaultAllocator();
-    mDefaultErrorCallback = physx::PxDefaultErrorCallback();
-    physx::PxAllocatorCallback* allocator = &mDefaultAllocatorCallback;
-    mFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, *allocator, mDefaultErrorCallback);
-    ARK_ASSERT_RET_VAL(mFoundation, false);
+bool physic_module_impl::init_physic() {
+    default_allocator_callback_ = physx::PxDefaultAllocator();
+    default_error_callback_ = physx::PxDefaultErrorCallback();
+    physx::PxAllocatorCallback* allocator = &default_allocator_callback_;
+    foundation_ = PxCreateFoundation(PX_FOUNDATION_VERSION, *allocator, default_error_callback_);
+    ARK_ASSERT_RET_VAL(foundation_, false);
 
     ///create pvd for debug
-    CreatePvdConnection();
+    create_pvd_connection();
 
     physx::PxTolerancesScale scale;
 
 #if PX_SUPPORT_PVD
-    bool recordMemoryAllocations = true;
+    bool record_memory_allocations = true;
 #else
-    bool recordMemoryAllocations = false;
+    bool record_memory_allocations = false;
 #endif
 
     ///create physx
-    mPhysics = PxCreateBasePhysics(PX_PHYSICS_VERSION, *mFoundation, scale, recordMemoryAllocations, mPvd);
-    ARK_ASSERT_RET_VAL(mPhysics, false);
+    physics_ = PxCreateBasePhysics(PX_PHYSICS_VERSION, *foundation_, scale, record_memory_allocations, pvd_);
+    ARK_ASSERT_RET_VAL(physics_, false);
 
     ///register particles
-    PxRegisterParticles(*mPhysics);
+    PxRegisterParticles(*physics_);
 
-    bool result = PxInitExtensions(*mPhysics, mPvd);
+    bool result = PxInitExtensions(*physics_, pvd_);
     ARK_ASSERT_RET_VAL(result, false);
 
     ///create cooking
@@ -615,70 +615,70 @@ bool physic_module_impl::InitPhysic() {
     params.meshWeldTolerance = 0.001f;
     params.meshPreprocessParams = physx::PxMeshPreprocessingFlags(physx::PxMeshPreprocessingFlag::eWELD_VERTICES);
     params.buildGPUData = false;
-    mCooking = PxCreateCooking(PX_PHYSICS_VERSION, *mFoundation, params);
-    ARK_ASSERT_RET_VAL(mCooking, false);
+    cooking_ = PxCreateCooking(PX_PHYSICS_VERSION, *foundation_, params);
+    ARK_ASSERT_RET_VAL(cooking_, false);
 
     ///create dispatcher
-    mCpuDispatcher = physx::PxDefaultCpuDispatcherCreate(config_.dispatcher_treads_num_);
-    ARK_ASSERT_RET_VAL(mCpuDispatcher, false);
+    cpu_dispatcher_ = physx::PxDefaultCpuDispatcherCreate(config_.dispatcher_threads);
+    ARK_ASSERT_RET_VAL(cpu_dispatcher_, false);
 
     ///create default material
-    mMaterial = mPhysics->createMaterial(0.5f, 0.5f, 0.5f);
+    material_ = physics_->createMaterial(0.5f, 0.5f, 0.5f);
 
-    mSimulationEventCallback = simulation_event_callback();
+    simulation_event_callback_ = simulation_event_callback();
 
     ///create plane
-    mPlane = physx::PxPlane(0, 1, 0, 0);
+    plane_ = physx::PxPlane(0, 1, 0, 0);
 
     return true;
 }
 
-void physic_module_impl::CreatePvdConnection() {
+void physic_module_impl::create_pvd_connection() {
 #if PX_SUPPORT_PVD
-    mPVDTransport =
+    pvd_transport_ =
         physx::PxDefaultPvdSocketTransportCreate(config_.pvd_host.c_str(), config_.pvd_port, config_.pvd_timeout);
-    if (mPVDTransport == nullptr)
+    if (pvd_transport_ == nullptr)
     {
         ARK_LOG_ERROR("create pvd socket failed");
         return;
     }
 
-    mPvd = physx::PxCreatePvd(*mFoundation);
-    mPvd->connect(*mPVDTransport, physx::PxPvdInstrumentationFlag::eALL);
+    pvd_ = physx::PxCreatePvd(*foundation_);
+    pvd_->connect(*pvd_transport_, physx::PxPvdInstrumentationFlag::eALL);
 #endif
 }
 
-bool physic_module_impl::InitScene(physx::PxScene* px_scene, const physic_scene_cooked& scene_cooked) {
-    auto& scene = *scene_cooked.scene_;
-    if (!scene_cooked.terrain_mesh_)
+bool physic_module_impl::init_scene(physx::PxScene* px_scene, const physic_scene_cooked& scene_cooked) {
+    auto& scene = *scene_cooked.scene;
+    if (!scene_cooked.terrain_mesh)
     {
-        ARK_LOG_ERROR("scene terrain mesh do not exist scene id = {}", scene.scene_id_);
+        ARK_LOG_ERROR("scene terrain mesh do not exist scene id = {}", scene.scene_id);
         return false;
     }
 
     ///create plane
-    auto plane = physx::PxCreatePlane(*mPhysics, mPlane, *mMaterial);
+    auto plane = physx::PxCreatePlane(*physics_, plane_, *material_);
     px_scene->addActor(*plane);
 
     ///create terrain
-    auto terrain_geometry = physx::PxTriangleMeshGeometry(scene_cooked.terrain_mesh_);
+    auto terrain_geometry = physx::PxTriangleMeshGeometry(scene_cooked.terrain_mesh);
     auto terrain_transform = physx::PxTransform(physx::PxIdentity);
     terrain_transform.q = physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 1, 0)); ///different from unity
-    auto terrain_actor = CreateStatic(terrain_transform, terrain_geometry, *mMaterial);
+    auto terrain_actor = create_static(terrain_transform, terrain_geometry, *material_);
     px_scene->addActor(*terrain_actor);
 
     ///create actors
-    for (const auto& iter : scene_cooked.collider_list_)
+    for (const auto& iter : scene_cooked.colliders)
     {
         const auto collider = iter;
-        auto actor = CreateStatic(collider);
+        auto actor = create_static(collider);
         if (!actor)
         {
-            ARK_LOG_ERROR("create actor failed scene id={} file={}", scene.scene_id_, scene.mesh_file_.path_);
+            ARK_LOG_ERROR("create actor failed scene id={} file={}", scene.scene_id, scene.mesh_file.path);
             continue;
         }
 
-        if (collider->bTrigger_)
+        if (collider->trigger)
         {
             physx::PxShape* shape = nullptr;
             actor->getShapes(&shape, 1);
@@ -693,21 +693,21 @@ bool physic_module_impl::InitScene(physx::PxScene* px_scene, const physic_scene_
     }
 
     ///create triangle actors
-    for (const auto& iter : scene_cooked.collider_triangle_list_)
+    for (const auto& iter : scene_cooked.triangle_colliders)
     {
         auto mesh = iter.first;
         auto& position = iter.second;
         if (!mesh)
         {
-            ARK_LOG_ERROR("create actor failed scene id={}", scene.scene_id_);
+            ARK_LOG_ERROR("create actor failed scene id={}", scene.scene_id);
             continue;
         }
 
         auto geometry = physx::PxTriangleMeshGeometry(mesh);
-        auto actor = CreateStatic(physx::PxTransform(position), geometry, *mMaterial);
+        auto actor = create_static(physx::PxTransform(position), geometry, *material_);
         if (!actor)
         {
-            ARK_LOG_ERROR("create actor failed scene id={} file={}", scene.scene_id_);
+            ARK_LOG_ERROR("create actor failed scene id={} file={}", scene.scene_id);
             continue;
         }
 
@@ -715,21 +715,21 @@ bool physic_module_impl::InitScene(physx::PxScene* px_scene, const physic_scene_
     }
 
     ///create convex actors
-    for (const auto& iter : scene_cooked.collider_convex_list_)
+    for (const auto& iter : scene_cooked.convex_colliders)
     {
         auto mesh = iter.first;
         auto& position = iter.second;
         if (!mesh)
         {
-            ARK_LOG_ERROR("create actor failed scene id={}", scene.scene_id_);
+            ARK_LOG_ERROR("create actor failed scene id={}", scene.scene_id);
             continue;
         }
 
         auto geometry = physx::PxConvexMeshGeometry(mesh);
-        auto actor = CreateStatic(physx::PxTransform(position), geometry, *mMaterial);
+        auto actor = create_static(physx::PxTransform(position), geometry, *material_);
         if (!actor)
         {
-            ARK_LOG_ERROR("create actor failed scene id={} file={}", scene.scene_id_);
+            ARK_LOG_ERROR("create actor failed scene id={} file={}", scene.scene_id);
             continue;
         }
 
@@ -739,14 +739,14 @@ bool physic_module_impl::InitScene(physx::PxScene* px_scene, const physic_scene_
     return true;
 }
 
-physx::PxRigidStatic* physic_module_impl::CreateStatic(collider* collider) {
+physx::PxRigidStatic* physic_module_impl::create_static(collider* collider) {
     if (collider == nullptr)
     {
         ARK_LOG_ERROR("collider is null");
         return nullptr;
     }
 
-    if (collider->IsBoxCollider())
+    if (collider->is_box_collider())
     {
         auto real_collider = dynamic_cast<box_collider*>(collider);
         if (real_collider == nullptr)
@@ -755,12 +755,12 @@ physx::PxRigidStatic* physic_module_impl::CreateStatic(collider* collider) {
             return nullptr;
         }
 
-        auto half = real_collider->size_ * 0.5F;
+        auto half = real_collider->size * 0.5F;
         physx::PxBoxGeometry geometry(half);
-        auto transform = physx::PxTransform(real_collider->position_);
-        return CreateStatic(transform, geometry, *mMaterial);
+        auto transform = physx::PxTransform(real_collider->position);
+        return create_static(transform, geometry, *material_);
     }
-    else if (collider->IsCapsuleCollider())
+    else if (collider->is_capsule_collider())
     {
         auto real_collider = dynamic_cast<capsule_collider*>(collider);
         if (real_collider == nullptr)
@@ -769,13 +769,13 @@ physx::PxRigidStatic* physic_module_impl::CreateStatic(collider* collider) {
             return nullptr;
         }
 
-        auto transform = physx::PxTransform(real_collider->position_);
-        QuatRoate(transform);
+        auto transform = physx::PxTransform(real_collider->position);
+        quat_roate(transform);
 
-        physx::PxCapsuleGeometry geometry(real_collider->radius_, real_collider->height_ * 0.5F);
-        return CreateStatic(transform, geometry, *mMaterial);
+        physx::PxCapsuleGeometry geometry(real_collider->radius, real_collider->height * 0.5F);
+        return create_static(transform, geometry, *material_);
     }
-    else if (collider->IsSphereCollider())
+    else if (collider->is_sphere_collider())
     {
         auto real_collider = dynamic_cast<sphere_collider*>(collider);
         if (real_collider == nullptr)
@@ -784,32 +784,32 @@ physx::PxRigidStatic* physic_module_impl::CreateStatic(collider* collider) {
             return nullptr;
         }
 
-        physx::PxSphereGeometry geometry(real_collider->radius_);
-        auto transform = physx::PxTransform(real_collider->position_);
-        return CreateStatic(transform, geometry, *mMaterial);
+        physx::PxSphereGeometry geometry(real_collider->radius);
+        auto transform = physx::PxTransform(real_collider->position);
+        return create_static(transform, geometry, *material_);
     }
 
     return nullptr;
 }
 
-physx::PxRigidStatic* physic_module_impl::CreateStatic(const physx::PxTransform& transform,
-    const physx::PxGeometry& geometry, physx::PxMaterial& material, const physx::PxTransform& shapeOffset) {
-    if (!transform.isValid() || !shapeOffset.isValid())
+physx::PxRigidStatic* physic_module_impl::create_static(const physx::PxTransform& transform,
+    const physx::PxGeometry& geometry, physx::PxMaterial& material, const physx::PxTransform& shape_offset) {
+    if (!transform.isValid() || !shape_offset.isValid())
     {
         ARK_LOG_ERROR("transform invalid");
         return nullptr;
     }
 
-    auto shape = mPhysics->createShape(geometry, material, true);
+    auto shape = physics_->createShape(geometry, material, true);
     if (!shape)
     {
         ARK_LOG_ERROR("createa shape failed");
         return nullptr;
     }
 
-    shape->setLocalPose(shapeOffset);
+    shape->setLocalPose(shape_offset);
 
-    auto actor = mPhysics->createRigidStatic(transform);
+    auto actor = physics_->createRigidStatic(transform);
     if (actor)
     {
         actor->attachShape(*shape);
@@ -819,31 +819,31 @@ physx::PxRigidStatic* physic_module_impl::CreateStatic(const physx::PxTransform&
     return actor;
 }
 
-physx::PxRigidDynamic* physic_module_impl::CreateDynamic(const physx::PxTransform& transform,
+physx::PxRigidDynamic* physic_module_impl::create_dynamic(const physx::PxTransform& transform,
     const physx::PxGeometry& geometry, physx::PxMaterial& material, float density,
-    const physx::PxTransform& shapeOffset) {
-    if (!transform.isValid() || !shapeOffset.isValid())
+    const physx::PxTransform& shape_offset) {
+    if (!transform.isValid() || !shape_offset.isValid())
     {
         ARK_LOG_ERROR("transform invalid");
         return nullptr;
     }
 
-    auto shape = mPhysics->createShape(geometry, material, true);
+    auto shape = physics_->createShape(geometry, material, true);
     if (!shape)
     {
         ARK_LOG_ERROR("createa shape failed");
         return nullptr;
     }
 
-    shape->setLocalPose(shapeOffset);
+    shape->setLocalPose(shape_offset);
 
-    auto actor = mPhysics->createRigidDynamic(transform);
+    auto actor = physics_->createRigidDynamic(transform);
     if (actor)
     {
         actor->attachShape(*shape);
         physx::PxRigidBodyExt::updateMassAndInertia(*actor, density);
 
-        if (config_.bSimulate)
+        if (config_.simulate)
         {
             actor->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
         }
@@ -853,124 +853,124 @@ physx::PxRigidDynamic* physic_module_impl::CreateDynamic(const physx::PxTransfor
     return actor;
 }
 
-physx::PxTriangleMesh* physic_module_impl::CreateTriangleMesh(const physic_mesh_file& mesh_file) {
+physx::PxTriangleMesh* physic_module_impl::create_triangle_mesh(const physic_mesh_file& mesh_file) {
     physx::PxTriangleMesh* mesh = nullptr;
 
-    physx::PxDefaultFileInputData file(mesh_file.path_cooked_.c_str());
+    physx::PxDefaultFileInputData file(mesh_file.cooked_path.c_str());
     if (file.isValid())
     {
-        mesh = mPhysics->createTriangleMesh(file);
+        mesh = physics_->createTriangleMesh(file);
     }
 
     if (!mesh)
     {
         ///need cook
         wave_front_obj wfo;
-        if (wfo.LoadObj(mesh_file.path_.c_str(), false) == 0)
+        if (wfo.LoadObj(mesh_file.path.c_str(), false) == 0)
         {
-            ARK_LOG_ERROR("load file failed file={}", mesh_file.path_);
+            ARK_LOG_ERROR("load file failed file={}", mesh_file.path);
             return nullptr;
         }
 
-        physx::PxTriangleMeshDesc meshDesc;
-        meshDesc.points.count = wfo.mVertexCount;
-        meshDesc.triangles.count = wfo.mTriCount;
-        meshDesc.points.stride = sizeof(float) * 3;
-        meshDesc.triangles.stride = sizeof(int) * 3;
-        meshDesc.points.data = wfo.mVertices;
-        meshDesc.triangles.data = wfo.mIndices;
+        physx::PxTriangleMeshDesc mesh_desc;
+        mesh_desc.points.count = wfo.mVertexCount;
+        mesh_desc.triangles.count = wfo.mTriCount;
+        mesh_desc.points.stride = sizeof(float) * 3;
+        mesh_desc.triangles.stride = sizeof(int) * 3;
+        mesh_desc.points.data = wfo.mVertices;
+        mesh_desc.triangles.data = wfo.mIndices;
 
-        file_output_stream out_file(mesh_file.path_cooked_.c_str());
-        if (!out_file.Valid())
+        file_output_stream out_file(mesh_file.cooked_path.c_str());
+        if (!out_file.valid())
         {
-            ARK_LOG_ERROR("load file failed file={}", mesh_file.path_cooked_);
+            ARK_LOG_ERROR("load file failed file={}", mesh_file.cooked_path);
             return nullptr;
         }
 
-        bool bResult = mCooking->cookTriangleMesh(meshDesc, out_file);
-        if (bResult)
+        bool result = cooking_->cookTriangleMesh(mesh_desc, out_file);
+        if (result)
         {
-            out_file.Release();
+            out_file.release();
 
-            physx::PxDefaultFileInputData cooked_file(mesh_file.path_cooked_.c_str());
+            physx::PxDefaultFileInputData cooked_file(mesh_file.cooked_path.c_str());
             if (!cooked_file.isValid())
             {
-                ARK_LOG_ERROR("load file failed file={}", mesh_file.path_cooked_);
+                ARK_LOG_ERROR("load file failed file={}", mesh_file.cooked_path);
                 return nullptr;
             }
 
-            mesh = mPhysics->createTriangleMesh(cooked_file);
+            mesh = physics_->createTriangleMesh(cooked_file);
         }
     }
 
     return mesh;
 }
 
-physx::PxTriangleMesh* physic_module_impl::CreateTriangleMesh(const physic_scene& scene_config) {
-    auto& mesh_file = scene_config.mesh_file_;
+physx::PxTriangleMesh* physic_module_impl::create_triangle_mesh(const physic_scene& scene_config) {
+    auto& mesh_file = scene_config.mesh_file;
 
     wave_front_obj wfo;
-    if (wfo.LoadObj(mesh_file.path_.c_str(), false) == 0)
+    if (wfo.LoadObj(mesh_file.path.c_str(), false) == 0)
     {
-        ARK_LOG_ERROR("load file failed file={}", mesh_file.path_);
+        ARK_LOG_ERROR("load file failed file={}", mesh_file.path);
         return nullptr;
     }
 
-    physx::PxTriangleMeshDesc meshDesc;
-    meshDesc.points.count = wfo.mVertexCount;
-    meshDesc.triangles.count = wfo.mTriCount;
-    meshDesc.points.stride = sizeof(float) * 3;
-    meshDesc.triangles.stride = sizeof(int) * 3;
-    meshDesc.points.data = wfo.mVertices;
-    meshDesc.triangles.data = wfo.mIndices;
+    physx::PxTriangleMeshDesc mesh_desc;
+    mesh_desc.points.count = wfo.mVertexCount;
+    mesh_desc.triangles.count = wfo.mTriCount;
+    mesh_desc.points.stride = sizeof(float) * 3;
+    mesh_desc.triangles.stride = sizeof(int) * 3;
+    mesh_desc.points.data = wfo.mVertices;
+    mesh_desc.triangles.data = wfo.mIndices;
 
     physx::PxTriangleMeshCookingResult::Enum result{physx::PxTriangleMeshCookingResult::eFAILURE};
-    auto mesh = mCooking->createTriangleMesh(meshDesc, mPhysics->getPhysicsInsertionCallback(), &result);
+    auto mesh = cooking_->createTriangleMesh(mesh_desc, physics_->getPhysicsInsertionCallback(), &result);
     if (result != physx::PxTriangleMeshCookingResult::eSUCCESS)
     {
-        ARK_LOG_WARN("triangle mesh is too big scene ={}", mesh_file.path_);
+        ARK_LOG_WARN("triangle mesh is too big scene ={}", mesh_file.path);
     }
 
     return mesh;
 }
 
-physx::PxTriangleMesh* physic_module_impl::CreateTriangleMesh(mesh_collider* collider) {
-    if (collider->vertices_num_ == 0 || !collider->vertices_ || collider->triangles_num_ == 0 || !collider->triangles_)
+physx::PxTriangleMesh* physic_module_impl::create_triangle_mesh(mesh_collider* collider) {
+    if (collider->vertex_count == 0 || !collider->vertices || collider->triangle_count == 0 || !collider->triangles)
     {
         ARK_LOG_ERROR("mesh collider do not have vertices");
         return nullptr;
     }
 
-    physx::PxTriangleMeshDesc meshDesc;
-    meshDesc.points.count = collider->vertices_num_;
-    meshDesc.triangles.count = collider->triangles_num_ / 3;
-    meshDesc.points.stride = sizeof(float) * 3;
-    meshDesc.triangles.stride = sizeof(int) * 3;
-    meshDesc.points.data = collider->vertices_;
-    meshDesc.triangles.data = collider->triangles_;
+    physx::PxTriangleMeshDesc mesh_desc;
+    mesh_desc.points.count = collider->vertex_count;
+    mesh_desc.triangles.count = collider->triangle_count / 3;
+    mesh_desc.points.stride = sizeof(float) * 3;
+    mesh_desc.triangles.stride = sizeof(int) * 3;
+    mesh_desc.points.data = collider->vertices;
+    mesh_desc.triangles.data = collider->triangles;
 
-    auto mesh = mCooking->createTriangleMesh(meshDesc, mPhysics->getPhysicsInsertionCallback());
+    auto mesh = cooking_->createTriangleMesh(mesh_desc, physics_->getPhysicsInsertionCallback());
     return mesh;
 }
 
-physx::PxConvexMesh* physic_module_impl::CreateConvexMesh(mesh_collider* collider) {
-    if (collider->vertices_num_ == 0 || !collider->vertices_)
+physx::PxConvexMesh* physic_module_impl::create_convex_mesh(mesh_collider* collider) {
+    if (collider->vertex_count == 0 || !collider->vertices)
     {
         ARK_LOG_ERROR("mesh collider do not have vertices");
         return nullptr;
     }
 
-    physx::PxConvexMeshDesc meshDesc;
-    meshDesc.points.count = collider->vertices_num_;
-    meshDesc.points.stride = sizeof(float) * 3;
-    meshDesc.points.data = collider->vertices_;
-    meshDesc.flags = physx::PxConvexFlag::eCOMPUTE_CONVEX;
+    physx::PxConvexMeshDesc mesh_desc;
+    mesh_desc.points.count = collider->vertex_count;
+    mesh_desc.points.stride = sizeof(float) * 3;
+    mesh_desc.points.data = collider->vertices;
+    mesh_desc.flags = physx::PxConvexFlag::eCOMPUTE_CONVEX;
 
-    auto mesh = mCooking->createConvexMesh(meshDesc, mPhysics->getPhysicsInsertionCallback());
+    auto mesh = cooking_->createConvexMesh(mesh_desc, physics_->getPhysicsInsertionCallback());
     return mesh;
 }
 
-void physic_module_impl::ScenePVDSetting(physx::PxScene* px_scene) {
+void physic_module_impl::scene_pvd_setting(physx::PxScene* px_scene) {
     auto pvd_client = px_scene->getScenePvdClient();
     if (pvd_client)
     {
@@ -984,12 +984,12 @@ void physic_module_impl::ScenePVDSetting(physx::PxScene* px_scene) {
     }
 }
 
-void physic_module_impl::QuatRoate(physx::PxTransform& transform) {
-    auto plane_transform = physx::PxTransformFromPlaneEquation(mPlane);
+void physic_module_impl::quat_roate(physx::PxTransform& transform) {
+    auto plane_transform = physx::PxTransformFromPlaneEquation(plane_);
     transform.q = plane_transform.q;
 }
 
-void physic_module_impl::OnSimulate(uint64_t timer_id, const guid_t& guid) {
+void physic_module_impl::on_simulate(uint64_t timer_id, const guid_t& guid) {
     for (auto& iter : scene_list_)
     {
         auto px_scene = iter.second;
@@ -998,15 +998,15 @@ void physic_module_impl::OnSimulate(uint64_t timer_id, const guid_t& guid) {
             continue;
         }
 
-        physx::PxSceneWriteLock writeLockSimulate(*px_scene);
-        px_scene->simulate(config_.step_);
+        physx::PxSceneWriteLock write_lock_simulate(*px_scene);
+        px_scene->simulate(config_.step);
 
-        physx::PxSceneWriteLock writeLockFetch(*px_scene);
+        physx::PxSceneWriteLock write_lock_fetch(*px_scene);
         px_scene->fetchResults(true);
     }
 }
 
-physx::PxScene* physic_module_impl::FindScene(const guid_t& scene_obj_id) {
+physx::PxScene* physic_module_impl::find_scene(const guid_t& scene_obj_id) {
     auto iter = scene_list_.find(scene_obj_id);
     if (iter == scene_list_.end())
     {
@@ -1016,7 +1016,7 @@ physx::PxScene* physic_module_impl::FindScene(const guid_t& scene_obj_id) {
     return iter->second;
 }
 
-physx::PxActor* physic_module_impl::FindActor(const guid_t& actor_obj_id) {
+physx::PxActor* physic_module_impl::find_actor(const guid_t& actor_obj_id) {
     auto iter = actor_list_.find(actor_obj_id);
     if (iter == actor_list_.end())
     {
@@ -1026,11 +1026,11 @@ physx::PxActor* physic_module_impl::FindActor(const guid_t& actor_obj_id) {
     return iter->second;
 }
 
-physx::PxVec3 physic_module_impl::AFVector3DToPxVec3(const physic3_d& vec) {
+physx::PxVec3 physic_module_impl::to_physx_vector(const physic3_d& vec) {
     return physx::PxVec3(vec.x, vec.y, vec.z);
 }
 
-physic3_d physic_module_impl::PxVec3ToAFVector3D(const physx::PxVec3& vec) {
+physic3_d physic_module_impl::from_physx_vector(const physx::PxVec3& vec) {
     return physic3_d(vec.x, vec.y, vec.z);
 }
 

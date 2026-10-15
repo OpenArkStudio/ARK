@@ -78,14 +78,14 @@ public:
             auto& table_meta_list = meta->get_table_meta_list();
             for (auto iter : table_meta_list)
             {
-                auto pTableMeta = iter.second;
-                ARK_ASSERT_RET_VAL(pTableMeta != nullptr, false);
+                auto table_meta_ptr = iter.second;
+                ARK_ASSERT_RET_VAL(table_meta_ptr != nullptr, false);
 
-                auto& type_name = pTableMeta->get_type_name();
-                auto pClassMeta = find_meta(type_name);
-                ARK_ASSERT_RET_VAL(pClassMeta != nullptr, false);
+                auto& type_name = table_meta_ptr->get_type_name();
+                auto class_meta_ptr = find_meta(type_name);
+                ARK_ASSERT_RET_VAL(class_meta_ptr != nullptr, false);
 
-                pTableMeta->set_class_meta(pClassMeta);
+                table_meta_ptr->set_class_meta(class_meta_ptr);
             }
         }
 
@@ -102,10 +102,10 @@ private:
         }
 
         // create new class meta
-        std::shared_ptr<class_meta> pMeta = std::make_shared<class_meta>(name);
-        class_meta_list.insert(name, pMeta);
+        std::shared_ptr<class_meta> meta_ptr = std::make_shared<class_meta>(name);
+        class_meta_list.insert(name, meta_ptr);
 
-        return pMeta;
+        return meta_ptr;
     }
 };
 

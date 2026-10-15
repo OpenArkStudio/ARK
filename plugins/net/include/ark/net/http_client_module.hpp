@@ -40,16 +40,16 @@ public:
     virtual std::future<std::pair<bool, std::string>> async_request(arknet::http::verb method, const std::string& host,
         const uint16_t port, const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
         const std::vector<std::string>* cookies = nullptr, const std::string* http_body = nullptr,
-        const std::string* content_type = nullptr, int ioTimeout = 20, int connectTimeout = 5) = 0;
+        const std::string* content_type = nullptr, int io_timeout = 20, int connect_timeout = 5) = 0;
 
     virtual std::future<std::pair<bool, std::string>> get(const std::string& host, const uint16_t port,
         const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
-        const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) = 0;
+        const std::vector<std::string>* cookies = nullptr, int io_timeout = 20, int connect_timeout = 5) = 0;
 
     virtual std::future<std::pair<bool, std::string>> post(const std::string& host, const uint16_t port,
         const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
         const std::string* http_body = nullptr, const std::string* content_type = nullptr,
-        const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) = 0;
+        const std::vector<std::string>* cookies = nullptr, int io_timeout = 20, int connect_timeout = 5) = 0;
 
     /**
      * Post an HTTP request
@@ -67,7 +67,7 @@ public:
     virtual void post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& host,
         const uint16_t port, const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
         const std::string* http_body = nullptr, const std::string* content_type = nullptr,
-        const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) = 0;
+        const std::vector<std::string>* cookies = nullptr, int io_timeout = 20, int connect_timeout = 5) = 0;
 
     /**
      * Post an HTTP request
@@ -86,7 +86,7 @@ public:
         const std::string& service, const std::string& url,
         const std::map<std::string, std::string>* url_params = nullptr, const std::string* http_body = nullptr,
         const std::string* content_type = nullptr, const std::vector<std::string>* cookies = nullptr,
-        int ioTimeout = 20, int connectTimeout = 5) = 0;
+        int io_timeout = 20, int connect_timeout = 5) = 0;
 };
 
 } // namespace ark

@@ -44,9 +44,9 @@ public:
         return sizeof(size_t) + size;
     }
 
-    inline static void init_raw_user_data(void* p, const void* pData, size_t size) {
+    inline static void init_raw_user_data(void* p, const void* data_ptr, size_t size) {
         *((size_t*)p) = size;
-        memcpy((char*)p + sizeof(size_t), pData, size);
+        memcpy((char*)p + sizeof(size_t), data_ptr, size);
     }
 
     bool equal(const data& src) {
@@ -55,48 +55,48 @@ public:
             return false;
         }
 
-        bool bRet = false;
+        bool success = false;
         switch (this->get_type())
         {
-        case data_type::DT_BOOLEAN:
-            bRet = (get_bool() == src.get_bool());
+        case data_type::dt_boolean:
+            success = (get_bool() == src.get_bool());
             break;
-        case data_type::DT_INT32:
-            bRet = (get_int() == src.get_int());
+        case data_type::dt_int32:
+            success = (get_int() == src.get_int());
             break;
-        case data_type::DT_INT64:
-            bRet = (get_int64() == src.get_int64());
+        case data_type::dt_int64:
+            success = (get_int64() == src.get_int64());
             break;
-        case data_type::DT_UINT32:
-            bRet = (get_u_int() == src.get_u_int());
+        case data_type::dt_uint32:
+            success = (get_u_int() == src.get_u_int());
             break;
-        case data_type::DT_UINT64:
-            bRet = (get_u_int64() == src.get_u_int64());
+        case data_type::dt_uint64:
+            success = (get_u_int64() == src.get_u_int64());
             break;
-        case data_type::DT_FLOAT:
-            bRet = (get_float() == src.get_float());
+        case data_type::dt_float:
+            success = (get_float() == src.get_float());
             break;
-        case data_type::DT_DOUBLE:
-            bRet = (get_double() == src.get_double());
+        case data_type::dt_double:
+            success = (get_double() == src.get_double());
             break;
-        case data_type::DT_STRING:
-            bRet = (get_string() == src.get_string());
+        case data_type::dt_string:
+            success = (get_string() == src.get_string());
             break;
-        case data_type::DT_POINTER:
-            bRet = (get_pointer() == src.get_pointer());
+        case data_type::dt_pointer:
+            success = (get_pointer() == src.get_pointer());
             break;
-        case data_type::DT_USERDATA:
+        case data_type::dt_userdata:
             break;
         default:
             ARK_ASSERT_NO_EFFECT(false);
             break;
         }
 
-        return bRet;
+        return success;
     }
 
     bool equal(const bool value) {
-        if (this->get_type() != data_type::DT_BOOLEAN)
+        if (this->get_type() != data_type::dt_boolean)
         {
             return false;
         }
@@ -105,7 +105,7 @@ public:
     }
 
     bool equal(const int value) {
-        if (this->get_type() != data_type::DT_INT32)
+        if (this->get_type() != data_type::dt_int32)
         {
             return false;
         }
@@ -114,7 +114,7 @@ public:
     }
 
     bool equal(const int64_t value) {
-        if (this->get_type() != data_type::DT_INT64)
+        if (this->get_type() != data_type::dt_int64)
         {
             return false;
         }
@@ -123,7 +123,7 @@ public:
     }
 
     bool equal(const float value) {
-        if (this->get_type() != data_type::DT_FLOAT)
+        if (this->get_type() != data_type::dt_float)
         {
             return false;
         }
@@ -132,7 +132,7 @@ public:
     }
 
     bool equal(const double value) {
-        if (this->get_type() != data_type::DT_DOUBLE)
+        if (this->get_type() != data_type::dt_double)
         {
             return false;
         }
@@ -141,7 +141,7 @@ public:
     }
 
     bool equal(const char* value) {
-        if (this->get_type() != data_type::DT_STRING)
+        if (this->get_type() != data_type::dt_string)
         {
             return false;
         }
@@ -150,7 +150,7 @@ public:
     }
 
     bool equal(const void* value) {
-        if (this->get_type() != data_type::DT_POINTER)
+        if (this->get_type() != data_type::dt_pointer)
         {
             return false;
         }
@@ -195,7 +195,7 @@ public:
     virtual std::string to_string() const = 0;
     virtual ~data() = default;
 
-    virtual bool from(const node* pData) = 0;
+    virtual bool from(const node* data_ptr) = 0;
 };
 
 } // namespace ark

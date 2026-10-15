@@ -29,14 +29,14 @@ namespace ark {
 //class AFServerData
 //{
 //public:
-//    void Init(const guid_t& conn_id, const AFMsg::msg_ss_server_report& data)
+//    void Init(const guid_t& conn_id, const ark::protobuf::msg_ss_server_report& data)
 //    {
 //        conn_id_ = conn_id;
 //        server_info_ = data;
 //    }
 //
 //    guid_t conn_id_{0};
-//    AFMsg::msg_ss_server_report server_info_;
+//    ark::protobuf::msg_ss_server_report server_info_;
 //};
 //
 //class AFClientConnectionData
@@ -54,28 +54,28 @@ class net_server_service
 public:
     virtual ~net_server_service() = default;
 
-    template<typename BaseType>
+    template<typename base_type>
     bool reg_msg_callback(
-        const msg_id_t msg_id, BaseType* pBase, void (BaseType::*handleRecv)(net_msg const*, conv_id_t)) {
-        net_msg_functor functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
+        const msg_id_t msg_id, base_type* base_ptr, void (base_type::*handle_recv)(net_msg const*, conv_id_t)) {
+        net_msg_functor functor = std::bind(handle_recv, base_ptr, std::placeholders::_1, std::placeholders::_2);
         return reg_msg_callback(msg_id, std::move(functor));
     }
 
-    template<typename BaseType>
-    bool reg_forward_msg_callback(BaseType* pBase, void (BaseType::*handleRecv)(net_msg const*, int)) {
-        net_msg_functor functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
+    template<typename base_type>
+    bool reg_forward_msg_callback(base_type* base_ptr, void (base_type::*handle_recv)(net_msg const*, int)) {
+        net_msg_functor functor = std::bind(handle_recv, base_ptr, std::placeholders::_1, std::placeholders::_2);
         return reg_forward_msg_callback(std::move(functor));
     }
 
-    template<typename BaseType>
-    bool reg_net_event_callback(BaseType* pBase, void (BaseType::*handler)(net_event const*)) {
-        net_event_functor functor = std::bind(handler, pBase, std::placeholders::_1);
+    template<typename base_type>
+    bool reg_net_event_callback(base_type* base_ptr, void (base_type::*handler)(net_event const*)) {
+        net_event_functor functor = std::bind(handler, base_ptr, std::placeholders::_1);
         return reg_net_event_callback(std::move(functor));
     }
 
-    template<typename BaseType>
-    bool reg_reg_server_call_back(BaseType* pBase, void (BaseType::*handler)(net_msg const*, conv_id_t)) {
-        net_msg_session_functor functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
+    template<typename base_type>
+    bool reg_reg_server_call_back(base_type* base_ptr, void (base_type::*handler)(net_msg const*, conv_id_t)) {
+        net_msg_session_functor functor = std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2);
         return reg_reg_server_call_back(std::move(functor));
     }
 

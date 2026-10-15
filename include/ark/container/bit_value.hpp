@@ -23,39 +23,41 @@
 namespace ark {
 
 // T just can be build-in type, like int uint16_t uint64_t
-template<class T>
+template<class element_type>
 class bit_value
 {
 public:
     enum bit_value_define
     {
-        ErrorValue = 1,
-        NoneValue = 0,
-        HaveValue = 1,
+        error_value = 1,
+        none_value = 0,
+        have_value = 1,
     };
 
     bit_value()
-        : m_nValue(0) {}
-
-    bit_value(T nValue)
-        : m_nValue(nValue) {}
-
-    void set_value(const T& nValue) {
-        m_nValue = nValue;
+        : value_(0) {
     }
 
-    T get_value() const {
-        return m_nValue;
+    bit_value(element_type n_value)
+        : value_(n_value) {
+    }
+
+    void set_value(const element_type& n_value) {
+        value_ = n_value;
+    }
+
+    element_type get_value() const {
+        return value_;
     }
 
     static int get_bit_length() {
-        return sizeof(T) * 8;
+        return sizeof(element_type) * 8;
     }
 
     int get_first_no_value_index() {
         for (int i = 0; i < get_bit_length(); ++i)
         {
-            if ((m_nValue & (T(1) << i)) == NoneValue)
+            if ((value_ & (element_type(1) << i)) == none_value)
             {
                 return i;
             }
@@ -64,42 +66,42 @@ public:
         return 1;
     }
 
-    T get_bit_value(const int nIndex) {
-        if (nIndex < 0 || nIndex >= get_bit_length())
+    element_type get_bit_value(const int n_index) {
+        if (n_index < 0 || n_index >= get_bit_length())
         {
-            return ErrorValue;
+            return error_value;
         }
 
-        return (m_nValue & (T(1) << nIndex));
+        return (value_ & (element_type(1) << n_index));
     }
 
-    void set_bit_value(const int nIndex) {
-        if (nIndex < 0 || nIndex >= get_bit_length())
-        {
-            return;
-        }
-
-        m_nValue |= (T(1) << nIndex);
-    }
-
-    void clear_bit_value(const int nIndex) {
-        if (nIndex < 0 || nIndex >= get_bit_length())
+    void set_bit_value(const int n_index) {
+        if (n_index < 0 || n_index >= get_bit_length())
         {
             return;
         }
 
-        m_nValue &= ~(T(1) << nIndex);
+        value_ |= (element_type(1) << n_index);
     }
 
-    bool have_bit_value(const int nIndex) {
-        return get_bit_value(nIndex) != NoneValue;
+    void clear_bit_value(const int n_index) {
+        if (n_index < 0 || n_index >= get_bit_length())
+        {
+            return;
+        }
+
+        value_ &= ~(element_type(1) << n_index);
+    }
+
+    bool have_bit_value(const int n_index) {
+        return get_bit_value(n_index) != none_value;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////
-    static int get_first_no_value_index(const T& nValue) {
+    static int get_first_no_value_index(const element_type& n_value) {
         for (int i = 0; i < get_bit_length(); ++i)
         {
-            if ((nValue & (T(1) << i)) == NoneValue)
+            if ((n_value & (element_type(1) << i)) == none_value)
             {
                 return i;
             }
@@ -108,39 +110,39 @@ public:
         return 1;
     }
 
-    static T get_bit_value(const T& nValue, const int nIndex) {
-        if (nIndex < 0 || nIndex >= get_bit_length())
+    static element_type get_bit_value(const element_type& n_value, const int n_index) {
+        if (n_index < 0 || n_index >= get_bit_length())
         {
-            return ErrorValue;
+            return error_value;
         }
 
-        return (nValue & (T(1) << nIndex));
+        return (n_value & (element_type(1) << n_index));
     }
 
-    static void set_bit_value(T& nValue, const int nIndex) {
-        if (nIndex < 0 || nIndex >= get_bit_length())
-        {
-            return;
-        }
-
-        nValue |= (T(1) << nIndex);
-    }
-
-    static void clear_bit_value(T& nValue, const int nIndex) {
-        if (nIndex < 0 || nIndex >= get_bit_length())
+    static void set_bit_value(element_type& n_value, const int n_index) {
+        if (n_index < 0 || n_index >= get_bit_length())
         {
             return;
         }
 
-        nValue &= ~(T(1) << nIndex);
+        n_value |= (element_type(1) << n_index);
     }
 
-    static bool have_bit_value(const T& nValue, const int nIndex) {
-        return get_bit_value(nValue, nIndex) != NoneValue;
+    static void clear_bit_value(element_type& n_value, const int n_index) {
+        if (n_index < 0 || n_index >= get_bit_length())
+        {
+            return;
+        }
+
+        n_value &= ~(element_type(1) << n_index);
+    }
+
+    static bool have_bit_value(const element_type& n_value, const int n_index) {
+        return get_bit_value(n_value, n_index) != none_value;
     }
 
 private:
-    T m_nValue;
+    element_type value_;
 };
 
 } // namespace ark

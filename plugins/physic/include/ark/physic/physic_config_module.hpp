@@ -29,9 +29,9 @@ class physic_config_module : public module
 {
 public:
     ///get scene by config id
-    virtual bool GetPhysicScene(const std::string& scene_id, physic_scene& scene) const = 0;
-    virtual const physic_scene_list& GetPhysicSceneList() const = 0;
-    virtual const physic_config& GetPhysicConfig() const = 0;
+    virtual bool get_physic_scene(const std::string& scene_id, physic_scene& scene) const = 0;
+    virtual const physic_scene_list& get_physic_scene_list() const = 0;
+    virtual const physic_config& get_physic_config() const = 0;
 };
 
 } // namespace ark

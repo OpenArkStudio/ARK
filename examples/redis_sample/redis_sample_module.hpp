@@ -33,7 +33,7 @@ public:
     bool post_init() override;
 
 protected:
-    redis_module* m_pRedisModule;
+    redis_module* redis_module_;
 };
 
 } // namespace ark

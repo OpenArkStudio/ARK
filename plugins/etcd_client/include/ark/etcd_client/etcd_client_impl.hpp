@@ -20,22 +20,22 @@ public:
      * @param ioTimeout in seconds
      */
     etcd_client_impl(
-        http_client_module* httpClient, std::vector<std::string> endpoints, int connectTimeout, int ioTimeout);
+        http_client_module* http_client, std::vector<std::string> endpoints, int connect_timeout, int io_timeout);
 
     void grant(std::function<void(std::pair<int64_t, std::string>)> cb, int ttl) override;
-    void keepalive(std::function<void(std::pair<bool, std::string>)> cb, int64_t leaseID) override;
+    void keepalive(std::function<void(std::pair<bool, std::string>)> cb, int64_t lease_id) override;
 
 private:
     void post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& api,
-        std::shared_ptr<std::string> body, size_t epIdx, size_t triedCnt);
+        std::shared_ptr<std::string> body, size_t ep_idx, size_t tried_cnt);
 
 private:
-    http_client_module* const httpClient_;
-    int const connectTimeout_;
-    int const ioTimeout_;
+    http_client_module* const http_client_;
+    int const connect_timeout_;
+    int const io_timeout_;
 
     random_generator rand_; // TODO might not need this
-    size_t selectedEndpointIndex_;
+    size_t selected_endpoint_index_;
     std::vector<std::pair<std::string, std::string>> endpoints_;
 };
 

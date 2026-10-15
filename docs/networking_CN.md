@@ -17,6 +17,9 @@ ARK 使用 C++20，直接采用独立仓库的
 vcpkg 清单固定包版本基线。CMake 从 arknet 的独立仓库获取固定提交。
 验证开发版本时，将 `ARKNET_SOURCE_DIR` 设为该仓库的绝对路径。
 
+Protobuf、Abseil 和 utf8_range 使用同一安装前缀。手工指定 `Protobuf_DIR` 时，
+同时选择配套的 `absl_DIR` 和 `utf8_range_DIR`。
+
 ## 构建并运行网络测试
 
 ```sh
@@ -38,11 +41,24 @@ HTTP 状态和请求数据、停机取消、回调内释放拥有者、非法输
 CI 检查 Linux、macOS、Windows 的两种依赖方案，
 并在 Linux 上运行内存、未定义行为和线程检查。
 
-2026-10-13 本机验证使用 Apple M4 Pro（14 核 CPU、48 GiB 内存）、macOS 27.0.1 arm64
-和 Apple Clang 21.0.0。Standalone Asio 1.38.2、Boost 1.90、ASan/UBSan 和 TSan
-四组网络与日志回归均通过 31 个用例、843 条断言。macOS ASan 未启用泄漏检测，Linux CI
-启用 LeakSanitizer。这些结果用于验证正确性，不表示部署容量。
-默认 C++20 应用构建、示例和 8 个原有测试程序也均在本机通过。
+2026-10-15 本机验证使用 Apple M4 Pro（14 核 CPU、48 GiB 内存）、macOS 27.0.1 arm64
+和 Apple Clang 21.0.0。本机结果如下：
+
+| 配置 | 核心用例／断言 | 网络用例／断言 |
+| --- | ---: | ---: |
+| Release、Boost 1.90、64 位 GUID、Protobuf | 16／106 | 32／879 |
+| Debug、Standalone Asio 1.38.2、32 位 GUID、ASan/UBSan、关闭 Protobuf | 9／55 | 32／879 |
+| Debug、Boost、64 位 GUID、ASan/UBSan、Protobuf | 16／106 | — |
+
+Protobuf 用例包含正常消息、截断输入、Actor ID、含 NUL 的二进制消息、
+旧版报文字节、对外 JSON 字段名，以及新的公开描述符和枚举名称。
+
+macOS ASan 未启用泄漏检测，Linux CI 启用 LeakSanitizer。这些结果用于验证正确性，
+不表示部署容量。完整 Release 应用、默认插件和示例已构建，8 个原有测试程序也均通过。
+GCC 15.2 对应用、默认插件和核心测试的 10 个编译单元完成 C++20 语法检查；这不代表 GCC 链接或运行验证。
+
+独立核心测试的构建、筛选方式见[核心回归测试](../tests/core/README_CN.md)。
+启用 `ARK_BUILD_CORE_TESTS=ON` 时，`check-network` 同时执行核心用例。
 
 ## 构建应用
 

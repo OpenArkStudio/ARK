@@ -48,7 +48,7 @@ using step_move_count_actor_move_list = std::map<int, sample_move_step>;
 class sample_scene
 {
 public:
-    bool IsInRange(const physic3_d& pos) const {
+    bool is_in_range(const physic3_d& pos) const {
         if (pos.x < min_pos.x || pos.z < min_pos.z)
         {
             return false;
@@ -82,31 +82,31 @@ public:
     bool shut() override;
 
 protected:
-    void InitBase();
-    void InitMove();
-    void InitMoveStep(const int step);
-    void InitActorDirection(const int move_count, sample_move_step& sample_move_step);
-    void CreateScene();
-    void CreateActor();
-    void MoveActor();
-    void MoveActor(const sample_scene& scene);
-    void MoveActor(const sample_scene& scene, sample_actor_direction& actor_move, const float distance);
-    physic3_d RandomMoveDirection();
-    void LogRayCast(const sample_scene& scene, const int hit, float distance, const physic3_d& hit_pos);
-    void ReRandomPosition(const sample_scene& scene);
-    physic3_d RandomPosition(const sample_scene& scene);
-    void TestRaycast();
+    void init_base();
+    void init_move();
+    void init_move_step(const int step);
+    void init_actor_direction(const int move_count, sample_move_step& sample_move_step);
+    void create_scene();
+    void create_actor();
+    void move_actor();
+    void move_actor(const sample_scene& scene);
+    void move_actor(const sample_scene& scene, sample_actor_direction& actor_move, const float distance);
+    physic3_d random_move_direction();
+    void log_ray_cast(const sample_scene& scene, const int hit, float distance, const physic3_d& hit_pos);
+    void re_random_position(const sample_scene& scene);
+    physic3_d random_position(const sample_scene& scene);
+    void test_raycast();
 
 protected:
-    physic_config config;
-    xoroshiro128_plus gen;
+    physic_config config_;
+    xoroshiro128_plus generator_;
 
-    std::vector<sample_scene> sample_scene_list;
-    step_move_count_actor_move_list sample_move_list;
+    std::vector<sample_scene> sample_scene_list_;
+    step_move_count_actor_move_list sample_move_list_;
 
 protected:
-    physic_module* m_pPhysicModule;
-    physic_config_module* m_pPhysicConfigModule;
+    physic_module* physic_module_;
+    physic_config_module* physic_config_module_;
 };
 
 } // namespace ark

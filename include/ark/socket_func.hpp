@@ -39,8 +39,9 @@
 #endif
 
 namespace ark {
+
 #ifdef ARK_PLATFORM_WIN
-static std::atomic_bool g_WinSockIsInit = false;
+static std::atomic_bool winsock_initialized = false;
 #endif
 
 enum class proto_type
@@ -114,42 +115,42 @@ public:
 
     struct ext_t
     {
-        proto_type proto_;
-        std::string ip_;
-        uint16_t port_;
-        std::string path_;
+        proto_type proto;
+        std::string ip;
+        uint16_t port;
+        std::string path;
     };
 
     proto_type proto() const {
-        return ext_.proto_;
+        return ext_.proto;
     }
 
     void set_protocol(proto_type proto) {
-        ext_.proto_ = proto;
+        ext_.proto = proto;
     }
 
     std::string const& get_ip() const {
-        return ext_.ip_;
+        return ext_.ip;
     }
 
     void set_ip(std::string const& ip) {
-        ext_.ip_ = ip;
+        ext_.ip = ip;
     }
 
     std::string const& get_path() const {
-        return ext_.path_;
+        return ext_.path;
     }
 
     void set_path(std::string const& path) {
-        ext_.path_ = path;
+        ext_.path = path;
     }
 
     uint16_t get_port() const {
-        return ext_.port_;
+        return ext_.port;
     }
 
     void set_port(uint16_t const& port) {
-        ext_.port_ = port;
+        ext_.port = port;
     }
 
     static endpoint from_string(std::string const& url, std::error_code& ec) {

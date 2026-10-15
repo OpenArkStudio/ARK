@@ -18,26 +18,26 @@
  *
  */
 
-#include "codec_proto.hpp"
+#include "protobuf_codec.hpp"
 
 namespace ark {
 
-ark::codec_status codec_proto::Encode() {
+ark::codec_status protobuf_codec::encode() {
     // TODO:
-    return codec_status::CODEC_STATUS_OK;
+    return codec_status::ok;
 }
 
-ark::codec_status codec_proto::Decode() {
+ark::codec_status protobuf_codec::decode() {
     // TODO:
-    return codec_status::CODEC_STATUS_OK;
+    return codec_status::ok;
 }
 
-codec_type codec_proto::GetCodecType() const {
-    return codec_type::CODEC_PROTO;
+codec_type protobuf_codec::get_codec_type() const {
+    return codec_type::protobuf;
 }
 
-void codec_proto::SetCodecType(codec_type type) {
-    type_ = codec_type::CODEC_PROTO;
+void protobuf_codec::set_codec_type(codec_type type) {
+    type_ = codec_type::protobuf;
 }
 
 } // namespace ark

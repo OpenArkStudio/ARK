@@ -23,34 +23,34 @@
 namespace ark {
 
 bool timer_module_impl::init() {
-    timer_manager_ptr = std::make_shared<time_wheel_manager>();
-    timer_manager_ptr->init(get_plugin_manager()->get_now_time());
+    timer_manager_ = std::make_shared<time_wheel_manager>();
+    timer_manager_->init(get_plugin_manager()->get_now_time());
 
     return true;
 }
 
 bool timer_module_impl::pre_shut() {
-    timer_manager_ptr->shut();
+    timer_manager_->shut();
     return true;
 }
 
 bool timer_module_impl::update() {
-    timer_manager_ptr->update(get_plugin_manager()->get_now_time());
+    timer_manager_->update(get_plugin_manager()->get_now_time());
     return true;
 }
 
 bool timer_module_impl::remove_timer(const uint64_t timer_id) {
-    return timer_manager_ptr->remove_timer(timer_id);
+    return timer_manager_->remove_timer(timer_id);
 }
 
 uint64_t timer_module_impl::add_single_timer(
     const guid_t& entity_id, const std::chrono::milliseconds interval, const uint32_t count, timer_functor&& cb) {
-    return timer_manager_ptr->add_timer(entity_id, count, interval, std::move(cb));
+    return timer_manager_->add_timer(entity_id, count, interval, std::move(cb));
 }
 
 uint64_t timer_module_impl::add_forever_timer(
     const guid_t& entity_id, const std::chrono::milliseconds interval, timer_functor&& cb) {
-    return timer_manager_ptr->add_timer(entity_id, 0, interval, std::move(cb));
+    return timer_manager_->add_timer(entity_id, 0, interval, std::move(cb));
 }
 
 } // namespace ark

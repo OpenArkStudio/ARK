@@ -28,50 +28,53 @@ namespace ark {
 
 struct kv_pair
 {
-    kv_pair() {}
+    kv_pair() {
+    }
 
     kv_pair(std::string k, std::string v)
-        : key_(k)
-        , value_(v) {}
+        : key(k)
+        , value(v) {
+    }
 
-    std::string key_;
-    std::string value_;
+    std::string key;
+    std::string value;
 };
 
 struct where
 {
     enum op
     {
-        EQUAL,
+        equal,
     };
 
-    where(std::string k, std::string v, op op = EQUAL)
-        : key_(k)
-        , value_(v) {}
+    where(std::string k, std::string v, op op = equal)
+        : key(k)
+        , value(v) {
+    }
 
-    std::string Operation() {
-        switch (op_)
+    std::string operation() {
+        switch (comparison)
         {
         default:
             return "=";
         }
     }
 
-    std::string key_;
-    std::string value_;
-    op op_{EQUAL};
+    std::string key;
+    std::string value;
+    op comparison{equal};
 };
 
 struct order_by
 {
     enum order
     {
-        ASC,
-        DESC
+        ascending,
+        descending
     };
 
-    order order_{ASC};
-    std::vector<std::string> fields_;
+    order direction{ascending};
+    std::vector<std::string> fields;
 };
 
 using result = std::unordered_map<std::string, std::string>;
@@ -82,37 +85,37 @@ using result_arr = std::vector<result>;
 class mysql_driver_module : public module
 {
 public:
-    virtual bool Connect(const std::string& strDBName, const std::string& strDBHost, int nDBPort,
-        const std::string& strDBUser, const std::string& strDBPwd) = 0;
-    virtual void CloseConnection() = 0;
-    virtual mysqlpp::Connection* GetConnection() = 0;
+    virtual bool connect(const std::string& db_name, const std::string& db_host, int db_port,
+        const std::string& db_user, const std::string& db_pwd) = 0;
+    virtual void close_connection() = 0;
+    virtual mysqlpp::Connection* get_connection() = 0;
 
     // weather the connection is available
-    virtual bool IsAvailable() = 0;
-    virtual bool Reconnect() = 0;
-    virtual bool CanReconnect() = 0;
+    virtual bool is_available() = 0;
+    virtual bool reconnect() = 0;
+    virtual bool can_reconnect() = 0;
 
-    virtual bool Query(const std::string& qstr, mysqlpp::StoreQueryResult& queryResult) = 0;
-    virtual bool Query(const std::string& qstr) = 0;
-    virtual bool Query(const std::string& tableName, const std::string& strKey,
-        const std::vector<std::string>& fieldVec, std::vector<std::string>& valueVec) = 0;
-    virtual bool UpdateOrInsert(const std::string& tableName, const std::string& strKey,
-        const std::vector<std::string>& fieldVec, const std::vector<std::string>& valueVec) = 0;
-    virtual bool Select(const std::string& tableName, const std::string& strKey,
-        const std::vector<std::string>& fieldVec, std::vector<std::string>& valueVec) = 0;
-    virtual bool Delete(const std::string& tableName, const std::string& strKey) = 0;
-    virtual bool Exists(const std::string& tableName, const std::string& strKey, bool& bExit) = 0;
-    virtual bool Keys(
-        const std::string& tableName, const std::string& strKeyName, std::vector<std::string>& valueVec) = 0;
+    virtual bool query(const std::string& qstr, mysqlpp::StoreQueryResult& query_result) = 0;
+    virtual bool query(const std::string& qstr) = 0;
+    virtual bool query(const std::string& table_name, const std::string& key, const std::vector<std::string>& field_vec,
+        std::vector<std::string>& value_vec) = 0;
+    virtual bool update_or_insert(const std::string& table_name, const std::string& key,
+        const std::vector<std::string>& field_vec, const std::vector<std::string>& value_vec) = 0;
+    virtual bool select(const std::string& table_name, const std::string& key,
+        const std::vector<std::string>& field_vec, std::vector<std::string>& value_vec) = 0;
+    virtual bool erase(const std::string& table_name, const std::string& key) = 0;
+    virtual bool exists(const std::string& table_name, const std::string& key, bool& exists) = 0;
+    virtual bool keys(
+        const std::string& table_name, const std::string& key_name, std::vector<std::string>& value_vec) = 0;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    virtual bool Insert(const std::string& document, std::vector<kv_pair>& data) = 0;
-    virtual bool UpdateRecord(const std::string& document, std::vector<kv_pair>& data, std::vector<where>& where) = 0;
-    virtual bool Select(const std::string& document, std::vector<std::string>& columns, std::vector<where>& where,
+    virtual bool insert(const std::string& document, std::vector<kv_pair>& data) = 0;
+    virtual bool update_record(const std::string& document, std::vector<kv_pair>& data, std::vector<where>& where) = 0;
+    virtual bool select(const std::string& document, std::vector<std::string>& columns, std::vector<where>& where,
         order_by& order, int limit, result_arr& results) = 0;
-    virtual bool SelectOne(const std::string& document, std::vector<std::string>& columns, std::vector<where>& where,
+    virtual bool select_one(const std::string& document, std::vector<std::string>& columns, std::vector<where>& where,
         order_by& order, result& result) = 0;
 };
 

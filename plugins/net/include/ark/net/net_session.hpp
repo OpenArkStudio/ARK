@@ -39,15 +39,16 @@
 
 namespace ark {
 
-template<typename SessionPTR, bool isSession>
+template<typename session_ptr_type, bool is_session>
 class net_session : public noncopyable
 {
 public:
     explicit net_session(
-        std::shared_ptr<const msg_header> req_head, conv_id_t session_id, const SessionPTR session_ptr = nullptr)
+        std::shared_ptr<const msg_header> req_head, conv_id_t session_id, const session_ptr_type session_ptr = nullptr)
         : req_header_(req_head)
         , session_id_(session_id)
-        , session_(session_ptr) {}
+        , session_(session_ptr) {
+    }
 
     virtual ~net_session() {
         release_queue_data();
@@ -67,8 +68,8 @@ public:
         }
     }
 
-    const SessionPTR get_session() {
-        if constexpr (isSession)
+    const session_ptr_type get_session() {
+        if constexpr (is_session)
         {
             ARK_ASSERT_RET_VAL(session_ != nullptr, nullptr);
             return session_;
@@ -152,7 +153,7 @@ public:
             std::unique_ptr<msg_header> msg_head(req_header_->create());
             msg_head->parse_from_array(get_buffer() + pos);
             const size_t msg_len = msg_head->message_length();
-            if (msg_len > ARK_MSG_MAX_LENGTH)
+            if (msg_len > ark_msg_max_length)
             {
                 return false;
             }
@@ -192,7 +193,7 @@ private:
     lock_free_queue<net_msg*> msg_queue_;
     lock_free_queue<net_event*> event_queue_;
     // this field is meaning when isSession is true
-    const SessionPTR session_{nullptr};
+    const session_ptr_type session_{nullptr};
 
     std::atomic<bool> need_remove_{false};
 };

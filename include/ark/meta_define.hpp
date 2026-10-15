@@ -24,9 +24,10 @@
 #include <map>
 #include <unordered_map>
 namespace ark {
+
 //////////////////////////////////
 //Entity meta
-enum class BaseEntity : std::uint32_t
+enum class base_entity : std::uint32_t
 {
     enum_empty,
     map_id,
@@ -35,16 +36,16 @@ enum class BaseEntity : std::uint32_t
     config_id,
 };
 
-using BaseEntity_rep_type = std::underlying_type<BaseEntity>::type;
+using base_entity_rep_type = std::underlying_type<base_entity>::type;
 
-class AFEntityMetaBaseEntity
+class entity_meta_base_entity
 {
 public:
-    AFEntityMetaBaseEntity() = default;
+    entity_meta_base_entity() = default;
     static const std::string& self_name()
     {
-        static const std::string meta_BaseEntity_ = "BaseEntity";
-        return meta_BaseEntity_;
+        static const std::string meta_base_entity = "BaseEntity";
+        return meta_base_entity;
     }
 
     static const std::string& map_id()
@@ -54,7 +55,7 @@ public:
     } // int
     static uint32_t map_id_index()
     {
-        static const int map_id_index_ = static_cast<BaseEntity_rep_type>(BaseEntity::map_id);
+        static const int map_id_index_ = static_cast<base_entity_rep_type>(base_entity::map_id);
         return map_id_index_;
     } // map_id
     static const std::string& map_inst_id()
@@ -64,7 +65,7 @@ public:
     } // int
     static uint32_t map_inst_id_index()
     {
-        static const int map_inst_id_index_ = static_cast<BaseEntity_rep_type>(BaseEntity::map_inst_id);
+        static const int map_inst_id_index_ = static_cast<base_entity_rep_type>(base_entity::map_inst_id);
         return map_inst_id_index_;
     } // map_inst_id
     static const std::string& class_name()
@@ -74,7 +75,7 @@ public:
     } // string
     static uint32_t class_name_index()
     {
-        static const int class_name_index_ = static_cast<BaseEntity_rep_type>(BaseEntity::class_name);
+        static const int class_name_index_ = static_cast<base_entity_rep_type>(base_entity::class_name);
         return class_name_index_;
     } // class_name
     static const std::string& config_id()
@@ -84,12 +85,12 @@ public:
     } // uint32
     static uint32_t config_id_index()
     {
-        static const int config_id_index_ = static_cast<BaseEntity_rep_type>(BaseEntity::config_id);
+        static const int config_id_index_ = static_cast<base_entity_rep_type>(base_entity::config_id);
         return config_id_index_;
     } // config_id
 };
 
-enum class CurrentAttr : std::uint32_t
+enum class current_attr : std::uint32_t
 {
     enum_empty,
     hp,
@@ -98,16 +99,16 @@ enum class CurrentAttr : std::uint32_t
     mp_max,
 };
 
-using CurrentAttr_rep_type = std::underlying_type<CurrentAttr>::type;
+using current_attr_rep_type = std::underlying_type<current_attr>::type;
 
-class AFEntityMetaCurrentAttr
+class entity_meta_current_attr
 {
 public:
-    AFEntityMetaCurrentAttr() = default;
+    entity_meta_current_attr() = default;
     static const std::string& self_name()
     {
-        static const std::string meta_CurrentAttr_ = "CurrentAttr";
-        return meta_CurrentAttr_;
+        static const std::string meta_current_attr = "CurrentAttr";
+        return meta_current_attr;
     }
 
     static const std::string& hp()
@@ -117,7 +118,7 @@ public:
     } // uint64
     static uint32_t hp_index()
     {
-        static const int hp_index_ = static_cast<CurrentAttr_rep_type>(CurrentAttr::hp);
+        static const int hp_index_ = static_cast<current_attr_rep_type>(current_attr::hp);
         return hp_index_;
     } // hp
     static const std::string& mp()
@@ -127,7 +128,7 @@ public:
     } // uint64
     static uint32_t mp_index()
     {
-        static const int mp_index_ = static_cast<CurrentAttr_rep_type>(CurrentAttr::mp);
+        static const int mp_index_ = static_cast<current_attr_rep_type>(current_attr::mp);
         return mp_index_;
     } // mp
     static const std::string& hp_max()
@@ -137,7 +138,7 @@ public:
     } // uint64
     static uint32_t hp_max_index()
     {
-        static const int hp_max_index_ = static_cast<CurrentAttr_rep_type>(CurrentAttr::hp_max);
+        static const int hp_max_index_ = static_cast<current_attr_rep_type>(current_attr::hp_max);
         return hp_max_index_;
     } // hp_max
     static const std::string& mp_max()
@@ -147,12 +148,12 @@ public:
     } // uint64
     static uint32_t mp_max_index()
     {
-        static const int mp_max_index_ = static_cast<CurrentAttr_rep_type>(CurrentAttr::mp_max);
+        static const int mp_max_index_ = static_cast<current_attr_rep_type>(current_attr::mp_max);
         return mp_max_index_;
     } // mp_max
 };
 
-enum class Player : std::uint32_t
+enum class player : std::uint32_t
 {
     enum_empty,
     //parent entity class enum
@@ -189,16 +190,16 @@ enum class Player : std::uint32_t
     bag,
 };
 
-using Player_rep_type = std::underlying_type<Player>::type;
+using player_rep_type = std::underlying_type<player>::type;
 
-class AFEntityMetaPlayer
+class entity_meta_player
 {
 public:
-    AFEntityMetaPlayer() = default;
+    entity_meta_player() = default;
     static const std::string& self_name()
     {
-        static const std::string meta_Player_ = "Player";
-        return meta_Player_;
+        static const std::string meta_player = "Player";
+        return meta_player;
     }
 
     //parent entity class
@@ -209,7 +210,7 @@ public:
     } // int
     static uint32_t map_id_index()
     {
-        static const int map_id_index_ = static_cast<Player_rep_type>(Player::map_id);
+        static const int map_id_index_ = static_cast<player_rep_type>(player::map_id);
         return map_id_index_;
     } // map_id
     static const std::string& map_inst_id()
@@ -219,7 +220,7 @@ public:
     } // int
     static uint32_t map_inst_id_index()
     {
-        static const int map_inst_id_index_ = static_cast<Player_rep_type>(Player::map_inst_id);
+        static const int map_inst_id_index_ = static_cast<player_rep_type>(player::map_inst_id);
         return map_inst_id_index_;
     } // map_inst_id
     static const std::string& class_name()
@@ -229,7 +230,7 @@ public:
     } // string
     static uint32_t class_name_index()
     {
-        static const int class_name_index_ = static_cast<Player_rep_type>(Player::class_name);
+        static const int class_name_index_ = static_cast<player_rep_type>(player::class_name);
         return class_name_index_;
     } // class_name
     static const std::string& config_id()
@@ -239,7 +240,7 @@ public:
     } // uint32
     static uint32_t config_id_index()
     {
-        static const int config_id_index_ = static_cast<Player_rep_type>(Player::config_id);
+        static const int config_id_index_ = static_cast<player_rep_type>(player::config_id);
         return config_id_index_;
     } // config_id
     static const std::string& hp()
@@ -249,7 +250,7 @@ public:
     } // uint64
     static uint32_t hp_index()
     {
-        static const int hp_index_ = static_cast<Player_rep_type>(Player::hp);
+        static const int hp_index_ = static_cast<player_rep_type>(player::hp);
         return hp_index_;
     } // hp
     static const std::string& mp()
@@ -259,7 +260,7 @@ public:
     } // uint64
     static uint32_t mp_index()
     {
-        static const int mp_index_ = static_cast<Player_rep_type>(Player::mp);
+        static const int mp_index_ = static_cast<player_rep_type>(player::mp);
         return mp_index_;
     } // mp
     static const std::string& hp_max()
@@ -269,7 +270,7 @@ public:
     } // uint64
     static uint32_t hp_max_index()
     {
-        static const int hp_max_index_ = static_cast<Player_rep_type>(Player::hp_max);
+        static const int hp_max_index_ = static_cast<player_rep_type>(player::hp_max);
         return hp_max_index_;
     } // hp_max
     static const std::string& mp_max()
@@ -279,7 +280,7 @@ public:
     } // uint64
     static uint32_t mp_max_index()
     {
-        static const int mp_max_index_ = static_cast<Player_rep_type>(Player::mp_max);
+        static const int mp_max_index_ = static_cast<player_rep_type>(player::mp_max);
         return mp_max_index_;
     } // mp_max
 
@@ -291,7 +292,7 @@ public:
     } // string
     static uint32_t openid_index()
     {
-        static const int openid_index_ = static_cast<Player_rep_type>(Player::openid);
+        static const int openid_index_ = static_cast<player_rep_type>(player::openid);
         return openid_index_;
     } // openid
     static const std::string& id()
@@ -301,7 +302,7 @@ public:
     } // uint64
     static uint32_t id_index()
     {
-        static const int id_index_ = static_cast<Player_rep_type>(Player::id);
+        static const int id_index_ = static_cast<player_rep_type>(player::id);
         return id_index_;
     } // id
     static const std::string& name()
@@ -311,7 +312,7 @@ public:
     } // string
     static uint32_t name_index()
     {
-        static const int name_index_ = static_cast<Player_rep_type>(Player::name);
+        static const int name_index_ = static_cast<player_rep_type>(player::name);
         return name_index_;
     } // name
     static const std::string& gender()
@@ -321,7 +322,7 @@ public:
     } // int
     static uint32_t gender_index()
     {
-        static const int gender_index_ = static_cast<Player_rep_type>(Player::gender);
+        static const int gender_index_ = static_cast<player_rep_type>(player::gender);
         return gender_index_;
     } // gender
     static const std::string& career()
@@ -331,7 +332,7 @@ public:
     } // int
     static uint32_t career_index()
     {
-        static const int career_index_ = static_cast<Player_rep_type>(Player::career);
+        static const int career_index_ = static_cast<player_rep_type>(player::career);
         return career_index_;
     } // career
     static const std::string& camp()
@@ -341,7 +342,7 @@ public:
     } // int
     static uint32_t camp_index()
     {
-        static const int camp_index_ = static_cast<Player_rep_type>(Player::camp);
+        static const int camp_index_ = static_cast<player_rep_type>(player::camp);
         return camp_index_;
     } // camp
     static const std::string& last_map_id()
@@ -351,7 +352,7 @@ public:
     } // int
     static uint32_t last_map_id_index()
     {
-        static const int last_map_id_index_ = static_cast<Player_rep_type>(Player::last_map_id);
+        static const int last_map_id_index_ = static_cast<player_rep_type>(player::last_map_id);
         return last_map_id_index_;
     } // last_map_id
     static const std::string& level()
@@ -361,7 +362,7 @@ public:
     } // int
     static uint32_t level_index()
     {
-        static const int level_index_ = static_cast<Player_rep_type>(Player::level);
+        static const int level_index_ = static_cast<player_rep_type>(player::level);
         return level_index_;
     } // level
     static const std::string& exp()
@@ -371,7 +372,7 @@ public:
     } // int64
     static uint32_t exp_index()
     {
-        static const int exp_index_ = static_cast<Player_rep_type>(Player::exp);
+        static const int exp_index_ = static_cast<player_rep_type>(player::exp);
         return exp_index_;
     } // exp
     static const std::string& gold()
@@ -381,7 +382,7 @@ public:
     } // int64
     static uint32_t gold_index()
     {
-        static const int gold_index_ = static_cast<Player_rep_type>(Player::gold);
+        static const int gold_index_ = static_cast<player_rep_type>(player::gold);
         return gold_index_;
     } // gold
     static const std::string& money()
@@ -391,7 +392,7 @@ public:
     } // int64
     static uint32_t money_index()
     {
-        static const int money_index_ = static_cast<Player_rep_type>(Player::money);
+        static const int money_index_ = static_cast<player_rep_type>(player::money);
         return money_index_;
     } // money
     static const std::string& connect_key()
@@ -401,7 +402,7 @@ public:
     } // string
     static uint32_t connect_key_index()
     {
-        static const int connect_key_index_ = static_cast<Player_rep_type>(Player::connect_key);
+        static const int connect_key_index_ = static_cast<player_rep_type>(player::connect_key);
         return connect_key_index_;
     } // connect_key
     static const std::string& online_count()
@@ -411,7 +412,7 @@ public:
     } // int
     static uint32_t online_count_index()
     {
-        static const int online_count_index_ = static_cast<Player_rep_type>(Player::online_count);
+        static const int online_count_index_ = static_cast<player_rep_type>(player::online_count);
         return online_count_index_;
     } // online_count
     static const std::string& total_online_time()
@@ -421,7 +422,7 @@ public:
     } // int
     static uint32_t total_online_time_index()
     {
-        static const int total_online_time_index_ = static_cast<Player_rep_type>(Player::total_online_time);
+        static const int total_online_time_index_ = static_cast<player_rep_type>(player::total_online_time);
         return total_online_time_index_;
     } // total_online_time
     static const std::string& online_time()
@@ -431,7 +432,7 @@ public:
     } // int
     static uint32_t online_time_index()
     {
-        static const int online_time_index_ = static_cast<Player_rep_type>(Player::online_time);
+        static const int online_time_index_ = static_cast<player_rep_type>(player::online_time);
         return online_time_index_;
     } // online_time
     static const std::string& last_offline_time()
@@ -441,7 +442,7 @@ public:
     } // int
     static uint32_t last_offline_time_index()
     {
-        static const int last_offline_time_index_ = static_cast<Player_rep_type>(Player::last_offline_time);
+        static const int last_offline_time_index_ = static_cast<player_rep_type>(player::last_offline_time);
         return last_offline_time_index_;
     } // last_offline_time
     static const std::string& load_data_finished()
@@ -451,7 +452,7 @@ public:
     } // int
     static uint32_t load_data_finished_index()
     {
-        static const int load_data_finished_index_ = static_cast<Player_rep_type>(Player::load_data_finished);
+        static const int load_data_finished_index_ = static_cast<player_rep_type>(player::load_data_finished);
         return load_data_finished_index_;
     } // load_data_finished
     static const std::string& game_id()
@@ -461,7 +462,7 @@ public:
     } // int
     static uint32_t game_id_index()
     {
-        static const int game_id_index_ = static_cast<Player_rep_type>(Player::game_id);
+        static const int game_id_index_ = static_cast<player_rep_type>(player::game_id);
         return game_id_index_;
     } // game_id
     static const std::string& gate_id()
@@ -471,7 +472,7 @@ public:
     } // int
     static uint32_t gate_id_index()
     {
-        static const int gate_id_index_ = static_cast<Player_rep_type>(Player::gate_id);
+        static const int gate_id_index_ = static_cast<player_rep_type>(player::gate_id);
         return gate_id_index_;
     } // gate_id
     static const std::string& items()
@@ -481,7 +482,7 @@ public:
     } // table
     static uint32_t items_index()
     {
-        static const int items_index_ = static_cast<Player_rep_type>(Player::items);
+        static const int items_index_ = static_cast<player_rep_type>(player::items);
         return items_index_;
     } // items
     static const std::string& bag()
@@ -491,12 +492,12 @@ public:
     } // container
     static uint32_t bag_index()
     {
-        static const int bag_index_ = static_cast<Player_rep_type>(Player::bag);
+        static const int bag_index_ = static_cast<player_rep_type>(player::bag);
         return bag_index_;
     } // bag
 };
 
-enum class ItemBag : std::uint32_t
+enum class item_bag : std::uint32_t
 {
     enum_empty,
 
@@ -509,16 +510,16 @@ enum class ItemBag : std::uint32_t
     expired_time,
 };
 
-using ItemBag_rep_type = std::underlying_type<ItemBag>::type;
+using item_bag_rep_type = std::underlying_type<item_bag>::type;
 
-class AFEntityMetaItemBag
+class entity_meta_item_bag
 {
 public:
-    AFEntityMetaItemBag() = default;
+    entity_meta_item_bag() = default;
     static const std::string& self_name()
     {
-        static const std::string meta_ItemBag_ = "ItemBag";
-        return meta_ItemBag_;
+        static const std::string meta_item_bag = "ItemBag";
+        return meta_item_bag;
     }
 
     //self entity class
@@ -529,7 +530,7 @@ public:
     } // int64
     static uint32_t guid_index()
     {
-        static const int guid_index_ = static_cast<ItemBag_rep_type>(ItemBag::guid);
+        static const int guid_index_ = static_cast<item_bag_rep_type>(item_bag::guid);
         return guid_index_;
     } // guid
     static const std::string& config_id()
@@ -539,7 +540,7 @@ public:
     } // uint32
     static uint32_t config_id_index()
     {
-        static const int config_id_index_ = static_cast<ItemBag_rep_type>(ItemBag::config_id);
+        static const int config_id_index_ = static_cast<item_bag_rep_type>(item_bag::config_id);
         return config_id_index_;
     } // config_id
     static const std::string& count()
@@ -549,7 +550,7 @@ public:
     } // int
     static uint32_t count_index()
     {
-        static const int count_index_ = static_cast<ItemBag_rep_type>(ItemBag::count);
+        static const int count_index_ = static_cast<item_bag_rep_type>(item_bag::count);
         return count_index_;
     } // count
     static const std::string& bound()
@@ -559,7 +560,7 @@ public:
     } // bool
     static uint32_t bound_index()
     {
-        static const int bound_index_ = static_cast<ItemBag_rep_type>(ItemBag::bound);
+        static const int bound_index_ = static_cast<item_bag_rep_type>(item_bag::bound);
         return bound_index_;
     } // bound
     static const std::string& expired_type()
@@ -569,7 +570,7 @@ public:
     } // int
     static uint32_t expired_type_index()
     {
-        static const int expired_type_index_ = static_cast<ItemBag_rep_type>(ItemBag::expired_type);
+        static const int expired_type_index_ = static_cast<item_bag_rep_type>(item_bag::expired_type);
         return expired_type_index_;
     } // expired_type
     static const std::string& expired_time()
@@ -579,12 +580,12 @@ public:
     } // int
     static uint32_t expired_time_index()
     {
-        static const int expired_time_index_ = static_cast<ItemBag_rep_type>(ItemBag::expired_time);
+        static const int expired_time_index_ = static_cast<item_bag_rep_type>(item_bag::expired_time);
         return expired_time_index_;
     } // expired_time
 };
 
-enum class EquipBag : std::uint32_t
+enum class equip_bag : std::uint32_t
 {
     enum_empty,
 
@@ -593,16 +594,16 @@ enum class EquipBag : std::uint32_t
     config_id,
 };
 
-using EquipBag_rep_type = std::underlying_type<EquipBag>::type;
+using equip_bag_rep_type = std::underlying_type<equip_bag>::type;
 
-class AFEntityMetaEquipBag
+class entity_meta_equip_bag
 {
 public:
-    AFEntityMetaEquipBag() = default;
+    entity_meta_equip_bag() = default;
     static const std::string& self_name()
     {
-        static const std::string meta_EquipBag_ = "EquipBag";
-        return meta_EquipBag_;
+        static const std::string meta_equip_bag = "EquipBag";
+        return meta_equip_bag;
     }
 
     //self entity class
@@ -613,7 +614,7 @@ public:
     } // int64
     static uint32_t guid_index()
     {
-        static const int guid_index_ = static_cast<EquipBag_rep_type>(EquipBag::guid);
+        static const int guid_index_ = static_cast<equip_bag_rep_type>(equip_bag::guid);
         return guid_index_;
     } // guid
     static const std::string& config_id()
@@ -623,7 +624,7 @@ public:
     } // uint32
     static uint32_t config_id_index()
     {
-        static const int config_id_index_ = static_cast<EquipBag_rep_type>(EquipBag::config_id);
+        static const int config_id_index_ = static_cast<equip_bag_rep_type>(equip_bag::config_id);
         return config_id_index_;
     } // config_id
 };
@@ -642,7 +643,7 @@ enum class attribute : std::uint32_t
 
 using attribute_rep_type = std::underlying_type<attribute>::type;
 
-class AFConfigMetaAttribute
+class config_meta_attribute
 {
 public:
     static const std::string& self_name()
@@ -725,7 +726,7 @@ enum class item : std::uint32_t
 
 using item_rep_type = std::underlying_type<item>::type;
 
-class AFConfigMetaItem
+class config_meta_item
 {
 public:
     static const std::string& self_name()
@@ -896,7 +897,7 @@ enum class language : std::uint32_t
 
 using language_rep_type = std::underlying_type<language>::type;
 
-class AFConfigMetaLanguage
+class config_meta_language
 {
 public:
     static const std::string& self_name()
@@ -948,7 +949,7 @@ enum class map : std::uint32_t
     instance_type,
     max_player,
     map_info,
-    RelivePos,
+    relive_pos,
     length,
     width,
     sound,
@@ -956,7 +957,7 @@ enum class map : std::uint32_t
 
 using map_rep_type = std::underlying_type<map>::type;
 
-class AFConfigMetaMap
+class config_meta_map
 {
 public:
     static const std::string& self_name()
@@ -1045,15 +1046,15 @@ public:
         static const int map_info_index_ = static_cast<map_rep_type>(map::map_info);
         return map_info_index_;
     } // map_info
-    static const std::string& RelivePos()
+    static const std::string& relive_pos()
     {
-        static const std::string RelivePos_ = "RelivePos";
-        return RelivePos_;
+        static const std::string relive_pos = "RelivePos";
+        return relive_pos;
     } // string
-    static uint32_t RelivePos_index()
+    static uint32_t relive_pos_index()
     {
-        static const int RelivePos_index_ = static_cast<map_rep_type>(map::RelivePos);
-        return RelivePos_index_;
+        static const int relive_pos_index = static_cast<map_rep_type>(map::relive_pos);
+        return relive_pos_index;
     } // RelivePos
     static const std::string& length()
     {
@@ -1087,72 +1088,72 @@ public:
     } // sound
 };
 
-class AFMetaNameIndex
+class meta_name_index
 {
 public:
-    static uint32_t GetIndex(const std::string& class_name, const std::string& field_name)
+    static uint32_t get_index(const std::string& class_name, const std::string& field_name)
     {
         static const std::unordered_map<std::string, std::unordered_map<std::string, std::uint32_t>> class_name_index =
             {
                 {"BaseEntity",
                     {
-                        {"map_id", static_cast<BaseEntity_rep_type>(BaseEntity::map_id)},
-                        {"map_inst_id", static_cast<BaseEntity_rep_type>(BaseEntity::map_inst_id)},
-                        {"class_name", static_cast<BaseEntity_rep_type>(BaseEntity::class_name)},
-                        {"config_id", static_cast<BaseEntity_rep_type>(BaseEntity::config_id)},
+                        {"map_id", static_cast<base_entity_rep_type>(base_entity::map_id)},
+                        {"map_inst_id", static_cast<base_entity_rep_type>(base_entity::map_inst_id)},
+                        {"class_name", static_cast<base_entity_rep_type>(base_entity::class_name)},
+                        {"config_id", static_cast<base_entity_rep_type>(base_entity::config_id)},
                     }},
                 {"CurrentAttr",
                     {
-                        {"hp", static_cast<CurrentAttr_rep_type>(CurrentAttr::hp)},
-                        {"mp", static_cast<CurrentAttr_rep_type>(CurrentAttr::mp)},
-                        {"hp_max", static_cast<CurrentAttr_rep_type>(CurrentAttr::hp_max)},
-                        {"mp_max", static_cast<CurrentAttr_rep_type>(CurrentAttr::mp_max)},
+                        {"hp", static_cast<current_attr_rep_type>(current_attr::hp)},
+                        {"mp", static_cast<current_attr_rep_type>(current_attr::mp)},
+                        {"hp_max", static_cast<current_attr_rep_type>(current_attr::hp_max)},
+                        {"mp_max", static_cast<current_attr_rep_type>(current_attr::mp_max)},
                     }},
                 {"Player",
                     {
-                        {"map_id", static_cast<Player_rep_type>(Player::map_id)},
-                        {"map_inst_id", static_cast<Player_rep_type>(Player::map_inst_id)},
-                        {"class_name", static_cast<Player_rep_type>(Player::class_name)},
-                        {"config_id", static_cast<Player_rep_type>(Player::config_id)},
-                        {"openid", static_cast<Player_rep_type>(Player::openid)},
-                        {"id", static_cast<Player_rep_type>(Player::id)},
-                        {"name", static_cast<Player_rep_type>(Player::name)},
-                        {"gender", static_cast<Player_rep_type>(Player::gender)},
-                        {"career", static_cast<Player_rep_type>(Player::career)},
-                        {"camp", static_cast<Player_rep_type>(Player::camp)},
-                        {"last_map_id", static_cast<Player_rep_type>(Player::last_map_id)},
-                        {"level", static_cast<Player_rep_type>(Player::level)},
-                        {"exp", static_cast<Player_rep_type>(Player::exp)},
-                        {"gold", static_cast<Player_rep_type>(Player::gold)},
-                        {"money", static_cast<Player_rep_type>(Player::money)},
-                        {"connect_key", static_cast<Player_rep_type>(Player::connect_key)},
-                        {"online_count", static_cast<Player_rep_type>(Player::online_count)},
-                        {"total_online_time", static_cast<Player_rep_type>(Player::total_online_time)},
-                        {"online_time", static_cast<Player_rep_type>(Player::online_time)},
-                        {"last_offline_time", static_cast<Player_rep_type>(Player::last_offline_time)},
-                        {"load_data_finished", static_cast<Player_rep_type>(Player::load_data_finished)},
-                        {"game_id", static_cast<Player_rep_type>(Player::game_id)},
-                        {"gate_id", static_cast<Player_rep_type>(Player::gate_id)},
-                        {"hp", static_cast<Player_rep_type>(Player::hp)},
-                        {"mp", static_cast<Player_rep_type>(Player::mp)},
-                        {"hp_max", static_cast<Player_rep_type>(Player::hp_max)},
-                        {"mp_max", static_cast<Player_rep_type>(Player::mp_max)},
-                        {"items", static_cast<Player_rep_type>(Player::items)},
-                        {"bag", static_cast<Player_rep_type>(Player::bag)},
+                        {"map_id", static_cast<player_rep_type>(player::map_id)},
+                        {"map_inst_id", static_cast<player_rep_type>(player::map_inst_id)},
+                        {"class_name", static_cast<player_rep_type>(player::class_name)},
+                        {"config_id", static_cast<player_rep_type>(player::config_id)},
+                        {"openid", static_cast<player_rep_type>(player::openid)},
+                        {"id", static_cast<player_rep_type>(player::id)},
+                        {"name", static_cast<player_rep_type>(player::name)},
+                        {"gender", static_cast<player_rep_type>(player::gender)},
+                        {"career", static_cast<player_rep_type>(player::career)},
+                        {"camp", static_cast<player_rep_type>(player::camp)},
+                        {"last_map_id", static_cast<player_rep_type>(player::last_map_id)},
+                        {"level", static_cast<player_rep_type>(player::level)},
+                        {"exp", static_cast<player_rep_type>(player::exp)},
+                        {"gold", static_cast<player_rep_type>(player::gold)},
+                        {"money", static_cast<player_rep_type>(player::money)},
+                        {"connect_key", static_cast<player_rep_type>(player::connect_key)},
+                        {"online_count", static_cast<player_rep_type>(player::online_count)},
+                        {"total_online_time", static_cast<player_rep_type>(player::total_online_time)},
+                        {"online_time", static_cast<player_rep_type>(player::online_time)},
+                        {"last_offline_time", static_cast<player_rep_type>(player::last_offline_time)},
+                        {"load_data_finished", static_cast<player_rep_type>(player::load_data_finished)},
+                        {"game_id", static_cast<player_rep_type>(player::game_id)},
+                        {"gate_id", static_cast<player_rep_type>(player::gate_id)},
+                        {"hp", static_cast<player_rep_type>(player::hp)},
+                        {"mp", static_cast<player_rep_type>(player::mp)},
+                        {"hp_max", static_cast<player_rep_type>(player::hp_max)},
+                        {"mp_max", static_cast<player_rep_type>(player::mp_max)},
+                        {"items", static_cast<player_rep_type>(player::items)},
+                        {"bag", static_cast<player_rep_type>(player::bag)},
                     }},
                 {"ItemBag",
                     {
-                        {"guid", static_cast<ItemBag_rep_type>(ItemBag::guid)},
-                        {"config_id", static_cast<ItemBag_rep_type>(ItemBag::config_id)},
-                        {"count", static_cast<ItemBag_rep_type>(ItemBag::count)},
-                        {"bound", static_cast<ItemBag_rep_type>(ItemBag::bound)},
-                        {"expired_type", static_cast<ItemBag_rep_type>(ItemBag::expired_type)},
-                        {"expired_time", static_cast<ItemBag_rep_type>(ItemBag::expired_time)},
+                        {"guid", static_cast<item_bag_rep_type>(item_bag::guid)},
+                        {"config_id", static_cast<item_bag_rep_type>(item_bag::config_id)},
+                        {"count", static_cast<item_bag_rep_type>(item_bag::count)},
+                        {"bound", static_cast<item_bag_rep_type>(item_bag::bound)},
+                        {"expired_type", static_cast<item_bag_rep_type>(item_bag::expired_type)},
+                        {"expired_time", static_cast<item_bag_rep_type>(item_bag::expired_time)},
                     }},
                 {"EquipBag",
                     {
-                        {"guid", static_cast<EquipBag_rep_type>(EquipBag::guid)},
-                        {"config_id", static_cast<EquipBag_rep_type>(EquipBag::config_id)},
+                        {"guid", static_cast<equip_bag_rep_type>(equip_bag::guid)},
+                        {"config_id", static_cast<equip_bag_rep_type>(equip_bag::config_id)},
                     }},
                 {"attribute",
                     {
@@ -1196,7 +1197,7 @@ public:
                         {"instance_type", static_cast<map_rep_type>(map::instance_type)},
                         {"max_player", static_cast<map_rep_type>(map::max_player)},
                         {"map_info", static_cast<map_rep_type>(map::map_info)},
-                        {"RelivePos", static_cast<map_rep_type>(map::RelivePos)},
+                        {"RelivePos", static_cast<map_rep_type>(map::relive_pos)},
                         {"length", static_cast<map_rep_type>(map::length)},
                         {"width", static_cast<map_rep_type>(map::width)},
                         {"sound", static_cast<map_rep_type>(map::sound)},

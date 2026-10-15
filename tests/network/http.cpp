@@ -12,21 +12,22 @@
 #include <utility>
 #include <vector>
 
+#include "doctest.h"
 #include <arknet/http/http_server.hpp>
 #include <arknet/http/request.hpp>
 
 #include "ark/http/http_server_module_impl.hpp"
 #include "ark/net/http_client_module_impl.hpp"
-#include "doctest.h"
 
 namespace {
+
 using namespace std::chrono_literals;
 using http_request = arknet::http_request::request_type;
 using http_response = arknet::http_request::response_type;
 using http_result = std::pair<bool, std::string>;
 
-template<class Predicate, class Pump>
-bool WaitHttp(Predicate predicate, Pump pump, std::chrono::milliseconds timeout = 5s) {
+template<class predicate_type, class pump_type>
+bool wait_http(predicate_type predicate, pump_type pump, std::chrono::milliseconds timeout = 5s) {
     const auto deadline = std::chrono::steady_clock::now() + timeout;
     do
     {
@@ -40,12 +41,12 @@ bool WaitHttp(Predicate predicate, Pump pump, std::chrono::milliseconds timeout 
     return false;
 }
 
-template<class Predicate>
-bool WaitHttp(Predicate predicate, std::chrono::milliseconds timeout = 5s) {
-    return WaitHttp(std::move(predicate), [] {}, timeout);
+template<class predicate_type>
+bool wait_http(predicate_type predicate, std::chrono::milliseconds timeout = 5s) {
+    return wait_http(std::move(predicate), [] {}, timeout);
 }
 
-http_result AwaitHttp(std::future<http_result>& future) {
+http_result await_http(std::future<http_result>& future) {
     REQUIRE(future.wait_for(5s) == std::future_status::ready);
     return future.get();
 }
@@ -86,11 +87,11 @@ public:
         return server_.start("127.0.0.1", 0);
     }
 
-    std::uint16_t Port() const {
+    std::uint16_t port() const {
         return server_.get_listen_port();
     }
 
-    std::vector<http_request> Requests() {
+    std::vector<http_request> requests() {
         std::lock_guard lock(mutex_);
         return requests_;
     }
@@ -111,7 +112,7 @@ private:
 
 struct http_callbacks
 {
-    void Receive(http_result result) {
+    void receive(http_result result) {
         if (std::this_thread::get_id() != update_thread)
         {
             wrong_thread.store(true);
@@ -120,7 +121,7 @@ struct http_callbacks
         results.push_back(std::move(result));
     }
 
-    std::vector<http_result> Results() {
+    std::vector<http_result> result_snapshot() {
         std::lock_guard lock(mutex);
         return results;
     }
@@ -131,7 +132,7 @@ struct http_callbacks
     std::vector<http_result> results;
 };
 
-std::uint16_t HttpPort() {
+std::uint16_t http_port() {
     asio::io_context context;
     asio::ip::tcp::acceptor acceptor(context, {asio::ip::make_address("127.0.0.1"), 0});
     return acceptor.local_endpoint().port();
@@ -154,18 +155,18 @@ TEST_CASE("HTTP concurrent futures keep each request and response independent") 
         if (index % 2 == 0)
         {
             const auto body = "body-" + std::to_string(index);
-            futures.push_back(client.post("localhost", peer.Port(), target, nullptr, &body));
+            futures.push_back(client.post("localhost", peer.port(), target, nullptr, &body));
             expected.push_back("POST:" + target + ":" + body);
         }
         else
         {
-            futures.push_back(client.get("localhost", peer.Port(), target));
+            futures.push_back(client.get("localhost", peer.port(), target));
             expected.push_back("GET:" + target + ":");
         }
     }
     for (std::size_t index = 0; index < futures.size(); ++index)
     {
-        const auto result = AwaitHttp(futures[index]);
+        const auto result = await_http(futures[index]);
         CHECK(result.first);
         CHECK(result.second == expected[index]);
     }
@@ -182,31 +183,31 @@ TEST_CASE("HTTP requests own binary bodies query parameters and headers") {
     std::vector<std::string> cookies{"session=original", "locale=en"};
     std::string content_type = "application/octet-stream";
     auto future =
-        client.post("localhost", peer.Port(), "/echo?existing=yes", &parameters, &body, &content_type, &cookies);
+        client.post("localhost", peer.port(), "/echo?existing=yes", &parameters, &body, &content_type, &cookies);
     body = "changed";
     parameters.clear();
     cookies.clear();
     content_type.clear();
-    const auto result = AwaitHttp(future);
+    const auto result = await_http(future);
     CHECK(result.first);
     CHECK(result.second == original_body);
-    const auto requests = peer.Requests();
+    const auto requests = peer.requests();
     REQUIRE(requests.size() == 1);
     CHECK(requests.front().target() == "/echo?existing=yes&reserved=a%26%3D%20b&utf8=%E4%B8%AD");
     CHECK(requests.front().body() == original_body);
     CHECK(requests.front()[arknet::http::field::content_type] == "application/octet-stream");
     CHECK(requests.front()[arknet::http::field::cookie] == "session=original; locale=en");
-    CHECK(requests.front()[arknet::http::field::host] == "localhost:" + std::to_string(peer.Port()));
+    CHECK(requests.front()[arknet::http::field::host] == "localhost:" + std::to_string(peer.port()));
     CHECK(requests.front()[arknet::http::field::content_length] == "12");
     CHECK_FALSE(requests.front().keep_alive());
 
     const std::map<std::string, std::string> empty_parameters;
-    auto empty_query = client.get("127.0.0.1", peer.Port(), "/unchanged", &empty_parameters);
-    CHECK(AwaitHttp(empty_query).first);
-    CHECK(peer.Requests().back().target() == "/unchanged");
-    auto empty_target = client.get("127.0.0.1", peer.Port(), "");
-    CHECK(AwaitHttp(empty_target).first);
-    CHECK(peer.Requests().back().target() == "/");
+    auto empty_query = client.get("127.0.0.1", peer.port(), "/unchanged", &empty_parameters);
+    CHECK(await_http(empty_query).first);
+    CHECK(peer.requests().back().target() == "/unchanged");
+    auto empty_target = client.get("127.0.0.1", peer.port(), "");
+    CHECK(await_http(empty_target).first);
+    CHECK(peer.requests().back().target() == "/");
 }
 
 TEST_CASE("HTTP callbacks run once on the Update thread for both service overloads") {
@@ -217,21 +218,21 @@ TEST_CASE("HTTP callbacks run once on the Update thread for both service overloa
     const std::string body = "callback-body";
     for (int index = 0; index < 12; ++index)
     {
-        auto callback = [&](http_result result) { callbacks.Receive(std::move(result)); };
+        auto callback = [&](http_result result) { callbacks.receive(std::move(result)); };
         if (index % 2 == 0)
         {
-            client.post(callback, "localhost", peer.Port(), "/callback", nullptr, &body);
+            client.post(callback, "localhost", peer.port(), "/callback", nullptr, &body);
         }
         else
         {
-            client.post(callback, "localhost", std::to_string(peer.Port()), "/callback", nullptr, &body);
+            client.post(callback, "localhost", std::to_string(peer.port()), "/callback", nullptr, &body);
         }
     }
-    REQUIRE(WaitHttp([&] { return peer.count() == 12; }));
+    REQUIRE(wait_http([&] { return peer.count() == 12; }));
     std::this_thread::sleep_for(100ms);
-    CHECK(callbacks.Results().empty());
-    REQUIRE(WaitHttp([&] { return callbacks.Results().size() == 12; }, [&] { client.update(); }));
-    for (const auto& result : callbacks.Results())
+    CHECK(callbacks.result_snapshot().empty());
+    REQUIRE(wait_http([&] { return callbacks.result_snapshot().size() == 12; }, [&] { client.update(); }));
+    for (const auto& result : callbacks.result_snapshot())
     {
         CHECK(result.first);
         CHECK(result.second == body);
@@ -241,7 +242,7 @@ TEST_CASE("HTTP callbacks run once on the Update thread for both service overloa
     {
         client.update();
     }
-    CHECK(callbacks.Results().size() == 12);
+    CHECK(callbacks.result_snapshot().size() == 12);
 }
 
 TEST_CASE("HTTP preserves non-200 failure reasons and arbitrary request verbs") {
@@ -253,12 +254,12 @@ TEST_CASE("HTTP preserves non-200 failure reasons and arbitrary request verbs") 
     };
     REQUIRE(peer.start());
     ark::http_client_module_impl client;
-    auto missing = client.get("127.0.0.1", peer.Port(), "/missing");
-    auto put = client.async_request(arknet::http::verb::put, "127.0.0.1", peer.Port(), "/put");
-    auto remove = client.async_request(arknet::http::verb::delete_, "127.0.0.1", peer.Port(), "/delete");
+    auto missing = client.get("127.0.0.1", peer.port(), "/missing");
+    auto put = client.async_request(arknet::http::verb::put, "127.0.0.1", peer.port(), "/put");
+    auto remove = client.async_request(arknet::http::verb::delete_, "127.0.0.1", peer.port(), "/delete");
     for (auto* future : {&missing, &put, &remove})
     {
-        const auto result = AwaitHttp(*future);
+        const auto result = await_http(*future);
         CHECK_FALSE(result.first);
         CHECK(result.second == "Missing business route");
     }
@@ -271,22 +272,22 @@ TEST_CASE("HTTP IO timeout completes futures and queues callback failure exactly
     http_callbacks callbacks;
     ark::http_client_module_impl client;
     const auto start = std::chrono::steady_clock::now();
-    auto future = client.get("127.0.0.1", peer.Port(), "/stall", nullptr, nullptr, 1, 1);
-    client.post([&](http_result result) { callbacks.Receive(std::move(result)); }, "127.0.0.1", peer.Port(), "/stall",
+    auto future = client.get("127.0.0.1", peer.port(), "/stall", nullptr, nullptr, 1, 1);
+    client.post([&](http_result result) { callbacks.receive(std::move(result)); }, "127.0.0.1", peer.port(), "/stall",
         nullptr, nullptr, nullptr, nullptr, 1, 1);
-    REQUIRE(WaitHttp([&] { return peer.count() == 2; }));
-    const auto result = AwaitHttp(future);
+    REQUIRE(wait_http([&] { return peer.count() == 2; }));
+    const auto result = await_http(future);
     CHECK_FALSE(result.first);
     CHECK(result.second == arknet::error_code(asio::error::timed_out).message());
     CHECK(std::chrono::steady_clock::now() - start >= 900ms);
-    CHECK(callbacks.Results().empty());
-    REQUIRE(WaitHttp([&] { return callbacks.Results().size() == 1; }, [&] { client.update(); }));
-    CHECK_FALSE(callbacks.Results().front().first);
-    CHECK(callbacks.Results().front().second == result.second);
+    CHECK(callbacks.result_snapshot().empty());
+    REQUIRE(wait_http([&] { return callbacks.result_snapshot().size() == 1; }, [&] { client.update(); }));
+    CHECK_FALSE(callbacks.result_snapshot().front().first);
+    CHECK(callbacks.result_snapshot().front().second == result.second);
     CHECK_FALSE(callbacks.wrong_thread.load());
     client.pre_shut();
     client.update();
-    CHECK(callbacks.Results().size() == 1);
+    CHECK(callbacks.result_snapshot().size() == 1);
 }
 
 TEST_CASE("HTTP shutdown cancels all pending requests and settles futures without Update") {
@@ -297,54 +298,54 @@ TEST_CASE("HTTP shutdown cancels all pending requests and settles futures withou
     std::vector<std::future<http_result>> futures;
     for (int index = 0; index < 24; ++index)
     {
-        futures.push_back(client.get("127.0.0.1", peer.Port(), "/pending"));
+        futures.push_back(client.get("127.0.0.1", peer.port(), "/pending"));
     }
     for (int index = 0; index < 8; ++index)
     {
         client.post(
-            [&](http_result result) { callbacks.Receive(std::move(result)); }, "127.0.0.1", peer.Port(), "/pending");
+            [&](http_result result) { callbacks.receive(std::move(result)); }, "127.0.0.1", peer.port(), "/pending");
     }
-    REQUIRE(WaitHttp([&] { return peer.count() == 32; }));
+    REQUIRE(wait_http([&] { return peer.count() == 32; }));
     const auto start = std::chrono::steady_clock::now();
     REQUIRE(client.pre_shut());
     CHECK(std::chrono::steady_clock::now() - start < 2s);
-    CHECK(callbacks.Results().empty());
+    CHECK(callbacks.result_snapshot().empty());
     const auto aborted = arknet::error_code(asio::error::operation_aborted).message();
     for (auto& future : futures)
     {
         CHECK(future.wait_for(0ms) == std::future_status::ready);
-        const auto result = AwaitHttp(future);
+        const auto result = await_http(future);
         CHECK_FALSE(result.first);
         CHECK(result.second == aborted);
     }
     client.update();
-    REQUIRE(callbacks.Results().size() == 8);
-    for (const auto& result : callbacks.Results())
+    REQUIRE(callbacks.result_snapshot().size() == 8);
+    for (const auto& result : callbacks.result_snapshot())
     {
         CHECK_FALSE(result.first);
         CHECK(result.second == aborted);
     }
     CHECK_FALSE(callbacks.wrong_thread.load());
     CHECK(client.pre_shut());
-    auto rejected = client.get("127.0.0.1", peer.Port(), "/after-shutdown");
+    auto rejected = client.get("127.0.0.1", peer.port(), "/after-shutdown");
     CHECK(rejected.wait_for(0ms) == std::future_status::ready);
-    CHECK(AwaitHttp(rejected).second == aborted);
+    CHECK(await_http(rejected).second == aborted);
     client.post(
-        [&](http_result result) { callbacks.Receive(std::move(result)); }, "127.0.0.1", peer.Port(), "/after-shutdown");
-    CHECK(callbacks.Results().size() == 8);
+        [&](http_result result) { callbacks.receive(std::move(result)); }, "127.0.0.1", peer.port(), "/after-shutdown");
+    CHECK(callbacks.result_snapshot().size() == 8);
     client.update();
-    REQUIRE(callbacks.Results().size() == 9);
-    CHECK(callbacks.Results().back().second == aborted);
+    REQUIRE(callbacks.result_snapshot().size() == 9);
+    CHECK(callbacks.result_snapshot().back().second == aborted);
     CHECK(peer.count() == 32);
 
     std::future<http_result> destroyed;
     {
         auto owned = std::make_unique<ark::http_client_module_impl>();
-        destroyed = owned->get("127.0.0.1", peer.Port(), "/destroyed");
-        REQUIRE(WaitHttp([&] { return peer.count() == 33; }));
+        destroyed = owned->get("127.0.0.1", peer.port(), "/destroyed");
+        REQUIRE(wait_http([&] { return peer.count() == 33; }));
     }
     CHECK(destroyed.wait_for(0ms) == std::future_status::ready);
-    CHECK(AwaitHttp(destroyed).second == aborted);
+    CHECK(await_http(destroyed).second == aborted);
 }
 
 TEST_CASE("HTTP validates host headers target and timeout before network IO") {
@@ -352,16 +353,16 @@ TEST_CASE("HTTP validates host headers target and timeout before network IO") {
     REQUIRE(peer.start());
     ark::http_client_module_impl client;
     const std::string invalid_header = "application/json\r\nInjected: yes";
-    auto host = client.get("invalid/host", peer.Port(), "/");
-    auto header = client.post("127.0.0.1", peer.Port(), "/", nullptr, nullptr, &invalid_header);
-    auto target = client.get("127.0.0.1", peer.Port(), "/invalid path");
-    auto timeout = client.get("127.0.0.1", peer.Port(), "/", nullptr, nullptr, 0, 1);
+    auto host = client.get("invalid/host", peer.port(), "/");
+    auto header = client.post("127.0.0.1", peer.port(), "/", nullptr, nullptr, &invalid_header);
+    auto target = client.get("127.0.0.1", peer.port(), "/invalid path");
+    auto timeout = client.get("127.0.0.1", peer.port(), "/", nullptr, nullptr, 0, 1);
     const std::string trace_body = "trace-body";
     auto trace =
-        client.async_request(arknet::http::verb::trace, "127.0.0.1", peer.Port(), "/", nullptr, nullptr, &trace_body);
+        client.async_request(arknet::http::verb::trace, "127.0.0.1", peer.port(), "/", nullptr, nullptr, &trace_body);
     for (auto* future : {&host, &header, &target, &timeout, &trace})
     {
-        const auto result = AwaitHttp(*future);
+        const auto result = await_http(*future);
         CHECK_FALSE(result.first);
         CHECK(result.second == arknet::error_code(asio::error::invalid_argument).message());
     }
@@ -378,23 +379,23 @@ TEST_CASE("ARK HTTP server uses native routing and stops without signal delivery
             })
         .add(arknet::http::verb::post, "/echo",
             [](const auto& context, auto& response) { response.body() = context.request.body(); });
-    const auto port = HttpPort();
+    const auto port = http_port();
     REQUIRE(server.start_server("127.0.0.1", port, 2));
     CHECK_FALSE(server.start_server("127.0.0.1", port, 2));
     ark::http_client_module_impl client;
     auto get = client.get("127.0.0.1", port, "/users/42?active=1");
-    const auto result = AwaitHttp(get);
+    const auto result = await_http(get);
     CHECK(result.first);
     CHECK(result.second == "user:42:active=1");
     const std::string body("route\0body", 10);
     auto post = client.post("127.0.0.1", port, "/echo", nullptr, &body);
-    CHECK(AwaitHttp(post).second == body);
+    CHECK(await_http(post).second == body);
     auto missing = client.get("127.0.0.1", port, "/missing");
-    const auto missing_result = AwaitHttp(missing);
+    const auto missing_result = await_http(missing);
     CHECK_FALSE(missing_result.first);
     CHECK(missing_result.second == "Not Found");
     auto method = client.async_request(arknet::http::verb::delete_, "127.0.0.1", port, "/users/42");
-    const auto method_result = AwaitHttp(method);
+    const auto method_result = await_http(method);
     CHECK_FALSE(method_result.first);
     CHECK(method_result.second == "Method Not Allowed");
 
@@ -413,6 +414,6 @@ TEST_CASE("ARK HTTP server uses native routing and stops without signal delivery
     CHECK(server.pre_shut());
     REQUIRE(server.start_server("127.0.0.1", port, 1));
     auto restarted = client.get("127.0.0.1", port, "/users/7");
-    CHECK(AwaitHttp(restarted).second == "user:7:");
+    CHECK(await_http(restarted).second == "user:7:");
     CHECK(server.pre_shut());
 }

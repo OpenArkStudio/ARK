@@ -32,20 +32,20 @@ class data;
 class data_list;
 
 // default value of build-in type
-const static bool NULL_BOOLEAN = false;
-const static int NULL_INT = 0U;
-const static int64_t NULL_INT64 = 0L;
-const static float NULL_FLOAT = 0.0F;
-const static double NULL_DOUBLE = 0.0;
-const static std::string NULL_STR = "";
-const static std::wstring NULL_WIDESTR = L"";
-const static guid_t NULL_GUID = 0;
-const static std::nullptr_t NULL_POINT = nullptr;
-const static vector3d NULL_VECTOR3D = vector3d(0.0F, 0.0F, 0.0F);
+const static bool null_boolean = false;
+const static int null_int = 0U;
+const static int64_t null_int64 = 0L;
+const static float null_float = 0.0F;
+const static double null_double = 0.0;
+const static std::string null_str = "";
+const static std::wstring null_widestr = L"";
+const static guid_t null_guid = 0;
+const static std::nullptr_t null_point = nullptr;
+const static vector3d null_vector3d = vector3d(0.0F, 0.0F, 0.0F);
 
 // kernel resource filename
-const static std::string CONFIG_CLASS_FILE_PATH = "meta/config_class.config";
-const static std::string ENTITY_CLASS_FILE_PATH = "meta/entity_class.config";
+const static std::string config_class_file_path = "meta/config_class.config";
+const static std::string entity_class_file_path = "meta/entity_class.config";
 //const static std::string PROC_CONFIG_FILE_PATH = "conf/proc.xml";
 //const static std::string BUS_RELATION_CONFIG_FILE_PATH = "conf/bus_relation.xml";
 //const static std::string REG_CENTER_CONFIG_FILE_PATH = "conf/reg_center.xml";
@@ -61,11 +61,11 @@ class table_event_data
 public:
     table_event_data() = default;
 
-    uint8_t op_type_{0};
-    uint32_t row_{0};
-    uint32_t data_index_{0};
-    uint32_t table_index_{0};
-    std::string table_name_{NULL_STR};
+    uint8_t op_type{0};
+    uint32_t row{0};
+    uint32_t data_index{0};
+    uint32_t table_index{0};
+    std::string table_name{null_str};
 };
 
 using data_table_event_functor = std::function<int(const guid_t&, const table_event_data&, const data&, const data&)>;

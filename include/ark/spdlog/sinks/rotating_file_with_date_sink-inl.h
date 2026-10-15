@@ -22,10 +22,11 @@
 #include <spdlog/fmt/fmt.h>
 
 namespace spdlog {
+
 namespace sinks {
 
-template<typename Mutex>
-SPDLOG_INLINE rotating_file_with_date_sink<Mutex>::rotating_file_with_date_sink(
+template<typename mutex_type>
+SPDLOG_INLINE rotating_file_with_date_sink<mutex_type>::rotating_file_with_date_sink(
     filename_t base_filename, std::size_t max_size, std::size_t max_files)
     : base_filename_(std::move(base_filename))
     , max_size_(max_size)
@@ -47,9 +48,9 @@ SPDLOG_INLINE rotating_file_with_date_sink<Mutex>::rotating_file_with_date_sink(
 // ".mylog" => ("", ".mylog". "")
 // "my_folder/.mylog" => ("my_folder/", ".mylog", "")
 // "my_folder/.mylog.txt" => ("my_folder/", ".mylog", ".txt")
-template<typename Mutex>
+template<typename mutex_type>
 SPDLOG_INLINE std::tuple<filename_t, filename_t, filename_t>
-rotating_file_with_date_sink<Mutex>::split_by_dir_and_extenstion(const spdlog::filename_t& fname) {
+rotating_file_with_date_sink<mutex_type>::split_by_dir_and_extenstion(const spdlog::filename_t& fname) {
     auto ext_index = fname.rfind('.');
 
     // no valid extension found - return whole path and empty string as extension
@@ -72,8 +73,8 @@ rotating_file_with_date_sink<Mutex>::split_by_dir_and_extenstion(const spdlog::f
 
 // calc filename according to index and file extension if exists.
 // e.g. calc_filename("logs/mylog.txt, 3) => "logs/mylog.3.txt".
-template<typename Mutex>
-SPDLOG_INLINE filename_t rotating_file_with_date_sink<Mutex>::calc_filename(
+template<typename mutex_type>
+SPDLOG_INLINE filename_t rotating_file_with_date_sink<mutex_type>::calc_filename(
     const filename_t& filename, std::size_t index) {
     std::tm tm = spdlog::details::os::localtime();
     filename_t pre_dir, basename, ext;
@@ -92,21 +93,21 @@ SPDLOG_INLINE filename_t rotating_file_with_date_sink<Mutex>::calc_filename(
     }
 }
 
-template<typename Mutex>
-SPDLOG_INLINE void rotating_file_with_date_sink<Mutex>::sink_it_(const details::log_msg& msg) {
+template<typename mutex_type>
+SPDLOG_INLINE void rotating_file_with_date_sink<mutex_type>::sink_it_(const details::log_msg& msg) {
     memory_buf_t formatted;
-    base_sink<Mutex>::formatter_->format(msg, formatted);
+    base_sink<mutex_type>::formatter_->format(msg, formatted);
     current_size_ += formatted.size();
     if (current_size_ > max_size_)
     {
-        rotate_();
+        rotate();
         current_size_ = formatted.size();
     }
     file_helper_.write(formatted);
 }
 
-template<typename Mutex>
-void rotating_file_with_date_sink<Mutex>::flush_() {
+template<typename mutex_type>
+void rotating_file_with_date_sink<mutex_type>::flush_() {
     file_helper_.flush();
 }
 
@@ -115,8 +116,8 @@ void rotating_file_with_date_sink<Mutex>::flush_() {
 // log.1.txt -> log.2.txt
 // log.2.txt -> log.3.txt
 // log.3.txt -> delete
-template<typename Mutex>
-void rotating_file_with_date_sink<Mutex>::rotate_() {
+template<typename mutex_type>
+void rotating_file_with_date_sink<mutex_type>::rotate() {
     using details::os::filename_to_str;
     file_helper_.close();
     for (auto i = max_files_; i > 0; --i)
@@ -149,8 +150,8 @@ void rotating_file_with_date_sink<Mutex>::rotate_() {
 
 // delete the target if exists, and rename the src file  to target
 // return true on success, false otherwise.
-template<typename Mutex>
-bool rotating_file_with_date_sink<Mutex>::rename_file(
+template<typename mutex_type>
+bool rotating_file_with_date_sink<mutex_type>::rename_file(
     const filename_t& src_filename, const filename_t& target_filename) {
     // try to delete the target file in case it already exists.
     (void)details::os::remove(target_filename);

@@ -45,42 +45,42 @@ public:
 };
 
 // predeclared
-template<typename TYPE, size_t SIZE, typename ALLOC = pod_array_allocator>
+template<typename element_type, size_t inline_capacity, typename allocator_type = pod_array_allocator>
 class pod_array;
 
-template<typename TYPE, size_t SIZE, typename ALLOC>
+template<typename element_type, size_t inline_capacity, typename allocator_type>
 class pod_array
 {
 public:
-    using self_t = pod_array<TYPE, SIZE, ALLOC>;
+    using self_t = pod_array<element_type, inline_capacity, allocator_type>;
 
     pod_array() noexcept {
-        mpData = mxStack;
-        mnCapacity = SIZE;
-        mnSize = 0;
+        data_ = inline_buffer_;
+        capacity_ = inline_capacity;
+        size_ = 0;
     }
 
     pod_array(const self_t& src) {
-        mnSize = src.mnSize;
+        size_ = src.size_;
 
-        if (mnSize <= SIZE)
+        if (size_ <= inline_capacity)
         {
-            mpData = mxStack;
-            mnCapacity = SIZE;
+            data_ = inline_buffer_;
+            capacity_ = inline_capacity;
         }
         else
         {
-            mnCapacity = src.mnCapacity;
-            mpData = (TYPE*)mxAlloc.alloc(mnCapacity * sizeof(TYPE));
+            capacity_ = src.capacity_;
+            data_ = (element_type*)allocator_.alloc(capacity_ * sizeof(element_type));
         }
 
-        memcpy(mpData, src.mpData, mnSize * sizeof(TYPE));
+        memcpy(data_, src.data_, size_ * sizeof(element_type));
     }
 
     ~pod_array() {
-        if (mnCapacity > SIZE)
+        if (capacity_ > inline_capacity)
         {
-            mxAlloc.free(mpData, mnCapacity * sizeof(TYPE));
+            allocator_.free(data_, capacity_ * sizeof(element_type));
         }
     }
 
@@ -91,221 +91,221 @@ public:
     }
 
     void swap(self_t& src) noexcept {
-        size_t tmp_size = src.mnSize;
-        size_t tmp_capacity = src.mnCapacity;
-        TYPE* tmp_data = src.mpData;
-        TYPE tmp_stack[SIZE];
+        size_t tmp_size = src.size_;
+        size_t tmp_capacity = src.capacity_;
+        element_type* tmp_data = src.data_;
+        element_type tmp_stack[inline_capacity];
 
-        if (tmp_capacity <= SIZE)
+        if (tmp_capacity <= inline_capacity)
         {
-            memcpy(tmp_stack, src.mxStack, tmp_size * sizeof(TYPE));
+            memcpy(tmp_stack, src.inline_buffer_, tmp_size * sizeof(element_type));
         }
 
-        src.mnSize = this->mnSize;
-        src.mnCapacity = this->mnCapacity;
+        src.size_ = this->size_;
+        src.capacity_ = this->capacity_;
 
-        if (this->mnCapacity <= SIZE)
+        if (this->capacity_ <= inline_capacity)
         {
-            memcpy(src.mxStack, this->mxStack, mnSize * sizeof(TYPE));
-            src.mpData = src.mxStack;
+            memcpy(src.inline_buffer_, this->inline_buffer_, size_ * sizeof(element_type));
+            src.data_ = src.inline_buffer_;
         }
         else
         {
-            src.mpData = this->mpData;
+            src.data_ = this->data_;
         }
 
         //////////////////////////////////////////////////////////////////////////
-        this->mnSize = tmp_size;
-        this->mnCapacity = tmp_capacity;
+        this->size_ = tmp_size;
+        this->capacity_ = tmp_capacity;
 
-        if (tmp_capacity <= SIZE)
+        if (tmp_capacity <= inline_capacity)
         {
-            memcpy(this->mxStack, tmp_stack, tmp_size * sizeof(TYPE));
-            this->mpData = this->mxStack;
+            memcpy(this->inline_buffer_, tmp_stack, tmp_size * sizeof(element_type));
+            this->data_ = this->inline_buffer_;
         }
         else
         {
-            this->mpData = tmp_data;
+            this->data_ = tmp_data;
         }
 
-        this->mxAlloc.swap(src.mxAlloc);
+        this->allocator_.swap(src.allocator_);
     }
 
     bool empty() {
-        return (mnSize == 0);
+        return (size_ == 0);
     }
 
     size_t size() const {
-        return mnSize;
+        return size_;
     }
 
-    const TYPE* data() const {
-        return mpData;
+    const element_type* data() const {
+        return data_;
     }
 
-    void push_back(const TYPE& data) {
-        if (mnSize == mnCapacity)
+    void push_back(const element_type& data) {
+        if (size_ == capacity_)
         {
-            size_t new_size = mnSize * 2;
-            TYPE* p = (TYPE*)mxAlloc.alloc(new_size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE));
+            size_t new_size = size_ * 2;
+            element_type* p = (element_type*)allocator_.alloc(new_size * sizeof(element_type));
+            memcpy(p, data_, size_ * sizeof(element_type));
 
-            if (mnCapacity > SIZE)
+            if (capacity_ > inline_capacity)
             {
-                mxAlloc.free(mpData, mnCapacity * sizeof(TYPE));
+                allocator_.free(data_, capacity_ * sizeof(element_type));
             }
 
-            mpData = p;
-            mnCapacity = new_size;
+            data_ = p;
+            capacity_ = new_size;
         }
 
-        mpData[mnSize++] = data;
+        data_[size_++] = data;
     }
 
     void pop_back() {
-        assert(mnSize > 0);
-        --mnSize;
+        assert(size_ > 0);
+        --size_;
     }
 
-    TYPE& back() {
-        assert(mnSize > 0);
-        return mpData[mnSize - 1];
+    element_type& back() {
+        assert(size_ > 0);
+        return data_[size_ - 1];
     }
 
-    const TYPE& back() const {
-        assert(mnSize > 0);
-        return mpData[mnSize - 1];
+    const element_type& back() const {
+        assert(size_ > 0);
+        return data_[size_ - 1];
     }
 
-    TYPE& operator[](size_t index) {
-        assert(index < mnSize);
-        return mpData[index];
+    element_type& operator[](size_t index) {
+        assert(index < size_);
+        return data_[index];
     }
 
-    const TYPE& operator[](size_t index) const {
-        assert(index < mnSize);
-        return mpData[index];
+    const element_type& operator[](size_t index) const {
+        assert(index < size_);
+        return data_[index];
     }
 
     void reserve(size_t size) {
-        if (size > mnCapacity)
+        if (size > capacity_)
         {
-            TYPE* p = (TYPE*)mxAlloc.alloc(size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE));
+            element_type* p = (element_type*)allocator_.alloc(size * sizeof(element_type));
+            memcpy(p, data_, size_ * sizeof(element_type));
 
-            if (mnCapacity > SIZE)
+            if (capacity_ > inline_capacity)
             {
-                mxAlloc.free(mpData, mnCapacity * sizeof(TYPE));
+                allocator_.free(data_, capacity_ * sizeof(element_type));
             }
 
-            mpData = p;
-            mnCapacity = size;
+            data_ = p;
+            capacity_ = size;
         }
     }
 
     void resize(size_t size) {
-        if (size > mnCapacity)
+        if (size > capacity_)
         {
-            size_t new_size = mnCapacity * 2;
+            size_t new_size = capacity_ * 2;
 
             if (new_size < size)
             {
                 new_size = size;
             }
 
-            TYPE* p = (TYPE*)mxAlloc.alloc(new_size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE));
+            element_type* p = (element_type*)allocator_.alloc(new_size * sizeof(element_type));
+            memcpy(p, data_, size_ * sizeof(element_type));
 
-            if (mnCapacity > SIZE)
+            if (capacity_ > inline_capacity)
             {
-                mxAlloc.free(mpData, mnCapacity * sizeof(TYPE));
+                allocator_.free(data_, capacity_ * sizeof(element_type));
             }
 
-            mpData = p;
-            mnCapacity = new_size;
+            data_ = p;
+            capacity_ = new_size;
         }
 
-        mnSize = size;
+        size_ = size;
     }
 
-    void resize(size_t size, const TYPE& value) {
-        if (size > mnCapacity)
+    void resize(size_t size, const element_type& value) {
+        if (size > capacity_)
         {
-            size_t new_size = mnCapacity * 2;
+            size_t new_size = capacity_ * 2;
 
             if (new_size < size)
             {
                 new_size = size;
             }
 
-            TYPE* p = (TYPE*)mxAlloc.alloc(new_size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE));
+            element_type* p = (element_type*)allocator_.alloc(new_size * sizeof(element_type));
+            memcpy(p, data_, size_ * sizeof(element_type));
 
-            if (mnCapacity > SIZE)
+            if (capacity_ > inline_capacity)
             {
-                mxAlloc.free(mpData, mnCapacity * sizeof(TYPE));
+                allocator_.free(data_, capacity_ * sizeof(element_type));
             }
 
-            mpData = p;
-            mnCapacity = new_size;
+            data_ = p;
+            capacity_ = new_size;
         }
 
-        if (size > mnSize)
+        if (size > size_)
         {
-            for (size_t i = mnSize; i < size; ++i)
+            for (size_t i = size_; i < size; ++i)
             {
-                mpData[i] = value;
+                data_[i] = value;
             }
         }
 
-        mnSize = size;
+        size_ = size;
     }
 
-    void insert(size_t index, const TYPE& data) {
-        assert(index <= mnSize);
+    void insert(size_t index, const element_type& data) {
+        assert(index <= size_);
 
-        resize(mnSize + 1);
-        TYPE* p = mpData + index;
-        memmove(p + 1, p, (mnSize - index - 1) * sizeof(TYPE));
+        resize(size_ + 1);
+        element_type* p = data_ + index;
+        memmove(p + 1, p, (size_ - index - 1) * sizeof(element_type));
         *p = data;
     }
 
     void remove(size_t index) {
-        assert(index <= mnSize);
+        assert(index <= size_);
 
-        TYPE* p = mpData + index;
-        memmove(p, p + 1, (mnSize - index - 1) * sizeof(TYPE));
-        --mnSize;
+        element_type* p = data_ + index;
+        memmove(p, p + 1, (size_ - index - 1) * sizeof(element_type));
+        --size_;
     }
 
     void remove_some(size_t start, size_t count) {
-        assert((start <= mnSize) && ((start + count) <= mnSize));
-        TYPE* p = mpData + start;
-        memmove(p, p + count, (mnSize - start - count) * sizeof(TYPE));
-        mnSize -= count;
+        assert((start <= size_) && ((start + count) <= size_));
+        element_type* p = data_ + start;
+        memmove(p, p + count, (size_ - start - count) * sizeof(element_type));
+        size_ -= count;
     }
 
     void clear() {
-        mnSize = 0;
+        size_ = 0;
     }
 
     size_t get_mem_usage() const {
         size_t size = sizeof(self_t);
 
-        if (mnCapacity > size)
+        if (capacity_ > size)
         {
-            size += mnCapacity * sizeof(TYPE);
+            size += capacity_ * sizeof(element_type);
         }
 
         return size;
     }
 
 private:
-    ALLOC mxAlloc;
-    TYPE mxStack[SIZE];
-    TYPE* mpData;
-    size_t mnCapacity;
-    size_t mnSize;
+    allocator_type allocator_;
+    element_type inline_buffer_[inline_capacity];
+    element_type* data_;
+    size_t capacity_;
+    size_t size_;
 };
 
 } // namespace ark

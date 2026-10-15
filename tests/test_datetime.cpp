@@ -19,8 +19,9 @@
  */
 
 #define CATCH_CONFIG_MAIN
-#include "ark/time/date_time.hpp"
 #include "catch.hpp"
+
+#include "ark/time/date_time.hpp"
 
 TEST_CASE("GetMilliseconds() should return now_UTC_time", "[GetMilliseconds()]") {
     ark::date_time date_time_instance;
@@ -283,7 +284,7 @@ TEST_CASE("return day_of_year", "int GetDayOfYear() const") {
     REQUIRE(date_time_instance.get_day_of_year() == localtime(&control_group)->tm_yday);
 }
 
-void test_weekOfYear(int y, int m, int d) {
+void test_week_of_year(int y, int m, int d) {
     ark::date_time date_time_instance(y, m, d);
     auto week = date_time_instance.get_week_of_year();
     auto day = date_time_instance.get_day_of_week();
@@ -298,14 +299,14 @@ void test_weekOfYear(int y, int m, int d) {
 }
 
 TEST_CASE("return week_of_year", "int GetWeekOfYear(int firstDayOfWeek = MONDAY) const") {
-    int daysOfMonthTable[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int days_of_month_table[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     for (int y = 2017; y <= 2019; y++)
     {
         for (int i = 1; i <= 12; i++)
         {
-            for (int j = 1; j <= daysOfMonthTable[i]; j++)
+            for (int j = 1; j <= days_of_month_table[i]; j++)
             {
-                test_weekOfYear(y, i, j);
+                test_week_of_year(y, i, j);
             }
         }
     }
@@ -440,21 +441,21 @@ TEST_CASE("return whether same week", "bool SameWeek(TimeVal time)") {
 TEST_CASE("return time in %Y/%m/%d %H:%M:%S format", "std::string ToString()") {
     time_t control_group;
     time(&control_group);
-    char timeBuff[32] = {0};
-    std::strftime(timeBuff, sizeof(timeBuff), "%Y/%m/%d %H:%M:%S", localtime(&control_group));
+    char time_buff[32] = {0};
+    std::strftime(time_buff, sizeof(time_buff), "%Y/%m/%d %H:%M:%S", localtime(&control_group));
 
     ark::date_time date_time_instance;
-    REQUIRE(date_time_instance.to_string() == (std::string)(timeBuff));
+    REQUIRE(date_time_instance.to_string() == (std::string)(time_buff));
 }
 
 TEST_CASE("return time in %FT%TZ format", "std::string ToISO8601String()") {
     time_t control_group;
     time(&control_group);
-    char timeBuff[64] = {0};
-    std::strftime(timeBuff, sizeof(timeBuff), "%FT%TZ", gmtime(&control_group));
+    char time_buff[64] = {0};
+    std::strftime(time_buff, sizeof(time_buff), "%FT%TZ", gmtime(&control_group));
 
     ark::date_time date_time_instance;
-    REQUIRE(date_time_instance.to_iso8601_string() == (std::string)(timeBuff));
+    REQUIRE(date_time_instance.to_iso8601_string() == (std::string)(time_buff));
 }
 
 TEST_CASE("return parameter year whether leapYear", "static bool IsLeapYear(int year)") {
@@ -466,12 +467,12 @@ TEST_CASE("return days of month by parameter year and month", "static int GetDay
     auto date_time_provider = ark::date_time();
     auto year = date_time_provider.get_year();
     auto month = date_time_provider.get_month();
-    int daysOfMonthTable[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int days_of_month_table[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     if (month == 2 && date_time_provider.is_leap_year())
     {
-        daysOfMonthTable[2] = 29;
+        days_of_month_table[2] = 29;
     }
-    REQUIRE(ark::date_time::get_days_of_month(year, month) == daysOfMonthTable[month]);
+    REQUIRE(ark::date_time::get_days_of_month(year, month) == days_of_month_table[month]);
 }
 
 TEST_CASE("return y/m/d/h/m/s parameter whether valid",

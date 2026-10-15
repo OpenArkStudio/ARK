@@ -43,10 +43,10 @@ public:
 
 private:
     // class name
-    std::string name_{NULL_STR};
+    std::string name_{null_str};
 
     // res path
-    std::string res_path_{NULL_STR};
+    std::string res_path_{null_str};
 
     // name index
     name_index_list name_index_list_;

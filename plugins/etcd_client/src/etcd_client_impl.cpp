@@ -1,7 +1,8 @@
+#include <json/json.hpp>
+
 #include "ark/etcd_client/etcd_client_impl.hpp"
 #include "ark/logger.hpp"
 #include "ark/string_utils.hpp"
-#include "json/json.hpp"
 
 namespace ark {
 
@@ -23,62 +24,62 @@ namespace ark {
 
 #define ETCD_API_V3_LEASE_REVOKE "/v3/kv/lease/revoke"
 
-static const std::string kLeaseGrantAPI = "/v3/lease/grant";
-static const std::string kLeaseKeepaliveAPI = "/v3/lease/keepalive";
+static const std::string lease_grant_api = "/v3/lease/grant";
+static const std::string lease_keepalive_api = "/v3/lease/keepalive";
 
 etcd_client_impl::etcd_client_impl(
-    http_client_module* httpClient, std::vector<std::string> endpoints, int connectTimeout, int ioTimeout)
-    : httpClient_(httpClient)
-    , connectTimeout_(connectTimeout)
-    , ioTimeout_(ioTimeout) {
-    std::vector<std::string> hostSvc;
+    http_client_module* http_client, std::vector<std::string> endpoints, int connect_timeout, int io_timeout)
+    : http_client_(http_client)
+    , connect_timeout_(connect_timeout)
+    , io_timeout_(io_timeout) {
+    std::vector<std::string> host_svc;
     for (const auto& ep : endpoints)
     {
-        string_utils::split(hostSvc, ep, ':');
-        if (hostSvc.size() == 2)
+        string_utils::split(host_svc, ep, ':');
+        if (host_svc.size() == 2)
         {
-            endpoints_.emplace_back(std::make_pair(std::move(hostSvc[0]), std::move(hostSvc[1])));
+            endpoints_.emplace_back(std::make_pair(std::move(host_svc[0]), std::move(host_svc[1])));
         }
         else
         {
             ARK_LOG_WARN("Invalid endpoint: {}", ep);
         }
-        hostSvc.clear();
+        host_svc.clear();
     }
 
-    assert(httpClient_);
+    assert(http_client_);
     assert(endpoints_.size());
 
     rand_.set_seed(static_cast<uint32_t>(time(0)));
-    selectedEndpointIndex_ = rand_.random() % endpoints_.size();
+    selected_endpoint_index_ = rand_.random() % endpoints_.size();
 }
 
 void etcd_client_impl::post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& api,
-    std::shared_ptr<std::string> body, size_t epIdx, size_t triedCnt) {
-    const auto& ep = endpoints_[epIdx];
-    httpClient_->post(
-        [this, cb = std::move(cb), &api, body, epIdx, triedCnt](std::pair<bool, std::string> rsp) mutable {
+    std::shared_ptr<std::string> body, size_t ep_idx, size_t tried_cnt) {
+    const auto& ep = endpoints_[ep_idx];
+    http_client_->post(
+        [this, cb = std::move(cb), &api, body, ep_idx, tried_cnt](std::pair<bool, std::string> rsp) mutable {
             if (rsp.first)
             {
                 cb(std::move(rsp));
-                selectedEndpointIndex_ = epIdx;
+                selected_endpoint_index_ = ep_idx;
                 return;
             }
 
-            if (triedCnt < endpoints_.size())
+            if (tried_cnt < endpoints_.size())
             {
-                if (++epIdx >= endpoints_.size())
+                if (++ep_idx >= endpoints_.size())
                 {
-                    epIdx %= endpoints_.size();
+                    ep_idx %= endpoints_.size();
                 }
-                post(std::move(cb), api, std::move(body), epIdx, triedCnt + 1);
+                post(std::move(cb), api, std::move(body), ep_idx, tried_cnt + 1);
             }
             else
             {
                 cb(std::move(rsp));
             }
         },
-        ep.first, ep.second, api, nullptr, body.get(), nullptr, nullptr, ioTimeout_, connectTimeout_);
+        ep.first, ep.second, api, nullptr, body.get(), nullptr, nullptr, io_timeout_, connect_timeout_);
 }
 
 void etcd_client_impl::grant(std::function<void(std::pair<int64_t, std::string>)> cb, int ttl) {
@@ -86,51 +87,51 @@ void etcd_client_impl::grant(std::function<void(std::pair<int64_t, std::string>)
         [cb = std::move(cb)](std::pair<bool, std::string> rsp) {
             if (rsp.first)
             {
-                std::pair<int64_t, std::string> cbRsp;
+                std::pair<int64_t, std::string> cb_rsp;
 
                 auto j = nlohmann::json::parse(rsp.second);
                 if (auto it = j.find("ID"); it != j.end())
                 {
                     if (it->is_string())
                     {
-                        cbRsp.first = std::stoll(it->get<std::string>());
+                        cb_rsp.first = std::stoll(it->get<std::string>());
                     }
                     else
                     {
-                        cbRsp.first = -1;
-                        cbRsp.second = "Unknown error";
+                        cb_rsp.first = -1;
+                        cb_rsp.second = "Unknown error";
                     }
                 }
                 else if (it = j.find("error"); it != j.end())
                 {
-                    cbRsp.first = -1;
+                    cb_rsp.first = -1;
                     if (it->is_string())
                     {
-                        cbRsp.second = it->get<std::string>();
+                        cb_rsp.second = it->get<std::string>();
                     }
                     else
                     {
-                        cbRsp.second = "Unknown error";
+                        cb_rsp.second = "Unknown error";
                     }
                 }
                 else
                 {
-                    cbRsp.first = -1;
-                    cbRsp.second = "Unknown error";
+                    cb_rsp.first = -1;
+                    cb_rsp.second = "Unknown error";
                 }
 
-                cb(cbRsp);
+                cb(cb_rsp);
             }
             else
             {
                 cb(std::make_pair(static_cast<int64_t>(-1), rsp.second));
             }
         },
-        kLeaseGrantAPI, std::make_shared<std::string>(ARK_FORMAT("{}\"TTL\": {}{}", '{', ttl, '}')),
-        selectedEndpointIndex_, 1);
+        lease_grant_api, std::make_shared<std::string>(ARK_FORMAT("{}\"TTL\": {}{}", '{', ttl, '}')),
+        selected_endpoint_index_, 1);
 }
 
-void etcd_client_impl::keepalive(std::function<void(std::pair<bool, std::string>)> cb, int64_t leaseID) {
+void etcd_client_impl::keepalive(std::function<void(std::pair<bool, std::string>)> cb, int64_t lease_id) {
     //{"error":"unexpected EOF","message":"unexpected EOF","code":2}
     //{"result":{"header":{"cluster_id":"14841639068965178418","member_id":"10276657743932975437","revision":"371","raft_term":"7"},"ID":"7587849661051446219","TTL":"5000"}}
     // 如果没有TTL，表示lease已经过期

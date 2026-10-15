@@ -25,20 +25,21 @@ namespace ark {
 
 table_meta::table_meta(const std::string& name, const uint32_t index)
     : name_(name)
-    , index_(index) {}
+    , index_(index) {
+}
 
 const std::string& table_meta::get_name() const {
     return name_;
 }
 
 size_t table_meta::get_col_count() const {
-    ARK_ASSERT_RET_VAL(class_meta_ != nullptr, NULL_INT);
+    ARK_ASSERT_RET_VAL(class_meta_ != nullptr, null_int);
 
     return class_meta_->get_node_count();
 }
 
-void table_meta::set_class_meta(std::shared_ptr<class_meta> pClassMeta) {
-    class_meta_ = pClassMeta;
+void table_meta::set_class_meta(std::shared_ptr<class_meta> class_meta_ptr) {
+    class_meta_ = class_meta_ptr;
 }
 
 std::shared_ptr<node_meta> table_meta::find_meta(const uint32_t index) const {
@@ -52,12 +53,12 @@ std::shared_ptr<class_meta> table_meta::get_class_meta() const {
 }
 
 data_type table_meta::get_col_type(const uint32_t index) const {
-    ARK_ASSERT_RET_VAL(class_meta_ != nullptr, data_type::DT_EMPTY);
+    ARK_ASSERT_RET_VAL(class_meta_ != nullptr, data_type::dt_empty);
 
-    auto pMeta = class_meta_->find_data_meta(index);
-    ARK_ASSERT_RET_VAL(pMeta != nullptr, data_type::DT_EMPTY);
+    auto meta_ptr = class_meta_->find_data_meta(index);
+    ARK_ASSERT_RET_VAL(meta_ptr != nullptr, data_type::dt_empty);
 
-    return pMeta->get_type();
+    return meta_ptr->get_type();
 }
 
 const mask_type table_meta::get_mask() const {
@@ -73,19 +74,19 @@ void table_meta::set_mask(const mask_type& feature) {
 }
 
 bool table_meta::is_public() const {
-    return mask_.test((size_t)data_mask::PF_SYNC_VIEW);
+    return mask_.test((size_t)data_mask::pf_sync_view);
 }
 
 bool table_meta::is_private() const {
-    return mask_.test((size_t)data_mask::PF_SYNC_SELF);
+    return mask_.test((size_t)data_mask::pf_sync_self);
 }
 
 bool table_meta::is_real_time() const {
-    return mask_.test((size_t)data_mask::PF_REAL_TIME);
+    return mask_.test((size_t)data_mask::pf_real_time);
 }
 
 bool table_meta::is_save() const {
-    return mask_.test((size_t)data_mask::PF_SAVE);
+    return mask_.test((size_t)data_mask::pf_save);
 }
 
 void table_meta::set_type_name(const std::string& value) {
@@ -101,7 +102,7 @@ uint32_t table_meta::get_index() const {
 }
 
 uint32_t table_meta::get_index(const std::string& name) const {
-    ARK_ASSERT_RET_VAL(class_meta_ != nullptr, NULL_INT);
+    ARK_ASSERT_RET_VAL(class_meta_ != nullptr, null_int);
 
     return class_meta_->get_index(name);
 }

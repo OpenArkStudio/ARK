@@ -19,9 +19,10 @@
  */
 
 #define CATCH_CONFIG_MAIN
+#include "catch.hpp"
+
 #include "ark/compress/zstd.hpp"
 #include "ark/misc.hpp"
-#include "catch.hpp"
 
 using namespace ark;
 

@@ -46,18 +46,18 @@ private:
     net_msg_functor net_msg_cb_;
     net_event_functor net_event_cb_;
 
-    std::atomic<conv_id_t> trust_session_id_{ARK_CONV_START_ID};
+    std::atomic<conv_id_t> trust_session_id_{ark_conv_start_id};
 
     rdp_client_session_ptr session_;
     std::deque<rdp_client_session_ptr> sessions_;
     std::shared_ptr<arknet::rudp_client> client_;
 
 public:
-    template<typename BaseType>
-    rudp_client(BaseType* pBaseType, void (BaseType::*handleRecv)(net_msg const*, conv_id_t),
-        void (BaseType::*handleEvent)(net_event const*)) {
-        net_msg_cb_ = std::bind(handleRecv, pBaseType, std::placeholders::_1, std::placeholders::_2);
-        net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
+    template<typename base_type>
+    rudp_client(base_type* base_type_ptr, void (base_type::*handle_recv)(net_msg const*, conv_id_t),
+        void (base_type::*handle_event)(net_event const*)) {
+        net_msg_cb_ = std::bind(handle_recv, base_type_ptr, std::placeholders::_1, std::placeholders::_2);
+        net_event_cb_ = std::bind(handle_event, base_type_ptr, std::placeholders::_1);
     }
 
     ~rudp_client() override;

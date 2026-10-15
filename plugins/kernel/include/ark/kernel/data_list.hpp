@@ -54,7 +54,7 @@ public:
     virtual bool add_double(double value) = 0;
     virtual bool add_string(const char* value) = 0;
     virtual bool add_pointer(void* value) = 0;
-    virtual bool add_user_data(const void* pData, size_t size) = 0;
+    virtual bool add_user_data(const void* data_ptr, size_t size) = 0;
     virtual bool add_raw_user_data(void* value) = 0;
 
     // get data
@@ -74,60 +74,60 @@ public:
     // get memory usage
     virtual size_t get_mem_usage() const = 0;
 
-    template<typename... Args>
-    bool type_ex(const data_type arg1, const Args&... args) const {
-        bool bRet = true;
+    template<typename... args_type>
+    bool type_ex(const data_type arg1, const args_type&... args) const {
+        bool success = true;
         data_type values[] = {arg1, args...};
 
         int index = 0;
 
         for (auto v : values)
         {
-            if (v == data_type::DT_EMPTY)
+            if (v == data_type::dt_empty)
             {
-                bRet = false;
-                return bRet;
+                success = false;
+                return success;
             }
 
-            data_type varType = get_type(index);
+            data_type var_type = get_type(index);
 
-            if (varType != v)
+            if (var_type != v)
             {
-                bRet = false;
+                success = false;
                 break;
             }
 
             ++index;
         }
 
-        return bRet;
+        return success;
     }
 
-    bool to_afi_data(size_t index, data& xData) const {
-        if (get_type(index) != xData.get_type())
+    bool to_afi_data(size_t index, data& source_data) const {
+        if (get_type(index) != source_data.get_type())
         {
             return false;
         }
 
-        switch (xData.get_type())
+        switch (source_data.get_type())
         {
-        case data_type::DT_BOOLEAN:
-            xData.set_bool(get_bool(index));
+        case data_type::dt_boolean:
+            source_data.set_bool(get_bool(index));
             break;
-        case data_type::DT_INT32:
-            xData.set_int(get_int(index));
+        case data_type::dt_int32:
+            source_data.set_int(get_int(index));
             break;
-        case data_type::DT_INT64:
-            xData.set_int64(int64(index));
+        case data_type::dt_int64:
+            source_data.set_int64(int64(index));
             break;
-        case data_type::DT_FLOAT:
-            xData.set_float(get_float(index));
+        case data_type::dt_float:
+            source_data.set_float(get_float(index));
             break;
-        case data_type::DT_DOUBLE:
-            xData.set_double(get_double(index));
+        case data_type::dt_double:
+            source_data.set_double(get_double(index));
             break;
-        case data_type::DT_STRING:
-            xData.set_string(string(index));
+        case data_type::dt_string:
+            source_data.set_string(string(index));
             break;
         default:
             ARK_ASSERT_RET_VAL(0, false);
@@ -137,37 +137,37 @@ public:
         return true;
     }
 
-    bool equal(size_t index, const data& xData) const {
-        if (get_type(index) != xData.get_type())
+    bool equal(size_t index, const data& source_data) const {
+        if (get_type(index) != source_data.get_type())
         {
             return false;
         }
 
-        switch (xData.get_type())
+        switch (source_data.get_type())
         {
-        case data_type::DT_BOOLEAN:
-            return xData.get_bool() == get_bool(index);
+        case data_type::dt_boolean:
+            return source_data.get_bool() == get_bool(index);
             break;
-        case data_type::DT_INT32:
-            return xData.get_int() == get_int(index);
+        case data_type::dt_int32:
+            return source_data.get_int() == get_int(index);
             break;
-        case data_type::DT_INT64:
-            return xData.get_int64() == int64(index);
+        case data_type::dt_int64:
+            return source_data.get_int64() == int64(index);
             break;
-        case data_type::DT_UINT32:
-            return xData.get_u_int() == u_int(index);
+        case data_type::dt_uint32:
+            return source_data.get_u_int() == u_int(index);
             break;
-        case data_type::DT_UINT64:
-            return xData.get_u_int64() == u_int64(index);
+        case data_type::dt_uint64:
+            return source_data.get_u_int64() == u_int64(index);
             break;
-        case data_type::DT_FLOAT:
-            return IS_FLOAT_ZERO(float, xData.get_float() - get_float(index));
+        case data_type::dt_float:
+            return IS_FLOAT_ZERO(float, source_data.get_float() - get_float(index));
             break;
-        case data_type::DT_DOUBLE:
-            return IS_FLOAT_ZERO(double, xData.get_double() - get_double(index));
+        case data_type::dt_double:
+            return IS_FLOAT_ZERO(double, source_data.get_double() - get_double(index));
             break;
-        case data_type::DT_STRING:
-            return std::string(xData.get_string()) == std::string(string(index));
+        case data_type::dt_string:
+            return std::string(source_data.get_string()) == std::string(string(index));
             break;
         default:
             ARK_ASSERT_RET_VAL(0, false);
@@ -179,92 +179,92 @@ public:
 
     // operator <<
     inline data_list& operator<<(bool value) {
-        bool bRet = add_bool(value);
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = add_bool(value);
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 
     inline data_list& operator<<(int8_t value) {
-        bool bRet = add_int(value);
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = add_int(value);
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 
     inline data_list& operator<<(uint8_t value) {
-        bool bRet = add_int(value);
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = add_int(value);
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 
     inline data_list& operator<<(int16_t value) {
-        bool bRet = add_int(value);
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = add_int(value);
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 
     inline data_list& operator<<(uint16_t value) {
-        bool bRet = add_int(value);
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = add_int(value);
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 
     inline data_list& operator<<(int32_t value) {
-        bool bRet = add_int(value);
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = add_int(value);
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 
     inline data_list& operator<<(uint32_t value) {
-        bool bRet = add_u_int(value);
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = add_u_int(value);
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 
     inline data_list& operator<<(int64_t value) {
-        bool bRet = add_int64(value);
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = add_int64(value);
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 
     inline data_list& operator<<(uint64_t value) {
-        bool bRet = add_u_int64(value);
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = add_u_int64(value);
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 
     inline data_list& operator<<(float value) {
-        bool bRet = add_float(value);
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = add_float(value);
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 
     inline data_list& operator<<(double value) {
-        bool bRet = add_double(value);
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = add_double(value);
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 
     inline data_list& operator<<(const char* value) {
-        bool bRet = add_string(value);
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = add_string(value);
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 
     inline data_list& operator<<(const std::string& value) {
-        bool bRet = add_string(value.c_str());
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = add_string(value.c_str());
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 
     inline data_list& operator<<(const small_string<char, 128>& value) {
-        bool bRet = add_string(value.c_str());
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = add_string(value.c_str());
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 
     inline data_list& operator<<(const data_list& value) {
-        bool bRet = concat(value);
-        ARK_ASSERT_NO_EFFECT(bRet);
+        bool success = concat(value);
+        ARK_ASSERT_NO_EFFECT(success);
         return *this;
     }
 };

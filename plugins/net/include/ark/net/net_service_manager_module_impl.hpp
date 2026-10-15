@@ -40,7 +40,7 @@ public:
     bool shut() override;
 
     bool create_server(
-        const size_t silent_timeout, const msg_header& csReqHeader, const msg_header& ssReqHeader) override;
+        const size_t silent_timeout, const msg_header& cs_req_header, const msg_header& ss_req_header) override;
 
     std::shared_ptr<net_server_service> get_inter_net_server() override;
     std::shared_ptr<net_server_service> get_intra_net_server() override;
@@ -92,8 +92,8 @@ private:
     //bus id <--> session id
     std::map<bus_id_t, conv_id_t> bus_session_list_;
 
-    bus_module* m_pBusModule;
-    timer_module* m_pTimerModule;
+    bus_module* bus_module_;
+    timer_module* timer_module_;
 };
 
 } // namespace ark

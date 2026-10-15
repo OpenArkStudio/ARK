@@ -34,7 +34,7 @@ namespace {
 using http_result = std::pair<bool, std::string>;
 using http_callback = std::function<void(http_result)>;
 
-std::string EncodeParameter(const std::string& text) {
+std::string encode_parameter(const std::string& text) {
     constexpr char hex[] = "0123456789ABCDEF";
     std::string encoded;
     for (unsigned char character : text)
@@ -55,7 +55,7 @@ std::string EncodeParameter(const std::string& text) {
     return encoded;
 }
 
-arknet::http_request::request_type MakeRequest(arknet::http::verb method, const std::string& target,
+arknet::http_request::request_type make_request(arknet::http::verb method, const std::string& target,
     const std::map<std::string, std::string>* params, const std::vector<std::string>* cookies, const std::string* body,
     const std::string* content_type) {
     std::string url = target.empty() ? "/" : target;
@@ -67,7 +67,7 @@ arknet::http_request::request_type MakeRequest(arknet::http::verb method, const 
             {
                 url += url.find('?') == std::string::npos ? '?' : '&';
             }
-            url += EncodeParameter(key) + "=" + EncodeParameter(value);
+            url += encode_parameter(key) + "=" + encode_parameter(value);
         }
     }
     arknet::http_request::request_type request(method, url, 11);
@@ -96,7 +96,7 @@ arknet::http_request::request_type MakeRequest(arknet::http::verb method, const 
     return request;
 }
 
-http_result MakeResult(arknet::error_code error, arknet::http_request::response_type response) {
+http_result make_result(arknet::error_code error, arknet::http_request::response_type response) {
     if (error)
     {
         return {false, error.message()};
@@ -126,11 +126,11 @@ struct http_client_module_impl::state : std::enable_shared_from_this<state>
     std::uint64_t next_request = 0;
     bool accepting = true;
 
-    void Submit(arknet::http::verb method, const std::string& host, const std::string& service,
+    void submit(arknet::http::verb method, const std::string& host, const std::string& service,
         const std::string& target, const std::map<std::string, std::string>* params,
         const std::vector<std::string>* cookies, const std::string* body, const std::string* content_type,
         int io_timeout, int connect_timeout, http_callback completion) {
-        auto message = MakeRequest(method, target, params, cookies, body, content_type);
+        auto message = make_request(method, target, params, cookies, body, content_type);
         arknet::http_request_options options;
         options.io_timeout = std::chrono::seconds(io_timeout);
         options.connect_timeout = std::chrono::seconds(connect_timeout);
@@ -138,7 +138,7 @@ struct http_client_module_impl::state : std::enable_shared_from_this<state>
         if (!accepting)
         {
             lock.unlock();
-            completion(MakeResult(asio::error::operation_aborted, {}));
+            completion(make_result(asio::error::operation_aborted, {}));
             return;
         }
         auto operation = std::make_shared<arknet::http_request>(context);
@@ -151,7 +151,7 @@ struct http_client_module_impl::state : std::enable_shared_from_this<state>
                     std::lock_guard<std::mutex> completed_lock(self->mutex);
                     self->requests.erase(id);
                 }
-                completion(MakeResult(error, std::move(response)));
+                completion(make_result(error, std::move(response)));
             });
     }
 
@@ -207,20 +207,20 @@ bool http_client_module_impl::update() {
 
 std::future<http_result> http_client_module_impl::async_request(arknet::http::verb method, const std::string& host,
     const std::string& service, const std::string& target, const std::map<std::string, std::string>* params,
-    const std::vector<std::string>* cookies, const std::string* body, const std::string* content_type, int ioTimeout,
-    int connectTimeout) {
+    const std::vector<std::string>* cookies, const std::string* body, const std::string* content_type, int io_timeout,
+    int connect_timeout) {
     auto promise = std::make_shared<std::promise<http_result>>();
     auto future = promise->get_future();
-    state_->Submit(method, host, service, target, params, cookies, body, content_type, ioTimeout, connectTimeout,
+    state_->submit(method, host, service, target, params, cookies, body, content_type, io_timeout, connect_timeout,
         [promise = std::move(promise)](http_result result) { promise->set_value(std::move(result)); });
     return future;
 }
 
 void http_client_module_impl::async_request(http_callback callback, arknet::http::verb method, const std::string& host,
     const std::string& service, const std::string& target, const std::map<std::string, std::string>* params,
-    const std::vector<std::string>* cookies, const std::string* body, const std::string* content_type, int ioTimeout,
-    int connectTimeout) {
-    state_->Submit(method, host, service, target, params, cookies, body, content_type, ioTimeout, connectTimeout,
+    const std::vector<std::string>* cookies, const std::string* body, const std::string* content_type, int io_timeout,
+    int connect_timeout) {
+    state_->submit(method, host, service, target, params, cookies, body, content_type, io_timeout, connect_timeout,
         [state = state_, callback = std::move(callback)](
             http_result result) mutable { state->queue_type(std::move(callback), std::move(result)); });
 }

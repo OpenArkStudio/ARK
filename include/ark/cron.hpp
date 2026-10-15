@@ -31,7 +31,8 @@ class bad_cron_expression : public std::exception
 {
 public:
     explicit bad_cron_expression(const std::string&& msg)
-        : msg_(std::move(msg)) {}
+        : msg_(std::move(msg)) {
+    }
 
     const char* what() const noexcept override {
         return (msg_.c_str());

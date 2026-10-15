@@ -33,6 +33,7 @@
 #endif
 
 namespace ark {
+
 /**
  * @brief just for
  *          xoshiro256**
@@ -41,11 +42,11 @@ namespace ark {
  *          xoroshiro128+
  * @note not support for xoroshiro64** xoroshiro64* xoroshiro512** xoroshiro512* xoroshiro1024** xoroshiro1024*
  */
-template<class UIntType, bool is_plus, int iidx, int n1, int n2>
+template<class uint_type, bool is_plus, int iidx, int n1, int n2>
 class xoshinro_engine
 {
 public:
-    typedef UIntType result_type;
+    typedef uint_type result_type;
     typedef result_type seed_type[4];
 
 private:
@@ -58,16 +59,16 @@ private:
     template<class, bool>
     struct next_init;
 
-    template<class T>
-    struct next_init<T, true>
+    template<class element_type>
+    struct next_init<element_type, true>
     {
         static inline result_type call(seed_type& s) {
             return s[0] + s[3];
         }
     };
 
-    template<class T>
-    struct next_init<T, false>
+    template<class element_type>
+    struct next_init<element_type, false>
     {
         static inline result_type call(seed_type& s) {
             return rotl(s[iidx] * 5, 7) * 9;
@@ -76,7 +77,7 @@ private:
 
 protected:
     result_type next() {
-        const result_type ret = next_init<UIntType, is_plus>::call(xoshinro_seed_);
+        const result_type ret = next_init<uint_type, is_plus>::call(xoshinro_seed_);
         const result_type t = xoshinro_seed_[1] << n1;
 
         xoshinro_seed_[2] ^= xoshinro_seed_[0];
@@ -90,16 +91,16 @@ protected:
         return ret;
     }
 
-    void jump(const seed_type& JUMP) {
+    void jump(const seed_type& jump) {
         result_type s0 = 0;
         result_type s1 = 0;
         result_type s2 = 0;
         result_type s3 = 0;
-        for (size_t i = 0; i < sizeof(JUMP) / sizeof(JUMP[0]); i++)
+        for (size_t i = 0; i < sizeof(jump) / sizeof(jump[0]); i++)
         {
             for (size_t b = 0; b < sizeof(result_type) * 8; b++)
             {
-                if (JUMP[i] & result_type(1) << b)
+                if (jump[i] & result_type(1) << b)
                 {
                     s0 ^= xoshinro_seed_[0];
                     s1 ^= xoshinro_seed_[1];
@@ -145,9 +146,9 @@ public:
         }
     }
 
-    template<class It>
-    void init_seed(It& first, It last) {
-        It begin = first;
+    template<class it>
+    void init_seed(it& first, it last) {
+        it begin = first;
         for (int i = 0; i < 4; ++i)
         {
             if (begin != last)
@@ -190,10 +191,12 @@ public:
     typedef typename base_type::seed_type seed_type;
 
 public:
-    xoshinro_engine_128() {}
+    xoshinro_engine_128() {
+    }
 
     xoshinro_engine_128(result_type s)
-        : base_type(s) {}
+        : base_type(s) {
+    }
 
     using base_type::jump;
 
@@ -215,10 +218,12 @@ public:
     typedef typename base_type::seed_type seed_type;
 
 public:
-    xoshinro_engine_256() {}
+    xoshinro_engine_256() {
+    }
 
     xoshinro_engine_256(result_type s)
-        : base_type(s) {}
+        : base_type(s) {
+    }
 
     using base_type::jump;
 
@@ -248,21 +253,23 @@ public:
  * support then RandomFunc in std::random_shuffle 
  * @see https://en.cppreference.com/w/cpp/algorithm/random_shuffle
  */
-template<typename CoreType>
+template<typename engine_type>
 class random_manager_wrapper
 {
 public:
-    typedef CoreType core_type;
+    typedef engine_type core_type;
     typedef typename core_type::result_type result_type;
 
 private:
     core_type core_;
 
 public:
-    random_manager_wrapper() {}
+    random_manager_wrapper() {
+    }
 
     random_manager_wrapper(result_type rd_seed)
-        : core_(rd_seed) {}
+        : core_(rd_seed) {
+    }
 
     inline core_type& get_core() noexcept {
         return core_;
@@ -286,8 +293,8 @@ public:
      * @param [in] first Random number seed hash start position
      * @param [in] last Random number seed hash last position
      */
-    template<class It>
-    void init_seed(It& first, It last) {
+    template<class it>
+    void init_seed(it& first, it last) {
         core_.init_seed(first, last);
     }
 
@@ -314,14 +321,14 @@ public:
      * @note the random range [lowest, highest)
      * @return the random number
      */
-    template<typename ResaultType>
-    ResaultType random_between(ResaultType lowest, ResaultType highest) {
+    template<typename output_type>
+    output_type random_between(output_type lowest, output_type highest) {
         if (highest <= lowest)
         {
             return lowest;
         }
         result_type res = (*this)();
-        return static_cast<ResaultType>(res % static_cast<result_type>(highest - lowest)) + lowest;
+        return static_cast<output_type>(res % static_cast<result_type>(highest - lowest)) + lowest;
     }
 
 public:
@@ -354,8 +361,8 @@ public:
         }
     }
 
-    template<typename RandomIt>
-    void shuffle(RandomIt first, RandomIt last) {
+    template<typename random_it>
+    void shuffle(random_it first, random_it last) {
         std::shuffle(first, last, std::move(*this));
     }
 };

@@ -26,13 +26,13 @@ class container_meta final
 {
 private:
     // container name
-    std::string name_{NULL_STR};
+    std::string name_{null_str};
 
     // container index
     uint32_t index_{0u};
 
     // container's class name
-    std::string class_name_{NULL_STR};
+    std::string class_name_{null_str};
 
     // mask
     mask_type mask_{0};
@@ -45,7 +45,8 @@ public:
         : name_(name)
         , index_(index)
         , class_name_(class_name)
-        , mask_(mask) {}
+        , mask_(mask) {
+    }
 
     virtual ~container_meta() = default;
 

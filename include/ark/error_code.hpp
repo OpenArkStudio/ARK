@@ -24,15 +24,15 @@ namespace ark {
 
 enum class error_code : uint32_t
 {
-    SUCCESS = 0,
+    success = 0,
 
-    KCP_SERVER_DISCONNECT = 1000,   // kcp server disconnect when dtor
-    KCP_TIME_OUT_DISCONNECT = 1001, // kcp timeout disconnect
-    KCP_FORCE_DISCONNECT = 1002,    // force disconnect
-    KCP_CONNECT_TIMEOUT = 1003,     // connect timeout
-    PEER_DISCONNECT = 1004,         // peer(client/server) disconnect
+    kcp_server_disconnect = 1000,   // kcp server disconnect when dtor
+    kcp_time_out_disconnect = 1001, // kcp timeout disconnect
+    kcp_force_disconnect = 1002,    // force disconnect
+    kcp_connect_timeout = 1003,     // connect timeout
+    peer_disconnect = 1004,         // peer(client/server) disconnect
 
     // will add error code
-    LOGIC_ERROR_CODE_START = 10000,
+    logic_error_code_start = 10000,
 };
 }

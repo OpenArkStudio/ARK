@@ -23,38 +23,38 @@
 namespace ark {
 
 bool dir_net_module_impl::init() {
-    m_pBusModule = find_module<bus_module>();
-    m_pNetServiceManagerModule = find_module<net_service_manager_module>();
+    bus_module_ = find_module<bus_module>();
+    net_service_manager_module_ = find_module<net_service_manager_module>();
 
     return true;
 }
 
 bool dir_net_module_impl::post_init() {
-    StartServer();
+    start_server();
     return true;
 }
 
-int dir_net_module_impl::StartServer() {
-    auto ret = m_pNetServiceManagerModule->create_server();
+int dir_net_module_impl::start_server() {
+    auto ret = net_service_manager_module_->create_server();
     if (!ret)
     {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}", m_pBusModule->get_self_bus_name());
+        ARK_LOG_ERROR("Cannot start server net, busid = {}", bus_module_->get_self_bus_name());
         ARK_ASSERT_NO_EFFECT(0);
         exit(0);
     }
 
-    m_pNetServer = m_pNetServiceManagerModule->get_inter_net_server();
-    if (m_pNetServer == nullptr)
+    net_server_ = net_service_manager_module_->get_inter_net_server();
+    if (net_server_ == nullptr)
     {
-        ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->get_self_bus_name());
+        ARK_LOG_ERROR("Cannot find server net, busid = {}", bus_module_->get_self_bus_name());
         exit(0);
     }
 
     return 0;
 }
 
-std::shared_ptr<net_server_service> dir_net_module_impl::GetNetServer() {
-    return m_pNetServer;
+std::shared_ptr<net_server_service> dir_net_module_impl::get_net_server() {
+    return net_server_;
 }
 
 } // namespace ark

@@ -14,36 +14,38 @@ using simulate_trigger_cb_function =
 class simulate_scene
 {
 public:
-    simulate_scene() {}
+    simulate_scene() {
+    }
 
     simulate_scene(const guid_t& scene_obj_id)
-        : scene_obj_id_(scene_obj_id) {}
+        : scene_obj_id_(scene_obj_id) {
+    }
 
-    const guid_t& GetSceneObjID() {
+    const guid_t& get_scene_obj_id() {
         return scene_obj_id_;
     }
 
-    bool Exist(const simulate_net_id obj_id) {
+    bool exist(const simulate_net_id obj_id) {
         auto iter = net_id_actor_list_.find(obj_id);
         return iter != net_id_actor_list_.end();
     }
 
-    void InsertObjActor(const simulate_net_id obj_id, const guid_t& actor_obj_id) {
+    void insert_obj_actor(const simulate_net_id obj_id, const guid_t& actor_obj_id) {
         net_id_actor_list_.insert(std::make_pair(obj_id, actor_obj_id));
         actor_net_id_list_.insert(std::make_pair(actor_obj_id, obj_id));
     }
 
-    const guid_t& FindActor(const simulate_net_id obj_id) {
+    const guid_t& find_actor(const simulate_net_id obj_id) {
         auto iter = net_id_actor_list_.find(obj_id);
         if (iter == net_id_actor_list_.end())
         {
-            return NULL_GUID;
+            return null_guid;
         }
 
         return iter->second;
     }
 
-    simulate_net_id FindObj(const guid_t& actor_obj_id) {
+    simulate_net_id find_obj(const guid_t& actor_obj_id) {
         auto iter = actor_net_id_list_.find(actor_obj_id);
         if (iter == actor_net_id_list_.end())
         {
@@ -53,7 +55,7 @@ public:
         return iter->second;
     }
 
-    void RemoveObj(const simulate_net_id obj_id) {
+    void remove_obj(const simulate_net_id obj_id) {
         auto iter = net_id_actor_list_.find(obj_id);
         if (iter == net_id_actor_list_.end())
         {
@@ -65,7 +67,7 @@ public:
         actor_net_id_list_.erase(actor);
     }
 
-    void RemoveActor(const guid_t& actor_obj_id) {
+    void remove_actor(const guid_t& actor_obj_id) {
         auto iter = actor_net_id_list_.find(actor_obj_id);
         if (iter == actor_net_id_list_.end())
         {

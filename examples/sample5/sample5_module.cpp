@@ -23,13 +23,13 @@
 namespace ark {
 
 bool sample5_module::init() {
-    m_pHttpServerModule = find_module<http_server_module>();
+    http_server_module_ = find_module<http_server_module>();
 
     return true;
 }
 
 bool sample5_module::post_init() {
-    m_pHttpServerModule->start_server("0.0.0.0", 8080, 4);
+    http_server_module_->start_server("0.0.0.0", 8080, 4);
     return true;
 }
 

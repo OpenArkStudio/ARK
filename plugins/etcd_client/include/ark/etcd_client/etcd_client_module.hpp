@@ -9,7 +9,7 @@ class etcd_client_module : public module
 {
 public:
     virtual std::shared_ptr<etcd_client> create_etcd_client(
-        std::vector<std::string> endpoints, int ioTimeout = 5, int connectTimeout = 2) = 0;
+        std::vector<std::string> endpoints, int io_timeout = 5, int connect_timeout = 2) = 0;
 };
 
 } // namespace ark

@@ -23,18 +23,18 @@
 namespace ark {
 
 bool world_net_module_impl::init() {
-    mnLastCheckTime = get_plugin_manager()->get_now_time();
+    last_check_time_ = get_plugin_manager()->get_now_time();
 
-    m_pKernelModule = find_module<kernel_module>();
-    m_pBusModule = find_module<bus_module>();
-    m_pMsgModule = find_module<msg_module>();
-    m_pNetServiceManagerModule = find_module<net_service_manager_module>();
+    kernel_module_ = find_module<kernel_module>();
+    bus_module_ = find_module<bus_module>();
+    msg_module_ = find_module<msg_module>();
+    net_service_manager_module_ = find_module<net_service_manager_module>();
 
     return true;
 }
 
 bool world_net_module_impl::post_init() {
-    int ret = StartServer();
+    int ret = start_server();
     if (ret != 0)
     {
         exit(0);
@@ -43,19 +43,19 @@ bool world_net_module_impl::post_init() {
     return true;
 }
 
-int world_net_module_impl::StartServer() {
-    auto ret = m_pNetServiceManagerModule->create_server();
+int world_net_module_impl::start_server() {
+    auto ret = net_service_manager_module_->create_server();
     if (!ret)
     {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}", m_pBusModule->get_self_bus_name());
+        ARK_LOG_ERROR("Cannot start server net, busid = {}", bus_module_->get_self_bus_name());
         ARK_ASSERT_NO_EFFECT(0);
         exit(0);
     }
 
-    m_pNetServer = m_pNetServiceManagerModule->get_inter_net_server();
-    if (m_pNetServer == nullptr)
+    net_server_ = net_service_manager_module_->get_inter_net_server();
+    if (net_server_ == nullptr)
     {
-        ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->get_self_bus_name());
+        ARK_LOG_ERROR("Cannot find server net, busid = {}", bus_module_->get_self_bus_name());
         exit(0);
     }
 
@@ -86,9 +86,9 @@ int world_net_module_impl::StartServer() {
 //        return 0;
 //    }
 //
-//    // pNetClientWorld->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this,
+//    // pNetClientWorld->RegMsgCallback(ark::protobuf::EGMI_REQ_CONNECT_WORLD, this,
 //    // &AFCWorldNetClientModule::OnSelectServerProcess);
-//    // pNetClientWorld->RegMsgCallback(AFMsg::EGMI_REQ_KICK_CLIENT_INWORLD, this,
+//    // pNetClientWorld->RegMsgCallback(ark::protobuf::EGMI_REQ_KICK_CLIENT_INWORLD, this,
 //    // &AFCWorldNetClientModule::OnKickClientProcess); pNetClientWorld->RegMsgCallback(this,
 //    // &AFCWorldNetClientModule::InvalidMessage);
 //
@@ -126,7 +126,7 @@ int world_net_module_impl::StartServer() {
 //    //{
 //    //    if (xClientID == pServerData->xClient)
 //    //    {
-//    //        pServerData->xData.set_logic_status(AFMsg::EST_CRASH);
+//    //        pServerData->xData.set_logic_status(ark::protobuf::est_crash);
 //    //        pServerData->xClient = 0;
 
 //    //        return;
@@ -152,8 +152,8 @@ int world_net_module_impl::StartServer() {
 //    //log
 //}
 
-bool world_net_module_impl::SendMsgToGame(
-    const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const guid_t nPlayer) {
+bool world_net_module_impl::send_msg_to_game(const int game_id, const ark::protobuf::game_message_id msg_id,
+    google::protobuf::Message& data_value, const guid_t player) {
     // std::shared_ptr<AFServerData> pData = mGameMap.GetElement(nGameID);
 
     // if (nullptr != pData)
@@ -164,34 +164,34 @@ bool world_net_module_impl::SendMsgToGame(
     return true;
 }
 
-bool world_net_module_impl::SendMsgToGame(const data_list& argObjectVar, const data_list& argGameID,
-    const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData) {
-    if (argGameID.get_count() != argObjectVar.get_count())
+bool world_net_module_impl::send_msg_to_game(const data_list& arg_object_var, const data_list& arg_game_id,
+    const ark::protobuf::game_message_id msg_id, google::protobuf::Message& data_value) {
+    if (arg_game_id.get_count() != arg_object_var.get_count())
     {
         return false;
     }
 
-    for (size_t i = 0; i < argObjectVar.get_count(); i++)
+    for (size_t i = 0; i < arg_object_var.get_count(); i++)
     {
-        guid_t identOther = argObjectVar.int64(i);
-        int nGameID = argGameID.get_int(i);
+        guid_t ident_other = arg_object_var.int64(i);
+        int game_id = arg_game_id.get_int(i);
 
-        SendMsgToGame(nGameID, eMsgID, xData, identOther);
+        send_msg_to_game(game_id, msg_id, data_value, ident_other);
     }
 
     return true;
 }
 
-bool world_net_module_impl::SendMsgToPlayer(
-    const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const guid_t nPlayer) {
-    int nGameID = GetPlayerGameID(nPlayer);
+bool world_net_module_impl::send_msg_to_player(
+    const ark::protobuf::game_message_id msg_id, google::protobuf::Message& data_value, const guid_t player) {
+    int game_id = get_player_game_id(player);
 
-    if (nGameID < 0)
+    if (game_id < 0)
     {
         return false;
     }
 
-    return SendMsgToGame(nGameID, eMsgID, xData, nPlayer);
+    return send_msg_to_game(game_id, msg_id, data_value, player);
 }
 
 //std::shared_ptr<AFServerData> AFCWorldNetModule::GetSuitProxyForEnter()
@@ -199,23 +199,23 @@ bool world_net_module_impl::SendMsgToPlayer(
 //    return mProxyMap.begin()->second;
 //}
 
-std::shared_ptr<connection_data> world_net_module_impl::GetSuitProxyForEnter() {
+std::shared_ptr<connection_data> world_net_module_impl::get_suit_proxy_for_enter() {
     // return mProxyMap.begin()->second;
-    auto pClientService = m_pNetServiceManagerModule->get_client_service(ark::app_type::ARK_APP_PROXY);
-    if (pClientService == nullptr)
+    auto client_service_ptr = net_service_manager_module_->get_client_service(ark::app_type::ark_app_proxy);
+    if (client_service_ptr == nullptr)
     {
         ARK_LOG_INFO("Connection data not found connection");
         return nullptr;
     }
 
-    return pClientService->get_suitable_connect(NULL_STR); // todo : change key
+    return client_service_ptr->get_suitable_connect(null_str); // todo : change key
 }
 
-std::shared_ptr<net_server_service> world_net_module_impl::GetNetServer() {
-    return m_pNetServer;
+std::shared_ptr<net_server_service> world_net_module_impl::get_net_server() {
+    return net_server_;
 }
 
-int world_net_module_impl::GetPlayerGameID(const guid_t& self) {
+int world_net_module_impl::get_player_game_id(const guid_t& self) {
     // do something
     return -1;
 }

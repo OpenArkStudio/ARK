@@ -38,7 +38,7 @@ public:
     std::shared_ptr<container> find_container(const uint32_t index) const override;
 
     std::shared_ptr<container> create_container(
-        std::shared_ptr<class_meta> pClassMeta, const uint32_t index, const guid_t& parent_id) override;
+        std::shared_ptr<class_meta> class_meta_ptr, const uint32_t index, const guid_t& parent_id) override;
 
     bool destroy_container(const uint32_t index) override;
 

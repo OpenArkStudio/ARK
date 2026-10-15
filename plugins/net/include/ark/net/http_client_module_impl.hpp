@@ -41,54 +41,54 @@ public:
     std::future<std::pair<bool, std::string>> async_request(arknet::http::verb method, const std::string& host,
         const uint16_t port, const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
         const std::vector<std::string>* cookies = nullptr, const std::string* http_body = nullptr,
-        const std::string* content_type = nullptr, int ioTimeout = 20, int connectTimeout = 5) override {
+        const std::string* content_type = nullptr, int io_timeout = 20, int connect_timeout = 5) override {
         return async_request(method, host, std::to_string(port), url, url_params, cookies, http_body, content_type,
-            ioTimeout, connectTimeout);
+            io_timeout, connect_timeout);
     }
 
     std::future<std::pair<bool, std::string>> get(const std::string& host, const uint16_t port, const std::string& url,
         const std::map<std::string, std::string>* url_params = nullptr,
-        const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) override {
+        const std::vector<std::string>* cookies = nullptr, int io_timeout = 20, int connect_timeout = 5) override {
         return async_request(arknet::http::verb::get, host, std::to_string(port), url, url_params, cookies, nullptr,
-            nullptr, ioTimeout, connectTimeout);
+            nullptr, io_timeout, connect_timeout);
     }
 
     std::future<std::pair<bool, std::string>> post(const std::string& host, const uint16_t port, const std::string& url,
         const std::map<std::string, std::string>* url_params = nullptr, const std::string* http_body = nullptr,
         const std::string* content_type = nullptr, const std::vector<std::string>* cookies = nullptr,
-        int ioTimeout = 20, int connectTimeout = 5) override {
+        int io_timeout = 20, int connect_timeout = 5) override {
         return async_request(arknet::http::verb::post, host, std::to_string(port), url, url_params, cookies, http_body,
-            content_type, ioTimeout, connectTimeout);
+            content_type, io_timeout, connect_timeout);
     }
 
     void post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& host, const uint16_t port,
         const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
         const std::string* http_body = nullptr, const std::string* content_type = nullptr,
-        const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) override {
+        const std::vector<std::string>* cookies = nullptr, int io_timeout = 20, int connect_timeout = 5) override {
         async_request(std::move(cb), arknet::http::verb::post, host, std::to_string(port), url, url_params, cookies,
-            http_body, content_type, ioTimeout, connectTimeout);
+            http_body, content_type, io_timeout, connect_timeout);
     }
 
     void post(std::function<void(std::pair<bool, std::string>)> cb, const std::string& host, const std::string& service,
         const std::string& url, const std::map<std::string, std::string>* url_params = nullptr,
         const std::string* http_body = nullptr, const std::string* content_type = nullptr,
-        const std::vector<std::string>* cookies = nullptr, int ioTimeout = 20, int connectTimeout = 5) override {
+        const std::vector<std::string>* cookies = nullptr, int io_timeout = 20, int connect_timeout = 5) override {
         async_request(std::move(cb), arknet::http::verb::post, host, service, url, url_params, cookies, http_body,
-            content_type, ioTimeout, connectTimeout);
+            content_type, io_timeout, connect_timeout);
     }
 
 private:
     std::future<std::pair<bool, std::string>> async_request(arknet::http::verb method, const std::string& host,
         const std::string& service, const std::string& target,
         const std::map<std::string, std::string>* params = nullptr, const std::vector<std::string>* cookies = nullptr,
-        const std::string* http_body = nullptr, const std::string* content_type = nullptr, int ioTimeout = 20,
-        int connectTimeout = 5);
+        const std::string* http_body = nullptr, const std::string* content_type = nullptr, int io_timeout = 20,
+        int connect_timeout = 5);
 
     void async_request(std::function<void(std::pair<bool, std::string>)> cb, arknet::http::verb method,
         const std::string& host, const std::string& service, const std::string& target,
         const std::map<std::string, std::string>* params = nullptr, const std::vector<std::string>* cookies = nullptr,
-        const std::string* http_body = nullptr, const std::string* content_type = nullptr, int ioTimeout = 20,
-        int connectTimeout = 5);
+        const std::string* http_body = nullptr, const std::string* content_type = nullptr, int io_timeout = 20,
+        int connect_timeout = 5);
 
 private:
     struct state;

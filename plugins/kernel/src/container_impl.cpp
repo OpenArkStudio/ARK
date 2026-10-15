@@ -44,7 +44,7 @@ uint32_t container_impl::first() {
     iter_ = entity_data_list_.begin();
     if (entity_data_list_.end() == iter_)
     {
-        return NULL_INT;
+        return null_int;
     }
 
     return iter_->first;
@@ -53,13 +53,13 @@ uint32_t container_impl::first() {
 uint32_t container_impl::next() {
     if (entity_data_list_.end() == iter_)
     {
-        return NULL_INT;
+        return null_int;
     }
 
     ++iter_;
     if (entity_data_list_.end() == iter_)
     {
-        return NULL_INT;
+        return null_int;
     }
 
     return iter_->first;
@@ -78,7 +78,7 @@ uint32_t container_impl::find(const guid_t& id) const {
         }
     }
 
-    return NULL_INT;
+    return null_int;
 }
 
 bool container_impl::exist(uint32_t index) const {
@@ -89,18 +89,18 @@ bool container_impl::exist(const guid_t& id) const {
     return (find(id) > 0);
 }
 
-bool container_impl::place(std::shared_ptr<entity> pEntity) {
+bool container_impl::place(std::shared_ptr<entity> entity_ptr) {
     // should not be in container
-    ARK_ASSERT_RET_VAL(pEntity != nullptr, false);
+    ARK_ASSERT_RET_VAL(entity_ptr != nullptr, false);
 
-    ARK_ASSERT_RET_VAL(find(pEntity->get_id()) == 0, false);
+    ARK_ASSERT_RET_VAL(find(entity_ptr->get_id()) == 0, false);
 
-    return place(select_index(), pEntity);
+    return place(select_index(), entity_ptr);
 }
 
-bool container_impl::place(uint32_t index, std::shared_ptr<entity> pEntity) {
+bool container_impl::place(uint32_t index, std::shared_ptr<entity> entity_ptr) {
     // class should be same
-    if (!pEntity || !container_meta_ || pEntity->get_class_name() != container_meta_->get_class_name())
+    if (!entity_ptr || !container_meta_ || entity_ptr->get_class_name() != container_meta_->get_class_name())
     {
         return false;
     }
@@ -112,12 +112,12 @@ bool container_impl::place(uint32_t index, std::shared_ptr<entity> pEntity) {
         return false;
     }
 
-    if (!place_entity(index, pEntity))
+    if (!place_entity(index, entity_ptr))
     {
         return false;
     }
 
-    on_container_place(index, pEntity);
+    on_container_place(index, entity_ptr);
     return true;
 }
 
@@ -131,8 +131,8 @@ bool container_impl::swap(const uint32_t src_index, const uint32_t dest_index) {
         return false;
     }
 
-    auto pSrcEntity = iter_src->second;
-    ARK_ASSERT_RET_VAL(pSrcEntity != nullptr, false);
+    auto src_entity_ptr = iter_src->second;
+    ARK_ASSERT_RET_VAL(src_entity_ptr != nullptr, false);
 
     auto iter_dest = entity_data_list_.find(dest_index);
     if (iter_dest == entity_data_list_.end())
@@ -148,9 +148,9 @@ bool container_impl::swap(const uint32_t src_index, const uint32_t dest_index) {
     else
     {
         // exchange
-        auto pDestEntity = iter_dest->second;
-        iter_src->second = pDestEntity;
-        iter_dest->second = pSrcEntity;
+        auto dest_entity_ptr = iter_dest->second;
+        iter_src->second = dest_entity_ptr;
+        iter_dest->second = src_entity_ptr;
 
         on_container_swap(src_index, dest_index);
     }
@@ -166,25 +166,25 @@ bool container_impl::swap(const guid_t& src_entity, const guid_t& dest_entity) {
 }
 
 bool container_impl::swap(
-    std::shared_ptr<container> pSrcContainer, const uint32_t src_index, const uint32_t dest_index) {
-    if (pSrcContainer == nullptr || src_index == 0 || dest_index == 0)
+    std::shared_ptr<container> src_container_ptr, const uint32_t src_index, const uint32_t dest_index) {
+    if (src_container_ptr == nullptr || src_index == 0 || dest_index == 0)
     {
         return false;
     }
 
-    auto pSrcEntity = pSrcContainer->find(src_index);
-    if (pSrcEntity == nullptr)
+    auto src_entity_ptr = src_container_ptr->find(src_index);
+    if (src_entity_ptr == nullptr)
     {
         return false;
     }
 
     // class should be same
-    if (!container_meta_ || pSrcEntity->get_class_name() != container_meta_->get_class_name())
+    if (!container_meta_ || src_entity_ptr->get_class_name() != container_meta_->get_class_name())
     {
         return false;
     }
 
-    if (!pSrcContainer->remove(src_index))
+    if (!src_container_ptr->remove(src_index))
     {
         return false;
     }
@@ -192,12 +192,12 @@ bool container_impl::swap(
     auto iter_dest = entity_data_list_.find(dest_index);
     if (iter_dest == entity_data_list_.end())
     {
-        if (!place_entity(dest_index, pSrcEntity))
+        if (!place_entity(dest_index, src_entity_ptr))
         {
             return false;
         }
 
-        on_container_place(dest_index, pSrcEntity);
+        on_container_place(dest_index, src_entity_ptr);
     }
     else
     {
@@ -206,40 +206,40 @@ bool container_impl::swap(
             return false;
         }
 
-        auto pDestSrcEntity = iter_dest->second;
-        if (!pSrcContainer->place(src_index, pDestSrcEntity) || !place_entity(dest_index, pSrcEntity))
+        auto dest_src_entity_ptr = iter_dest->second;
+        if (!src_container_ptr->place(src_index, dest_src_entity_ptr) || !place_entity(dest_index, src_entity_ptr))
         {
             return false;
         }
 
-        on_container_place(dest_index, pSrcEntity);
+        on_container_place(dest_index, src_entity_ptr);
     }
 
     return true;
 }
 
 bool container_impl::swap(
-    std::shared_ptr<container> pSrcContainer, const guid_t& src_entity, const guid_t& dest_entity) {
-    if (pSrcContainer == nullptr)
+    std::shared_ptr<container> src_container_ptr, const guid_t& src_entity, const guid_t& dest_entity) {
+    if (src_container_ptr == nullptr)
     {
         return false;
     }
 
-    auto src_index = pSrcContainer->find(src_entity);
+    auto src_index = src_container_ptr->find(src_entity);
     auto dest_index = find(dest_entity);
 
-    return swap(pSrcContainer, src_index, dest_index);
+    return swap(src_container_ptr, src_index, dest_index);
 }
 
 bool container_impl::remove(const uint32_t index) {
-    auto pEntity = entity_data_list_.find_value(index);
-    if (nullptr == pEntity)
+    auto entity_ptr = entity_data_list_.find_value(index);
+    if (nullptr == entity_ptr)
     {
         return false;
     }
 
     entity_data_list_.erase(index);
-    on_container_remove(index, pEntity);
+    on_container_remove(index, entity_ptr);
 
     return true;
 }
@@ -250,13 +250,13 @@ bool container_impl::remove(const guid_t& id) {
 }
 
 bool container_impl::destroy(const uint32_t index) {
-    auto pEntity = entity_data_list_.find_value(index);
-    if (nullptr == pEntity)
+    auto entity_ptr = entity_data_list_.find_value(index);
+    if (nullptr == entity_ptr)
     {
         return false;
     }
 
-    on_container_destroy(index, pEntity);
+    on_container_destroy(index, entity_ptr);
     entity_data_list_.erase(index);
 
     return true;
@@ -290,8 +290,8 @@ uint32_t container_impl::select_index() const {
     }
 }
 
-bool container_impl::place_entity(const uint32_t index, std::shared_ptr<entity> pEntity) {
-    if (!entity_data_list_.insert(index, pEntity).second)
+bool container_impl::place_entity(const uint32_t index, std::shared_ptr<entity> entity_ptr) {
+    if (!entity_data_list_.insert(index, entity_ptr).second)
     {
         return false;
     }
@@ -304,44 +304,44 @@ bool container_impl::place_entity(const uint32_t index, std::shared_ptr<entity> 
     return true;
 }
 
-void container_impl::on_container_place(const uint32_t index, std::shared_ptr<entity> pEntity) {
-    ARK_ASSERT_RET_NONE(pEntity != nullptr);
-    pEntity->set_parent_container(shared_from_this());
+void container_impl::on_container_place(const uint32_t index, std::shared_ptr<entity> entity_ptr) {
+    ARK_ASSERT_RET_NONE(entity_ptr != nullptr);
+    entity_ptr->set_parent_container(shared_from_this());
 
     ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr && container_meta_ != nullptr);
 
     call_back_mgr_->on_container_call_back(
-        parent_, container_meta_->get_index(), container_meta_->get_mask(), container_op_type::OP_PLACE, index, 0u);
+        parent_, container_meta_->get_index(), container_meta_->get_mask(), container_op_type::op_place, index, 0u);
 }
 
 void container_impl::on_container_swap(const uint32_t index, const uint32_t swap_index) {
     ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr && container_meta_ != nullptr);
     call_back_mgr_->on_container_call_back(parent_, container_meta_->get_index(), container_meta_->get_mask(),
-        container_op_type::OP_SWAP, index, swap_index);
+        container_op_type::op_swap, index, swap_index);
 }
 
-void container_impl::on_container_remove(const uint32_t index, std::shared_ptr<entity> pEntity) {
-    pEntity->set_parent_container(nullptr);
+void container_impl::on_container_remove(const uint32_t index, std::shared_ptr<entity> entity_ptr) {
+    entity_ptr->set_parent_container(nullptr);
 
     ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr && container_meta_ != nullptr);
     call_back_mgr_->on_container_call_back(
-        parent_, container_meta_->get_index(), container_meta_->get_mask(), container_op_type::OP_REMOVE, index, 0u);
+        parent_, container_meta_->get_index(), container_meta_->get_mask(), container_op_type::op_remove, index, 0u);
 }
 
-void container_impl::on_container_destroy(const uint32_t index, std::shared_ptr<entity> pEntity) {
-    pEntity->set_parent_container(nullptr);
+void container_impl::on_container_destroy(const uint32_t index, std::shared_ptr<entity> entity_ptr) {
+    entity_ptr->set_parent_container(nullptr);
 
     ARK_ASSERT_RET_NONE(call_back_mgr_ != nullptr && container_meta_ != nullptr);
     call_back_mgr_->on_container_call_back(parent_, container_meta_->get_index(), container_meta_->get_mask(),
-        container_op_type::OP_DESTROY, index, 0u, pEntity);
+        container_op_type::op_destroy, index, 0u, entity_ptr);
 }
 
-bool container_impl::init_entity_list(const uint32_t index, std::shared_ptr<entity> pEntity) {
-    return entity_data_list_.insert(index, pEntity).second;
+bool container_impl::init_entity_list(const uint32_t index, std::shared_ptr<entity> entity_ptr) {
+    return entity_data_list_.insert(index, entity_ptr).second;
 }
 
 const std::string& container_impl::get_name() const {
-    ARK_ASSERT_RET_VAL(container_meta_ != nullptr, NULL_STR);
+    ARK_ASSERT_RET_VAL(container_meta_ != nullptr, null_str);
 
     return container_meta_->get_name();
 }

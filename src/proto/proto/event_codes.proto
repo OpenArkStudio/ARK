@@ -1,0 +1,60 @@
+syntax = "proto3";
+package ark.protobuf;
+
+// 所有的网络逻辑事件枚举都在这里
+enum event_code {
+  evc_success = 0;               // 操作成功
+  evc_unkown_error = 1;          // 未知错误
+  evc_account_exist = 2;         // 注册时账号在数据库中已存在
+  evc_accountpwd_invalid = 3;    // 账号不存在或者密码错误
+  evc_account_using = 4;         // 账号正在使用
+  evc_account_locked = 5;        // 账号已封停
+  evc_account_success = 6;       // 账号登录成功
+  evc_verify_key_success = 7;    // 账号KEY验证成功
+  evc_verify_key_fail = 8;       // 账号KEY验证失败
+  evc_selectserver_success = 9;  // 选择单服成功
+  evc_selectserver_fail = 10;    // 选择单服失败
+
+  evc_character_exist = 110;    // 创建角色时角色名重复
+  evc_svrzoneid_invalid = 111;  // 创建角色时游戏区代码无效
+  evc_character_numout =
+      112;  // 创建角色时角色个数超出设定值(一个账号最多建4个角色)
+  evc_character_invalid = 113;    // 角色名无效（非法角色名）
+  evc_character_notexist = 114;   // 角色不存在
+  evc_character_using = 115;      // 角色已在游戏中
+  evc_character_locked = 116;     // 角色已封停
+  evc_zone_overload = 117;        // 场景人数已满(领地XXX; 过于拥挤)
+  evc_not_online = 118;           // 玩家不在线
+  evc_alreay_in_team = 119;       // 玩家已经在队伍中了
+  evc_invalid_team_invite = 120;  // 无效的组队邀请
+  evc_team_full = 121;            // 队伍人数已满
+  evc_mail_update_error = 122;    // 更新邮件状态时出错
+  evc_mail_toname_invalid = 123;  // 邮件时收件人不存在
+  evc_mail_delete_error = 124;    // 删除邮件失败
+  evc_mail_towname_equal = 125;   // 不能自己给自己发邮件
+  evc_lack_money = 126;           // 金钱不足
+  evc_full_package = 127;         // 背包已满
+  evc_invalid_item = 128;         // 无效的道具
+  evc_invalid_consignment = 129;  // 无效的寄售ID
+  evc_not_enough_vip = 130;       // VIP点数不够
+  evc_need_level = 131;           // 等级不够
+  evc_max_friend_list = 132;      // 好友列表已满
+  evc_max_enemy_list = 133;       // 敌人列表已满
+  evc_max_gangs_lsit = 134;       // 帮会人数达上限
+  evc_limits_to_rights = 135;     // 需要权限
+  evc_invalid_gangs_name = 136;   // 无效的帮会名称
+  evc_repeat_enter_gangs = 137;  // 角色已经是帮会成员了;不能再加入帮会了
+  evc_invalid_gangsmember = 138;  // 角色不是指定帮会成员
+  evc_master_leave_gangs = 139;   // 会长不能离开帮会
+  evc_gangs_title_outof = 140;  // 指定帮会职务的人类超过该职务的最大数量
+  evc_enter_gateway_faild =
+      141;  // 无效的传送请求(传送门实际不存在;没有到达触发传送的条件等)
+  evc_no_server4_zone =
+      142;  // 还没有指派服务器管理该场景; 请稍等(游戏世界还处于混沌中...)
+  evc_invalid_skill = 143;       // 无效的技能
+  evc_enter_game_success = 144;  // 进入游戏成功
+
+  evc_create_guild_success = 200;  // 创建公会成功
+  evc_join_guild_success = 201;    // 加入公会成功
+  evc_leave_guild_success = 202;   // 离开公会成功
+}

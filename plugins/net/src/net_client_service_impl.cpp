@@ -26,20 +26,20 @@
 namespace ark {
 
 net_client_service_impl::net_client_service_impl(plugin_manager* p)
-    : m_pPluginManager(p) {
-    m_pNetServiceManagerModule = m_pPluginManager->find_module<net_service_manager_module>();
-    m_pBusModule = m_pPluginManager->find_module<bus_module>();
-    m_pMsgModule = m_pPluginManager->find_module<msg_module>();
+    : plugin_manager_(p) {
+    net_service_manager_ = plugin_manager_->find_module<net_service_manager_module>();
+    bus_module_ = plugin_manager_->find_module<bus_module>();
+    msg_module_ = plugin_manager_->find_module<msg_module>();
 
-    consistent_hashmap_.set_vnode_count(EConstDefine_DefaultWeight);
+    consistent_hashmap_.set_vnode_count(default_weight);
 }
 
 bool net_client_service_impl::start_client(
     std::shared_ptr<const msg_header> head, bus_id_t target_bus_id, const endpoint& endpoint) {
     connection_data data;
-    data.head_ = head;
-    data.server_bus_id_ = target_bus_id;
-    data.endpoint_ = endpoint;
+    data.head = head;
+    data.server_bus_id = target_bus_id;
+    data.remote_endpoint = endpoint;
 
     tmp_connections_.push_back(data);
     return true;
@@ -76,54 +76,53 @@ void net_client_service_impl::process_update() {
     for (auto iter : real_connections_)
     {
         auto connection_data = iter.second;
-        if (connection_data->net_client_ == nullptr)
+        if (connection_data->net_client == nullptr)
         {
             continue;
         }
 
-        switch (connection_data->net_state_)
+        switch (connection_data->net_state)
         {
-        case connection_data::DISCONNECT:
+        case connection_data::disconnect:
         {
-            connection_data->net_state_ = connection_data::RECONNECT;
-            connection_data->net_client_->shutdown();
+            connection_data->net_state = connection_data::reconnect;
+            connection_data->net_client->shutdown();
         }
         break;
-        case connection_data::CONNECTING:
+        case connection_data::connecting:
         {
-            connection_data->net_client_->update();
+            connection_data->net_client->update();
         }
         break;
-        case connection_data::CONNECTED:
+        case connection_data::connected:
         {
-            connection_data->net_client_->update();
+            connection_data->net_client->update();
 
             keep_alive(connection_data);
         }
         break;
-        case connection_data::RECONNECT:
+        case connection_data::reconnect:
         {
             // RECONNECT 30s/time
-            if ((connection_data->last_active_time_ + 30 * timespan::SECOND_MS) >= m_pPluginManager->get_now_time())
+            if ((connection_data->last_active_time + 30 * timespan::second_ms) >= plugin_manager_->get_now_time())
             {
                 break;
             }
 
-            connection_data->last_active_time_ = m_pPluginManager->get_now_time();
+            connection_data->last_active_time = plugin_manager_->get_now_time();
 
-            connection_data->net_client_->shutdown();
+            connection_data->net_client->shutdown();
 
             // based on protocol to create a new client
-            bool ret =
-                connection_data->net_client_->start_client(connection_data->head_, connection_data->server_bus_id_,
-                    connection_data->endpoint_.get_ip(), connection_data->endpoint_.get_port());
+            bool ret = connection_data->net_client->start_client(connection_data->head, connection_data->server_bus_id,
+                connection_data->remote_endpoint.get_ip(), connection_data->remote_endpoint.get_port());
             if (!ret)
             {
-                connection_data->net_state_ = connection_data::RECONNECT;
+                connection_data->net_state = connection_data::reconnect;
             }
             else
             {
-                connection_data->net_state_ = connection_data::CONNECTING;
+                connection_data->net_state = connection_data::connecting;
             }
         }
         break;
@@ -161,8 +160,8 @@ void net_client_service_impl::log_server_info() {
         auto connection_data = iter.second;
         if (connection_data != nullptr)
         {
-            std::string info = ARK_FORMAT("TargetBusID={} State={} url={}", connection_data->server_bus_id_,
-                static_cast<int>(connection_data->net_state_), connection_data->endpoint_.to_string());
+            std::string info = ARK_FORMAT("TargetBusID={} State={} url={}", connection_data->server_bus_id,
+                static_cast<int>(connection_data->net_state), connection_data->remote_endpoint.to_string());
             log_server_info(info);
         }
     }
@@ -170,22 +169,22 @@ void net_client_service_impl::log_server_info() {
     log_server_info("This is a client, end to print Server Info----------------------------------");
 }
 
-void net_client_service_impl::keep_alive(std::shared_ptr<connection_data> pServerData) {
-    if ((pServerData->last_active_time_ + 5000) > m_pPluginManager->get_now_time())
+void net_client_service_impl::keep_alive(std::shared_ptr<connection_data> server_data_ptr) {
+    if ((server_data_ptr->last_active_time + 5000) > plugin_manager_->get_now_time())
     {
         return;
     }
 
-    send_report(pServerData);
+    send_report(server_data_ptr);
 
-    pServerData->last_active_time_ = m_pPluginManager->get_now_time();
+    server_data_ptr->last_active_time = plugin_manager_->get_now_time();
 
-    keep_report(pServerData);
+    keep_report(server_data_ptr);
     log_server_info();
 }
 
 bool net_client_service_impl::add_server_node(std::shared_ptr<connection_data> data) {
-    consistent_hashmap_.insert(data->server_bus_id_, data->endpoint_.get_ip(), data->endpoint_.get_port());
+    consistent_hashmap_.insert(data->server_bus_id, data->remote_endpoint.get_ip(), data->remote_endpoint.get_port());
     return true;
 }
 
@@ -203,7 +202,7 @@ bool net_client_service_impl::get_server_node(const std::string& hash_key, v_nod
 }
 
 void net_client_service_impl::remove_server_node(std::shared_ptr<connection_data> data) {
-    v_node vnode(data->server_bus_id_, data->endpoint_.get_ip(), data->endpoint_.get_port(), 0);
+    v_node vnode(data->server_bus_id, data->remote_endpoint.get_ip(), data->remote_endpoint.get_port(), 0);
     consistent_hashmap_.erase(vnode);
 }
 
@@ -216,13 +215,13 @@ int net_client_service_impl::on_connect(const net_event* event) {
     if (connection_info != nullptr)
     {
         add_server_node(connection_info);
-        connection_info->net_state_ = connection_data::CONNECTED;
+        connection_info->net_state = connection_data::connected;
 
         // add server-bus-id -> client-bus-id
-        m_pNetServiceManagerModule->add_net_connection_bus(event->get_bus_id(), connection_info->net_client_);
+        net_service_manager_->add_net_connection_bus(event->get_bus_id(), connection_info->net_client);
 
         // send reg message to server
-        reg_to_server(*(connection_info->head_.get()), event->get_bus_id());
+        reg_to_server(*(connection_info->head.get()), event->get_bus_id());
     }
 
     return 0;
@@ -237,10 +236,10 @@ int net_client_service_impl::on_disconnect(const net_event* event) {
     if (connection_info != nullptr)
     {
         remove_server_node(connection_info);
-        connection_info->net_state_ = connection_data::DISCONNECT;
-        connection_info->last_active_time_ = m_pPluginManager->get_now_time();
+        connection_info->net_state = connection_data::disconnect;
+        connection_info->last_active_time = plugin_manager_->get_now_time();
         // remove net bus
-        m_pNetServiceManagerModule->remove_net_connection_bus(event->get_bus_id());
+        net_service_manager_->remove_net_connection_bus(event->get_bus_id());
     }
 
     return 0;
@@ -251,7 +250,7 @@ void net_client_service_impl::process_add_connection() {
     {
         const connection_data& pending_connection = iter;
         std::shared_ptr<connection_data> target_connection_data =
-            real_connections_.find_value(pending_connection.server_bus_id_);
+            real_connections_.find_value(pending_connection.server_bus_id);
         if (target_connection_data != nullptr)
         {
             continue;
@@ -260,23 +259,23 @@ void net_client_service_impl::process_add_connection() {
         target_connection_data = std::make_shared<connection_data>();
 
         *target_connection_data = pending_connection;
-        target_connection_data->last_active_time_ = m_pPluginManager->get_now_time();
+        target_connection_data->last_active_time = plugin_manager_->get_now_time();
 
         // based on protocol to create a new client
-        target_connection_data->net_client_ = create_net(target_connection_data->endpoint_.proto());
-        int ret = target_connection_data->net_client_->start_client(target_connection_data->head_,
-            target_connection_data->server_bus_id_, target_connection_data->endpoint_.get_ip(),
-            target_connection_data->endpoint_.get_port());
+        target_connection_data->net_client = create_net(target_connection_data->remote_endpoint.proto());
+        int ret = target_connection_data->net_client->start_client(target_connection_data->head,
+            target_connection_data->server_bus_id, target_connection_data->remote_endpoint.get_ip(),
+            target_connection_data->remote_endpoint.get_port());
         if (!ret)
         {
-            target_connection_data->net_state_ = connection_data::RECONNECT;
+            target_connection_data->net_state = connection_data::reconnect;
         }
         else
         {
-            target_connection_data->net_state_ = connection_data::CONNECTING;
+            target_connection_data->net_state = connection_data::connecting;
         }
 
-        real_connections_.insert(target_connection_data->server_bus_id_, target_connection_data);
+        real_connections_.insert(target_connection_data->server_bus_id, target_connection_data);
     }
 
     tmp_connections_.clear();
@@ -301,10 +300,10 @@ void net_client_service_impl::on_net_msg(const net_msg* msg, conv_id_t session_i
 void net_client_service_impl::on_net_event(const net_event* event) {
     switch (event->get_type())
     {
-    case net_event_type::CONNECT:
+    case net_event_type::connect:
         on_connect(event);
         break;
-    case net_event_type::DISCONNECT:
+    case net_event_type::disconnect:
         on_disconnect(event);
         break;
     default:
@@ -322,7 +321,7 @@ std::shared_ptr<connection_data> net_client_service_impl::get_connection_info(bu
 }
 
 std::shared_ptr<connection_data> net_client_service_impl::get_suitable_connect(const std::string& key) {
-    static v_node vnode(0, NULL_STR, 0, 0);
+    static v_node vnode(0, null_str, 0, 0);
     if (!get_server_node(key, vnode))
     {
         return nullptr;
@@ -368,30 +367,30 @@ int net_client_service_impl::get_actor_bus_id(const guid_t& actor) {
 }
 
 void net_client_service_impl::reg_to_server(const msg_header& head, bus_id_t target_bus_id) {
-    auto bus_id = m_pBusModule->get_self_bus_id();
-    auto pNet = m_pNetServiceManagerModule->get_net_connection_bus(bus_id, target_bus_id);
-    if (!pNet)
+    auto bus_id = bus_module_->get_self_bus_id();
+    auto net_ptr = net_service_manager_->get_net_connection_bus(bus_id, target_bus_id);
+    if (!net_ptr)
     {
         return;
     }
 
     auto new_head = head.create();
-    new_head->set_message_id(AFMsg::E_SS_MSG_ID_REG_TO_SERVER);
+    new_head->set_message_id(ark::protobuf::e_ss_msg_id_reg_to_server);
     new_head->set_source_bus_id(bus_id);
     new_head->set_dest_bus_id(target_bus_id);
 
-    pNet->send_msg(new_head, "", 0);
+    net_ptr->send_msg(new_head, "", 0);
 
     delete new_head;
 }
 
-void net_client_service_impl::send_report(std::shared_ptr<connection_data> pServerData) {
-    auto head = pServerData->head_->create();
-    head->set_message_id(AFMsg::E_SS_MSG_ID_HEART_BEAT);
-    head->set_source_bus_id(m_pBusModule->get_self_bus_id());
-    head->set_dest_bus_id(pServerData->server_bus_id_);
+void net_client_service_impl::send_report(std::shared_ptr<connection_data> server_data_ptr) {
+    auto head = server_data_ptr->head->create();
+    head->set_message_id(ark::protobuf::e_ss_msg_id_heart_beat);
+    head->set_source_bus_id(bus_module_->get_self_bus_id());
+    head->set_dest_bus_id(server_data_ptr->server_bus_id);
 
-    pServerData->net_client_->send_msg(head, "", 0);
+    server_data_ptr->net_client->send_msg(head, "", 0);
 
     delete head;
 }

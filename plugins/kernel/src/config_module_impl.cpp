@@ -31,9 +31,9 @@
 namespace ark {
 
 bool config_module_impl::init() {
-    m_pClassModule = find_module<class_meta_module>();
+    class_meta_module_ = find_module<class_meta_module>();
 
-    m_pStaticEntityManager = ARK_NEW static_entity_manager();
+    static_entity_manager_ = ARK_NEW static_entity_manager();
 
     return load();
 } // namespace ark
@@ -48,7 +48,7 @@ bool config_module_impl::load() {
         return false;
     }
 
-    auto& class_meta_list = m_pClassModule->get_static_meta_list();
+    auto& class_meta_list = class_meta_module_->get_static_meta_list();
     for (auto iter : class_meta_list)
     {
         auto class_meta = iter.second;
@@ -65,14 +65,14 @@ bool config_module_impl::save() {
 }
 
 bool config_module_impl::clear() {
-    ARK_DELETE(m_pStaticEntityManager);
+    ARK_DELETE(static_entity_manager_);
     return true;
 }
 
-bool config_module_impl::load_config(std::shared_ptr<class_meta> pClassMeta) {
-    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, true);
+bool config_module_impl::load_config(std::shared_ptr<class_meta> class_meta_ptr) {
+    ARK_ASSERT_RET_VAL(class_meta_ptr != nullptr, true);
 
-    const std::string& res_path = pClassMeta->get_res_path();
+    const std::string& res_path = class_meta_ptr->get_res_path();
     if (res_path.empty())
     {
         return true;
@@ -87,40 +87,41 @@ bool config_module_impl::load_config(std::shared_ptr<class_meta> pClassMeta) {
     auto root_node = xml_doc.get_root_node();
     ARK_ASSERT_RET_VAL(root_node.is_valid(), false);
 
-    auto& data_meta_list = pClassMeta->get_data_meta_list();
+    auto& data_meta_list = class_meta_ptr->get_data_meta_list();
     for (auto data_node = root_node.find_node("data"); data_node.is_valid(); data_node.next_node())
     {
         // must have id
-        auto idx = pClassMeta->get_index("id");
-        auto pIDMeta = data_meta_list.find_value(idx);
-        ARK_ASSERT_RET_VAL(pIDMeta != nullptr, false);
+        auto idx = class_meta_ptr->get_index("id");
+        auto id_meta_ptr = data_meta_list.find_value(idx);
+        ARK_ASSERT_RET_VAL(id_meta_ptr != nullptr, false);
 
-        node* pIDData = create_data_by_meta(pIDMeta);
-        ARK_ASSERT_RET_VAL(pIDData != nullptr, false);
+        node* id_data_ptr = create_data_by_meta(id_meta_ptr);
+        ARK_ASSERT_RET_VAL(id_data_ptr != nullptr, false);
 
-        pIDData->from_string(data_node.get_string(pIDData->get_name().c_str()));
+        id_data_ptr->from_string(data_node.get_string(id_data_ptr->get_name().c_str()));
 
         // create a new object
-        auto pNodeManager = std::make_shared<node_manager>(pClassMeta);
-        ARK_ASSERT_RET_VAL(pNodeManager != nullptr, false);
+        auto node_manager_ptr = std::make_shared<node_manager>(class_meta_ptr);
+        ARK_ASSERT_RET_VAL(node_manager_ptr != nullptr, false);
 
-        auto pObj = m_pStaticEntityManager->create_static_entity(pClassMeta, pNodeManager, pIDData->get_value());
-        ARK_ASSERT_RET_VAL(pObj != nullptr, false);
+        auto obj_ptr =
+            static_entity_manager_->create_static_entity(class_meta_ptr, node_manager_ptr, id_data_ptr->get_value());
+        ARK_ASSERT_RET_VAL(obj_ptr != nullptr, false);
 
         // delete id data do not need it
-        ARK_DELETE(pIDData);
+        ARK_DELETE(id_data_ptr);
 
         // read by class meta
         for (auto iter : data_meta_list)
         {
             auto& data_name = iter.first;
-            auto pDataMeta = iter.second;
-            ARK_ASSERT_RET_VAL(pDataMeta != nullptr, false);
+            auto data_meta_ptr = iter.second;
+            ARK_ASSERT_RET_VAL(data_meta_ptr != nullptr, false);
 
-            node* pData = pNodeManager->create_data(pDataMeta);
-            ARK_ASSERT_RET_VAL(pData != nullptr, false);
+            node* data_ptr = node_manager_ptr->create_data(data_meta_ptr);
+            ARK_ASSERT_RET_VAL(data_ptr != nullptr, false);
 
-            pData->from_string(data_node.get_string(pDataMeta->get_name().c_str()));
+            data_ptr->from_string(data_node.get_string(data_meta_ptr->get_name().c_str()));
         }
     }
 
@@ -128,9 +129,9 @@ bool config_module_impl::load_config(std::shared_ptr<class_meta> pClassMeta) {
 }
 
 std::shared_ptr<static_entity> config_module_impl::find_static_entity(const id_type config_id) {
-    ARK_ASSERT_RET_VAL(m_pStaticEntityManager != nullptr, nullptr);
+    ARK_ASSERT_RET_VAL(static_entity_manager_ != nullptr, nullptr);
 
-    return m_pStaticEntityManager->find_object(config_id);
+    return static_entity_manager_->find_object(config_id);
 }
 
 } // namespace ark

@@ -24,33 +24,33 @@
 
 namespace ark {
 
-template<typename VALUE, bool is_smart_ptr>
+template<typename element_type, bool is_smart_ptr>
 class vector_value_type
 {
 public:
-    using value_type = VALUE*;
+    using value_type = element_type*;
 };
 
-template<typename VALUE>
-class vector_value_type<VALUE, false>
+template<typename element_type>
+class vector_value_type<element_type, false>
 {
 public:
-    using value_type = VALUE*;
+    using value_type = element_type*;
 };
 
-template<typename VALUE>
-class vector_value_type<VALUE, true>
+template<typename element_type>
+class vector_value_type<element_type, true>
 {
 public:
-    using value_type = std::shared_ptr<VALUE>;
+    using value_type = std::shared_ptr<element_type>;
 };
 
-template<typename VALUE, bool is_smart_ptr>
+template<typename element_type, bool is_smart_ptr>
 class object_vector_base
 {
 public:
-    using vector_type = typename std::vector<VALUE>;
-    using value_type = typename vector_value_type<VALUE, is_smart_ptr>::value_type;
+    using vector_type = typename std::vector<element_type>;
+    using value_type = typename vector_value_type<element_type, is_smart_ptr>::value_type;
     using reference = value_type&;
     using const_reference = const value_type&;
     using iterator = typename vector_type::iterator;
@@ -180,13 +180,13 @@ private:
     vector_type datas_;
 };
 
-template<typename VALUE>
-using value_vector = std::vector<VALUE>;
+template<typename element_type>
+using value_vector = std::vector<element_type>;
 
-template<typename VALUE>
-using pointer_vector = object_vector_base<VALUE, false>;
+template<typename element_type>
+using pointer_vector = object_vector_base<element_type, false>;
 
-template<typename VALUE>
-using shared_vector = object_vector_base<VALUE, true>;
+template<typename element_type>
+using shared_vector = object_vector_base<element_type, true>;
 
 } // namespace ark

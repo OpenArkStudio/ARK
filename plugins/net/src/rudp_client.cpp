@@ -37,14 +37,14 @@ bool rudp_client::start_client(
         return false;
     }
     shutdown();
-    client_ = std::make_shared<arknet::rudp_client>(65536, ARK_TCP_RECV_BUFFER_SIZE);
+    client_ = std::make_shared<arknet::rudp_client>(65536, ark_tcp_recv_buffer_size);
     this->dst_bus_id_ = dst_bus_id;
     arknet::arq::options transport_options;
     transport_options.mtu = 1400;
     transport_options.congestion_control = false;
     client_->set_rudp_options(transport_options);
-    client_->set_auto_reconnect(true, ARK_RECONNECT_TIME);
-    client_->set_connect_timeout(ARK_CONNECT_TIMEOUT);
+    client_->set_auto_reconnect(true, ark_reconnect_time);
+    client_->set_connect_timeout(ark_connect_timeout);
     auto weak = weak_from_this();
     client_
         ->bind_connect([weak, head] {
@@ -75,7 +75,7 @@ bool rudp_client::start_client(
 
             net_event* net_connect_event = net_event::alloc_event();
             net_connect_event->set_id(cur_session_id);
-            net_connect_event->set_type(net_event_type::CONNECT);
+            net_connect_event->set_type(net_event_type::connect);
             net_connect_event->set_bus_id(self->dst_bus_id_);
             net_connect_event->set_ip(self->client_->remote_address());
             {
@@ -109,7 +109,7 @@ bool rudp_client::start_client(
             }
             net_event* net_disconnect_event = net_event::alloc_event();
             net_disconnect_event->set_id(session_id);
-            net_disconnect_event->set_type(net_event_type::DISCONNECT);
+            net_disconnect_event->set_type(net_event_type::disconnect);
             net_disconnect_event->set_bus_id(self->dst_bus_id_);
             net_disconnect_event->set_ip(self->client_->remote_address());
             if (!self->session_->add_net_event(net_disconnect_event))
@@ -185,7 +185,7 @@ bool rudp_client::update_net_msg(const rdp_client_session_ptr& session) {
         net_msg::release(msg);
 
         ++msg_count;
-        if (msg_count >= ARK_PROCESS_NET_MSG_COUNT_ONCE)
+        if (msg_count >= ark_process_net_msg_count_once)
         {
             return false;
         }
@@ -202,7 +202,7 @@ void rudp_client::shutdown() {
 }
 
 bool rudp_client::send_msg(msg_header* head, const char* msg_data, conv_id_t session_id) {
-    if (!head || !msg_data || head->message_length() > ARK_MSG_MAX_LENGTH || !client_)
+    if (!head || !msg_data || head->message_length() > ark_msg_max_length || !client_)
     {
         return false;
     }

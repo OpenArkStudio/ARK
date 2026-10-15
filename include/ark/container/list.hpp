@@ -24,13 +24,13 @@
 
 namespace ark {
 
-template<typename T>
+template<typename element_type>
 class list
 {
 public:
-    using list_type = std::list<T>;
-    using reference = T&;
-    using const_reference = const T&;
+    using list_type = std::list<element_type>;
+    using reference = element_type&;
+    using const_reference = const element_type&;
     using iterator = typename list_type::iterator;
     using const_iterator = typename list_type::const_iterator;
     using reverse_iterator = typename list_type::reverse_iterator;

@@ -9,13 +9,14 @@
 #include <utility>
 #include <vector>
 
+#include "doctest.h"
 #include <arknet/rudp/rudp_client.hpp>
 
 #include "ark/net/rudp_client.hpp"
 #include "ark/net/rudp_server.hpp"
-#include "doctest.h"
 
 namespace {
+
 using namespace std::chrono_literals;
 
 struct rudp_message
@@ -98,8 +99,8 @@ std::uint16_t reserve_rudp_port() {
     return socket.local_endpoint().port();
 }
 
-template<class Predicate, class Update>
-bool await_rudp(Predicate&& predicate, Update&& update, std::chrono::milliseconds timeout = 5s) {
+template<class predicate_type, class update_type>
+bool await_rudp(predicate_type&& predicate, update_type&& update, std::chrono::milliseconds timeout = 5s) {
     const auto deadline = std::chrono::steady_clock::now() + timeout;
     do
     {
@@ -122,9 +123,9 @@ std::string rudp_payload(std::size_t size) {
     return result;
 }
 
-template<class Header>
-std::shared_ptr<Header> rudp_header() {
-    auto header = std::make_shared<Header>();
+template<class header_type>
+std::shared_ptr<header_type> rudp_header() {
+    auto header = std::make_shared<header_type>();
     header->set_compressed(true);
     header->set_actor_id(0x1234567812345678);
     header->set_source_bus_id(101);
@@ -156,12 +157,12 @@ public:
 } // namespace
 
 TEST_CASE_TEMPLATE(
-    "RUDP preserves ARK framing and dispatches on Update", Header, ark::s_msg_header, ark::ss_msg_header) {
+    "RUDP preserves ARK framing and dispatches on Update", header_type, ark::s_msg_header, ark::ss_msg_header) {
     rudp_receiver client_receiver;
     rudp_receiver server_receiver;
     auto client = rudp_client(client_receiver);
     auto server = rudp_server(server_receiver);
-    auto header = rudp_header<Header>();
+    auto header = rudp_header<header_type>();
     const auto port = reserve_rudp_port();
     REQUIRE(server->start_server(header, 101, "127.0.0.1", port, 2, 4, 30000));
     REQUIRE(client->start_client(header, 202, "127.0.0.1", port));
@@ -178,11 +179,11 @@ TEST_CASE_TEMPLATE(
     CHECK(client_receiver.events().front().bus == 202);
     CHECK(server_receiver.events().front().bus == 101);
     CHECK(server->get_ip(server_session) == "127.0.0.1");
-    CHECK(server->get_ip(server_session + 100) == ark::NULL_STR);
+    CHECK(server->get_ip(server_session + 100) == ark::null_str);
 
     std::size_t rejected_echoes = 0;
     server_receiver.on_receive = [&](const ark::net_msg* message, ark::conv_id_t session) {
-        Header response(*header);
+        header_type response(*header);
         response.set_message_id(message->get_msg_id());
         response.set_message_length(message->get_msg_length());
         if (!server->send_msg(&response, message->get_msg_length() ? message->get_msg_data() : "", session))
@@ -193,7 +194,7 @@ TEST_CASE_TEMPLATE(
     const std::vector<std::size_t> sizes{0, 1, 23, 511, 1024, 4096};
     for (std::size_t index = 0; index < sizes.size(); ++index)
     {
-        Header request(*header);
+        header_type request(*header);
         request.set_message_id(static_cast<ark::msg_id_t>(40 + index));
         request.set_message_length(static_cast<std::uint32_t>(sizes[index]));
         const auto body = rudp_payload(sizes[index]);
@@ -224,7 +225,7 @@ TEST_CASE_TEMPLATE(
         CHECK(sent[index].compressed);
     }
 
-    Header broadcast(*header);
+    header_type broadcast(*header);
     broadcast.set_message_id(99);
     const auto body = rudp_payload(4096);
     broadcast.set_message_length(static_cast<std::uint32_t>(body.size()));
@@ -233,11 +234,11 @@ TEST_CASE_TEMPLATE(
     CHECK(client_receiver.messages().back().id == 99);
     CHECK(client_receiver.messages().back().body == body);
     server->close_session(server_session);
-    CHECK(server_receiver.event_count(ark::net_event_type::DISCONNECT) == 0);
+    CHECK(server_receiver.event_count(ark::net_event_type::disconnect) == 0);
     REQUIRE(await_rudp(
         [&] {
-            return client_receiver.event_count(ark::net_event_type::DISCONNECT) == 1 &&
-                   server_receiver.event_count(ark::net_event_type::DISCONNECT) == 1;
+            return client_receiver.event_count(ark::net_event_type::disconnect) == 1 &&
+                   server_receiver.event_count(ark::net_event_type::disconnect) == 1;
         },
         update));
     CHECK_FALSE(client_receiver.wrong_thread());
@@ -317,18 +318,18 @@ TEST_CASE("RUDP reconnects after a server restart and retains queued lifecycle e
     };
     REQUIRE(await_rudp(
         [&] {
-            return client_receiver.event_count(ark::net_event_type::CONNECT) == 2 &&
-                   client_receiver.event_count(ark::net_event_type::DISCONNECT) == 1 &&
-                   server_receiver.event_count(ark::net_event_type::CONNECT) == 2;
+            return client_receiver.event_count(ark::net_event_type::connect) == 2 &&
+                   client_receiver.event_count(ark::net_event_type::disconnect) == 1 &&
+                   server_receiver.event_count(ark::net_event_type::connect) == 2;
         },
         update, 12s));
     const auto client_events = client_receiver.events();
     REQUIRE(client_events.size() == 3);
-    CHECK(client_events[0].type == ark::net_event_type::CONNECT);
-    CHECK(client_events[1].type == ark::net_event_type::DISCONNECT);
-    CHECK(client_events[2].type == ark::net_event_type::CONNECT);
+    CHECK(client_events[0].type == ark::net_event_type::connect);
+    CHECK(client_events[1].type == ark::net_event_type::disconnect);
+    CHECK(client_events[2].type == ark::net_event_type::connect);
     CHECK(client_events[0].session != client_events[2].session);
-    CHECK(server_receiver.event_count(ark::net_event_type::DISCONNECT) == 1);
+    CHECK(server_receiver.event_count(ark::net_event_type::disconnect) == 1);
     header->set_message_id(71);
     header->set_message_length(1);
     REQUIRE(client->send_msg(header.get(), "x", client_events.back().session));
@@ -359,12 +360,12 @@ TEST_CASE("RUDP server admission obeys max_client and releases disconnected slot
     CHECK_FALSE(excess.start("127.0.0.1", port));
     CHECK(arknet::get_last_error() == asio::error::timed_out);
     update();
-    CHECK(server_receiver.event_count(ark::net_event_type::CONNECT) == 1);
+    CHECK(server_receiver.event_count(ark::net_event_type::connect) == 1);
     client->shutdown();
-    REQUIRE(await_rudp([&] { return server_receiver.event_count(ark::net_event_type::DISCONNECT) == 1; }, update));
+    REQUIRE(await_rudp([&] { return server_receiver.event_count(ark::net_event_type::disconnect) == 1; }, update));
     excess.set_connect_timeout(2s);
     REQUIRE(excess.start("127.0.0.1", port));
-    REQUIRE(await_rudp([&] { return server_receiver.event_count(ark::net_event_type::CONNECT) == 2; }, update));
+    REQUIRE(await_rudp([&] { return server_receiver.event_count(ark::net_event_type::connect) == 2; }, update));
     excess.stop();
     server->shutdown();
 }
@@ -382,7 +383,7 @@ TEST_CASE("RUDP server silence timeout is configured in milliseconds") {
         server->update();
         client->update();
     };
-    REQUIRE(await_rudp([&] { return server_receiver.event_count(ark::net_event_type::DISCONNECT) == 1; }, update, 2s));
+    REQUIRE(await_rudp([&] { return server_receiver.event_count(ark::net_event_type::disconnect) == 1; }, update, 2s));
     CHECK_FALSE(server_receiver.wrong_thread());
     client->shutdown();
     server->shutdown();
@@ -424,8 +425,8 @@ TEST_CASE("RUDP closes malformed business frames through the Update event path")
         REQUIRE(client.start("127.0.0.1", port));
         REQUIRE(client.async_send(wire));
         REQUIRE(await_rudp(
-            [&] { return receiver.event_count(ark::net_event_type::DISCONNECT) == 1; }, [&] { server->update(); }));
-        CHECK(receiver.event_count(ark::net_event_type::CONNECT) == 1);
+            [&] { return receiver.event_count(ark::net_event_type::disconnect) == 1; }, [&] { server->update(); }));
+        CHECK(receiver.event_count(ark::net_event_type::connect) == 1);
         CHECK(receiver.messages().empty());
         CHECK_FALSE(receiver.wrong_thread());
         client.stop();
@@ -446,9 +447,9 @@ TEST_CASE("RUDP closes malformed business frames through the Update event path")
         REQUIRE(server.start("127.0.0.1", port));
         REQUIRE(client->start_client(header, 2, "127.0.0.1", port));
         REQUIRE(await_rudp(
-            [&] { return receiver.event_count(ark::net_event_type::DISCONNECT) == 1; }, [&] { client->update(); }));
+            [&] { return receiver.event_count(ark::net_event_type::disconnect) == 1; }, [&] { client->update(); }));
         CHECK_FALSE(rejected.load());
-        CHECK(receiver.event_count(ark::net_event_type::CONNECT) == 1);
+        CHECK(receiver.event_count(ark::net_event_type::connect) == 1);
         CHECK(receiver.messages().empty());
         CHECK_FALSE(receiver.wrong_thread());
         client->shutdown();
@@ -475,7 +476,7 @@ TEST_CASE("RUDP rejects an old-session send after reconnect during serialization
     REQUIRE(server.start("127.0.0.1", 0));
     REQUIRE(client->start_client(header, 2, "127.0.0.1", server.listen_port()));
     REQUIRE(
-        await_rudp([&] { return receiver.event_count(ark::net_event_type::CONNECT) == 1; }, [&] { client->update(); }));
+        await_rudp([&] { return receiver.event_count(ark::net_event_type::connect) == 1; }, [&] { client->update(); }));
     const auto old_id = receiver.events().back().session;
 
     rudp_serialization_header request;
@@ -494,7 +495,7 @@ TEST_CASE("RUDP rejects an old-session send after reconnect during serialization
         }
         old_peer->stop();
         reconnected = await_rudp(
-            [&] { return receiver.event_count(ark::net_event_type::CONNECT) == 2; }, [&] { client->update(); }, 12s);
+            [&] { return receiver.event_count(ark::net_event_type::connect) == 2; }, [&] { client->update(); }, 12s);
     };
     CHECK_FALSE(client->send_msg(&request, "x", old_id));
     REQUIRE(reconnected);
@@ -520,7 +521,7 @@ TEST_CASE("RUDP rejects an old-session send after reconnect during serialization
     }
     client->close_session(0);
     REQUIRE(await_rudp(
-        [&] { return receiver.event_count(ark::net_event_type::DISCONNECT) == 2; }, [&] { client->update(); }));
+        [&] { return receiver.event_count(ark::net_event_type::disconnect) == 2; }, [&] { client->update(); }));
     CHECK_FALSE(client->send_msg(&request, "n", new_id));
     client->shutdown();
     server.stop();

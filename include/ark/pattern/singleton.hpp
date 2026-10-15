@@ -26,16 +26,16 @@
 
 namespace ark {
 
-template<typename T>
+template<typename element_type>
 class singleton : public noncopyable
 {
 public:
-    static T* instance() {
-        std::call_once(once_, &singleton<T>::init);
+    static element_type* instance() {
+        std::call_once(once_, &singleton<element_type>::init);
         return instance_;
     }
 
-    static T& get_instance() {
+    static element_type& get_instance() {
         return *instance();
     }
 
@@ -44,7 +44,7 @@ public:
     }
 
     // We can pass a pointer to init it manually.
-    static void set_instance(T* single) {
+    static void set_instance(element_type* single) {
         instance_ = single;
     }
 
@@ -52,18 +52,18 @@ private:
     static void init() {
         if (instance_ == nullptr)
         {
-            instance_ = ARK_NEW T();
+            instance_ = ARK_NEW element_type();
         }
     }
 
     static std::once_flag once_;
-    static T* instance_;
+    static element_type* instance_;
 };
 
-template<typename T>
-std::once_flag singleton<T>::once_;
+template<typename element_type>
+std::once_flag singleton<element_type>::once_;
 
-template<typename T>
-T* singleton<T>::instance_ = nullptr;
+template<typename element_type>
+element_type* singleton<element_type>::instance_ = nullptr;
 
 } // namespace ark

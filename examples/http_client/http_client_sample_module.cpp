@@ -27,27 +27,27 @@ using namespace std;
 namespace ark {
 
 bool http_client_sample_module::init() {
-    httpCli_ = find_module<http_client_module>();
-    etcdCli_ = find_module<etcd_client_module>()->create_etcd_client(
+    http_client_ = find_module<http_client_module>();
+    etcd_client_ = find_module<etcd_client_module>()->create_etcd_client(
         vector<string>{"172.20.3.74:2379" /*, "172.20.3.75:2379", "172.20.3.76:2379" */});
-    return httpCli_ != nullptr && etcdCli_ != nullptr;
+    return http_client_ != nullptr && etcd_client_ != nullptr;
 }
 
 bool http_client_sample_module::post_init() {
     std::cout << "Start testing Http Client" << endl;
 
     string body = "{\"key\": \"Zm9v\", \"value\": \"YmFy\"}";
-    auto future = httpCli_->post("172.20.3.74", 2379, "/v3/kv/put", nullptr, &body);
+    auto future = http_client_->post("172.20.3.74", 2379, "/v3/kv/put", nullptr, &body);
     auto val = future.get();
     std::cout << this_thread::get_id() << "    " << val.first << "    " << val.second << endl;
 
-    httpCli_->post(
+    http_client_->post(
         [](pair<bool, string> rsp) {
             cout << this_thread::get_id() << "    " << rsp.first << "    " << rsp.second << endl;
         },
         "172.20.3.74", 2379, "/v3/kv/put", nullptr, &body);
 
-    etcdCli_->grant([](pair<int64_t, string> rsp) { cout << rsp.first << "  |  " << rsp.second << endl; }, 100);
+    etcd_client_->grant([](pair<int64_t, string> rsp) { cout << rsp.first << "  |  " << rsp.second << endl; }, 100);
 
     std::cout << "Finish testing Http Client" << endl;
     return true;

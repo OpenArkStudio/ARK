@@ -23,7 +23,7 @@ public:
      *          <Result, ErrorMessage>. Success if Result == true, otherwise ErrorMessage containers the error message.
      * @param leaseID
      */
-    virtual void keepalive(std::function<void(std::pair<bool, std::string>)> cb, int64_t leaseID) = 0;
+    virtual void keepalive(std::function<void(std::pair<bool, std::string>)> cb, int64_t lease_id) = 0;
 };
 
 } // namespace ark

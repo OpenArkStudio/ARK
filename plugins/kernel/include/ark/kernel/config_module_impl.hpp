@@ -40,13 +40,13 @@ public:
     std::shared_ptr<static_entity> find_static_entity(const id_type config_id) override;
 
 protected:
-    bool load_config(std::shared_ptr<class_meta> pClassMeta);
+    bool load_config(std::shared_ptr<class_meta> class_meta_ptr);
 
 private:
     bool loaded_{false};
 
-    class_meta_module* m_pClassModule{nullptr};
-    static_entity_manager* m_pStaticEntityManager{nullptr};
+    class_meta_module* class_meta_module_{nullptr};
+    static_entity_manager* static_entity_manager_{nullptr};
 };
 
 } // namespace ark

@@ -1,0 +1,35 @@
+syntax = "proto3";
+package ark.protobuf;
+
+enum server_common_message_id {
+  e_ss_msg_id_default = 0;
+  // start
+  // E_SS_MSG_ID_COMMON_START    = 100;
+
+  // Please add your msg in the range
+  e_ss_msg_id_server_report = 101;  // ss之间注册
+  e_ss_msg_id_server_notify = 102;  // ss之间注册后广播给相关服务器
+
+  // E_SS_MSG_ID_COMMON_END      = 500;
+  // end
+}
+
+enum server_common_state {
+  e_st_crash = 0;
+  e_st_narmal = 1;
+  e_st_busy = 2;
+  e_st_fire = 3;
+  e_st_mainten = 4;
+}
+
+message msg_ss_server_report {
+  int32 bus_id = 1;
+  string url = 2;
+  int32 max_online = 3;
+  int32 cur_online = 4;
+  server_common_state logic_status = 5;
+}
+
+message msg_ss_server_notify {
+  repeated msg_ss_server_report server_list = 1;
+}

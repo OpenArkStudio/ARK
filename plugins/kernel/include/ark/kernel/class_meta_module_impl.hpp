@@ -57,14 +57,14 @@ protected:
     bool load_entity();
 
     // load config meta
-    bool load_config_meta(const std::string& schema_path, std::shared_ptr<class_meta> pClassMeta);
+    bool load_config_meta(const std::string& schema_path, std::shared_ptr<class_meta> class_meta_ptr);
 
     bool load_entity_meta(const std::string& schema_path);
 
     data_type convert_data_type(const std::string& type_name);
 
 private:
-    class_meta_manager* m_pClassMetaManager{nullptr};
+    class_meta_manager* class_meta_manager_{nullptr};
 };
 
 } // namespace ark

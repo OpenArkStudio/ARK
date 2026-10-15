@@ -38,10 +38,10 @@ public:
     virtual bool start_server() = 0;
     virtual bool start_server(std::string const& ip = "0.0.0.0", uint16_t port = 8080, uint8_t thread_num = 1) = 0;
 
-    template<typename ResponseBody, class RequestBody>
-    arknet::http::response<ResponseBody> make_200(const arknet::http::request<RequestBody>& request,
-        typename ResponseBody::value_type body, std::string_view content_type) {
-        arknet::http::response<ResponseBody> response{arknet::http::status::ok, request.version()};
+    template<typename response_body_type, class request_body_type>
+    arknet::http::response<response_body_type> make_200(const arknet::http::request<request_body_type>& request,
+        typename response_body_type::value_type body, std::string_view content_type) {
+        arknet::http::response<response_body_type> response{arknet::http::status::ok, request.version()};
         response.set(arknet::http::field::server, "ARK");
         response.set(arknet::http::field::content_type, content_type);
         response.body() = std::move(body);

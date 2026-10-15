@@ -43,7 +43,8 @@ public:
     vector3d(float a, float b, float c)
         : x(a)
         , y(b)
-        , z(c) {}
+        , z(c) {
+    }
 
     vector3d(const vector3d& rhs) {
         x = rhs.x;

@@ -9,24 +9,24 @@ namespace simulate {
 
 enum class simulate_msg_type : uint16_t
 {
-    SIMULATE_MSG_UNKNOWN = 0,
+    simulate_msg_unknown = 0,
 
     ///req msg starts from 1
-    SIMULATE_MSG_REQ_CREATE_SCENE = 1,
-    SIMULATE_MSG_REQ_DESTROY_SCENE = 2,
-    SIMULATE_MSG_REQ_CREATE_DYNAMIC_BOX = 3,
-    SIMULATE_MSG_REQ_CREATE_DYNAMIC_CAPSULE = 4,
-    SIMULATE_MSG_REQ_CREATE_DYNAMIC_SPHERE = 5,
-    SIMULATE_MSG_REQ_CREATE_STATIC_BOX = 6,
-    SIMULATE_MSG_REQ_CREATE_STATIC_CAPSULE = 7,
-    SIMULATE_MSG_REQ_CREATE_STATIC_SPHERE = 8,
-    SIMULATE_MSG_REQ_UPDATE_ACTOR = 9,
-    SIMULATE_MSG_REQ_DESTROY_ACTOR = 10,
-    SIMULATE_MSG_REQ_RAY_CAST = 11,
+    simulate_msg_req_create_scene = 1,
+    simulate_msg_req_destroy_scene = 2,
+    simulate_msg_req_create_dynamic_box = 3,
+    simulate_msg_req_create_dynamic_capsule = 4,
+    simulate_msg_req_create_dynamic_sphere = 5,
+    simulate_msg_req_create_static_box = 6,
+    simulate_msg_req_create_static_capsule = 7,
+    simulate_msg_req_create_static_sphere = 8,
+    simulate_msg_req_update_actor = 9,
+    simulate_msg_req_destroy_actor = 10,
+    simulate_msg_req_ray_cast = 11,
 
     ///ack msg starts from 1001
-    SIMULATE_MSG_ACK_RAY_CAST = 1001,
-    SIMULATE_MSG_ACK_TRIGGER = 1002,
+    simulate_msg_ack_ray_cast = 1001,
+    simulate_msg_ack_trigger = 1002,
 
     ///reg server
     SIMULATE_REG_SERVER = 65535,
@@ -35,12 +35,14 @@ enum class simulate_msg_type : uint16_t
 class simulate_vec3
 {
 public:
-    simulate_vec3() {}
+    simulate_vec3() {
+    }
 
     simulate_vec3(float position_x, float position_y, float position_z)
         : x(position_x)
         , y(position_y)
-        , z(position_z) {}
+        , z(position_z) {
+    }
 
     float x{0.0F};
     float y{0.0F};

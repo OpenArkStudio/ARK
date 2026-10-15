@@ -25,9 +25,9 @@
 namespace ark {
 
 net_server_service_impl::net_server_service_impl(plugin_manager* p)
-    : m_pPluginManager(p) {
-    m_pNetServiceManagerModule = m_pPluginManager->find_module<net_service_manager_module>();
-    m_pMsgModule = m_pPluginManager->find_module<msg_module>();
+    : plugin_manager_(p) {
+    net_service_manager_ = plugin_manager_->find_module<net_service_manager_module>();
+    msg_module_ = plugin_manager_->find_module<msg_module>();
 }
 
 //AFCNetServerService::~AFCNetServerService()
@@ -40,19 +40,19 @@ bool net_server_service_impl::start(std::shared_ptr<const msg_header> head, bus_
     bool ret = false;
     if (ep.proto() == proto_type::tcp)
     {
-        m_pNet = std::make_shared<tcp_server>(
+        network_ = std::make_shared<tcp_server>(
             this, &net_server_service_impl::on_net_msg, &net_server_service_impl::on_net_event);
-        ret = m_pNet->start_server(
+        ret = network_->start_server(
             head, bus_id, ep.get_ip(), ep.get_port(), thread_count, max_connection, silent_timeout);
 
         //AFINetServerService::RegMsgCallback(
-        //    AFMsg::E_SS_MSG_ID_SERVER_REPORT, this, &AFCNetServerService::OnClientRegister);
+        //    ark::protobuf::e_ss_msg_id_server_report, this, &AFCNetServerService::OnClientRegister);
     }
     else if (ep.proto() == proto_type::udp)
     {
-        m_pNet = std::make_shared<rudp_server>(
+        network_ = std::make_shared<rudp_server>(
             this, &net_server_service_impl::on_net_msg, &net_server_service_impl::on_net_event);
-        ret = m_pNet->start_server(
+        ret = network_->start_server(
             head, bus_id, ep.get_ip(), ep.get_port(), thread_count, max_connection, silent_timeout);
     }
     else if (ep.proto() == proto_type::ws)
@@ -69,8 +69,8 @@ bool net_server_service_impl::start(std::shared_ptr<const msg_header> head, bus_
 }
 
 bool net_server_service_impl::update() {
-    ARK_ASSERT_RET_VAL(m_pNet != nullptr, false);
-    m_pNet->update();
+    ARK_ASSERT_RET_VAL(network_ != nullptr, false);
+    network_->update();
 
     //ProcessConnection();
     process_client_connection();
@@ -78,7 +78,7 @@ bool net_server_service_impl::update() {
 }
 
 std::shared_ptr<net> net_server_service_impl::get_net() {
-    return m_pNet;
+    return network_;
 }
 
 bool net_server_service_impl::reg_msg_callback(msg_id_t msg_id, net_msg_functor&& cb) {
@@ -121,18 +121,18 @@ void net_server_service_impl::on_net_msg(const net_msg* msg, conv_id_t session_i
     ARK_LOG_DEBUG("[msg][recv] msg id = {} session id = {}", msg->get_msg_id(), session_id);
 
     auto msg_id = msg->get_msg_id();
-    if (msg_id == AFMsg::E_SS_MSG_ID_REG_TO_SERVER)
+    if (msg_id == ark::protobuf::e_ss_msg_id_reg_to_server)
     {
         reg_server_call_back_(msg, session_id);
 
-        m_pNetServiceManagerModule->remove_net_connection_bus(msg->get_src_bus());
-        m_pNetServiceManagerModule->add_net_connection_bus(msg->get_src_bus(), get_net());
+        net_service_manager_->remove_net_connection_bus(msg->get_src_bus());
+        net_service_manager_->add_net_connection_bus(msg->get_src_bus(), get_net());
 
         remove_connection(msg->get_src_bus());
         add_connection(msg->get_src_bus(), session_id);
         return;
     }
-    else if (msg_id == AFMsg::E_SS_MSG_ID_HEART_BEAT)
+    else if (msg_id == ark::protobuf::e_ss_msg_id_heart_beat)
     {
         update_connection(msg->get_src_bus());
         return;
@@ -164,12 +164,12 @@ void net_server_service_impl::on_net_msg(const net_msg* msg, conv_id_t session_i
 void net_server_service_impl::on_net_event(const net_event* event) {
     switch (event->get_type())
     {
-    case net_event_type::CONNECT:
+    case net_event_type::connect:
         ARK_LOG_INFO("Connected server = {} succenssfully, ip = {}, session_id = {}",
             bus_addr(event->get_bus_id()).to_string(), event->get_ip(), event->get_id());
         // TODO: NickYang, add bus relation of AFINet
         break;
-    case net_event_type::DISCONNECT:
+    case net_event_type::disconnect:
         ARK_LOG_INFO("Disconnected server = {} succenssfully, ip = {}, session_id = {}",
             bus_addr(event->get_bus_id()).to_string(), event->get_ip(), event->get_id());
         //m_pNetServiceManagerModule->RemoveSessionID(event->GetId());
@@ -240,16 +240,16 @@ void net_server_service_impl::process_client_connection() {
     for (auto& iter : client_connection_list_)
     {
         auto& connection = iter.second;
-        if (connection.last_active_time_ + client_timeout_interval_ < now)
+        if (connection.last_active_time + client_timeout_interval_ < now)
         {
             /// close session
             close_list.push_back(iter.first);
-            m_pNet->close_session(iter.first);
+            network_->close_session(iter.first);
 
             net_event event;
-            event.set_type(net_event_type::DISCONNECT);
-            event.set_bus_id(connection.bus_id_);
-            event.set_id(connection.session_id_);
+            event.set_type(net_event_type::disconnect);
+            event.set_bus_id(connection.bus_id);
+            event.set_id(connection.session_id);
             on_disconnect_net_event(&event);
         }
     }
@@ -268,7 +268,7 @@ void net_server_service_impl::add_connection(bus_id_t bus_id, conv_id_t session_
     remove_connection(bus_id);
 
     auto connection = std::make_shared<ark::connection>(
-        bus_id, session_id, date_time::get_now_time(), ark::connection::e_connect_state::CONNECTED);
+        bus_id, session_id, date_time::get_now_time(), ark::connection::connect_state::connected);
     connection_list_.insert(bus_id, connection);
 }
 
@@ -280,7 +280,7 @@ void net_server_service_impl::update_connection(bus_id_t bus_id) {
     }
 
     auto now = date_time::get_now_time();
-    connection->last_active_time_ = now;
+    connection->last_active_time = now;
 }
 
 void net_server_service_impl::remove_connection(bus_id_t bus_id) {
@@ -292,46 +292,13 @@ void net_server_service_impl::update_client_connection(conv_id_t session_id) {
     if (iter == client_connection_list_.end())
     {
         auto connection =
-            ark::connection(0, session_id, date_time::get_now_time(), ark::connection::e_connect_state::CONNECTED);
+            ark::connection(0, session_id, date_time::get_now_time(), ark::connection::connect_state::connected);
         client_connection_list_.insert(std::make_pair(session_id, connection));
     }
     else
     {
-        iter->second.last_active_time_ = date_time::get_now_time();
+        iter->second.last_active_time = date_time::get_now_time();
     }
 }
-
-//void AFCNetServerService::OnClientRegister(const AFNetMsg* msg, conv_id_t session_id)
-//{
-//    ARK_PROCESS_MSG(msg, AFMsg::msg_ss_server_report);
-//
-//    // Add server_bus_id -> client_bus_id relationship with net
-//    m_pNetServiceManagerModule->AddNetConnectionBus(pb_msg.bus_id(), m_pNet);
-//    //////////////////////////////////////////////////////////////////////////
-//    std::shared_ptr<AFServerData> server_data_ptr = reg_clients_.find_value(pb_msg.bus_id());
-//    if (nullptr == server_data_ptr)
-//    {
-//        server_data_ptr = std::make_shared<AFServerData>();
-//        reg_clients_.insert(pb_msg.bus_id(), server_data_ptr);
-//    }
-//
-//    server_data_ptr->Init(session_id, pb_msg);
-//    //////////////////////////////////////////////////////////////////////////
-//
-//    SyncToAllClient(pb_msg.bus_id(), session_id);
-//}
-
-//void AFCNetServerService::SyncToAllClient(bus_id_t bus_id, conv_id_t session_id)
-//{
-//    AFMsg::msg_ss_server_notify msg;
-//
-//    for (auto iter : reg_clients_)
-//    {
-//        auto server_data = iter.second;
-//        AFMsg::msg_ss_server_report* report = msg.add_server_list();
-//        *report = server_data->server_info_;
-//        m_pMsgModule->SendSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, msg, session_id);
-//    }
-//}
 
 } // namespace ark

@@ -11,7 +11,7 @@ AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortBlocksOnASingleLine: Never
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: None
@@ -62,7 +62,7 @@ ForEachMacros:
 IncludeBlocks: Regroup
 IncludeIsMainRegex: "a^"
 IncludeCategories:
-  - Regex: '^["<](arknet/|vendor/|asio([/.]|>)|boost/|openssl/|spdlog/|doctest/)'
+  - Regex: '^["<](arknet/|vendor/|asio([/.]|>)|boost/|openssl/|spdlog/|doctest/|([^">]*/)?doctest\.h[">]|catch\.hpp[">]|google/|args/|readerwriterqueue/|ark/utility/ctpl(_stl)?\.h|rapidxml|mysql\+\+/|bredis/|PhysX|Px|librdkafka|avro/)'
     Priority: 2
     SortPriority: 3
   # Windows SDK headers such as psapi.h require windows.h first.

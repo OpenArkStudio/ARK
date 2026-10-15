@@ -31,23 +31,23 @@ class event_manager
 public:
     virtual void update() = 0;
 
-    template<typename BaseType>
-    bool add_event_call_back(
-        const int nEventID, BaseType* pBase, int (BaseType::*handler)(const guid_t&, const int, const data_list&)) {
+    template<typename base_type>
+    bool add_event_call_back(const int event_id, base_type* base_ptr,
+        int (base_type::*handler)(const guid_t&, const int, const data_list&)) {
         event_process_functor functor =
-            std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-        return add_event_call_back(nEventID, std::move(functor));
+            std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+        return add_event_call_back(event_id, std::move(functor));
     }
 
-    virtual bool remove_event_call_back(const int nEventID) = 0;
+    virtual bool remove_event_call_back(const int event_id) = 0;
 
-    virtual bool do_event(const int nEventID, const data_list& valueList) = 0;
+    virtual bool do_event(const int event_id, const data_list& value_list) = 0;
 
-    virtual bool add_event_call_back(const int nEventID, event_process_functor&& cb) = 0;
+    virtual bool add_event_call_back(const int event_id, event_process_functor&& cb) = 0;
 
     virtual bool clear() = 0;
 
 protected:
-    virtual bool has_event_call_back(const int nEventID) = 0;
+    virtual bool has_event_call_back(const int event_id) = 0;
 };
 } // namespace ark

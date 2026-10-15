@@ -1,0 +1,146 @@
+syntax = "proto3";
+package ark.protobuf;
+
+// 基础结构，不直接发送
+message point_3d {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+}
+
+message variant_data {
+  oneof data {
+    bool bool_value = 1;
+    int32 int_value = 2;
+    int64 int64_value = 3;
+    float float_value = 4;
+    double double_value = 5;
+    string str_value = 6;
+  }
+}
+
+////////////////////////BaseCommon/////////////////////////////
+// Node data, do not send directly
+message protobuf_node_data {
+  string node_name = 1;
+  int32 data_type = 2;
+  variant_data variant_data = 3;
+}
+
+// Table cell data, do not send directly
+message protobuf_cell_data {
+  int32 row = 1;
+  int32 col = 2;
+  int32 data_type = 3;
+  variant_data variant_data = 4;
+}
+
+message protobuf_data  // 基础结构，不直接发送
+{
+  int32 data_type = 1;
+  variant_data variant_data = 2;
+}
+
+message protobuf_data_list {
+  repeated protobuf_data data_list = 1;
+}
+
+// Table添加基础行结构，不直接发送
+message data_table_add_row {
+  int32 row = 1;
+  repeated protobuf_cell_data cell_list = 2;
+}
+
+message entity_data_table_base {
+  string table_name = 1;
+  repeated data_table_add_row row = 2;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 个人玩家全部属性列表，可直接发送--统一发,为节约包
+message entity_data_node_list {
+  int64 entity_id = 1;
+  repeated protobuf_node_data data_node_list = 2;
+}
+
+// 多人玩家全部属性列表，可直接发送--统一发,为节约包
+message entity_data_node_batch {
+  repeated entity_data_node_list multi_entity_data_node_list = 1;
+}
+
+// 个人玩家全部表数据，可直接发送--统一发,为节约包
+message entity_data_table_list {
+  int64 entity_id = 1;
+  repeated entity_data_table_base data_table_list = 2;
+}
+
+// 多人玩家全部表数据，可直接发送--统一发,为节约包
+message entity_data_table_batch {
+  repeated entity_data_table_list multi_entity_data_table_list = 1;
+}
+
+//======================TO DELETE
+// 个人玩家单类型属性数据，可直接发送---变化时
+message entity_data_node {
+  int64 entity_id = 1;
+  repeated protobuf_node_data data_node_list = 2;
+}
+// 个人玩家单表属性数据，可直接发送---变化时
+message entity_data_table {
+  int64 entity_id = 1;
+  string table_name = 2;
+  repeated protobuf_cell_data table_cell_list = 3;
+}
+
+// 个人玩家单类型属性数据，可直接发送---变化时
+message entity_data_table_swap {
+  int64 entity_id = 1;
+  string origin_table_name = 2;
+  string target_table_name = 3;
+  int32 row_origin = 4;
+  int32 row_target = 5;
+}
+
+////////////////////////////////////////////////////////////////////////////
+// Entity add row data sync
+message entity_data_table_add_row {
+  int64 entity_id = 1;
+  string table_name = 2;
+  repeated data_table_add_row row_data = 3;
+}
+
+message entity_data_table_remove {
+  int64 entity_id = 1;
+  string table_name = 2;
+  repeated int32 remove_row = 3;
+}
+
+///////////////////////////////////////////////////////////////////
+//===========TO DELETE
+message player_data_nodes {
+  repeated protobuf_node_data data_node_list = 1;
+}
+
+////////////////////////////////////////////////////////////
+message player_data_table {
+  string table_name = 1;
+  repeated protobuf_cell_data data_table_cell_list = 2;
+}
+
+message player_data_tables {
+  repeated player_data_table table_list = 1;
+}
+
+///////////////////////////////////////////////////////////////////
+message brocast_msg {
+  int64 entity_id = 1;
+  string msg_data = 2;
+  int32 msg_id = 3;
+  repeated int64 target_entity_list = 4;
+}
+
+message position {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+}

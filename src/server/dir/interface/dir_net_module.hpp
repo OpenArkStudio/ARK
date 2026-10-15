@@ -29,7 +29,7 @@ class net_server_service;
 class dir_net_module : public module
 {
 public:
-    virtual std::shared_ptr<net_server_service> GetNetServer() = 0;
+    virtual std::shared_ptr<net_server_service> get_net_server() = 0;
 };
 
 } // namespace ark

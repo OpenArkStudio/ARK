@@ -29,32 +29,32 @@
 
 namespace ark {
 
-template<typename T>
+template<typename element_type>
 class is_buildin_type
 {
 public:
     enum
     {
-        YES = false,
-        NO = true
+        yes = false,
+        no = true
     };
 };
 
-#define MAKE_BUILDIN_TYPE(T)                                                                                           \
+#define MAKE_BUILDIN_TYPE(element_type)                                                                                \
     template<>                                                                                                         \
-    class is_buildin_type<T>                                                                                           \
+    class is_buildin_type<element_type>                                                                                \
     {                                                                                                                  \
     public:                                                                                                            \
         enum                                                                                                           \
         {                                                                                                              \
-            YES = true,                                                                                                \
-            NO = false                                                                                                 \
+            yes = true,                                                                                                \
+            no = false                                                                                                 \
         };                                                                                                             \
     };
 
-template<typename T>
-bool check_buildin_type(const T& t) {
-    return is_buildin_type<T>::YES ? true : false;
+template<typename element_type>
+bool check_buildin_type(const element_type& t) {
+    return is_buildin_type<element_type>::yes ? true : false;
 }
 
 MAKE_BUILDIN_TYPE(uint16_t)
@@ -66,49 +66,50 @@ MAKE_BUILDIN_TYPE(int64_t)
 
 //////////////////////////////////////////////////////////////////////////
 
-template<typename T, typename NODE>
+template<typename element_type, typename node_type>
 class array_map
 {
 };
 
 // partial template specialization for KEY=std::string
-template<typename NODE>
-class array_map<std::string, NODE>
+template<typename node_type>
+class array_map<std::string, node_type>
 {
 public:
-    array_map() noexcept {}
+    array_map() noexcept {
+    }
 
     ~array_map() {
         release_all();
-        mxIndices.clear();
+        indices_.clear();
     }
 
     void clear() {
         release_all();
-        mxIndices.clear();
+        indices_.clear();
     }
 
-    bool add_element(const std::string& name, NODE* data) {
-        mxIndices.add(name.c_str(), mxNodes.size());
-        mxNodes.push_back(data);
+    bool add_element(const std::string& name, node_type* data) {
+        indices_.add(name.c_str(), nodes_.size());
+        nodes_.push_back(data);
         return true;
     }
 
-    NODE* get_element(const std::string& name) {
+    node_type* get_element(const std::string& name) {
         size_t index;
 
-        if (!mxIndices.get_data(name.c_str(), index))
+        if (!indices_.get_data(name.c_str(), index))
         {
             return nullptr;
         }
 
-        return mxNodes[index];
+        return nodes_[index];
     }
 
-    NODE* operator[](size_t index) {
+    node_type* operator[](size_t index) {
         ARK_ASSERT_RET_VAL(index < get_count(), nullptr);
 
-        return mxNodes[index];
+        return nodes_[index];
     }
 
     // TODO:swap array data between index and last,
@@ -134,31 +135,31 @@ public:
     //}
 
     bool exist_element(const std::string& name) const {
-        return mxIndices.exists(name.c_str());
+        return indices_.exists(name.c_str());
     }
 
     bool exist_element(const std::string& name, size_t& index) const {
-        return mxIndices.get_data(name.c_str(), index);
+        return indices_.get_data(name.c_str(), index);
     }
 
     size_t get_count() const {
-        return mxNodes.size();
+        return nodes_.size();
     }
 
 protected:
     void release_all() {
         for (size_t i = 0; i < get_count(); ++i)
         {
-            mxNodes[i] = nullptr;
+            nodes_[i] = nullptr;
         }
 
-        mxNodes.clear();
-        mxIndices.clear();
+        nodes_.clear();
+        indices_.clear();
     }
 
 private:
-    pod_array<NODE*, 1, pod_array_allocator> mxNodes;
-    pod_string<char, size_t, string_traits<char>> mxIndices;
+    pod_array<node_type*, 1, pod_array_allocator> nodes_;
+    pod_string<char, size_t, string_traits<char>> indices_;
 };
 
 } // namespace ark

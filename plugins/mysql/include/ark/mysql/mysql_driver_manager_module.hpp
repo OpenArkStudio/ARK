@@ -28,11 +28,11 @@ namespace ark {
 class mysql_driver_manager_module : public module
 {
 public:
-    virtual bool AddMySQLServer(const int nServerID, const std::string& strDns, const std::string& strIP,
-        const int nPort, const std::string strDBName, const std::string strDBUser, const std::string strDBPwd,
-        const int nRconnectTime = 10, const int nRconneCount = -1) = 0;
-    virtual mysql_driver_module* GetMySQLDriver() = 0;
-    virtual void CheckMySQL() = 0;
+    virtual bool add_mysql_server(const int server_id, const std::string& dns, const std::string& ip, const int port,
+        const std::string db_name, const std::string db_user, const std::string db_pwd, const int reconnect_time = 10,
+        const int reconnect_count = -1) = 0;
+    virtual mysql_driver_module* get_mysql_driver() = 0;
+    virtual void check_mysql() = 0;
 };
 
 } // namespace ark

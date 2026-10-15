@@ -37,22 +37,22 @@ inline void dbg(const std::string& s, std::string& fs) {
     fs = ARK_FORMAT("{}{}{}{}", fs, '\"', s, '\"');
 }
 
-template<typename T>
-inline void dbg(const T& t, std::string& fs) {
+template<typename element_type>
+inline void dbg(const element_type& t, std::string& fs) {
     //fs << t;
     fs = ARK_FORMAT("{}{}", fs, t);
 }
 
-template<typename K, typename V>
-inline void dbg(const std::pair<K, V>& x, std::string& fs) {
+template<typename key_type, typename mapped_type>
+inline void dbg(const std::pair<key_type, mapped_type>& x, std::string& fs) {
     dbg(x.first, fs);
     //fs << ':';
     fs = ARK_FORMAT("{}{}", fs, ':');
     dbg(x.second, fs);
 }
 
-template<typename T>
-void dbg(const T& beg, const T& end, char c1, char c2, std::string& fs) {
+template<typename element_type>
+void dbg(const element_type& beg, const element_type& end, char c1, char c2, std::string& fs) {
     if (beg == end)
     {
         //fs << c1 << c2;
@@ -62,7 +62,7 @@ void dbg(const T& beg, const T& end, char c1, char c2, std::string& fs) {
 
     //fs << c1;
     fs = ARK_FORMAT("{}{}", fs, c1);
-    for (T it = beg; it != end; ++it)
+    for (element_type it = beg; it != end; ++it)
     {
         dbg(*it, fs);
         //fs << ',';
@@ -448,44 +448,44 @@ public:
         std::transform(str.begin(), str.end(), str.begin(), [](wchar_t c) { return towlower(c); });
     }
 
-    template<typename K, typename V>
-    inline auto dbg(const std::pair<K, V>& x) -> std::string {
+    template<typename key_type, typename mapped_type>
+    inline auto dbg(const std::pair<key_type, mapped_type>& x) -> std::string {
         std::string fs;
         fs.reserve(64);
         detail::dbg(x, fs);
         return fs;
     }
 
-    template<typename T>
-    inline auto dbg(const T& beg, const T& end, char c1, char c2) -> std::string {
+    template<typename element_type>
+    inline auto dbg(const element_type& beg, const element_type& end, char c1, char c2) -> std::string {
         std::string fs;
         fs.reserve(128);
         detail::dbg(beg, end, c1, c2, fs);
         return fs;
     }
 
-    template<typename T>
-    inline auto dbg(const std::vector<T>& v) -> std::string {
+    template<typename element_type>
+    inline auto dbg(const std::vector<element_type>& v) -> std::string {
         return dbg(v.begin(), v.end(), '[', ']');
     }
 
-    template<typename T>
-    inline auto dbg(const std::set<T>& v) -> std::string {
+    template<typename element_type>
+    inline auto dbg(const std::set<element_type>& v) -> std::string {
         return dbg(v.begin(), v.end(), '{', '}');
     }
 
-    template<typename K, typename V>
-    inline auto dbg(const std::map<K, V>& v) -> std::string {
+    template<typename key_type, typename mapped_type>
+    inline auto dbg(const std::map<key_type, mapped_type>& v) -> std::string {
         return dbg(v.begin(), v.end(), '{', '}');
     }
 
-    template<typename T>
-    inline auto dbg(const std::unordered_set<T>& v) -> std::string {
+    template<typename element_type>
+    inline auto dbg(const std::unordered_set<element_type>& v) -> std::string {
         return dbg(v.begin(), v.end(), '{', '}');
     }
 
-    template<typename K, typename V>
-    inline auto dbg(const std::unordered_map<K, V>& v) -> std::string {
+    template<typename key_type, typename mapped_type>
+    inline auto dbg(const std::unordered_map<key_type, mapped_type>& v) -> std::string {
         return dbg(v.begin(), v.end(), '{', '}');
     }
 };

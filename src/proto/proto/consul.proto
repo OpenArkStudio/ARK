@@ -1,0 +1,30 @@
+syntax = "proto3";
+package consul;
+
+message check_data {
+  string id = 1 [json_name = "ID"];
+  string name = 2 [json_name = "Name"];
+  string note = 3 [json_name = "Note"];
+  string timeout = 4 [json_name = "Timeout"];
+  string interval = 5 [json_name = "Interval"];
+  string tcp = 6 [json_name = "TCP"];
+}
+
+message service_data {
+  string id = 1 [json_name = "ID"];
+  string name = 2 [json_name = "Name"];
+  string address = 3 [json_name = "Address"];
+  int32 port = 4 [json_name = "Port"];
+  repeated string tags = 5 [json_name = "Tags"];
+  map<string, string> meta = 6 [json_name = "Meta"];
+  check_data check = 7 [json_name = "Check"];
+}
+
+message service_set {
+  repeated service_data services = 1;
+}
+
+message kv {
+  string key = 1;
+  string value = 2;
+}

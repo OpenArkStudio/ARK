@@ -43,7 +43,7 @@ protected:
         const guid_t& entity_id, const std::chrono::milliseconds interval, timer_functor&& cb) override;
 
 private:
-    std::shared_ptr<time_wheel_manager> timer_manager_ptr{nullptr};
+    std::shared_ptr<time_wheel_manager> timer_manager_{nullptr};
 };
 
 } // namespace ark

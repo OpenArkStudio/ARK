@@ -25,19 +25,20 @@
 #include "ark/proto.hpp"
 
 namespace ark {
+
 class net_server_service;
 
 class world_net_module : public module
 {
 public:
-    virtual bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData,
-        const guid_t nPlayer = guid_t()) = 0;
-    virtual bool SendMsgToGame(const data_list& argObjectVar, const data_list& argGameID,
-        const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData) = 0;
+    virtual bool send_msg_to_game(const int game_id, const ark::protobuf::game_message_id msg_id,
+        google::protobuf::Message& data_value, const guid_t player = guid_t()) = 0;
+    virtual bool send_msg_to_game(const data_list& arg_object_var, const data_list& arg_game_id,
+        const ark::protobuf::game_message_id msg_id, google::protobuf::Message& data_value) = 0;
 
     // virtual std::shared_ptr<AFServerData> GetSuitProxyForEnter() = 0;
-    virtual std::shared_ptr<connection_data> GetSuitProxyForEnter() = 0;
-    virtual std::shared_ptr<net_server_service> GetNetServer() = 0;
+    virtual std::shared_ptr<connection_data> get_suit_proxy_for_enter() = 0;
+    virtual std::shared_ptr<net_server_service> get_net_server() = 0;
 };
 
 } // namespace ark

@@ -27,32 +27,32 @@
 namespace ark {
 
 bool sample1_module::init() {
-    m_pTimerModule = find_module<timer_module>();
-    m_pGUIDModule = find_module<guid_module>();
+    timer_module_ = find_module<timer_module>();
+    guid_module_ = find_module<guid_module>();
 
     ARK_LOG_INFO("{}, init", GET_CLASS_NAME(sample1_module));
 
     return true;
 }
 
-void TestBasicData() {
+void test_basic_data() {
     // Test basic data
     guid_t test_id = guid_t(1);
 
     // test GUID type
-    data_impl guid_data1(data_type::DT_INT64, guid_t(1));
-    data_impl guid_data2(data_type::DT_INT64, guid_t(0));
+    data_impl guid_data1(data_type::dt_int64, guid_t(1));
+    data_impl guid_data2(data_type::dt_int64, guid_t(0));
     guid_data1 = guid_data2;
     guid_t guid = guid_data1.get_int64();
 
     // test string type
-    data_impl data1(data_type::DT_STRING, "test1");
-    data_impl data2(data_type::DT_STRING, "test2");
+    data_impl data1(data_type::dt_string, "test1");
+    data_impl data2(data_type::dt_string, "test2");
     data1 = data2;
     const char* str1 = data1.get_string();
 }
 
-void sample1_module::TestCronScheduler() {
+void sample1_module::test_cron_scheduler() {
     static scheduler scheduler;
     date_time* now = ARK_NEW date_time();
 
@@ -65,14 +65,14 @@ void sample1_module::TestCronScheduler() {
     });
 }
 
-void sample1_module::TimerTest(uint64_t timer_id, const guid_t& entity_id) {
+void sample1_module::timer_test(uint64_t timer_id, const guid_t& entity_id) {
     ARK_LOG_INFO("timer log, id = {} entity_id = {}", timer_id, entity_id);
 }
 
 bool sample1_module::post_init() {
     ARK_LOG_INFO("{}, PostInit", GET_CLASS_NAME(sample1_module));
 
-    m_pTimerModule->add_single_timer(guid_t(100), std::chrono::seconds(10), 5, this, &sample1_module::TimerTest);
+    timer_module_->add_single_timer(guid_t(100), std::chrono::seconds(10), 5, this, &sample1_module::timer_test);
     //TestCronScheduler();
 
     return true;

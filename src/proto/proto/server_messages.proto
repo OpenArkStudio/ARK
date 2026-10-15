@@ -1,0 +1,20 @@
+syntax = "proto3";
+package ark.protobuf;
+
+// Import all ss proto files in here.
+import "event_codes.proto";
+import "error_codes.proto";
+import "common_server_messages.proto";
+
+enum server_message_id {
+  e_ss_msg_id_defualt = 0;
+  e_ss_msg_id_heart_beat = 1;
+
+  e_ss_msg_id_common_start = 100;
+  e_ss_msg_id_common_end = 500;
+
+  e_ss_msg_id_dir_start = 501;
+  e_ss_msg_id_dir_end = 600;
+
+  e_ss_msg_id_reg_to_server = 65535;
+}

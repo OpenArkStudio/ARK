@@ -52,11 +52,12 @@ public:
     //    std::map<guid_t, guid_t> xRoleInfo;
     //};
 
-    virtual std::shared_ptr<net_server_service> GetNetServerService() = 0;
-    virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const guid_t& self) = 0;
-    virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const guid_t& self) = 0;
-    virtual bool AddPlayerGateInfo(const guid_t& nRoleID, const guid_t& nClientID, const int nGateID) = 0;
-    virtual bool RemovePlayerGateInfo(const guid_t& nRoleID) = 0;
+    virtual std::shared_ptr<net_server_service> get_net_server_service() = 0;
+    virtual void send_msg_protobuf_to_gate(
+        const uint16_t msg_id, google::protobuf::Message& msg_value, const guid_t& self) = 0;
+    virtual void send_msg_protobuf_to_gate(const uint16_t msg_id, const std::string& msg, const guid_t& self) = 0;
+    virtual bool add_player_gate_info(const guid_t& role_id, const guid_t& client_id, const int gate_id) = 0;
+    virtual bool remove_player_gate_info(const guid_t& role_id) = 0;
     // virtual std::shared_ptr<GateBaseInfo> GetPlayerGateInfo(const guid_t& nRoleID) = 0;
 };
 

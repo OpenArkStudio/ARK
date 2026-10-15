@@ -31,26 +31,27 @@ namespace ark {
 class connection
 {
 public:
-    enum class e_connect_state : uint8_t
+    enum class connect_state : uint8_t
     {
-        DISCONNECT = 0,
-        CONNECTING,
-        CONNECTED,
-        RECONNECT,
+        disconnect = 0,
+        connecting,
+        connected,
+        reconnect,
     };
 
     connection() = default;
 
-    connection(bus_id_t bus_id, conv_id_t session_id, int64_t last_active_time, e_connect_state connect_state)
-        : bus_id_(bus_id)
-        , session_id_(session_id)
-        , last_active_time_(last_active_time)
-        , connect_state_(connect_state) {}
+    connection(bus_id_t bus_id, conv_id_t session_id, int64_t last_active_time, connect_state connect_state)
+        : bus_id(bus_id)
+        , session_id(session_id)
+        , last_active_time(last_active_time)
+        , state(connect_state) {
+    }
 
-    bus_id_t bus_id_{0};
-    conv_id_t session_id_{0};
-    int64_t last_active_time_{0};
-    e_connect_state connect_state_{e_connect_state::DISCONNECT};
+    bus_id_t bus_id{0};
+    conv_id_t session_id{0};
+    int64_t last_active_time{0};
+    connect_state state{connect_state::disconnect};
 };
 
 class net_server_service_impl final : public net_server_service
@@ -101,11 +102,11 @@ protected:
     //void SyncToAllClient(bus_id_t bus_id, conv_id_t session_id);
 
 private:
-    plugin_manager* m_pPluginManager;
-    net_service_manager_module* m_pNetServiceManagerModule;
-    msg_module* m_pMsgModule;
+    plugin_manager* plugin_manager_;
+    net_service_manager_module* net_service_manager_;
+    msg_module* msg_module_;
 
-    std::shared_ptr<net> m_pNet{nullptr};
+    std::shared_ptr<net> network_{nullptr};
 
     net_msg_session_functor reg_server_call_back_{nullptr};
 
@@ -119,7 +120,7 @@ private:
 
     using client_connection_map = std::map<conv_id_t, connection>;
     client_connection_map client_connection_list_;
-    int32_t client_timeout_interval_{std::chrono::milliseconds(ARK_NET_HEART_TIME).count()};
+    int32_t client_timeout_interval_{std::chrono::milliseconds(ark_net_heart_time).count()};
 };
 
 } // namespace ark

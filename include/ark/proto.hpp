@@ -24,11 +24,12 @@
 #error "Enable ARK_BUILD_PROTO and consume ark::proto to use protocol messages"
 #endif
 
-#include "ark/proto/AFCSMsg.pb.h"
-#include "ark/proto/AFCommonMsgNew.pb.h"
-#include "ark/proto/AFConsul.pb.h"
-#include "ark/proto/AFDBMsg.pb.h"
-#include "ark/proto/AFMsgMysql.pb.h"
-#include "ark/proto/AFMsgURl.pb.h"
-#include "ark/proto/AFSSMsg.pb.h"
-#include "google/protobuf/util/json_util.h"
+#include <google/protobuf/util/json_util.h>
+
+#include "ark/proto/client_messages.pb.h"
+#include "ark/proto/consul.pb.h"
+#include "ark/proto/database_messages.pb.h"
+#include "ark/proto/entity_messages.pb.h"
+#include "ark/proto/mysql_messages.pb.h"
+#include "ark/proto/server_messages.pb.h"
+#include "ark/proto/url_messages.pb.h"

@@ -29,9 +29,11 @@ class random_generator
 public:
     random_generator()
         : seed_(0)
-        , get_count_(0) {}
+        , get_count_(0) {
+    }
 
-    ~random_generator() {}
+    ~random_generator() {
+    }
 
     //--------------------------------------------------------------------
     // set random seed

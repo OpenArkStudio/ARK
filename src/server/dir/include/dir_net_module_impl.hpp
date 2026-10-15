@@ -36,16 +36,16 @@ public:
     bool init() override;
     bool post_init() override;
 
-    std::shared_ptr<net_server_service> GetNetServer() override;
+    std::shared_ptr<net_server_service> get_net_server() override;
 
 protected:
-    int StartServer();
+    int start_server();
 
 private:
-    bus_module* m_pBusModule;
-    net_service_manager_module* m_pNetServiceManagerModule;
+    bus_module* bus_module_;
+    net_service_manager_module* net_service_manager_module_;
 
-    std::shared_ptr<net_server_service> m_pNetServer;
+    std::shared_ptr<net_server_service> net_server_;
 };
 
 } // namespace ark

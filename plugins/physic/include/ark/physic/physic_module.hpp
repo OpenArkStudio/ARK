@@ -37,7 +37,8 @@ public:
     base_vec3_d(float a, float b, float c)
         : x(a)
         , y(b)
-        , z(c) {}
+        , z(c) {
+    }
 
     base_vec3_d(const base_vec3_d& rhs) {
         x = rhs.x;
@@ -81,41 +82,41 @@ class physic_module : public module
 {
 public:
     ///create a new scene
-    virtual guid_t CreateScene(const std::string& scene_id) = 0;
+    virtual guid_t create_scene(const std::string& scene_id) = 0;
 
     ///destroy a scene
-    virtual bool DestroyScene(const guid_t& scene_obj_id) = 0;
+    virtual bool destroy_scene(const guid_t& scene_obj_id) = 0;
 
     ///raycast
-    virtual bool RayCast(const guid_t& scene_obj_id, const physic3_d& origin, const physic3_d& direction,
-        const float distance, physic_ray_hit& rayHit) = 0;
+    virtual bool ray_cast(const guid_t& scene_obj_id, const physic3_d& origin, const physic3_d& direction,
+        const float distance, physic_ray_hit& ray_hit) = 0;
 
     ///create a box actor
-    virtual guid_t CreateDynamicBoxActor(
+    virtual guid_t create_dynamic_box_actor(
         const guid_t& scene_obj_id, const physic3_d& position, const physic3_d& size) = 0;
-    virtual guid_t CreateStaticBoxActor(
+    virtual guid_t create_static_box_actor(
         const guid_t& scene_obj_id, const physic3_d& position, const physic3_d& size) = 0;
 
     ///create a capsule actor
-    virtual guid_t CreateDynamicCapsuleActor(
+    virtual guid_t create_dynamic_capsule_actor(
         const guid_t& scene_obj_id, const physic3_d& position, const float radius, const float height) = 0;
-    virtual guid_t CreateStaticCapsuleActor(
+    virtual guid_t create_static_capsule_actor(
         const guid_t& scene_obj_id, const physic3_d& position, const float radius, const float height) = 0;
 
     ///create a sphere actor
-    virtual guid_t CreateDynamicSphereActor(
+    virtual guid_t create_dynamic_sphere_actor(
         const guid_t& scene_obj_id, const physic3_d& position, const float radius) = 0;
-    virtual guid_t CreateStaticSphereActor(
+    virtual guid_t create_static_sphere_actor(
         const guid_t& scene_obj_id, const physic3_d& position, const float radius) = 0;
 
     ///update actor
-    virtual bool UpdateActor(const guid_t& actor_obj_id, const physic3_d& position) = 0;
+    virtual bool update_actor(const guid_t& actor_obj_id, const physic3_d& position) = 0;
 
     ///destroy an actor
-    virtual bool DestroyActor(const guid_t& actor_obj_id) = 0;
+    virtual bool destroy_actor(const guid_t& actor_obj_id) = 0;
 
     ///get actor position
-    virtual bool GetActorPosition(const guid_t& actor_obj_id, physic3_d& position) = 0;
+    virtual bool get_actor_position(const guid_t& actor_obj_id, physic3_d& position) = 0;
 
     ///add a child actor
     //virtual bool AddChild(physx::PxActor* parentActor, const physx::PxTransform& localParent,
@@ -126,21 +127,21 @@ public:
     //    physx::PxActor* parentActor, physx::PxActor* childActor, const physx::PxTransform& childTransform) = 0;
 
     ///register trigger call back
-    template<typename BaseType>
-    bool RegisterTriggerCallBack(
-        BaseType* pBase, void (BaseType::*handler)(const guid_t&, const physic_trigger_pair&)) {
-        auto functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
-        return RegisterTriggerCallBack(std::move(functor));
+    template<typename base_type>
+    bool register_trigger_call_back(
+        base_type* base_ptr, void (base_type::*handler)(const guid_t&, const physic_trigger_pair&)) {
+        auto functor = std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2);
+        return register_trigger_call_back(std::move(functor));
     }
 
     ///ray get point
-    virtual physic3_d RayGetPoint(const physic3_d& origin, const physic3_d& direction, const float distance) = 0;
+    virtual physic3_d ray_get_point(const physic3_d& origin, const physic3_d& direction, const float distance) = 0;
 
     ///get height
-    virtual float GetHeight(const guid_t& scene_obj_id, const physic3_d& position) = 0;
+    virtual float get_height(const guid_t& scene_obj_id, const physic3_d& position) = 0;
 
 private:
-    virtual bool RegisterTriggerCallBack(trigger_call_back_function&& cb) = 0;
+    virtual bool register_trigger_call_back(trigger_call_back_function&& cb) = 0;
 };
 
 } // namespace ark

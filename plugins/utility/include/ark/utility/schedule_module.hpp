@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <functional>
+
 #include "ark/define.hpp"
 #include "ark/module.hpp"
 
@@ -28,43 +30,43 @@ namespace ark {
 class schedule_module : public module
 {
 public:
-    template<typename BaseType>
-    void add_schedule(const std::string& cron_expression, BaseType* pBase, void (BaseType::*handler)()) {
-        scheduler_functor functor = std::bind(handler, pBase);
+    template<typename receiver_type>
+    void add_schedule(const std::string& cron_expression, receiver_type* receiver, void (receiver_type::*handler)()) {
+        scheduler_functor functor = std::bind_front(handler, receiver);
         add_cron_schedule(cron_expression, std::move(functor));
     }
 
     // every day
-    template<typename BaseType>
-    void add_daily_schedule(BaseType* pBase, void (BaseType::*handler)()) {
-        scheduler_functor functor = std::bind(handler, pBase);
+    template<typename receiver_type>
+    void add_daily_schedule(receiver_type* receiver, void (receiver_type::*handler)()) {
+        scheduler_functor functor = std::bind_front(handler, receiver);
         add_cron_schedule("0 0 * * * ", std::move(functor));
     }
 
     // every Monday
-    template<typename BaseType>
-    void add_weekly_schedule(BaseType* pBase, void (BaseType::*handler)()) {
-        scheduler_functor functor = std::bind(handler, pBase);
+    template<typename receiver_type>
+    void add_weekly_schedule(receiver_type* receiver, void (receiver_type::*handler)()) {
+        scheduler_functor functor = std::bind_front(handler, receiver);
         add_cron_schedule("0 0 * * 1", std::move(functor));
     }
 
     // every month
-    template<typename BaseType>
-    void add_monthly_schedule(BaseType* pBase, void (BaseType::*handler)()) {
-        scheduler_functor functor = std::bind(handler, pBase);
+    template<typename receiver_type>
+    void add_monthly_schedule(receiver_type* receiver, void (receiver_type::*handler)()) {
+        scheduler_functor functor = std::bind_front(handler, receiver);
         add_cron_schedule("0 0 1 * * ", std::move(functor));
     }
 
-    template<typename BaseType>
+    template<typename receiver_type>
     void add_interval_schedule(
-        const std::chrono::system_clock::duration interval, BaseType* pBase, void (BaseType::*handler)()) {
-        scheduler_functor functor = std::bind(handler, pBase);
+        const std::chrono::system_clock::duration interval, receiver_type* receiver, void (receiver_type::*handler)()) {
+        scheduler_functor functor = std::bind_front(handler, receiver);
         add_interval_schedule(interval, std::move(functor));
     }
 
-    template<typename BaseType>
-    void add_at_schedule(const std::string& target_time, BaseType* pBase, void (BaseType::*handler)()) {
-        scheduler_functor functor = std::bind(handler, pBase);
+    template<typename receiver_type>
+    void add_at_schedule(const std::string& target_time, receiver_type* receiver, void (receiver_type::*handler)()) {
+        scheduler_functor functor = std::bind_front(handler, receiver);
         add_at_schedule(target_time, std::move(functor));
     }
 

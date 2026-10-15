@@ -58,6 +58,9 @@ the directory migration alone does not validate those integrations.
 - Use clang-format 18 and the checked-in `.clang-format`. Third-party and generated
   files are excluded from project formatting.
 
+See [Code style](code-style.md) for the complete naming conventions, local checks
+and protocol migration details.
+
 ## Verify SDK consumption
 
 Initialize the pinned submodules and install the dependencies described in

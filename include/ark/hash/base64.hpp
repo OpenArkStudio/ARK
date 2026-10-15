@@ -37,16 +37,16 @@ public:
     {
         // RFC 1421, RFC 2045, [RFC 3548](https://en.wikipedia.org/wiki/Base64#RFC_3548)
         // [RFC 4648](https://en.wikipedia.org/wiki/Base64#RFC_4648)
-        EN_BMT_STANDARD = 0,
+        en_bmt_standard = 0,
 
         // RFC 1642
-        EN_BMT_UTF7 = 1,
+        en_bmt_utf7 = 1,
 
         // RFC 3501(https://tools.ietf.org/html/rfc3501)
-        EN_BMT_IMAP_MAILBOX_NAME = 2,
+        en_bmt_imap_mailbox_name = 2,
 
         // [RFC 4648](https://en.wikipedia.org/wiki/Base64#RFC_4648)
-        EN_BMT_URL_FILENAME_SAFE = 3,
+        en_bmt_url_filename_safe = 3,
     };
 
     /**
@@ -70,7 +70,7 @@ public:
      *                 required buffer size in *olen
      */
     static int base64_encode(unsigned char* dst, size_t dlen, size_t* olen, const unsigned char* src, size_t slen,
-        base64_mode_t mode = base64_mode_t::EN_BMT_STANDARD) {
+        base64_mode_t mode = base64_mode_t::en_bmt_standard) {
         return base64_encode_inner(dst, dlen, olen, src, slen, base64_get_enc_map(mode), base64_get_padding_char(mode));
     }
 
@@ -85,7 +85,7 @@ public:
      * @return         0 if successful
      */
     static int base64_encode(
-        std::string& dst, const unsigned char* src, size_t slen, base64_mode_t mode = base64_mode_t::EN_BMT_STANDARD) {
+        std::string& dst, const unsigned char* src, size_t slen, base64_mode_t mode = base64_mode_t::en_bmt_standard) {
         return base64_encode_inner(dst, src, slen, base64_get_enc_map(mode), base64_get_padding_char(mode));
     }
 
@@ -99,7 +99,7 @@ public:
      * @return         0 if successful
      */
     static int base64_encode(
-        std::string& dst, const std::string& in, base64_mode_t mode = base64_mode_t::EN_BMT_STANDARD) {
+        std::string& dst, const std::string& in, base64_mode_t mode = base64_mode_t::en_bmt_standard) {
         return base64_encode_inner(dst, in, base64_get_enc_map(mode), base64_get_padding_char(mode));
     }
 
@@ -121,7 +121,7 @@ public:
      *                 the required buffer size in *olen
      */
     static int base64_decode(unsigned char* dst, size_t dlen, size_t* olen, const unsigned char* src, size_t slen,
-        base64_mode_t mode = base64_mode_t::EN_BMT_STANDARD) {
+        base64_mode_t mode = base64_mode_t::en_bmt_standard) {
         return base64_decode_inner(dst, dlen, olen, src, slen, base64_get_dec_map(mode), base64_get_padding_char(mode));
     }
 
@@ -136,7 +136,7 @@ public:
      * @return         0 if successful
      */
     static int base64_decode(
-        std::string& dst, const unsigned char* src, size_t slen, base64_mode_t mode = base64_mode_t::EN_BMT_STANDARD) {
+        std::string& dst, const unsigned char* src, size_t slen, base64_mode_t mode = base64_mode_t::en_bmt_standard) {
         return base64_decode_inner(dst, src, slen, base64_get_dec_map(mode), base64_get_padding_char(mode));
     }
 
@@ -150,7 +150,7 @@ public:
      * @return         0 if successful
      */
     static int base64_decode(
-        std::string& dst, const std::string& in, base64_mode_t mode = base64_mode_t::EN_BMT_STANDARD) {
+        std::string& dst, const std::string& in, base64_mode_t mode = base64_mode_t::en_bmt_standard) {
         return base64_decode_inner(dst, in, base64_get_dec_map(mode), base64_get_padding_char(mode));
     }
 
@@ -158,7 +158,7 @@ private:
     static int base64_encode_inner(unsigned char* dst, size_t dlen, size_t* olen, const unsigned char* src, size_t slen,
         base_enc_map_t& base64_enc_map, unsigned char padding_char) {
         size_t i, n, nopadding;
-        int C1, C2, C3;
+        int c1, c2, c3;
         unsigned char* p;
 
         if (slen == 0)
@@ -197,27 +197,27 @@ private:
 
         for (i = 0, p = dst; i < n; i += 3)
         {
-            C1 = *src++;
-            C2 = *src++;
-            C3 = *src++;
+            c1 = *src++;
+            c2 = *src++;
+            c3 = *src++;
 
-            *p++ = base64_enc_map[(C1 >> 2) & 0x3F];
-            *p++ = base64_enc_map[(((C1 & 3) << 4) + (C2 >> 4)) & 0x3F];
-            *p++ = base64_enc_map[(((C2 & 15) << 2) + (C3 >> 6)) & 0x3F];
-            *p++ = base64_enc_map[C3 & 0x3F];
+            *p++ = base64_enc_map[(c1 >> 2) & 0x3F];
+            *p++ = base64_enc_map[(((c1 & 3) << 4) + (c2 >> 4)) & 0x3F];
+            *p++ = base64_enc_map[(((c2 & 15) << 2) + (c3 >> 6)) & 0x3F];
+            *p++ = base64_enc_map[c3 & 0x3F];
         }
 
         if (i < slen)
         {
-            C1 = *src++;
-            C2 = ((i + 1) < slen) ? *src++ : 0;
+            c1 = *src++;
+            c2 = ((i + 1) < slen) ? *src++ : 0;
 
-            *p++ = base64_enc_map[(C1 >> 2) & 0x3F];
-            *p++ = base64_enc_map[(((C1 & 3) << 4) + (C2 >> 4)) & 0x3F];
+            *p++ = base64_enc_map[(c1 >> 2) & 0x3F];
+            *p++ = base64_enc_map[(((c1 & 3) << 4) + (c2 >> 4)) & 0x3F];
 
             if ((i + 1) < slen)
             {
-                *p++ = base64_enc_map[((C2 & 15) << 2) & 0x3F];
+                *p++ = base64_enc_map[((c2 & 15) << 2) & 0x3F];
             }
             else if (padding_char)
             {
@@ -437,14 +437,14 @@ private:
 
         switch (mode)
         {
-        case base64_mode_t::EN_BMT_STANDARD:
-        case base64_mode_t::EN_BMT_UTF7:
+        case base64_mode_t::en_bmt_standard:
+        case base64_mode_t::en_bmt_utf7:
             return base64_dec_map_basic;
 
-        case base64_mode_t::EN_BMT_IMAP_MAILBOX_NAME:
+        case base64_mode_t::en_bmt_imap_mailbox_name:
             return base64_dec_map_imap;
 
-        case base64_mode_t::EN_BMT_URL_FILENAME_SAFE:
+        case base64_mode_t::en_bmt_url_filename_safe:
             return base64_dec_map_url;
 
         default:
@@ -470,14 +470,14 @@ private:
 
         switch (mode)
         {
-        case base64_mode_t::EN_BMT_STANDARD:
-        case base64_mode_t::EN_BMT_UTF7:
+        case base64_mode_t::en_bmt_standard:
+        case base64_mode_t::en_bmt_utf7:
             return base64_enc_map_basic;
 
-        case base64_mode_t::EN_BMT_IMAP_MAILBOX_NAME:
+        case base64_mode_t::en_bmt_imap_mailbox_name:
             return base64_enc_map_imap;
 
-        case base64_mode_t::EN_BMT_URL_FILENAME_SAFE:
+        case base64_mode_t::en_bmt_url_filename_safe:
             return base64_enc_map_url;
 
         default:
@@ -488,12 +488,12 @@ private:
     static inline unsigned char base64_get_padding_char(base64_mode_t mode) {
         switch (mode)
         {
-        case base64_mode_t::EN_BMT_STANDARD:
-        case base64_mode_t::EN_BMT_URL_FILENAME_SAFE:
+        case base64_mode_t::en_bmt_standard:
+        case base64_mode_t::en_bmt_url_filename_safe:
             return '=';
 
-        case base64_mode_t::EN_BMT_UTF7:
-        case base64_mode_t::EN_BMT_IMAP_MAILBOX_NAME:
+        case base64_mode_t::en_bmt_utf7:
+        case base64_mode_t::en_bmt_imap_mailbox_name:
             return 0;
 
         default:

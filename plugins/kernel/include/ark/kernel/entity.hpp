@@ -40,7 +40,7 @@ public:
 
     // get object parent unique id
     virtual std::shared_ptr<container> get_parent_container() const = 0;
-    virtual bool set_parent_container(std::shared_ptr<container> pContainer) = 0;
+    virtual bool set_parent_container(std::shared_ptr<container> container_ptr) = 0;
 
     virtual void update() = 0;
 

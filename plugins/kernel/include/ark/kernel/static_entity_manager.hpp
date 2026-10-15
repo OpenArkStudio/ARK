@@ -33,22 +33,22 @@ public:
     static_entity_manager() = default;
     virtual ~static_entity_manager() = default;
 
-    std::shared_ptr<static_entity> create_static_entity(
-        std::shared_ptr<class_meta> pClassMeta, std::shared_ptr<node_manager> pNodeManager, const id_type config_id) {
-        ARK_ASSERT_RET_VAL(pClassMeta != nullptr && pNodeManager != nullptr, nullptr);
+    std::shared_ptr<static_entity> create_static_entity(std::shared_ptr<class_meta> class_meta_ptr,
+        std::shared_ptr<node_manager> node_manager_ptr, const id_type config_id) {
+        ARK_ASSERT_RET_VAL(class_meta_ptr != nullptr && node_manager_ptr != nullptr, nullptr);
 
         // return nullptr if existed
         auto iter = static_object_list_.find(config_id);
         ARK_ASSERT_RET_VAL(iter == static_object_list_.end(), nullptr);
 
         // create new class
-        auto pObject = std::make_shared<static_entity_impl>(pClassMeta, pNodeManager, config_id);
-        if (!static_object_list_.insert(config_id, pObject).second)
+        auto object_ptr = std::make_shared<static_entity_impl>(class_meta_ptr, node_manager_ptr, config_id);
+        if (!static_object_list_.insert(config_id, object_ptr).second)
         {
             return nullptr;
         }
 
-        return pObject;
+        return object_ptr;
     }
 
     std::shared_ptr<static_entity> find_object(const id_type config_id) const {

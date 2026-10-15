@@ -26,104 +26,104 @@ namespace ark {
 
 enum class data_type : uint32_t
 {
-    DT_EMPTY,    // unknown
-    DT_BOOLEAN,  // bool
-    DT_INT32,    // int32
-    DT_UINT32,   // uint32
-    DT_INT64,    // int64
-    DT_UINT64,   // uint64
-    DT_FLOAT,    // float
-    DT_DOUBLE,   // double
-    DT_STRING,   // string
-    DT_WSTRING,  // wstring
-    DT_VECTOR3D, // vector3d
-    DT_ARRAY,    // array
-    DT_TABLE,    // DataTable
-    DT_GUID,     // guid
-    DT_POINTER,  // pointer(void*)
-    DT_USERDATA, // user data(char*)
+    dt_empty,    // unknown
+    dt_boolean,  // bool
+    dt_int32,    // int32
+    dt_uint32,   // uint32
+    dt_int64,    // int64
+    dt_uint64,   // uint64
+    dt_float,    // float
+    dt_double,   // double
+    dt_string,   // string
+    dt_wstring,  // wstring
+    dt_vector3d, // vector3d
+    dt_array,    // array
+    dt_table,    // DataTable
+    dt_guid,     // guid
+    dt_pointer,  // pointer(void*)
+    dt_userdata, // user data(char*)
 };
 
 enum class connection_type : uint32_t
 {
-    BRT_UNKNOWN,     // unknown
-    BRT_DIRECT,      // directly
-    BRT_WAIT_NOTIFY, // wait notify
-    BRT_RECORD,      // do not connect, but need record info
+    brt_unknown,     // unknown
+    brt_direct,      // directly
+    brt_wait_notify, // wait notify
+    brt_record,      // do not connect, but need record info
 };
 
 enum class entity_event : uint32_t
 {
-    ENTITY_EVT_NONE = 0,
-    ENTITY_EVT_DESTROY,
-    ENTITY_EVT_PRE_DESTROY,
-    ENTITY_EVT_PRE_LOAD_DATA,
-    ENTITY_EVT_LOAD_DATA,
-    ENTITY_EVT_PRE_EFFECT_DATA,
-    ENTITY_EVT_EFFECT_DATA,
-    ENTITY_EVT_POST_EFFECT_DATA,
-    ENTITY_EVT_DATA_FINISHED,
-    ENTITY_EVT_ALL_FINISHED, // Call it by yourself when create entity finished
+    entity_evt_none = 0,
+    entity_evt_destroy,
+    entity_evt_pre_destroy,
+    entity_evt_pre_load_data,
+    entity_evt_load_data,
+    entity_evt_pre_effect_data,
+    entity_evt_effect_data,
+    entity_evt_post_effect_data,
+    entity_evt_data_finished,
+    entity_evt_all_finished, // Call it by yourself when create entity finished
 };
 
 enum class data_op_type : uint16_t
 {
-    DOT_UNKNOWN = 0,
-    DOT_INC, // +
-    DOT_DEC, // -
-    DOT_MUL, // *
-    DOT_DIV, // /
-    DOT_SET, // =
-    DOT_AND, // &
-    DOT_OR,  // |
+    dot_unknown = 0,
+    dot_inc, // +
+    dot_dec, // -
+    dot_mul, // *
+    dot_div, // /
+    dot_set, // =
+    dot_and, // &
+    dot_or,  // |
 };
 
 enum class table_op_type : uint16_t // table operate type
 {
-    TABLE_ADD = 0,  // add whole row data
-    TABLE_DELETE,   // delete whole row data
-    TABLE_UPDATE,   // update row & col cell data
-    TABLE_COVERAGE, // coverage whole row data
-    TABLE_SWAP,     // swap two whole row data
-    TABLE_CLEAR,    // clear all rows
+    table_add = 0,  // add whole row data
+    table_delete,   // delete whole row data
+    table_update,   // update row & col cell data
+    table_coverage, // coverage whole row data
+    table_swap,     // swap two whole row data
+    table_clear,    // clear all rows
 };
 
 enum class data_mask : uint16_t
 {
-    PF_SYNC_VIEW = 0,  // send to others
-    PF_SYNC_SELF = 1,  // send to self
-    PF_REAL_TIME = 2,  // send real-time when changed
-    PF_SAVE = 3,       // save to database
-    PF_SYNC_TEAM = 4,  // sync to team member
-    PF_SYNC_GUILD = 5, // sync to guild member
-    PF_SYNC_MAP = 6,   // sync to all player in same map
-    PF_LOG = 7,        // log when changed
+    pf_sync_view = 0,  // send to others
+    pf_sync_self = 1,  // send to self
+    pf_real_time = 2,  // send real-time when changed
+    pf_save = 3,       // save to database
+    pf_sync_team = 4,  // sync to team member
+    pf_sync_guild = 5, // sync to guild member
+    pf_sync_map = 6,   // sync to all player in same map
+    pf_log = 7,        // log when changed
 };
 
 enum class container_op_type : uint32_t
 {
-    OP_CREATE = 0,  // new entity
-    OP_PLACE = 1,   // place another entity
-    OP_REMOVE = 2,  // remove en entity but do not destroy
-    OP_SWAP = 3,    // swap two entities
-    OP_DESTROY = 4, // destroy an entity
+    op_create = 0,  // new entity
+    op_place = 1,   // place another entity
+    op_remove = 2,  // remove en entity but do not destroy
+    op_swap = 3,    // swap two entities
+    op_destroy = 4, // destroy an entity
 };
 
 enum class http_method : uint8_t
 {
-    HTTP_METHOD_HEAD,
-    HTTP_METHOD_GET,
-    HTTP_METHOD_POST,
-    HTTP_METHOD_PUT,
-    HTTP_METHOD_DELETE,
-    HTTP_METHOD_MAX
+    http_method_head,
+    http_method_get,
+    http_method_post,
+    http_method_put,
+    http_method_delete,
+    http_method_max
 };
 
 enum class compress_type : uint8_t
 {
-    COMPRESS_TYPE_NONE,
-    COMPRESS_TYPE_ZLIB,
-    COMPRESS_TYPE_ZSTD
+    compress_type_none,
+    compress_type_zlib,
+    compress_type_zstd
 };
 
 } // namespace ark
