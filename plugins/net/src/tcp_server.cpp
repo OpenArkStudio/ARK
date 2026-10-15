@@ -47,6 +47,7 @@ bool tcp_server::start_server(std::shared_ptr<const msg_header> head, bus_id_t b
         arknet::detail::tcp_frame_size, ark_tcp_recv_buffer_size, std::max<size_t>(thread_num, 1));
     this->bus_id_ = bus_id;
     const auto weak = weak_from_this();
+    const auto initial_buffer_size = get_initial_receive_buffer_size();
 
     server_
         ->bind_start([weak] {
@@ -74,7 +75,7 @@ bool tcp_server::start_server(std::shared_ptr<const msg_header> head, bus_id_t b
             session_ptr->set_silence_timeout(std::chrono::milliseconds(silent_timeout));
             session_ptr->set_no_delay(true);
         })
-        .bind_connect([weak, head, max_client](std::shared_ptr<arknet::tcp_session>& session_ptr) {
+        .bind_connect([weak, head, initial_buffer_size, max_client](std::shared_ptr<arknet::tcp_session>& session_ptr) {
             const auto self = weak.lock();
             if (self == nullptr)
             {
@@ -92,7 +93,8 @@ bool tcp_server::start_server(std::shared_ptr<const msg_header> head, bus_id_t b
                 if (max_client == 0 || self->active_session_count_ < max_client)
                 {
                     session_ptr->set_user_data(cur_session_id);
-                    tcp_session_ptr session = std::make_shared<tcp_session>(head, cur_session_id, session_ptr);
+                    tcp_session_ptr session =
+                        std::make_shared<tcp_session>(head, cur_session_id, session_ptr, initial_buffer_size);
                     admitted = self->add_net_session(session);
                     if (admitted)
                     {

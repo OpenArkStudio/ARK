@@ -46,8 +46,9 @@ bool rudp_client::start_client(
     client_->set_auto_reconnect(true, ark_reconnect_time);
     client_->set_connect_timeout(ark_connect_timeout);
     auto weak = weak_from_this();
+    const auto initial_buffer_size = get_initial_receive_buffer_size();
     client_
-        ->bind_connect([weak, head] {
+        ->bind_connect([weak, head, initial_buffer_size] {
             const auto ec = arknet::get_last_error();
             auto self = weak.lock();
             if (!self)
@@ -80,7 +81,8 @@ bool rudp_client::start_client(
             net_connect_event->set_ip(self->client_->remote_address());
             {
                 scope_w_lock guard(self->rw_lock_);
-                self->session_ = std::make_shared<rdp_client_session>(head, cur_session_id, nullptr);
+                self->session_ =
+                    std::make_shared<rdp_client_session>(head, cur_session_id, nullptr, initial_buffer_size);
                 self->sessions_.push_back(self->session_);
                 if (!self->session_->add_net_event(net_connect_event))
                 {

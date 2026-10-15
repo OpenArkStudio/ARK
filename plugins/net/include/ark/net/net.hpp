@@ -24,6 +24,7 @@
 #include "ark/container/lock_free_queue.hpp"
 #include "ark/define.hpp"
 #include "ark/macros.hpp"
+#include "ark/net/net_define.hpp"
 #include "ark/net/net_event.hpp"
 #include "ark/net/net_msg.hpp"
 
@@ -62,6 +63,20 @@ public:
 
     virtual void close_session(conv_id_t session_id) = 0;
 
+    // Configure before start_client/start_server. Existing sessions keep their capacity.
+    bool set_initial_receive_buffer_size(size_t bytes) {
+        if (bytes == 0 || is_working())
+        {
+            return false;
+        }
+        initial_receive_buffer_size_ = bytes;
+        return true;
+    }
+
+    size_t get_initial_receive_buffer_size() const {
+        return initial_receive_buffer_size_;
+    }
+
     bool is_working() const {
         return working_;
     }
@@ -76,6 +91,7 @@ public:
 
 private:
     bool working_{false};
+    size_t initial_receive_buffer_size_{default_initial_receive_buffer_size};
 
 public:
     // TODO: use this to statistic net traffic.

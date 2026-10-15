@@ -72,7 +72,12 @@ void release_server_from_receive() {
             return listener.local_endpoint().port();
         }
     }();
+    CHECK(server->get_initial_receive_buffer_size() == 4096);
+    CHECK_FALSE(server->set_initial_receive_buffer_size(0));
+    REQUIRE(server->set_initial_receive_buffer_size(64 * 1024));
+    CHECK(server->get_initial_receive_buffer_size() == 64 * 1024);
     REQUIRE(server->start_server(header, 11, "127.0.0.1", port, 2, 10, 30000));
+    CHECK_FALSE(server->set_initial_receive_buffer_size(4096));
     const std::weak_ptr weak = server;
     client_type client;
     client.set_auto_reconnect(false);
@@ -118,6 +123,10 @@ void release_client_from_receive() {
     frame += "test";
     server_type server(1024, 1024 * 1024, 2);
     REQUIRE(server.start("127.0.0.1", 0));
+    CHECK(client->get_initial_receive_buffer_size() == 4096);
+    CHECK_FALSE(client->set_initial_receive_buffer_size(0));
+    REQUIRE(client->set_initial_receive_buffer_size(64 * 1024));
+    CHECK(client->get_initial_receive_buffer_size() == 64 * 1024);
     REQUIRE(client->start_client(header, 11, "127.0.0.1", server.listen_port()));
     const std::weak_ptr weak = client;
     const auto connected = std::chrono::steady_clock::now() + 5s;

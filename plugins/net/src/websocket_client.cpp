@@ -39,6 +39,7 @@ bool websocket_client::start_client(
     client_ = std::make_shared<arknet::ws_client>(arknet::detail::tcp_frame_size, ark_tcp_recv_buffer_size);
     this->dst_bus_id_ = dst_bus_id;
     const auto weak = weak_from_this();
+    const auto initial_buffer_size = get_initial_receive_buffer_size();
 
     client_->set_auto_reconnect(true, ark_reconnect_time);
     client_->set_connect_timeout(ark_connect_timeout);
@@ -49,7 +50,7 @@ bool websocket_client::start_client(
                 self->client_->set_no_delay(true);
             }
         })
-        .bind_connect([weak, head] {
+        .bind_connect([weak, head, initial_buffer_size] {
             const auto ec = arknet::get_last_error();
             const auto self = weak.lock();
             if (self == nullptr)
@@ -93,7 +94,8 @@ bool websocket_client::start_client(
                 {
                     self->retired_sessions_.push_back(self->client_session_ptr_);
                 }
-                self->client_session_ptr_ = std::make_shared<ws_client_session>(head, cur_session_id, nullptr);
+                self->client_session_ptr_ =
+                    std::make_shared<ws_client_session>(head, cur_session_id, nullptr, initial_buffer_size);
                 if (!self->client_session_ptr_->add_net_event(net_connect_event))
                 {
                     net_event::release(net_connect_event);
