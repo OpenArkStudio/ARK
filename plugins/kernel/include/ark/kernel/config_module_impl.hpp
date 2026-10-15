@@ -31,6 +31,7 @@ class config_module_impl final : public config_module
     ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool init() override;
+    bool post_init() override;
     bool shut() override;
 
     bool load() override;

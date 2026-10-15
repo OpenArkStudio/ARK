@@ -13,3 +13,27 @@ add_custom_target(check-core
     COMMAND $<TARGET_FILE:ark_core_tests>
     DEPENDS ark_core_tests
     USES_TERMINAL)
+
+if(ARK_BUILD_PROTO)
+    add_executable(ark_kernel_initialization_tests main.cpp module_initialization.cpp
+        ../../plugins/kernel/src/class_call_back_manager.cpp
+        ../../plugins/kernel/src/class_meta.cpp
+        ../../plugins/kernel/src/class_meta_module_impl.cpp
+        ../../plugins/kernel/src/config_module_impl.cpp
+        ../../plugins/kernel/src/container_impl.cpp
+        ../../plugins/kernel/src/container_manager_impl.cpp
+        ../../plugins/kernel/src/entity_impl.cpp
+        ../../plugins/kernel/src/kernel_module_impl.cpp
+        ../../plugins/kernel/src/map_module_impl.cpp
+        ../../plugins/kernel/src/node_manager.cpp
+        ../../plugins/kernel/src/row.cpp
+        ../../plugins/kernel/src/static_entity_impl.cpp
+        ../../plugins/kernel/src/table_impl.cpp
+        ../../plugins/kernel/src/table_meta.cpp)
+    target_link_libraries(ark_kernel_initialization_tests PRIVATE ark::kernel ark::utility ark::proto)
+    add_custom_target(check-kernel-initialization
+        COMMAND $<TARGET_FILE:ark_kernel_initialization_tests>
+        DEPENDS ark_kernel_initialization_tests
+        USES_TERMINAL)
+    add_dependencies(check-core check-kernel-initialization)
+endif()

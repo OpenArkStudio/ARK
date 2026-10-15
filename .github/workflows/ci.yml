@@ -17,19 +17,17 @@ concurrency:
 
 jobs:
   network:
-    name: Network - ${{ matrix.os }} - ${{ matrix.standalone == 'ON' && 'Standalone' || 'Boost' }} - ${{ matrix.sanitizer }}
+    name: Network - ${{ matrix.os }} - Boost - ${{ matrix.sanitizer }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        standalone: ["ON", "OFF"]
         sanitizer: [none]
         include:
-          - {os: ubuntu-latest, standalone: "ON", sanitizer: address}
-          - {os: ubuntu-latest, standalone: "OFF", sanitizer: address}
-          - {os: ubuntu-latest, standalone: "ON", sanitizer: thread}
+          - {os: ubuntu-latest, sanitizer: address}
+          - {os: ubuntu-latest, sanitizer: thread}
     steps:
       - uses: actions/checkout@v4
       - name: Initialize pinned dependencies
@@ -49,11 +47,11 @@ jobs:
         run: >-
           cmake -S . -B ci-build -G Ninja
           "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
-          "-DVCPKG_MANIFEST_FEATURES=${{ matrix.standalone == 'OFF' && 'boost' || '' }}"
+          -DVCPKG_MANIFEST_FEATURES=boost
           -DCMAKE_BUILD_TYPE=Debug
           -DARK_BUILD_APPLICATIONS=OFF
           -DARK_BUILD_NETWORK_TESTS=ON
-          -DASIO_STANDALONE=${{ matrix.standalone }}
+          -DASIO_STANDALONE=OFF
           ${{ matrix.sanitizer == 'address' && '"-DCMAKE_CXX_FLAGS=-fsanitize=address,undefined -fno-omit-frame-pointer" "-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined"' || matrix.sanitizer == 'thread' && '"-DCMAKE_CXX_FLAGS=-fsanitize=thread -fno-omit-frame-pointer" "-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=thread"' || '' }}
       - run: cmake --build ci-build --parallel 2
       - name: Run network regressions
@@ -86,12 +84,17 @@ jobs:
         run: >-
           cmake -S . -B ci-build -G Ninja
           "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
-          -DVCPKG_MANIFEST_FEATURES=application
+          "-DVCPKG_MANIFEST_FEATURES=application;boost"
           -DCMAKE_BUILD_TYPE=Debug
+          -DARK_BUILD_APPLICATIONS=ON
+          -DARK_BUILD_PROTO=ON
           -DARK_BUILD_TESTS=ON
+          -DARK_BUILD_CORE_TESTS=ON
           -DARK_BUILD_EXAMPLES=ON
-          -DASIO_STANDALONE=ON
+          -DASIO_STANDALONE=OFF
       - run: cmake --build ci-build --parallel 2
+      - name: Run core and Protobuf regressions
+        run: cmake --build ci-build --target check-core
   required:
     name: CI - required
     if: always()
