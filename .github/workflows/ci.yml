@@ -95,10 +95,60 @@ jobs:
       - run: cmake --build ci-build --parallel 2
       - name: Run core and Protobuf regressions
         run: cmake --build ci-build --target check-core
+  database:
+    name: Database - ${{ matrix.os }} - ${{ matrix.asio }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-latest, asio: Boost, standalone: 'OFF', features: 'database;boost'}
+          - {os: ubuntu-latest, asio: Standalone, standalone: 'ON', features: database}
+          - {os: macos-latest, asio: Boost, standalone: 'OFF', features: 'database;boost'}
+          - {os: windows-latest, asio: Boost, standalone: 'OFF', features: 'database;boost'}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Initialize pinned dependencies
+        run: git submodule update --init 3rdparty/args 3rdparty/spdlog 3rdparty/readerwriterqueue
+      - name: Check out the coroutine runtime for development tests
+        uses: actions/checkout@v4
+        with:
+          repository: OpenArkStudio/arknet
+          ref: f6f782e17d62e6ee8b7d7f9e23c5239abbc07b11
+          path: ci-arknet
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
+      - uses: lukka/get-cmake@latest
+      - uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: 0699a19d0c6386247ce50d4dedbb8217d484d536
+          vcpkgJsonGlob: vcpkg.json
+      - name: Configure native database development tests
+        shell: pwsh
+        run: >-
+          cmake -S . -B ci-database -G Ninja
+          "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+          -DVCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON
+          "-DVCPKG_MANIFEST_FEATURES=${{ matrix.features }}"
+          -DCMAKE_BUILD_TYPE=Debug
+          -DARK_BUILD_APPLICATIONS=OFF
+          -DARK_BUILD_PROTO=OFF
+          -DARK_BUILD_TESTS=OFF
+          -DARK_BUILD_CORE_TESTS=OFF
+          -DARK_BUILD_EXAMPLES=OFF
+          -DARK_BUILD_DATABASE_TESTS=ON
+          "-DARKNET_SOURCE_DIR=$env:GITHUB_WORKSPACE/ci-arknet"
+          -DARKNET_ENABLE_SSL=ON
+          -DASIO_STANDALONE=${{ matrix.standalone }}
+      - name: Compile native services and coroutine tests
+        run: cmake --build ci-database --parallel 2
+      - name: Run local database lifetime regressions
+        run: cmake --build ci-database --target check-database
   required:
     name: CI - required
     if: always()
-    needs: [network, applications]
+    needs: [network, applications, database]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -106,4 +156,5 @@ jobs:
         env:
           NETWORK_RESULT: ${{ needs.network.result }}
           APPLICATION_RESULT: ${{ needs.applications.result }}
-        run: test "$NETWORK_RESULT" = success && test "$APPLICATION_RESULT" = success
+          DATABASE_RESULT: ${{ needs.database.result }}
+        run: test "$NETWORK_RESULT" = success && test "$APPLICATION_RESULT" = success && test "$DATABASE_RESULT" = success
