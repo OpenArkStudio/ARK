@@ -6,8 +6,11 @@
 #include <functional>
 #include <limits>
 #include <memory>
+#include <mutex>
 #include <stdexcept>
 #include <string>
+#include <thread>
+#include <unordered_map>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -16,6 +19,7 @@
 #include <arknet/redis/pool.hpp>
 
 #include "detail/database_completion_queue.hpp"
+#include "detail/database_request_control.hpp"
 
 namespace ark::detail {
 
@@ -30,13 +34,144 @@ inline arknet::redis::result redis_acquire_failure(arknet::redis::pool::acquire_
 
 class redis_service
 {
+    using queue_type = completion_queue<redis_service_result>;
+    using control_type = database_request_control;
+    struct operation;
+
+    struct request_registry
+    {
+        std::mutex mutex;
+        std::unordered_map<std::uint64_t, std::weak_ptr<operation>> active;
+        std::uint64_t next_id{1};
+        database_service_diagnostics diagnostics;
+    };
+
+    struct operation : std::enable_shared_from_this<operation>
+    {
+        control_type control;
+        std::weak_ptr<request_registry> registry;
+        std::uint64_t id{};
+        std::shared_ptr<arknet::redis::pool> pool;
+        std::shared_ptr<queue_type> queue;
+        queue_type::ticket ticket;
+        std::chrono::steady_clock::time_point deadline;
+        std::vector<arknet::redis::command> commands;
+        arknet::redis::pool::lease lease;
+
+        void forward_cancel(std::optional<control_type::cancellation> cancellation) {
+            if (cancellation)
+            {
+                try
+                {
+                    if (cancellation->target == control_type::stage::acquire)
+                    {
+                        pool->cancel(cancellation->id);
+                    }
+                    else
+                    {
+                        lease.cancel(cancellation->id);
+                    }
+                }
+                catch (...)
+                {
+                    // Keep the actual command alive after a failed cancel post;
+                    // only its native reply/deadline can establish the outcome.
+                    if (auto requests = registry.lock())
+                    {
+                        std::lock_guard lock(requests->mutex);
+                        requests->diagnostics.cancellation_submission = std::current_exception();
+                    }
+                }
+            }
+        }
+
+        bool cancel() {
+            const auto requested = control.cancel();
+            forward_cancel(requested.native);
+            return requested.active;
+        }
+
+        void erase_request() {
+            if (auto requests = registry.lock())
+            {
+                std::lock_guard lock(requests->mutex);
+                requests->active.erase(id);
+            }
+        }
+
+        void return_lease(bool discard = false) {
+            try
+            {
+                if (discard)
+                {
+                    lease.discard();
+                }
+                else
+                {
+                    lease.release();
+                }
+            }
+            catch (...)
+            {
+                if (auto requests = registry.lock())
+                {
+                    std::lock_guard lock(requests->mutex);
+                    requests->diagnostics.lease_return = std::current_exception();
+                }
+            }
+        }
+
+        void finish(redis_service_result result) {
+            if (!control.finish())
+            {
+                return;
+            }
+            return_lease();
+            queue->complete(ticket, std::move(result));
+            erase_request();
+        }
+
+        void acquired(arknet::redis::pool::acquire_result result) {
+            if (!result)
+            {
+                finish(redis_acquire_failure(std::move(result)));
+                return;
+            }
+            lease = std::move(result.connection);
+            if (control.cancelled())
+            {
+                finish(arknet::redis::result{arknet::redis::client_errc::cancelled, {}, {}, false});
+                return;
+            }
+            const auto remaining =
+                std::chrono::duration_cast<std::chrono::milliseconds>(deadline - std::chrono::steady_clock::now());
+            if (remaining <= std::chrono::milliseconds::zero())
+            {
+                finish(arknet::redis::result{arknet::redis::client_errc::timeout, {}, {}, false});
+                return;
+            }
+            const auto submission = control.begin(control_type::stage::command);
+            const auto native_id = lease.async_pipeline(
+                std::move(commands),
+                [self = shared_from_this(), submission](arknet::redis::result response) mutable {
+                    if (self->control.complete(submission))
+                    {
+                        self->finish(std::move(response));
+                    }
+                },
+                remaining);
+            forward_cancel(control.publish(submission, native_id));
+        }
+    };
+
 public:
     using callback = std::function<void(redis_service_result)>;
+    using request_id = std::uint64_t;
 
     redis_service(
         arknet::redis::pool_options options, std::size_t max_operations = 64, std::size_t max_input_bytes = 1024 * 1024)
-        : completions_(std::make_shared<completion_queue<redis_service_result>>(max_operations, max_input_bytes))
-        , pool_(std::move(options)) {
+        : completions_(std::make_shared<queue_type>(max_operations, max_input_bytes))
+        , pool_(std::make_shared<arknet::redis::pool>(std::move(options))) {
     }
 
     ~redis_service() {
@@ -57,6 +192,139 @@ public:
 
     bool submit_pipeline(
         std::vector<arknet::redis::command> commands, callback completion, std::chrono::milliseconds timeout) {
+        return initiate(std::move(commands), std::move(completion), timeout) != 0;
+    }
+
+    // Rejected new-style requests complete inline with ID0; legacy submit keeps
+    // its no-callback-on-rejection rule.
+    request_id start(arknet::redis::command command, callback completion, std::chrono::milliseconds timeout) {
+        std::vector<arknet::redis::command> commands;
+        commands.push_back(std::move(command));
+        return start_pipeline(std::move(commands), std::move(completion), timeout);
+    }
+
+    request_id start_pipeline(
+        std::vector<arknet::redis::command> commands, callback completion, std::chrono::milliseconds timeout) {
+        check_owner();
+        auto handler = std::make_shared<callback>(std::move(completion));
+        redis_service_result rejected;
+        if (!arknet::detail::checked_deadline(std::chrono::steady_clock::now(), timeout))
+        {
+            std::get<arknet::redis::result>(rejected).error = arknet::redis::client_errc::invalid_command;
+        }
+        else
+        {
+            try
+            {
+                const auto id = initiate(
+                    std::move(commands),
+                    [handler](redis_service_result result) {
+                        if (*handler)
+                        {
+                            (*handler)(std::move(result));
+                        }
+                    },
+                    timeout);
+                if (id)
+                {
+                    return id;
+                }
+                std::get<arknet::redis::result>(rejected).error =
+                    accepting_ ? arknet::redis::client_errc::queue_full : arknet::redis::client_errc::closed;
+            }
+            catch (...)
+            { rejected = std::current_exception(); }
+        }
+        if (*handler)
+        {
+            (*handler)(std::move(rejected));
+        }
+        return 0;
+    }
+
+    bool cancel(request_id id) {
+        check_owner();
+        std::shared_ptr<operation> pending;
+        {
+            std::lock_guard lock(requests_->mutex);
+            const auto found = requests_->active.find(id);
+            if (found != requests_->active.end())
+            {
+                pending = found->second.lock();
+            }
+        }
+        return pending && pending->cancel();
+    }
+
+    // Native logical completion may be queued without owner dispatch. Its
+    // storage remains charged; false does not mean transport/worker drain.
+    bool is_pending(request_id id) const {
+        check_owner();
+        std::lock_guard lock(requests_->mutex);
+        const auto found = requests_->active.find(id);
+        return found != requests_->active.end() && !found->second.expired();
+    }
+
+    database_service_diagnostics diagnostics() const {
+        check_owner();
+        std::lock_guard lock(requests_->mutex);
+        return requests_->diagnostics;
+    }
+
+    void stop_accepting() {
+        check_owner();
+        accepting_ = false;
+        completions_->stop_accepting();
+    }
+
+    void cancel_all() {
+        check_owner();
+        std::vector<std::shared_ptr<operation>> pending;
+        {
+            std::lock_guard lock(requests_->mutex);
+            pending.reserve(requests_->active.size());
+            for (const auto& [id, weak] : requests_->active)
+            {
+                if (auto request = weak.lock())
+                {
+                    pending.push_back(std::move(request));
+                }
+            }
+        }
+        for (const auto& request : pending)
+        {
+            request->cancel();
+        }
+    }
+
+    std::size_t update(std::size_t maximum = 64) {
+        // A business callback may destroy its service while dispatch is active.
+        auto completions = completions_;
+        return completions->dispatch(maximum);
+    }
+
+    // Legacy capture suppression; this does not drain native work or continuations.
+    void stop() {
+        check_owner();
+        auto completions = completions_;
+        accepting_ = false;
+        pool_->close();
+        // Releasing business captures may destroy this service. Keep the queue
+        // alive and do not access service members after callbacks are removed.
+        completions->stop();
+    }
+
+private:
+    void check_owner() const {
+        if (std::this_thread::get_id() != owner_)
+        {
+            throw std::logic_error("Database service must be used on its module thread");
+        }
+    }
+
+    request_id initiate(
+        std::vector<arknet::redis::command> commands, callback completion, std::chrono::milliseconds timeout) {
+        check_owner();
         const auto deadline = arknet::detail::checked_deadline(std::chrono::steady_clock::now(), timeout);
         if (!deadline)
         {
@@ -87,75 +355,72 @@ public:
         auto ticket = completions_->admit(bytes, std::move(completion));
         if (!ticket)
         {
-            return false;
+            return 0;
         }
+        auto queue = completions_;
+        auto requests = requests_;
+        std::shared_ptr<operation> pending;
         try
         {
+            pending = std::make_shared<operation>();
+            pending->queue = queue;
+            pending->ticket = ticket;
+            pending->registry = requests;
+            pending->pool = pool_;
+            pending->deadline = *deadline;
+            pending->commands = std::move(commands);
+            {
+                std::lock_guard lock(requests->mutex);
+                if (!requests->next_id)
+                {
+                    throw std::overflow_error("Database request IDs exhausted");
+                }
+                pending->id = requests->next_id++;
+                requests->active.emplace(pending->id, pending);
+            }
             const auto acquire_remaining =
                 std::chrono::duration_cast<std::chrono::milliseconds>(*deadline - std::chrono::steady_clock::now());
             if (acquire_remaining <= std::chrono::milliseconds::zero())
             {
-                completions_->complete(
-                    ticket, arknet::redis::result{arknet::redis::client_errc::timeout, {}, {}, false});
-                return true;
+                pending->finish(arknet::redis::result{arknet::redis::client_errc::timeout, {}, {}, false});
+                return pending->id;
             }
-            pool_.async_acquire(
-                [queue = completions_, ticket, commands = std::move(commands), deadline = *deadline](
-                    arknet::redis::pool::acquire_result acquired) mutable {
-                    if (!acquired)
+            const auto submission = pending->control.begin(control_type::stage::acquire);
+            const auto native_id = pending->pool->async_acquire(
+                [pending, submission](arknet::redis::pool::acquire_result acquired) mutable {
+                    if (!pending->control.complete(submission))
                     {
-                        queue->complete(ticket, redis_acquire_failure(std::move(acquired)));
-                        return;
-                    }
-                    auto remaining = std::chrono::duration_cast<std::chrono::milliseconds>(
-                        deadline - std::chrono::steady_clock::now());
-                    if (remaining <= std::chrono::milliseconds::zero())
-                    {
-                        acquired.connection.release();
-                        queue->complete(
-                            ticket, arknet::redis::result{arknet::redis::client_errc::timeout, {}, {}, false});
                         return;
                     }
                     try
-                    {
-                        // Returning the façade after submit is safe: the lease
-                        // defers return/reset until its submitted callback exits.
-                        acquired.connection.async_pipeline(
-                            std::move(commands),
-                            [queue, ticket](
-                                arknet::redis::result result) mutable { queue->complete(ticket, std::move(result)); },
-                            remaining);
-                    }
+                    { pending->acquired(std::move(acquired)); }
                     catch (...)
-                    { queue->complete(ticket, std::current_exception()); }
+                    {
+                        pending->return_lease(true);
+                        pending->finish(std::current_exception());
+                    }
                 },
                 acquire_remaining);
+            pending->forward_cancel(pending->control.publish(submission, native_id));
         }
         catch (...)
         {
-            completions_->abandon(ticket);
+            if (pending)
+            {
+                pending->control.finish();
+                pending->erase_request();
+            }
+            queue->abandon(ticket);
             throw;
         }
-        return true;
+        return pending->id;
     }
 
-    std::size_t update(std::size_t maximum = 64) {
-        // A business callback may destroy its service while dispatch is active.
-        auto completions = completions_;
-        return completions->dispatch(maximum);
-    }
-
-    void stop() {
-        auto completions = completions_;
-        pool_.close();
-        // Releasing business captures may destroy this service. Keep the queue
-        // alive and do not access service members after callbacks are removed.
-        completions->stop();
-    }
-
-private:
-    std::shared_ptr<completion_queue<redis_service_result>> completions_;
-    arknet::redis::pool pool_;
+    std::shared_ptr<queue_type> completions_;
+    std::shared_ptr<arknet::redis::pool> pool_;
+    std::shared_ptr<request_registry> requests_{std::make_shared<request_registry>()};
+    const std::thread::id owner_{std::this_thread::get_id()};
+    bool accepting_{true};
 };
 
 } // namespace ark::detail

@@ -1,0 +1,6 @@
+foreach(mode --pending-destruction --wrong-thread-destruction)
+    execute_process(COMMAND "${PROGRAM}" "${mode}" RESULT_VARIABLE result)
+    if(NOT "${result}" STREQUAL "77")
+        message(FATAL_ERROR "Task group contract ${mode}: expected controlled exit 77, got ${result}")
+    endif()
+endforeach()

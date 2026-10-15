@@ -98,6 +98,24 @@ TEST_CASE("Stop removes business captures even while native callbacks retain rec
     queue.stop();
 }
 
+TEST_CASE("Stop admission preserves accepted pending and ready terminal callbacks") {
+    completion_queue<int> queue(2, 4);
+    std::vector<int> values;
+    auto pending = queue.admit(2, [&](int value) { values.push_back(value); });
+    auto ready = queue.admit(2, [&](int value) { values.push_back(value); });
+    REQUIRE(pending);
+    REQUIRE(ready);
+    queue.complete(ready, 2);
+    queue.stop_accepting();
+    CHECK_FALSE(queue.admit(1, [](int) {}));
+    std::thread worker([&] { queue.complete(pending, 1); });
+    worker.join();
+    CHECK(queue.dispatch() == 2);
+    CHECK(values == std::vector<int>{2, 1});
+    queue.stop_accepting();
+    CHECK(queue.dispatch() == 0);
+}
+
 TEST_CASE("A callback may stop the service without dispatching following callbacks") {
     completion_queue<int> queue(2, 4);
     unsigned callbacks{};

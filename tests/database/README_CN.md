@@ -9,7 +9,8 @@
 ## 构建
 
 按[网络构建说明](../../docs/networking_CN.md)初始化既有依赖。
-显式指定包含原生 Redis、MySQL 客户端的本地 arknet 仓库；开发测试不会修改生产依赖版本，
+显式指定包含原生 Redis、MySQL 客户端和 `arknet/base/manual_runtime.hpp`
+的本地 arknet 仓库；开发测试不会修改生产依赖版本，
 也不会下载功能分支。
 
 ```sh
@@ -20,7 +21,9 @@ cmake -S . -B database-build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
   -DARK_BUILD_DATABASE_TESTS=ON -DARKNET_SOURCE_DIR=/absolute/path/to/arknet \
   -DASIO_STANDALONE=OFF -DARKNET_ENABLE_SSL=ON
 cmake --build database-build --target ark_database_queue_tests \
-  ark_database_redis_stop_tests ark_database_redis_tests ark_database_mysql_tests --parallel 2
+  ark_database_task_tests ark_database_task_contract_tests \
+  ark_database_redis_stop_tests ark_database_redis_tests ark_database_mysql_tests \
+  ark_database_service_awaitable_tests --parallel 2
 ```
 
 使用 Standalone Asio 时设为 `ASIO_STANDALONE=ON`，必要时指定
@@ -79,10 +82,13 @@ bash scripts/test_databases.sh database-build redis
 字符串容量；业务回调执行及其捕获释放后才归还额度。原生结果容量限制继续生效，任意用户回调捕获
 不属于输入字节额度。
 
-提交返回 false 表示未受理且无回调。已受理操作只完成一次，除非 `stop()` 移除尚未开始的业务回调。
+既有 `submit*()` 返回 false 表示未受理且无回调。新增私有 `start*()` 返回逻辑请求 ID，
+拒绝时即使返回 ID 0 也会回调终态。`cancel(id)` 请求取消；`stop_accepting()` 停止准入，
+继续交付已受理操作的终态。已受理操作只完成一次，除非 `stop()` 移除尚未开始的业务回调。
 同一个经溢出检查的截止时间覆盖等池和执行。保留原生服务端、传输错误、拥有型结果及写入结果不确定
 状态，不重放写操作。公开接口将直接使用 arknet 的拥有型结果，以异步和协程调用为主。
-协程调度、取消、路由和兼容接口仍独立于这些内部测试。
+独立的[协程原型](COROUTINES_CN.md)说明模块执行器、有界交付、逻辑取消与显式关闭排空测试，
+不修改已发布模块或插件生命周期。
 
 `stop()` 抑制业务回调并请求关闭连接池，**不等待**原生回调、传输对象、TLS 资源和 IO 线程销毁。
 捕获析构重入的修复通过局部变量持有队列，先请求原生池关闭再释放捕获，不新增 IO 排空屏障。

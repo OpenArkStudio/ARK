@@ -128,6 +128,141 @@ void check_row(const query_result& result, const std::string& binary) {
     require(std::get<time_value>(row[6]) == time_value{true, 1, 2, 3, 4, 5}, "Time type/value lost");
 }
 
+void wait_for_mysql_sleep(mysql_service& observer, const std::string& tag) {
+    const auto expires = std::chrono::steady_clock::now() + 4s;
+    while (std::chrono::steady_clock::now() < expires)
+    {
+        auto active = query(observer, "SELECT COUNT(*) FROM information_schema.processlist WHERE ID <> CONNECTION_ID() "
+                                      "AND STATE = 'User sleep' AND INFO LIKE '%" +
+                                          tag + "%'");
+        success(active);
+        if (std::get<std::int64_t>(active.result.rows[0][0]) != 0)
+        {
+            return;
+        }
+        std::this_thread::sleep_for(1ms);
+    }
+    throw std::runtime_error("MySQL did not observe the uniquely tagged sent sleep operation");
+}
+
+void check_cancellation(const pool_options& options, const std::string& table) {
+    // The native empty-lease rejection is inline and returns ID0. Exercise the
+    // same control protocol used by the service, without holding its mutex.
+    ark::detail::database_request_control control;
+    const auto submission = control.begin(ark::detail::database_request_control::stage::command);
+    pool::lease empty;
+    bool inline_completion{};
+    const auto native_id = empty.async_query("SELECT 1", [&](query_result result) {
+        require(result.status.code == connection_errc::not_connected, "Empty lease did not reject natively");
+        require(control.complete(submission), "Inline native completion lost its phase");
+        require(control.finish(), "Inline native completion was not terminal");
+        inline_completion = true;
+    });
+    require(inline_completion && native_id == 0 && !control.publish(submission, native_id),
+        "Inline ID0 completion deadlocked or published a stale request ID");
+
+    mysql_service observer(options, 4, 8192);
+    mysql_service cancellable(options, 4, 8192);
+    const auto tag = "ark_cancel_" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
+    std::optional<mysql_service_result> active, waiting;
+    const auto active_id = cancellable.start_query(
+        "SELECT SLEEP(2) /*" + tag + "*/", [&](auto result) { active = std::move(result); }, 4s);
+    require(active_id != 0, "Sent cancellation operation was not admitted");
+    wait_for_mysql_sleep(observer, tag);
+    const auto waiting_id = cancellable.start_execute(
+        "INSERT INTO " + table + " (id) VALUES(?)", {std::int64_t(42)},
+        [&](auto result) { waiting = std::move(result); }, 4s);
+    require(waiting_id && waiting_id != active_id && cancellable.cancel(waiting_id),
+        "Waiting lease cancellation did not retain a distinct logical request ID");
+    auto unsent = await(cancellable, waiting);
+    require(unsent.result.status.code == connection_errc::cancelled && !unsent.result.status.outcome_unknown &&
+                !unsent.statement_close,
+        "Cancelled acquire executed SQL or lost its known-unsent native status");
+    require(cancellable.cancel(active_id), "Sent native operation was no longer cancellable");
+    auto sent = await(cancellable, active);
+    require(sent.result.status.code == connection_errc::cancelled && sent.result.status.outcome_unknown,
+        "Sent cancellation lost unknown execution outcome");
+    auto count = query(observer, "SELECT COUNT(*) FROM " + table);
+    success(count);
+    require(std::get<std::int64_t>(count.result.rows[0][0]) == 0, "Cancelled waiting write reached the server");
+
+    std::optional<mysql_service_result> prepared;
+    const auto prepared_tag = tag + "_prepared";
+    const auto prepared_id = cancellable.start_execute(
+        "SELECT SLEEP(?) /*" + prepared_tag + "*/", {2.0}, [&](auto result) { prepared = std::move(result); }, 4s);
+    require(prepared_id != 0, "Prepared cancellation was not admitted");
+    wait_for_mysql_sleep(observer, prepared_tag);
+    require(cancellable.cancel(prepared_id), "Sent prepared operation could not be cancelled");
+    auto prepared_cancel = await(cancellable, prepared);
+    require(prepared_cancel.result.status.code == connection_errc::cancelled &&
+                prepared_cancel.result.status.outcome_unknown && bool(prepared_cancel.statement_close),
+        "Prepared cancellation lost execution uncertainty or independent close diagnostics");
+
+    mysql_service ready(options, 1, 8192);
+    std::optional<mysql_service_result> ready_result;
+    const auto ready_id = ready.start_execute(
+        "INSERT INTO " + table + " (id) VALUES(?)", {std::int64_t(42)},
+        [&](auto result) { ready_result = std::move(result); }, 4s);
+    require(ready_id != 0, "Queued-result cancellation operation was not admitted");
+    const auto ready_deadline = std::chrono::steady_clock::now() + 5s;
+    while (ready.is_pending(ready_id) && std::chrono::steady_clock::now() < ready_deadline)
+    {
+        std::this_thread::sleep_for(1ms);
+    }
+    require(!ready.is_pending(ready_id) && !ready_result && !ready.cancel(ready_id),
+        "A queued native terminal result was cancelled or dispatched before update");
+    unsigned rejected{};
+    require(ready.start_query(
+                "SELECT 1",
+                [&](auto result) {
+                    ++rejected;
+                    require(std::get<mysql_service_reply>(result).result.status.code == connection_errc::queue_full,
+                        "Undispatched result did not keep its operation quota");
+                },
+                4s) == 0 &&
+                rejected == 1,
+        "New-style rejection did not complete inline with ID0");
+    auto unchanged = await(ready, ready_result);
+    success(unchanged);
+    require(unchanged.result.affected_rows == 1, "Cancellation rewrote a successful queued write");
+    success(query(observer, "DELETE FROM " + table));
+
+    std::optional<mysql_service_result> stopping_active, stopping_waiter;
+    const auto stopping_tag = tag + "_stop";
+    const auto stopping_id = cancellable.start_query(
+        "SELECT SLEEP(2) /*" + stopping_tag + "*/", [&](auto result) { stopping_active = std::move(result); }, 4s);
+    require(stopping_id != 0, "Quiesce operation was not admitted");
+    wait_for_mysql_sleep(observer, stopping_tag);
+    const auto stopping_waiter_id =
+        cancellable.start_query("SELECT 2", [&](auto result) { stopping_waiter = std::move(result); }, 4s);
+    require(stopping_waiter_id != 0, "Quiesce waiter was not admitted");
+    cancellable.stop_accepting();
+    require(cancellable.start_query(
+                "SELECT 3",
+                [&](auto result) {
+                    ++rejected;
+                    require(std::get<mysql_service_reply>(result).result.status.code == connection_errc::not_connected,
+                        "Stopped admission lost its native rejection");
+                },
+                4s) == 0 &&
+                rejected == 2,
+        "Stopped new-style operation did not complete inline");
+    cancellable.cancel_all();
+    auto stopped_active = await(cancellable, stopping_active);
+    auto stopped_waiter = await(cancellable, stopping_waiter);
+    require(stopped_active.result.status.code == connection_errc::cancelled &&
+                stopped_active.result.status.outcome_unknown &&
+                stopped_waiter.result.status.code == connection_errc::cancelled &&
+                !stopped_waiter.result.status.outcome_unknown,
+        "Quiesce suppressed a continuation or confused sent and waiting cancellation");
+    require(!cancellable.is_pending(stopping_id) && !cancellable.is_pending(stopping_waiter_id) &&
+                cancellable.update() == 0,
+        "Terminal requests remained registered or dispatched twice");
+    const auto diagnostics = cancellable.diagnostics();
+    require(!diagnostics.cancellation_submission && !diagnostics.lease_return,
+        "Cancellation silently retained a native submission or lease-return exception");
+}
+
 } // namespace
 
 int main() {
@@ -269,6 +404,8 @@ int main() {
                     bool(timed_out.statement_close),
             "Sent timeout lost its uncertainty or prepared cleanup outcome");
         require(rejected_callbacks == 0, "A rejected operation completed later");
+
+        check_cancellation(options, table);
 
         success(query(service, "DROP TABLE " + table));
         table_created = false;

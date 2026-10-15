@@ -10,7 +10,8 @@ clients for runtime plugins, remove old drivers or change plugin registration.
 ## Build
 
 Initialize the existing dependencies described in [network builds](../../docs/networking.md).
-Use an explicit local arknet checkout containing the native Redis/MySQL clients;
+Use an explicit local arknet checkout containing the native Redis/MySQL clients
+and `arknet/base/manual_runtime.hpp`;
 these tests never change the production dependency pin or fetch a feature branch.
 
 ```sh
@@ -21,7 +22,9 @@ cmake -S . -B database-build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
   -DARK_BUILD_DATABASE_TESTS=ON -DARKNET_SOURCE_DIR=/absolute/path/to/arknet \
   -DASIO_STANDALONE=OFF -DARKNET_ENABLE_SSL=ON
 cmake --build database-build --target ark_database_queue_tests \
-  ark_database_redis_stop_tests ark_database_redis_tests ark_database_mysql_tests --parallel 2
+  ark_database_task_tests ark_database_task_contract_tests \
+  ark_database_redis_stop_tests ark_database_redis_tests ark_database_mysql_tests \
+  ark_database_service_awaitable_tests --parallel 2
 ```
 
 For Standalone Asio, set `ASIO_STANDALONE=ON` and provide
@@ -92,13 +95,18 @@ waiting for a connection; reservations remain occupied until business callback
 execution and capture destruction finish. Native result-size limits still apply;
 arbitrary user callback captures are outside the input-byte quota.
 
-A false submission is not accepted and has no callback. Accepted operations are
+The existing `submit*()` methods return false for an unaccepted request with no
+callback. New private `start*()` methods return a logical request ID and report
+rejection through a terminal callback even when returning ID zero. Their
+`cancel(id)` requests cancellation; `stop_accepting()` closes admission while
+preserving accepted terminal delivery. Accepted operations are
 completed once unless `stop()` removes their not-yet-started business callbacks.
 One checked deadline covers acquisition and execution. Native server/transport
 errors, owning results and uncertain write outcomes are preserved; no write is
 replayed. The planned public API uses native arknet owning results and favors
-asynchronous/coroutine calls. Coroutine scheduling, cancellation, routing and
-compatibility remain separate from these internal tests.
+asynchronous/coroutine calls. The separate [coroutine prototype](COROUTINES.md)
+documents its owner executor, bounded delivery, logical cancellation and explicit
+close/drain tests; it does not change the published modules or plugin lifecycle.
 
 `stop()` suppresses business callbacks and requests pool closure. It **does not
 wait** for native callbacks, transports, TLS resources or IO threads to be destroyed.

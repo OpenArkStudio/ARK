@@ -72,7 +72,7 @@ public:
     // The response is moved into pre-reserved storage; no queue-node allocation.
     void complete(const ticket& operation, result_type response) {
         std::lock_guard lock(mutex_);
-        if (!accepting_ || !contains(operation) || operation->ready)
+        if (!dispatch_enabled_ || !contains(operation) || operation->ready)
         {
             return;
         }
@@ -111,7 +111,7 @@ public:
             ticket operation;
             {
                 std::lock_guard lock(mutex_);
-                if (!accepting_ || !head_)
+                if (!dispatch_enabled_ || !head_)
                 {
                     break;
                 }
@@ -145,6 +145,13 @@ public:
         return dispatched;
     }
 
+    // Stops admission while preserving delivery of every accepted completion.
+    void stop_accepting() {
+        check_owner();
+        std::lock_guard lock(mutex_);
+        accepting_ = false;
+    }
+
     // Suppresses not-yet-started business callbacks. This is NOT IO drain/join.
     void stop() {
         check_owner();
@@ -152,6 +159,7 @@ public:
         {
             std::lock_guard lock(mutex_);
             accepting_ = false;
+            dispatch_enabled_ = false;
             retired.swap(slots_);
             head_.reset();
             tail_.reset();
@@ -196,6 +204,7 @@ private:
     const std::size_t max_input_bytes_;
     std::size_t retained_input_bytes_{};
     bool accepting_{true};
+    bool dispatch_enabled_{true};
 };
 
 } // namespace ark::detail

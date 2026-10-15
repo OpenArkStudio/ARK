@@ -10,8 +10,8 @@ commitment.
 
 ## Build
 
-Use a local arknet checkout containing the native MySQL connection and pool
-headers. OpenSSL is required for MySQL authentication and TLS. The development
+Use a local arknet checkout containing the native MySQL connection/pool and
+`manual_runtime` headers. OpenSSL is required for MySQL authentication and TLS. The development
 switch defaults to `OFF`; the ordinary application and plugin selection is
 unchanged. Normal ark dependency discovery still applies; use the project's
 usual toolchain or dependency prefix when configuring.
@@ -71,6 +71,27 @@ reports any cleanup failure. It does not edit other tables or server settings.
 - Business completions run only in `update()` on the constructing thread. Tests
   cover destroying the service from a completion and from a capture destructor
   during `stop()`.
+- Logical request IDs distinguish waiting acquisition from native command IDs.
+  A second connection observes a uniquely tagged server-side sleep before sent
+  cancellation is tested. Waiting cancellation does not send its write; sent
+  cancellation preserves `outcome_unknown` and separate statement cleanup.
+- Cancellation after a terminal result is queued preserves that result, and its
+  admission reservation remains charged until owner dispatch. Admission stop
+  plus cancellation still delivers accepted terminal continuations.
+
+## Private asynchronous contract
+
+| Method | Admission and completion |
+| --- | --- |
+| `submit_query()` / `submit_execute()` | Existing Boolean interface: `false` means no admission and no callback. |
+| `start_query()` / `start_execute()` | Return a logical request ID. Rejected work returns 0 and still completes with an explicit native status, possibly inline. Accepted work completes through `update()`. |
+| `cancel(id)` | Requests native cancellation; `true` means the logical operation was active, not that SQL did not execute. |
+| `is_pending(id)` | Observes logical terminal completion. A queued result can return `false` before dispatch or native cleanup. |
+
+All service methods belong to the constructing/module thread. Inputs, outputs
+and completion records own their storage. `diagnostics()` retains at most the
+last cancellation-submission and explicit lease-return exceptions separately;
+neither replaces a known execution result or triggers a write retry.
 
 ## Shutdown boundary
 
@@ -79,8 +100,15 @@ started. It is **not an IO drain or join barrier**. Native handlers and transpor
 cleanup may continue after the service is destroyed. A callback already running
 continues to return normally, and a sent command may already have executed.
 
+Coroutine shutdown uses `stop_accepting()` followed by `cancel_all()` while owner
+dispatch continues. These methods retain terminal delivery for accepted requests;
+legacy `stop()` must not be used to discard a suspended continuation. See the
+[coroutine prototype](COROUTINES.md) for the manual-executor drain sequence.
+Logical completion is distinct from transport cleanup and worker exit. Exceptions
+in later native pool-return callbacks remain a separate library boundary.
+
 The private service must not be connected to automatic plugin unload until the
-library completion barrier and ark shutdown ordering are defined. Cancellation
-IDs, transactions, public result types and the legacy synchronous API remain
-outside this development test. Functional checks do not establish production
+library completion barrier and ark shutdown ordering are defined. Transactions,
+public result types and the legacy synchronous API remain outside this
+development test. Functional checks do not establish production
 capacity or cross-platform acceptance.
