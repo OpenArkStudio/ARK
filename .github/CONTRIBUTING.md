@@ -1,6 +1,6 @@
 # Contributing to ARK
 
-Welcome to [report Issues](https://github.com/OpenArkStudio/ARK/issues) or [pull requests](https://github.com/OpenArkStudio/ARK/pulls). It's recommended to read the following Contributing Guide first before contributing.
+Welcome to [report Issues](https://github.com/OpenArkStudio/ark/issues) or [pull requests](https://github.com/OpenArkStudio/ark/pulls). It's recommended to read the following Contributing Guide first before contributing.
 
 ## Issues
 
@@ -41,9 +41,11 @@ Before submitting a pull request, please make sure the followings are done:
 
 ## Code Style Guide
 
-Try to be similar with the other authors.
+Use the repository `.clang-format` with clang-format 18. Public types, functions, namespaces and filenames use `snake_case`; private members end in `_`. Order includes as system headers, third-party headers, then ark headers. Keep function opening braces on the declaration line, use explicit braces for control flow, and separate definitions with a blank line.
+
+See [Project layout and SDK](../docs/project-layout.md) for public include paths and CMake targets.
 
 ## License
 
 By contributing to `ARK`, you agree that your contributions will be licensed
-under [Apache LICENSE](https://github.com/OpenArkStudio/ARK/blob/main/LICENSE)
+under [Apache LICENSE](https://github.com/OpenArkStudio/ark/blob/main/LICENSE)

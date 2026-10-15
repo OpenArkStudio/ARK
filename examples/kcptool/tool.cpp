@@ -1,61 +1,59 @@
 #include <stdio.h>
-#include <kcp/ikcp.h>
+
 #include <boost/asio.hpp>
-#include "base/AFPlatform.hpp"
-#include "base/container/AFLockFreeQueue.hpp"
-#include "net/include/kcp_client.hpp"
-#include "net/include/AFNetMsg.hpp"
+#include <kcp/ikcp.h>
+
+#include "ark/container/lock_free_queue.hpp"
+#include "ark/net/net_msg.hpp"
+#include "ark/platform.hpp"
 #include "net/include/AFCKcpClient.hpp"
+#include "net/include/kcp_client.hpp"
 
 std::mutex mut;
 
-struct Message
+struct message
 {
     int protocol;
     char* data;
 };
 
-class KcpClient
+class kcp_client
 {
     static int base_id_;
-    static std::unordered_map<int, KcpClient*> kcp_clients_map_;
+    static std::unordered_map<int, kcp_client*> kcp_clients_map_;
 
 public:
-    using IdMsgPair = std::pair<int, std::string>;
-    using MessageList = std::list<IdMsgPair>;
-    MessageList msg_list;
-    MessageList::iterator current_iter;
+    using id_msg_pair = std::pair<int, std::string>;
+    using message_list = std::list<id_msg_pair>;
+    message_list msg_list;
+    message_list::iterator current_iter;
 
 private:
     int client_id_;
     std::shared_ptr<ark::AFCKcpClient> kcp_client_ptr_;
 
 public:
-    KcpClient()
-    {
+    kcp_client() {
         mut.lock();
         client_id_ = ++base_id_;
         kcp_clients_map_.insert(std::make_pair(client_id_, this));
         mut.unlock();
 
-        kcp_client_ptr_ = std::make_shared<ark::AFCKcpClient>(this, &KcpClient::OnNetMsg, &KcpClient::OnNetEvent);
+        kcp_client_ptr_ = std::make_shared<ark::AFCKcpClient>(this, &kcp_client::OnNetMsg, &kcp_client::OnNetEvent);
         current_iter = msg_list.begin();
     }
 
-    void OnNetMsg(const ark::AFNetMsg* msg, ark::conv_id_t session_id)
-    {
-        msg_list.push_back(IdMsgPair(msg->GetMsgId(), std::string(msg->GetMsgData(), msg->GetMsgLength())));
+    void OnNetMsg(const ark::net_msg* msg, ark::conv_id_t session_id) {
+        msg_list.push_back(id_msg_pair(msg->GetMsgId(), std::string(msg->GetMsgData(), msg->GetMsgLength())));
     }
 
-    void OnNetEvent(const ark::AFNetEvent* event) {}
+    void OnNetEvent(const ark::net_event* event) {}
 
-    int ClientID()
-    {
+    int ClientID() {
         return client_id_;
     }
 
-    bool StartClient(const std::string& ip, const uint16_t port, int time_out)
-    {
+    bool StartClient(const std::string& ip, const uint16_t port, int time_out) {
         if (!kcp_client_ptr_->StartClient(ark::AFHeaderLen::CS_HEAD_LENGTH, 0, ip, port, false))
         {
             return false;
@@ -63,7 +61,7 @@ public:
 
         for (int i = 0; i < time_out; ++i)
         {
-            kcp_client_ptr_->Update();
+            kcp_client_ptr_->update();
             if (kcp_client_ptr_->Connected())
             {
                 return true;
@@ -78,16 +76,14 @@ public:
         return false;
     };
 
-    bool SendMsg(uint16_t msg_id, uint32_t length, const char* msg)
-    {
+    bool SendMsg(uint16_t msg_id, uint32_t length, const char* msg) {
         ark::AFMsgHeader header;
         header.id_ = msg_id;
         header.length_ = length;
         return kcp_client_ptr_->SendMsg(&header, msg, 0);
     }
 
-    static KcpClient* GetClient(int client_id)
-    {
+    static kcp_client* GetClient(int client_id) {
         mut.lock();
         auto iter = kcp_clients_map_.find(client_id);
         if (iter == kcp_clients_map_.end())
@@ -100,8 +96,7 @@ public:
         return iter->second;
     }
 
-    bool Update(int time_out)
-    {
+    bool update(int time_out) {
         if (kcp_client_ptr_ == nullptr)
         {
             std::cout << "Please call StartClient first";
@@ -113,7 +108,7 @@ public:
         }
         for (int i = 0; i < time_out; ++i)
         {
-            kcp_client_ptr_->Update();
+            kcp_client_ptr_->update();
             if (!msg_list.empty())
             {
                 return true;
@@ -126,16 +121,15 @@ public:
     }
 };
 
-int KcpClient::base_id_ = 0;
+int kcp_client::base_id_ = 0;
 
-std::unordered_map<int, KcpClient*> KcpClient::kcp_clients_map_;
+std::unordered_map<int, kcp_client*> kcp_client::kcp_clients_map_;
 
 extern "C" {
 
-int StartClient(char* ip, uint16_t port = 9001, int time_out = 10)
-{
+int StartClient(char* ip, uint16_t port = 9001, int time_out = 10) {
 
-    KcpClient* client = new KcpClient;
+    kcp_client* client = new kcp_client;
 
     if (client->StartClient(ip, port, time_out))
     {
@@ -145,9 +139,8 @@ int StartClient(char* ip, uint16_t port = 9001, int time_out = 10)
     return -1;
 }
 
-bool SendMsg(int client_id, uint16_t msg_id, uint32_t length, const char* msg)
-{
-    auto client = KcpClient::GetClient(client_id);
+bool SendMsg(int client_id, uint16_t msg_id, uint32_t length, const char* msg) {
+    auto client = kcp_client::GetClient(client_id);
     if (client == nullptr)
     {
         return false;
@@ -156,18 +149,17 @@ bool SendMsg(int client_id, uint16_t msg_id, uint32_t length, const char* msg)
     return client->SendMsg(msg_id, length, msg);
 }
 
-Message GetMessage(int client_id, int time_out = 50)
-{
-    Message msg;
+message GetMessage(int client_id, int time_out = 50) {
+    message msg;
     msg.protocol = 0;
 
-    auto client = KcpClient::GetClient(client_id);
+    auto client = kcp_client::GetClient(client_id);
     if (client == nullptr)
     {
         return msg;
     }
 
-    auto ret = client->Update(time_out);
+    auto ret = client->update(time_out);
     if (!ret)
     {
         std::cout << "Update fail" << std::endl;
