@@ -18,6 +18,8 @@
  *
  */
 
+#include <csignal>
+
 #include <args/args.hxx>
 
 #include "ark/bus.hpp"
@@ -28,10 +30,9 @@
 #include "ark/plugin_manager.hpp"
 #include "ark/time/date_time.hpp"
 #include "ark/xml.hpp"
+#include "shutdown_request.hpp"
 
 using namespace ark;
-
-bool g_exit_loop = false;
 
 #ifdef ARK_PLATFORM_WIN
 // command control
@@ -75,11 +76,6 @@ void disable_close_button() {
 }
 
 #elif defined(ARK_PLATFORM_LINUX) || defined(ARK_PLATFORM_DARWIN)
-
-void kill_handler(int signum) {
-    ARK_LOG_INFO("Server stopped by receiving a signal {}", signum);
-    g_exit_loop = true;
-}
 
 void init_daemon() {
 #ifdef ARK_PLATFORM_DARWIN
@@ -125,7 +121,7 @@ Copyright 2020 © X.D. NetWork Inc.
 #ifdef ARK_PLATFORM_WIN
 void create_back_thread() {
     auto thread_func = []() {
-        while (!g_exit_loop)
+        while (app_detail::requested_stop_reason() == 0)
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
@@ -134,7 +130,7 @@ void create_back_thread() {
             string_utils::to_lower(s);
             if (s == "exit")
             {
-                g_exit_loop = true;
+                app_detail::request_stop(app_detail::command_stop_reason);
             }
         }
     };
@@ -153,9 +149,8 @@ bool parse_args(int argc, char* argv[]) {
     signal(SIGTTIN, SIG_IGN);
 
     // interupt signals
-    signal(SIGINT, kill_handler);
-    signal(SIGTERM, kill_handler);
-    signal(SIGSTOP, kill_handler);
+    std::signal(SIGINT, app_detail::ark_app_stop_signal_handler);
+    std::signal(SIGTERM, app_detail::ark_app_stop_signal_handler);
 #endif
 
     auto close_x_button = []() {
@@ -332,8 +327,13 @@ int main(int argc, char* argv[]) {
 
     for (;; std::this_thread::sleep_for(std::chrono::milliseconds(1)))
     {
-        if (g_exit_loop)
+        const auto stop_reason = app_detail::requested_stop_reason();
+        if (stop_reason != 0)
         {
+            if (stop_reason > 0)
+            {
+                ARK_LOG_INFO("Server stop requested by signal {}", stop_reason);
+            }
             break;
         }
 

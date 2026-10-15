@@ -14,6 +14,19 @@ add_custom_target(check-core
     DEPENDS ark_core_tests
     USES_TERMINAL)
 
+find_package(Threads REQUIRED)
+add_executable(ark_app_shutdown_tests ../app/shutdown_request.cpp)
+target_compile_features(ark_app_shutdown_tests PRIVATE cxx_std_20)
+target_include_directories(ark_app_shutdown_tests PRIVATE "${PROJECT_SOURCE_DIR}/src/app")
+# This app-private state test does not consume the directory's inherited ark SDK.
+set_property(TARGET ark_app_shutdown_tests PROPERTY LINK_LIBRARIES Threads::Threads)
+add_custom_target(check-app-shutdown
+    COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:ark_app_shutdown_tests>"
+        -P "${PROJECT_SOURCE_DIR}/tests/app/shutdown_request.cmake"
+    DEPENDS ark_app_shutdown_tests
+    USES_TERMINAL)
+add_dependencies(check-core check-app-shutdown)
+
 if(ARK_BUILD_PROTO)
     add_executable(ark_kernel_initialization_tests main.cpp module_initialization.cpp
         ../../plugins/kernel/src/class_call_back_manager.cpp
