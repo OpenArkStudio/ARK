@@ -21,7 +21,6 @@
 #pragma once
 
 #include <memory>
-#include <thread>
 
 #include "ark/net/http_client_module.hpp"
 #include "ark/plugin_manager.hpp"
@@ -93,7 +92,6 @@ private:
 private:
     struct state;
     std::shared_ptr<state> state_;
-    std::thread worker_;
 };
 
 } // namespace ark

@@ -23,6 +23,7 @@
 #include <mutex>
 #include <unordered_map>
 
+#include <arknet/base/io_pool.hpp>
 #include <arknet/http/request.hpp>
 
 #include "ark/net/http_client_module_impl.hpp"
@@ -118,8 +119,7 @@ struct http_client_module_impl::state : std::enable_shared_from_this<state>
         http_result result;
     };
 
-    asio::io_context context;
-    asio::executor_work_guard<asio::io_context::executor_type> work{asio::make_work_guard(context)};
+    arknet::io_pool runtime{1};
     std::mutex mutex;
     std::unordered_map<std::uint64_t, std::shared_ptr<arknet::http_request>> requests;
     std::deque<callback> finished;
@@ -141,7 +141,7 @@ struct http_client_module_impl::state : std::enable_shared_from_this<state>
             completion(make_result(asio::error::operation_aborted, {}));
             return;
         }
-        auto operation = std::make_shared<arknet::http_request>(context);
+        auto operation = std::make_shared<arknet::http_request>(runtime.get_context(0));
         const auto id = ++next_request;
         requests.emplace(id, operation);
         operation->async_request(host, service, std::move(message), options,
@@ -161,19 +161,24 @@ struct http_client_module_impl::state : std::enable_shared_from_this<state>
     }
 
     void stop() {
-        std::lock_guard<std::mutex> lock(mutex);
-        accepting = false;
-        for (const auto& [id, operation] : requests)
         {
-            operation->cancel();
+            std::lock_guard<std::mutex> lock(mutex);
+            accepting = false;
+            for (const auto& [id, operation] : requests)
+            {
+                operation->cancel();
+            }
         }
-        work.reset();
+        runtime.stop();
     }
 };
 
 http_client_module_impl::http_client_module_impl()
     : state_(std::make_shared<state>()) {
-    worker_ = std::thread([state = state_] { state->context.run(); });
+    if (!state_->runtime.start())
+    {
+        throw arknet::system_error(arknet::get_last_error());
+    }
 }
 
 http_client_module_impl::~http_client_module_impl() {
@@ -181,11 +186,8 @@ http_client_module_impl::~http_client_module_impl() {
 }
 
 bool http_client_module_impl::pre_shut() {
-    state_->stop();
-    if (worker_.joinable())
-    {
-        worker_.join();
-    }
+    auto state = state_;
+    state->stop();
     return true;
 }
 
