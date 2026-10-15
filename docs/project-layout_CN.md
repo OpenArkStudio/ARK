@@ -7,6 +7,11 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 
 ## 目录
 
+构建产物保存在各自的 CMake 构建目录中：`cmake -S . -B out/release` 将可执行文件、
+插件和静态库输出到 `out/release/bin`。Debug 和 sanitizer 构建使用不同目录，避免产物
+相互覆盖。使用 `-B build` 时仍输出到 `build/bin`。部署时，将所选构建的产物复制到
+运行目录的 `bin/` 下。
+
 | 路径 | 内容 |
 | --- | --- |
 | `include/ark/` | 核心公开头文件 |
