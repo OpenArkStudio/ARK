@@ -28,15 +28,16 @@ public:
 class metadata_files
 {
 public:
-    metadata_files()
+    explicit metadata_files(bool leading_separator)
         : previous_(std::filesystem::current_path())
         , directory_(
               std::filesystem::temp_directory_path() /
               ("ark-module-init-" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()))) {
-        std::filesystem::create_directories(directory_ / "resourcemeta");
-        write("config_class.config",
-            R"(<xml><config id="attribute" meta="meta/attribute.config" res="meta/attribute.data"/></xml>)");
-        write("entity_class.config", R"(<xml><config meta="meta/player.config"/></xml>)");
+        std::filesystem::create_directories(directory_ / "resource" / "meta");
+        const std::string meta = leading_separator ? "/meta/" : "meta/";
+        write("config_class.config", "<xml><config id=\"attribute\" meta=\"" + meta + "attribute.config\" res=\"" +
+                                         meta + "attribute.data\"/></xml>");
+        write("entity_class.config", "<xml><config meta=\"" + meta + "player.config\"/></xml>");
         write("attribute.config", R"(<xml><meta field="id" type="uint64"/><meta field="level" type="int"/></xml>)");
         write("attribute.data", R"(<xml><data id="42" level="7"/></xml>)");
         write("player.config", R"(<xml><meta class="Player" type="class"/></xml>)");
@@ -50,8 +51,8 @@ public:
     }
 
 private:
-    void write(const char* name, const char* contents) {
-        std::ofstream output(directory_ / "resourcemeta" / name);
+    void write(const char* name, const std::string& contents) {
+        std::ofstream output(directory_ / "resource" / "meta" / name);
         output.exceptions(std::ios::badbit | std::ios::failbit);
         output << contents;
     }
@@ -60,12 +61,12 @@ private:
     std::filesystem::path directory_;
 };
 
-void verify_initialization_order(bool config_init_first, bool config_post_init_first) {
+void verify_initialization_order(bool leading_separator, bool config_init_first, bool config_post_init_first) {
     ark::logger test_logger;
     ark::logger::init(&test_logger);
     test_logger.set_log_func([](spdlog::level::level_enum, const std::string&) {});
 
-    metadata_files files;
+    metadata_files files(leading_separator);
     ark::plugin_manager manager;
     ark::class_meta_module_impl metadata;
     ark::config_module_impl config;
@@ -123,19 +124,28 @@ void verify_initialization_order(bool config_init_first, bool config_post_init_f
     CHECK(metadata.shut());
 }
 
+void verify_initialization_orders(bool leading_separator) {
+    SUBCASE("kernel init and kernel post_init first") {
+        verify_initialization_order(leading_separator, false, false);
+    }
+    SUBCASE("kernel init and config post_init first") {
+        verify_initialization_order(leading_separator, false, true);
+    }
+    SUBCASE("config init and kernel post_init first") {
+        verify_initialization_order(leading_separator, true, false);
+    }
+    SUBCASE("config init and config post_init first") {
+        verify_initialization_order(leading_separator, true, true);
+    }
+}
+
 } // namespace
 
 TEST_CASE("kernel and config initialize before schema regardless of consumer order") {
-    SUBCASE("kernel init and kernel post_init first") {
-        verify_initialization_order(false, false);
+    SUBCASE("metadata paths relative to the resource directory") {
+        verify_initialization_orders(false);
     }
-    SUBCASE("kernel init and config post_init first") {
-        verify_initialization_order(false, true);
-    }
-    SUBCASE("config init and kernel post_init first") {
-        verify_initialization_order(true, false);
-    }
-    SUBCASE("config init and config post_init first") {
-        verify_initialization_order(true, true);
+    SUBCASE("metadata paths with a legacy leading separator") {
+        verify_initialization_orders(true);
     }
 }

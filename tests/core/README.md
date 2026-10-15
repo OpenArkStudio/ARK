@@ -20,3 +20,7 @@ With `ARK_BUILD_PROTO=ON`, additional cases verify Protobuf parse failures, acto
 identity, binary messages, legacy wire payloads and external JSON field names.
 They also exercise the new `ark::protobuf` descriptor and enum names.
 Initialize Protobuf as described for application builds.
+
+`check-kernel-initialization` loads real metadata and static data from
+`resource/meta/`. It checks four kernel/config initialization orders with both
+resource-relative paths and legacy paths beginning with `/`, for eight combinations.

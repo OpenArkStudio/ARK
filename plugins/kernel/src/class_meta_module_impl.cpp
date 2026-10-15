@@ -21,6 +21,7 @@
 #include "ark/kernel/class_meta_module_impl.hpp"
 #include "ark/plugin_manager.hpp"
 #include "ark/xml.hpp"
+#include "detail/resource_path.hpp"
 
 namespace ark {
 
@@ -54,8 +55,7 @@ bool class_meta_module_impl::load() {
 
 bool class_meta_module_impl::load_config() {
     // TODO: will put the configuration fileds in kernel.plugin.conf
-    const static std::string res_dir = "resource";
-    std::string file_path = res_dir + config_class_file_path;
+    const auto file_path = detail::resource_file(config_class_file_path);
 
     ARK_LOG_INFO("Load config class files: {}", file_path);
 
@@ -73,7 +73,7 @@ bool class_meta_module_impl::load_config() {
         ARK_ASSERT_RET_VAL(class_meta_ptr != nullptr, false);
 
         class_meta_ptr->set_res_path(res_path);
-        ARK_ASSERT_RET_VAL(load_config_meta(res_dir + schema_path, class_meta_ptr), false);
+        ARK_ASSERT_RET_VAL(load_config_meta(detail::resource_file(schema_path), class_meta_ptr), false);
     }
 
     return true;
@@ -108,8 +108,7 @@ bool class_meta_module_impl::load_config_meta(
 
 bool class_meta_module_impl::load_entity() {
     // TODO: will put the configuration fileds in kernel.plugin.conf
-    const static std::string res_dir = "resource";
-    std::string file_path = res_dir + entity_class_file_path;
+    const auto file_path = detail::resource_file(entity_class_file_path);
 
     ARK_LOG_INFO("Load entity class files: {}", file_path);
 
@@ -120,7 +119,7 @@ bool class_meta_module_impl::load_entity() {
     for (auto meta_node = root_node.find_node("config"); meta_node.is_valid(); meta_node.next_node())
     {
         std::string schema_path = meta_node.get_string("meta");
-        ARK_ASSERT_RET_VAL(load_entity_meta(res_dir + schema_path), false);
+        ARK_ASSERT_RET_VAL(load_entity_meta(detail::resource_file(schema_path)), false);
     }
 
     // exact table meta and object meta of a class meta after all loaded
