@@ -20,6 +20,10 @@
 
 #pragma once
 
+#include <algorithm>
+#include <limits>
+#include <stdexcept>
+
 namespace ark {
 
 class AFBuffer final
@@ -130,11 +134,6 @@ private:
         write_pos_ = 0;
     }
 
-    size_t get_write_pos()
-    {
-        return write_pos_;
-    }
-
     size_t get_read_pos()
     {
         return read_pos_;
@@ -174,10 +173,19 @@ private:
 
     void grow(size_t len)
     {
-        size_t n = data_size_ + len;
+        if (len > std::numeric_limits<size_t>::max() - data_size_)
+        {
+            throw std::length_error("Receive buffer size exceeds the addressable range");
+        }
+        const size_t required = data_size_ + len;
+        const size_t doubled = data_size_ <= std::numeric_limits<size_t>::max() / 2 ? data_size_ * 2 : required;
+        const size_t n = std::max(required, doubled);
         char* d = new char[n];
 
-        memcpy(d, data_, get_write_pos());
+        const size_t unread = get_length();
+        memcpy(d, data_ + read_pos_, unread);
+        read_pos_ = 0;
+        write_pos_ = unread;
         data_size_ = n;
         delete[] data_;
         data_ = d;

@@ -105,6 +105,10 @@ public:
         }
 
         buffer_.remove_data(len);
+        if (len > 0)
+        {
+            pending_header_.reset();
+        }
         return buffer_.get_length();
     }
 
@@ -169,8 +173,12 @@ public:
         const size_t head_len = GetHeadLen();
         while (GetBufferLen() - pos >= head_len)
         {
-            std::unique_ptr<AFIMsgHeader> msg_head(req_header_->New());
-            msg_head->ParseFromArray(GetBuffer() + pos);
+            auto msg_head = std::move(pending_header_);
+            if (msg_head == nullptr)
+            {
+                msg_head.reset(req_header_->New());
+                msg_head->ParseFromArray(GetBuffer() + pos);
+            }
             const size_t msg_len = msg_head->MessageLength();
             if (msg_len > ARK_MSG_MAX_LENGTH)
             {
@@ -178,6 +186,7 @@ public:
             }
             if (GetBufferLen() - pos - head_len < msg_len)
             {
+                pending_header_ = std::move(msg_head);
                 break;
             }
 
@@ -207,12 +216,13 @@ public:
 private:
     std::shared_ptr<const AFIMsgHeader> req_header_;
     conv_id_t session_id_{0};
-    AFBuffer buffer_;
+    AFBuffer buffer_{ARK_MSG_MAX_LENGTH};
 
     AFLockFreeQueue<AFNetMsg*> msg_queue_;
     AFLockFreeQueue<AFNetEvent*> event_queue_;
     // this field is meaning when isSession is true
     const SessionPTR session_{nullptr};
+    std::unique_ptr<AFIMsgHeader> pending_header_;
 
     std::atomic<bool> need_remove_{false};
 };

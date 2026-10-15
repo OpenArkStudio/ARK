@@ -253,3 +253,8 @@ endif ()
 if(ARK_BUILD_NETWORK_TESTS)
     add_subdirectory(test/network)
 endif()
+
+option(ARK_BUILD_BENCHMARKS "Build standalone C++ performance programs" ${ARK_BUILD_NETWORK_TESTS})
+if(ARK_BUILD_BENCHMARKS)
+    add_subdirectory(benchmarks)
+endif()

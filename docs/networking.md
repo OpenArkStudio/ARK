@@ -76,3 +76,7 @@ arknet endpoint is deleted by a shared cleanup executor with one thread. This
 keeps worker joins outside the pool being stopped. Destruction from an external
 thread remains synchronous; the cleanup executor drains its queued deletions at
 shutdown. Application message and connection callbacks still run through `Update()`.
+
+## Receive-buffer benchmarks
+
+The [receive-buffer report](performance/receive-buffers.md) records local memory, framing-throughput and CPU measurements, including batch-case regressions. Build the permanent C++ programs using the [benchmark guide](../benchmarks/README.md).

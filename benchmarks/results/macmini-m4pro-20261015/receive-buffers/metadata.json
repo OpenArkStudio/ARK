@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-15",
+  "machine": {
+    "model": "Mac16,11",
+    "cpu": "Apple M4 Pro",
+    "physical_cores": 14,
+    "logical_cores": 14,
+    "memory_bytes": 51539607552,
+    "os": "27.0.1",
+    "os_build": "26A434",
+    "architecture": "arm64"
+  },
+  "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+  "cmake": "cmake version 4.3.3",
+  "language": "C++20",
+  "build": "Release (-O3 -DNDEBUG -fPIC)",
+  "dependency": "Boost 1.90.0",
+  "baseline_commit": "104c138b361265f56255a8ff4bb533a5870ad0ee",
+  "repetitions": 3,
+  "order": "Before round, after round, repeated three times; one fresh process per case; no concurrent compilation",
+  "warmup_iterations": 10000,
+  "cpu_percent_per_logical_core": 100,
+  "array_allocation_scope": "Ordinary C++ array allocation requests during the measured phase. Session mode retains all created sessions; framing-mode byte totals are cumulative, not resident memory.",
+  "object_allocation_scope": "Ordinary C++ object allocation requests; excludes aligned allocations and queue-internal malloc calls.",
+  "baseline": {
+    "source_sha256": {
+      "src/base/AFBuffer.hpp": "c6565617302fef1614f8c7acc1e14d9dfa4bdac150b4120658651460e60497b0",
+      "src/plugin/net/include/AFNetSession.hpp": "9c11b820c83fbfd548bef15ffeb3df12da3cc79b3e1238ddf1ea5abec41b75de"
+    },
+    "benchmark_sha256": "48c2e9f7b6fb46993e5d99f821f4fed45bc692e55af447f623187d5cdb935c8f",
+    "binary_sha256": "ba7a5d5567cc8746d08a6eb3e18f720a3adbfca05b442ae4d4f03750b30c2c5a"
+  },
+  "optimized": {
+    "source_sha256": {
+      "src/base/AFBuffer.hpp": "2485198fa2c8c92c7ab8563a9bb6288045868d03c791b24ce9c966813a4047d7",
+      "src/plugin/net/include/AFNetSession.hpp": "4a5b914ba9839975bb7211cdaa8eee85600e0254ca0b654d5a7e28ea02088fd5"
+    },
+    "benchmark_sha256": "48c2e9f7b6fb46993e5d99f821f4fed45bc692e55af447f623187d5cdb935c8f",
+    "binary_sha256": "591ddc15ba883a7a15456c46fe06404c547e2dd29b662dbd963a8abb668bfdea"
+  }
+}
