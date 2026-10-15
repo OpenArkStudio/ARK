@@ -9,6 +9,12 @@
     "rapidxml"
   ],
   "features": {
+    "database": {
+      "description": "Build native database development tests with OpenSSL authentication and TLS",
+      "dependencies": [
+        "openssl"
+      ]
+    },
     "boost": {
       "description": "Use Boost.Asio and Boost.Beast",
       "dependencies": [
