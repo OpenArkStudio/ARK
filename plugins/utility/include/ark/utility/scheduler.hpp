@@ -141,7 +141,7 @@ public:
         return cron.cron_to_next();
     };
 
-    cron cron;
+    ark::cron cron;
 };
 
 class scheduler final
