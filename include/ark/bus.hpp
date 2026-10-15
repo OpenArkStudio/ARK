@@ -130,7 +130,7 @@ public:
 class app_config
 {
 public:
-    reg_center reg_center; // register center
+    ark::reg_center reg_center; // register center
 
     std::map<std::string, app_type> name2types; // app_name -> app_type
     std::map<app_type, std::string> type2names; // app_type -> app_name
