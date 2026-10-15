@@ -33,23 +33,6 @@ class msg_module_impl final : public msg_module
 public:
     bool init() override;
 
-    //bool SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, const msg_id_t msg_id,
-    //    const google::protobuf::Message& msg, const guid_t& actor_id = 0) override;
-    //bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, msg_id_t msg_id,
-    //    const google::protobuf::Message& msg, const guid_t& actor_id = 0) override;
-    //bool SendParticularSSMsg(bus_id_t bus_id, msg_id_t msg_id, const google::protobuf::Message& msg,
-    //    const guid_t& conn_id, const guid_t& actor_id = 0) override;
-
-    //bool SendSSMsg(bus_id_t src_bus, bus_id_t target_bus, msg_id_t msg_id, const char* msg, const int msg_len,
-    //    const guid_t& conn_id, const guid_t& actor_id = 0) override;
-    //bool SendSSMsg(bus_id_t target_bus, msg_id_t msg_id, const google::protobuf::Message& msg, const guid_t& conn_id,
-    //    const guid_t& actor_id = 0) override;
-    //bool SendSSMsg(bus_id_t target_bus, msg_id_t msg_id, const char* msg, const int msg_len, const guid_t& conn_id,
-    //    const guid_t& actor_id = 0) override;
-
-    //bool SendSSMsgByRouter(const AFSSMsgHead& head) override;
-
-    //--------new interface---------
     virtual bool send_def_cs_msg_by_app_type(
         const app_type app_type, const msg_id_t msg_id, const google::protobuf::Message& msg) override;
     virtual bool send_def_ss_msg_by_app_type(
@@ -57,23 +40,23 @@ public:
     virtual bool send_msg_by_app_type(
         const app_type app_type, msg_header* header, const google::protobuf::Message& msg) override;
     bool send_msg_by_bus_id(bus_id_t bus_id, msg_id_t msg_id, const google::protobuf::Message& msg,
-        const guid_t& guid = NULL_GUID) override;
+        const guid_t& guid = null_guid) override;
     bool send_to_client(conv_id_t session_id, msg_id_t msg_id, const google::protobuf::Message& msg,
-        const guid_t& guid = NULL_GUID) override;
+        const guid_t& guid = null_guid) override;
     bool send_to_client(conv_id_t session_id, msg_id_t msg_id, const std::string& msg_data, bool compressed = false,
-        const guid_t& guid = NULL_GUID) override;
+        const guid_t& guid = null_guid) override;
     bool send_to_intra(conv_id_t session_id, msg_id_t msg_id, const google::protobuf::Message& msg,
-        const guid_t& guid = NULL_GUID) override;
+        const guid_t& guid = null_guid) override;
 
 protected:
-    bool send_msg(std::shared_ptr<net>& pNet, msg_header* header, const google::protobuf::Message& msg,
+    bool send_msg(std::shared_ptr<net>& net_ptr, msg_header* header, const google::protobuf::Message& msg,
         const conv_id_t session_id = 0);
     bool send_msg(
-        std::shared_ptr<net>& pNet, msg_header* header, const std::string& msg_data, const conv_id_t session_id = 0);
+        std::shared_ptr<net>& net_ptr, msg_header* header, const std::string& msg_data, const conv_id_t session_id = 0);
 
 private:
-    net_service_manager_module* m_pNetServiceManagerModule;
-    bus_module* m_pBusModule;
+    net_service_manager_module* net_service_manager_module_;
+    bus_module* bus_module_;
 };
 
 } // namespace ark

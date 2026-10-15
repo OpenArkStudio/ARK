@@ -26,8 +26,8 @@
 namespace ark {
 
 #define DATA_NODE_DECLARE                                                                                              \
-    void set_meta(std::shared_ptr<node_meta> pDataMeta) override {                                                     \
-        data_meta_ = pDataMeta;                                                                                        \
+    void set_meta(std::shared_ptr<node_meta> data_meta_ptr) override {                                                 \
+        data_meta_ = data_meta_ptr;                                                                                    \
     }                                                                                                                  \
                                                                                                                        \
     std::shared_ptr<node_meta> get_meta() override {                                                                   \
@@ -35,7 +35,7 @@ namespace ark {
     }                                                                                                                  \
                                                                                                                        \
     const std::string& get_name() override {                                                                           \
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, NULL_STR);                                                           \
+        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, null_str);                                                           \
                                                                                                                        \
         return data_meta_->get_name();                                                                                 \
     }                                                                                                                  \
@@ -65,23 +65,23 @@ private:                                                                        
 class node_int32 final : public node
 {
 public:
-    explicit node_int32(std::shared_ptr<node_meta> pDataMeta) {
-        data_meta_ = pDataMeta;
+    explicit node_int32(std::shared_ptr<node_meta> data_meta_ptr) {
+        data_meta_ = data_meta_ptr;
     }
 
     ~node_int32() override = default;
 
     data_type get_type() const override {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::DT_EMPTY);
+        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::dt_empty);
         return data_meta_->get_type();
     }
 
     void reset() override {
-        data_ = NULL_INT;
+        data_ = null_int;
     }
 
     bool is_null() const override {
-        return NULL_INT == data_;
+        return null_int == data_;
     }
 
     void copy_from(node* other) override {
@@ -121,30 +121,30 @@ public:
     DATA_NODE_DECLARE
 
     // data value
-    int32_t data_{NULL_INT};
+    int32_t data_{null_int};
 };
 
 // data uint32_t
 class node_u_int32 final : public node
 {
 public:
-    explicit node_u_int32(std::shared_ptr<node_meta> pDataMeta) {
-        data_meta_ = pDataMeta;
+    explicit node_u_int32(std::shared_ptr<node_meta> data_meta_ptr) {
+        data_meta_ = data_meta_ptr;
     }
 
     ~node_u_int32() override = default;
 
     data_type get_type() const override {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::DT_EMPTY);
+        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::dt_empty);
         return data_meta_->get_type();
     }
 
     void reset() override {
-        data_ = NULL_INT;
+        data_ = null_int;
     }
 
     bool is_null() const override {
-        return NULL_INT == data_;
+        return null_int == data_;
     }
 
     void copy_from(node* other) override {
@@ -184,26 +184,26 @@ public:
     DATA_NODE_DECLARE
 
     // data value
-    uint32_t data_{NULL_INT};
+    uint32_t data_{null_int};
 };
 
 // data string
 class node_string final : public node
 {
 public:
-    explicit node_string(std::shared_ptr<node_meta> pDataMeta) {
-        data_meta_ = pDataMeta;
+    explicit node_string(std::shared_ptr<node_meta> data_meta_ptr) {
+        data_meta_ = data_meta_ptr;
     }
 
     ~node_string() override = default;
 
     data_type get_type() const override {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::DT_EMPTY);
+        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::dt_empty);
         return data_meta_->get_type();
     }
 
     void reset() override {
-        data_ = NULL_STR;
+        data_ = null_str;
     }
 
     bool is_null() const override {
@@ -247,30 +247,30 @@ public:
     DATA_NODE_DECLARE
 
     // data value
-    std::string data_{NULL_STR};
+    std::string data_{null_str};
 };
 
 // data bool
 class node_bool final : public node
 {
 public:
-    explicit node_bool(std::shared_ptr<node_meta> pDataMeta) {
-        data_meta_ = pDataMeta;
+    explicit node_bool(std::shared_ptr<node_meta> data_meta_ptr) {
+        data_meta_ = data_meta_ptr;
     }
 
     ~node_bool() override = default;
 
     data_type get_type() const override {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::DT_EMPTY);
+        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::dt_empty);
         return data_meta_->get_type();
     }
 
     void reset() override {
-        data_ = NULL_BOOLEAN;
+        data_ = null_boolean;
     }
 
     bool is_null() const override {
-        return data_ == NULL_BOOLEAN;
+        return data_ == null_boolean;
     }
 
     void copy_from(node* other) override {
@@ -310,30 +310,30 @@ public:
     DATA_NODE_DECLARE
 
     // data value
-    bool data_{NULL_BOOLEAN};
+    bool data_{null_boolean};
 };
 
 // data int64
 class node_int64 final : public node
 {
 public:
-    explicit node_int64(std::shared_ptr<node_meta> pDataMeta) {
-        data_meta_ = pDataMeta;
+    explicit node_int64(std::shared_ptr<node_meta> data_meta_ptr) {
+        data_meta_ = data_meta_ptr;
     }
 
     ~node_int64() override = default;
 
     data_type get_type() const override {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::DT_EMPTY);
+        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::dt_empty);
         return data_meta_->get_type();
     }
 
     void reset() override {
-        data_ = NULL_BOOLEAN;
+        data_ = null_boolean;
     }
 
     bool is_null() const override {
-        return data_ == NULL_INT;
+        return data_ == null_int;
     }
 
     void copy_from(node* other) override {
@@ -373,30 +373,30 @@ public:
     DATA_NODE_DECLARE
 
     // data value
-    int64_t data_{NULL_INT64};
+    int64_t data_{null_int64};
 };
 
 // data uint64
 class node_u_int64 final : public node
 {
 public:
-    explicit node_u_int64(std::shared_ptr<node_meta> pDataMeta) {
-        data_meta_ = pDataMeta;
+    explicit node_u_int64(std::shared_ptr<node_meta> data_meta_ptr) {
+        data_meta_ = data_meta_ptr;
     }
 
     ~node_u_int64() override = default;
 
     data_type get_type() const override {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::DT_EMPTY);
+        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::dt_empty);
         return data_meta_->get_type();
     }
 
     void reset() override {
-        data_ = NULL_BOOLEAN;
+        data_ = null_boolean;
     }
 
     bool is_null() const override {
-        return data_ == NULL_INT;
+        return data_ == null_int;
     }
 
     void copy_from(node* other) override {
@@ -436,30 +436,30 @@ public:
     DATA_NODE_DECLARE
 
     // data value
-    uint64_t data_{NULL_INT64};
+    uint64_t data_{null_int64};
 };
 
 // data float
 class node_float final : public node
 {
 public:
-    explicit node_float(std::shared_ptr<node_meta> pDataMeta) {
-        data_meta_ = pDataMeta;
+    explicit node_float(std::shared_ptr<node_meta> data_meta_ptr) {
+        data_meta_ = data_meta_ptr;
     }
 
     ~node_float() override = default;
 
     data_type get_type() const override {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::DT_EMPTY);
+        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::dt_empty);
         return data_meta_->get_type();
     }
 
     void reset() override {
-        data_ = NULL_BOOLEAN;
+        data_ = null_boolean;
     }
 
     bool is_null() const override {
-        return data_ == NULL_INT;
+        return data_ == null_int;
     }
 
     void copy_from(node* other) override {
@@ -499,30 +499,30 @@ public:
     DATA_NODE_DECLARE
 
     // data value
-    float data_{NULL_FLOAT};
+    float data_{null_float};
 };
 
 // data double
 class node_double final : public node
 {
 public:
-    explicit node_double(std::shared_ptr<node_meta> pDataMeta) {
-        data_meta_ = pDataMeta;
+    explicit node_double(std::shared_ptr<node_meta> data_meta_ptr) {
+        data_meta_ = data_meta_ptr;
     }
 
     ~node_double() override = default;
 
     data_type get_type() const override {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::DT_EMPTY);
+        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::dt_empty);
         return data_meta_->get_type();
     }
 
     void reset() override {
-        data_ = NULL_BOOLEAN;
+        data_ = null_boolean;
     }
 
     bool is_null() const override {
-        return data_ == NULL_INT;
+        return data_ == null_int;
     }
 
     void copy_from(node* other) override {
@@ -562,30 +562,30 @@ public:
     DATA_NODE_DECLARE
 
     // data value
-    double data_{NULL_DOUBLE};
+    double data_{null_double};
 };
 
 // data object
 class node_guid final : public node
 {
 public:
-    explicit node_guid(std::shared_ptr<node_meta> pDataMeta) {
-        data_meta_ = pDataMeta;
+    explicit node_guid(std::shared_ptr<node_meta> data_meta_ptr) {
+        data_meta_ = data_meta_ptr;
     }
 
     ~node_guid() override = default;
 
     data_type get_type() const override {
-        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::DT_EMPTY);
+        ARK_ASSERT_RET_VAL(data_meta_ != nullptr, data_type::dt_empty);
         return data_meta_->get_type();
     }
 
     void reset() override {
-        data_ = NULL_BOOLEAN;
+        data_ = null_boolean;
     }
 
     bool is_null() const override {
-        return data_ == NULL_INT;
+        return data_ == null_int;
     }
 
     void copy_from(node* other) override {
@@ -625,54 +625,54 @@ public:
     DATA_NODE_DECLARE
 
     // data value
-    guid_t data_{NULL_GUID};
+    guid_t data_{null_guid};
 };
 
 // create new data
-static node* create_data_by_meta(std::shared_ptr<node_meta> pDataMeta) {
-    ARK_ASSERT_RET_VAL(pDataMeta != nullptr, nullptr);
+static node* create_data_by_meta(std::shared_ptr<node_meta> data_meta_ptr) {
+    ARK_ASSERT_RET_VAL(data_meta_ptr != nullptr, nullptr);
 
-    node* pData = nullptr;
-    switch (pDataMeta->get_type())
+    node* data_ptr = nullptr;
+    switch (data_meta_ptr->get_type())
     {
-    case ark::data_type::DT_BOOLEAN:
-        pData = ARK_NEW node_bool(pDataMeta);
+    case ark::data_type::dt_boolean:
+        data_ptr = ARK_NEW node_bool(data_meta_ptr);
         break;
-    case ark::data_type::DT_INT32:
-        pData = ARK_NEW node_int32(pDataMeta);
+    case ark::data_type::dt_int32:
+        data_ptr = ARK_NEW node_int32(data_meta_ptr);
         break;
-    case ark::data_type::DT_UINT32:
-        pData = ARK_NEW node_u_int32(pDataMeta);
+    case ark::data_type::dt_uint32:
+        data_ptr = ARK_NEW node_u_int32(data_meta_ptr);
         break;
-    case ark::data_type::DT_INT64:
-        pData = ARK_NEW node_int64(pDataMeta);
+    case ark::data_type::dt_int64:
+        data_ptr = ARK_NEW node_int64(data_meta_ptr);
         break;
-    case ark::data_type::DT_UINT64:
-        pData = ARK_NEW node_u_int64(pDataMeta);
+    case ark::data_type::dt_uint64:
+        data_ptr = ARK_NEW node_u_int64(data_meta_ptr);
         break;
-    case ark::data_type::DT_FLOAT:
-        pData = ARK_NEW node_float(pDataMeta);
+    case ark::data_type::dt_float:
+        data_ptr = ARK_NEW node_float(data_meta_ptr);
         break;
-    case ark::data_type::DT_DOUBLE:
-        pData = ARK_NEW node_double(pDataMeta);
+    case ark::data_type::dt_double:
+        data_ptr = ARK_NEW node_double(data_meta_ptr);
         break;
-    case ark::data_type::DT_STRING:
-        pData = ARK_NEW node_string(pDataMeta);
+    case ark::data_type::dt_string:
+        data_ptr = ARK_NEW node_string(data_meta_ptr);
         break;
-    case ark::data_type::DT_VECTOR3D:
+    case ark::data_type::dt_vector3d:
         break;
-    case ark::data_type::DT_ARRAY:
+    case ark::data_type::dt_array:
         break;
-    case ark::data_type::DT_TABLE:
+    case ark::data_type::dt_table:
         break;
-    case ark::data_type::DT_GUID:
-        pData = ARK_NEW node_guid(pDataMeta);
+    case ark::data_type::dt_guid:
+        data_ptr = ARK_NEW node_guid(data_meta_ptr);
         break;
     default:
         break;
     }
 
-    return pData;
+    return data_ptr;
 }
 
 } // namespace ark

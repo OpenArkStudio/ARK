@@ -40,14 +40,14 @@ public:
     bool shut() override;
 
 protected:
-    void TestOssLog();
-    void TestCronScheduler();
-    void TimerTest(uint64_t timer_id, const guid_t& entity_id);
+    void test_oss_log();
+    void test_cron_scheduler();
+    void timer_test(uint64_t timer_id, const guid_t& entity_id);
 
 protected:
-    timer_module* m_pTimerModule;
-    guid_module* m_pGUIDModule;
-    schedule_module* m_pScheduleModule;
+    timer_module* timer_module_;
+    guid_module* guid_module_;
+    schedule_module* schedule_module_;
 };
 
 } // namespace ark

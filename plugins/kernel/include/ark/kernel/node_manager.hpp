@@ -45,17 +45,17 @@ private:
 public:
     node_manager() = delete;
 
-    explicit node_manager(std::shared_ptr<class_meta> pClassMeta);
+    explicit node_manager(std::shared_ptr<class_meta> class_meta_ptr);
     explicit node_manager(
-        std::shared_ptr<class_meta> pClassMeta, const data_list& data_list, node_manager_functor&& func);
+        std::shared_ptr<class_meta> class_meta_ptr, const data_list& data_list, node_manager_functor&& func);
 
     void init_data(const data_list& args);
 
     bool is_empty() const;
 
     // data operation
-    node* create_data(std::shared_ptr<node_meta> pDataMeta);
-    bool create_data(node* pData);
+    node* create_data(std::shared_ptr<node_meta> data_meta_ptr);
+    bool create_data(node* data_ptr);
     node* create_data(const std::string& name);
 
     // get node

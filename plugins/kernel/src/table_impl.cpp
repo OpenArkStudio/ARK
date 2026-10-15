@@ -26,31 +26,31 @@
 namespace ark {
 
 // constructor
-table_impl::table_impl(std::shared_ptr<table_meta> pTableMeta, table_callback_functor&& func) {
-    table_meta_ = pTableMeta;
+table_impl::table_impl(std::shared_ptr<table_meta> table_meta_ptr, table_callback_functor&& func) {
+    table_meta_ = table_meta_ptr;
     func_ = std::move(func);
 }
 
 const std::string& table_impl::get_name() const {
-    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_STR);
+    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, null_str);
 
     return table_meta_->get_name();
 }
 
 uint32_t table_impl::get_col_count() const {
-    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, (uint32_t)NULL_INT);
+    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, (uint32_t)null_int);
 
     return table_meta_->get_col_count();
 }
 
 data_type table_impl::get_col_type(const uint32_t index) const {
-    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, data_type::DT_EMPTY);
+    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, data_type::dt_empty);
 
     return table_meta_->get_col_type(index);
 }
 
 const mask_type table_impl::get_mask() const {
-    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_INT);
+    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, null_int);
 
     return table_meta_->get_mask();
 }
@@ -108,7 +108,7 @@ row* table_impl::add_row(uint32_t row, const data_list& args) {
     ARK_ASSERT_RET_VAL(row_data != nullptr, nullptr);
 
     // call back
-    on_table_changed(row, table_op_type::TABLE_ADD);
+    on_table_changed(row, table_op_type::table_add);
 
     return row_data;
 }
@@ -123,7 +123,7 @@ bool table_impl::remove_row(uint32_t row) {
     ARK_ASSERT_RET_VAL(data_.find_value(row) != nullptr, false);
 
     // call back
-    on_table_changed(row, table_op_type::TABLE_DELETE);
+    on_table_changed(row, table_op_type::table_delete);
 
     data_.erase(row);
 
@@ -131,7 +131,7 @@ bool table_impl::remove_row(uint32_t row) {
 }
 
 void table_impl::clear() {
-    on_table_changed(0u, table_op_type::TABLE_CLEAR);
+    on_table_changed(0u, table_op_type::table_clear);
     data_.clear();
 }
 
@@ -273,13 +273,13 @@ row* table_impl::next() {
 }
 
 uint32_t table_impl::get_index() const {
-    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_INT);
+    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, null_int);
 
     return table_meta_->get_index();
 }
 
 uint32_t table_impl::get_index(const std::string& name) const {
-    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, NULL_INT);
+    ARK_ASSERT_RET_VAL(table_meta_ != nullptr, null_int);
 
     return table_meta_->get_index(name);
 }
@@ -314,28 +314,28 @@ void table_impl::release_row(row* row_data) {
 void table_impl::on_table_changed(uint32_t row, table_op_type op_type) {
     ARK_ASSERT_RET_NONE(table_meta_ != nullptr);
 
-    table_event_data xData;
-    xData.table_name_ = table_meta_->get_name();
-    xData.table_index_ = table_meta_->get_index();
-    xData.row_ = row;
-    xData.op_type_ = (size_t)op_type;
+    table_event_data source_data;
+    source_data.table_name = table_meta_->get_name();
+    source_data.table_index = table_meta_->get_index();
+    source_data.row = row;
+    source_data.op_type = (size_t)op_type;
 
-    func_(table_meta_->get_mask(), nullptr, xData, data_impl(data_type::DT_BOOLEAN, false),
-        data_impl(data_type::DT_BOOLEAN, false));
+    func_(table_meta_->get_mask(), nullptr, source_data, data_impl(data_type::dt_boolean, false),
+        data_impl(data_type::dt_boolean, false));
 }
 
 // mask of row's nodes are not used yet
-int table_impl::on_row_changed(uint32_t row, node* pNode, const data& old_data, const data& new_data) {
+int table_impl::on_row_changed(uint32_t row, node* node_ptr, const data& old_data, const data& new_data) {
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, false);
 
-    table_event_data xData;
-    xData.table_name_ = table_meta_->get_name();
-    xData.table_index_ = table_meta_->get_index();
-    xData.data_index_ = pNode->get_index();
-    xData.row_ = row;
-    xData.op_type_ = (size_t)table_op_type::TABLE_UPDATE;
+    table_event_data source_data;
+    source_data.table_name = table_meta_->get_name();
+    source_data.table_index = table_meta_->get_index();
+    source_data.data_index = node_ptr->get_index();
+    source_data.row = row;
+    source_data.op_type = (size_t)table_op_type::table_update;
 
-    func_(table_meta_->get_mask(), pNode, xData, old_data, new_data);
+    func_(table_meta_->get_mask(), node_ptr, source_data, old_data, new_data);
 
     return 0;
 }
@@ -346,16 +346,16 @@ row* table_impl::create_row(uint32_t row, const data_list& args) {
 
     ARK_ASSERT_RET_VAL(table_meta_ != nullptr, nullptr);
 
-    auto pClassMeta = table_meta_->get_class_meta();
-    ARK_ASSERT_RET_VAL(pClassMeta != nullptr, nullptr);
+    auto class_meta_ptr = table_meta_->get_class_meta();
+    ARK_ASSERT_RET_VAL(class_meta_ptr != nullptr, nullptr);
 
     auto func = std::bind(&table_impl::on_row_changed, this, std::placeholders::_1, std::placeholders::_2,
         std::placeholders::_3, std::placeholders::_4);
 
-    auto pRow = ARK_NEW row_impl(pClassMeta, row, args, std::move(func));
-    if (!data_.insert(row, pRow).second)
+    auto row_ptr = ARK_NEW row_impl(class_meta_ptr, row, args, std::move(func));
+    if (!data_.insert(row, row_ptr).second)
     {
-        ARK_DELETE(pRow);
+        ARK_DELETE(row_ptr);
         return nullptr;
     }
 
@@ -364,7 +364,7 @@ row* table_impl::create_row(uint32_t row, const data_list& args) {
         current_row_ = row;
     }
 
-    return pRow;
+    return row_ptr;
 }
 
 } // namespace ark

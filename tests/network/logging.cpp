@@ -9,9 +9,10 @@
 #include <utility>
 #include <vector>
 
+#include "doctest.h"
+
 #include "ark/logger.hpp"
 #include "ark/spdlog/sinks/rotating_file_with_date_sink.h"
-#include "doctest.h"
 
 namespace {
 
@@ -31,7 +32,7 @@ struct log_directory
     }
 };
 
-std::string ReadLog(const std::filesystem::path& path) {
+std::string read_log(const std::filesystem::path& path) {
     std::ifstream stream(path, std::ios::binary);
     REQUIRE(stream.is_open());
     return {std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>()};
@@ -73,7 +74,7 @@ TEST_CASE("Logging file sinks create nested directories and preserve rotation ou
             logger.log(spdlog::level::info, message);
             logger.flush();
         }
-        CHECK(ReadLog(filename) == message + eol);
+        CHECK(read_log(filename) == message + eol);
     }
 
     SUBCASE("size rotation") {
@@ -88,7 +89,7 @@ TEST_CASE("Logging file sinks create nested directories and preserve rotation ou
             logger.log(spdlog::level::info, message);
             logger.flush();
         }
-        CHECK(ReadLog(filename) == message + eol);
-        CHECK(ReadLog(rotated) == message + eol);
+        CHECK(read_log(filename) == message + eol);
+        CHECK(read_log(rotated) == message + eol);
     }
 }

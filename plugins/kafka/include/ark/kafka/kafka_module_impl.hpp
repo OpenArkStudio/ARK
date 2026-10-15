@@ -17,8 +17,8 @@ public:
     bool init() override;
     bool update() override;
 
-    bool InitProducer(std::string const& brokers, std::string const& topic) override;
-    int Produce(std::string const& topic, std::string const& payload, void* user_data) override;
+    bool init_producer(std::string const& brokers, std::string const& topic) override;
+    int produce(std::string const& topic, std::string const& payload, void* user_data) override;
 
 protected:
     void dr_cb(RdKafka::Message& message) override;

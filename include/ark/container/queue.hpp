@@ -22,6 +22,7 @@
 
 #include <atomic>
 #include <list>
+#include <mutex>
 
 #include "ark/noncopyable.hpp"
 
@@ -31,68 +32,63 @@ class queue_lock : public noncopyable
 {
 public:
     explicit queue_lock() {
-        flag.clear();
+        flag_.clear();
     }
 
-    ~queue_lock() {}
+    ~queue_lock() {
+    }
 
     void lock() {
-        while (flag.test_and_set(std::memory_order_acquire))
-            ;
+        while (flag_.test_and_set(std::memory_order_acquire))
+        {
+        }
     }
 
     void unlock() {
-        flag.clear(std::memory_order_release);
+        flag_.clear(std::memory_order_release);
     }
 
 private:
-    mutable std::atomic_flag flag;
+    mutable std::atomic_flag flag_;
 };
 
 using lock = queue_lock;
 
-template<typename T>
+template<typename element_type>
 class queue : public lock
 {
 public:
-    queue() {}
+    queue() {
+    }
 
-    virtual ~queue() {}
+    virtual ~queue() {
+    }
 
-    bool push(const T& object) {
-        lock();
-
-        mList.push_back(object);
-
-        unlock();
-
+    bool push(const element_type& object) {
+        std::lock_guard<queue_lock> guard(*this);
+        list_.push_back(object);
         return true;
     }
 
-    bool pop(T& object) {
-        lock();
-
-        if (mList.empty())
+    bool pop(element_type& object) {
+        std::lock_guard<queue_lock> guard(*this);
+        if (list_.empty())
         {
-            unlock();
-
             return false;
         }
 
-        object = mList.front();
-        mList.pop_front();
-
-        unlock();
-
+        object = list_.front();
+        list_.pop_front();
         return true;
     }
 
     int count() {
-        return mList.size();
+        std::lock_guard<queue_lock> guard(*this);
+        return list_.size();
     }
 
 private:
-    std::list<T> mList;
+    std::list<element_type> list_;
 };
 
 } // namespace ark

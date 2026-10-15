@@ -23,10 +23,10 @@
 namespace ark {
 
 bool master_net_module_impl::init() {
-    m_pBusModule = find_module<bus_module>();
-    m_pNetServiceManagerModule = find_module<net_service_manager_module>();
-    m_pTimerModule = find_module<timer_module>();
-    m_pMsgModule = find_module<msg_module>();
+    bus_module_ = find_module<bus_module>();
+    net_service_manager_module_ = find_module<net_service_manager_module>();
+    timer_module_ = find_module<timer_module>();
+    msg_module_ = find_module<msg_module>();
 
     // log timer
     // m_pTimerModule->AddForeverTimer("master-sub-server-timer", BusID(), 30 * 1000, this,
@@ -36,7 +36,7 @@ bool master_net_module_impl::init() {
 }
 
 bool master_net_module_impl::post_init() {
-    int ret = StartServer();
+    int ret = start_server();
     if (ret != 0)
     {
         exit(0);
@@ -45,19 +45,19 @@ bool master_net_module_impl::post_init() {
     return true;
 }
 
-int master_net_module_impl::StartServer() {
-    auto ret = m_pNetServiceManagerModule->create_server();
+int master_net_module_impl::start_server() {
+    auto ret = net_service_manager_module_->create_server();
     if (!ret)
     {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}", m_pBusModule->get_self_bus_name());
+        ARK_LOG_ERROR("Cannot start server net, busid = {}", bus_module_->get_self_bus_name());
         ARK_ASSERT_NO_EFFECT(0);
         exit(0);
     }
 
-    m_pNetServer = m_pNetServiceManagerModule->get_inter_net_server();
-    if (m_pNetServer == nullptr)
+    net_server_ = net_service_manager_module_->get_inter_net_server();
+    if (net_server_ == nullptr)
     {
-        ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->get_self_bus_name());
+        ARK_LOG_ERROR("Cannot find server net, busid = {}", bus_module_->get_self_bus_name());
         exit(0);
     }
 
@@ -111,7 +111,7 @@ int master_net_module_impl::StartServer() {
 //        auto& server_data = reg_servers_.GetCurrentData();
 //        ARK_LOG_INFO("bus[{}] state[{}] url[{}] conn_id[{}]",
 //                     server_data->server_info_.bus_id(),
-//                     AFMsg::e_ss_server_state_Name(server_data->server_info_.logic_status()),
+//                     ark::protobuf::e_ss_server_state_Name(server_data->server_info_.logic_status()),
 //                     server_data->conn_id_.nLow);
 //    }
 //    ARK_LOG_INFO("---------------------------End to log all registered server---------------------------");

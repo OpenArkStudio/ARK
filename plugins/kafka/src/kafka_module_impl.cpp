@@ -11,13 +11,13 @@ bool kafka_module_impl::init() {
 bool kafka_module_impl::update() {
     for (size_t i = 0; i < producers_.get_count(); ++i)
     {
-        producers_[i]->Poll();
+        producers_[i]->poll();
     }
 
     return true;
 }
 
-bool kafka_module_impl::InitProducer(std::string const& brokers, std::string const& topic) {
+bool kafka_module_impl::init_producer(std::string const& brokers, std::string const& topic) {
     if (topic.empty() || brokers.empty())
     {
         return false;
@@ -34,14 +34,14 @@ bool kafka_module_impl::InitProducer(std::string const& brokers, std::string con
     return true;
 }
 
-int kafka_module_impl::Produce(std::string const& topic, std::string const& payload, void* user_data) {
+int kafka_module_impl::produce(std::string const& topic, std::string const& payload, void* user_data) {
     auto* producer = producers_.get_element(topic);
     if (producer == nullptr)
     {
         return false;
     }
 
-    return producer->Produce(payload, user_data);
+    return producer->produce(payload, user_data);
 }
 
 void kafka_module_impl::dr_cb(RdKafka::Message& msg) {

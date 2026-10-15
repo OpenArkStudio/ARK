@@ -27,16 +27,15 @@
 namespace ark {
 
 bool net_service_manager_module_impl::init() {
-    m_pBusModule = find_module<bus_module>();
-    m_pTimerModule = find_module<timer_module>();
+    bus_module_ = find_module<bus_module>();
+    timer_module_ = find_module<timer_module>();
 
     return true;
 }
 
 bool net_service_manager_module_impl::post_init() {
     // start health check timer
-    m_pTimerModule->add_forever_timer(
-        0, std::chrono::seconds(20), this, &net_service_manager_module_impl::health_check);
+    timer_module_->add_forever_timer(0, std::chrono::seconds(20), this, &net_service_manager_module_impl::health_check);
 
     return true;
 }
@@ -121,28 +120,28 @@ void net_service_manager_module_impl::health_check(uint64_t timer_id, const guid
 bool net_service_manager_module_impl::update() {
     for (auto iter : server_services_)
     {
-        auto pServerData = iter.second;
-        if (pServerData != nullptr)
+        auto server_data_ptr = iter.second;
+        if (server_data_ptr != nullptr)
         {
-            pServerData->update();
+            server_data_ptr->update();
         }
     }
 
     for (auto iter : intra_services_)
     {
-        auto pServerData = iter.second;
-        if (pServerData != nullptr)
+        auto server_data_ptr = iter.second;
+        if (server_data_ptr != nullptr)
         {
-            pServerData->update();
+            server_data_ptr->update();
         }
     }
 
     for (auto iter : client_services_)
     {
-        auto pData = iter.second;
-        if (pData != nullptr)
+        auto data_ptr = iter.second;
+        if (data_ptr != nullptr)
         {
-            pData->update();
+            data_ptr->update();
         }
     }
 
@@ -152,7 +151,7 @@ bool net_service_manager_module_impl::update() {
 bool net_service_manager_module_impl::shut() {
     for (auto iter : server_services_)
     {
-        auto pServerData = iter.second;
+        auto server_data_ptr = iter.second;
 
         //        // deregister from consul
         //        DeregisterFromConsul(iter.first);
@@ -160,30 +159,31 @@ bool net_service_manager_module_impl::shut() {
 
     for (auto iter : client_services_)
     {
-        auto pData = iter.second;
+        auto data_ptr = iter.second;
     }
 
     return true;
 }
 
 bool net_service_manager_module_impl::create_server(
-    const size_t silent_timeout, const msg_header& csReqHeader, const msg_header& ssReqHeader) {
+    const size_t silent_timeout, const msg_header& cs_req_header, const msg_header& ss_req_header) {
     //    ananas::Promise<std::pair<bool, std::string>> promise;
 
-    shared_ptr<const msg_header> cs_req_head(csReqHeader.create());
-    shared_ptr<const msg_header> ss_req_head(ssReqHeader.create());
+    shared_ptr<const msg_header> cs_req_head(cs_req_header.create());
+    shared_ptr<const msg_header> ss_req_head(ss_req_header.create());
 
-    const proc_config& self_proc = m_pBusModule->get_self_proc();
+    const proc_config& self_proc = bus_module_->get_self_proc();
     auto func = [this, &self_proc, silent_timeout](
                     const endpoint& ep, shared_ptr<const msg_header> header, server_service& server_service) {
-        auto pServer = std::make_shared<net_server_service_impl>(get_plugin_manager());
-        bool ret = pServer->start(
+        auto server_ptr = std::make_shared<net_server_service_impl>(get_plugin_manager());
+        bool ret = server_ptr->start(
             header, self_proc.bus_id, ep, self_proc.thread_num, self_proc.max_connection, silent_timeout);
         if (ret)
         {
-            auto pIServer = static_pointer_cast<net_server_service>(pServer);
-            pIServer->reg_reg_server_call_back(this, &net_service_manager_module_impl::on_reg_server_call_back);
-            server_service.insert(m_pBusModule->get_self_bus_id(), pIServer);
+            auto server_interface_ptr = static_pointer_cast<net_server_service>(server_ptr);
+            server_interface_ptr->reg_reg_server_call_back(
+                this, &net_service_manager_module_impl::on_reg_server_call_back);
+            server_service.insert(bus_module_->get_self_bus_id(), server_interface_ptr);
 
             ARK_LOG_INFO("Start net server successful, url = {}", ep.to_string());
             return true;
@@ -238,11 +238,11 @@ bool net_service_manager_module_impl::create_server(
 }
 
 std::shared_ptr<net_server_service> net_service_manager_module_impl::get_inter_net_server() {
-    return server_services_.find_value(m_pBusModule->get_self_bus_id());
+    return server_services_.find_value(bus_module_->get_self_bus_id());
 }
 
 std::shared_ptr<net_server_service> net_service_manager_module_impl::get_intra_net_server() {
-    return intra_services_.find_value(m_pBusModule->get_self_bus_id());
+    return intra_services_.find_value(bus_module_->get_self_bus_id());
 }
 
 bool net_service_manager_module_impl::add_net_connection_bus(bus_id_t target_bus_id, std::shared_ptr<net> net_ptr) {
@@ -251,7 +251,7 @@ bool net_service_manager_module_impl::add_net_connection_bus(bus_id_t target_bus
         return false;
     }
 
-    int self_bus_id = m_pBusModule->get_self_bus_id();
+    int self_bus_id = bus_module_->get_self_bus_id();
     return net_bus_relations_.insert(std::make_pair(self_bus_id, target_bus_id), net_ptr).second;
 }
 
@@ -261,7 +261,7 @@ bool net_service_manager_module_impl::remove_net_connection_bus(bus_id_t target_
     //    return false;
     //}
 
-    int self_bus_id = m_pBusModule->get_self_bus_id();
+    int self_bus_id = bus_module_->get_self_bus_id();
     net_bus_relations_.erase(std::make_pair(self_bus_id, target_bus_id));
     return true;
 }
@@ -326,11 +326,11 @@ std::shared_ptr<net_client_service> net_service_manager_module_impl::get_client_
 bool net_service_manager_module_impl::create_client_service(const bus_addr& bus_addr, proto_type proto,
     const std::string& ip, uint16_t port, std::shared_ptr<const msg_header> head) {
     app_type app_type = static_cast<ark::app_type>(bus_addr.app_type);
-    auto pClient = client_services_.find_value(app_type);
-    if (pClient == nullptr)
+    auto client_ptr = client_services_.find_value(app_type);
+    if (client_ptr == nullptr)
     {
-        pClient = std::make_shared<net_client_service_impl>(get_plugin_manager());
-        client_services_.insert(app_type, pClient);
+        client_ptr = std::make_shared<net_client_service_impl>(get_plugin_manager());
+        client_services_.insert(app_type, client_ptr);
     }
 
     endpoint target_ep;
@@ -338,15 +338,15 @@ bool net_service_manager_module_impl::create_client_service(const bus_addr& bus_
     target_ep.set_ip(ip);
     target_ep.set_port(port);
 
-    bool ret = pClient->start_client(head, bus_addr.bus_id, target_ep);
+    bool ret = client_ptr->start_client(head, bus_addr.bus_id, target_ep);
     if (!ret)
     {
-        ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", m_pBusModule->get_self_bus_name(),
+        ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", bus_module_->get_self_bus_name(),
             target_ep.to_string());
         return ret;
     }
 
-    ARK_LOG_INFO("start net client successful, self_bus_id={} target_url={}", m_pBusModule->get_self_bus_name(),
+    ARK_LOG_INFO("start net client successful, self_bus_id={} target_url={}", bus_module_->get_self_bus_name(),
         target_ep.to_string());
     return true;
 }

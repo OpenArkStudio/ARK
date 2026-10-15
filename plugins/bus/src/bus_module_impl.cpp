@@ -129,8 +129,8 @@ bool bus_module_impl::load_bus_relation_config(xml_node& root_node) {
         const app_type source_type = get_app_type(source_app);
         const app_type target_type = get_app_type(target_app);
 
-        ARK_ASSERT_CONTINUE(source_type > ark::app_type::ARK_APP_DEFAULT && source_type < ark::app_type::ARK_APP_MAX);
-        ARK_ASSERT_CONTINUE(target_type > ark::app_type::ARK_APP_DEFAULT && target_type < ark::app_type::ARK_APP_MAX);
+        ARK_ASSERT_CONTINUE(source_type > ark::app_type::ark_app_default && source_type < ark::app_type::ark_app_max);
+        ARK_ASSERT_CONTINUE(target_type > ark::app_type::ark_app_default && target_type < ark::app_type::ark_app_max);
 
         auto iter = app_config_.connection_relations.find(source_type);
         if (iter != app_config_.connection_relations.end())
@@ -163,12 +163,12 @@ bool bus_module_impl::load_reg_center_config(xml_node& root_node) {
 
 const std::string& bus_module_impl::get_app_name(const ark::app_type& app_type) {
     auto iter = app_config_.type2names.find(app_type);
-    return ((iter != app_config_.type2names.end()) ? iter->second : NULL_STR);
+    return ((iter != app_config_.type2names.end()) ? iter->second : null_str);
 }
 
 app_type bus_module_impl::get_app_type(const std::string& name) {
     auto iter = app_config_.name2types.find(name);
-    return ((iter != app_config_.name2types.end()) ? iter->second : ark::app_type::ARK_APP_DEFAULT);
+    return ((iter != app_config_.name2types.end()) ? iter->second : ark::app_type::ark_app_default);
 }
 
 //uint16_t AFCBusModule::CalcProcPort(bus_id_t bus_id)
@@ -217,7 +217,7 @@ const std::string bus_module_impl::get_app_whole_name(bus_id_t bus_id) {
 }
 
 int bus_module_impl::combine_bus_id(const app_type app_type, const uint8_t inst_id) {
-    ARK_ASSERT_RET_VAL(app_type > ark::app_type::ARK_APP_DEFAULT && app_type < ark::app_type::ARK_APP_MAX, 0);
+    ARK_ASSERT_RET_VAL(app_type > ark::app_type::ark_app_default && app_type < ark::app_type::ark_app_max, 0);
 
     int self_bus = get_self_bus_id();
     bus_addr self_bus_addr(self_bus);

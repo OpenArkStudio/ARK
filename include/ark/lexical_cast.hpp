@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <concepts>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
@@ -17,17 +18,18 @@
 using namespace std;
 
 namespace converter {
+
 static const char* strue = "true";
 static const char* sfalse = "false";
 
-template<typename To, typename From>
+template<typename to_type, typename from_type>
 struct value_converter
 {
 };
 
 // to numeric
-template<typename From>
-struct value_converter<uint8_t, From>
+template<typename from_type>
+struct value_converter<uint8_t, from_type>
 {
     static uint8_t convert(const string& from) {
         return std::atoi(from.c_str());
@@ -38,8 +40,8 @@ struct value_converter<uint8_t, From>
     }
 };
 
-template<typename From>
-struct value_converter<int16_t, From>
+template<typename from_type>
+struct value_converter<int16_t, from_type>
 {
     static int16_t convert(const string& from) {
         return std::atoi(from.c_str());
@@ -50,8 +52,8 @@ struct value_converter<int16_t, From>
     }
 };
 
-template<typename From>
-struct value_converter<uint16_t, From>
+template<typename from_type>
+struct value_converter<uint16_t, from_type>
 {
     static uint16_t convert(const string& from) {
         return std::atoi(from.c_str());
@@ -62,8 +64,8 @@ struct value_converter<uint16_t, From>
     }
 };
 
-template<typename From>
-struct value_converter<int32_t, From>
+template<typename from_type>
+struct value_converter<int32_t, from_type>
 {
     static int32_t convert(const string& from) {
         return std::atoi(from.c_str());
@@ -74,8 +76,8 @@ struct value_converter<int32_t, From>
     }
 };
 
-template<typename From>
-struct value_converter<uint32_t, From>
+template<typename from_type>
+struct value_converter<uint32_t, from_type>
 {
     static uint32_t convert(const string& from) {
         return std::atoi(from.c_str());
@@ -86,8 +88,8 @@ struct value_converter<uint32_t, From>
     }
 };
 
-template<typename From>
-struct value_converter<long, From>
+template<typename from_type>
+struct value_converter<long, from_type>
 {
     static long convert(const string& from) {
         return std::atol(from.c_str());
@@ -98,8 +100,8 @@ struct value_converter<long, From>
     }
 };
 
-template<typename From>
-struct value_converter<long long, From>
+template<typename from_type>
+struct value_converter<long long, from_type>
 {
     static long long convert(const string& from) {
         return std::atoll(from.c_str());
@@ -110,8 +112,8 @@ struct value_converter<long long, From>
     }
 };
 
-template<typename From>
-struct value_converter<uint64_t, From>
+template<typename from_type>
+struct value_converter<uint64_t, from_type>
 {
     static uint64_t convert(const string& from) {
         return std::atoll(from.c_str());
@@ -122,8 +124,8 @@ struct value_converter<uint64_t, From>
     }
 };
 
-template<typename From>
-struct value_converter<double, From>
+template<typename from_type>
+struct value_converter<double, from_type>
 {
     static double convert(const string& from) {
         return std::atof(from.c_str());
@@ -134,8 +136,8 @@ struct value_converter<double, From>
     }
 };
 
-template<typename From>
-struct value_converter<float, From>
+template<typename from_type>
+struct value_converter<float, from_type>
 {
     static float convert(const string& from) {
         return (float)std::atof(from.c_str());
@@ -147,10 +149,10 @@ struct value_converter<float, From>
 };
 
 // to bool
-template<typename From>
-struct value_converter<bool, From>
+template<std::integral from_type>
+struct value_converter<bool, from_type>
 {
-    static typename std::enable_if<std::is_integral<From>::value, bool>::type convert(From from) {
+    static bool convert(from_type from) {
         return !!from;
     }
 };
@@ -225,47 +227,49 @@ struct value_converter<bool, char*>
     }
 };
 
-template<unsigned N>
-struct value_converter<bool, const char[N]>
+template<unsigned extent>
+struct value_converter<bool, const char[extent]>
 {
-    static bool convert(const char (&from)[N]) {
+    static bool convert(const char (&from)[extent]) {
         return converter::convert(from);
     }
 };
 
-template<unsigned N>
-struct value_converter<bool, char[N]>
+template<unsigned extent>
+struct value_converter<bool, char[extent]>
 {
-    static bool convert(const char (&from)[N]) {
+    static bool convert(const char (&from)[extent]) {
         return converter::convert(from);
     }
 };
 
 // to string
-template<typename From>
-struct value_converter<string, From>
+template<typename from_type>
+struct value_converter<string, from_type>
 {
-    static string convert(const From& from) {
+    static string convert(const from_type& from) {
         return std::to_string(from);
     }
 };
 } // namespace converter
 
-template<typename To, typename From>
-typename std::enable_if<!std::is_same<To, From>::value, To>::type lexical_cast(const From& from) {
-    return converter::value_converter<To, From>::convert(from);
+template<typename to_type, typename from_type>
+to_type lexical_cast(const from_type& from) {
+    if constexpr (std::same_as<to_type, from_type>)
+    {
+        return from;
+    }
+    else
+    {
+        return converter::value_converter<to_type, from_type>::convert(from);
+    }
 }
 
-template<typename To, typename From>
-typename std::enable_if<std::is_same<To, From>::value, To>::type lexical_cast(const From& from) {
-    return from;
-}
-
-template<typename ValueTYPE>
-bool value_from_string(const std::string& strValue, ValueTYPE& nValue) {
+template<typename value_type>
+bool value_from_string(const std::string& input, value_type& value) {
     try
     {
-        nValue = lexical_cast<ValueTYPE>(strValue);
+        value = lexical_cast<value_type>(input);
         return true;
     }
     catch (...)
@@ -274,11 +278,11 @@ bool value_from_string(const std::string& strValue, ValueTYPE& nValue) {
     return false;
 }
 
-template<typename ValueTYPE>
-bool value_to_string(const ValueTYPE& nValue, std::string& strData) {
+template<typename value_type>
+bool value_to_string(const value_type& value, std::string& output) {
     try
     {
-        strData = lexical_cast<std::string>(nValue);
+        output = lexical_cast<std::string>(value);
         return true;
     }
     catch (...)

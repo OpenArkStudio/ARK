@@ -28,7 +28,7 @@ namespace ark {
 
 class net_event final
 {
-    net_event_type type_{net_event_type::NONE};
+    net_event_type type_{net_event_type::none};
     conv_id_t id_{0};
     std::string ip_{};
     bus_id_t bus_id_{0};

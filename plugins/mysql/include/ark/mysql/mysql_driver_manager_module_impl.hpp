@@ -35,14 +35,14 @@ private:
     //    int64_t last_check_time{0};
 
 public:
-    bool AddMySQLServer(const int nServerID, const std::string& strDns, const std::string& strIP, const int nPort,
-        const std::string strDBName, const std::string strDBUser, const std::string strDBPwd,
-        const int nRconnectTime = 10, const int nRconneCount = -1) override;
-    mysql_driver_module* GetMySQLDriver() override;
-    void CheckMySQL() override;
+    bool add_mysql_server(const int server_id, const std::string& dns, const std::string& ip, const int port,
+        const std::string db_name, const std::string db_user, const std::string db_pwd, const int reconnect_time = 10,
+        const int reconnect_count = -1) override;
+    mysql_driver_module* get_mysql_driver() override;
+    void check_mysql() override;
 
 protected:
-    std::string GetIPByHostName(const std::string& strHostName);
+    std::string get_ip_by_host_name(const std::string& host_name);
 };
 
 } // namespace ark

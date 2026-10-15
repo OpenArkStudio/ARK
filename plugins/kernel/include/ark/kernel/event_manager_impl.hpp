@@ -34,7 +34,8 @@ public:
     event_manager_impl() = delete;
 
     explicit event_manager_impl(guid_t self)
-        : self_(self) {}
+        : self_(self) {
+    }
 
     void update() override {
         for (auto iter : need_remove_events_)
@@ -46,8 +47,8 @@ public:
     }
 
     bool add_event_call_back(const int event_id, event_process_functor&& cb) override {
-        auto pEventInfo = event_callbacks_.find_value(event_id);
-        if (pEventInfo == nullptr)
+        auto event_info_ptr = event_callbacks_.find_value(event_id);
+        if (event_info_ptr == nullptr)
         {
             auto event_info = std::make_shared<list<event_process_functor>>();
             event_info->emplace_back(cb);
@@ -55,7 +56,7 @@ public:
         }
         else
         {
-            pEventInfo->emplace_back(cb);
+            event_info_ptr->emplace_back(cb);
             return true;
         }
     }

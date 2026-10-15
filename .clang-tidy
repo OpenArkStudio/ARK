@@ -1,17 +1,39 @@
 ---
 Checks: '-*,readability-identifier-naming,modernize-use-nullptr,modernize-use-override'
 WarningsAsErrors: ''
-HeaderFilterRegex: '(^|/)(include/ark/|plugins/[^/]+/(include/ark/|src/)|src/)'
+HeaderFilterRegex: '(^|/)(include/ark/|plugins/[^/]+/(include/ark/|src/)|src/|examples/|tests/)'
+ExcludeHeaderFilterRegex: '(\.pb\.(h|cc)$|(^|/)(catch\.hpp|doctest\.h)$|(^|/)(plugins/utility/include/ark/utility/ctpl(_stl)?\.h|plugins/physic/include/ark/physic/wave_front\.(hpp|cpp))$)'
 FormatStyle: file
 CheckOptions:
+  readability-identifier-naming.CheckAnonFieldInParent: true
   readability-identifier-naming.NamespaceCase: lower_case
   readability-identifier-naming.ClassCase: lower_case
   readability-identifier-naming.StructCase: lower_case
   readability-identifier-naming.EnumCase: lower_case
   readability-identifier-naming.FunctionCase: lower_case
   readability-identifier-naming.MethodCase: lower_case
+  readability-identifier-naming.MethodIgnoredRegexp: '^(onAdvance|onConstraintBreak|onContact|onSleep|onTrigger|onWake)$'
+  readability-identifier-naming.FunctionIgnoredRegexp: '^(DllEntryPlugin|DllExitPlugin)$'
+  readability-identifier-naming.ParameterCase: lower_case
+  readability-identifier-naming.VariableCase: lower_case
+  readability-identifier-naming.EnumConstantCase: lower_case
+  readability-identifier-naming.TypeAliasCase: lower_case
+  readability-identifier-naming.TypedefCase: lower_case
+  readability-identifier-naming.TypeTemplateParameterCase: lower_case
+  readability-identifier-naming.ValueTemplateParameterCase: lower_case
+  readability-identifier-naming.TemplateTemplateParameterCase: lower_case
+  readability-identifier-naming.PublicMemberCase: lower_case
   readability-identifier-naming.PrivateMemberCase: lower_case
   readability-identifier-naming.PrivateMemberSuffix: '_'
   readability-identifier-naming.ProtectedMemberCase: lower_case
   readability-identifier-naming.ProtectedMemberSuffix: '_'
+  readability-identifier-naming.GlobalConstantCase: lower_case
+  readability-identifier-naming.LocalConstantCase: lower_case
+  readability-identifier-naming.StaticConstantCase: lower_case
+  readability-identifier-naming.LocalConstantIgnoredRegexp: '^[a-z][a-z_0-9]*_$'
+  readability-identifier-naming.StaticConstantIgnoredRegexp: '^[a-z][a-z_0-9]*_$'
+  readability-identifier-naming.ClassMemberCase: lower_case
+  readability-identifier-naming.ClassMemberIgnoredRegexp: '^[a-z][a-z_0-9]*_$'
+  readability-identifier-naming.ClassConstantCase: lower_case
+  readability-identifier-naming.ClassConstantIgnoredRegexp: '^[a-z][a-z_0-9]*_$'
 ...

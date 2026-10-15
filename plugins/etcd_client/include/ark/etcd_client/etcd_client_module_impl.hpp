@@ -14,10 +14,10 @@ public:
     virtual bool init() override;
 
     virtual std::shared_ptr<etcd_client> create_etcd_client(
-        std::vector<std::string> endpoints, int ioTimeout = 5, int connectTimeout = 2) override;
+        std::vector<std::string> endpoints, int io_timeout = 5, int connect_timeout = 2) override;
 
 private:
-    http_client_module* httpClientModule_;
+    http_client_module* http_client_module_;
 };
 
 } // namespace ark

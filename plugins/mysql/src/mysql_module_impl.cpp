@@ -25,12 +25,14 @@
 
 namespace ark {
 
-mysql_module_impl::mysql_module_impl() {}
+mysql_module_impl::mysql_module_impl() {
+}
 
-mysql_module_impl::~mysql_module_impl() {}
+mysql_module_impl::~mysql_module_impl() {
+}
 
 bool mysql_module_impl::init() {
-    mysql_driver_manager = std::make_shared<mysql_driver_manager_module_impl>();
+    mysql_driver_manager_ = std::make_shared<mysql_driver_manager_module_impl>();
 
     xml xml_doc(mysql_plugin::get_plugin_conf());
     auto root_node = xml_doc.get_root_node();
@@ -59,7 +61,7 @@ bool mysql_module_impl::init() {
                   << db_pwd << "\n";
         std::cout << "----------\n";
 
-        mysql_driver_manager->AddMySQLServer(server_id, dns, ip, port, db_name, db_user, db_pwd);
+        mysql_driver_manager_->add_mysql_server(server_id, dns, ip, port, db_name, db_user, db_pwd);
     }
 
     return true;
@@ -81,84 +83,84 @@ bool mysql_module_impl::update() {
 
     last_check_time_ = get_plugin_manager()->get_now_time();
 
-    if (mysql_driver_manager != nullptr)
+    if (mysql_driver_manager_ != nullptr)
     {
-        mysql_driver_manager->CheckMySQL();
+        mysql_driver_manager_->check_mysql();
     }
     return true;
 }
 
-bool mysql_module_impl::AddMysqlServer(const int nServerID, const std::string& strDns, const std::string& strIP,
-    const int nPort, const std::string strDBName, const std::string strDBUser, const std::string strDBPwd,
-    const int nRconnectTime /* = 10*/, const int nRconneCount /* = -1*/) {
-    if (!mysql_driver_manager)
+bool mysql_module_impl::add_mysql_server(const int server_id, const std::string& dns, const std::string& ip,
+    const int port, const std::string db_name, const std::string db_user, const std::string db_pwd,
+    const int reconnect_time /* = 10*/, const int reconnect_count /* = -1*/) {
+    if (!mysql_driver_manager_)
     {
         return false;
     }
 
-    return mysql_driver_manager->AddMySQLServer(
-        nServerID, strDns, strIP, nPort, strDBName, strDBUser, strDBPwd, nRconnectTime, nRconneCount);
+    return mysql_driver_manager_->add_mysql_server(
+        server_id, dns, ip, port, db_name, db_user, db_pwd, reconnect_time, reconnect_count);
 }
 
-bool mysql_module_impl::UpdateOrInsert(const std::string& strRecordName, const std::string& strKey,
-    const std::vector<std::string>& fieldVec, const std::vector<std::string>& valueVec) {
-    mysql_driver_module* pDriver = mysql_driver_manager->GetMySQLDriver();
-    if (pDriver)
+bool mysql_module_impl::update_or_insert(const std::string& record_name, const std::string& key,
+    const std::vector<std::string>& field_vec, const std::vector<std::string>& value_vec) {
+    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
+    if (driver_ptr)
     {
-        return pDriver->UpdateOrInsert(strRecordName, strKey, fieldVec, valueVec);
+        return driver_ptr->update_or_insert(record_name, key, field_vec, value_vec);
     }
 
     return false;
 }
 
-bool mysql_module_impl::Query(const std::string& strRecordName, const std::string& strKey,
-    const std::vector<std::string>& fieldVec, std::vector<std::string>& valueVec) {
-    mysql_driver_module* pDriver = mysql_driver_manager->GetMySQLDriver();
-    if (pDriver)
+bool mysql_module_impl::query(const std::string& record_name, const std::string& key,
+    const std::vector<std::string>& field_vec, std::vector<std::string>& value_vec) {
+    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
+    if (driver_ptr)
     {
-        return pDriver->Query(strRecordName, strKey, fieldVec, valueVec);
+        return driver_ptr->query(record_name, key, field_vec, value_vec);
     }
 
     return false;
 }
 
-bool mysql_module_impl::Delete(const std::string& strRecordName, const std::string& strKey) {
-    mysql_driver_module* pDriver = mysql_driver_manager->GetMySQLDriver();
-    if (pDriver)
+bool mysql_module_impl::erase(const std::string& record_name, const std::string& key) {
+    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
+    if (driver_ptr)
     {
-        return pDriver->Delete(strRecordName, strKey);
+        return driver_ptr->erase(record_name, key);
     }
 
     return false;
 }
 
-bool mysql_module_impl::Exists(const std::string& strRecordName, const std::string& strKey, bool& bExit) {
-    mysql_driver_module* pDriver = mysql_driver_manager->GetMySQLDriver();
-    if (pDriver)
+bool mysql_module_impl::exists(const std::string& record_name, const std::string& key, bool& exists) {
+    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
+    if (driver_ptr)
     {
-        return pDriver->Exists(strRecordName, strKey, bExit);
+        return driver_ptr->exists(record_name, key, exists);
     }
 
     return false;
 }
 
-bool mysql_module_impl::Select(const std::string& strRecordName, const std::string& strKey,
-    const std::vector<std::string>& fieldVec, std::vector<std::string>& valueVec) {
-    mysql_driver_module* pDriver = mysql_driver_manager->GetMySQLDriver();
-    if (pDriver)
+bool mysql_module_impl::select(const std::string& record_name, const std::string& key,
+    const std::vector<std::string>& field_vec, std::vector<std::string>& value_vec) {
+    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
+    if (driver_ptr)
     {
-        return pDriver->Select(strRecordName, strKey, fieldVec, valueVec);
+        return driver_ptr->select(record_name, key, field_vec, value_vec);
     }
 
     return false;
 }
 
-bool mysql_module_impl::Keys(
-    const std::string& strRecordName, const std::string& strKeyName, std::vector<std::string>& valueVec) {
-    mysql_driver_module* pDriver = mysql_driver_manager->GetMySQLDriver();
-    if (pDriver)
+bool mysql_module_impl::keys(
+    const std::string& record_name, const std::string& key_name, std::vector<std::string>& value_vec) {
+    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
+    if (driver_ptr)
     {
-        return pDriver->Keys(strRecordName, strKeyName, valueVec);
+        return driver_ptr->keys(record_name, key_name, value_vec);
     }
 
     return false;
@@ -167,44 +169,44 @@ bool mysql_module_impl::Keys(
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool mysql_module_impl::Insert(const std::string& document, std::vector<kv_pair>& data) {
-    mysql_driver_module* pDriver = mysql_driver_manager->GetMySQLDriver();
-    if (pDriver)
+bool mysql_module_impl::insert(const std::string& document, std::vector<kv_pair>& data) {
+    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
+    if (driver_ptr)
     {
-        return pDriver->Insert(document, data);
+        return driver_ptr->insert(document, data);
     }
 
     return false;
 }
 
-bool mysql_module_impl::UpdateRecord(
+bool mysql_module_impl::update_record(
     const std::string& document, std::vector<kv_pair>& data, std::vector<where>& where) {
-    mysql_driver_module* pDriver = mysql_driver_manager->GetMySQLDriver();
-    if (pDriver)
+    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
+    if (driver_ptr)
     {
-        return pDriver->UpdateRecord(document, data, where);
+        return driver_ptr->update_record(document, data, where);
     }
 
     return false;
 }
 
-bool mysql_module_impl::Select(const std::string& document, std::vector<std::string>& columns,
+bool mysql_module_impl::select(const std::string& document, std::vector<std::string>& columns,
     std::vector<where>& where, order_by& order, int limit, result_arr& results) {
-    mysql_driver_module* pDriver = mysql_driver_manager->GetMySQLDriver();
-    if (pDriver)
+    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
+    if (driver_ptr)
     {
-        return pDriver->Select(document, columns, where, order, limit, results);
+        return driver_ptr->select(document, columns, where, order, limit, results);
     }
 
     return false;
 }
 
-bool mysql_module_impl::SelectOne(const std::string& document, std::vector<std::string>& columns,
+bool mysql_module_impl::select_one(const std::string& document, std::vector<std::string>& columns,
     std::vector<where>& where, order_by& order, result& result) {
-    mysql_driver_module* pDriver = mysql_driver_manager->GetMySQLDriver();
-    if (pDriver)
+    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
+    if (driver_ptr)
     {
-        return pDriver->SelectOne(document, columns, where, order, result);
+        return driver_ptr->select_one(document, columns, where, order, result);
     }
 
     return false;

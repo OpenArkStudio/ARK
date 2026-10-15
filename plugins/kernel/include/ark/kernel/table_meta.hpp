@@ -37,13 +37,13 @@ public:
 
 private:
     // table name
-    std::string name_{NULL_STR};
+    std::string name_{null_str};
 
     // index
     uint32_t index_{0u};
 
     // data type name
-    std::string type_name_{NULL_STR};
+    std::string type_name_{null_str};
 
     std::shared_ptr<class_meta> class_meta_{nullptr};
 
@@ -61,7 +61,7 @@ public:
 
     size_t get_col_count() const;
 
-    void set_class_meta(std::shared_ptr<class_meta> pClassMeta);
+    void set_class_meta(std::shared_ptr<class_meta> class_meta_ptr);
 
     std::shared_ptr<node_meta> find_meta(const uint32_t index) const;
 

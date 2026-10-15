@@ -35,12 +35,12 @@
 namespace ark {
 
 bool physic_config_module_impl::init() {
-    if (!LoadConfig())
+    if (!load_config())
     {
         return false;
     }
 
-    if (!LoadScene())
+    if (!load_scene())
     {
         return false;
     }
@@ -52,7 +52,7 @@ bool physic_config_module_impl::shut() {
     return true;
 }
 
-bool physic_config_module_impl::GetPhysicScene(const std::string& scene_id, physic_scene& scene) const {
+bool physic_config_module_impl::get_physic_scene(const std::string& scene_id, physic_scene& scene) const {
     auto iter = scene_list_.find(scene_id);
     if (iter == scene_list_.end())
     {
@@ -64,19 +64,19 @@ bool physic_config_module_impl::GetPhysicScene(const std::string& scene_id, phys
     return true;
 }
 
-const physic_scene_list& physic_config_module_impl::GetPhysicSceneList() const {
+const physic_scene_list& physic_config_module_impl::get_physic_scene_list() const {
     return scene_list_;
 }
 
-const physic_config& physic_config_module_impl::GetPhysicConfig() const {
+const physic_config& physic_config_module_impl::get_physic_config() const {
     return config_;
 }
 
-bool physic_config_module_impl::LoadScene() {
-    std::string file_path = get_plugin_manager()->GetResPath() + PHYSIC_SCENE_PATH;
+bool physic_config_module_impl::load_scene() {
+    std::string file_path = get_plugin_manager()->GetResPath() + physic_scene_path;
 
     std::multimap<std::string, std::string> sub_path_list;
-    if (!GetSceneFileList("", file_path, sub_path_list))
+    if (!get_scene_file_list("", file_path, sub_path_list))
     {
         return false;
     }
@@ -92,7 +92,7 @@ bool physic_config_module_impl::LoadScene() {
         if (iter_scene == scene_list_.end())
         {
             physic_scene scene;
-            scene.scene_id_ = scene_id;
+            scene.scene_id = scene_id;
             iter_scene = scene_list_.insert(std::make_pair(scene_id, scene)).first;
         }
 
@@ -104,16 +104,16 @@ bool physic_config_module_impl::LoadScene() {
         auto& scene = iter_scene->second;
 
         ///load file
-        if (string_utils::EndsWith(file_path, PHYSIC_MESH_FILE_END))
+        if (file_path.ends_with(physic_mesh_file_end))
         {
-            if (!LoadTerrain(scene, file_path))
+            if (!load_terrain(scene, file_path))
             {
                 return false;
             }
         }
-        else if (string_utils::EndsWith(file_path, PHYSIC_COLLIDER_FILE_END))
+        else if (file_path.ends_with(physic_collider_file_end))
         {
-            if (!LoadCollider(scene, file_path))
+            if (!load_collider(scene, file_path))
             {
                 return false;
             }
@@ -123,14 +123,14 @@ bool physic_config_module_impl::LoadScene() {
     return true;
 }
 
-bool physic_config_module_impl::LoadTerrain(physic_scene& scene, const std::string& file_path) {
-    scene.mesh_file_.path_ = file_path;
-    scene.mesh_file_.path_cooked_ = GenCookedFilePath(file_path);
+bool physic_config_module_impl::load_terrain(physic_scene& scene, const std::string& file_path) {
+    scene.mesh_file.path = file_path;
+    scene.mesh_file.cooked_path = gen_cooked_file_path(file_path);
 
     return true;
 }
 
-bool physic_config_module_impl::LoadCollider(physic_scene& scene, const std::string& file_path) {
+bool physic_config_module_impl::load_collider(physic_scene& scene, const std::string& file_path) {
     xml xml_doc(file_path);
     auto root = xml_doc.get_root_node();
     ARK_ASSERT_RET_VAL(root.is_valid(), false);
@@ -146,13 +146,13 @@ bool physic_config_module_impl::LoadCollider(physic_scene& scene, const std::str
             collider = box_collider;
 
             auto value = node.get_string("Position");
-            ARK_ASSERT_RET_VAL(Vec3FromString(box_collider->position_, value), false);
+            ARK_ASSERT_RET_VAL(vec3_from_string(box_collider->position, value), false);
 
             value = node.get_string("Center");
-            ARK_ASSERT_RET_VAL(Vec3FromString(box_collider->center_, value), false);
+            ARK_ASSERT_RET_VAL(vec3_from_string(box_collider->center, value), false);
 
             value = node.get_string("Size");
-            ARK_ASSERT_RET_VAL(Vec3FromString(box_collider->size_, value), false);
+            ARK_ASSERT_RET_VAL(vec3_from_string(box_collider->size, value), false);
         }
         else if (name == "CapsuleCollider")
         {
@@ -160,13 +160,13 @@ bool physic_config_module_impl::LoadCollider(physic_scene& scene, const std::str
             collider = capsule_collider;
 
             auto value = node.get_string("Position");
-            ARK_ASSERT_RET_VAL(Vec3FromString(capsule_collider->position_, value), false);
+            ARK_ASSERT_RET_VAL(vec3_from_string(capsule_collider->position, value), false);
 
             value = node.get_string("Center");
-            ARK_ASSERT_RET_VAL(Vec3FromString(capsule_collider->center_, value), false);
+            ARK_ASSERT_RET_VAL(vec3_from_string(capsule_collider->center, value), false);
 
-            capsule_collider->radius_ = misc::from_string<physx::PxReal>(node.get_string("Radius"));
-            capsule_collider->height_ = misc::from_string<physx::PxReal>(node.get_string("Height"));
+            capsule_collider->radius = misc::from_string<physx::PxReal>(node.get_string("Radius"));
+            capsule_collider->height = misc::from_string<physx::PxReal>(node.get_string("Height"));
         }
         else if (name == "SphereCollider")
         {
@@ -174,12 +174,12 @@ bool physic_config_module_impl::LoadCollider(physic_scene& scene, const std::str
             collider = sphere_collider;
 
             auto value = node.get_string("Position");
-            ARK_ASSERT_RET_VAL(Vec3FromString(sphere_collider->position_, value), false);
+            ARK_ASSERT_RET_VAL(vec3_from_string(sphere_collider->position, value), false);
 
             value = node.get_string("Center");
-            ARK_ASSERT_RET_VAL(Vec3FromString(sphere_collider->center_, value), false);
+            ARK_ASSERT_RET_VAL(vec3_from_string(sphere_collider->center, value), false);
 
-            sphere_collider->radius_ = misc::from_string<physx::PxReal>(node.get_string("Radius"));
+            sphere_collider->radius = misc::from_string<physx::PxReal>(node.get_string("Radius"));
         }
         else if (name == "MeshCollider")
         {
@@ -195,14 +195,14 @@ bool physic_config_module_impl::LoadCollider(physic_scene& scene, const std::str
             ARK_ASSERT_RET_VAL(count > 0, false);
 
             ///vertices
-            mesh_collider->vertices_ = ARK_NEW_ARRAY(physx::PxVec3, count);
-            ARK_ASSERT_RET_VAL(mesh_collider->vertices_ != nullptr, false);
+            mesh_collider->vertices = ARK_NEW_ARRAY(physx::PxVec3, count);
+            ARK_ASSERT_RET_VAL(mesh_collider->vertices != nullptr, false);
 
             for (size_t i = 0; i < count; i++)
             {
-                mesh_collider->vertices_[i] = GetVec3(slices[i * 3], slices[i * 3 + 1], slices[i * 3 + 2]);
+                mesh_collider->vertices[i] = get_vec3(slices[i * 3], slices[i * 3 + 1], slices[i * 3 + 2]);
             }
-            mesh_collider->vertices_num_ = count;
+            mesh_collider->vertex_count = count;
 
             ///indices
             value = node.get_string("Triangles");
@@ -211,34 +211,34 @@ bool physic_config_module_impl::LoadCollider(physic_scene& scene, const std::str
             ARK_ASSERT_RET_VAL(slices.size() % 3 == 0, false);
 
             count = slices.size();
-            mesh_collider->triangles_ = ARK_NEW_ARRAY(physx::PxU32, count);
-            ARK_ASSERT_RET_VAL(mesh_collider->triangles_ != nullptr, false);
+            mesh_collider->triangles = ARK_NEW_ARRAY(physx::PxU32, count);
+            ARK_ASSERT_RET_VAL(mesh_collider->triangles != nullptr, false);
 
             for (size_t i = 0; i < count; i++)
             {
-                mesh_collider->triangles_[i] = misc::from_string<physx::PxU32>(slices[i].data());
+                mesh_collider->triangles[i] = misc::from_string<physx::PxU32>(slices[i].data());
             }
-            mesh_collider->triangles_num_ = count;
+            mesh_collider->triangle_count = count;
 
             value = node.get_string("Position");
-            ARK_ASSERT_RET_VAL(Vec3FromString(mesh_collider->position_, value), false);
+            ARK_ASSERT_RET_VAL(vec3_from_string(mesh_collider->position, value), false);
 
             if (misc::from_string<int32_t>(node.get_string("IsConvex")) > 0)
             {
-                mesh_collider->bConvex = true;
+                mesh_collider->convex = true;
             }
             else
             {
-                mesh_collider->bConvex = false;
+                mesh_collider->convex = false;
             }
 
-            mesh_collider->mesh_file_.path_cooked_ = GenCookedFilePath(file_path);
+            mesh_collider->mesh_file.cooked_path = gen_cooked_file_path(file_path);
         }
         else if (name == "TerrainCollider")
         {
             ///terrain collider position
             auto value = node.get_string("Position");
-            ARK_ASSERT_RET_VAL(Vec3FromString(scene.position_, value), false);
+            ARK_ASSERT_RET_VAL(vec3_from_string(scene.position, value), false);
             continue;
         }
 
@@ -248,20 +248,20 @@ bool physic_config_module_impl::LoadCollider(physic_scene& scene, const std::str
             return false;
         }
 
-        collider->bTrigger_ = misc::from_string<int32_t>(node.get_string("IsTrigger")) > 0 ? true : false;
-        scene.collider_list_.push_back(collider);
+        collider->trigger = misc::from_string<int32_t>(node.get_string("IsTrigger")) > 0 ? true : false;
+        scene.colliders.push_back(collider);
     }
 
     return true;
 }
 
-bool physic_config_module_impl::GetSceneFileList(
+bool physic_config_module_impl::get_scene_file_list(
     const std::string& father_path, const std::string& path, std::multimap<std::string, std::string>& sub_path_list) {
 #ifdef ARK_PLATFORM_WIN
-    std::string strPath = path + "/*.*";
+    std::string search_path = path + "/*.*";
     intptr_t handle;
-    _finddata_t findData;
-    handle = _findfirst(strPath.c_str(), &findData);
+    _finddata_t find_data;
+    handle = _findfirst(search_path.c_str(), &find_data);
 
     if (handle == -1)
     {
@@ -271,16 +271,16 @@ bool physic_config_module_impl::GetSceneFileList(
 
     do
     {
-        if (findData.attrib & _A_SUBDIR)
+        if (find_data.attrib & _A_SUBDIR)
         {
             /// is sub dir
-            if (strcmp(findData.name, ".") == 0 || strcmp(findData.name, "..") == 0)
+            if (strcmp(find_data.name, ".") == 0 || strcmp(find_data.name, "..") == 0)
             {
                 continue;
             }
 
-            auto new_dir = path + PHYSIC_SLASH + findData.name;
-            if (!GetSceneFileList(path, new_dir, sub_path_list))
+            auto new_dir = path + physic_slash + find_data.name;
+            if (!get_scene_file_list(path, new_dir, sub_path_list))
             {
                 ARK_LOG_ERROR("read path failed path={}", new_dir);
                 return false;
@@ -291,17 +291,17 @@ bool physic_config_module_impl::GetSceneFileList(
             /// not sub dir
             if (father_path.empty())
             {
-                ARK_LOG_ERROR("not in a scene path={} file = {}", path, findData.name);
+                ARK_LOG_ERROR("not in a scene path={} file = {}", path, find_data.name);
                 return false;
             }
 
             ///cut to get scene_id
             auto off = path.find(father_path);
             auto scene_id = path.substr(off + father_path.length() + 1, path.length());
-            auto file_path = path + PHYSIC_SLASH + findData.name;
+            auto file_path = path + physic_slash + find_data.name;
             sub_path_list.insert(std::make_pair(scene_id, file_path));
         }
-    } while (_findnext(handle, &findData) == 0);
+    } while (_findnext(handle, &find_data) == 0);
 
     _findclose(handle);
     return true;
@@ -325,8 +325,8 @@ bool physic_config_module_impl::GetSceneFileList(
                 continue;
             }
 
-            string new_dir = path + PHYSIC_SLASH + entry->d_name;
-            if (!GetSceneFileList(path, new_dir, sub_path_list))
+            string new_dir = path + physic_slash + entry->d_name;
+            if (!get_scene_file_list(path, new_dir, sub_path_list))
             {
                 ARK_LOG_ERROR("read path failed path={}", new_dir);
                 return false;
@@ -344,7 +344,7 @@ bool physic_config_module_impl::GetSceneFileList(
             ///cut to get scene_id
             auto off = path.find(father_path);
             auto scene_id = path.substr(off + father_path.length() + 1, path.length());
-            auto file_path = path + PHYSIC_SLASH + entry->d_name;
+            auto file_path = path + physic_slash + entry->d_name;
             sub_path_list.insert(std::make_pair(scene_id, file_path));
         }
     }
@@ -356,8 +356,8 @@ bool physic_config_module_impl::GetSceneFileList(
     return false;
 }
 
-bool physic_config_module_impl::LoadConfig() {
-    std::string file_path = get_plugin_manager()->GetResPath() + PHYSIC_CONFIG_PATH;
+bool physic_config_module_impl::load_config() {
+    std::string file_path = get_plugin_manager()->GetResPath() + physic_config_path;
 
     xml xml_doc(file_path);
     auto root = xml_doc.get_root_node();
@@ -365,13 +365,13 @@ bool physic_config_module_impl::LoadConfig() {
 
     for (auto node = root.find_node("node"); node.is_valid(); node.next_node())
     {
-        config_.bSimulate = (misc::from_string<int32_t>(node.get_string("SimulateOn")) > 0);
+        config_.simulate = (misc::from_string<int32_t>(node.get_string("SimulateOn")) > 0);
 
-        config_.dispatcher_treads_num_ = misc::from_string<physx::PxU32>(node.get_string("DispatcherThreadsNum"));
+        config_.dispatcher_threads = misc::from_string<physx::PxU32>(node.get_string("DispatcherThreadsNum"));
 
         auto frequency = misc::from_string<physx::PxU32>(node.get_string("Frequency"));
         ARK_ASSERT_RET_VAL(frequency > 0, false);
-        config_.step_ = 1.0F / frequency;
+        config_.step = 1.0F / frequency;
 
         config_.pvd_host = node.get_string("PVDHost");
         config_.pvd_port = misc::from_string<int32_t>(node.get_string("PVDPort"));
@@ -381,34 +381,34 @@ bool physic_config_module_impl::LoadConfig() {
     return true;
 }
 
-bool physic_config_module_impl::Vec3FromString(physx::PxVec3& vec3, const std::string& value) {
+bool physic_config_module_impl::vec3_from_string(physx::PxVec3& vec3, const std::string& value) {
     std::vector<std::string> slices;
     string_utils::split(slices, value, ',');
 
     ARK_ASSERT_RET_VAL(slices.size() == 3, false);
 
-    vec3 = GetVec3(slices[0], slices[1], slices[2]);
+    vec3 = get_vec3(slices[0], slices[1], slices[2]);
 
     return true;
 }
 
-physx::PxVec3 physic_config_module_impl::GetVec3(
+physx::PxVec3 physic_config_module_impl::get_vec3(
     const AFSlice& slice_x, const AFSlice& slice_y, const AFSlice& slice_z) {
     return physx::PxVec3(misc::from_string<physx::PxReal>(slice_x.data()),
         misc::from_string<physx::PxReal>(slice_y.data()), misc::from_string<physx::PxReal>(slice_z.data()));
 }
 
-std::string physic_config_module_impl::GenCookedFilePath(const std::string& file_path) {
+std::string physic_config_module_impl::gen_cooked_file_path(const std::string& file_path) {
     auto file_path_cooked = file_path;
-    string_utils::replace(file_path_cooked, PHYSIC_SCENE_PATH.c_str(), PHYSIC_COOKED_PATH.c_str());
+    string_utils::replace(file_path_cooked, physic_scene_path.c_str(), physic_cooked_path.c_str());
 
     ///create file in path
-    CreateFilePath(file_path_cooked);
+    create_file_path(file_path_cooked);
 
     return file_path_cooked;
 }
 
-void physic_config_module_impl::CreateFilePath(const std::string& file_path) {
+void physic_config_module_impl::create_file_path(const std::string& file_path) {
 #ifdef ARK_PLATFORM_WIN
     int len = file_path.length();
     char temp_path[256] = {0};

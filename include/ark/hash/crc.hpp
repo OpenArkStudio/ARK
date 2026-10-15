@@ -33,7 +33,7 @@ class crc
 public:
     static uint16_t crc16(const unsigned char* s, size_t l) {
 
-        static const uint16_t CRC16_TABLE[256] = {0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5, 0x60c6, 0x70e7,
+        static const uint16_t crc16_table[256] = {0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5, 0x60c6, 0x70e7,
             0x8108, 0x9129, 0xa14a, 0xb16b, 0xc18c, 0xd1ad, 0xe1ce, 0xf1ef, 0x1231, 0x0210, 0x3273, 0x2252, 0x52b5,
             0x4294, 0x72f7, 0x62d6, 0x9339, 0x8318, 0xb37b, 0xa35a, 0xd3bd, 0xc39c, 0xf3ff, 0xe3de, 0x2462, 0x3443,
             0x0420, 0x1401, 0x64e6, 0x74c7, 0x44a4, 0x5485, 0xa56a, 0xb54b, 0x8528, 0x9509, 0xe5ee, 0xf5cf, 0xc5ac,
@@ -59,14 +59,14 @@ public:
         for (size_t j = 0; j < l; ++j)
         {
             unsigned char byte = s[j];
-            init_val = (init_val << 8) ^ CRC16_TABLE[((init_val >> 8) ^ (uint16_t)byte) & 0x00FF];
+            init_val = (init_val << 8) ^ crc16_table[((init_val >> 8) ^ (uint16_t)byte) & 0x00FF];
         }
 
         return init_val;
     }
 
     static uint32_t crc32(const unsigned char* s, size_t l) {
-        static const uint32_t CRC32_TABLE[256] = {
+        static const uint32_t crc32_table[256] = {
             0x00000000,
             0x77073096,
             0xee0e612c,
@@ -329,14 +329,14 @@ public:
         for (size_t j = 0; j < l; ++j)
         {
             unsigned char byte = s[j];
-            init_val = CRC32_TABLE[static_cast<unsigned char>(init_val) ^ (uint32_t)byte] ^ (init_val >> 8);
+            init_val = crc32_table[static_cast<unsigned char>(init_val) ^ (uint32_t)byte] ^ (init_val >> 8);
         }
 
         return init_val;
     }
 
     static uint64_t crc64(const unsigned char* s, size_t l) {
-        static const uint64_t CRC64_TABLE[256] = {
+        static const uint64_t crc64_table[256] = {
             UINT64_C(0x0000000000000000),
             UINT64_C(0x7ad870c830358979),
             UINT64_C(0xf5b0e190606b12f2),
@@ -599,7 +599,7 @@ public:
         for (size_t j = 0; j < l; ++j)
         {
             unsigned char byte = s[j];
-            init_val = CRC64_TABLE[static_cast<unsigned char>(init_val) ^ (uint64_t)byte] ^ (init_val >> 8);
+            init_val = crc64_table[static_cast<unsigned char>(init_val) ^ (uint64_t)byte] ^ (init_val >> 8);
         }
 
         return init_val;

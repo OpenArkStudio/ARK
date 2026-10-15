@@ -33,7 +33,7 @@ public:
     bool post_init() override;
 
 protected:
-    http_server_module* m_pHttpServerModule;
+    http_server_module* http_server_module_;
 };
 
 } // namespace ark

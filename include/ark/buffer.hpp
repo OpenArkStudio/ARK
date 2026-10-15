@@ -58,11 +58,11 @@ public:
             }
             else
             {
-                size_t needLen = len - left_len;
+                size_t need_len = len - left_len;
 
-                if (needLen > 0)
+                if (need_len > 0)
                 {
-                    grow(needLen);
+                    grow(need_len);
                     write(data, len);
                 }
                 else

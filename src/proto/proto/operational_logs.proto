@@ -6,13 +6,13 @@ package osslog;
 // 故如果有使用64位长类型,请定义为double类型
 //---------------------------------------------
 
-//登录、登出日志
+// 登录、登出日志
 message login {
   string logid = 1;
   // TODO
 }
 
-//新帐号创建日志
+// 新帐号创建日志
 message create_account {
   int32 cid = 1;
   int32 sid = 2;

@@ -28,7 +28,8 @@ class spin_lock
 {
 public:
     spin_lock()
-        : atomic_lock_(false) {}
+        : atomic_lock_(false) {
+    }
 
     spin_lock(spin_lock const&) = default;
     spin_lock(spin_lock&&) = default;

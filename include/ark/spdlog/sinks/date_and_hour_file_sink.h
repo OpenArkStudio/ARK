@@ -78,17 +78,17 @@ struct default_date_and_hour_file_name_calculator
  * Rotating file sink based on date and hour. rotates at Hour:00:00
  * Target path is Date/filename_hour.ext
  */
-template<class Mutex, class FileNameCalc = default_date_and_hour_file_name_calculator>
-class date_and_hour_file_sink final : public base_sink<Mutex>
+template<class mutex_type, class file_name_calculator_type = default_date_and_hour_file_name_calculator>
+class date_and_hour_file_sink final : public base_sink<mutex_type>
 {
 public:
     // create daily file sink which rotates on given time
     date_and_hour_file_sink(filename_t base_filename, bool truncate = false)
         : base_filename_(std::move(base_filename))
         , truncate_(truncate) {
-        auto filename = FileNameCalc::calc_filename(base_filename_);
+        auto filename = file_name_calculator_type::calc_filename(base_filename_);
         file_helper_.open(filename, truncate_);
-        rotation_tp_ = next_rotation_tp_();
+        rotation_tp_ = next_rotation_tp();
     }
 
 protected:
@@ -101,13 +101,13 @@ protected:
         bool should_rotate = time >= rotation_tp_;
         if (should_rotate)
         {
-            auto filename = FileNameCalc::calc_filename(base_filename_);
+            auto filename = file_name_calculator_type::calc_filename(base_filename_);
             file_helper_.open(filename, truncate_);
-            rotation_tp_ = next_rotation_tp_();
+            rotation_tp_ = next_rotation_tp();
         }
 
         memory_buf_t formatted;
-        base_sink<Mutex>::formatter_->format(msg, formatted);
+        base_sink<mutex_type>::formatter_->format(msg, formatted);
         file_helper_.write(formatted);
     }
 
@@ -116,7 +116,7 @@ protected:
     }
 
 private:
-    log_clock::time_point next_rotation_tp_() {
+    log_clock::time_point next_rotation_tp() {
         auto now = log_clock::now();
         now += std::chrono::hours(1);
         time_t tnow = log_clock::to_time_t(now);
@@ -142,14 +142,14 @@ using date_and_hour_file_sink_st = date_and_hour_file_sink<details::null_mutex>;
 // factory functions
 //
 
-template<typename Factory = spdlog::synchronous_factory>
+template<typename factory_type = spdlog::synchronous_factory>
 inline std::shared_ptr<logger> date_and_hour_file_sink_mt(const std::string& logger_name, const filename_t& filename) {
-    return Factory::template create<sinks::date_and_hour_file_sink_mt>(logger_name);
+    return factory_type::template create<sinks::date_and_hour_file_sink_mt>(logger_name);
 }
 
-template<typename Factory = spdlog::synchronous_factory>
+template<typename factory_type = spdlog::synchronous_factory>
 inline std::shared_ptr<logger> date_and_hour_file_sink_st(const std::string& logger_name, const filename_t& filename) {
-    return Factory::template create<sinks::date_and_hour_file_sink_st>(logger_name);
+    return factory_type::template create<sinks::date_and_hour_file_sink_st>(logger_name);
 }
 
 } // namespace spdlog

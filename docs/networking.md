@@ -19,6 +19,9 @@ The vcpkg manifest pins the package baseline. CMake retrieves arknet from its
 pinned revision in the independent repository. To validate a development checkout,
 set `ARKNET_SOURCE_DIR` to its absolute path.
 
+Use Protobuf, Abseil and utf8_range from the same installation prefix. When
+setting `Protobuf_DIR` manually, select matching `absl_DIR` and `utf8_range_DIR`.
+
 ## Build and run the network tests
 
 ```sh
@@ -42,13 +45,26 @@ shutdown cancellation, owner release inside receive callbacks, malformed input a
 CI checks both dependency configurations on Linux,
 macOS and Windows, plus memory/undefined-behavior and thread sanitizers on Linux.
 
-Local validation on 2026-10-13 used an Apple M4 Pro (14 CPU cores, 48 GiB RAM),
-macOS 27.0.1 arm64 and Apple Clang 21.0.0. Standalone Asio 1.38.2, Boost 1.90,
-ASan/UBSan and TSan each passed 31 network/logging cases with 843 assertions. macOS
-ASan ran without leak detection; Linux CI enables LeakSanitizer. These are
-correctness checks, not capacity measurements.
-The default C++20 application build, examples and all eight legacy test
-executables also passed locally.
+Local validation on 2026-10-15 used an Apple M4 Pro (14 CPU cores, 48 GiB RAM),
+macOS 27.0.1 arm64 and Apple Clang 21.0.0. Local results:
+
+| Configuration | Core cases / assertions | Network cases / assertions |
+| --- | ---: | ---: |
+| Release, Boost 1.90, 64-bit GUID, Protobuf | 16 / 106 | 32 / 879 |
+| Debug, Standalone Asio 1.38.2, 32-bit GUID, ASan/UBSan, Protobuf disabled | 9 / 55 | 32 / 879 |
+| Debug, Boost, 64-bit GUID, ASan/UBSan, Protobuf | 16 / 106 | — |
+
+Protobuf cases cover valid messages, truncated input, actor identity, binary messages containing NUL,
+existing wire payloads, external JSON field names and the new public descriptor/enum names.
+
+macOS ASan ran without leak detection; Linux CI enables LeakSanitizer. These are
+correctness checks, not capacity measurements. The full Release application,
+default plugins and examples built; all eight legacy test executables passed.
+GCC 15.2 passed C++20 syntax checks for ten application, default-plugin and core-test
+translation units; this does not establish GCC link or runtime validation.
+
+See [core regressions](../tests/core/README.md) for independent builds and filtering.
+When `ARK_BUILD_CORE_TESTS=ON`, `check-network` also runs the core cases.
 
 ## Build applications
 

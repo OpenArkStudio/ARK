@@ -27,7 +27,7 @@
 namespace ark {
 
 bool map_module_impl::init() {
-    m_pKernelModule = find_module<kernel_module>();
+    kernel_module_ = find_module<kernel_module>();
 
     return true;
 }
@@ -42,10 +42,10 @@ std::shared_ptr<ark::map_info> map_module_impl::get_map_info(const int map_id) {
 }
 
 bool map_module_impl::is_in_map_instance(const guid_t& self) {
-    auto pEntity = m_pKernelModule->get_entity(self);
-    if (pEntity != nullptr)
+    auto entity_ptr = kernel_module_->get_entity(self);
+    if (entity_ptr != nullptr)
     {
-        return (pEntity->get_int32(AFEntityMetaBaseEntity::map_inst_id()) < 0);
+        return (entity_ptr->get_int32(entity_meta_base_entity::map_inst_id()) < 0);
     }
     else
     {
@@ -55,44 +55,44 @@ bool map_module_impl::is_in_map_instance(const guid_t& self) {
 }
 
 bool map_module_impl::exist_map(const int map_id) {
-    auto pMapInfo = map_infos_.find_value(map_id);
-    return (pMapInfo != nullptr);
+    auto map_info_ptr = map_infos_.find_value(map_id);
+    return (map_info_ptr != nullptr);
 }
 
 bool map_module_impl::switch_map(const guid_t& self, const int target_map, const int target_inst, const vector3d& pos,
-    const float fOrient, const data_list& args) {
-    auto pEntity = m_pKernelModule->get_entity(self);
-    if (pEntity == nullptr)
+    const float orient, const data_list& args) {
+    auto entity_ptr = kernel_module_->get_entity(self);
+    if (entity_ptr == nullptr)
     {
         ARK_LOG_ERROR("Cannot find entity, id = {}", self);
         return false;
     }
 
-    int32_t old_map = pEntity->get_int32(AFEntityMetaBaseEntity::map_id());
-    int32_t old_inst = pEntity->get_int32(AFEntityMetaBaseEntity::map_inst_id());
+    int32_t old_map = entity_ptr->get_int32(entity_meta_base_entity::map_id());
+    int32_t old_inst = entity_ptr->get_int32(entity_meta_base_entity::map_inst_id());
 
-    std::shared_ptr<map_info> pOldMapInfo = map_infos_.find_value(old_map);
-    std::shared_ptr<map_info> pNewMapInfo = map_infos_.find_value(target_map);
+    std::shared_ptr<map_info> old_map_info_ptr = map_infos_.find_value(old_map);
+    std::shared_ptr<map_info> new_map_info_ptr = map_infos_.find_value(target_map);
 
-    if (nullptr == pOldMapInfo)
+    if (nullptr == old_map_info_ptr)
     {
         ARK_LOG_ERROR("cannot find this map, id={}", old_map);
         return false;
     }
 
-    if (nullptr == pNewMapInfo)
+    if (nullptr == new_map_info_ptr)
     {
         ARK_LOG_ERROR("cannot tind this map, id = {}", target_map);
         return false;
     }
 
-    if (!pNewMapInfo->exist_instance(target_inst))
+    if (!new_map_info_ptr->exist_instance(target_inst))
     {
         ARK_LOG_ERROR("Cannot find this map instance, map={} inst={}", target_map, target_inst);
         return false;
     }
 
-    pOldMapInfo->remove_entity_from_instance(old_inst, self, true);
+    old_map_info_ptr->remove_entity_from_instance(old_inst, self, true);
 
     //if (target_map != old_map)
     //{
@@ -105,34 +105,34 @@ bool map_module_impl::switch_map(const guid_t& self, const int target_map, const
     //pEntity->SetDouble("X", pos.x);
     //pEntity->SetDouble("Y", pos.y);
     //pEntity->SetDouble("Z", pos.z);
-    pEntity->switch_scene(target_map, target_inst, pos);
+    entity_ptr->switch_scene(target_map, target_inst, pos);
 
-    return pNewMapInfo->add_entity_to_instance(target_inst, self, true);
+    return new_map_info_ptr->add_entity_to_instance(target_inst, self, true);
 }
 
 bool map_module_impl::create_map(const int map_id) {
-    auto pMapInfo = map_infos_.find_value(map_id);
-    if (pMapInfo != nullptr)
+    auto map_info_ptr = map_infos_.find_value(map_id);
+    if (map_info_ptr != nullptr)
     {
         return false;
     }
 
-    pMapInfo = std::make_shared<map_info>();
-    if (pMapInfo == nullptr)
+    map_info_ptr = std::make_shared<map_info>();
+    if (map_info_ptr == nullptr)
     {
         return false;
     }
 
-    map_infos_.insert(map_id, pMapInfo);
+    map_infos_.insert(map_id, map_info_ptr);
 
     // create group 0
-    auto pMapInst = std::make_shared<map_instance>(0);
-    if (nullptr == pMapInst)
+    auto map_inst_ptr = std::make_shared<map_instance>(0);
+    if (nullptr == map_inst_ptr)
     {
         return false;
     }
 
-    pMapInfo->add_instance(0, pMapInst);
+    map_info_ptr->add_instance(0, map_inst_ptr);
     ARK_LOG_INFO("Create scene success, map={} inst=0", map_id);
     return true;
 }
@@ -145,11 +145,11 @@ int map_module_impl::get_online_count() {
     int online_count = 0;
     for (auto iter : map_infos_)
     {
-        auto pMapInfo = iter.second;
-        auto& all_instances = pMapInfo->get_all_instance();
+        auto map_info_ptr = iter.second;
+        auto& all_instances = map_info_ptr->get_all_instance();
         for (auto it : all_instances)
         {
-            online_count += it.second->player_entities_.size();
+            online_count += it.second->player_entities.size();
         }
     }
 
@@ -165,16 +165,16 @@ int map_module_impl::get_max_online_count() {
 int map_module_impl::get_map_online_count(const int map_id) {
     int online_count = 0;
 
-    auto pMapInfo = map_infos_.find_value(map_id);
-    if (pMapInfo == nullptr)
+    auto map_info_ptr = map_infos_.find_value(map_id);
+    if (map_info_ptr == nullptr)
     {
         return online_count;
     }
 
-    auto all_instances = pMapInfo->get_all_instance();
+    auto all_instances = map_info_ptr->get_all_instance();
     for (auto iter : all_instances)
     {
-        online_count += iter.second->player_entities_.size();
+        online_count += iter.second->player_entities.size();
     }
 
     return online_count;
@@ -183,34 +183,34 @@ int map_module_impl::get_map_online_count(const int map_id) {
 int map_module_impl::get_map_online_count(const int map_id, const int map_instance_id) {
     int online_count = 0;
 
-    auto pMapInfo = map_infos_.find_value(map_id);
-    if (pMapInfo == nullptr)
+    auto map_info_ptr = map_infos_.find_value(map_id);
+    if (map_info_ptr == nullptr)
     {
         return online_count;
     }
 
-    auto pMapInst = pMapInfo->get_instance(map_instance_id);
-    if (pMapInst == nullptr)
+    auto map_inst_ptr = map_info_ptr->get_instance(map_instance_id);
+    if (map_inst_ptr == nullptr)
     {
         return online_count;
     }
 
-    online_count = pMapInst->player_entities_.size();
+    online_count = map_inst_ptr->player_entities.size();
     return online_count;
 }
 
 int map_module_impl::get_map_online_list(const int map_id, data_list& list) {
-    auto pMapInfo = map_infos_.find_value(map_id);
-    if (pMapInfo == nullptr)
+    auto map_info_ptr = map_infos_.find_value(map_id);
+    if (map_info_ptr == nullptr)
     {
         return 0;
     }
 
-    auto all_instances = pMapInfo->get_all_instance();
+    auto all_instances = map_info_ptr->get_all_instance();
     for (auto iter : all_instances)
     {
-        auto pMapInstance = iter.second;
-        for (auto it : pMapInstance->player_entities_)
+        auto map_instance_ptr = iter.second;
+        for (auto it : map_instance_ptr->player_entities)
         {
             list.add_int64(it.first);
         }
@@ -220,91 +220,91 @@ int map_module_impl::get_map_online_list(const int map_id, data_list& list) {
 }
 
 int map_module_impl::create_map_instance(const int map_id) {
-    auto pMapInfo = map_infos_.find_value(map_id);
-    if (pMapInfo == nullptr)
+    auto map_info_ptr = map_infos_.find_value(map_id);
+    if (map_info_ptr == nullptr)
     {
         return -1;
     }
 
-    int new_inst_id = pMapInfo->create_instance_id();
+    int new_inst_id = map_info_ptr->create_instance_id();
 
-    if (pMapInfo->exist_instance(new_inst_id))
+    if (map_info_ptr->exist_instance(new_inst_id))
     {
         return -1;
     }
 
-    auto pMapInstance = std::make_shared<map_instance>(new_inst_id);
-    if (pMapInstance == nullptr)
+    auto map_instance_ptr = std::make_shared<map_instance>(new_inst_id);
+    if (map_instance_ptr == nullptr)
     {
         return -1;
     }
 
-    pMapInfo->add_instance(new_inst_id, pMapInstance);
+    map_info_ptr->add_instance(new_inst_id, map_instance_ptr);
     return new_inst_id;
 }
 
 bool map_module_impl::release_map_instance(const int map_id, const int inst_id) {
-    auto pMapInfo = map_infos_.find_value(map_id);
-    if (nullptr == pMapInfo)
+    auto map_info_ptr = map_infos_.find_value(map_id);
+    if (nullptr == map_info_ptr)
     {
         return false;
     }
 
-    if (!pMapInfo->exist_instance(inst_id))
+    if (!map_info_ptr->exist_instance(inst_id))
     {
         return false;
     }
 
-    data_list_impl listObject;
+    data_list_impl list_object;
 
-    if (get_inst_entity_list(map_id, inst_id, listObject))
+    if (get_inst_entity_list(map_id, inst_id, list_object))
     {
-        for (size_t i = 0; i < listObject.get_count(); ++i)
+        for (size_t i = 0; i < list_object.get_count(); ++i)
         {
-            guid_t ident = listObject.int64(i);
+            guid_t ident = list_object.int64(i);
 
-            if (!m_pKernelModule->destroy_entity(ident))
+            if (!kernel_module_->destroy_entity(ident))
             {
                 ARK_LOG_ERROR("Destory entity failed, id  = {}, please check", ident);
             }
         }
     }
 
-    pMapInfo->remove_instance(inst_id);
+    map_info_ptr->remove_instance(inst_id);
 
     return true;
 }
 
 bool map_module_impl::exit_map_instance(const int map_id, const int inst_id) {
-    auto pMapInfo = map_infos_.find_value(map_id);
-    if (pMapInfo == nullptr)
+    auto map_info_ptr = map_infos_.find_value(map_id);
+    if (map_info_ptr == nullptr)
     {
         return false;
     }
 
-    auto pMapInstance = pMapInfo->get_instance(inst_id);
-    return (pMapInstance != nullptr);
+    auto map_instance_ptr = map_info_ptr->get_instance(inst_id);
+    return (map_instance_ptr != nullptr);
 }
 
 bool map_module_impl::get_inst_entity_list(const int map_id, const int inst_id, data_list& list) {
-    auto pMapInfo = map_infos_.find_value(map_id);
-    if (pMapInfo == nullptr)
+    auto map_info_ptr = map_infos_.find_value(map_id);
+    if (map_info_ptr == nullptr)
     {
         return false;
     }
 
-    auto pMapInstance = pMapInfo->get_instance(inst_id);
-    if (pMapInstance == nullptr)
+    auto map_instance_ptr = map_info_ptr->get_instance(inst_id);
+    if (map_instance_ptr == nullptr)
     {
         return false;
     }
 
-    for (auto iter : pMapInstance->player_entities_)
+    for (auto iter : map_instance_ptr->player_entities)
     {
         list.add_int64(iter.first);
     }
 
-    for (auto iter : pMapInstance->other_entities_)
+    for (auto iter : map_instance_ptr->other_entities)
     {
         list.add_int64(iter.first);
     }
@@ -314,20 +314,20 @@ bool map_module_impl::get_inst_entity_list(const int map_id, const int inst_id, 
 
 int map_module_impl::get_entity_by_data_node(
     const int map_id, const std::string& name, const data_list& value_args, data_list& list) {
-    data_list_impl varObjectList;
-    get_map_online_list(map_id, varObjectList);
-    size_t entity_count = varObjectList.get_count();
+    data_list_impl var_object_list;
+    get_map_online_list(map_id, var_object_list);
+    size_t entity_count = var_object_list.get_count();
     for (size_t i = 0; i < entity_count; ++i)
     {
-        guid_t ident = varObjectList.int64(i);
-        auto pEntity = m_pKernelModule->get_entity(ident);
-        if (pEntity == nullptr)
+        guid_t ident = var_object_list.int64(i);
+        auto entity_ptr = kernel_module_->get_entity(ident);
+        if (entity_ptr == nullptr)
         {
             continue;
         }
 
         data_impl data;
-        if (!pEntity->get_node(name, data))
+        if (!entity_ptr->get_node(name, data))
         {
             continue;
         }

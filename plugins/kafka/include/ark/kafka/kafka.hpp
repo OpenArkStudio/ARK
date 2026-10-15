@@ -15,7 +15,7 @@ using kafka_err_code = RdKafka::ErrorCode;
 
 namespace {
 
-inline void setConfig(RdKafka::Conf* conf, const std::string& key, const std::string& value) {
+inline void set_config(RdKafka::Conf* conf, const std::string& key, const std::string& value) {
     std::string error;
     if (conf->set(key, value, error) == RdKafka::Conf::CONF_OK)
     {
@@ -24,27 +24,27 @@ inline void setConfig(RdKafka::Conf* conf, const std::string& key, const std::st
     throw std::runtime_error("Failed to set '" + key + "' to '" + value + "'! err=" + error);
 }
 
-inline void setConfig(RdKafka::Conf* conf, const std::string& key, RdKafka::EventCb* cbObj) {
+inline void set_config(RdKafka::Conf* conf, const std::string& key, RdKafka::EventCb* cb_obj) {
     std::string error;
-    if (conf->set(key, cbObj, error) == RdKafka::Conf::CONF_OK)
+    if (conf->set(key, cb_obj, error) == RdKafka::Conf::CONF_OK)
     {
         return;
     }
     throw std::runtime_error("Failed to set '" + key + "'! err=" + error);
 }
 
-inline void setConfig(RdKafka::Conf* conf, const std::string& key, RdKafka::OffsetCommitCb* cbObj) {
+inline void set_config(RdKafka::Conf* conf, const std::string& key, RdKafka::OffsetCommitCb* cb_obj) {
     std::string error;
-    if (conf->set(key, cbObj, error) == RdKafka::Conf::CONF_OK)
+    if (conf->set(key, cb_obj, error) == RdKafka::Conf::CONF_OK)
     {
         return;
     }
     throw std::runtime_error("Failed to set '" + key + "'! err=" + error);
 }
 
-inline void setConfig(RdKafka::Conf* conf, const std::string& key, RdKafka::DeliveryReportCb* cbObj) {
+inline void set_config(RdKafka::Conf* conf, const std::string& key, RdKafka::DeliveryReportCb* cb_obj) {
     std::string error;
-    if (conf->set(key, cbObj, error) == RdKafka::Conf::CONF_OK)
+    if (conf->set(key, cb_obj, error) == RdKafka::Conf::CONF_OK)
     {
         return;
     }
@@ -68,28 +68,28 @@ public:
 	 * @param groupID
 	 * @param topics 逗号分隔的topic列表
 	 */
-    kafka_consumer(const std::string& brokers, const std::string& groupID, const std::string& topics,
-        RdKafka::OffsetCommitCb* offsetCb = nullptr, RdKafka::EventCb* evcb = nullptr) {
-        if (brokers.empty() || groupID.empty() || topics.empty())
+    kafka_consumer(const std::string& brokers, const std::string& group_id, const std::string& topics,
+        RdKafka::OffsetCommitCb* offset_cb = nullptr, RdKafka::EventCb* evcb = nullptr) {
+        if (brokers.empty() || group_id.empty() || topics.empty())
         {
             throw std::runtime_error("Invalid parameters!");
         }
 
         auto conf = RdKafka::Conf::create(RdKafka::Conf::CONF_GLOBAL);
-        std::unique_ptr<RdKafka::Conf> confForAutoDel(conf); // for auto delete when throwing exception
+        std::unique_ptr<RdKafka::Conf> conf_for_auto_del(conf); // for auto delete when throwing exception
 
-        setConfig(conf, "metadata.broker.list", brokers);
-        setConfig(conf, "group.id", groupID);
-        setConfig(conf, "auto.offset.reset", "smallest");
-        setConfig(conf, "enable.auto.commit", "false");
-        setConfig(conf, "enable.auto.offset.store", "false");
+        set_config(conf, "metadata.broker.list", brokers);
+        set_config(conf, "group.id", group_id);
+        set_config(conf, "auto.offset.reset", "smallest");
+        set_config(conf, "enable.auto.commit", "false");
+        set_config(conf, "enable.auto.offset.store", "false");
         if (evcb)
         {
-            setConfig(conf, "event_cb", evcb);
+            set_config(conf, "event_cb", evcb);
         }
-        if (offsetCb)
+        if (offset_cb)
         {
-            setConfig(conf, "offset_commit_cb", offsetCb);
+            set_config(conf, "offset_commit_cb", offset_cb);
         }
 
         std::string error;
@@ -99,9 +99,9 @@ public:
             throw std::runtime_error("Failed to create consumer! err=" + error);
         }
 
-        std::vector<std::string> allTopics;
-        string_utils::split(allTopics, topics, ',');
-        auto err = consumer->subscribe(allTopics);
+        std::vector<std::string> all_topics;
+        string_utils::split(all_topics, topics, ',');
+        auto err = consumer->subscribe(all_topics);
         if (err)
         {
             throw std::runtime_error("Failed to subscribe to '" + topics + "'! err=" + RdKafka::err2str(err));
@@ -124,14 +124,14 @@ public:
 	 *  - timeout due to no message or event in timeoutMS
 	 *    (RdKafka::Message::err() is ERR__TIMED_OUT)
 	 */
-    message* Consume(int timeoutMS) {
-        return consumer_->consume(timeoutMS);
+    message* consume(int timeout_ms) {
+        return consumer_->consume(timeout_ms);
     }
 
     /**
 	 * @brief 异步提交Offset
 	 */
-    void AsyncCommit(message* msg) {
+    void async_commit(message* msg) {
         consumer_->commitAsync(msg);
     }
 
@@ -153,27 +153,27 @@ public:
     kafka_producer(const std::string& brokers, const std::string& topic,
         RdKafka::DeliveryReportCb* delivery_report_cb = nullptr, RdKafka::EventCb* event_cb = nullptr) {
         auto conf = RdKafka::Conf::create(RdKafka::Conf::CONF_GLOBAL);
-        std::unique_ptr<RdKafka::Conf> confForAutoDel(conf); // for auto delete when throwing exception
+        std::unique_ptr<RdKafka::Conf> conf_for_auto_del(conf); // for auto delete when throwing exception
 
-        setConfig(conf, "metadata.broker.list", brokers);
+        set_config(conf, "metadata.broker.list", brokers);
         if (event_cb != nullptr)
         {
-            setConfig(conf, "event_cb", event_cb);
+            set_config(conf, "event_cb", event_cb);
         }
         if (delivery_report_cb != nullptr)
         {
-            setConfig(conf, "dr_cb", delivery_report_cb);
+            set_config(conf, "dr_cb", delivery_report_cb);
         }
 
         std::string error;
-        auto tmpProducer = RdKafka::Producer::create(conf, error);
-        if (!tmpProducer)
+        auto tmp_producer = RdKafka::Producer::create(conf, error);
+        if (!tmp_producer)
         {
             throw std::runtime_error("Failed to create producer! err=" + error);
         }
-        std::unique_ptr<RdKafka::Producer> producer(tmpProducer); // for auto delete when throwing exception
+        std::unique_ptr<RdKafka::Producer> producer(tmp_producer); // for auto delete when throwing exception
 
-        topic_ = RdKafka::Topic::create(tmpProducer, topic, nullptr, error);
+        topic_ = RdKafka::Topic::create(tmp_producer, topic, nullptr, error);
         if (topic_ == nullptr)
         {
             throw std::runtime_error("Failed to create topic! topic=" + topic + " error=" + error);
@@ -199,11 +199,11 @@ public:
 	 *  - ERR__UNKNOWN_PARTITION
 	 *  - ERR__UNKNOWN_TOPIC
 	 */
-    kafka_err_code Produce(const std::string& payload, void* msgOpaque = nullptr) {
+    kafka_err_code produce(const std::string& payload, void* msg_opaque = nullptr) {
         // 只有当送达通知回调函数返回之后，该消息才会被移出队列。
         // 所以produce返回队列满时，不能马上重试，只能在定期调用Poll()函数后再重试。
         return producer_->produce(topic_, RdKafka::Topic::PARTITION_UA, RdKafka::Producer::RK_MSG_COPY,
-            const_cast<char*>(payload.data()), payload.size(), nullptr, msgOpaque);
+            const_cast<char*>(payload.data()), payload.size(), nullptr, msg_opaque);
     }
 
     /**
@@ -211,14 +211,14 @@ public:
 	* @param payload 发送给kafka broker的消息内容
 	* @return 表示成功或者失败的错误码
 	*/
-    kafka_err_code SyncProduce(const std::string& payload) {
+    kafka_err_code sync_produce(const std::string& payload) {
         kafka_err_code err = static_cast<kafka_err_code>(-12345);
 
         producer_->produce(topic_, RdKafka::Topic::PARTITION_UA, RdKafka::Producer::RK_MSG_COPY,
             const_cast<char*>(payload.data()), payload.size(), nullptr, &err);
         while (err == static_cast<kafka_err_code>(-12345))
         {
-            Poll(1000);
+            poll(1000);
         }
 
         return err;
@@ -233,8 +233,8 @@ public:
 	 *   - 其他事件，调用event_cb
 	 * @returns 返回事件个数
 	 */
-    int Poll(int timeoutMS = 0) {
-        return producer_->poll(timeoutMS);
+    int poll(int timeout_ms = 0) {
+        return producer_->poll(timeout_ms);
     }
 
 private:
@@ -253,16 +253,17 @@ public:
 	* @throw occi::SQLException
 	* @note 多线程环境下，使用者必须保证drcb和evcb是线程安全的
 	*/
-    kafka_producer_pool(size_t maxPooledProducers, const std::string& brokers, const std::string& topic,
+    kafka_producer_pool(size_t max_pooled_producers, const std::string& brokers, const std::string& topic,
         RdKafka::DeliveryReportCb* delivery_report_cb = nullptr, RdKafka::EventCb* event_cb = nullptr)
-        : maxPooledProducers_(maxPooledProducers)
+        : max_pooled_producers_(max_pooled_producers)
         , brokers_(brokers)
         , topic_(topic)
         , delivery_report_cb_(delivery_report_cb)
-        , event_cb_(event_cb) {}
+        , event_cb_(event_cb) {
+    }
 
     ~kafka_producer_pool() {
-        for (auto cli : pooledProducers_)
+        for (auto cli : pooled_producers_)
         {
             delete cli;
         }
@@ -271,12 +272,12 @@ public:
     /**
 	* @brief 获取KafkaProducer对象，使用完毕后，要调用Put接口返还。
 	*/
-    kafka_producer* Get() {
+    kafka_producer* get() {
         lock_.lock();
-        if (!pooledProducers_.empty())
+        if (!pooled_producers_.empty())
         {
-            auto cli = pooledProducers_.front();
-            pooledProducers_.pop_front();
+            auto cli = pooled_producers_.front();
+            pooled_producers_.pop_front();
             lock_.unlock();
             return cli;
         }
@@ -293,11 +294,11 @@ public:
     /**
 	* @brief 返还通过Get接口获取的KafkaProducer对象。
 	*/
-    void Put(kafka_producer* producer) {
+    void put(kafka_producer* producer) {
         lock_.lock();
-        if (pooledProducers_.size() < maxPooledProducers_)
+        if (pooled_producers_.size() < max_pooled_producers_)
         {
-            pooledProducers_.emplace_back(producer);
+            pooled_producers_.emplace_back(producer);
             lock_.unlock();
         }
         else
@@ -308,14 +309,14 @@ public:
     }
 
 private:
-    const size_t maxPooledProducers_;
+    const size_t max_pooled_producers_;
     const std::string brokers_;
     const std::string topic_;
     RdKafka::DeliveryReportCb* const delivery_report_cb_;
     RdKafka::EventCb* const event_cb_;
 
     std::mutex lock_;
-    std::list<kafka_producer*> pooledProducers_;
+    std::list<kafka_producer*> pooled_producers_;
 };
 
 } // namespace ark

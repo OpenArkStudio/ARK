@@ -62,6 +62,7 @@ set(ARKNET_SOURCE_DIR "" CACHE PATH "Use a local arknet checkout for development
 set(ARKNET_REVISION "848588e409bf7e5f86bc30b8ffae7efb022eb6e4" CACHE STRING "Pinned arknet revision")
 
 option(ARK_BUILD_TESTS "Enable build tests" ON)
+option(ARK_BUILD_CORE_TESTS "Build core C++20 regressions" ${ARK_BUILD_TESTS})
 option(ARK_BUILD_EXAMPLES "Enable build examples" ON)
 
 #---------------------------------------------------------------------------------------
@@ -287,4 +288,11 @@ endif ()
 
 if(ARK_BUILD_NETWORK_TESTS)
     add_subdirectory(tests/network)
+endif()
+
+if(ARK_BUILD_CORE_TESTS)
+    add_subdirectory(tests/core)
+    if(TARGET check-network)
+        add_dependencies(check-network check-core)
+    endif()
 endif()

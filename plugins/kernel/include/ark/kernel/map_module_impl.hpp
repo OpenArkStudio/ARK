@@ -60,7 +60,7 @@ public:
         const int map_id, const std::string& name, const data_list& value_args, data_list& list) override;
 
 private:
-    kernel_module* m_pKernelModule;
+    kernel_module* kernel_module_;
 
     shared_object_map<int, map_info> map_infos_;
 };

@@ -53,6 +53,8 @@ target_link_libraries(my_service PRIVATE ark::core ark::net)
 - include 顺序为系统头文件、第三方头文件、ark 头文件。
 - 使用 clang-format 18 和仓库内的 `.clang-format`。第三方与生成文件不参与项目格式化。
 
+详细命名规则、本地检查方式和协议迁移说明见[代码风格](code-style_CN.md)。
+
 ## 验证 SDK 使用方式
 
 初始化固定版本的子模块，并按[网络构建与回归测试](networking_CN.md)安装依赖后，

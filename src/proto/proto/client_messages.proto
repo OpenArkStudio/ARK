@@ -1,0 +1,114 @@
+syntax = "proto3";
+package ark.protobuf;
+
+// Import all ss proto files in here.
+import "event_codes.proto";
+import "error_codes.proto";
+import "common_messages.proto";
+
+enum game_message_id {
+  egmi_unknow = 0;        // 位知
+  egmi_close_socket = 3;  // 想要关闭某个网络对象
+
+  egmi_sts_heart_beat = 100;
+
+  egmi_ack_entity_enter = 200;  // 有对象进入
+  egmi_ack_entity_leave = 201;  // 有对象出去
+
+  egmi_ack_entity_data_node_enter = 202;   // 有对象属性进入
+  egmi_ack_entity_data_table_enter = 203;  // 有对象表进入
+
+  egmi_ack_node_data = 210;  // 属性变更
+
+  egmi_ack_add_row = 220;
+  egmi_ack_remove_row = 221;
+  egmi_ack_swap_row = 222;
+  egmi_ack_table_data = 223;
+  egmi_ack_table_clear = 229;
+  egmi_ack_table_sort = 230;
+}
+
+///////////////排行榜相关////////////////////////////////////////////////////////////////////////////////////
+
+enum rank_type {
+  ert_player_none = 0;
+  ert_player_level = 1;
+  ert_fight_value = 2;
+  ert_player_money = 3;
+  ert_guild_level = 4;
+  ert_guild_kingsource = 5;
+}
+
+// 这里主要是与游戏内容关系不是很大的协议，比如登录，创建角色，平台扣费等
+enum server_state {
+  est_crash = 0;
+  est_narmal = 1;
+  est_busy = 2;
+  est_fire = 3;
+  est_mainten = 4;
+}
+
+message server_heart_beat  // 心跳
+{
+  int32 count = 1;  // 数量，暂时没用到，以后可以用来做角色数量报告等
+}
+
+// 除 去基础对象身上的属性外，这里全部游戏中的逻辑协议
+message req_heart_beat {}
+
+message entity_enter_info  // 对象出现基本信息
+{
+  int64 object_guid = 1;
+  point_3d pos = 2;
+  int32 career_type = 3;
+  int32 player_state = 4;
+  uint32 config_id = 5;
+  int32 scene_id = 6;
+  string class_id = 7;
+}
+
+message ack_entity_enter_list  // 对象出现列表
+{
+  repeated entity_enter_info entity_list = 1;
+}
+
+message ack_entity_leave_list  // 对象离去列表
+{
+  repeated int64 entity_list = 1;
+}
+
+message req_pick_drop_item  // 拾取物品
+{
+  int64 item_guid = 2;
+}
+
+message req_accept_task  // 接受任务
+{
+  string task_id = 1;
+}
+
+message req_compelete_task  // 完成任务后申请领奖
+{
+  string task_id = 1;
+}
+
+// EGEC_REQSWICHSERVER							= 210;
+// // 申请转服
+message req_switch_server {
+  int64 selfid = 1;                            // 角色ID
+  int64 self_serverid = 2;                     // 本来所在的服务器
+  int64 target_serverid = 3;                   // 目标ID
+  int64 gate_serverid = 4;                     // 目标ID
+  int64 scene_id = 5 [json_name = "SceneID"];  //
+  int64 client_id = 6;                         // 客户端id
+  int64 group_id = 7 [json_name = "groupID"];  //  group
+}
+
+// EGEC_ACKSWICHSERVER							= 211;
+// // 申请转服
+message ack_switch_server {
+  int64 selfid = 1;           // 角色ID
+  int64 self_serverid = 2;    // 目标ID
+  int64 target_serverid = 3;  // 目标ID
+  int64 gate_serverid = 4;    // 目标ID
+}

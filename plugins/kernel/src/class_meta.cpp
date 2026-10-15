@@ -53,10 +53,10 @@ std::shared_ptr<node_meta> class_meta::create_data_meta(const std::string& name,
     ARK_ASSERT_RET_VAL(name_index_insert(name, index), nullptr);
 
     // create new data meta
-    std::shared_ptr<node_meta> pMeta = std::make_shared<node_meta>(name, index);
-    ARK_ASSERT_RET_VAL(data_meta_list_.insert(index, pMeta).second, nullptr);
+    std::shared_ptr<node_meta> meta_ptr = std::make_shared<node_meta>(name, index);
+    ARK_ASSERT_RET_VAL(data_meta_list_.insert(index, meta_ptr).second, nullptr);
 
-    return pMeta;
+    return meta_ptr;
 }
 
 std::shared_ptr<node_meta> class_meta::find_data_meta(const uint32_t index) const {
@@ -72,10 +72,10 @@ std::shared_ptr<table_meta> class_meta::create_table_meta(const std::string& nam
 
     ARK_ASSERT_RET_VAL(name_index_insert(name, index), nullptr);
 
-    std::shared_ptr<table_meta> pMeta = std::make_shared<table_meta>(name, index);
-    ARK_ASSERT_RET_VAL(table_meta_list_.insert(index, pMeta).second, nullptr);
+    std::shared_ptr<table_meta> meta_ptr = std::make_shared<table_meta>(name, index);
+    ARK_ASSERT_RET_VAL(table_meta_list_.insert(index, meta_ptr).second, nullptr);
 
-    return pMeta;
+    return meta_ptr;
 }
 
 std::shared_ptr<table_meta> class_meta::find_table_meta(const uint32_t index) const {
@@ -92,10 +92,10 @@ std::shared_ptr<container_meta> class_meta::create_container_meta(
 
     ARK_ASSERT_RET_VAL(name_index_insert(name, index), nullptr);
 
-    std::shared_ptr<container_meta> pMeta = std::make_shared<container_meta>(name, index, class_name, mask);
-    ARK_ASSERT_RET_VAL(container_meta_list_.insert(index, pMeta).second, nullptr);
+    std::shared_ptr<container_meta> meta_ptr = std::make_shared<container_meta>(name, index, class_name, mask);
+    ARK_ASSERT_RET_VAL(container_meta_list_.insert(index, meta_ptr).second, nullptr);
 
-    return pMeta;
+    return meta_ptr;
 }
 
 std::shared_ptr<container_meta> class_meta::find_container_meta(const uint32_t index) const {
@@ -122,7 +122,7 @@ uint32_t class_meta::get_index(const std::string& name) const {
     auto iter = name_index_list_.find(name);
     if (iter == name_index_list_.end())
     {
-        return NULL_INT;
+        return null_int;
     }
 
     return iter->second;

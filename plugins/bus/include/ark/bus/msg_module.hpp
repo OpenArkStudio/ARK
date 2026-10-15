@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include "ark/kernel/data_impl.hpp"
-#include "ark/kernel/entity.hpp"
-#include "ark/kernel/node_impl.hpp"
-#include "ark/kernel/table_impl.hpp"
+#include <string>
+
+#include "ark/app.hpp"
+#include "ark/define.hpp"
 #include "ark/math/vector3d.hpp"
 #include "ark/module.hpp"
 #include "ark/net/net_msg.hpp"
@@ -34,23 +34,6 @@ namespace ark {
 class msg_module : public module
 {
 public:
-    //virtual bool SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, msg_id_t msg_id,
-    //    const google::protobuf::Message& msg, const guid_t& actor_id = 0) = 0;
-    //virtual bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, msg_id_t msg_id,
-    //    const google::protobuf::Message& msg, const guid_t& actor_id = 0) = 0;
-    //virtual bool SendParticularSSMsg(bus_id_t bus_id, msg_id_t msg_id, const google::protobuf::Message& msg,
-    //    const guid_t& conn_id, const guid_t& actor_id = 0) = 0;
-
-    //virtual bool SendSSMsg(bus_id_t src_bus, bus_id_t target_bus, msg_id_t msg_id, const char* msg,
-    //    const int msg_len, const guid_t& conn_id, const guid_t& actor_id = 0) = 0;
-    //virtual bool SendSSMsg(bus_id_t target_bus, msg_id_t msg_id, const google::protobuf::Message& msg,
-    //    const guid_t& conn_id, const guid_t& actor_id = 0) = 0;
-    //virtual bool SendSSMsg(bus_id_t target_bus, msg_id_t msg_id, const char* msg, const int msg_len,
-    //    const guid_t& conn_id, const guid_t& actor_id = 0) = 0;
-
-    //virtual bool SendSSMsgByRouter(const AFSSMsgHead& head) = 0;
-
-    //--------new interface---------
     virtual bool send_def_cs_msg_by_app_type(
         const app_type app_type, const msg_id_t msg_id, const google::protobuf::Message& msg) = 0;
     virtual bool send_def_ss_msg_by_app_type(
@@ -58,22 +41,22 @@ public:
     virtual bool send_msg_by_app_type(
         const app_type app_type, msg_header* header, const google::protobuf::Message& msg) = 0;
     virtual bool send_msg_by_bus_id(
-        bus_id_t bus_id, msg_id_t msg_id, const google::protobuf::Message& msg, const guid_t& guid = NULL_GUID) = 0;
+        bus_id_t bus_id, msg_id_t msg_id, const google::protobuf::Message& msg, const guid_t& guid = null_guid) = 0;
     virtual bool send_to_client(conv_id_t session_id, msg_id_t msg_id, const google::protobuf::Message& msg,
-        const guid_t& guid = NULL_GUID) = 0;
+        const guid_t& guid = null_guid) = 0;
     virtual bool send_to_client(conv_id_t session_id, msg_id_t msg_id, const std::string& msg_data,
-        bool compressed = false, const guid_t& guid = NULL_GUID) = 0;
+        bool compressed = false, const guid_t& guid = null_guid) = 0;
     virtual bool send_to_intra(conv_id_t session_id, msg_id_t msg_id, const google::protobuf::Message& msg,
-        const guid_t& guid = NULL_GUID) = 0;
+        const guid_t& guid = null_guid) = 0;
 
-    static bool recv_pb(const net_msg* msg, std::string& str_msg, guid_t& actor_id) {
-        str_msg.assign(msg->get_msg_data(), msg->get_msg_length());
+    static bool read_message_body(const net_msg* msg, std::string& message_body, guid_t& actor_id) {
+        message_body.assign(msg->get_msg_data(), msg->get_msg_length());
         actor_id = msg->get_actor_id();
         return true;
     }
 
-    static bool recv_pb(const net_msg* msg, google::protobuf::Message& pb_msg, guid_t& actor_id) {
-        if (!pb_msg.ParseFromString(std::string(msg->get_msg_data(), msg->get_msg_length())))
+    static bool decode_protobuf(const net_msg* msg, google::protobuf::Message& protobuf_msg, guid_t& actor_id) {
+        if (!protobuf_msg.ParseFromString(std::string(msg->get_msg_data(), msg->get_msg_length())))
         {
             return false;
         }
@@ -82,20 +65,20 @@ public:
         return true;
     }
 
-    static vector3d pb_to_vec(AFMsg::Point3D xPoint) {
-        vector3d xID;
-        xID.x = xPoint.x();
-        xID.y = xPoint.y();
-        xID.z = xPoint.z();
-        return xID;
+    static vector3d protobuf_to_vec(ark::protobuf::point_3d point) {
+        vector3d vector;
+        vector.x = point.x();
+        vector.y = point.y();
+        vector.z = point.z();
+        return vector;
     }
 
-    static AFMsg::Point3D vec_to_pb(vector3d xID) {
-        AFMsg::Point3D xPoint;
-        xPoint.set_x(xID.x);
-        xPoint.set_y(xID.y);
-        xPoint.set_z(xID.z);
-        return xPoint;
+    static ark::protobuf::point_3d vec_to_protobuf(vector3d vector) {
+        ark::protobuf::point_3d point;
+        point.set_x(vector.x);
+        point.set_y(vector.y);
+        point.set_z(vector.z);
+        return point;
     }
 };
 

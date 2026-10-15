@@ -23,20 +23,20 @@
 namespace ark {
 
 bool redis_sample_module::init() {
-    m_pRedisModule = find_module<redis_module>();
+    redis_module_ = find_module<redis_module>();
 
     return true;
 }
 
 bool redis_sample_module::post_init() {
-    auto result = m_pRedisModule->Connect();
+    auto result = redis_module_->connect();
     if (!result)
     {
         ARK_LOG_ERROR("connect redis failed");
         return false;
     }
 
-    result = m_pRedisModule->SET("test", "123");
+    result = redis_module_->set("test", "123");
     if (!result)
     {
         ARK_LOG_ERROR("redis SET command failed");
@@ -44,7 +44,7 @@ bool redis_sample_module::post_init() {
     }
 
     std::string value;
-    result = m_pRedisModule->GET("test", value);
+    result = redis_module_->get("test", value);
     if (!result)
     {
         ARK_LOG_ERROR("redis GET command failed");

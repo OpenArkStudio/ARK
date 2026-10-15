@@ -24,13 +24,13 @@
 
 namespace ark {
 
-template<typename KEY, typename VALUE, bool isHashMap = false>
+template<typename key_type, typename mapped_type, bool use_hash_map = false>
 class object_map_base
 {
 public:
-    using k_type = KEY;
-    using v_type = VALUE;
-    using map_type = std::conditional_t<isHashMap, std::unordered_map<KEY, v_type>, std::map<KEY, v_type>>;
+    using k_type = key_type;
+    using v_type = mapped_type;
+    using map_type = std::conditional_t<use_hash_map, std::unordered_map<key_type, v_type>, std::map<key_type, v_type>>;
     using value_type = typename map_type::value_type;
     using reference = value_type&;
     using const_reference = const value_type&;
@@ -109,7 +109,7 @@ public:
     }
 
     const_iterator cend() const noexcept {
-        return nodes_.cbegin();
+        return nodes_.cend();
     }
 
     // will delete allocated memory
@@ -147,28 +147,25 @@ public:
     }
 
 private:
-    template<typename VALUE_TYPE>
-    inline typename std::enable_if<std::is_pointer<VALUE_TYPE>::value>::type delete_value(VALUE_TYPE& value) {
-        // pointer delete it
-        ARK_DELETE(value);
-    }
-
-    template<typename VALUE_TYPE>
-    inline typename std::enable_if<!std::is_pointer<VALUE_TYPE>::value>::type delete_value(VALUE_TYPE& value) {
-        // not pointer do nothing
+    template<typename stored_type>
+    void delete_value(stored_type& value) {
+        if constexpr (std::is_pointer_v<stored_type>)
+        {
+            ARK_DELETE(value);
+        }
     }
 };
 
-template<typename KEY, typename VALUE>
-using object_map = object_map_base<KEY, VALUE*>;
+template<typename key_type, typename mapped_type>
+using object_map = object_map_base<key_type, mapped_type*>;
 
-template<typename KEY, typename VALUE>
-using shared_object_map = object_map_base<KEY, std::shared_ptr<VALUE>>;
+template<typename key_type, typename mapped_type>
+using shared_object_map = object_map_base<key_type, std::shared_ptr<mapped_type>>;
 
-template<typename KEY, typename VALUE>
-using object_hashmap = object_map_base<KEY, VALUE*, true>;
+template<typename key_type, typename mapped_type>
+using object_hashmap = object_map_base<key_type, mapped_type*, true>;
 
-template<typename KEY, typename VALUE>
-using shared_object_hashmap = object_map_base<KEY, std::shared_ptr<VALUE>, true>;
+template<typename key_type, typename mapped_type>
+using shared_object_hashmap = object_map_base<key_type, std::shared_ptr<mapped_type>, true>;
 
 } // namespace ark

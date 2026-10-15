@@ -34,19 +34,19 @@ class connection_data
 public:
     enum connect_state
     {
-        DISCONNECT,
-        CONNECTING,
-        CONNECTED,
-        RECONNECT,
+        disconnect,
+        connecting,
+        connected,
+        reconnect,
     };
 
-    std::shared_ptr<const msg_header> head_;
-    int server_bus_id_{0};
-    endpoint endpoint_;
-    std::shared_ptr<net> net_client_{nullptr};
+    std::shared_ptr<const msg_header> head;
+    int server_bus_id{0};
+    endpoint remote_endpoint;
+    std::shared_ptr<net> net_client{nullptr};
 
-    connect_state net_state_{DISCONNECT}; // net state
-    int64_t last_active_time_{0};
+    connect_state net_state{disconnect}; // net state
+    int64_t last_active_time{0};
 };
 
 class net_client_service : public noncopyable
@@ -54,22 +54,22 @@ class net_client_service : public noncopyable
 public:
     virtual ~net_client_service() = default;
 
-    template<typename BaseType>
+    template<typename base_type>
     bool reg_msg_callback(
-        const msg_id_t msg_id, BaseType* pBase, void (BaseType::*handleRecv)(const net_msg*, conv_id_t)) {
-        net_msg_functor functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
+        const msg_id_t msg_id, base_type* base_ptr, void (base_type::*handle_recv)(const net_msg*, conv_id_t)) {
+        net_msg_functor functor = std::bind(handle_recv, base_ptr, std::placeholders::_1, std::placeholders::_2);
         return reg_msg_callback(msg_id, std::move(functor));
     }
 
-    template<typename BaseType>
-    bool reg_forward_msg_callback(BaseType* pBase, void (BaseType::*handleRecv)(const net_msg*, conv_id_t)) {
-        net_msg_functor functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
+    template<typename base_type>
+    bool reg_forward_msg_callback(base_type* base_ptr, void (base_type::*handle_recv)(const net_msg*, conv_id_t)) {
+        net_msg_functor functor = std::bind(handle_recv, base_ptr, std::placeholders::_1, std::placeholders::_2);
         return reg_forward_msg_callback(std::move(functor));
     }
 
-    template<typename BaseType>
-    bool reg_net_event_callback(BaseType* pBase, void (BaseType::*handler)(const net_event*)) {
-        net_event_functor functor = std::bind(handler, pBase, std::placeholders::_1);
+    template<typename base_type>
+    bool reg_net_event_callback(base_type* base_ptr, void (base_type::*handler)(const net_event*)) {
+        net_event_functor functor = std::bind(handler, base_ptr, std::placeholders::_1);
         return reg_net_event_callback(std::move(functor));
     }
 

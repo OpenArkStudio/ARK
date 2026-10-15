@@ -30,7 +30,7 @@ bool sample2_module::init() {
     return true;
 }
 
-int sample2_module::OnDataNodeCB(
+int sample2_module::on_data_node_cb(
     const guid_t& self, const std::string& name, const data& old_var, const data& new_var) {
     std::cout << "OnDataNodeCB DataNode: " << name << " Old value: " << old_var.get_int()
               << " New value: " << new_var.get_int() << std::endl;
@@ -38,10 +38,10 @@ int sample2_module::OnDataNodeCB(
 }
 
 bool sample2_module::post_init() {
-    kernel_module* pKernelModule = find_module<kernel_module>();
+    kernel_module* kernel_module_ptr = find_module<kernel_module>();
 
-    data_list_impl xData;
-    xData.add_int(111);
+    data_list_impl data_value;
+    data_value.add_int(111);
 
     std::cout << GET_CLASS_NAME(sample2_module) << ", PostInit" << std::endl;
 

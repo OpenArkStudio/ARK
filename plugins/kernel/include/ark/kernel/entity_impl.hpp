@@ -40,25 +40,25 @@ class entity_opt_charactor
 {
 public:
     entity_opt_charactor(const int32_t map_id, const int32_t map_entity_id)
-        : map_id_(map_id)
-        , map_entity_id_(map_entity_id) {
-        m_pContainerManager = std::make_shared<container_manager_impl>();
+        : map_id(map_id)
+        , map_entity_id(map_entity_id) {
+        containers = std::make_shared<container_manager_impl>();
     }
 
     // map id
-    int32_t map_id_{NULL_INT};
+    int32_t map_id{null_int};
 
     // map obj id
-    int32_t map_entity_id_{NULL_INT};
+    int32_t map_entity_id{null_int};
 
     // pos
-    vector3d pos_{NULL_VECTOR3D};
+    vector3d pos{null_vector3d};
 
     // orient
-    float orient_{NULL_FLOAT};
+    float orient{null_float};
 
     // container manager
-    std::shared_ptr<container_manager> m_pContainerManager{nullptr};
+    std::shared_ptr<container_manager> containers{nullptr};
 };
 
 class entity_impl final : public entity
@@ -67,7 +67,7 @@ private:
     friend class kernel_module_impl;
 
     // object unique id
-    guid_t guid_{NULL_GUID};
+    guid_t guid_{null_guid};
 
     // config id
     id_type config_id_{0};
@@ -89,21 +89,21 @@ private:
     std::shared_ptr<class_meta> class_meta_{nullptr};
 
     // node data
-    std::shared_ptr<node_manager> m_pNodeManager{nullptr};
+    std::shared_ptr<node_manager> node_manager_{nullptr};
 
     // table data
-    std::shared_ptr<table_manager> m_pTableManager{nullptr};
+    std::shared_ptr<table_manager> table_manager_{nullptr};
 
     // event manager
-    std::shared_ptr<event_manager> m_pEventManager{nullptr};
+    std::shared_ptr<event_manager> event_manager_{nullptr};
 
     // call back manager
-    std::shared_ptr<class_call_back_manager> m_pCallBackManager{nullptr};
+    std::shared_ptr<class_call_back_manager> callback_manager_{nullptr};
 
 public:
     entity_impl() = delete;
 
-    explicit entity_impl(std::shared_ptr<class_meta> pClassMeta, const guid_t& guid, const id_type config_id,
+    explicit entity_impl(std::shared_ptr<class_meta> class_meta_ptr, const guid_t& guid, const id_type config_id,
         const int32_t map_id, const int32_t map_entity_id, const data_list& data_list);
 
     void update() override;
@@ -113,7 +113,7 @@ public:
 
     // get parent unique id
     std::shared_ptr<container> get_parent_container() const override;
-    bool set_parent_container(std::shared_ptr<container> pContainer) override;
+    bool set_parent_container(std::shared_ptr<container> container_ptr) override;
 
     bool is_public(const std::string& name) const override;
     bool is_public(const uint32_t index) const override;
@@ -253,10 +253,10 @@ private:
 
     std::shared_ptr<class_meta> get_class_meta() const;
 
-    int on_node_call_back(node* pNode, const data& old_data, const data& new_data);
+    int on_node_call_back(node* node_ptr, const data& old_data, const data& new_data);
 
-    int on_table_call_back(const mask_type mask, node* pNode, const table_event_data& event_data, const data& old_data,
-        const data& new_data);
+    int on_table_call_back(const mask_type mask, node* node_ptr, const table_event_data& event_data,
+        const data& old_data, const data& new_data);
 };
 
 } // namespace ark

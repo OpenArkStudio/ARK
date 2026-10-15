@@ -17,7 +17,7 @@ bool rudp_server::start_server(std::shared_ptr<const msg_header> head, bus_id_t 
         return false;
     }
     shutdown();
-    server_ = std::make_shared<arknet::rudp_server>(65536, ARK_TCP_RECV_BUFFER_SIZE, thread_num == 0 ? 1 : thread_num);
+    server_ = std::make_shared<arknet::rudp_server>(65536, ark_tcp_recv_buffer_size, thread_num == 0 ? 1 : thread_num);
     this->bus_id_ = bus_id;
     arknet::arq::options transport_options;
     transport_options.mtu = 1400;
@@ -76,7 +76,7 @@ bool rudp_server::start_server(std::shared_ptr<const msg_header> head, bus_id_t 
 
             net_event* net_connect_event = net_event::alloc_event();
             net_connect_event->set_id(cur_session_id);
-            net_connect_event->set_type(net_event_type::CONNECT);
+            net_connect_event->set_type(net_event_type::connect);
             net_connect_event->set_bus_id(self->bus_id_);
             net_connect_event->set_ip(session_ptr->remote_address());
             udp_session_ptr session = std::make_shared<udp_session>(head, cur_session_id, session_ptr);
@@ -112,7 +112,7 @@ bool rudp_server::start_server(std::shared_ptr<const msg_header> head, bus_id_t 
 
             net_event* net_disconnect_event = net_event::alloc_event();
             net_disconnect_event->set_id(session_id);
-            net_disconnect_event->set_type(net_event_type::DISCONNECT);
+            net_disconnect_event->set_type(net_event_type::disconnect);
             net_disconnect_event->set_bus_id(self->bus_id_);
             net_disconnect_event->set_ip(session_ptr->remote_address());
             if (!session->add_net_event(net_disconnect_event))
@@ -189,7 +189,7 @@ bool rudp_server::update_net_msg(const udp_session_ptr& session) {
         net_msg::release(msg);
 
         ++msg_count;
-        if (msg_count >= ARK_PROCESS_NET_MSG_COUNT_ONCE)
+        if (msg_count >= ark_process_net_msg_count_once)
         {
             return false;
         }
@@ -230,7 +230,7 @@ std::string rudp_server::get_ip(const conv_id_t session_id) {
     auto session = get_net_session(session_id);
     if (session == nullptr)
     {
-        return NULL_STR;
+        return null_str;
     }
 
     return session->get_session()->remote_address();
@@ -242,7 +242,7 @@ void rudp_server::close_session(udp_session_ptr& session) {
 }
 
 bool rudp_server::send_msg(msg_header* head, const char* msg_data, conv_id_t session_id) {
-    if (!head || !msg_data || head->message_length() > ARK_MSG_MAX_LENGTH)
+    if (!head || !msg_data || head->message_length() > ark_msg_max_length)
     {
         return false;
     }
@@ -282,7 +282,7 @@ bool rudp_server::send_msg(const char* msg, size_t msg_len, conv_id_t session_id
 }
 
 void rudp_server::broadcast_msg(msg_header* head, const char* msg_data) {
-    if (!head || !msg_data || head->message_length() > ARK_MSG_MAX_LENGTH)
+    if (!head || !msg_data || head->message_length() > ark_msg_max_length)
     {
         return;
     }

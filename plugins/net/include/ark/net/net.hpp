@@ -57,7 +57,8 @@ public:
 
     virtual bool send_msg(msg_header* head, const char* msg_data, conv_id_t session_id) = 0;
 
-    virtual void broadcast_msg(msg_header* head, const char* msg_data) {}
+    virtual void broadcast_msg(msg_header* head, const char* msg_data) {
+    }
 
     virtual void close_session(conv_id_t session_id) = 0;
 
@@ -70,7 +71,7 @@ public:
     }
 
     virtual std::string get_ip(const conv_id_t session_id) {
-        return NULL_STR;
+        return null_str;
     };
 
 private:
@@ -78,8 +79,8 @@ private:
 
 public:
     // TODO: use this to statistic net traffic.
-    size_t statistic_recv_size_{0};
-    size_t statistic_send_size_{0};
+    size_t statistic_recv_size{0};
+    size_t statistic_send_size{0};
 };
 
 } // namespace ark

@@ -38,7 +38,7 @@ bool mysql_sample_module::post_init() {
     result result;
     std::vector<std::string> col{"*"};
     std::vector<where> w{where("runoob_id", "1")};
-    if (!mysql_module_ptr_->SelectOne(doc, col, w, order, result))
+    if (!mysql_module_ptr_->select_one(doc, col, w, order, result))
     {
         std::cout << "select one fail \n";
         return true;
@@ -53,7 +53,7 @@ bool mysql_sample_module::post_init() {
     std::cout << "------------------------------------\n";
     std::vector<kv_pair> data{
         kv_pair("runoob_id", "12"), kv_pair("runoob_title", "ark"), kv_pair("runoob_author", "ark")};
-    if (!mysql_module_ptr_->Insert(doc, data))
+    if (!mysql_module_ptr_->insert(doc, data))
     {
         std::cout << "insert fail \n";
         return true;
@@ -62,7 +62,7 @@ bool mysql_sample_module::post_init() {
     std::cout << "------------------------------------\n";
     std::vector<kv_pair> data1{kv_pair("runoob_title", "ark-xxx")};
     std::vector<where> w1{where("runoob_id", "12")};
-    if (!mysql_module_ptr_->UpdateRecord(doc, data1, w1))
+    if (!mysql_module_ptr_->update_record(doc, data1, w1))
     {
         std::cout << "update fail \n";
         return true;

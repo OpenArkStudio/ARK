@@ -24,17 +24,17 @@
 
 namespace ark {
 
-class codec_proto : public codec
+class protobuf_codec : public codec
 {
 public:
-    codec_status Encode() override;
-    codec_status Decode() override;
+    codec_status encode() override;
+    codec_status decode() override;
 
-    codec_type GetCodecType() const override;
-    void SetCodecType(codec_type type) override;
+    codec_type get_codec_type() const override;
+    void set_codec_type(codec_type type) override;
 
 private:
-    codec_type type_{codec_type::CODEC_UNKNOWN};
+    codec_type type_{codec_type::unknown};
 };
 
 } // namespace ark

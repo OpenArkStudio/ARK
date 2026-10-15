@@ -57,7 +57,7 @@ public:
     table_impl() = delete;
 
     // constructor
-    explicit table_impl(std::shared_ptr<table_meta> pTableMeta, table_callback_functor&& func);
+    explicit table_impl(std::shared_ptr<table_meta> table_meta_ptr, table_callback_functor&& func);
 
     const std::string& get_name() const override;
 
@@ -107,7 +107,7 @@ private:
 
     void on_table_changed(uint32_t row, table_op_type op_type);
 
-    int on_row_changed(uint32_t row, node* pNode, const data& old_data, const data& new_data);
+    int on_row_changed(uint32_t row, node* node_ptr, const data& old_data, const data& new_data);
 
     row* create_row(uint32_t row, const data_list& args);
 };

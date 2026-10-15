@@ -21,17 +21,17 @@ class rudp_server final
 
     reader_writer_lock rw_lock_;
     bus_id_t bus_id_{0};
-    std::atomic<conv_id_t> trusted_session_id_{ARK_CONV_START_ID};
+    std::atomic<conv_id_t> trusted_session_id_{ark_conv_start_id};
     std::map<conv_id_t, udp_session_ptr> sessions_;
 
     std::shared_ptr<arknet::rudp_server> server_;
 
 public:
-    template<typename BaseType>
-    rudp_server(BaseType* pBaseType, void (BaseType::*handleRecv)(net_msg const*, conv_id_t),
-        void (BaseType::*handleEvent)(net_event const*)) {
-        net_msg_cb_ = std::bind(handleRecv, pBaseType, std::placeholders::_1, std::placeholders::_2);
-        net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
+    template<typename base_type>
+    rudp_server(base_type* base_type_ptr, void (base_type::*handle_recv)(net_msg const*, conv_id_t),
+        void (base_type::*handle_event)(net_event const*)) {
+        net_msg_cb_ = std::bind(handle_recv, base_type_ptr, std::placeholders::_1, std::placeholders::_2);
+        net_event_cb_ = std::bind(handle_event, base_type_ptr, std::placeholders::_1);
     }
 
     ~rudp_server() override;

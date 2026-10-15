@@ -33,11 +33,12 @@ class map_instance
 {
 public:
     explicit map_instance(int inst_id)
-        : inst_id_(inst_id) {}
+        : inst_id(inst_id) {
+    }
 
-    shared_object_map<guid_t, bool> player_entities_;
-    shared_object_map<guid_t, bool> other_entities_;
-    int inst_id_;
+    shared_object_map<guid_t, bool> player_entities;
+    shared_object_map<guid_t, bool> other_entities;
+    int inst_id;
 };
 
 // All instance in this map
@@ -47,7 +48,8 @@ public:
     map_info() = default;
 
     map_info(int width)
-        : width_(width) {}
+        : width_(width) {
+    }
 
     virtual ~map_info() = default;
 
@@ -81,8 +83,8 @@ public:
     }
 
     bool add_entity_to_instance(const int inst_id, const guid_t& entity_id, bool is_player) {
-        std::shared_ptr<map_instance> pInfo = map_instances_.find_value(inst_id);
-        if (pInfo == nullptr)
+        std::shared_ptr<map_instance> info_ptr = map_instances_.find_value(inst_id);
+        if (info_ptr == nullptr)
         {
             return false;
         }
@@ -90,18 +92,18 @@ public:
         {
             if (is_player)
             {
-                return pInfo->player_entities_.insert(entity_id, nullptr).second; // TODO:Map.second mean nothing
+                return info_ptr->player_entities.insert(entity_id, nullptr).second; // TODO:Map.second mean nothing
             }
             else
             {
-                return pInfo->other_entities_.insert(entity_id, nullptr).second; // TODO:Map.second mean nothing
+                return info_ptr->other_entities.insert(entity_id, nullptr).second; // TODO:Map.second mean nothing
             }
         }
     }
 
     bool remove_entity_from_instance(const int inst_id, const guid_t& entity_id, bool is_player) {
-        std::shared_ptr<map_instance> pInfo = map_instances_.find_value(inst_id);
-        if (nullptr == pInfo)
+        std::shared_ptr<map_instance> info_ptr = map_instances_.find_value(inst_id);
+        if (nullptr == info_ptr)
         {
             return false;
         }
@@ -109,11 +111,11 @@ public:
         {
             if (is_player)
             {
-                return pInfo->player_entities_.erase(entity_id);
+                return info_ptr->player_entities.erase(entity_id);
             }
             else
             {
-                return pInfo->other_entities_.erase(entity_id);
+                return info_ptr->other_entities.erase(entity_id);
             }
         }
     }

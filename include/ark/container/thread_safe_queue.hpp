@@ -2,11 +2,11 @@
 
 namespace ark {
 
-template<typename T>
+template<typename element_type>
 class thread_safe_queue
 {
 private:
-    std::queue<T> data_queue;
+    std::queue<element_type> data_queue_;
     std::mutex mutex_;
 
 public:
@@ -14,38 +14,38 @@ public:
 
     size_t size() {
         std::lock_guard guard(mutex_);
-        return data_queue.size();
+        return data_queue_.size();
     }
 
-    void push(T new_value) {
+    void push(element_type new_value) {
         std::lock_guard guard(mutex_);
-        data_queue.push(new_value);
+        data_queue_.push(new_value);
     }
 
-    bool try_pop(T& value) {
+    bool try_pop(element_type& value) {
         std::lock_guard guard(mutex_);
-        if (data_queue.empty())
+        if (data_queue_.empty())
         {
             return false;
         }
 
-        value = data_queue.front();
-        data_queue.pop();
+        value = data_queue_.front();
+        data_queue_.pop();
         return true;
     }
 
-    std::queue<T> grab_all() {
-        std::queue<T> ret;
+    std::queue<element_type> grab_all() {
+        std::queue<element_type> ret;
         {
             std::lock_guard guard(mutex_);
-            std::swap(ret, data_queue);
+            std::swap(ret, data_queue_);
         }
         return ret;
     }
 
     bool empty() const {
         std::lock_guard guard(mutex_);
-        return data_queue.empty();
+        return data_queue_.empty();
     }
 };
 } // namespace ark

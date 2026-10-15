@@ -37,31 +37,32 @@ public:
     bool post_init() override;
 
 private:
-    int StartServer();
-    void OnRecvMsg(const net_msg* msg, conv_id_t session_id);
+    int start_server();
+    void on_recv_msg(const net_msg* msg, conv_id_t session_id);
 
-    physic3_d SimulateVec3ToAFVec(const simulate::simulate_vec3& vec3);
+    physic3_d from_simulation_vector(const simulate::simulate_vec3& vec3);
 
-    void TriggerCallBack(const std::string& scene_id, const int32_t index, const simulate::trigger_pair& pair);
+    void trigger_call_back(const std::string& scene_id, const int32_t index, const simulate::trigger_pair& pair);
 
-    void SendMsg(const std::string& scene_id, const int32_t index, const simulate::simulate_msg_type msg_id,
+    void send_msg(const std::string& scene_id, const int32_t index, const simulate::simulate_msg_type msg_id,
         const msgpack::sbuffer& buffer);
-    void SendAckRayCast(const std::string& scene_id, const int32_t index, const simulate::ack_ray_cast& ackRayCast);
-    void SendAckTrigger(const std::string& scene_id, const int32_t index, const simulate::ack_trigger& ackRayCast);
+    void send_ack_ray_cast(
+        const std::string& scene_id, const int32_t index, const simulate::ack_ray_cast& ack_ray_cast);
+    void send_ack_trigger(const std::string& scene_id, const int32_t index, const simulate::ack_trigger& ack_ray_cast);
 
-    void UpdateBusID(const std::string& scene_id, const int32_t index, const int32_t bus_id);
+    void update_bus_id(const std::string& scene_id, const int32_t index, const int32_t bus_id);
     bool get_bus_id(const std::string& scene_id, const int32_t index, int32_t& bus_id);
 
 private:
-    simulate_module* m_pSimulateModule{nullptr};
+    simulate_module* simulate_module_{nullptr};
 
     using index_bus_map = std::map<int32_t, int32_t>;
     using scene_index_bus_map = std::unordered_map<std::string, index_bus_map>;
     scene_index_bus_map scene_index_bus_list_;
 
-    bus_module* m_pBusModule{nullptr};
-    net_service_manager_module* m_pNetServiceManagerModule{nullptr};
-    std::shared_ptr<net_server_service> m_pNetServerService;
+    bus_module* bus_module_{nullptr};
+    net_service_manager_module* net_service_manager_module_{nullptr};
+    std::shared_ptr<net_server_service> net_server_service_;
 };
 
 } // namespace ark

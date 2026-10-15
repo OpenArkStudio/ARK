@@ -30,31 +30,37 @@ class timespan
 public:
     using time_diff = int64_t;
 
-    static const time_diff MILLISECONDS = 1L;
-    static const time_diff SECOND_MS = 1000 * MILLISECONDS;
-    static const time_diff MINUTE_MS = 60 * SECOND_MS;
-    static const time_diff HOUR_MS = 60 * MINUTE_MS;
-    static const time_diff DAY_MS = 24 * HOUR_MS;
-    static const time_diff WEEK_MS = 7 * DAY_MS;
-    const int MONTH_DAY[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    static const time_diff millisecond = 1L;
+    static const time_diff second_ms = 1000 * millisecond;
+    static const time_diff minute_ms = 60 * second_ms;
+    static const time_diff hour_ms = 60 * minute_ms;
+    static const time_diff day_ms = 24 * hour_ms;
+    static const time_diff week_ms = 7 * day_ms;
+    const int month_day[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     timespan()
-        : span_(0) {}
+        : span_(0) {
+    }
 
     explicit timespan(time_diff milliseconds)
-        : span_(milliseconds) {}
+        : span_(milliseconds) {
+    }
 
     timespan(int seconds, int milliseconds)
-        : span_(time_diff(seconds) * SECOND_MS + milliseconds) {}
+        : span_(time_diff(seconds) * second_ms + milliseconds) {
+    }
 
     timespan(int days, int hours, int seconds, int milliseconds)
-        : span_(time_diff(milliseconds) + time_diff(seconds) * SECOND_MS + time_diff(hours) * HOUR_MS +
-                time_diff(days) * DAY_MS) {}
+        : span_(time_diff(milliseconds) + time_diff(seconds) * second_ms + time_diff(hours) * hour_ms +
+                time_diff(days) * day_ms) {
+    }
 
     timespan(const timespan& timespan)
-        : span_(timespan.span_) {}
+        : span_(timespan.span_) {
+    }
 
-    ~timespan() {}
+    ~timespan() {
+    }
 
     timespan& operator=(const timespan& timespan) {
         if (this != &timespan)
@@ -70,13 +76,13 @@ public:
     }
 
     timespan& assign(int days, int hours, int minutes, int seconds, int milliseconds = 0) {
-        span_ = time_diff(milliseconds) + time_diff(seconds) * SECOND_MS + time_diff(hours) * HOUR_MS +
-                time_diff(days) * DAY_MS;
+        span_ = time_diff(milliseconds) + time_diff(seconds) * second_ms + time_diff(hours) * hour_ms +
+                time_diff(days) * day_ms;
         return *this;
     }
 
     timespan& assign(int seconds, int milliseconds = 0) {
-        span_ = time_diff(milliseconds) + time_diff(seconds) * SECOND_MS;
+        span_ = time_diff(milliseconds) + time_diff(seconds) * second_ms;
         return *this;
     }
 
@@ -169,31 +175,31 @@ public:
     }
 
     inline int days() const {
-        return int(span_ / DAY_MS);
+        return int(span_ / day_ms);
     }
 
     inline int hours() const {
-        return int((span_ / HOUR_MS) % 24);
+        return int((span_ / hour_ms) % 24);
     }
 
     inline int total_hours() const {
-        return int((span_ / HOUR_MS));
+        return int((span_ / hour_ms));
     }
 
     inline int minutes() const {
-        return int((span_ / MINUTE_MS) % 60);
+        return int((span_ / minute_ms) % 60);
     }
 
     inline int total_minutes() const {
-        return int(span_ / MINUTE_MS);
+        return int(span_ / minute_ms);
     }
 
     inline int seconds() const {
-        return int((span_ / SECOND_MS) % 60);
+        return int((span_ / second_ms) % 60);
     }
 
     inline int total_seconds() const {
-        return int(span_ / SECOND_MS);
+        return int(span_ / second_ms);
     }
 
     inline int milliseconds() const {
@@ -216,29 +222,29 @@ class date_time
 public:
     enum months
     {
-        JANUARY = 1,
-        FEBRUARY,
-        MARCH,
-        APRIL,
-        MAY,
-        JUNE,
-        JULY,
-        AUGUST,
-        SEPTEMBER,
-        OCTOBER,
-        NOVEMBER,
-        DECEMBER
+        january = 1,
+        february,
+        march,
+        april,
+        may,
+        june,
+        july,
+        august,
+        september,
+        october,
+        november,
+        december
     };
 
     enum days_of_week
     {
-        SUNDAY = 0,
-        MONDAY,
-        TUESDAY,
-        WEDNESDAY,
-        THURSDAY,
-        FRIDAY,
-        SATURDAY
+        sunday = 0,
+        monday,
+        tuesday,
+        wednesday,
+        thursday,
+        friday,
+        saturday
     };
 
     // Monotonic UTC time value in microsecond resolution,
@@ -247,8 +253,8 @@ public:
     // Difference between two TimeVal values in milliseconds.
     using time_diff = int64_t;
 
-    static const time_val TIMEVAL_MIN = (std::numeric_limits<int64_t>::min)();
-    static const time_val TIMEVAL_MAX = (std::numeric_limits<int64_t>::max)();
+    static const time_val timeval_min = (std::numeric_limits<int64_t>::min)();
+    static const time_val timeval_max = (std::numeric_limits<int64_t>::max)();
 
     // Creates a timestamp with the current time.
     date_time() {
@@ -258,7 +264,8 @@ public:
     // Creates a timestamp from the given time value
     //(milliseconds since midnight, January 1, 1970).
     date_time(time_val tv)
-        : ts_(tv) {}
+        : ts_(tv) {
+    }
 
     date_time(int year, int month, int day, int hour = 0, int minute = 0, int second = 0, int tzd = 8) {
         struct tm tmp_tm;
@@ -270,7 +277,7 @@ public:
         tmp_tm.tm_sec = second;
         tmp_tm.tm_isdst = -1;
         time_t time = std::mktime(&tmp_tm);
-        ts_ = time_val(time * resolution()) + tzd * timespan::HOUR_MS;
+        ts_ = time_val(time * resolution()) + tzd * timespan::hour_ms;
     }
 
     // Copy constructor
@@ -448,15 +455,15 @@ public:
     ///
     /// For 2007, which starts on a Monday, week 1 will be the week starting on Monday, January 1.
     /// There will be no week 0 in 2007.
-    int get_week_of_year(int firstDayOfWeek = MONDAY) const {
-        ARK_ASSERT_NO_EFFECT(firstDayOfWeek >= SUNDAY && firstDayOfWeek <= SATURDAY);
+    int get_week_of_year(int first_day_of_week = monday) const {
+        ARK_ASSERT_NO_EFFECT(first_day_of_week >= sunday && first_day_of_week <= saturday);
 
         // find the first firstDayOfWeek.
-        int baseDay = 1;
+        int base_day = 1;
 
-        while (date_time(get_year(), 1, baseDay).get_day_of_week() != firstDayOfWeek)
+        while (date_time(get_year(), 1, base_day).get_day_of_week() != first_day_of_week)
         {
-            ++baseDay;
+            ++base_day;
         }
 
         //baseDay is the dayofYear of first firstDayOfWeek and from 1.
@@ -466,14 +473,14 @@ public:
         //so day should plus one
         int day = get_day_of_year();
         day++;
-        int offs = baseDay <= 4 ? 0 : 1; //weekofYear of baseDay
-        if (day < baseDay)
+        int offs = base_day <= 4 ? 0 : 1; //weekofYear of baseDay
+        if (day < base_day)
         {
             return offs;
         }
         else
         {
-            return (day - baseDay) / 7 + 1 + offs;
+            return (day - base_day) / 7 + 1 + offs;
         }
     }
 
@@ -485,9 +492,9 @@ public:
 
     // Returns the weekday (0 to 6, where
     // 0 = Sunday, 1 = Monday, ..., 6 = Saturday).
-    int get_day_of_week(int firstDayOfWeek = MONDAY) const {
+    int get_day_of_week(int first_day_of_week = monday) const {
         std::tm tm = get_utc_time();
-        if (firstDayOfWeek == MONDAY)
+        if (first_day_of_week == monday)
         {
             return ((tm.tm_wday == 0) ? 7 : tm.tm_wday);
         }
@@ -556,30 +563,30 @@ public:
     }
 
     bool same_minute(time_val time) {
-        date_time xTime(time);
-        return (xTime.get_minute() == get_minute() && xTime.get_hour() == get_hour() && xTime.get_day() == get_day() &&
-                xTime.get_month() == get_month() && xTime.get_year() == get_year());
+        date_time x_time(time);
+        return (x_time.get_minute() == get_minute() && x_time.get_hour() == get_hour() &&
+                x_time.get_day() == get_day() && x_time.get_month() == get_month() && x_time.get_year() == get_year());
     }
 
     bool same_hour(time_val time) {
-        date_time xTime(time);
-        return (xTime.get_hour() == get_hour() && xTime.get_day() == get_day() && xTime.get_month() == get_month() &&
-                xTime.get_year() == get_year());
+        date_time x_time(time);
+        return (x_time.get_hour() == get_hour() && x_time.get_day() == get_day() && x_time.get_month() == get_month() &&
+                x_time.get_year() == get_year());
     }
 
     bool same_day(time_val time) {
-        date_time xTime(time);
-        return (xTime.get_day() == get_day() && xTime.get_month() == get_month() && xTime.get_year() == get_year());
+        date_time x_time(time);
+        return (x_time.get_day() == get_day() && x_time.get_month() == get_month() && x_time.get_year() == get_year());
     }
 
     bool same_month(time_val time) {
-        date_time xTime(time);
-        return (xTime.get_month() == get_month() && xTime.get_year() == get_year());
+        date_time x_time(time);
+        return (x_time.get_month() == get_month() && x_time.get_year() == get_year());
     }
 
     bool same_year(time_val time) {
-        date_time xTime(time);
-        return (xTime.get_year() == get_year());
+        date_time x_time(time);
+        return (x_time.get_year() == get_year());
     }
 
     bool same_week(time_val time) {
@@ -593,22 +600,22 @@ public:
             return true;
         }
 
-        date_time xTime(time);
-        return (get_week_of_year() == xTime.get_week_of_year());
+        date_time x_time(time);
+        return (get_week_of_year() == x_time.get_week_of_year());
     }
 
     std::string to_string() {
         std::tm tm = get_local_time(); // local time
-        static char timeBuff[32] = {0};
-        std::strftime(timeBuff, sizeof(timeBuff), "%Y/%m/%d %H:%M:%S", &tm);
-        return std::string(timeBuff);
+        static char time_buff[32] = {0};
+        std::strftime(time_buff, sizeof(time_buff), "%Y/%m/%d %H:%M:%S", &tm);
+        return std::string(time_buff);
     }
 
     std::string to_iso8601_string() {
         std::tm tm = get_utc_time(); // UTC time
-        static char timeBuff[64] = {0};
-        std::strftime(timeBuff, sizeof(timeBuff), "%FT%TZ", &tm);
-        return std::string(timeBuff);
+        static char time_buff[64] = {0};
+        std::strftime(time_buff, sizeof(time_buff), "%FT%TZ", &tm);
+        return std::string(time_buff);
     }
 
     static bool is_leap_year(int year) {
@@ -625,7 +632,7 @@ public:
             return -1;
         }
 
-        static int daysOfMonthTable[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        static int days_of_month_table[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
         if (month == 2 && is_leap_year(year))
         {
@@ -633,7 +640,7 @@ public:
         }
         else
         {
-            return daysOfMonthTable[month];
+            return days_of_month_table[month];
         }
     }
 

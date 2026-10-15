@@ -41,30 +41,30 @@ private:
 public:
     table_manager() = delete;
 
-    explicit table_manager(std::shared_ptr<class_meta> pClassMeta) {
-        class_meta_ = pClassMeta;
+    explicit table_manager(std::shared_ptr<class_meta> class_meta_ptr) {
+        class_meta_ = class_meta_ptr;
     }
 
     // table operation
     table* create_table(const uint32_t index, table_impl::table_callback_functor&& func) {
         ARK_ASSERT_RET_VAL(class_meta_ != nullptr, nullptr);
 
-        table* pTable = table_list_.find_value(index);
-        ARK_ASSERT_RET_VAL(pTable == nullptr, nullptr);
+        table* table_ptr = table_list_.find_value(index);
+        ARK_ASSERT_RET_VAL(table_ptr == nullptr, nullptr);
 
-        auto pTableMeta = class_meta_->find_table_meta(index);
-        ARK_ASSERT_RET_VAL(pTableMeta != nullptr, nullptr);
+        auto table_meta_ptr = class_meta_->find_table_meta(index);
+        ARK_ASSERT_RET_VAL(table_meta_ptr != nullptr, nullptr);
 
-        pTable = ARK_NEW table_impl(pTableMeta, std::move(func));
-        ARK_ASSERT_RET_VAL(pTable != nullptr, nullptr);
+        table_ptr = ARK_NEW table_impl(table_meta_ptr, std::move(func));
+        ARK_ASSERT_RET_VAL(table_ptr != nullptr, nullptr);
 
-        if (!table_list_.insert(index, pTable).second)
+        if (!table_list_.insert(index, table_ptr).second)
         {
-            ARK_DELETE(pTable);
+            ARK_DELETE(table_ptr);
             return nullptr;
         }
 
-        return pTable;
+        return table_ptr;
     }
 
     table* find_table(const uint32_t index) {

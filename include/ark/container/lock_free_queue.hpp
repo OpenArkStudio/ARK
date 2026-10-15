@@ -20,23 +20,24 @@
 
 #pragma once
 
-#include "ark/platform.hpp"
 #include "readerwriterqueue/readerwriterqueue.h"
+
+#include "ark/platform.hpp"
 
 namespace ark {
 
-template<typename T>
+template<typename element_type>
 class lock_free_queue
 {
 public:
     lock_free_queue() = default;
     ~lock_free_queue() = default;
 
-    bool push(const T& object) {
+    bool push(const element_type& object) {
         return queue_.enqueue(object);
     }
 
-    bool pop(T& object) {
+    bool pop(element_type& object) {
         return queue_.try_dequeue(object);
     }
 
@@ -45,7 +46,7 @@ public:
     }
 
 private:
-    moodycamel::BlockingReaderWriterQueue<T> queue_;
+    moodycamel::BlockingReaderWriterQueue<element_type> queue_;
 };
 
 } // namespace ark

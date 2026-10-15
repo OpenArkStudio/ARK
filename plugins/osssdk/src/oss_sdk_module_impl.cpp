@@ -21,6 +21,7 @@
 #include "ark/osssdk/oss_sdk_module_impl.hpp"
 
 namespace ark {
+
 //method realization
 
 } // namespace ark

@@ -1,7 +1,7 @@
 syntax = "proto3";
 package photon_oss;
-//日志
-message OSS_LOG_DATA {
+// 日志
+message oss_log_data {
   player_change_operation player_login = 1;
   room_count_change player_logout = 2;
 }
@@ -9,7 +9,7 @@ message basic_info {
   string server_id = 1;
   //
   string event_time = 2;
-  //datetime
+  // datetime
 }
 message other_basic_info {
   string open_id = 1;
@@ -75,12 +75,12 @@ message room_count_change {
   //
   player_basic_info new_computer = 4;
 }
-//LOG类型
-enum OSS_LOG_TYPE {
-  E_OSS_MSG_ID_ERROR = 0;
-  E_OSS_MSG_ID_SEND = 1001;
+// LOG类型
+enum oss_log_type {
+  e_oss_msg_id_error = 0;
+  e_oss_msg_id_send = 1001;
 }
-//LOG类型
+// LOG类型
 enum player_enter_room_type {
   player_enter_room_type_1 = 0;
   player_enter_room_type_2 = 1001;

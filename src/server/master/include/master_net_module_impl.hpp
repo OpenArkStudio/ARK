@@ -39,7 +39,7 @@ public:
     bool post_init() override;
 
 protected:
-    int StartServer();
+    int start_server();
     // void OnSocketEvent(const NetEventType event, const guid_t& conn_id, const std::string& ip, bus_id_t bus_id);
 
     // void OnClientConnected(const guid_t& xClientID);
@@ -51,12 +51,12 @@ protected:
     // void OnHeartBeat(const ARK_PKG_BASE_HEAD& head, msg_id_t msg_id, const char* msg, const uint32_t msg_len, conv_id_t conn_id);
 
 private:
-    bus_module* m_pBusModule;
-    net_service_manager_module* m_pNetServiceManagerModule;
-    timer_module* m_pTimerModule;
-    msg_module* m_pMsgModule;
+    bus_module* bus_module_;
+    net_service_manager_module* net_service_manager_module_;
+    timer_module* timer_module_;
+    msg_module* msg_module_;
 
-    std::shared_ptr<net_server_service> m_pNetServer{nullptr};
+    std::shared_ptr<net_server_service> net_server_{nullptr};
 };
 
 } // namespace ark

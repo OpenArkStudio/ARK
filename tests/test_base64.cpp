@@ -19,8 +19,9 @@
  */
 
 #define CATCH_CONFIG_MAIN
-#include "ark/hash/base64.hpp"
 #include "catch.hpp"
+
+#include "ark/hash/base64.hpp"
 
 using namespace ark;
 
@@ -112,15 +113,15 @@ TEST_CASE("decode_no_padding", "[decode_no_padding]") {
 TEST_CASE("encode_no_padding", "[encode_no_padding]") {
     std::string std_str_out;
 
-    base64::base64_encode(std_str_out, "any carnal pleas", base64::base64_mode_t::EN_BMT_UTF7);
+    base64::base64_encode(std_str_out, "any carnal pleas", base64::base64_mode_t::en_bmt_utf7);
     REQUIRE(0 == memcmp("YW55IGNhcm5hbCBwbGVhcw", std_str_out.c_str(), 22));
     REQUIRE(22 == std_str_out.size());
 
-    base64::base64_encode(std_str_out, "any carnal pleasu", base64::base64_mode_t::EN_BMT_UTF7);
+    base64::base64_encode(std_str_out, "any carnal pleasu", base64::base64_mode_t::en_bmt_utf7);
     REQUIRE(0 == memcmp("YW55IGNhcm5hbCBwbGVhc3U", std_str_out.c_str(), 23));
     REQUIRE(23 == std_str_out.size());
 
-    base64::base64_encode(std_str_out, "any carnal pleasur", base64::base64_mode_t::EN_BMT_UTF7);
+    base64::base64_encode(std_str_out, "any carnal pleasur", base64::base64_mode_t::en_bmt_utf7);
     REQUIRE(0 == memcmp("YW55IGNhcm5hbCBwbGVhc3Vy", std_str_out.c_str(), 24));
     REQUIRE(24 == std_str_out.size());
 }
@@ -128,11 +129,11 @@ TEST_CASE("encode_no_padding", "[encode_no_padding]") {
 TEST_CASE("encode_utf7", "[encode_utf7]") {
     unsigned char buffer[128] = {0};
     size_t len = 0;
-    REQUIRE(-1 == base64::base64_encode(NULL, 0, &len, base64_test_dec, 64, base64::base64_mode_t::EN_BMT_UTF7));
+    REQUIRE(-1 == base64::base64_encode(NULL, 0, &len, base64_test_dec, 64, base64::base64_mode_t::en_bmt_utf7));
     REQUIRE(len == 87); // \0 for tail
 
     REQUIRE(0 == base64::base64_encode(
-                     buffer, sizeof(buffer), &len, base64_test_dec, 64, base64::base64_mode_t::EN_BMT_UTF7));
+                     buffer, sizeof(buffer), &len, base64_test_dec, 64, base64::base64_mode_t::en_bmt_utf7));
     REQUIRE(len == 86);
     REQUIRE(0 == memcmp(base64_test_enc_utf7, buffer, 86));
 }
@@ -140,11 +141,11 @@ TEST_CASE("encode_utf7", "[encode_utf7]") {
 TEST_CASE("decode_utf7", "[decode_utf7]") {
     unsigned char buffer[128] = {0};
     size_t len = 0;
-    REQUIRE(-1 == base64::base64_decode(NULL, 0, &len, base64_test_enc_utf7, 86, base64::base64_mode_t::EN_BMT_UTF7));
+    REQUIRE(-1 == base64::base64_decode(NULL, 0, &len, base64_test_enc_utf7, 86, base64::base64_mode_t::en_bmt_utf7));
     REQUIRE(len == 64);
 
     REQUIRE(0 == base64::base64_decode(
-                     buffer, sizeof(buffer), &len, base64_test_enc_utf7, 86, base64::base64_mode_t::EN_BMT_UTF7));
+                     buffer, sizeof(buffer), &len, base64_test_enc_utf7, 86, base64::base64_mode_t::en_bmt_utf7));
     REQUIRE(len == 64);
     REQUIRE(0 == memcmp(base64_test_dec, buffer, 64));
 }
@@ -153,11 +154,11 @@ TEST_CASE("encode_imap", "[encode_imap]") {
     unsigned char buffer[128] = {0};
     size_t len = 0;
     REQUIRE(-1 ==
-            base64::base64_encode(NULL, 0, &len, base64_test_dec, 64, base64::base64_mode_t::EN_BMT_IMAP_MAILBOX_NAME));
+            base64::base64_encode(NULL, 0, &len, base64_test_dec, 64, base64::base64_mode_t::en_bmt_imap_mailbox_name));
     REQUIRE(len == 87); // \0 for tail
 
     REQUIRE(0 == base64::base64_encode(buffer, sizeof(buffer), &len, base64_test_dec, 64,
-                     base64::base64_mode_t::EN_BMT_IMAP_MAILBOX_NAME));
+                     base64::base64_mode_t::en_bmt_imap_mailbox_name));
     REQUIRE(len == 86);
     REQUIRE(0 == memcmp(base64_test_enc_imap, buffer, 86));
 }
@@ -166,11 +167,11 @@ TEST_CASE("decode_imap", "[decode_imap]") {
     unsigned char buffer[128] = {0};
     size_t len = 0;
     REQUIRE(-1 == base64::base64_decode(
-                      NULL, 0, &len, base64_test_enc_imap, 86, base64::base64_mode_t::EN_BMT_IMAP_MAILBOX_NAME));
+                      NULL, 0, &len, base64_test_enc_imap, 86, base64::base64_mode_t::en_bmt_imap_mailbox_name));
     REQUIRE(len == 64);
 
     REQUIRE(0 == base64::base64_decode(buffer, sizeof(buffer), &len, base64_test_enc_imap, 86,
-                     base64::base64_mode_t::EN_BMT_IMAP_MAILBOX_NAME));
+                     base64::base64_mode_t::en_bmt_imap_mailbox_name));
     REQUIRE(len == 64);
     REQUIRE(0 == memcmp(base64_test_dec, buffer, 64));
 }
@@ -179,11 +180,11 @@ TEST_CASE("encode_url", "[encode_url]") {
     unsigned char buffer[128] = {0};
     size_t len = 0;
     REQUIRE(-1 ==
-            base64::base64_encode(NULL, 0, &len, base64_test_dec, 64, base64::base64_mode_t::EN_BMT_URL_FILENAME_SAFE));
+            base64::base64_encode(NULL, 0, &len, base64_test_dec, 64, base64::base64_mode_t::en_bmt_url_filename_safe));
     REQUIRE(len == 89); // \0 for tail
 
     REQUIRE(0 == base64 ::base64_encode(buffer, sizeof(buffer), &len, base64_test_dec, 64,
-                     base64::base64_mode_t::EN_BMT_URL_FILENAME_SAFE));
+                     base64::base64_mode_t::en_bmt_url_filename_safe));
     REQUIRE(len == 88);
     REQUIRE(0 == memcmp(base64_test_enc_url, buffer, 88));
 }
@@ -192,11 +193,11 @@ TEST_CASE("decode_url", "[decode_url]") {
     unsigned char buffer[128] = {0};
     size_t len = 0;
     REQUIRE(-1 == base64::base64_decode(
-                      NULL, 0, &len, base64_test_enc_url, 88, base64::base64_mode_t::EN_BMT_URL_FILENAME_SAFE));
+                      NULL, 0, &len, base64_test_enc_url, 88, base64::base64_mode_t::en_bmt_url_filename_safe));
     REQUIRE(len == 64);
 
     REQUIRE(0 == base64::base64_decode(buffer, sizeof(buffer), &len, base64_test_enc_url, 88,
-                     base64::base64_mode_t::EN_BMT_URL_FILENAME_SAFE));
+                     base64::base64_mode_t::en_bmt_url_filename_safe));
     REQUIRE(len == 64);
     REQUIRE(0 == memcmp(base64_test_dec, buffer, 64));
 }

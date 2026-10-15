@@ -24,7 +24,7 @@
 
 namespace ark {
 
-template<typename TYPE>
+template<typename char_type>
 class char_traits
 {
 };
@@ -74,9 +74,11 @@ public:
 class string_allocator
 {
 public:
-    string_allocator() {}
+    string_allocator() {
+    }
 
-    ~string_allocator() {}
+    ~string_allocator() {
+    }
 
     void* alloc(size_t size) {
         return new char[size];
@@ -91,92 +93,93 @@ public:
     }
 };
 
-template<typename TYPE, size_t SIZE, typename TRAITS = char_traits<TYPE>, typename ALLOC = string_allocator>
+template<typename char_type, size_t inline_capacity, typename traits_type = char_traits<char_type>,
+    typename allocator_type = string_allocator>
 class small_string
 {
-    using self_t = small_string<TYPE, SIZE, TRAITS, ALLOC>;
+    using self_type = small_string<char_type, inline_capacity, traits_type, allocator_type>;
 
 public:
     small_string() {
-        mxStack[0] = 0;
-        mpData = mxStack;
-        mnCapacity = SIZE;
-        mnSize = 0;
+        inline_buffer_[0] = 0;
+        data_ = inline_buffer_;
+        capacity_ = inline_capacity;
+        size_ = 0;
     }
 
     ~small_string() {
-        if (mnCapacity > SIZE)
+        if (capacity_ > inline_capacity)
         {
-            mxAlloc.free(mpData, mnCapacity * sizeof(TYPE));
+            allocator_.free(data_, capacity_ * sizeof(char_type));
         }
     }
 
-    small_string(const self_t& src) {
+    small_string(const self_type& src) {
         init(src.c_str(), src.length());
     }
 
-    explicit small_string(const TYPE* src) {
-        init(src, TRAITS::length(src));
+    explicit small_string(const char_type* src) {
+        init(src, traits_type::length(src));
     }
 
-    small_string(const TYPE* src, size_t len) {
+    small_string(const char_type* src, size_t len) {
         init(src, len);
     }
 
-    small_string(const TYPE* value1, const TYPE* value2) {
-        init_with_two(value1, TRAITS::length(value1), value2, TRAITS::length(value2));
+    small_string(const char_type* value1, const char_type* value2) {
+        init_with_two(value1, traits_type::length(value1), value2, traits_type::length(value2));
     }
 
-    small_string(const TYPE* value1, size_t len1, const TYPE* value2, size_t len2) {
+    small_string(const char_type* value1, size_t len1, const char_type* value2, size_t len2) {
         init_with_two(value1, len1, value2, len2);
     }
 
-    template<size_t NEW_SIZE>
-    explicit small_string(const small_string<TYPE, NEW_SIZE, TRAITS, ALLOC>& src) {
+    template<size_t new_size>
+    explicit small_string(const small_string<char_type, new_size, traits_type, allocator_type>& src) {
         init(src.c_str(), src.length());
     }
 
-    void swap(self_t& src) noexcept {
-        size_t tmp_size = src.mnSize;
-        size_t tmp_capacity = src.mnCapacity;
-        TYPE* tmp_data = src.mpData;
-        TYPE tmp_stack[SIZE];
+    void swap(self_type& src) noexcept {
+        size_t tmp_size = src.size_;
+        size_t tmp_capacity = src.capacity_;
+        char_type* tmp_data = src.data_;
+        char_type tmp_stack[inline_capacity];
 
-        if (tmp_capacity <= SIZE)
+        if (tmp_capacity <= inline_capacity)
         {
-            TRAITS::copy(tmp_stack, src.mxStack, tmp_size + 1);
+            traits_type::copy(tmp_stack, src.inline_buffer_, tmp_size + 1);
         }
 
-        src.mnSize = this->mnSize;
-        src.mnCapacity = this->mnCapacity;
+        src.size_ = this->size_;
+        src.capacity_ = this->capacity_;
 
-        if (this->mnCapacity <= SIZE)
+        if (this->capacity_ <= inline_capacity)
         {
-            TRAITS::copy(src.mxStack, this->mxStack, this->mnSize + 1);
-            src.mpData = src.mxStack;
-        }
-        else
-        {
-            src.mpData = this->mpData;
-        }
-
-        this->mnSize = tmp_size;
-        this->mnCapacity = tmp_capacity;
-
-        if (tmp_capacity <= SIZE)
-        {
-            TRAITS::copy(this->mxStack, tmp_stack, tmp_size + 1);
-            this->mpData = this->mxStack;
+            traits_type::copy(src.inline_buffer_, this->inline_buffer_, this->size_ + 1);
+            src.data_ = src.inline_buffer_;
         }
         else
         {
-            mpData = tmp_data;
+            src.data_ = this->data_;
         }
 
-        mxAlloc.swap(src.mxAlloc);
+        this->size_ = tmp_size;
+        this->capacity_ = tmp_capacity;
+
+        if (tmp_capacity <= inline_capacity)
+        {
+            traits_type::copy(this->inline_buffer_, tmp_stack, tmp_size + 1);
+            this->data_ = this->inline_buffer_;
+        }
+        else
+        {
+            data_ = tmp_data;
+        }
+
+        allocator_.swap(src.allocator_);
     }
 
-    self_t& operator=(const self_t& src) {
+    self_type& operator=(const self_type& src) {
         if (this != &src)
         {
             inner_assign(src.c_str(), src.length());
@@ -185,95 +188,95 @@ public:
         return *this;
     }
 
-    template<size_t NEW_SIZE>
-    self_t& operator=(const small_string<TYPE, NEW_SIZE, TRAITS, ALLOC>& src) {
+    template<size_t new_size>
+    self_type& operator=(const small_string<char_type, new_size, traits_type, allocator_type>& src) {
         return inner_assign(src.c_str(), src.length());
     }
 
-    self_t& operator=(const TYPE* src) {
-        return inner_assign(src, TRAITS::length(src));
+    self_type& operator=(const char_type* src) {
+        return inner_assign(src, traits_type::length(src));
     }
 
-    self_t& operator=(TYPE value) {
+    self_type& operator=(char_type value) {
         return inner_assign(&value, 1);
     }
 
-    self_t& operator+=(const self_t& src) {
+    self_type& operator+=(const self_type& src) {
         return inner_append(src.c_str(), src.length());
     }
 
-    self_t& operator+=(const TYPE* src) {
-        return inner_append(src, TRAITS::length(src));
+    self_type& operator+=(const char_type* src) {
+        return inner_append(src, traits_type::length(src));
     }
 
-    self_t& operator+=(TYPE value) {
+    self_type& operator+=(char_type value) {
         return inner_append(&value, 1);
     }
 
     size_t length() const {
-        return mnSize;
+        return size_;
     }
 
     size_t size() const {
-        return mnSize;
+        return size_;
     }
 
     bool empty() const {
-        return (0 == mnSize);
+        return (0 == size_);
     }
 
     size_t capacity() const {
-        return mnCapacity;
+        return capacity_;
     }
 
-    const TYPE* c_str() const {
-        return mpData;
+    const char_type* c_str() const {
+        return data_;
     }
 
     void clear() {
-        if (mpData != mxStack)
+        if (data_ != inline_buffer_)
         {
-            mxAlloc.free(mpData, mnCapacity * sizeof(TYPE));
+            allocator_.free(data_, capacity_ * sizeof(char_type));
         }
 
-        mxStack[0] = 0;
-        mpData = mxStack;
-        mnCapacity = SIZE;
-        mnSize = 0;
+        inline_buffer_[0] = 0;
+        data_ = inline_buffer_;
+        capacity_ = inline_capacity;
+        size_ = 0;
     }
 
-    bool compare(const self_t& src) const {
-        return (TRAITS::compare(this->c_str(), src.c_str()) == 0);
+    bool compare(const self_type& src) const {
+        return (traits_type::compare(this->c_str(), src.c_str()) == 0);
     }
 
-    bool compare(const TYPE* src) const {
-        return (TRAITS::compare(this->c_str(), src) == 0);
+    bool compare(const char_type* src) const {
+        return (traits_type::compare(this->c_str(), src) == 0);
     }
 
-    self_t& append(const self_t& src) {
+    self_type& append(const self_type& src) {
         return inner_append(src.c_str(), src.length());
     }
 
-    self_t& append(const TYPE* src, const size_t len) {
+    self_type& append(const char_type* src, const size_t len) {
         return inner_append(src, len);
     }
 
-    self_t& append(const TYPE* src) {
-        return inner_append(src, TRAITS::length(src));
+    self_type& append(const char_type* src) {
+        return inner_append(src, traits_type::length(src));
     }
 
-    self_t& append(TYPE value) {
+    self_type& append(char_type value) {
         return inner_append(&value, 1);
     }
 
-    size_t find(const TYPE* src, const size_t begin = 0) {
-        return TRAITS::find(mpData, src, begin);
+    size_t find(const char_type* src, const size_t begin = 0) {
+        return traits_type::find(data_, src, begin);
     }
 
-    size_t find_last_of(TYPE value) {
-        for (int i = int(mnSize - 1); i >= 0; --i)
+    size_t find_last_of(char_type value) {
+        for (int i = int(size_ - 1); i >= 0; --i)
         {
-            if (mpData[i] == value)
+            if (data_[i] == value)
             {
                 return i;
             }
@@ -283,107 +286,107 @@ public:
     }
 
     size_t npos() {
-        return TRAITS::n_pos();
+        return traits_type::n_pos();
     }
 
-    self_t substr(size_t begin, size_t len) {
-        return self_t(&mpData[begin], len);
+    self_type substr(size_t begin, size_t len) {
+        return self_type(&data_[begin], len);
     }
 
     size_t get_mem_usage() const {
-        size_t size = sizeof(self_t);
+        size_t size = sizeof(self_type);
 
-        if (mnCapacity > SIZE)
+        if (capacity_ > inline_capacity)
         {
-            size += mnCapacity * sizeof(TYPE);
+            size += capacity_ * sizeof(char_type);
         }
 
         return size;
     }
 
 private:
-    void init(const TYPE* src, size_t len) {
-        mnSize = len;
+    void init(const char_type* src, size_t len) {
+        size_ = len;
 
-        if (mnSize < SIZE)
+        if (size_ < inline_capacity)
         {
-            mnCapacity = SIZE;
-            mpData = mxStack;
+            capacity_ = inline_capacity;
+            data_ = inline_buffer_;
         }
         else
         {
-            mnCapacity = (mnSize + 1) * 2;
-            mpData = (TYPE*)mxAlloc.alloc(mnCapacity * sizeof(TYPE));
+            capacity_ = (size_ + 1) * 2;
+            data_ = (char_type*)allocator_.alloc(capacity_ * sizeof(char_type));
         }
 
-        TRAITS::copy(mpData, src, mnSize);
-        TRAITS::put(mpData + mnSize, 0);
+        traits_type::copy(data_, src, size_);
+        traits_type::put(data_ + size_, 0);
     }
 
-    void init_with_two(const TYPE* value1, size_t size1, const TYPE* value2, size_t size2) {
-        mnSize = size1 + size2;
+    void init_with_two(const char_type* value1, size_t size1, const char_type* value2, size_t size2) {
+        size_ = size1 + size2;
 
-        if (mnSize < SIZE)
+        if (size_ < inline_capacity)
         {
-            mnCapacity = SIZE;
-            mpData = mxStack;
+            capacity_ = inline_capacity;
+            data_ = inline_buffer_;
         }
         else
         {
-            mnCapacity = (mnSize + 1) * 2;
-            mpData = (TYPE*)mxAlloc.alloc(mnCapacity * sizeof(TYPE));
+            capacity_ = (size_ + 1) * 2;
+            data_ = (char_type*)allocator_.alloc(capacity_ * sizeof(char_type));
         }
 
-        TRAITS::copy(mpData, value1, size1);
-        TRAITS::copy(mpData + size1, value2, size2);
-        TRAITS::put(mpData + size1 + size2, 0);
+        traits_type::copy(data_, value1, size1);
+        traits_type::copy(data_ + size1, value2, size2);
+        traits_type::put(data_ + size1 + size2, 0);
     }
 
-    self_t& inner_assign(const TYPE* src, size_t len) {
-        if (len < mnCapacity)
+    self_type& inner_assign(const char_type* src, size_t len) {
+        if (len < capacity_)
         {
-            TRAITS::copy(mpData, src, len);
-            TRAITS::put(mpData + len, 0);
-            mnSize = len;
+            traits_type::copy(data_, src, len);
+            traits_type::put(data_ + len, 0);
+            size_ = len;
         }
         else
         {
-            self_t tmp(src, len);
+            self_type tmp(src, len);
             this->swap(tmp);
         }
 
         return (*this);
     }
 
-    self_t& inner_append(const TYPE* src, size_t len) {
-        const size_t NEW_SIZE = this->mnSize + len;
+    self_type& inner_append(const char_type* src, size_t len) {
+        const size_t new_size = this->size_ + len;
 
-        if (NEW_SIZE < mnCapacity)
+        if (new_size < capacity_)
         {
-            TRAITS::copy(mpData + mnSize, src, len);
-            TRAITS::put(mpData + mnSize + len, 0);
-            mnSize = NEW_SIZE;
+            traits_type::copy(data_ + size_, src, len);
+            traits_type::put(data_ + size_ + len, 0);
+            size_ = new_size;
         }
         else
         {
-            self_t tmp(this->c_str(), this->length(), src, len);
+            self_type tmp(this->c_str(), this->length(), src, len);
             this->swap(tmp);
         }
 
         return (*this);
     }
 
-    ALLOC mxAlloc;
-    TYPE mxStack[SIZE];
-    TYPE* mpData;
-    size_t mnCapacity;
-    size_t mnSize;
+    allocator_type allocator_;
+    char_type inline_buffer_[inline_capacity];
+    char_type* data_;
+    size_t capacity_;
+    size_t size_;
 };
 
 typedef small_string<char, 16, char_traits<char>, core_allocator> data_node_name;
 typedef small_string<char, 16, char_traits<char>, core_allocator> data_table_name;
 
-template<typename T>
+template<typename element_type>
 class hash
 {
 };
@@ -398,59 +401,41 @@ public:
     }
 };
 
-template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
+template<typename char_type, size_t inline_capacity, typename traits_type, typename allocator_type>
+inline bool operator==(const small_string<char_type, inline_capacity, traits_type, allocator_type>& s1,
+    const small_string<char_type, inline_capacity, traits_type, allocator_type>& s2) {
+    return s1.compare(s2);
+}
+
+template<typename char_type, size_t inline_capacity, typename traits_type, typename allocator_type>
 inline bool operator==(
-    const small_string<TYPE, SIZE, TRAITS, ALLOC>& s1, const small_string<TYPE, SIZE, TRAITS, ALLOC>& s2) {
-    return (s1.compare(s2) == 0);
+    const small_string<char_type, inline_capacity, traits_type, allocator_type>& s1, const char_type* s2) {
+    return s1.compare(s2);
 }
 
-template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline bool operator==(const small_string<TYPE, SIZE, TRAITS, ALLOC>& s1, const TYPE* s2) {
-    return (s1.compare(s2) == 0);
+template<typename char_type, size_t inline_capacity, typename traits_type, typename allocator_type>
+inline small_string<char_type, inline_capacity, traits_type, allocator_type> operator+(
+    const small_string<char_type, inline_capacity, traits_type, allocator_type>& s1,
+    const small_string<char_type, inline_capacity, traits_type, allocator_type>& s2) {
+    return small_string<char_type, inline_capacity, traits_type, allocator_type>(s1).append(s2);
 }
 
-template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline bool operator==(const TYPE* s1, const small_string<TYPE, SIZE, TRAITS, ALLOC>& s2) {
-    return (s2.compare(s1) == 0);
+template<typename char_type, size_t inline_capacity, typename traits_type, typename allocator_type>
+inline small_string<char_type, inline_capacity, traits_type, allocator_type> operator+(
+    const small_string<char_type, inline_capacity, traits_type, allocator_type>& s1, const char_type* s2) {
+    return small_string<char_type, inline_capacity, traits_type, allocator_type>(s1).append(s2);
 }
 
-template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline bool operator!=(
-    const small_string<TYPE, SIZE, TRAITS, ALLOC>& s1, const small_string<TYPE, SIZE, TRAITS, ALLOC>& s2) {
-    return (s1.compare(s2) != 0);
+template<typename char_type, size_t inline_capacity, typename traits_type, typename allocator_type>
+inline small_string<char_type, inline_capacity, traits_type, allocator_type> operator+(
+    const small_string<char_type, inline_capacity, traits_type, allocator_type>& s1, char_type ch) {
+    return small_string<char_type, inline_capacity, traits_type, allocator_type>(s1).append(ch);
 }
 
-template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline bool operator!=(const small_string<TYPE, SIZE, TRAITS, ALLOC>& s1, const TYPE* s2) {
-    return (s1.compare(s2) != 0);
-}
-
-template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline bool operator!=(const TYPE* s1, const small_string<TYPE, SIZE, TRAITS, ALLOC>& s2) {
-    return (s2.compare(s1) != 0);
-}
-
-template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline small_string<TYPE, SIZE, TRAITS, ALLOC> operator+(
-    const small_string<TYPE, SIZE, TRAITS, ALLOC>& s1, const small_string<TYPE, SIZE, TRAITS, ALLOC>& s2) {
-    return small_string<TYPE, SIZE, TRAITS, ALLOC>(s1).append(s2);
-}
-
-template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline small_string<TYPE, SIZE, TRAITS, ALLOC> operator+(
-    const small_string<TYPE, SIZE, TRAITS, ALLOC>& s1, const TYPE* s2) {
-    return small_string<TYPE, SIZE, TRAITS, ALLOC>(s1).append(s2);
-}
-
-template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline small_string<TYPE, SIZE, TRAITS, ALLOC> operator+(const small_string<TYPE, SIZE, TRAITS, ALLOC>& s1, TYPE ch) {
-    return small_string<TYPE, SIZE, TRAITS, ALLOC>(s1).append(ch);
-}
-
-template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
-inline small_string<TYPE, SIZE, TRAITS, ALLOC> operator+(
-    const TYPE* s1, const small_string<TYPE, SIZE, TRAITS, ALLOC>& s2) {
-    return small_string<TYPE, SIZE, TRAITS, ALLOC>(s1).append(s2);
+template<typename char_type, size_t inline_capacity, typename traits_type, typename allocator_type>
+inline small_string<char_type, inline_capacity, traits_type, allocator_type> operator+(
+    const char_type* s1, const small_string<char_type, inline_capacity, traits_type, allocator_type>& s2) {
+    return small_string<char_type, inline_capacity, traits_type, allocator_type>(s1).append(s2);
 }
 
 } // namespace ark

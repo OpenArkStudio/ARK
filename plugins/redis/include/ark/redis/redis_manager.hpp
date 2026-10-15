@@ -19,19 +19,19 @@
  */
 
 #pragma once
-#include "boost/make_shared.hpp"
-#include "boost/smart_ptr/shared_ptr.hpp"
 #include <boost/asio/spawn.hpp>
+#include <boost/make_shared.hpp>
+#include <boost/smart_ptr/shared_ptr.hpp>
 #include <boost/variant.hpp>
+#include <bredis/Connection.hpp>
+#include <bredis/Extract.hpp>
+#include <bredis/MarkerHelpers.hpp>
+#include <bredis/Markers.hpp>
 
 #include "ark/container/list.hpp"
 #include "ark/container/map.hpp"
 #include "ark/platform.hpp"
 #include "ark/plugin_manager.hpp"
-#include "bredis/Connection.hpp"
-#include "bredis/Extract.hpp"
-#include "bredis/MarkerHelpers.hpp"
-#include "bredis/Markers.hpp"
 
 namespace ark {
 
@@ -48,9 +48,10 @@ public:
     redis_conn(const std::string& ip, const uint16_t& port, const uint32_t& id)
         : ip_(ip)
         , port_(port)
-        , id_(id) {}
+        , id_(id) {
+    }
 
-    bool Connect() {
+    bool connect() {
         boost::asio::ip::tcp::endpoint end_point(boost::asio::ip::make_address(ip_), port_);
         socket_ = boost::make_shared<socket_t>(io_srv_, end_point.protocol());
         boost::asio::socket_base::linger option(true, 0);
@@ -91,7 +92,7 @@ public:
         socket_->close();
     }
 
-    bool Close() {
+    bool close() {
         if (!is_connected_)
         {
             return false;
@@ -102,7 +103,7 @@ public:
         return true;
     }
 
-    const boost::shared_ptr<redis_connection> GetRedisConn() {
+    const boost::shared_ptr<redis_connection> get_redis_conn() {
         if (!is_connected_)
         {
             return nullptr;
@@ -110,11 +111,11 @@ public:
         return c_;
     }
 
-    auto GetIo() {
+    auto get_io() {
         return std::ref(io_srv_);
     }
 
-    void Reconnect() {
+    void reconnect() {
         bool success = false;
         boost::asio::ip::tcp::endpoint end_point(boost::asio::ip::make_address(ip_), port_);
         socket_.reset(new socket_t(io_srv_, end_point.protocol()));
@@ -139,7 +140,7 @@ public:
         is_connected_ = true;
     }
 
-    uint32_t GetID() {
+    uint32_t get_id() {
         return id_;
     }
 
@@ -156,17 +157,18 @@ private:
 class redis_pool
 {
 public:
-    redis_pool() {}
+    redis_pool() {
+    }
 
-    virtual void AppendConn(redis_conn* conn) = 0;
+    virtual void append_conn(redis_conn* conn) = 0;
 
-    virtual void CloseConn() = 0;
+    virtual void close_conn() = 0;
 
-    virtual uint32_t Size() {
+    virtual uint32_t size() {
         return pool_size_.load();
     }
 
-    virtual void Reconnect() = 0;
+    virtual void reconnect() = 0;
 
 private:
     std::atomic_uint32_t pool_size_;
@@ -180,15 +182,15 @@ public:
     ~working_pool() {
         for (auto iter : working_pool_)
         {
-            iter.second->Close();
+            iter.second->close();
             delete iter.second;
         }
         working_pool_.clear();
     }
 
-    bool ReleaseConn(redis_conn* conn) {
+    bool release_conn(redis_conn* conn) {
         std::unique_lock<std::mutex> lock(mutex_);
-        auto iter = working_pool_.find(conn->GetID());
+        auto iter = working_pool_.find(conn->get_id());
         while (pool_size_ <= 0)
         {
             condition_.wait(lock);
@@ -202,22 +204,22 @@ public:
         return true;
     }
 
-    void AppendConn(redis_conn* conn) override {
+    void append_conn(redis_conn* conn) override {
         std::lock_guard<std::mutex> lock(mutex_);
-        working_pool_.insert(conn->GetID(), conn);
+        working_pool_.insert(conn->get_id(), conn);
         pool_size_ += 1;
         condition_.notify_one();
     }
 
-    void CloseConn() override {
+    void close_conn() override {
         for (auto iter : working_pool_)
         {
-            iter.second->Close();
+            iter.second->close();
         }
         pool_size_ = 0;
     }
 
-    void Reconnect() override {
+    void reconnect() override {
         for (auto iter : working_pool_)
         {
             std::unique_lock<std::mutex> lock(mutex_);
@@ -225,12 +227,12 @@ public:
             {
                 condition_.notify_all();
                 lock.unlock();
-                iter.second->Reconnect();
+                iter.second->reconnect();
                 pool_size_ += 1;
             }
             else
             {
-                iter.second->Reconnect();
+                iter.second->reconnect();
                 pool_size_ += 1;
                 condition_.notify_all();
                 lock.unlock();
@@ -263,14 +265,14 @@ public:
             idle_pool_.get_value(i, conn);
             if (conn != nullptr)
             {
-                conn->Close();
+                conn->close();
                 delete conn;
             }
         }
         pool_size_ = 0;
     }
 
-    redis_conn* GetConnection() {
+    redis_conn* get_connection() {
         std::unique_lock<std::mutex> lock(mutex_);
         while (pool_size_ <= 0)
         {
@@ -284,24 +286,24 @@ public:
         return conn;
     }
 
-    void AppendConn(redis_conn* conn) {
+    void append_conn(redis_conn* conn) {
         std::lock_guard<std::mutex> lock(mutex_);
         idle_pool_.push_front(conn);
         pool_size_ += 1;
         condition_.notify_all();
     }
 
-    void CloseConn() override {
+    void close_conn() override {
         for (uint32_t i = 0; i < pool_size_; ++i)
         {
             redis_conn* conn = nullptr;
             idle_pool_.get_value(i, conn);
-            conn->Close();
+            conn->close();
         }
         pool_size_ = 0;
     }
 
-    void Reconnect() override {
+    void reconnect() override {
         for (auto iter : idle_pool_)
         {
 
@@ -310,12 +312,12 @@ public:
             {
                 condition_.notify_all();
                 lock.unlock();
-                iter->Reconnect();
+                iter->reconnect();
                 pool_size_ += 1;
             }
             else
             {
-                iter->Reconnect();
+                iter->reconnect();
                 pool_size_ += 1;
                 condition_.notify_all();
                 lock.unlock();
@@ -323,7 +325,7 @@ public:
         }
     }
 
-    list<redis_conn*> GetAllConn() {
+    list<redis_conn*> get_all_conn() {
         return idle_pool_;
     }
 
@@ -337,72 +339,72 @@ private:
 class redis_manager final : public singleton<redis_manager>
 {
 public:
-    void CreatePool(const uint32_t& pool_size, const std::string& ip, const uint16_t& port) {
-        if (is_closed)
+    void create_pool(const uint32_t& pool_size, const std::string& ip, const uint16_t& port) {
+        if (is_closed_)
         {
             if (working_pool_ != nullptr || idle_pool_ != nullptr)
             {
-                working_pool_->CloseConn();
-                idle_pool_->CloseConn();
+                working_pool_->close_conn();
+                idle_pool_->close_conn();
             }
-            is_closed.store(false);
+            is_closed_.store(false);
             working_pool_ = std::make_shared<working_pool>();
             idle_pool_ = std::make_shared<idle_pool>(pool_size, ip, port);
         }
     }
 
-    void RemovePool() {
-        if (is_closed || is_reconnecting)
+    void remove_pool() {
+        if (is_closed_ || is_reconnecting_)
         {
             return;
         }
         std::lock_guard<std::mutex> recoon_lock(reconn_mutex_);
         std::lock_guard<std::mutex> close_lock(close_mutex_);
-        is_closed.store(true);
-        working_pool_->CloseConn();
-        idle_pool_->CloseConn();
+        is_closed_.store(true);
+        working_pool_->close_conn();
+        idle_pool_->close_conn();
     }
 
-    redis_conn* GetConn() {
-        if (is_closed)
+    redis_conn* get_conn() {
+        if (is_closed_)
         {
             return nullptr;
         }
         std::lock_guard<std::mutex> lock(close_mutex_);
-        auto conn = idle_pool_->GetConnection();
-        working_pool_->AppendConn(conn);
+        auto conn = idle_pool_->get_connection();
+        working_pool_->append_conn(conn);
         return conn;
     }
 
-    list<redis_conn*> GetAllConn() {
-        return idle_pool_->GetAllConn();
+    list<redis_conn*> get_all_conn() {
+        return idle_pool_->get_all_conn();
     }
 
-    bool ReleaseConn(redis_conn* conn) {
-        if (working_pool_->Size() <= 0)
+    bool release_conn(redis_conn* conn) {
+        if (working_pool_->size() <= 0)
         {
             return false;
         }
-        working_pool_->ReleaseConn(conn);
-        idle_pool_->AppendConn(conn);
+        working_pool_->release_conn(conn);
+        idle_pool_->append_conn(conn);
         return true;
     }
 
-    void DoReconnect() {
-        idle_pool_->Reconnect();
-        working_pool_->Reconnect();
-        is_reconnecting.store(false);
+    void do_reconnect() {
+        idle_pool_->reconnect();
+        working_pool_->reconnect();
+        is_reconnecting_.store(false);
     }
 
-    void Reconnect() {
-        if (!is_closed || is_reconnecting)
+    void reconnect() {
+        if (!is_closed_ || is_reconnecting_)
         {
             return;
         }
         std::unique_lock<std::mutex> lock(reconn_mutex_);
-        is_reconnecting.store(true);
-        is_closed = false;
-        reconn_thread_ = std::thread([this] { this->DoReconnect(); });
+        is_reconnecting_.store(true);
+        is_closed_ = false;
+        reconn_thread_ = std::thread([this] { this->do_reconnect(); });
         lock.unlock();
         return;
     }
@@ -410,8 +412,8 @@ public:
 private:
     std::shared_ptr<idle_pool> idle_pool_{nullptr};
     std::shared_ptr<working_pool> working_pool_{nullptr};
-    std::atomic_bool is_closed{true};
-    std::atomic_bool is_reconnecting{false};
+    std::atomic_bool is_closed_{true};
+    std::atomic_bool is_reconnecting_{false};
     std::thread reconn_thread_;
     std::mutex reconn_mutex_;
     std::mutex close_mutex_;

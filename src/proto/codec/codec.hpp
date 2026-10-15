@@ -29,12 +29,12 @@ namespace ark {
  */
 enum class codec_type : uint8_t
 {
-    CODEC_UNKNOWN = 0,         /// unknown codec
-    CODEC_PROTO = 1,           /// protobuffer codes
-    CODEC_JSON = 2,            /// json codec
-    CODEC_CUSTOM = 3,          /// custom codec
-    CODEC_WS_EXTEND_PROTO = 4, /// websocket extension protobuffer data codec
-    CODES_WS_EXTEND_JSON = 5,  /// websocket extension json data codec
+    unknown = 0,            /// unknown codec
+    protobuf = 1,           /// protobuffer codes
+    json = 2,               /// json codec
+    custom = 3,             /// custom codec
+    websocket_protobuf = 4, /// websocket extension protobuffer data codec
+    websocket_json = 5,     /// websocket extension json data codec
 };
 
 /**
@@ -43,9 +43,9 @@ enum class codec_type : uint8_t
 
 enum class codec_status : uint8_t
 {
-    CODEC_STATUS_OK = 1,      /// OK
-    CODEC_STATUS_INVALID = 2, /// different codec type
-    CODEC_STATUS_ERROR = 3,   /// codec error
+    ok = 1,      /// OK
+    invalid = 2, /// different codec type
+    error = 3,   /// codec error
 };
 
 class codec
@@ -53,16 +53,16 @@ class codec
 public:
     // AFICodec(ARK_CODEC_TYPE type)
     // {
-    //     SetCodecType(type);
+    //     set_codec_type(type);
     // }
 
     virtual ~codec() = default;
 
-    virtual codec_status Encode() = 0;
-    virtual codec_status Decode() = 0;
+    virtual codec_status encode() = 0;
+    virtual codec_status decode() = 0;
 
-    virtual codec_type GetCodecType() const = 0;
-    virtual void SetCodecType(codec_type type) = 0;
+    virtual codec_type get_codec_type() const = 0;
+    virtual void set_codec_type(codec_type type) = 0;
 };
 
 } // namespace ark

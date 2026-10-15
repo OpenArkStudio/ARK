@@ -45,10 +45,10 @@ bool compress_module_impl::compress(IN const compress_type type, IN const char* 
     bool result = false;
     switch (type)
     {
-    case compress_type::COMPRESS_TYPE_ZLIB:
+    case compress_type::compress_type_zlib:
         result = zlib_compress(in_data, in_size, compressed_buff, compress_level);
         break;
-    case compress_type::COMPRESS_TYPE_ZSTD:
+    case compress_type::compress_type_zstd:
         result = z_std_normal_compress(in_data, in_size, compressed_buff, compress_level);
         break;
     default:
@@ -64,10 +64,10 @@ bool compress_module_impl::decompress(
     bool result = false;
     switch (type)
     {
-    case compress_type::COMPRESS_TYPE_ZLIB:
+    case compress_type::compress_type_zlib:
         result = zlib_normal_decompress(in_data, in_size, decompressed_buff);
         break;
-    case compress_type::COMPRESS_TYPE_ZSTD:
+    case compress_type::compress_type_zstd:
         result = z_std_normal_decompress(in_data, in_size, decompressed_buff);
         break;
     default:

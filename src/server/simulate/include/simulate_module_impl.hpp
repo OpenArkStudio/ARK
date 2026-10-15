@@ -32,33 +32,33 @@ class simulate_module_impl final : public simulate_module
 public:
     bool init() override;
 
-    bool CreateScene(const std::string& scene_id, const int32_t index) override;
-    bool DestroyScene(const std::string& scene_id, const int32_t index) override;
+    bool create_scene(const std::string& scene_id, const int32_t index) override;
+    bool destroy_scene(const std::string& scene_id, const int32_t index) override;
 
-    bool CreateBox(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id,
-        const physic3_d& position, const physic3_d& size, bool bDynamic) override;
-    bool CreateCapsule(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id,
-        const physic3_d& position, const float raius, const float height, bool bDynamic) override;
-    bool CreateSphere(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id,
-        const physic3_d& position, const float raius, bool bDynamic) override;
+    bool create_box(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id,
+        const physic3_d& position, const physic3_d& size, bool dynamic) override;
+    bool create_capsule(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id,
+        const physic3_d& position, const float raius, const float height, bool dynamic) override;
+    bool create_sphere(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id,
+        const physic3_d& position, const float raius, bool dynamic) override;
 
-    bool UpdateActor(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id,
+    bool update_actor(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id,
         const physic3_d& position) override;
-    bool DestroyActor(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id) override;
+    bool destroy_actor(const std::string& scene_id, const int32_t index, const simulate_net_id obj_id) override;
 
-    bool RayCast(const std::string& scene_id, const int32_t index, const physic3_d& start, const physic3_d& direction,
-        const float distance, simulate::ack_ray_cast& ackRayCast) override;
+    bool ray_cast(const std::string& scene_id, const int32_t index, const physic3_d& start, const physic3_d& direction,
+        const float distance, simulate::ack_ray_cast& ack_ray_cast) override;
 
 private:
-    bool RegisterTriggerCallBack(simulate_trigger_cb_function&& cb) override;
+    bool register_trigger_call_back(simulate_trigger_cb_function&& cb) override;
 
-    void InsertSceneObjActors(const guid_t& scene_obj_id, const std::string& scene_id, const int32_t index);
-    void RemoveSceneObjActors(const std::string& scene_id, const int32_t index);
-    simulate_scene* FindSceneObjActors(const std::string& scene_id, const int32_t index);
+    void insert_scene_obj_actors(const guid_t& scene_obj_id, const std::string& scene_id, const int32_t index);
+    void remove_scene_obj_actors(const std::string& scene_id, const int32_t index);
+    simulate_scene* find_scene_obj_actors(const std::string& scene_id, const int32_t index);
 
-    simulate::simulate_vec3 AFVecToSimulateVec3(const physic3_d& vec3);
+    simulate::simulate_vec3 to_simulation_vector(const physic3_d& vec3);
 
-    void TriggerCallBack(const guid_t& scene_obj_id, const physic_trigger_pair& trigger_pair);
+    void trigger_call_back(const guid_t& scene_obj_id, const physic_trigger_pair& trigger_pair);
 
 private:
     scene_index_scene_map scene_index_scene_list_;
@@ -66,7 +66,7 @@ private:
 
     simulate_trigger_cb_function trigger_call_back_function_{nullptr};
 
-    physic_module* m_pPhysicModule{nullptr};
+    physic_module* physic_module_{nullptr};
 };
 
 } // namespace ark

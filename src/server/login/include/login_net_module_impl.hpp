@@ -38,7 +38,7 @@ public:
     //bool PreUpdate() override;
 
 protected:
-    int StartServer();
+    int start_server();
 
     // void OnSocketClientEvent(const NetEventType event, const guid_t& conn_id, const std::string& ip,  bus_id_t bus_id);
 
@@ -48,10 +48,10 @@ protected:
 private:
     // AFSmartPtrMap<guid_t, AFClientConnectionData> mmClientSessionData;
 
-    bus_module* m_pBusModule;
-    net_service_manager_module* m_pNetServiceManagerModule;
+    bus_module* bus_module_;
+    net_service_manager_module* net_service_manager_module_;
 
-    std::shared_ptr<net_server_service> m_pNetServer;
+    std::shared_ptr<net_server_service> net_server_;
 };
 
 } // namespace ark

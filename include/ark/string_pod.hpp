@@ -25,7 +25,7 @@
 
 namespace ark {
 
-template<typename TYPE>
+template<typename element_type>
 class string_traits
 {
 };
@@ -51,8 +51,8 @@ public:
     }
 };
 
-template<typename TYPE>
-class string_traits_no_case : public string_traits<TYPE>
+template<typename element_type>
+class string_traits_no_case : public string_traits<element_type>
 {
 };
 
@@ -89,46 +89,49 @@ public:
     }
 };
 
-template<typename TYPE, typename DATA>
+template<typename element_type, typename mapped_type>
 class pod_string_node
 {
 public:
     pod_string_node* next;
     size_t hash;
-    DATA data;
-    TYPE name[1]; // like TYPE* name /  char* name
+    mapped_type data;
+    element_type name[1]; // like TYPE* name /  char* name
 };
 
 //////////////////////////////////////////////////////////////////////////
 
 // predeclared
-template<typename TYPE, typename DATA, typename TRAITS = string_traits<TYPE>, typename ALLOC = pod_string_allocator>
+template<typename element_type, typename mapped_type, typename traits_type = string_traits<element_type>,
+    typename allocator_type = pod_string_allocator>
 class pod_string;
 
-template<typename TYPE, typename DATA, typename TRAITS = string_traits<TYPE>, typename ALLOC = pod_string_allocator>
+template<typename element_type, typename mapped_type, typename traits_type = string_traits<element_type>,
+    typename allocator_type = pod_string_allocator>
 class pod_string_iterator
 {
 private:
-    using hash_t = pod_string<TYPE, DATA, TRAITS, ALLOC>;
-    using node_t = pod_string_node<TYPE, DATA>;
+    using hash_t = pod_string<element_type, mapped_type, traits_type, allocator_type>;
+    using node_t = pod_string_node<element_type, mapped_type>;
 
 public:
     pod_string_iterator() = delete;
 
     pod_string_iterator(const hash_t* self, node_t* node)
-        : mpSelf(self)
-        , mpNode(node) {}
+        : self_(self)
+        , node_(node) {
+    }
 
     pod_string_iterator& operator++() {
-        node_t* next = mpNode->next;
+        node_t* next = node_->next;
 
         if (next != nullptr)
         {
-            mpNode = next;
+            node_ = next;
         }
         else
         {
-            mpNode = mpSelf->to_next(mpNode);
+            node_ = self_->to_next(node_);
         }
 
         return *this;
@@ -141,69 +144,69 @@ public:
     }
 
     bool operator==(const pod_string_iterator& other) const {
-        return (mpNode == other.mpNode);
+        return (node_ == other.node_);
     }
 
     bool operator!=(const pod_string_iterator& other) const {
-        return (mpNode != other.mpNode);
+        return (node_ != other.node_);
     }
 
-    const TYPE* get_key() const {
-        return mpNode->name;
+    const element_type* get_key() const {
+        return node_->name;
     }
 
-    DATA* get_data() const {
-        return mpNode->data;
+    mapped_type* get_data() const {
+        return node_->data;
     }
 
     node_t* get_node() const {
-        return mpNode;
+        return node_;
     }
 
 private:
-    const hash_t* mpSelf;
-    node_t* mpNode;
+    const hash_t* self_;
+    node_t* node_;
 };
 
-template<typename TYPE, typename DATA, typename TRAITS, typename ALLOC>
+template<typename element_type, typename mapped_type, typename traits_type, typename allocator_type>
 class pod_string
 {
 private:
-    using hash_t = pod_string<TYPE, DATA, TRAITS, ALLOC>;
-    using node_t = pod_string_node<TYPE, DATA>;
+    using hash_t = pod_string<element_type, mapped_type, traits_type, allocator_type>;
+    using node_t = pod_string_node<element_type, mapped_type>;
 
-    using iterator = pod_string_iterator<TYPE, DATA, TRAITS, ALLOC>;
-    using const_iterator = pod_string_iterator<TYPE, DATA, TRAITS, ALLOC>;
+    using iterator = pod_string_iterator<element_type, mapped_type, traits_type, allocator_type>;
+    using const_iterator = pod_string_iterator<element_type, mapped_type, traits_type, allocator_type>;
 
 public:
     explicit pod_string(size_t size = 0)
-        : mnSize(size) {
-        mnCount = 0;
+        : size_(size) {
+        count_ = 0;
 
         if (size > 0)
         {
-            mpBuckets = (node_t**)mxAlloc.alloc(sizeof(node_t*) * size);
-            memset(mpBuckets, 0, sizeof(node_t*) * size);
+            buckets_ = (node_t**)allocator_.alloc(sizeof(node_t*) * size);
+            memset(buckets_, 0, sizeof(node_t*) * size);
         }
         else
         {
-            mpBuckets = NULL;
+            buckets_ = NULL;
         }
     }
 
     pod_string(const hash_t& src) {
-        const size_t size = src.mnSize;
-        mnCount = 0;
-        mnSize = size;
+        const size_t size = src.size_;
+        count_ = 0;
+        size_ = size;
 
         if (size > 0)
         {
-            mpBuckets = (node_t**)mxAlloc.alloc(sizeof(node_t*) * size);
-            memset(mpBuckets, 0, sizeof(node_t*) * size);
+            buckets_ = (node_t**)allocator_.alloc(sizeof(node_t*) * size);
+            memset(buckets_, 0, sizeof(node_t*) * size);
 
             for (size_t i = 0; i < size; ++i)
             {
-                node_t* p = src.mpBuckets[i];
+                node_t* p = src.buckets_[i];
 
                 while (p)
                 {
@@ -218,37 +221,37 @@ public:
         }
         else
         {
-            mpBuckets = NULL;
+            buckets_ = NULL;
         }
     }
 
     ~pod_string() {
         clear();
 
-        if (mpBuckets)
+        if (buckets_)
         {
-            mxAlloc.free(mpBuckets, sizeof(node_t*) * mnSize);
+            allocator_.free(buckets_, sizeof(node_t*) * size_);
         }
     }
 
     void swap(hash_t& src) {
-        node_t** tmp_buckets = src.mpBuckets;
-        size_t tmp_size = src.mnSize;
-        size_t tmp_count = src.mnCount;
+        node_t** tmp_buckets = src.buckets_;
+        size_t tmp_size = src.size_;
+        size_t tmp_count = src.count_;
 
-        src.mpBuckets = this->mpBuckets;
-        src.mnSize = this->mnSize;
-        src.mnCount = this->mnCount;
-        this->mpBuckets = tmp_buckets;
-        this->mnSize = tmp_size;
-        this->mnCount = tmp_count;
-        mxAlloc.swap(src.mxAlloc);
+        src.buckets_ = this->buckets_;
+        src.size_ = this->size_;
+        src.count_ = this->count_;
+        this->buckets_ = tmp_buckets;
+        this->size_ = tmp_size;
+        this->count_ = tmp_count;
+        allocator_.swap(src.allocator_);
     }
 
     void clear() {
-        for (size_t i = 0; i < mnSize; ++i)
+        for (size_t i = 0; i < size_; ++i)
         {
-            node_t* p = mpBuckets[i];
+            node_t* p = buckets_[i];
 
             while (p)
             {
@@ -257,15 +260,15 @@ public:
                 p = next;
             }
 
-            mpBuckets[i] = NULL;
+            buckets_[i] = NULL;
         }
     }
 
     size_t get_count() const {
-        return mnCount;
+        return count_;
     }
 
-    bool set(const TYPE* name, const DATA& data) {
+    bool set(const element_type* name, const mapped_type& data) {
         node_t* node = find_node(name);
 
         if (node == nullptr)
@@ -277,69 +280,69 @@ public:
         return true;
     }
 
-    bool add(const TYPE* name, const DATA& data) {
+    bool add(const element_type* name, const mapped_type& data) {
         assert(name != nullptr);
 
-        if (mnCount == mnSize)
+        if (count_ == size_)
         {
             expand();
         }
 
-        size_t hash = TRAITS::hash(name);
+        size_t hash = traits_type::hash(name);
         size_t bucket = get_bucket(hash);
         node_t* p = new_node(name);
 
-        p->next = mpBuckets[bucket];
+        p->next = buckets_[bucket];
         p->hash = hash;
         p->data = data;
 
-        mpBuckets[bucket] = p;
-        ++mnCount;
+        buckets_[bucket] = p;
+        ++count_;
         return true;
     }
 
-    bool add(const TYPE* name, const DATA& data, TYPE*& pName) {
+    bool add(const element_type* name, const mapped_type& data, element_type*& p_name) {
         assert(name != nullptr);
 
-        if (mnCount == mnSize)
+        if (count_ == size_)
         {
             expand();
         }
 
-        size_t hash = TRAITS::hash(name);
+        size_t hash = traits_type::hash(name);
         size_t bucket = get_bucket(hash);
         node_t* p = new_node(name);
 
-        p->next = mpBuckets[bucket];
+        p->next = buckets_[bucket];
         p->hash = hash;
         p->data = data;
 
-        mpBuckets[bucket] = p;
-        ++mnCount;
+        buckets_[bucket] = p;
+        ++count_;
 
-        pName = p->name;
+        p_name = p->name;
         return true;
     }
 
-    bool remove(const TYPE* name) {
+    bool remove(const element_type* name) {
         assert(name != nullptr);
 
-        if (mnSize == 0)
+        if (size_ == 0)
         {
             return false;
         }
 
-        size_t hash = TRAITS::hash(name);
+        size_t hash = traits_type::hash(name);
         size_t bucket = get_bucket(hash);
-        node_t* p = mpBuckets[bucket];
+        node_t* p = buckets_[bucket];
 
         while (p)
         {
-            if ((p->hash == hash) && TRAITS::equal(p->name, name))
+            if ((p->hash == hash) && traits_type::equal(p->name, name))
             {
                 erase_node(bucket, p);
                 delete_node(p);
-                --mnCount;
+                --count_;
                 return true;
             }
 
@@ -349,25 +352,25 @@ public:
         return false;
     }
 
-    bool remove_data(const TYPE* name, const DATA& data) {
+    bool remove_data(const element_type* name, const mapped_type& data) {
         assert(name != nullptr);
 
-        if (mnSize == 0)
+        if (size_ == 0)
         {
             return false;
         }
 
-        size_t hash = TRAITS::hash(name);
+        size_t hash = traits_type::hash(name);
         size_t bucket = get_bucket(hash);
-        node_t* p = mpBuckets[bucket];
+        node_t* p = buckets_[bucket];
 
         while (p)
         {
-            if ((p->hash == hash) && TRAITS::equal(p->name, name) && (p->data == data))
+            if ((p->hash == hash) && traits_type::equal(p->name, name) && (p->data == data))
             {
                 erase_node(bucket, p);
                 delete_node(p);
-                --mnCount;
+                --count_;
                 return true;
             }
 
@@ -377,19 +380,19 @@ public:
         return false;
     }
 
-    bool exists(const TYPE* name) const {
+    bool exists(const element_type* name) const {
         return (find_node(name) != nullptr);
     }
 
-    iterator find(const TYPE* name) {
+    iterator find(const element_type* name) {
         return iterator(this, find_node(name));
     }
 
-    const_iterator find(const TYPE* name) const {
+    const_iterator find(const element_type* name) const {
         return const_iterator(this, find_node(name));
     }
 
-    bool get_data(const TYPE* name, DATA& data) const {
+    bool get_data(const element_type* name, mapped_type& data) const {
         node_t* p = find_node(name);
 
         if (p == nullptr)
@@ -402,11 +405,11 @@ public:
     }
 
     iterator begin() {
-        for (size_t i = 0; i < mnSize; ++i)
+        for (size_t i = 0; i < size_; ++i)
         {
-            if (mpBuckets[i])
+            if (buckets_[i])
             {
-                return iterator(this, mpBuckets[i]);
+                return iterator(this, buckets_[i]);
             }
         }
 
@@ -418,11 +421,11 @@ public:
     }
 
     const_iterator begin() const {
-        for (size_t i = 0; i < mnSize; ++i)
+        for (size_t i = 0; i < size_; ++i)
         {
-            if (mpBuckets[i])
+            if (buckets_[i])
             {
-                return const_iterator(this, mpBuckets[i]);
+                return const_iterator(this, buckets_[i]);
             }
         }
 
@@ -439,7 +442,7 @@ public:
         node_t* p = iter.get_node();
         erase_node(get_bucket(p->hash), p);
         delete_node(p);
-        --mnCount;
+        --count_;
 
         return tmp;
     }
@@ -447,47 +450,47 @@ public:
     size_t get_mem_usage() const {
         size_t size = sizeof(hash_t);
 
-        for (size_t i = 0; i < mnSize; ++i)
+        for (size_t i = 0; i < size_; ++i)
         {
-            node_t* p = mpBuckets[i];
+            node_t* p = buckets_[i];
 
             while (p)
             {
-                size += sizeof(node_t) + TRAITS::length(p->name) * sizeof(TYPE);
+                size += sizeof(node_t) + traits_type::length(p->name) * sizeof(element_type);
                 p = p->next;
             }
         }
 
-        size += sizeof(node_t) * mnSize;
+        size += sizeof(node_t) * size_;
         return size;
     }
 
 protected:
     size_t get_bucket(size_t hash) const {
-        return (hash % mnSize);
+        return (hash % size_);
     }
 
-    node_t* new_node(const TYPE* name) {
-        const size_t length = TRAITS::length(name);
-        const size_t size = sizeof(node_t) + length * sizeof(TYPE);
-        node_t* p = (node_t*)mxAlloc.alloc(size);
-        TRAITS::copy(p->name, name, length + 1);
+    node_t* new_node(const element_type* name) {
+        const size_t length = traits_type::length(name);
+        const size_t size = sizeof(node_t) + length * sizeof(element_type);
+        node_t* p = (node_t*)allocator_.alloc(size);
+        traits_type::copy(p->name, name, length + 1);
         return p;
     }
 
     void delete_node(node_t* p) {
-        mxAlloc.free(p, sizeof(node_t) + TRAITS::length(p->name) * sizeof(TYPE));
+        allocator_.free(p, sizeof(node_t) + traits_type::length(p->name) * sizeof(element_type));
     }
 
     void erase_node(size_t bucket, node_t* p) {
-        assert(bucket < mnSize);
+        assert(bucket < size_);
         assert(p != nullptr);
 
-        node_t* node = mpBuckets[bucket];
+        node_t* node = buckets_[bucket];
 
         if (node == p)
         {
-            mpBuckets[bucket] = p->next;
+            buckets_[bucket] = p->next;
             return;
         }
 
@@ -503,21 +506,21 @@ protected:
         }
     }
 
-    node_t* find_node(const TYPE* name) const {
+    node_t* find_node(const element_type* name) const {
         assert(name != nullptr);
 
-        if (0 == mnSize)
+        if (0 == size_)
         {
             return nullptr;
         }
 
-        size_t hash = TRAITS::hash(name);
+        size_t hash = traits_type::hash(name);
         size_t bucket = get_bucket(hash);
-        node_t* node = mpBuckets[bucket];
+        node_t* node = buckets_[bucket];
 
         while (node)
         {
-            if ((node->hash == hash) && TRAITS::equal(node->name, name))
+            if ((node->hash == hash) && traits_type::equal(node->name, name))
             {
                 return node;
             }
@@ -529,15 +532,15 @@ protected:
     }
 
     void expand() {
-        size_t new_size = mnSize * 2 + 1; // hash bucket
-        node_t** new_buckets = (node_t**)mxAlloc.alloc(sizeof(node_t*) * new_size);
+        size_t new_size = size_ * 2 + 1; // hash bucket
+        node_t** new_buckets = (node_t**)allocator_.alloc(sizeof(node_t*) * new_size);
         memset(new_buckets, 0, sizeof(node_t*) * new_size);
 
-        for (size_t i = 0; i < mnSize; ++i)
+        for (size_t i = 0; i < size_; ++i)
         {
-            if (nullptr != mpBuckets)
+            if (nullptr != buckets_)
             {
-                node_t* p = mpBuckets[i];
+                node_t* p = buckets_[i];
 
                 while (p)
                 {
@@ -551,23 +554,23 @@ protected:
             }
         }
 
-        if (mpBuckets)
+        if (buckets_)
         {
-            mxAlloc.free(mpBuckets, sizeof(node_t*) * mnSize);
+            allocator_.free(buckets_, sizeof(node_t*) * size_);
         }
 
-        mpBuckets = new_buckets;
-        mnSize = new_size;
+        buckets_ = new_buckets;
+        size_ = new_size;
     }
 
     node_t* to_next(node_t* node) const {
         assert(node != nullptr);
 
-        for (size_t i = get_bucket(node->hash) + 1; i < mnSize; ++i)
+        for (size_t i = get_bucket(node->hash) + 1; i < size_; ++i)
         {
-            if (mpBuckets[i])
+            if (buckets_[i])
             {
-                return mpBuckets[i];
+                return buckets_[i];
             }
         }
 
@@ -575,11 +578,11 @@ protected:
     }
 
 private:
-    friend class pod_string_iterator<TYPE, DATA, TRAITS, ALLOC>;
-    ALLOC mxAlloc;
-    node_t** mpBuckets;
-    size_t mnSize;
-    size_t mnCount;
+    friend class pod_string_iterator<element_type, mapped_type, traits_type, allocator_type>;
+    allocator_type allocator_;
+    node_t** buckets_;
+    size_t size_;
+    size_t count_;
 };
 
 } // namespace ark

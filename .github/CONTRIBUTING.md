@@ -44,6 +44,7 @@ Before submitting a pull request, please make sure the followings are done:
 Use the repository `.clang-format` with clang-format 18. Public types, functions, namespaces and filenames use `snake_case`; private members end in `_`. Order includes as system headers, third-party headers, then ark headers. Keep function opening braces on the declaration line, use explicit braces for control flow, and separate definitions with a blank line.
 
 See [Project layout and SDK](../docs/project-layout.md) for public include paths and CMake targets.
+See [Code style](../docs/code-style.md) for naming rules, Protobuf migration and local checks.
 
 ## License
 

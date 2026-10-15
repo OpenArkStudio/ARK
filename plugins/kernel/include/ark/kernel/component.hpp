@@ -32,56 +32,56 @@ class component : public module
 public:
     component() = delete;
 
-    component(guid_t self, const std::string& strName) {
-        mbHasInit = false;
-        mbEnable = true;
-        mSelf = self;
-        mstrName = strName;
+    component(guid_t self, const std::string& name) {
+        initialized_ = false;
+        enabled_ = true;
+        self_ = self;
+        name_ = name;
     }
 
-    template<typename T>
-    std::shared_ptr<T> create_new_instance() {
-        std::shared_ptr<component> pComponent = create_new_instance();
+    template<typename value_type>
+    std::shared_ptr<value_type> create_new_instance() {
+        std::shared_ptr<component> component_ptr = create_new_instance();
 
-        if (nullptr != pComponent)
+        if (nullptr != component_ptr)
         {
-            if (std::is_base_of_v<component, T>)
+            if (std::is_base_of_v<component, value_type>)
             {
-                std::shared_ptr<T> pT = std::dynamic_pointer_cast<T>(pComponent);
+                std::shared_ptr<value_type> value_ptr = std::dynamic_pointer_cast<value_type>(component_ptr);
 
-                if (nullptr != pT)
+                if (nullptr != value_ptr)
                 {
-                    return pT;
+                    return value_ptr;
                 }
             }
         }
 
-        return std::shared_ptr<T>();
+        return std::shared_ptr<value_type>();
     }
 
-    virtual bool set_enable(const bool bEnable) {
-        return mbEnable;
+    virtual bool set_enable(const bool enable) {
+        return enabled_;
     }
 
     virtual bool enable() {
-        return mbEnable;
+        return enabled_;
     }
 
-    virtual bool set_has_init(const bool bEnable) {
-        mbHasInit = bEnable;
-        return mbHasInit;
+    virtual bool set_has_init(const bool enable) {
+        initialized_ = enable;
+        return initialized_;
     }
 
     virtual bool has_init() {
-        return mbHasInit;
+        return initialized_;
     }
 
     virtual guid_t self() {
-        return NULL_GUID;
+        return null_guid;
     }
 
     virtual const std::string& get_component_name() const {
-        return mstrName;
+        return name_;
     }
 
     virtual int on_a_sync_event(const guid_t& self, const int event, std::string& arg) {
@@ -94,10 +94,10 @@ protected:
     };
 
 private:
-    bool mbEnable;
-    bool mbHasInit;
-    guid_t mSelf;
-    std::string mstrName;
+    bool enabled_;
+    bool initialized_;
+    guid_t self_;
+    std::string name_;
 };
 
 } // namespace ark

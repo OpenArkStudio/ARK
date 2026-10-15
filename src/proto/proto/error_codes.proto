@@ -1,0 +1,7 @@
+syntax = "proto3";
+package ark.protobuf;
+
+enum error_code {
+  e_ec_default_id = 0;
+  // TO ADD
+}

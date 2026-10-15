@@ -20,57 +20,62 @@
 
 #pragma once
 
-#include "ark/macros.hpp"
+#include <charconv>
+#include <cstdint>
+#include <string>
+#include <system_error>
 
 namespace ark {
 
 class guid_t128
 {
 public:
-    uint64_t nHigh;
-    uint64_t nLow;
+    std::uint64_t high;
+    std::uint64_t low;
 
     guid_t128() = default;
 
-    guid_t128(uint64_t value)
-        : nHigh(0)
-        , nLow(value) {}
+    guid_t128(std::uint64_t value)
+        : high(0)
+        , low(value) {
+    }
 
-    guid_t128(uint64_t high, uint64_t low)
-        : nHigh(high)
-        , nLow(low) {}
+    guid_t128(std::uint64_t high, std::uint64_t low)
+        : high(high)
+        , low(low) {
+    }
 
     bool is_null() {
-        return (0 == nHigh) && (0 == nLow);
+        return (0 == high) && (0 == low);
     }
 
     bool is_null() const {
-        return (0 == nHigh) && (0 == nLow);
+        return (0 == high) && (0 == low);
     }
 
     guid_t128& operator=(const int& rhs) {
-        nHigh = 0;
-        nLow = rhs;
+        high = 0;
+        low = rhs;
         return *this;
     }
 
-    guid_t128& operator=(const int64_t& rhs) {
-        nHigh = 0;
-        nLow = rhs;
+    guid_t128& operator=(const std::int64_t& rhs) {
+        high = 0;
+        low = rhs;
         return *this;
     }
 
     guid_t128& operator=(const guid_t128& rhs) {
         if (this != &rhs)
         {
-            nHigh = rhs.nHigh;
-            nLow = rhs.nLow;
+            high = rhs.high;
+            low = rhs.low;
         }
         return *this;
     }
 
     bool operator==(const guid_t128& rhs) const {
-        return (this->nHigh == rhs.nHigh) && (this->nLow == rhs.nLow);
+        return (this->high == rhs.high) && (this->low == rhs.low);
     }
 
     bool operator!=(const guid_t128& rhs) const {
@@ -78,49 +83,45 @@ public:
     }
 
     bool operator<(const guid_t128& rhs) const {
-        if (this->nHigh == rhs.nHigh)
+        if (this->high == rhs.high)
         {
-            return this->nLow < rhs.nLow;
+            return this->low < rhs.low;
         }
 
-        return this->nHigh < rhs.nHigh;
+        return this->high < rhs.high;
     }
 
     std::string to_string() const {
-        return ARK_LEXICAL_CAST<std::string>(nHigh) + "-" + ARK_LEXICAL_CAST<std::string>(nLow);
+        return std::to_string(high) + "-" + std::to_string(low);
     }
 
-    bool from_string(const std::string& strID) {
-        size_t nStrLength = strID.length();
-        size_t nPos = strID.find('-');
-
-        if (nPos == std::string::npos)
+    bool from_string(const std::string& str_id) {
+        const auto separator = str_id.find('-');
+        if (separator == std::string::npos || separator == 0 || separator + 1 == str_id.size())
         {
             return false;
         }
 
-        std::string strHigh = strID.substr(0, nPos);
-        std::string strLow = "";
-
-        if ((nPos + 1) < nStrLength)
+        const auto* begin = str_id.data();
+        const auto* middle = begin + separator;
+        const auto* end = begin + str_id.size();
+        std::uint64_t parsed_high;
+        std::uint64_t parsed_low;
+        const auto high_result = std::from_chars(begin, middle, parsed_high);
+        if (high_result.ec != std::errc{} || high_result.ptr != middle)
         {
-            strLow = strID.substr(nPos + 1, nStrLength - nPos);
-        }
-
-        try
-        {
-            nHigh = ARK_LEXICAL_CAST<uint64_t>(strHigh);
-            nLow = ARK_LEXICAL_CAST<uint64_t>(strLow);
-
-            return true;
-        }
-        catch (std::system_error& ex)
-        {
-            CONSOLE_LOG_NO_FILE << "guid_t from string failed, code = " << ex.code().message() << " msg = " << ex.what()
-                                << std::endl;
-            ARK_ASSERT_NO_EFFECT(0);
             return false;
         }
+
+        const auto low_result = std::from_chars(middle + 1, end, parsed_low);
+        if (low_result.ec != std::errc{} || low_result.ptr != end)
+        {
+            return false;
+        }
+
+        high = parsed_high;
+        low = parsed_low;
+        return true;
     }
 };
 

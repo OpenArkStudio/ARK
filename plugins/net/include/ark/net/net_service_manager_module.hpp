@@ -30,8 +30,8 @@ class net_service_manager_module : public module
 {
 public:
     // server-side net service
-    virtual bool create_server(const size_t silent_timeout = std::chrono::milliseconds(ARK_NET_HEART_TIME).count(),
-        const msg_header& csReqHeader = s_msg_header(), const msg_header& ssReqHeader = ss_msg_header()) = 0;
+    virtual bool create_server(const size_t silent_timeout = std::chrono::milliseconds(ark_net_heart_time).count(),
+        const msg_header& cs_req_header = s_msg_header(), const msg_header& ss_req_header = ss_msg_header()) = 0;
     virtual std::shared_ptr<net_server_service> get_inter_net_server() = 0;
     virtual std::shared_ptr<net_server_service> get_intra_net_server() = 0;
 

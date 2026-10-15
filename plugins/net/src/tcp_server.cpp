@@ -44,7 +44,7 @@ bool tcp_server::start_server(std::shared_ptr<const msg_header> head, bus_id_t b
         shutdown();
     }
     server_ = std::make_shared<arknet::tcp_server>(
-        arknet::detail::tcp_frame_size, ARK_TCP_RECV_BUFFER_SIZE, std::max<size_t>(thread_num, 1));
+        arknet::detail::tcp_frame_size, ark_tcp_recv_buffer_size, std::max<size_t>(thread_num, 1));
     this->bus_id_ = bus_id;
     const auto weak = weak_from_this();
 
@@ -99,7 +99,7 @@ bool tcp_server::start_server(std::shared_ptr<const msg_header> head, bus_id_t b
                         ++self->active_session_count_;
                         net_event* net_connect_event = net_event::alloc_event();
                         net_connect_event->set_id(cur_session_id);
-                        net_connect_event->set_type(net_event_type::CONNECT);
+                        net_connect_event->set_type(net_event_type::connect);
                         net_connect_event->set_bus_id(self->bus_id_);
                         net_connect_event->set_ip(session_ptr->remote_address());
                         if (!session->add_net_event(net_connect_event))
@@ -135,7 +135,7 @@ bool tcp_server::start_server(std::shared_ptr<const msg_header> head, bus_id_t b
 
             net_event* net_disconnect_event = net_event::alloc_event();
             net_disconnect_event->set_id(session_id);
-            net_disconnect_event->set_type(net_event_type::DISCONNECT);
+            net_disconnect_event->set_type(net_event_type::disconnect);
             net_disconnect_event->set_bus_id(self->bus_id_);
             net_disconnect_event->set_ip(session_ptr->remote_address());
             session->need_remove(true);
@@ -207,7 +207,7 @@ bool tcp_server::update_net_event(const tcp_session_ptr& session) {
     net_event* event{nullptr};
     while (session->pop_net_event(event))
     {
-        disconnected = disconnected || event->get_type() == net_event_type::DISCONNECT;
+        disconnected = disconnected || event->get_type() == net_event_type::disconnect;
         net_event_cb_(event);
         net_event::release(event);
     }
@@ -225,7 +225,7 @@ void tcp_server::update_net_msg(const tcp_session_ptr& session) {
         net_msg::release(msg);
 
         ++msg_count;
-        if (msg_count >= ARK_PROCESS_NET_MSG_COUNT_ONCE && !session->need_remove())
+        if (msg_count >= ark_process_net_msg_count_once && !session->need_remove())
         {
             break;
         }
@@ -245,7 +245,7 @@ std::string tcp_server::get_ip(const conv_id_t session_id) {
     auto session = get_net_session(session_id);
     if (session == nullptr)
     {
-        return NULL_STR;
+        return null_str;
     }
 
     return session->get_session()->remote_address();
@@ -295,7 +295,7 @@ tcp_session_ptr tcp_server::get_net_session(conv_id_t session_id) {
 }
 
 bool tcp_server::send_msg(const char* msg, size_t msg_len, conv_id_t session_id) {
-    scope_r_lock xGuard(rw_lock_);
+    scope_r_lock guard(rw_lock_);
     auto session = get_net_session(session_id);
     if (session == nullptr || session->need_remove())
     {
@@ -319,7 +319,7 @@ void tcp_server::send_msg_to_all_client(const char* msg, size_t msg_len) {
 
 bool tcp_server::send_msg(msg_header* head, const char* msg_data, conv_id_t session_id) {
     ARK_ASSERT_RET_VAL(head != nullptr && msg_data != nullptr, false);
-    if (head->message_length() > ARK_MSG_MAX_LENGTH)
+    if (head->message_length() > ark_msg_max_length)
     {
         return false;
     }
@@ -344,7 +344,7 @@ bool tcp_server::send_msg(msg_header* head, const char* msg_data, conv_id_t sess
 
 void tcp_server::broadcast_msg(msg_header* head, const char* msg_data) {
     ARK_ASSERT_RET_NONE(head != nullptr && msg_data != nullptr);
-    if (head->message_length() > ARK_MSG_MAX_LENGTH)
+    if (head->message_length() > ark_msg_max_length)
     {
         return;
     }

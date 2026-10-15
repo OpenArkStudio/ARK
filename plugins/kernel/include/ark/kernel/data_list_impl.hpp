@@ -42,84 +42,84 @@ public:
     }
 };
 
-template<size_t DATA_SIZE, size_t BUFFER_SIZE, typename ALLOC = data_list_alloc>
+template<size_t data_size, size_t buffer_size, typename allocator_type = data_list_alloc>
 class base_data_list final : public data_list
 {
 private:
-    using self_t = base_data_list<DATA_SIZE, BUFFER_SIZE, ALLOC>;
+    using self_t = base_data_list<data_size, buffer_size, allocator_type>;
 
     struct dynamic_data_t
     {
-        data_type nType;
+        data_type type;
 
         union
         {
-            bool mbValue;
-            int mnValue;
-            uint32_t mnUValue;
-            int64_t mn64Value;
-            uint64_t mnU64Value;
-            float mfValue;
-            double mdValue;
-            size_t mnstrValue;
-            void* mpVaule;
-            size_t mnUserData;
-            guid_t mxGUID;
+            bool bool_value;
+            int int_value;
+            uint32_t uint32_value;
+            int64_t int64_value;
+            uint64_t uint64_value;
+            float float_value;
+            double double_value;
+            size_t string_offset;
+            void* pointer_value;
+            size_t user_data_offset;
+            guid_t guid_value;
         };
     };
 
 public:
     base_data_list() {
-        assert(DATA_SIZE > 0);
-        assert(BUFFER_SIZE > 0);
+        assert(data_size > 0);
+        assert(buffer_size > 0);
 
-        mpData = mDataStack;
-        mnDataSize = DATA_SIZE;
-        mnDataUsed = 0;
+        data_ = inline_data_;
+        data_capacity_ = data_size;
+        data_size_ = 0;
 
-        mpBuffer = mBufferStack;
-        mnBufferSize = BUFFER_SIZE;
-        mnBufferUsed = 0;
+        buffer_ = inline_buffer_;
+        buffer_capacity_ = buffer_size;
+        buffer_size_ = 0;
     }
 
-    base_data_list(const char* strSour, int nLengh, char strSplit) {
-        assert(DATA_SIZE > 0);
-        assert(BUFFER_SIZE > 0);
+    base_data_list(const char* source, int length, char separator) {
+        assert(data_size > 0);
+        assert(buffer_size > 0);
 
-        mpData = mDataStack;
-        mnDataSize = DATA_SIZE;
-        mnDataUsed = 0;
+        data_ = inline_data_;
+        data_capacity_ = data_size;
+        data_size_ = 0;
 
-        mpBuffer = mBufferStack;
-        mnBufferSize = BUFFER_SIZE;
-        mnBufferUsed = 0;
+        buffer_ = inline_buffer_;
+        buffer_capacity_ = buffer_size;
+        buffer_size_ = 0;
 
-        int nBegin = 0;
-        int nEnd = 0;
+        int begin = 0;
+        int end = 0;
 
-        for (int i = 0; i < nLengh; i++)
+        for (int i = 0; i < length; i++)
         {
-            if (strSour[i] == strSplit)
+            if (source[i] == separator)
             {
-                nEnd = i;
+                end = i;
 
-                if (!add_string(&strSour[nBegin], nEnd - nBegin))
+                if (!add_string(&source[begin], end - begin))
                 {
                     ARK_ASSERT_NO_EFFECT(0);
                 }
 
-                if (i + 1 < nLengh)
+                if (i + 1 < length)
                 {
-                    nBegin = i + 1;
+                    begin = i + 1;
                 }
             }
         }
 
-        if (nEnd < nLengh)
+        if (end < length)
         {
-            nEnd = nLengh;
+            end = length;
 
-            if (!add_string(&strSour[nBegin], nEnd - nBegin))
+            if (!add_string(&source[begin], end - begin))
             {
                 ARK_ASSERT_NO_EFFECT(0);
             }
@@ -127,30 +127,30 @@ public:
     }
 
     base_data_list(const self_t& src) {
-        assert(DATA_SIZE > 0);
-        assert(BUFFER_SIZE > 0);
+        assert(data_size > 0);
+        assert(buffer_size > 0);
 
-        mpData = mDataStack;
-        mnDataSize = DATA_SIZE;
-        mnDataUsed = 0;
+        data_ = inline_data_;
+        data_capacity_ = data_size;
+        data_size_ = 0;
 
-        mpBuffer = mBufferStack;
-        mnBufferSize = BUFFER_SIZE;
-        mnBufferUsed = 0;
+        buffer_ = inline_buffer_;
+        buffer_capacity_ = buffer_size;
+        buffer_size_ = 0;
         inner_append(src, 0, src.get_count());
     }
 
     base_data_list(const data_list& src) {
-        assert(DATA_SIZE > 0);
-        assert(BUFFER_SIZE > 0);
+        assert(data_size > 0);
+        assert(buffer_size > 0);
 
-        mpData = mDataStack;
-        mnDataSize = DATA_SIZE;
-        mnDataUsed = 0;
+        data_ = inline_data_;
+        data_capacity_ = data_size;
+        data_size_ = 0;
 
-        mpBuffer = mBufferStack;
-        mnBufferSize = BUFFER_SIZE;
-        mnBufferUsed = 0;
+        buffer_ = inline_buffer_;
+        buffer_capacity_ = buffer_size;
+        buffer_size_ = 0;
         inner_append(src, 0, src.get_count());
     }
 
@@ -161,27 +161,27 @@ public:
     self_t operator=(const self_t& src) {
         release();
 
-        mpData = mDataStack;
-        mnDataSize = DATA_SIZE;
-        mnDataUsed = 0;
+        data_ = inline_data_;
+        data_capacity_ = data_size;
+        data_size_ = 0;
 
-        mpBuffer = mBufferStack;
-        mnBufferSize = BUFFER_SIZE;
-        mnBufferUsed = 0;
+        buffer_ = inline_buffer_;
+        buffer_capacity_ = buffer_size;
+        buffer_size_ = 0;
         inner_append(src, 0, src.get_count());
 
         return *this;
     }
 
     void release() {
-        if (mnDataSize > DATA_SIZE)
+        if (data_capacity_ > data_size)
         {
-            mxAlloc.free(mpData, mnDataSize * sizeof(dynamic_data_t));
+            allocator_.free(data_, data_capacity_ * sizeof(dynamic_data_t));
         }
 
-        if (mnBufferSize > BUFFER_SIZE)
+        if (buffer_capacity_ > buffer_size)
         {
-            mxAlloc.free(mpBuffer, mnBufferSize * sizeof(char));
+            allocator_.free(buffer_, buffer_capacity_ * sizeof(char));
         }
     }
 
@@ -242,82 +242,82 @@ public:
     }
 
     void clear() override {
-        mnDataUsed = 0;
-        mnBufferUsed = 0;
+        data_size_ = 0;
+        buffer_size_ = 0;
     }
 
     bool empty() const override {
-        return (0 == mnDataUsed);
+        return (0 == data_size_);
     }
 
     size_t get_count() const override {
-        return mnDataUsed;
+        return data_size_;
     }
 
     data_type get_type(size_t index) const override {
-        if (index >= mnDataUsed)
+        if (index >= data_size_)
         {
-            return data_type::DT_EMPTY;
+            return data_type::dt_empty;
         }
 
-        return mpData[index].nType;
+        return data_[index].type;
     }
 
     // add data
     bool add_bool(bool value) override {
         dynamic_data_t* p = add_dynamic_data();
-        p->nType = data_type::DT_BOOLEAN;
-        p->mbValue = value;
+        p->type = data_type::dt_boolean;
+        p->bool_value = value;
         return true;
     }
 
     bool add_int(int value) override {
         dynamic_data_t* p = add_dynamic_data();
-        p->nType = data_type::DT_INT32;
-        p->mnValue = value;
+        p->type = data_type::dt_int32;
+        p->int_value = value;
         return true;
     }
 
     bool add_int64(int64_t value) override {
         dynamic_data_t* p = add_dynamic_data();
-        p->nType = data_type::DT_INT64;
-        p->mn64Value = value;
+        p->type = data_type::dt_int64;
+        p->int64_value = value;
         return true;
     }
 
     bool add_u_int(uint32_t value) override {
         dynamic_data_t* p = add_dynamic_data();
-        p->nType = data_type::DT_UINT32;
-        p->mnUValue = value;
+        p->type = data_type::dt_uint32;
+        p->uint32_value = value;
         return true;
     }
 
     bool add_u_int64(uint64_t value) override {
         dynamic_data_t* p = add_dynamic_data();
-        p->nType = data_type::DT_UINT64;
-        p->mnU64Value = value;
+        p->type = data_type::dt_uint64;
+        p->uint64_value = value;
         return true;
     }
 
     bool add_float(float value) override {
         dynamic_data_t* p = add_dynamic_data();
-        p->nType = data_type::DT_FLOAT;
-        p->mfValue = value;
+        p->type = data_type::dt_float;
+        p->float_value = value;
         return true;
     }
 
     bool add_double(double value) override {
         dynamic_data_t* p = add_dynamic_data();
-        p->nType = data_type::DT_DOUBLE;
-        p->mdValue = value;
+        p->type = data_type::dt_double;
+        p->double_value = value;
         return true;
     }
 
     bool add_string(const char* value) override {
         assert(value != nullptr);
         dynamic_data_t* p = add_dynamic_data();
-        p->nType = data_type::DT_STRING;
-        p->mnstrValue = mnBufferUsed;
+        p->type = data_type::dt_string;
+        p->string_offset = buffer_size_;
 
         const size_t value_size = strlen(value) + 1;
         char* data = add_buffer(value_size);
@@ -326,8 +326,8 @@ public:
         return true;
     }
 
-    virtual bool add_string(const char* value, const int nLength) {
-        if (nLength <= 0)
+    virtual bool add_string(const char* value, const int length) {
+        if (length <= 0)
         {
             return false;
         }
@@ -340,14 +340,14 @@ public:
             return false;
         }
 
-        p->nType = data_type::DT_STRING;
-        p->mnstrValue = mnBufferUsed;
+        p->type = data_type::dt_string;
+        p->string_offset = buffer_size_;
 
         size_t value_size = strlen(value);
 
-        if (value_size > (size_t)nLength)
+        if (value_size > (size_t)length)
         {
-            value_size = (size_t)nLength;
+            value_size = (size_t)length;
         }
 
         value_size += 1;
@@ -359,21 +359,21 @@ public:
 
     bool add_pointer(void* value) override {
         dynamic_data_t* p = add_dynamic_data();
-        p->nType = data_type::DT_POINTER;
-        p->mpVaule = value;
+        p->type = data_type::dt_pointer;
+        p->pointer_value = value;
         return true;
     }
 
-    bool add_user_data(const void* pData, size_t size) override {
-        assert(pData != nullptr);
+    bool add_user_data(const void* data_ptr, size_t size) override {
+        assert(data_ptr != nullptr);
 
         dynamic_data_t* p = add_dynamic_data();
-        p->nType = data_type::DT_USERDATA;
-        p->mnUserData = mnBufferUsed;
+        p->type = data_type::dt_userdata;
+        p->user_data_offset = buffer_size_;
 
         const size_t value_size = data::get_raw_user_data_size(size);
         char* value = add_buffer(value_size);
-        data::init_raw_user_data(value, pData, size);
+        data::init_raw_user_data(value, data_ptr, size);
 
         return true;
     }
@@ -384,142 +384,142 @@ public:
 
     // get data
     bool get_bool(size_t index) const override {
-        if (index > mnDataUsed)
+        if (index > data_size_)
         {
-            return NULL_BOOLEAN;
+            return null_boolean;
         }
 
-        if (mpData[index].nType == data_type::DT_BOOLEAN)
+        if (data_[index].type == data_type::dt_boolean)
         {
-            return mpData[index].mbValue;
+            return data_[index].bool_value;
         }
         else
         {
-            return NULL_BOOLEAN;
+            return null_boolean;
         }
     }
 
     int get_int(size_t index) const override {
-        if (index > mnDataUsed)
+        if (index > data_size_)
         {
-            return NULL_INT;
+            return null_int;
         }
 
-        if (mpData[index].nType == data_type::DT_INT32)
+        if (data_[index].type == data_type::dt_int32)
         {
-            return mpData[index].mnValue;
+            return data_[index].int_value;
         }
         else
         {
-            return NULL_INT;
+            return null_int;
         }
     }
 
     int64_t int64(size_t index) const override {
-        if (index > mnDataUsed)
+        if (index > data_size_)
         {
-            return NULL_INT64;
+            return null_int64;
         }
 
-        if (mpData[index].nType == data_type::DT_INT64)
+        if (data_[index].type == data_type::dt_int64)
         {
-            return mpData[index].mn64Value;
+            return data_[index].int64_value;
         }
         else
         {
-            return NULL_INT64;
+            return null_int64;
         }
     }
 
     uint32_t u_int(size_t index) const override {
-        if (index > mnDataUsed)
+        if (index > data_size_)
         {
-            return NULL_INT;
+            return null_int;
         }
 
-        if (mpData[index].nType == data_type::DT_UINT32)
+        if (data_[index].type == data_type::dt_uint32)
         {
-            return mpData[index].mnUValue;
+            return data_[index].uint32_value;
         }
         else
         {
-            return NULL_INT;
+            return null_int;
         }
     }
 
     uint64_t u_int64(size_t index) const override {
-        if (index > mnDataUsed)
+        if (index > data_size_)
         {
-            return NULL_INT64;
+            return null_int64;
         }
 
-        if (mpData[index].nType == data_type::DT_UINT64)
+        if (data_[index].type == data_type::dt_uint64)
         {
-            return mpData[index].mnU64Value;
+            return data_[index].uint64_value;
         }
         else
         {
-            return NULL_INT64;
+            return null_int64;
         }
     }
 
     float get_float(size_t index) const override {
-        if (index > mnDataUsed)
+        if (index > data_size_)
         {
-            return NULL_FLOAT;
+            return null_float;
         }
 
-        if (mpData[index].nType == data_type::DT_FLOAT)
+        if (data_[index].type == data_type::dt_float)
         {
-            return mpData[index].mfValue;
+            return data_[index].float_value;
         }
         else
         {
-            return NULL_FLOAT;
+            return null_float;
         }
     }
 
     double get_double(size_t index) const override {
-        if (index > mnDataUsed)
+        if (index > data_size_)
         {
-            return NULL_DOUBLE;
+            return null_double;
         }
 
-        if (mpData[index].nType == data_type::DT_DOUBLE)
+        if (data_[index].type == data_type::dt_double)
         {
-            return mpData[index].mdValue;
+            return data_[index].double_value;
         }
         else
         {
-            return NULL_DOUBLE;
+            return null_double;
         }
     }
 
     const char* string(size_t index) const override {
-        if (index > mnDataUsed)
+        if (index > data_size_)
         {
-            return NULL_STR.c_str();
+            return null_str.c_str();
         }
 
-        if (mpData[index].nType == data_type::DT_STRING)
+        if (data_[index].type == data_type::dt_string)
         {
-            return mpBuffer + mpData[index].mnstrValue;
+            return buffer_ + data_[index].string_offset;
         }
         else
         {
-            return NULL_STR.c_str();
+            return null_str.c_str();
         }
     }
 
     void* pointer(size_t index) const override {
-        if (index > mnDataUsed)
+        if (index > data_size_)
         {
             return nullptr;
         }
 
-        if (mpData[index].nType == data_type::DT_POINTER)
+        if (data_[index].type == data_type::dt_pointer)
         {
-            return mpData[index].mpVaule;
+            return data_[index].pointer_value;
         }
         else
         {
@@ -528,15 +528,15 @@ public:
     }
 
     const void* user_data(size_t index, size_t& size) const override {
-        if (index > mnDataUsed)
+        if (index > data_size_)
         {
             size = 0;
             return nullptr;
         }
 
-        if (mpData[index].nType == data_type::DT_USERDATA)
+        if (data_[index].type == data_type::dt_userdata)
         {
-            char* p = mpBuffer + mpData[index].mnUserData;
+            char* p = buffer_ + data_[index].user_data_offset;
             size = data::get_user_data_size(p);
             return data::get_user_data(p);
         }
@@ -548,14 +548,14 @@ public:
     }
 
     void* raw_user_data(size_t index) const override {
-        if (index > mnDataUsed)
+        if (index > data_size_)
         {
             return nullptr;
         }
 
-        if (mpData[index].nType == data_type::DT_USERDATA)
+        if (data_[index].type == data_type::dt_userdata)
         {
-            return mpBuffer + mpData[index].mnUserData;
+            return buffer_ + data_[index].user_data_offset;
         }
         else
         {
@@ -564,120 +564,120 @@ public:
     }
 
     virtual bool set_bool(size_t index, bool value) {
-        if (index >= mnDataUsed)
+        if (index >= data_size_)
         {
             return false;
         }
 
-        if (mpData[index].nType != data_type::DT_BOOLEAN)
+        if (data_[index].type != data_type::dt_boolean)
         {
             return false;
         }
         else
         {
-            mpData[index].mbValue = value;
+            data_[index].bool_value = value;
             return true;
         }
     }
 
     virtual bool set_int(size_t index, int value) {
-        if (index >= mnDataUsed)
+        if (index >= data_size_)
         {
             return false;
         }
 
-        if (mpData[index].nType != data_type::DT_INT32)
+        if (data_[index].type != data_type::dt_int32)
         {
             return false;
         }
         else
         {
-            mpData[index].mnValue = value;
+            data_[index].int_value = value;
             return true;
         }
     }
 
     virtual bool set_int64(size_t index, int64_t value) {
-        if (index >= mnDataUsed)
+        if (index >= data_size_)
         {
             return false;
         }
 
-        if (mpData[index].nType != data_type::DT_INT64)
+        if (data_[index].type != data_type::dt_int64)
         {
             return false;
         }
         else
         {
-            mpData[index].mn64Value = value;
+            data_[index].int64_value = value;
             return true;
         }
     }
 
     virtual bool set_u_int(size_t index, uint32_t value) {
-        if (index >= mnDataUsed)
+        if (index >= data_size_)
         {
             return false;
         }
 
-        if (mpData[index].nType != data_type::DT_UINT32)
+        if (data_[index].type != data_type::dt_uint32)
         {
             return false;
         }
         else
         {
-            mpData[index].mnUValue = value;
+            data_[index].uint32_value = value;
             return true;
         }
     }
 
     virtual bool set_u_int64(size_t index, uint64_t value) {
-        if (index >= mnDataUsed)
+        if (index >= data_size_)
         {
             return false;
         }
 
-        if (mpData[index].nType != data_type::DT_UINT64)
+        if (data_[index].type != data_type::dt_uint64)
         {
             return false;
         }
         else
         {
-            mpData[index].mnU64Value = value;
+            data_[index].uint64_value = value;
             return true;
         }
     }
 
     virtual bool set_float(size_t index, float value) {
-        if (index >= mnDataUsed)
+        if (index >= data_size_)
         {
             return false;
         }
 
-        if (mpData[index].nType != data_type::DT_FLOAT)
+        if (data_[index].type != data_type::dt_float)
         {
             return false;
         }
         else
         {
-            mpData[index].mfValue = value;
+            data_[index].float_value = value;
             return true;
         }
     }
 
     virtual bool set_double(size_t index, double value) {
-        if (index >= mnDataUsed)
+        if (index >= data_size_)
         {
             return false;
         }
 
-        if (mpData[index].nType != data_type::DT_DOUBLE)
+        if (data_[index].type != data_type::dt_double)
         {
             return false;
         }
         else
         {
-            mpData[index].mdValue = value;
+            data_[index].double_value = value;
             return true;
         }
     }
@@ -685,17 +685,17 @@ public:
     virtual bool set_string(size_t index, const char* value) {
         assert(value != nullptr);
 
-        if (index >= mnDataUsed)
+        if (index >= data_size_)
         {
             return false;
         }
 
-        if (mpData[index].nType != data_type::DT_STRING)
+        if (data_[index].type != data_type::dt_string)
         {
             return false;
         }
 
-        char* p = mpBuffer + mpData[index].mnstrValue;
+        char* p = buffer_ + data_[index].string_offset;
         const size_t size1 = strlen(value) + 1;
 
         if (size1 <= (strlen(p) + 1))
@@ -704,7 +704,7 @@ public:
             return true;
         }
 
-        mpData[index].mnstrValue = mnDataUsed;
+        data_[index].string_offset = data_size_;
         const size_t value_size = strlen(value) + 1;
         char* v = add_buffer(value_size);
         memcpy(v, value, value_size);
@@ -713,58 +713,58 @@ public:
     }
 
     virtual bool set_pointer(size_t index, void* value) {
-        if (index >= mnDataUsed)
+        if (index >= data_size_)
         {
             return false;
         }
 
-        if (mpData[index].nType != data_type::DT_POINTER)
+        if (data_[index].type != data_type::dt_pointer)
         {
             return false;
         }
         else
         {
-            mpData[index].mpVaule = value;
+            data_[index].pointer_value = value;
             return true;
         }
     }
 
     const std::string to_string(size_t index) override {
-        if (index > mnDataUsed)
+        if (index > data_size_)
         {
-            return NULL_STR;
+            return null_str;
         }
 
         std::string data;
-        switch (mpData[index].nType)
+        switch (data_[index].type)
         {
-        case data_type::DT_BOOLEAN:
-            data = ARK_TO_STRING(mpData[index].mbValue);
+        case data_type::dt_boolean:
+            data = ARK_TO_STRING(data_[index].bool_value);
             break;
-        case data_type::DT_INT32:
-            data = ARK_TO_STRING(mpData[index].mnValue);
+        case data_type::dt_int32:
+            data = ARK_TO_STRING(data_[index].int_value);
             break;
-        case data_type::DT_INT64:
-            data = ARK_TO_STRING(mpData[index].mn64Value);
+        case data_type::dt_int64:
+            data = ARK_TO_STRING(data_[index].int64_value);
             break;
-        case data_type::DT_UINT32:
-            data = ARK_TO_STRING(mpData[index].mnUValue);
+        case data_type::dt_uint32:
+            data = ARK_TO_STRING(data_[index].uint32_value);
             break;
-        case data_type::DT_UINT64:
-            data = ARK_TO_STRING(mpData[index].mnU64Value);
+        case data_type::dt_uint64:
+            data = ARK_TO_STRING(data_[index].uint64_value);
             break;
-        case data_type::DT_FLOAT:
-            data = ARK_TO_STRING(mpData[index].mfValue);
+        case data_type::dt_float:
+            data = ARK_TO_STRING(data_[index].float_value);
             break;
-        case data_type::DT_DOUBLE:
-            data = ARK_TO_STRING(mpData[index].mdValue);
+        case data_type::dt_double:
+            data = ARK_TO_STRING(data_[index].double_value);
             break;
-        case data_type::DT_STRING:
+        case data_type::dt_string:
             data = string(index);
             break;
-        case data_type::DT_POINTER:
+        case data_type::dt_pointer:
             break;
-        case data_type::DT_USERDATA:
+        case data_type::dt_userdata:
             break;
         default:
             assert(0);
@@ -777,14 +777,14 @@ public:
     size_t get_mem_usage() const override {
         size_t size = sizeof(self_t);
 
-        if (mnDataSize > DATA_SIZE)
+        if (data_capacity_ > data_size)
         {
-            size += sizeof(dynamic_data_t) * mnDataSize;
+            size += sizeof(dynamic_data_t) * data_capacity_;
         }
 
-        if (mnBufferSize > BUFFER_SIZE)
+        if (buffer_capacity_ > buffer_size)
         {
-            size += sizeof(char) * mnBufferSize;
+            size += sizeof(char) * buffer_capacity_;
         }
 
         return size;
@@ -792,90 +792,90 @@ public:
 
 protected:
     dynamic_data_t* add_dynamic_data() {
-        if (mnDataUsed >= mnDataSize)
+        if (data_size_ >= data_capacity_)
         {
-            size_t new_size = mnDataSize * 2;
-            dynamic_data_t* p = (dynamic_data_t*)mxAlloc.alloc(new_size * sizeof(dynamic_data_t));
-            memcpy(p, mpData, mnDataUsed * sizeof(dynamic_data_t));
+            size_t new_size = data_capacity_ * 2;
+            dynamic_data_t* p = (dynamic_data_t*)allocator_.alloc(new_size * sizeof(dynamic_data_t));
+            memcpy(p, data_, data_size_ * sizeof(dynamic_data_t));
 
-            if (mnDataSize > DATA_SIZE)
+            if (data_capacity_ > data_size)
             {
-                mxAlloc.free(mpData, mnDataSize * sizeof(dynamic_data_t));
+                allocator_.free(data_, data_capacity_ * sizeof(dynamic_data_t));
             }
 
-            mpData = p;
-            mnDataSize = new_size;
+            data_ = p;
+            data_capacity_ = new_size;
         }
 
-        return mpData + mnDataUsed++;
+        return data_ + data_size_++;
     }
 
     char* add_buffer(size_t need_size) {
-        size_t new_used = mnBufferUsed + need_size;
+        size_t new_used = buffer_size_ + need_size;
 
-        if (new_used > mnBufferSize)
+        if (new_used > buffer_capacity_)
         {
-            size_t new_size = mnBufferSize * 2;
+            size_t new_size = buffer_capacity_ * 2;
 
             if (new_used > new_size)
             {
                 new_size = new_used * 2;
             }
 
-            char* p = (char*)mxAlloc.alloc(new_size);
-            memcpy(p, mpBuffer, mnBufferUsed);
+            char* p = (char*)allocator_.alloc(new_size);
+            memcpy(p, buffer_, buffer_size_);
 
-            if (mnBufferSize > BUFFER_SIZE)
+            if (buffer_capacity_ > buffer_size)
             {
-                mxAlloc.free(mpBuffer, mnBufferSize);
+                allocator_.free(buffer_, buffer_capacity_);
             }
 
-            mpBuffer = p;
-            mnBufferSize = new_size;
+            buffer_ = p;
+            buffer_capacity_ = new_size;
         }
 
-        char* ret = mpBuffer + mnBufferUsed;
-        mnBufferUsed = new_used;
+        char* ret = buffer_ + buffer_size_;
+        buffer_size_ = new_used;
         return ret;
     }
 
     void inner_append(const data& data) {
-        bool bRet(false);
+        bool success(false);
 
         switch (data.get_type())
         {
-        case data_type::DT_BOOLEAN:
-            bRet = add_bool(data.get_bool());
+        case data_type::dt_boolean:
+            success = add_bool(data.get_bool());
             break;
-        case data_type::DT_INT32:
-            bRet = add_int(data.get_int());
+        case data_type::dt_int32:
+            success = add_int(data.get_int());
             break;
-        case data_type::DT_INT64:
-            bRet = add_int64(data.get_int64());
+        case data_type::dt_int64:
+            success = add_int64(data.get_int64());
             break;
-        case data_type::DT_UINT32:
-            bRet = add_u_int(data.get_u_int());
+        case data_type::dt_uint32:
+            success = add_u_int(data.get_u_int());
             break;
-        case data_type::DT_UINT64:
-            bRet = add_u_int64(data.get_u_int64());
+        case data_type::dt_uint64:
+            success = add_u_int64(data.get_u_int64());
             break;
-        case data_type::DT_FLOAT:
-            bRet = add_float(data.get_float());
+        case data_type::dt_float:
+            success = add_float(data.get_float());
             break;
-        case data_type::DT_DOUBLE:
-            bRet = add_double(data.get_double());
+        case data_type::dt_double:
+            success = add_double(data.get_double());
             break;
-        case data_type::DT_STRING:
-            bRet = add_string(data.get_string());
+        case data_type::dt_string:
+            success = add_string(data.get_string());
             break;
-        case data_type::DT_POINTER:
-            bRet = add_pointer(data.get_pointer());
+        case data_type::dt_pointer:
+            success = add_pointer(data.get_pointer());
             break;
-        case data_type::DT_USERDATA:
+        case data_type::dt_userdata:
         {
             size_t size;
-            const void* pData = data.get_user_data(size);
-            bRet = add_user_data(pData, size);
+            const void* data_ptr = data.get_user_data(size);
+            success = add_user_data(data_ptr, size);
         }
         break;
         default:
@@ -883,48 +883,48 @@ protected:
             break;
         }
 
-        ARK_ASSERT_NO_EFFECT(bRet);
+        ARK_ASSERT_NO_EFFECT(success);
     }
 
     bool inner_append(const data_list& src, size_t start, size_t end) {
-        bool bRet(false);
+        bool success(false);
 
         for (size_t i = start; i < end; ++i)
         {
             switch (src.get_type(i))
             {
-            case data_type::DT_BOOLEAN:
-                bRet = add_bool(src.get_bool(i));
+            case data_type::dt_boolean:
+                success = add_bool(src.get_bool(i));
                 break;
-            case data_type::DT_INT32:
-                bRet = add_int(src.get_int(i));
+            case data_type::dt_int32:
+                success = add_int(src.get_int(i));
                 break;
-            case data_type::DT_INT64:
-                bRet = add_int64(src.int64(i));
+            case data_type::dt_int64:
+                success = add_int64(src.int64(i));
                 break;
-            case data_type::DT_UINT32:
-                bRet = add_u_int(src.u_int(i));
+            case data_type::dt_uint32:
+                success = add_u_int(src.u_int(i));
                 break;
-            case data_type::DT_UINT64:
-                bRet = add_u_int64(src.u_int64(i));
+            case data_type::dt_uint64:
+                success = add_u_int64(src.u_int64(i));
                 break;
-            case data_type::DT_FLOAT:
-                bRet = add_float(src.get_float(i));
+            case data_type::dt_float:
+                success = add_float(src.get_float(i));
                 break;
-            case data_type::DT_DOUBLE:
-                bRet = add_double(src.get_double(i));
+            case data_type::dt_double:
+                success = add_double(src.get_double(i));
                 break;
-            case data_type::DT_STRING:
-                bRet = add_string(src.string(i));
+            case data_type::dt_string:
+                success = add_string(src.string(i));
                 break;
-            case data_type::DT_POINTER:
-                bRet = add_pointer(src.pointer(i));
+            case data_type::dt_pointer:
+                success = add_pointer(src.pointer(i));
                 break;
-            case data_type::DT_USERDATA:
+            case data_type::dt_userdata:
             {
                 size_t size;
-                const void* pData = src.user_data(i, size);
-                bRet = add_user_data(pData, size);
+                const void* data_ptr = src.user_data(i, size);
+                success = add_user_data(data_ptr, size);
             }
             break;
             default:
@@ -933,19 +933,19 @@ protected:
             }
         }
 
-        return bRet;
+        return success;
     }
 
 private:
-    ALLOC mxAlloc;
-    dynamic_data_t mDataStack[DATA_SIZE];
-    dynamic_data_t* mpData;
-    size_t mnDataSize;
-    size_t mnDataUsed;
-    char mBufferStack[BUFFER_SIZE];
-    char* mpBuffer;
-    size_t mnBufferSize;
-    size_t mnBufferUsed;
+    allocator_type allocator_;
+    dynamic_data_t inline_data_[data_size];
+    dynamic_data_t* data_;
+    size_t data_capacity_;
+    size_t data_size_;
+    char inline_buffer_[buffer_size];
+    char* buffer_;
+    size_t buffer_capacity_;
+    size_t buffer_size_;
 };
 
 using data_list_impl = base_data_list<8, 128>;

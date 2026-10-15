@@ -40,54 +40,55 @@ public:
     bool post_init() override;
     //bool PreUpdate() override;
 
-    void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const guid_t& self) override;
-    void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const guid_t& self) override;
-    std::shared_ptr<net_server_service> GetNetServerService() override;
+    void send_msg_protobuf_to_gate(
+        const uint16_t msg_id, google::protobuf::Message& msg_value, const guid_t& self) override;
+    void send_msg_protobuf_to_gate(const uint16_t msg_id, const std::string& msg, const guid_t& self) override;
+    std::shared_ptr<net_server_service> get_net_server_service() override;
 
-    bool AddPlayerGateInfo(const guid_t& nRoleID, const guid_t& nClientID, const int nGateID) override;
-    bool RemovePlayerGateInfo(const guid_t& nRoleID) override;
+    bool add_player_gate_info(const guid_t& role_id, const guid_t& client_id, const int gate_id) override;
+    bool remove_player_gate_info(const guid_t& role_id) override;
     //std::shared_ptr<GateBaseInfo> GetPlayerGateInfo(const guid_t& nRoleID) override;
 
     //virtual std::shared_ptr<GateServerInfo> GetGateServerInfo(const int nGateID);
     //virtual std::shared_ptr<GateServerInfo> GetGateServerInfoByClientID(const guid_t& nClientID);
 
-    virtual int OnViewDataNodeEnter(const data_list& argVar, const guid_t& self);
-    virtual int OnSelfDataNodeEnter(const guid_t& self);
-    virtual int OnViewDataTableEnter(const data_list& argVar, const guid_t& self);
-    virtual int OnSelfDataTableEnter(const guid_t& self);
+    virtual int on_view_data_node_enter(const data_list& arg_var, const guid_t& self);
+    virtual int on_self_data_node_enter(const guid_t& self);
+    virtual int on_view_data_table_enter(const data_list& arg_var, const guid_t& self);
+    virtual int on_self_data_table_enter(const guid_t& self);
 
-    virtual int OnEntityListEnter(const data_list& self, const data_list& argVar);
-    virtual int OnEntityListLeave(const data_list& self, const data_list& argVar);
+    virtual int on_entity_list_enter(const data_list& self, const data_list& arg_var);
+    virtual int on_entity_list_leave(const data_list& self, const data_list& arg_var);
 
     // void OnSocketEvent(const AFNetEvent* event);
     // void OnClientDisconnect(const guid_t& xClientID);
     // void OnClientConnected(const guid_t& xClientID);
 
     // Common Node & table & class event
-    int OnCommonClassEvent(
-        const guid_t& self, const std::string& strClassName, const entity_event eClassEvent, const data_list& var);
+    int on_common_class_event(
+        const guid_t& self, const std::string& class_name, const entity_event class_event, const data_list& var);
 
     //int OnMapInstanceEvent(const guid_t& self, const std::string& name, const uint32_t index, const AFIData& oldVar,
     //    const AFIData& newVar);
     //int OnContainerEvent(const guid_t& self, const std::string& name, const uint32_t index, const AFIData& oldVar,
     //    const AFIData& newVar);
 
-    int OnLeaveScene(const guid_t& self, const int map_id, const int map_inst_id);
-    int OnEnterScene(const guid_t& self, const int map_id, const int map_inst_id);
+    int on_leave_scene(const guid_t& self, const int map_id, const int map_inst_id);
+    int on_enter_scene(const guid_t& self, const int map_id, const int map_inst_id);
 
-    int OnEntityEvent(
-        const guid_t& self, const std::string& strClassName, const entity_event eClassEvent, const data_list& var);
+    int on_entity_event(
+        const guid_t& self, const std::string& class_name, const entity_event class_event, const data_list& var);
 
-    int GetBroadcastEntityList(const int nObjectContainerID, const int nGroupID, data_list& valueObject);
+    int get_broadcast_entity_list(const int object_container_id, const int group_id, data_list& value_object);
 
-    bool ProcessLeaveGroup(const guid_t& self, int nSceneID, int nOldGroupID);
-    bool ProcessEnterGroup(const guid_t& self, int nSceneID, int nNewGroupID);
+    bool process_leave_group(const guid_t& self, int scene_id, int old_group_id);
+    bool process_enter_group(const guid_t& self, int scene_id, int new_group_id);
 
 protected:
-    int StartServer();
+    int start_server();
     //int StartClient();
 
-    int CommonClassDestoryEvent(const guid_t& self);
+    int common_class_destory_event(const guid_t& self);
 
 private:
     //<PlayerID, GateBaseInfo>//其实可以在object系统中被代替
@@ -95,15 +96,15 @@ private:
     // gate id,data
     // AFSmartPtrMap<int, GateServerInfo> mProxyMap;
     //////////////////////////////////////////////////////////////////////////
-    guid_module* m_pUUIDModule;
-    kernel_module* m_pKernelModule;
-    bus_module* m_pBusModule;
-    net_service_manager_module* m_pNetServiceManagerModule;
-    map_module* m_pMapModule;
+    guid_module* uuid_module_;
+    kernel_module* kernel_module_;
+    bus_module* bus_module_;
+    net_service_manager_module* net_service_manager_module_;
+    map_module* map_module_;
 
-    msg_module* m_pMsgModule;
+    msg_module* msg_module_;
 
-    std::shared_ptr<net_server_service> m_pNetServerService;
+    std::shared_ptr<net_server_service> net_server_service_;
 };
 
 } // namespace ark

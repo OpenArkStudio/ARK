@@ -24,12 +24,12 @@
 #include "ark/meta_define.hpp"
 #include "sample3_module.hpp"
 
-static const int MPA_ID = 1;
-static const size_t ITEM_CONFIG_ID = 100001;
-static const std::string RECORD_NAME = ark::AFEntityMetaPlayer::items();
-static const uint32_t BAG = ark::AFEntityMetaPlayer::bag_index();
-static const uint32_t col_count = ark::AFEntityMetaItemBag::count_index();
-static const uint32_t col_guid = ark::AFEntityMetaItemBag::guid_index();
+static const int map_id = 1;
+static const size_t item_config_id = 100001;
+static const std::string record_name = ark::entity_meta_player::items();
+static const uint32_t bag_index = ark::entity_meta_player::bag_index();
+static const uint32_t col_count = ark::entity_meta_item_bag::count_index();
+static const uint32_t col_guid = ark::entity_meta_item_bag::guid_index();
 
 namespace ark {
 
@@ -41,24 +41,24 @@ bool sample3_module::init() {
 bool sample3_module::post_init() {
     std::cout << GET_CLASS_NAME(sample3_module) << ", PostInit" << std::endl;
 
-    m_pKernelModule = find_module<kernel_module>();
-    m_pMapModule = find_module<map_module>();
+    kernel_module_ = find_module<kernel_module>();
+    map_module_ = find_module<map_module>();
 
     ARK_LOG_INFO("Init finished...");
 
     // Create scene, all entity need in scene
-    m_pMapModule->create_map(MPA_ID);
+    map_module_->create_map(map_id);
 
     //DestroyTest();
     //CalssCallBackTest();
     //DataCallBackTest();
     //TableCallBackTest();
     //EventTest();
-    ContainerCallBackTest();
+    container_call_back_test();
 
-    CreateEntityTest();
-    DataTest();
-    TableTest();
+    create_entity_test();
+    data_test();
+    table_test();
 
     // m_pKernelModule->DestroyAll();
 
@@ -67,7 +67,7 @@ bool sample3_module::post_init() {
 
 bool sample3_module::pre_shut() {
     std::cout << GET_CLASS_NAME(sample3_module) << ", PreShut" << std::endl;
-    m_pKernelModule->destroy_all();
+    kernel_module_->destroy_all();
 
     return true;
 }
@@ -78,16 +78,16 @@ bool sample3_module::shut() {
 }
 
 // create object test
-void sample3_module::CreateEntityTest() {
+void sample3_module::create_entity_test() {
     std::cout << GET_CLASS_NAME(sample3_module) << ", CreateEntityTest" << std::endl;
 
     // create player
-    auto pEntity = CreateAnPlayerAndInit();
-    ARK_ASSERT_RET_NONE(pEntity != nullptr);
+    auto entity_ptr = create_an_player_and_init();
+    ARK_ASSERT_RET_NONE(entity_ptr != nullptr);
 
-    std::cout << "Player Name = " << pEntity->get_string(AFEntityMetaPlayer::name()).c_str() << std::endl;
+    std::cout << "Player Name = " << entity_ptr->get_string(entity_meta_player::name()).c_str() << std::endl;
 
-    const guid_t& id = pEntity->get_id();
+    const guid_t& id = entity_ptr->get_id();
 
     // create an item for player
     //auto pItem = m_pKernelModule->CreateContainerEntity(id, BAG, AFConfigMetaItem::self_name(), ITEM_CONFIG_ID);
@@ -97,156 +97,157 @@ void sample3_module::CreateEntityTest() {
     //std::cout << "Item Config = " << pItem->GetConfigID() << std::endl;
 }
 
-void sample3_module::DataTest() {
+void sample3_module::data_test() {
     std::cout << GET_CLASS_NAME(sample3_module) << ", DataTest" << std::endl;
 
     // create player
-    auto pEntity = CreateAnPlayerAndInit();
-    ARK_ASSERT_RET_NONE(pEntity != nullptr);
+    auto entity_ptr = create_an_player_and_init();
+    ARK_ASSERT_RET_NONE(entity_ptr != nullptr);
 
-    const guid_t& id = pEntity->get_id();
+    const guid_t& id = entity_ptr->get_id();
     const size_t count = 5000000;
 
-    QueryStringTest(id, count, 1);
+    query_string_test(id, count, 1);
     //QueryStringTest(id, count, 2);
     //QueryStringTest(id, count, 3);
 
-    QueryIntTest(id, count, 1);
+    query_int_test(id, count, 1);
     //QueryIntTest(id, count, 2);
     //QueryIntTest(id, count, 3);
 
-    SetDataTest(id, count, 1);
+    set_data_test(id, count, 1);
     //SetDataTest(id, count, 2);
     //SetDataTest(id, count, 3);
 
-    CustomDataTest(id, count, 1);
+    custom_data_test(id, count, 1);
 }
 
-void sample3_module::TableTest() {
+void sample3_module::table_test() {
     std::cout << GET_CLASS_NAME(sample3_module) << ", TableTest" << std::endl;
 
     // create player
-    auto pEntity = CreateAnPlayerAndInit();
-    ARK_ASSERT_RET_NONE(pEntity != nullptr);
+    auto entity_ptr = create_an_player_and_init();
+    ARK_ASSERT_RET_NONE(entity_ptr != nullptr);
 
-    table* pTable = pEntity->find_table(RECORD_NAME);
-    ARK_ASSERT_RET_NONE(pTable != nullptr);
+    table* table_ptr = entity_ptr->find_table(record_name);
+    ARK_ASSERT_RET_NONE(table_ptr != nullptr);
 
-    auto pRowData = pTable->add_row(0);
-    ARK_ASSERT_RET_NONE(pRowData != nullptr);
+    auto row_data_ptr = table_ptr->add_row(0);
+    ARK_ASSERT_RET_NONE(row_data_ptr != nullptr);
 
-    pRowData->set_int32(col_count, 22);
+    row_data_ptr->set_int32(col_count, 22);
 }
 
-void sample3_module::DestroyTest() {
+void sample3_module::destroy_test() {
     ARK_LOG_DEBUG("DestroyTest Start...");
 
     size_t count = 1;
     for (size_t i = 0; i < count; i++)
     {
-        auto pEntity = CreateAnPlayerAndInit();
-        m_pKernelModule->destroy_entity(pEntity->get_id());
+        auto entity_ptr = create_an_player_and_init();
+        kernel_module_->destroy_entity(entity_ptr->get_id());
     }
 
     ARK_LOG_DEBUG("DestroyTest End...");
 }
 
-void sample3_module::CalssCallBackTest() {
+void sample3_module::calss_call_back_test() {
     std::cout << GET_CLASS_NAME(sample3_module) << ", TableTest" << std::endl;
 
-    m_pKernelModule->add_class_call_back(AFEntityMetaPlayer::self_name(), this, &sample3_module::OnClassCallBackEvent);
+    kernel_module_->add_class_call_back(
+        entity_meta_player::self_name(), this, &sample3_module::on_class_call_back_event);
 
-    auto pEntity = CreateAnPlayerAndInit();
-    ARK_ASSERT_RET_NONE(pEntity != nullptr);
+    auto entity_ptr = create_an_player_and_init();
+    ARK_ASSERT_RET_NONE(entity_ptr != nullptr);
 
-    m_pKernelModule->destroy_entity(pEntity->get_id());
+    kernel_module_->destroy_entity(entity_ptr->get_id());
 }
 
-void sample3_module::DataCallBackTest() {
+void sample3_module::data_call_back_test() {
     std::cout << GET_CLASS_NAME(sample3_module) << ", TableTest" << std::endl;
 
-    m_pKernelModule->add_node_call_back(
-        AFEntityMetaPlayer::self_name(), AFEntityMetaPlayer::gender(), this, &sample3_module::OnDataCallBackEvent);
+    kernel_module_->add_node_call_back(
+        entity_meta_player::self_name(), entity_meta_player::gender(), this, &sample3_module::on_data_call_back_event);
 
-    auto pEntity = CreateAnPlayerAndInit();
-    ARK_ASSERT_RET_NONE(pEntity != nullptr);
+    auto entity_ptr = create_an_player_and_init();
+    ARK_ASSERT_RET_NONE(entity_ptr != nullptr);
 
-    pEntity->set_int32(AFEntityMetaPlayer::gender(), 1);
-    pEntity->set_int32(AFEntityMetaPlayer::gender(), 2);
+    entity_ptr->set_int32(entity_meta_player::gender(), 1);
+    entity_ptr->set_int32(entity_meta_player::gender(), 2);
 }
 
-void sample3_module::TableCallBackTest() {
+void sample3_module::table_call_back_test() {
     std::cout << GET_CLASS_NAME(sample3_module) << ", TableTest" << std::endl;
 
-    m_pKernelModule->add_table_call_back(
-        AFEntityMetaPlayer::self_name(), AFEntityMetaPlayer::items(), this, &sample3_module::OnTableCallBackEvent);
+    kernel_module_->add_table_call_back(
+        entity_meta_player::self_name(), entity_meta_player::items(), this, &sample3_module::on_table_call_back_event);
 
-    auto pEntity = CreateAnPlayerAndInit();
-    ARK_ASSERT_RET_NONE(pEntity != nullptr);
+    auto entity_ptr = create_an_player_and_init();
+    ARK_ASSERT_RET_NONE(entity_ptr != nullptr);
 
-    table* pTable = pEntity->find_table(RECORD_NAME);
-    ARK_ASSERT_RET_NONE(pTable != nullptr);
+    table* table_ptr = entity_ptr->find_table(record_name);
+    ARK_ASSERT_RET_NONE(table_ptr != nullptr);
 
-    auto pRowData = pTable->add_row(0);
-    ARK_ASSERT_RET_NONE(pRowData != nullptr);
+    auto row_data_ptr = table_ptr->add_row(0);
+    ARK_ASSERT_RET_NONE(row_data_ptr != nullptr);
 
-    pRowData->set_int32(col_count, 22);
+    row_data_ptr->set_int32(col_count, 22);
 
-    pRowData->set_int32(col_count, 33);
+    row_data_ptr->set_int32(col_count, 33);
 }
 
-void sample3_module::ContainerCallBackTest() {
+void sample3_module::container_call_back_test() {
     std::cout << GET_CLASS_NAME(sample3_module) << ", ContainerTest" << std::endl;
 
-    m_pKernelModule->add_container_call_back(
-        AFEntityMetaPlayer::self_name(), BAG, this, &sample3_module::OnContainerCallBackEvent);
+    kernel_module_->add_container_call_back(
+        entity_meta_player::self_name(), bag_index, this, &sample3_module::on_container_call_back_event);
 
-    CreateEntityTest();
+    create_entity_test();
 }
 
-void sample3_module::EventTest() {
+void sample3_module::event_test() {
     std::cout << GET_CLASS_NAME(sample3_module) << ", TableTest" << std::endl;
 
-    auto pEntity = CreateAnPlayerAndInit();
-    ARK_ASSERT_RET_NONE(pEntity != nullptr);
+    auto entity_ptr = create_an_player_and_init();
+    ARK_ASSERT_RET_NONE(entity_ptr != nullptr);
 }
 
 //-----------------------------inner interface--------------------------------------------
-std::shared_ptr<ark::entity> sample3_module::CreateAnPlayerAndInit() {
+std::shared_ptr<ark::entity> sample3_module::create_an_player_and_init() {
     // create object
-    auto pEntity = m_pKernelModule->create_entity(
-        NULL_GUID, MPA_ID, 0, AFEntityMetaPlayer::self_name(), NULL_INT, data_list_impl());
-    ARK_ASSERT_RET_VAL(pEntity != nullptr, nullptr);
+    auto entity_ptr = kernel_module_->create_entity(
+        null_guid, map_id, 0, entity_meta_player::self_name(), null_int, data_list_impl());
+    ARK_ASSERT_RET_VAL(entity_ptr != nullptr, nullptr);
 
     // init data
-    pEntity->set_string(AFEntityMetaPlayer::name(), "Xiaoming");
-    pEntity->set_int32(AFEntityMetaPlayer::gender(), 1);
-    pEntity->set_int32(AFEntityMetaPlayer::career(), 1);
-    pEntity->set_int32(AFEntityMetaPlayer::camp(), 1);
-    pEntity->set_int32(AFEntityMetaPlayer::last_map_id(), 1);
-    pEntity->set_int32(AFEntityMetaPlayer::level(), 1);
+    entity_ptr->set_string(entity_meta_player::name(), "Xiaoming");
+    entity_ptr->set_int32(entity_meta_player::gender(), 1);
+    entity_ptr->set_int32(entity_meta_player::career(), 1);
+    entity_ptr->set_int32(entity_meta_player::camp(), 1);
+    entity_ptr->set_int32(entity_meta_player::last_map_id(), 1);
+    entity_ptr->set_int32(entity_meta_player::level(), 1);
 
-    table* pTable = pEntity->find_table(RECORD_NAME);
-    ARK_ASSERT_RET_VAL(pTable != nullptr, nullptr);
+    table* table_ptr = entity_ptr->find_table(record_name);
+    ARK_ASSERT_RET_VAL(table_ptr != nullptr, nullptr);
 
-    auto pRow = pTable->add_row(0);
-    ARK_ASSERT_RET_VAL(pRow != nullptr, nullptr);
-    pRow->set_int64(col_guid, 1111);
+    auto row_ptr = table_ptr->add_row(0);
+    ARK_ASSERT_RET_VAL(row_ptr != nullptr, nullptr);
+    row_ptr->set_int64(col_guid, 1111);
 
-    if (!pEntity->find_custom_data("test"))
+    if (!entity_ptr->find_custom_data("test"))
     {
-        pEntity->add_custom_int32("test", 111);
+        entity_ptr->add_custom_int32("test", 111);
     }
 
-    std::cout << "CreatePlayer name " << pEntity->get_string(AFEntityMetaPlayer::name()).c_str() << " "
-              << AFEntityMetaPlayer::gender() << pEntity->get_int32(AFEntityMetaPlayer::gender()) << std::endl;
+    std::cout << "CreatePlayer name " << entity_ptr->get_string(entity_meta_player::name()).c_str() << " "
+              << entity_meta_player::gender() << entity_ptr->get_int32(entity_meta_player::gender()) << std::endl;
 
-    return pEntity;
+    return entity_ptr;
 }
 
-void sample3_module::QueryStringTest(const guid_t& guid, size_t count, const uint32_t index) {
-    auto pEntity = m_pKernelModule->get_entity(guid);
-    if (nullptr == pEntity)
+void sample3_module::query_string_test(const guid_t& guid, size_t count, const uint32_t index) {
+    auto entity_ptr = kernel_module_->get_entity(guid);
+    if (nullptr == entity_ptr)
     {
         return;
     }
@@ -257,7 +258,7 @@ void sample3_module::QueryStringTest(const guid_t& guid, size_t count, const uin
     auto begin = std::chrono::system_clock::now().time_since_epoch();
     for (size_t i = 0; i < count; i++)
     {
-        auto& value = pEntity->get_string(AFEntityMetaPlayer::name_index());
+        auto& value = entity_ptr->get_string(entity_meta_player::name_index());
     }
     auto end = std::chrono::system_clock::now().time_since_epoch();
     auto time_int_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
@@ -266,7 +267,7 @@ void sample3_module::QueryStringTest(const guid_t& guid, size_t count, const uin
     begin = std::chrono::system_clock::now().time_since_epoch();
     for (size_t i = 0; i < count; i++)
     {
-        auto& value = pEntity->get_string(AFEntityMetaPlayer::name());
+        auto& value = entity_ptr->get_string(entity_meta_player::name());
     }
     end = std::chrono::system_clock::now().time_since_epoch();
     auto time_string_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
@@ -278,13 +279,13 @@ void sample3_module::QueryStringTest(const guid_t& guid, size_t count, const uin
     begin = std::chrono::system_clock::now().time_since_epoch();
     for (size_t i = 0; i < count; i++)
     {
-        auto pObj = m_pKernelModule->get_entity(guid);
-        if (nullptr == pObj)
+        auto obj_ptr = kernel_module_->get_entity(guid);
+        if (nullptr == obj_ptr)
         {
             return;
         }
 
-        auto& value = pObj->get_string(AFEntityMetaPlayer::name_index());
+        auto& value = obj_ptr->get_string(entity_meta_player::name_index());
     }
     end = std::chrono::system_clock::now().time_since_epoch();
     time_int_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
@@ -293,13 +294,13 @@ void sample3_module::QueryStringTest(const guid_t& guid, size_t count, const uin
     begin = std::chrono::system_clock::now().time_since_epoch();
     for (size_t i = 0; i < count; i++)
     {
-        auto pObj = m_pKernelModule->get_entity(guid);
-        if (nullptr == pObj)
+        auto obj_ptr = kernel_module_->get_entity(guid);
+        if (nullptr == obj_ptr)
         {
             return;
         }
 
-        auto& value = pObj->get_string(AFEntityMetaPlayer::name());
+        auto& value = obj_ptr->get_string(entity_meta_player::name());
     }
     end = std::chrono::system_clock::now().time_since_epoch();
     time_string_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
@@ -310,9 +311,9 @@ void sample3_module::QueryStringTest(const guid_t& guid, size_t count, const uin
     std::cout << "----------[" << index << "] time [query string] test end----------" << std::endl;
 }
 
-void sample3_module::QueryIntTest(const guid_t& guid, size_t count, const uint32_t index) {
-    auto pEntity = m_pKernelModule->get_entity(guid);
-    if (nullptr == pEntity)
+void sample3_module::query_int_test(const guid_t& guid, size_t count, const uint32_t index) {
+    auto entity_ptr = kernel_module_->get_entity(guid);
+    if (nullptr == entity_ptr)
     {
         return;
     }
@@ -323,7 +324,7 @@ void sample3_module::QueryIntTest(const guid_t& guid, size_t count, const uint32
     auto begin = std::chrono::system_clock::now().time_since_epoch();
     for (size_t i = 0; i < count; i++)
     {
-        auto value = pEntity->get_int32(AFEntityMetaPlayer::gender_index());
+        auto value = entity_ptr->get_int32(entity_meta_player::gender_index());
     }
     auto end = std::chrono::system_clock::now().time_since_epoch();
     auto time_int_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
@@ -332,7 +333,7 @@ void sample3_module::QueryIntTest(const guid_t& guid, size_t count, const uint32
     begin = std::chrono::system_clock::now().time_since_epoch();
     for (size_t i = 0; i < count; i++)
     {
-        auto value = pEntity->get_int32(AFEntityMetaPlayer::gender());
+        auto value = entity_ptr->get_int32(entity_meta_player::gender());
     }
     end = std::chrono::system_clock::now().time_since_epoch();
     auto time_string_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
@@ -344,13 +345,13 @@ void sample3_module::QueryIntTest(const guid_t& guid, size_t count, const uint32
     begin = std::chrono::system_clock::now().time_since_epoch();
     for (size_t i = 0; i < count; i++)
     {
-        auto pObj = m_pKernelModule->get_entity(guid);
-        if (nullptr == pObj)
+        auto obj_ptr = kernel_module_->get_entity(guid);
+        if (nullptr == obj_ptr)
         {
             return;
         }
 
-        auto value = pObj->get_int32(AFEntityMetaPlayer::gender_index());
+        auto value = obj_ptr->get_int32(entity_meta_player::gender_index());
     }
     end = std::chrono::system_clock::now().time_since_epoch();
     time_int_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
@@ -359,13 +360,13 @@ void sample3_module::QueryIntTest(const guid_t& guid, size_t count, const uint32
     begin = std::chrono::system_clock::now().time_since_epoch();
     for (size_t i = 0; i < count; i++)
     {
-        auto pObj = m_pKernelModule->get_entity(guid);
-        if (nullptr == pObj)
+        auto obj_ptr = kernel_module_->get_entity(guid);
+        if (nullptr == obj_ptr)
         {
             return;
         }
 
-        auto value = pObj->get_int32(AFEntityMetaPlayer::gender());
+        auto value = obj_ptr->get_int32(entity_meta_player::gender());
     }
     end = std::chrono::system_clock::now().time_since_epoch();
     time_string_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
@@ -376,9 +377,9 @@ void sample3_module::QueryIntTest(const guid_t& guid, size_t count, const uint32
     std::cout << "----------[" << index << "] time [query int] test end----------" << std::endl;
 }
 
-void sample3_module::SetDataTest(const guid_t& guid, size_t count, const uint32_t index) {
-    auto pEntity = m_pKernelModule->get_entity(guid);
-    if (nullptr == pEntity)
+void sample3_module::set_data_test(const guid_t& guid, size_t count, const uint32_t index) {
+    auto entity_ptr = kernel_module_->get_entity(guid);
+    if (nullptr == entity_ptr)
     {
         return;
     }
@@ -389,7 +390,7 @@ void sample3_module::SetDataTest(const guid_t& guid, size_t count, const uint32_
     auto begin = std::chrono::system_clock::now().time_since_epoch();
     for (size_t i = 0; i < count; i++)
     {
-        pEntity->set_int32(AFEntityMetaPlayer::gender_index(), 22);
+        entity_ptr->set_int32(entity_meta_player::gender_index(), 22);
     }
     auto end = std::chrono::system_clock::now().time_since_epoch();
     auto time_int_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
@@ -398,7 +399,7 @@ void sample3_module::SetDataTest(const guid_t& guid, size_t count, const uint32_
     begin = std::chrono::system_clock::now().time_since_epoch();
     for (size_t i = 0; i < count; i++)
     {
-        pEntity->set_int32(AFEntityMetaPlayer::gender(), 22);
+        entity_ptr->set_int32(entity_meta_player::gender(), 22);
     }
     end = std::chrono::system_clock::now().time_since_epoch();
     auto time_string_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
@@ -410,13 +411,13 @@ void sample3_module::SetDataTest(const guid_t& guid, size_t count, const uint32_
     begin = std::chrono::system_clock::now().time_since_epoch();
     for (size_t i = 0; i < count; i++)
     {
-        auto pObj = m_pKernelModule->get_entity(guid);
-        if (nullptr == pObj)
+        auto obj_ptr = kernel_module_->get_entity(guid);
+        if (nullptr == obj_ptr)
         {
             return;
         }
 
-        pObj->set_int32(AFEntityMetaPlayer::gender_index(), 11);
+        obj_ptr->set_int32(entity_meta_player::gender_index(), 11);
     }
     end = std::chrono::system_clock::now().time_since_epoch();
     time_int_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
@@ -425,13 +426,13 @@ void sample3_module::SetDataTest(const guid_t& guid, size_t count, const uint32_
     begin = std::chrono::system_clock::now().time_since_epoch();
     for (size_t i = 0; i < count; i++)
     {
-        auto pObj = m_pKernelModule->get_entity(guid);
-        if (nullptr == pObj)
+        auto obj_ptr = kernel_module_->get_entity(guid);
+        if (nullptr == obj_ptr)
         {
             return;
         }
 
-        pObj->set_int32(AFEntityMetaPlayer::gender(), 11);
+        obj_ptr->set_int32(entity_meta_player::gender(), 11);
     }
     end = std::chrono::system_clock::now().time_since_epoch();
     time_string_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
@@ -442,33 +443,33 @@ void sample3_module::SetDataTest(const guid_t& guid, size_t count, const uint32_
     std::cout << "----------[" << index << "] time [set int] test end----------" << std::endl;
 }
 
-void sample3_module::CustomDataTest(const guid_t& guid, size_t count, const uint32_t index) {
+void sample3_module::custom_data_test(const guid_t& guid, size_t count, const uint32_t index) {
     std::cout << "----------[index] time [custom data] test start----------" << std::endl;
 
-    auto pEntity = m_pKernelModule->get_entity(guid);
-    if (nullptr == pEntity)
+    auto entity_ptr = kernel_module_->get_entity(guid);
+    if (nullptr == entity_ptr)
     {
         return;
     }
 
-    if (!pEntity->find_custom_data("test") && !pEntity->add_custom_int32("test", 0))
+    if (!entity_ptr->find_custom_data("test") && !entity_ptr->add_custom_int32("test", 0))
     {
         return;
     }
 
-    std::cout << "CustomDataTest find test = " << (pEntity->find_custom_data("test") ? "true" : "false")
-              << " value = " << pEntity->get_custom_int32("test") << std::endl;
+    std::cout << "CustomDataTest find test = " << (entity_ptr->find_custom_data("test") ? "true" : "false")
+              << " value = " << entity_ptr->get_custom_int32("test") << std::endl;
 
     std::cout << "----------[index] time [custom data] test end----------" << std::endl;
 }
 
-int sample3_module::OnClassCallBackEvent(
-    const guid_t& self, const std::string& strClassName, const entity_event event, const data_list& arg) {
+int sample3_module::on_class_call_back_event(
+    const guid_t& self, const std::string& class_name, const entity_event event, const data_list& arg) {
     std::cout << "---------- OnClassCallBackEvent start----------" << std::endl;
 
-    std::cout << "ClassName: " << strClassName << " ID: " << self << " Event: " << (int)event << std::endl;
+    std::cout << "ClassName: " << class_name << " ID: " << self << " Event: " << (int)event << std::endl;
 
-    if (event == entity_event::ENTITY_EVT_DATA_FINISHED)
+    if (event == entity_event::entity_evt_data_finished)
     {
         //
     }
@@ -478,7 +479,7 @@ int sample3_module::OnClassCallBackEvent(
     return 0;
 }
 
-int sample3_module::OnDataCallBackEvent(const guid_t& self, const std::string& data_name, const uint32_t index,
+int sample3_module::on_data_call_back_event(const guid_t& self, const std::string& data_name, const uint32_t index,
     const ark::data& old_value, const ark::data& new_value) {
     std::cout << "---------- OnDataCallBackEvent start----------" << std::endl;
 
@@ -490,19 +491,18 @@ int sample3_module::OnDataCallBackEvent(const guid_t& self, const std::string& d
     return 0;
 }
 
-int sample3_module::OnTableCallBackEvent(
+int sample3_module::on_table_call_back_event(
     const guid_t& self, const table_event_data& data, const ark::data& old_value, const ark::data& new_value) {
     std::cout << "---------- OnTableCallBackEvent start----------" << std::endl;
 
-    if (data.op_type_ == (size_t)table_op_type::TABLE_ADD)
+    if (data.op_type == (size_t)table_op_type::table_add)
     {
-        std::cout << "table name: " << data.table_name_ << " row : " << data.row_ << std::endl;
+        std::cout << "table name: " << data.table_name << " row : " << data.row << std::endl;
     }
     else
     {
-        std::cout << "table name: " << data.table_name_ << " row : " << data.row_
-                  << " data index : " << data.data_index_ << " old value : " << old_value.to_string()
-                  << " new value : " << new_value.to_string() << std::endl;
+        std::cout << "table name: " << data.table_name << " row : " << data.row << " data index : " << data.data_index
+                  << " old value : " << old_value.to_string() << " new value : " << new_value.to_string() << std::endl;
     }
 
     std::cout << "---------- OnTableCallBackEvent end----------" << std::endl;
@@ -510,8 +510,8 @@ int sample3_module::OnTableCallBackEvent(
     return 0;
 }
 
-int sample3_module::OnContainerCallBackEvent(const guid_t& self, const uint32_t index, const container_op_type op_type,
-    const uint32_t src_index, const uint32_t dest_index) {
+int sample3_module::on_container_call_back_event(const guid_t& self, const uint32_t index,
+    const container_op_type op_type, const uint32_t src_index, const uint32_t dest_index) {
     std::cout << "---------- OnContainerCallBackEvent start----------" << std::endl;
 
     std::cout << "container index: " << index << " op : " << (size_t)op_type << " src index : " << src_index

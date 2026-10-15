@@ -41,13 +41,13 @@ private:
     std::shared_ptr<class_meta> class_meta_{nullptr};
 
     // data
-    std::shared_ptr<node_manager> m_pNodeManager{nullptr};
+    std::shared_ptr<node_manager> node_manager_{nullptr};
 
 public:
     static_entity_impl() = delete;
 
-    explicit static_entity_impl(
-        std::shared_ptr<class_meta> pClassMeta, std::shared_ptr<node_manager> pNodeManager, const id_type config_id);
+    explicit static_entity_impl(std::shared_ptr<class_meta> class_meta_ptr,
+        std::shared_ptr<node_manager> node_manager_ptr, const id_type config_id);
 
     // query data
     const std::string& get_class_name() const override;

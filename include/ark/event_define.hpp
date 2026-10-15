@@ -26,6 +26,6 @@ enum event_define
 {
     ////////////////Has Self---logic//////////////////////////////////////////////////////////
     // arg[0]:object
-    AFED_ON_CLIENT_LEAVE_SCENE,
+    afed_on_client_leave_scene,
 };
 }

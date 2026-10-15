@@ -24,47 +24,48 @@
 
 namespace ark {
 
-const std::string mysql_driver_module_impl::DefaultKey = "ID";
-const std::string mysql_driver_module_impl::DefaultTable = "RoleInfo";
+const std::string mysql_driver_module_impl::default_key_ = "ID";
+const std::string mysql_driver_module_impl::default_table_ = "RoleInfo";
 
-mysql_driver_module_impl::mysql_driver_module_impl(int nReconnectTime, int nReconnectCount)
-    : max_reconnect_time_(nReconnectTime)
-    , max_reconnect_count_(nReconnectCount) {}
+mysql_driver_module_impl::mysql_driver_module_impl(int reconnect_time, int reconnect_count)
+    : max_reconnect_time_(reconnect_time)
+    , max_reconnect_count_(reconnect_count) {
+}
 
-mysql_driver_module_impl::mysql_driver_module_impl(const std::string& strDBName, const std::string& strDBHost,
-    const int nDBPort, const std::string& strDBUser, const std::string& strDBPwd)
+mysql_driver_module_impl::mysql_driver_module_impl(const std::string& db_name, const std::string& db_host,
+    const int db_port, const std::string& db_user, const std::string& db_pwd)
     : max_reconnect_time_(60)
     , max_reconnect_count_(-1) {
 
-    Connect(strDBName, strDBHost, nDBPort, strDBUser, strDBPwd);
+    connect(db_name, db_host, db_port, db_user, db_pwd);
 }
 
 mysql_driver_module_impl::~mysql_driver_module_impl() {
-    CloseConnection();
+    close_connection();
 }
 
 bool mysql_driver_module_impl::update() {
-    if (IsNeedReconnect() && CanReconnect())
+    if (is_need_reconnect() && can_reconnect())
     {
-        return Connect(db_name_, db_host_, db_port_, db_user_, db_pwd_);
+        return connect(db_name_, db_host_, db_port_, db_user_, db_pwd_);
     }
     return true;
 }
 
 ///////////////////////////////////////////////////////////////
 
-bool mysql_driver_module_impl::Connect(const std::string& strDBName, const std::string& strDBHost, const int nDBPort,
-    const std::string& strDBUser, const std::string& strDBPwd) {
-    db_name_ = strDBName;
-    db_host_ = strDBHost;
-    db_port_ = nDBPort;
-    db_user_ = strDBUser;
-    db_pwd_ = strDBPwd;
+bool mysql_driver_module_impl::connect(const std::string& db_name, const std::string& db_host, const int db_port,
+    const std::string& db_user, const std::string& db_pwd) {
+    db_name_ = db_name;
+    db_host_ = db_host;
+    db_port_ = db_port;
+    db_user_ = db_user;
+    db_pwd_ = db_pwd;
 
-    return Connect();
+    return connect();
 }
 
-bool mysql_driver_module_impl::Connect() {
+bool mysql_driver_module_impl::connect() {
     mysql_conn_ = new mysqlpp::Connection();
     if (mysql_conn_ == nullptr)
     {
@@ -78,7 +79,7 @@ bool mysql_driver_module_impl::Connect() {
     mysql_conn_->set_option(new mysqlpp::ConnectTimeoutOption(60));
     if (!mysql_conn_->connect(db_name_.c_str(), db_host_.c_str(), db_user_.c_str(), db_pwd_.c_str(), db_port_))
     {
-        CloseConnection();
+        close_connection();
         // connect fail
         return false;
     }
@@ -92,23 +93,23 @@ bool mysql_driver_module_impl::Connect() {
     return true;
 }
 
-void mysql_driver_module_impl::CloseConnection() {
+void mysql_driver_module_impl::close_connection() {
     mysql_conn_->disconnect();
     delete mysql_conn_;
     mysql_conn_ = nullptr;
 }
 
-mysqlpp::Connection* mysql_driver_module_impl::GetConnection() {
+mysqlpp::Connection* mysql_driver_module_impl::get_connection() {
     return mysql_conn_;
 }
 
-bool mysql_driver_module_impl::IsAvailable() {
-    return !IsNeedReconnect();
+bool mysql_driver_module_impl::is_available() {
+    return !is_need_reconnect();
 }
 
-bool mysql_driver_module_impl::Reconnect() {
-    CloseConnection();
-    Connect(db_name_, db_host_, db_port_, db_user_, db_pwd_);
+bool mysql_driver_module_impl::reconnect() {
+    close_connection();
+    connect(db_name_, db_host_, db_port_, db_user_, db_pwd_);
 
     if (max_reconnect_count_ > 0)
     {
@@ -118,7 +119,7 @@ bool mysql_driver_module_impl::Reconnect() {
     return true;
 }
 
-bool mysql_driver_module_impl::CanReconnect() {
+bool mysql_driver_module_impl::can_reconnect() {
     max_check_reconnect_ += 0.1f;
 
     //30分钟检查断线重连
@@ -137,7 +138,7 @@ bool mysql_driver_module_impl::CanReconnect() {
     return true;
 }
 
-bool mysql_driver_module_impl::IsNeedReconnect() {
+bool mysql_driver_module_impl::is_need_reconnect() {
     if (db_host_.length() < 1 || db_user_.length() < 1)
     {
         return false;
@@ -150,13 +151,13 @@ bool mysql_driver_module_impl::IsNeedReconnect() {
 
     if (!mysql_conn_->connected())
     {
-        CloseConnection();
+        close_connection();
         return true;
     }
 
     if (!mysql_conn_->ping())
     {
-        CloseConnection();
+        close_connection();
         return true;
     }
 
@@ -165,7 +166,7 @@ bool mysql_driver_module_impl::IsNeedReconnect() {
 
 ///////////////////////////////////////////////////////////////
 
-bool mysql_driver_module_impl::Query(const std::string& qstr) {
+bool mysql_driver_module_impl::query(const std::string& qstr) {
     if (!mysql_conn_)
     {
         return false;
@@ -180,7 +181,7 @@ bool mysql_driver_module_impl::Query(const std::string& qstr) {
     return true;
 }
 
-bool mysql_driver_module_impl::Query(const std::string& qstr, mysqlpp::StoreQueryResult& queryResult) {
+bool mysql_driver_module_impl::query(const std::string& qstr, mysqlpp::StoreQueryResult& query_result) {
     if (!mysql_conn_)
     {
         return false;
@@ -188,15 +189,15 @@ bool mysql_driver_module_impl::Query(const std::string& qstr, mysqlpp::StoreQuer
 
     ARK_MYSQL_TRY_BEGIN
     mysqlpp::Query query = mysql_conn_->query(qstr);
-    queryResult = query.store();
+    query_result = query.store();
     query.reset();
     ARK_MYSQL_TRY_END(qstr)
 
     return true;
 }
 
-bool mysql_driver_module_impl::Query(const std::string& tableName, const std::string& strKey,
-    const std::vector<std::string>& fieldVec, std::vector<std::string>& valueVec) {
+bool mysql_driver_module_impl::query(const std::string& table_name, const std::string& key,
+    const std::vector<std::string>& field_vec, std::vector<std::string>& value_vec) {
     if (!mysql_conn_)
     {
         return false;
@@ -205,9 +206,9 @@ bool mysql_driver_module_impl::Query(const std::string& tableName, const std::st
     ARK_MYSQL_TRY_BEGIN
     mysqlpp::Query query = mysql_conn_->query();
     query << "SELECT ";
-    for (auto iter = fieldVec.begin(); iter != fieldVec.end(); ++iter)
+    for (auto iter = field_vec.begin(); iter != field_vec.end(); ++iter)
     {
-        if (iter == fieldVec.begin())
+        if (iter == field_vec.begin())
         {
             query << *iter;
         }
@@ -216,24 +217,24 @@ bool mysql_driver_module_impl::Query(const std::string& tableName, const std::st
             query << "," << *iter;
         }
     }
-    query << " FROM " << tableName << " WHERE " << DefaultKey << " = " << mysqlpp::quote << strKey << ";";
+    query << " FROM " << table_name << " WHERE " << default_key_ << " = " << mysqlpp::quote << key << ";";
     //query.execute(); // 官网例子不需要execute
-    mysqlpp::StoreQueryResult xResult = query.store();
+    mysqlpp::StoreQueryResult query_result = query.store();
     query.reset();
 
-    if (xResult.empty() || !xResult)
+    if (query_result.empty() || !query_result)
     {
         return false;
     }
 
     // xResult应该只有一行的，为了以后可能出现的多条，所以用了循环
-    for (size_t i = 0; i < xResult.size(); ++i)
+    for (size_t i = 0; i < query_result.size(); ++i)
     {
-        for (size_t j = 0; j < fieldVec.size(); ++j)
+        for (size_t j = 0; j < field_vec.size(); ++j)
         {
-            const std::string& strFieldName = fieldVec[j];
-            std::string strValue(xResult[i][strFieldName.data()].data(), xResult[i][strFieldName.data()].length());
-            valueVec.push_back(strValue);
+            const std::string& field_name = field_vec[j];
+            std::string value(query_result[i][field_name.data()].data(), query_result[i][field_name.data()].length());
+            value_vec.push_back(value);
         }
     }
     ARK_MYSQL_TRY_END("query error")
@@ -241,20 +242,20 @@ bool mysql_driver_module_impl::Query(const std::string& tableName, const std::st
     return true;
 }
 
-bool mysql_driver_module_impl::UpdateOrInsert(const std::string& tableName, const std::string& strKey,
-    const std::vector<std::string>& fieldVec, const std::vector<std::string>& valueVec) {
+bool mysql_driver_module_impl::update_or_insert(const std::string& table_name, const std::string& key,
+    const std::vector<std::string>& field_vec, const std::vector<std::string>& value_vec) {
     if (!mysql_conn_)
     {
         return false;
     }
 
-    if (fieldVec.size() != valueVec.size())
+    if (field_vec.size() != value_vec.size())
     {
         return false;
     }
 
     bool b_exist = false;
-    if (!Exists(tableName, strKey, b_exist))
+    if (!exists(table_name, key, b_exist))
     {
         return false;
     }
@@ -264,47 +265,47 @@ bool mysql_driver_module_impl::UpdateOrInsert(const std::string& tableName, cons
     if (b_exist)
     {
         // update
-        query << "UPDATE " << tableName << " SET ";
-        for (size_t i = 0; i < fieldVec.size(); ++i)
+        query << "UPDATE " << table_name << " SET ";
+        for (size_t i = 0; i < field_vec.size(); ++i)
         {
             if (i == 0)
             {
-                query << fieldVec[i] << " = " << mysqlpp::quote << valueVec[i];
+                query << field_vec[i] << " = " << mysqlpp::quote << value_vec[i];
             }
             else
             {
-                query << "," << fieldVec[i] << " = " << mysqlpp::quote << valueVec[i];
+                query << "," << field_vec[i] << " = " << mysqlpp::quote << value_vec[i];
             }
         }
 
-        query << " WHERE " << DefaultKey << " = " << mysqlpp::quote << strKey << ";";
+        query << " WHERE " << default_key_ << " = " << mysqlpp::quote << key << ";";
     }
     else
     {
         // insert
-        query << "INSERT INTO " << tableName << "(" << DefaultKey << ",";
-        for (size_t i = 0; i < fieldVec.size(); ++i)
+        query << "INSERT INTO " << table_name << "(" << default_key_ << ",";
+        for (size_t i = 0; i < field_vec.size(); ++i)
         {
             if (i == 0)
             {
-                query << fieldVec[i];
+                query << field_vec[i];
             }
             else
             {
-                query << ", " << fieldVec[i];
+                query << ", " << field_vec[i];
             }
         }
 
-        query << ") VALUES(" << mysqlpp::quote << strKey << ",";
-        for (size_t i = 0; i < valueVec.size(); ++i)
+        query << ") VALUES(" << mysqlpp::quote << key << ",";
+        for (size_t i = 0; i < value_vec.size(); ++i)
         {
             if (i == 0)
             {
-                query << mysqlpp::quote << valueVec[i];
+                query << mysqlpp::quote << value_vec[i];
             }
             else
             {
-                query << ", " << mysqlpp::quote << valueVec[i];
+                query << ", " << mysqlpp::quote << value_vec[i];
             }
         }
 
@@ -318,12 +319,12 @@ bool mysql_driver_module_impl::UpdateOrInsert(const std::string& tableName, cons
     return true;
 }
 
-bool mysql_driver_module_impl::Select(const std::string& tableName, const std::string& strKey,
-    const std::vector<std::string>& fieldVec, std::vector<std::string>& valueVec) {
+bool mysql_driver_module_impl::select(const std::string& table_name, const std::string& key,
+    const std::vector<std::string>& field_vec, std::vector<std::string>& value_vec) {
     return false;
 }
 
-bool mysql_driver_module_impl::Delete(const std::string& tableName, const std::string& strKey) {
+bool mysql_driver_module_impl::erase(const std::string& table_name, const std::string& key) {
     if (!mysql_conn_)
     {
         return false;
@@ -331,7 +332,7 @@ bool mysql_driver_module_impl::Delete(const std::string& tableName, const std::s
 
     ARK_MYSQL_TRY_BEGIN
     mysqlpp::Query query = mysql_conn_->query();
-    query << "DELETE FROM " << tableName << " WHERE " << DefaultKey << " = " << mysqlpp::quote << strKey << ";";
+    query << "DELETE FROM " << table_name << " WHERE " << default_key_ << " = " << mysqlpp::quote << key << ";";
 
     query.execute();
     query.reset();
@@ -340,7 +341,7 @@ bool mysql_driver_module_impl::Delete(const std::string& tableName, const std::s
     return true;
 }
 
-bool mysql_driver_module_impl::Exists(const std::string& tableName, const std::string& strKey, bool& bExit) {
+bool mysql_driver_module_impl::exists(const std::string& table_name, const std::string& key, bool& exists) {
     if (!mysql_conn_)
     {
         return false;
@@ -348,7 +349,7 @@ bool mysql_driver_module_impl::Exists(const std::string& tableName, const std::s
 
     ARK_MYSQL_TRY_BEGIN
     mysqlpp::Query query = mysql_conn_->query();
-    query << "SELECT 1 FROM " << tableName << " WHERE " << DefaultKey << " = " << mysqlpp::quote << strKey
+    query << "SELECT 1 FROM " << table_name << " WHERE " << default_key_ << " = " << mysqlpp::quote << key
           << " LIMIT 1;";
 
     //query.execute();
@@ -357,43 +358,43 @@ bool mysql_driver_module_impl::Exists(const std::string& tableName, const std::s
 
     if (!result || result.empty())
     {
-        bExit = false;
+        exists = false;
         return true;
     }
 
     ARK_MYSQL_TRY_END("exist error")
 
-    bExit = true;
+    exists = true;
     return true;
 }
 
-bool mysql_driver_module_impl::Keys(
-    const std::string& tableName, const std::string& strKeyName, std::vector<std::string>& valueVec) {
+bool mysql_driver_module_impl::keys(
+    const std::string& table_name, const std::string& key_name, std::vector<std::string>& value_vec) {
     if (!mysql_conn_)
     {
         return false;
     }
 
-    const std::string strLikeKey = "%" + strKeyName + "%";
+    const std::string like_key = "%" + key_name + "%";
 
     ARK_MYSQL_TRY_BEGIN
     mysqlpp::Query query = mysql_conn_->query();
-    query << "SELECT " << DefaultKey << " FROM " << tableName << " WHERE " << DefaultKey << " LIKE " << mysqlpp::quote
-          << strLikeKey << " LIMIT 100;";
+    query << "SELECT " << default_key_ << " FROM " << table_name << " WHERE " << default_key_ << " LIKE "
+          << mysqlpp::quote << like_key << " LIMIT 100;";
 
-    mysqlpp::StoreQueryResult xResult = query.store();
+    mysqlpp::StoreQueryResult query_result = query.store();
     query.reset();
 
-    if (xResult.empty() || !xResult)
+    if (query_result.empty() || !query_result)
     {
         return false;
     }
 
     // xResult应该只有一行的，为了以后可能出现的多条，所以用了循环
-    for (size_t i = 0; i < xResult.size(); ++i)
+    for (size_t i = 0; i < query_result.size(); ++i)
     {
-        std::string strValue(xResult[i][DefaultKey.data()].data(), xResult[i][DefaultKey.data()].length());
-        valueVec.push_back(strValue);
+        std::string value(query_result[i][default_key_.data()].data(), query_result[i][default_key_.data()].length());
+        value_vec.push_back(value);
     }
 
     ARK_MYSQL_TRY_END("exist error")
@@ -406,7 +407,7 @@ bool mysql_driver_module_impl::Keys(
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool mysql_driver_module_impl::Insert(const std::string& document, std::vector<kv_pair>& data) {
+bool mysql_driver_module_impl::insert(const std::string& document, std::vector<kv_pair>& data) {
     if (!mysql_conn_)
     {
         return false;
@@ -423,7 +424,7 @@ bool mysql_driver_module_impl::Insert(const std::string& document, std::vector<k
         {
             query << ", ";
         }
-        query << iter->key_;
+        query << iter->key;
         iter++;
     }
     query << ") VALUES (";
@@ -435,7 +436,7 @@ bool mysql_driver_module_impl::Insert(const std::string& document, std::vector<k
         {
             query << ", ";
         }
-        query << mysqlpp::quote << iter->value_;
+        query << mysqlpp::quote << iter->value;
         iter++;
     }
     query << ");";
@@ -446,7 +447,7 @@ bool mysql_driver_module_impl::Insert(const std::string& document, std::vector<k
     ARK_MYSQL_TRY_END("mysql insert error")
 }
 
-bool mysql_driver_module_impl::UpdateRecord(
+bool mysql_driver_module_impl::update_record(
     const std::string& document, std::vector<kv_pair>& data, std::vector<where>& where) {
     if (!mysql_conn_)
     {
@@ -464,7 +465,7 @@ bool mysql_driver_module_impl::UpdateRecord(
         {
             query << " , ";
         }
-        query << iter->key_ << " = " << mysqlpp::quote << iter->value_;
+        query << iter->key << " = " << mysqlpp::quote << iter->value;
         iter++;
     }
     query << " WHERE ";
@@ -476,7 +477,7 @@ bool mysql_driver_module_impl::UpdateRecord(
         {
             query << " , ";
         }
-        query << where_iter->key_ << where_iter->Operation() << mysqlpp::quote << where_iter->value_;
+        query << where_iter->key << where_iter->operation() << mysqlpp::quote << where_iter->value;
         where_iter++;
     }
     query << ";";
@@ -487,7 +488,7 @@ bool mysql_driver_module_impl::UpdateRecord(
     ARK_MYSQL_TRY_END("mysql set (update or insert) error")
 }
 
-bool mysql_driver_module_impl::Select(const std::string& document, std::vector<std::string>& columns,
+bool mysql_driver_module_impl::select(const std::string& document, std::vector<std::string>& columns,
     std::vector<where>& where, order_by& order, int limit, result_arr& results) {
     if (!mysql_conn_)
     {
@@ -516,26 +517,26 @@ bool mysql_driver_module_impl::Select(const std::string& document, std::vector<s
         {
             query << " AND ";
         }
-        query << iter->key_ << iter->Operation() << mysqlpp::quote << iter->value_;
+        query << iter->key << iter->operation() << mysqlpp::quote << iter->value;
         iter++;
     }
 
     // order by
-    for (size_t i = 0; i < order.fields_.size(); ++i)
+    for (size_t i = 0; i < order.fields.size(); ++i)
     {
         if (i == 0)
         {
             query << " ORDER BY ";
         }
-        else if (i == order.fields_.size() - 1)
+        else if (i == order.fields.size() - 1)
         {
-            query << " " << order.order_;
+            query << " " << order.direction;
         }
         else
         {
             query << ", ";
         }
-        query << order.fields_[i];
+        query << order.fields[i];
     }
 
     // limit
@@ -558,10 +559,9 @@ bool mysql_driver_module_impl::Select(const std::string& document, std::vector<s
         result temp;
         for (size_t j = 0; j < columns.size(); ++j)
         {
-            const std::string& strFieldName = columns[j];
-            std::string strValue(
-                query_result[i][strFieldName.data()].data(), query_result[i][strFieldName.data()].length());
-            temp.insert(std::make_pair(columns[j], std::move(strValue)));
+            const std::string& field_name = columns[j];
+            std::string value(query_result[i][field_name.data()].data(), query_result[i][field_name.data()].length());
+            temp.insert(std::make_pair(columns[j], std::move(value)));
         }
         results.push_back(std::move(temp));
     }
@@ -570,10 +570,10 @@ bool mysql_driver_module_impl::Select(const std::string& document, std::vector<s
     ARK_MYSQL_TRY_END("mysql get (select) error")
 }
 
-bool mysql_driver_module_impl::SelectOne(const std::string& document, std::vector<std::string>& columns,
+bool mysql_driver_module_impl::select_one(const std::string& document, std::vector<std::string>& columns,
     std::vector<where>& where, order_by& order, result& result) {
     std::vector<result> res;
-    if (!Select(document, columns, where, order, 1, res))
+    if (!select(document, columns, where, order, 1, res))
     {
         return false;
     }

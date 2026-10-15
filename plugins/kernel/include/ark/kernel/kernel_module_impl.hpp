@@ -51,8 +51,8 @@ public:
     ///////////////////////////////////////////////////////////////////////
     std::shared_ptr<static_entity> get_static_entity(const id_type config_id) override;
     std::shared_ptr<entity> get_entity(const guid_t& self) override;
-    std::shared_ptr<entity> create_entity(const guid_t& self, const int nSceneID, const int nGroupID,
-        const std::string& strClassName, const id_type config_id, const data_list& arg) override;
+    std::shared_ptr<entity> create_entity(const guid_t& self, const int scene_id, const int group_id,
+        const std::string& class_name, const id_type config_id, const data_list& arg) override;
 
     std::shared_ptr<entity> create_container_entity(const guid_t& self, const uint32_t container_index,
         const std::string& class_name, const id_type config_id) override;
@@ -72,26 +72,28 @@ public:
 
     bool exist(const guid_t& self) override;
 
-    bool entity_to_db_data(const guid_t& self, AFMsg::pb_db_entity& pb_data) override;
-    std::shared_ptr<entity> create_entity(const AFMsg::pb_db_entity& pb_data) override;
+    bool entity_to_db_data(const guid_t& self, ark::protobuf::protobuf_db_entity& protobuf_data) override;
+    std::shared_ptr<entity> create_entity(const ark::protobuf::protobuf_db_entity& protobuf_data) override;
 
     // send message
     bool send_custom_message(const guid_t& target, const uint32_t msg_id, const data_list& args) override;
 
     // entity to pb
-    bool node_to_pb_data(const uint32_t index, const data& data, AFMsg::pb_entity_data* pb_data) override;
-    bool row_to_pb_data(row* pRow, const uint32_t index, AFMsg::pb_entity_data* pb_data) override;
-    bool table_row_data_to_pb_data(const uint32_t index, uint32_t row, const uint32_t col, const data& data,
-        AFMsg::pb_entity_data* pb_data) override;
-    bool entity_node_to_pb_data(
-        std::shared_ptr<entity> pEntity, AFMsg::pb_entity_data* pb_data, const mask_type mask = 0) override;
-    bool entity_table_to_pb_data(
-        std::shared_ptr<entity> pEntity, AFMsg::pb_entity_data* pb_data, const mask_type mask = 0) override;
+    bool node_to_protobuf_data(
+        const uint32_t index, const data& data, ark::protobuf::protobuf_entity_data* protobuf_data) override;
+    bool row_to_protobuf_data(
+        row* row_ptr, const uint32_t index, ark::protobuf::protobuf_entity_data* protobuf_data) override;
+    bool table_row_data_to_protobuf_data(const uint32_t index, uint32_t row, const uint32_t col, const data& data,
+        ark::protobuf::protobuf_entity_data* protobuf_data) override;
+    bool entity_node_to_protobuf_data(std::shared_ptr<entity> entity_ptr,
+        ark::protobuf::protobuf_entity_data* protobuf_data, const mask_type mask = 0) override;
+    bool entity_table_to_protobuf_data(std::shared_ptr<entity> entity_ptr,
+        ark::protobuf::protobuf_entity_data* protobuf_data, const mask_type mask = 0) override;
 
 protected:
     bool destroy_self(const guid_t& self);
 
-    bool inner_destroy_entity(std::shared_ptr<entity> pEntity);
+    bool inner_destroy_entity(std::shared_ptr<entity> entity_ptr);
 
     bool add_event_call_back(const guid_t& self, const int event_id, event_process_functor&& cb) override;
     bool add_class_call_back(const std::string& class_name, class_event_functor&& cb, const int32_t prio) override;
@@ -136,65 +138,70 @@ protected:
     int on_sync_container_swap(
         const guid_t& self, const uint32_t index, const data_mask mask, uint32_t src_index, uint32_t dest_index);
 
-    bool delay_table_to_pb(const delay_sync_table& table, const uint32_t index, AFMsg::pb_delay_entity& data,
-        AFMsg::pb_entity_data& pb_entity);
-    bool delay_container_to_pb(std::shared_ptr<entity> pEntity, const delay_sync_container& container,
-        const uint32_t index, AFMsg::pb_delay_entity& data);
+    bool delay_table_to_protobuf(const delay_sync_table& table, const uint32_t index,
+        ark::protobuf::protobuf_delay_entity& data, ark::protobuf::protobuf_entity_data& protobuf_entity);
+    bool delay_container_to_protobuf(std::shared_ptr<entity> entity_ptr, const delay_sync_container& container,
+        const uint32_t index, ark::protobuf::protobuf_delay_entity& data);
 
-    bool try_add_container_pb_entity(std::shared_ptr<container> pContainer, const guid_t& self,
-        AFMsg::pb_entity_data& pb_entity_data, guid_t& parent_id, AFMsg::pb_entity_data*& pb_container_entity);
+    bool try_add_container_protobuf_entity(std::shared_ptr<container> container_ptr, const guid_t& self,
+        ark::protobuf::protobuf_entity_data& protobuf_entity_data, guid_t& parent_id,
+        ark::protobuf::protobuf_entity_data*& protobuf_container_entity);
 
     int send_sync_msg(const guid_t& self, const data_mask mask_value, const google::protobuf::Message& msg);
     int send_to_view(const guid_t& self, const google::protobuf::Message& msg);
     int send_to_self(const guid_t& self, const google::protobuf::Message& msg);
 
     // convert db data and entity
-    bool entity_to_db_data(std::shared_ptr<entity> pEntity, AFMsg::pb_db_entity& pb_data);
-    bool node_to_db_data(node* pNode, AFMsg::pb_db_entity_data& pb_data);
-    bool table_to_db_data(table* pTable, AFMsg::pb_db_table& pb_data);
+    bool entity_to_db_data(std::shared_ptr<entity> entity_ptr, ark::protobuf::protobuf_db_entity& protobuf_data);
+    bool node_to_db_data(node* node_ptr, ark::protobuf::protobuf_db_entity_data& protobuf_data);
+    bool table_to_db_data(table* table_ptr, ark::protobuf::protobuf_db_table& protobuf_data);
 
-    bool db_data_to_node(std::shared_ptr<node_manager> pNodeManager, const AFMsg::pb_db_entity_data& pb_db_entity_data);
-    bool db_data_to_table(std::shared_ptr<entity> pEntity, const std::string& name, const AFMsg::pb_db_table& pb_table);
-    bool db_data_to_container(
-        std::shared_ptr<entity> pEntity, const std::string& name, const AFMsg::pb_db_container& pb_data);
+    bool db_data_to_node(std::shared_ptr<node_manager> node_manager_ptr,
+        const ark::protobuf::protobuf_db_entity_data& protobuf_db_entity_data);
+    bool db_data_to_table(std::shared_ptr<entity> entity_ptr, const std::string& name,
+        const ark::protobuf::protobuf_db_table& protobuf_table);
+    bool db_data_to_container(std::shared_ptr<entity> entity_ptr, const std::string& name,
+        const ark::protobuf::protobuf_db_container& protobuf_data);
 
     // convert client pb and entity
-    bool node_to_pb_data(node* pNode, AFMsg::pb_entity_data* pb_data);
-    bool table_to_pb_data(table* pTable, const uint32_t index, AFMsg::pb_table* pb_data);
-    bool container_to_pb_data(std::shared_ptr<container> pContainer, AFMsg::pb_container* pb_data);
+    bool node_to_protobuf_data(node* node_ptr, ark::protobuf::protobuf_entity_data* protobuf_data);
+    bool table_to_protobuf_data(table* table_ptr, const uint32_t index, ark::protobuf::protobuf_table* protobuf_data);
+    bool container_to_protobuf_data(
+        std::shared_ptr<container> container_ptr, ark::protobuf::protobuf_container* protobuf_data);
 
-    bool entity_to_pb_data(std::shared_ptr<entity> pEntity, AFMsg::pb_entity* pb_data);
-    bool entity_to_pb_data_by_mask(std::shared_ptr<entity> pEntity, mask_type mask, AFMsg::pb_entity* pb_data);
+    bool entity_to_protobuf_data(std::shared_ptr<entity> entity_ptr, ark::protobuf::protobuf_entity* protobuf_data);
+    bool entity_to_protobuf_data_by_mask(
+        std::shared_ptr<entity> entity_ptr, mask_type mask, ark::protobuf::protobuf_entity* protobuf_data);
 
-    bool entity_container_to_pb_data(
-        std::shared_ptr<entity> pEntity, AFMsg::pb_entity_data* pb_data, const mask_type mask = 0);
+    bool entity_container_to_protobuf_data(std::shared_ptr<entity> entity_ptr,
+        ark::protobuf::protobuf_entity_data* protobuf_data, const mask_type mask = 0);
 
     // call back
     int on_container_call_back(const guid_t& self, const uint32_t index, const container_op_type op_type,
         const uint32_t src_index, const uint32_t dest_index);
 
-    bool copy_data(std::shared_ptr<entity> pEntity, std::shared_ptr<static_entity> pStaticEntity);
+    bool copy_data(std::shared_ptr<entity> entity_ptr, std::shared_ptr<static_entity> static_entity_ptr);
 
     // get entity data
-    std::shared_ptr<node_manager> get_node_manager(std::shared_ptr<static_entity> pStaticEntity) const;
-    std::shared_ptr<node_manager> get_node_manager(std::shared_ptr<entity> pEntity) const;
-    std::shared_ptr<node_manager> get_node_manager(row* pRow) const;
-    std::shared_ptr<table_manager> get_table_manager(std::shared_ptr<entity> pEntity) const;
-    std::shared_ptr<container_manager> get_container_manager(std::shared_ptr<entity> pEntity) const;
-    std::shared_ptr<event_manager> get_event_manager(std::shared_ptr<entity> pEntity) const;
+    std::shared_ptr<node_manager> get_node_manager(std::shared_ptr<static_entity> static_entity_ptr) const;
+    std::shared_ptr<node_manager> get_node_manager(std::shared_ptr<entity> entity_ptr) const;
+    std::shared_ptr<node_manager> get_node_manager(row* row_ptr) const;
+    std::shared_ptr<table_manager> get_table_manager(std::shared_ptr<entity> entity_ptr) const;
+    std::shared_ptr<container_manager> get_container_manager(std::shared_ptr<entity> entity_ptr) const;
+    std::shared_ptr<event_manager> get_event_manager(std::shared_ptr<entity> entity_ptr) const;
 
 private:
     std::list<guid_t> delete_list_;
 
-    guid_t cur_exec_object_{NULL_GUID};
+    guid_t cur_exec_object_{null_guid};
 
     using sync_functor = std::function<bool(const guid_t&, const google::protobuf::Message&)>;
-    std::map<data_mask, sync_functor> sync_functors;
+    std::map<data_mask, sync_functor> sync_functors_;
 
-    map_module* m_pMapModule{nullptr};
-    guid_module* m_pGUIDModule{nullptr};
-    config_module* m_pConfigModule{nullptr};
-    class_meta_module* m_pClassModule{nullptr};
+    map_module* map_module_{nullptr};
+    guid_module* guid_module_{nullptr};
+    config_module* config_module_{nullptr};
+    class_meta_module* class_meta_module_{nullptr};
 
     array_map<std::string, int32_t> inner_nodes_;
     shared_object_map<guid_t, entity> objects_;

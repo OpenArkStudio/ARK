@@ -16,12 +16,14 @@
 #include <spdlog/sinks/base_sink.h>
 
 namespace spdlog {
+
 namespace sinks {
+
 //
 // Rotating file sink based on size
 //
-template<typename Mutex>
-class rotating_file_with_date_sink final : public base_sink<Mutex>
+template<typename mutex_type>
+class rotating_file_with_date_sink final : public base_sink<mutex_type>
 {
 public:
     rotating_file_with_date_sink(filename_t base_filename, std::size_t max_size, std::size_t max_files);
@@ -33,7 +35,7 @@ protected:
     void flush_() override;
 
 private:
-    void rotate_();
+    void rotate();
     bool rename_file(const filename_t& src_filename, const filename_t& target_filename);
 
     filename_t base_filename_;
@@ -52,17 +54,17 @@ using rotating_file_with_date_sink_st = rotating_file_with_date_sink<details::nu
 // factory functions
 //
 
-template<typename Factory = spdlog::synchronous_factory>
+template<typename factory_type = spdlog::synchronous_factory>
 inline std::shared_ptr<logger> rotating_logger_mt(
     const std::string& logger_name, const filename_t& filename, size_t max_file_size, size_t max_files) {
-    return Factory::template create<sinks::rotating_file_with_date_sink_mt>(
+    return factory_type::template create<sinks::rotating_file_with_date_sink_mt>(
         logger_name, filename, max_file_size, max_files);
 }
 
-template<typename Factory = spdlog::synchronous_factory>
+template<typename factory_type = spdlog::synchronous_factory>
 inline std::shared_ptr<logger> rotating_logger_st(
     const std::string& logger_name, const filename_t& filename, size_t max_file_size, size_t max_files) {
-    return Factory::template create<sinks::rotating_file_with_date_sink_st>(
+    return factory_type::template create<sinks::rotating_file_with_date_sink_st>(
         logger_name, filename, max_file_size, max_files);
 }
 } // namespace spdlog

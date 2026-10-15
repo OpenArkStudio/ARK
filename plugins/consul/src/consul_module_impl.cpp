@@ -7,7 +7,7 @@ namespace ark {
 
 namespace {
 
-std::future<std::pair<bool, std::string>> FailedRequest() {
+std::future<std::pair<bool, std::string>> failed_request() {
     std::promise<std::pair<bool, std::string>> promise;
     promise.set_value({false, {}});
     return promise.get_future();
@@ -15,14 +15,14 @@ std::future<std::pair<bool, std::string>> FailedRequest() {
 
 } // namespace
 
-static const std::string REGISTER_API("/v1/agent/service/register");
-static const std::string DEREGISTER_API("/v1/agent/service/deregister/");
-static const std::string KV_API("/v1/kv/");
-static const std::string HEALTH_CHECK_API("/v1/health/service/");
+static const std::string register_api("/v1/agent/service/register");
+static const std::string deregister_api("/v1/agent/service/deregister/");
+static const std::string kv_api("/v1/kv/");
+static const std::string health_check_api("/v1/health/service/");
 
 bool consul_module_impl::init() {
-    m_pHttpClientModule = find_module<http_client_module>();
-    return m_pHttpClientModule != nullptr && LoadConfig();
+    http_client_module_ = find_module<http_client_module>();
+    return http_client_module_ != nullptr && load_config();
 }
 
 // void AFCConsulModule::SetRegisterCenter(const std::string& center_ip, const uint16_t center_port)
@@ -31,7 +31,7 @@ bool consul_module_impl::init() {
 //     consul_port_ = center_port;
 // }
 
-bool consul_module_impl::LoadConfig() {
+bool consul_module_impl::load_config() {
     xml xml(consul_plugin::get_plugin_conf());
     auto root = xml.get_root_node();
     ARK_ASSERT_RET_VAL(root.is_valid(), false);
@@ -45,71 +45,71 @@ bool consul_module_impl::LoadConfig() {
     return true;
 }
 
-std::future<std::pair<bool, std::string>> consul_module_impl::RegisterService(const consul::service_data& service) {
+std::future<std::pair<bool, std::string>> consul_module_impl::register_service(const consul::service_data& service) {
     std::string body;
     if (!google::protobuf::util::MessageToJsonString(service, &body).ok())
     {
-        return FailedRequest();
+        return failed_request();
     }
     const std::string content_type = "application/json";
-    return m_pHttpClientModule->async_request(
-        arknet::http::verb::put, consul_ip_, consul_port_, REGISTER_API, nullptr, nullptr, &body, &content_type);
+    return http_client_module_->async_request(
+        arknet::http::verb::put, consul_ip_, consul_port_, register_api, nullptr, nullptr, &body, &content_type);
 }
 
-std::future<std::pair<bool, std::string>> consul_module_impl::DeregisterService(const std::string& service_id) {
+std::future<std::pair<bool, std::string>> consul_module_impl::deregister_service(const std::string& service_id) {
     if (service_id.empty())
     {
-        return FailedRequest();
+        return failed_request();
     }
 
-    auto url = DEREGISTER_API + service_id;
-    return m_pHttpClientModule->async_request(arknet::http::verb::put, consul_ip_, consul_port_, url);
+    auto url = deregister_api + service_id;
+    return http_client_module_->async_request(arknet::http::verb::put, consul_ip_, consul_port_, url);
 }
 
-std::future<std::pair<bool, std::string>> consul_module_impl::GetKeyValue(const std::string& key) {
+std::future<std::pair<bool, std::string>> consul_module_impl::get_key_value(const std::string& key) {
     if (key.empty())
     {
-        return FailedRequest();
+        return failed_request();
     }
 
-    std::string url = KV_API + key;
-    return m_pHttpClientModule->async_request(arknet::http::verb::get, consul_ip_, consul_port_, url);
+    std::string url = kv_api + key;
+    return http_client_module_->async_request(arknet::http::verb::get, consul_ip_, consul_port_, url);
 }
 
-std::future<std::pair<bool, std::string>> consul_module_impl::SetKeyValue(
+std::future<std::pair<bool, std::string>> consul_module_impl::set_key_value(
     const std::string& key, const std::string& value) {
     if (key.empty())
     {
-        return FailedRequest();
+        return failed_request();
     }
 
-    return m_pHttpClientModule->async_request(
-        arknet::http::verb::put, consul_ip_, consul_port_, KV_API + key, nullptr, nullptr, &value);
+    return http_client_module_->async_request(
+        arknet::http::verb::put, consul_ip_, consul_port_, kv_api + key, nullptr, nullptr, &value);
 }
 
-std::future<std::pair<bool, std::string>> consul_module_impl::DelKeyValue(const std::string& key) {
+std::future<std::pair<bool, std::string>> consul_module_impl::del_key_value(const std::string& key) {
     if (key.empty())
     {
-        return FailedRequest();
+        return failed_request();
     }
 
-    std::string url = KV_API + key;
-    return m_pHttpClientModule->async_request(arknet::http::verb::delete_, consul_ip_, consul_port_, url);
+    std::string url = kv_api + key;
+    return http_client_module_->async_request(arknet::http::verb::delete_, consul_ip_, consul_port_, url);
 }
 
-std::future<std::pair<bool, std::string>> consul_module_impl::GetHealthServices(
+std::future<std::pair<bool, std::string>> consul_module_impl::get_health_services(
     const std::string& service_name, const std::string& tag_filter) {
     if (service_name.empty())
     {
-        return FailedRequest();
+        return failed_request();
     }
 
-    std::string url = HEALTH_CHECK_API + service_name;
+    std::string url = health_check_api + service_name;
     std::map<std::string, std::string> params;
     params.insert(std::make_pair("tag", tag_filter));
     params.insert(std::make_pair("passing", "1"));
 
-    return m_pHttpClientModule->async_request(arknet::http::verb::get, consul_ip_, consul_port_, url, &params);
+    return http_client_module_->async_request(arknet::http::verb::get, consul_ip_, consul_port_, url, &params);
 }
 
 //bool AFCConsulModule::GetHealthServices(

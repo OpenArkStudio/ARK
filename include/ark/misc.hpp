@@ -63,16 +63,16 @@ public:
         return 1 << count;
     }
 
-    template<typename T>
-    static std::string to_string(const T& value) {
+    template<typename element_type>
+    static std::string to_string(const element_type& value) {
         return ARK_LEXICAL_CAST<std::string>(value);
     }
 
-    template<typename T>
-    static bool from_string(const std::string& str_value, T& result) {
+    template<typename element_type>
+    static bool from_string(const std::string& str_value, element_type& result) {
         try
         {
-            result = ARK_LEXICAL_CAST<T>(str_value);
+            result = ARK_LEXICAL_CAST<element_type>(str_value);
             return true;
         }
         catch (std::system_error& ex)
@@ -84,17 +84,17 @@ public:
         return false;
     }
 
-    template<typename T>
-    static T from_string(const std::string& str_value) {
+    template<typename element_type>
+    static element_type from_string(const std::string& str_value) {
         try
         {
-            T result = ARK_LEXICAL_CAST<T>(str_value);
+            element_type result = ARK_LEXICAL_CAST<element_type>(str_value);
             return result;
         }
         catch ([[maybe_unused]] std::system_error& ex)
         {
             ARK_ASSERT_NO_EFFECT(0);
-            return T();
+            return element_type();
         }
     }
 
@@ -119,33 +119,33 @@ public:
             }
         }
 
-        return data_type::DT_EMPTY;
+        return data_type::dt_empty;
     }
 
-    template<typename T>
-    static T operate(data_op_type op, const T& base, const T& delta) {
+    template<typename element_type>
+    static element_type operate(data_op_type op, const element_type& base, const element_type& delta) {
         switch (op)
         {
-        case data_op_type::DOT_INC:
+        case data_op_type::dot_inc:
             base += delta;
             break;
-        case data_op_type::DOT_DEC:
+        case data_op_type::dot_dec:
             base -= std::min(base, delta);
             break;
-        case data_op_type::DOT_MUL:
+        case data_op_type::dot_mul:
             base *= delta;
             break;
-        case data_op_type::DOT_DIV:
+        case data_op_type::dot_div:
             ARK_ASSERT_RET_VAL(delta != 0, base);
             base /= delta;
             break;
-        case data_op_type::DOT_SET:
+        case data_op_type::dot_set:
             base = delta;
             break;
-        case data_op_type::DOT_AND:
+        case data_op_type::dot_and:
             base &= delta;
             break;
-        case data_op_type::DOT_OR:
+        case data_op_type::dot_or:
             base |= delta;
             break;
         default:
@@ -191,33 +191,33 @@ public:
         return false;
     }
 
-    static long str_to_data(const std::string& strData, int jz) {
-        int l = (int)strData.length();
-        long IntValue = 0;
-        int bitValue = 0;
+    static long str_to_data(const std::string& str_data, int jz) {
+        int l = (int)str_data.length();
+        long int_value = 0;
+        int bit_value = 0;
         int i;
         for (i = 0; i < l; i++)
         {
-            if (is_right_data(strData[i], jz))
+            if (is_right_data(str_data[i], jz))
             {
-                bitValue = to_hex_digit(strData[i]);
-                IntValue = bitValue * pow_i(jz, l - i - 1) + IntValue;
+                bit_value = to_hex_digit(str_data[i]);
+                int_value = bit_value * pow_i(jz, l - i - 1) + int_value;
             }
             else
             {
                 return -1;
             }
         }
-        return IntValue;
+        return int_value;
     }
 
     static int to_hex_digit(char c) {
         assert(is_right_data(c, 16));
 
-        int bitValue = 0;
+        int bit_value = 0;
         if (isdigit(c))
         {
-            bitValue = c - 0x30;
+            bit_value = c - 0x30;
         }
         else
         {
@@ -225,38 +225,38 @@ public:
             {
             case 'a':
             case 'A':
-                bitValue = 0x0a;
+                bit_value = 0x0a;
                 break;
 
             case 'b':
             case 'B':
-                bitValue = 0x0b;
+                bit_value = 0x0b;
                 break;
 
             case 'c':
             case 'C':
-                bitValue = 0x0c;
+                bit_value = 0x0c;
                 break;
 
             case 'd':
             case 'D':
-                bitValue = 0x0d;
+                bit_value = 0x0d;
                 break;
 
             case 'e':
             case 'E':
-                bitValue = 0x0e;
+                bit_value = 0x0e;
                 break;
 
             case 'f':
             case 'F':
-                bitValue = 0x0f;
+                bit_value = 0x0f;
                 break;
             default:
                 break;
             }
         }
-        return bitValue;
+        return bit_value;
     }
 
     /**
@@ -280,36 +280,36 @@ public:
      * 78 79 7a 7b 7c 7d 7e 7f  xyz{|}~.
      */
 
-    static std::string convert_to_c_style_str(const std::string& _Str) {
-        static const char* shiftMap[] = {"\\(00)", "\\(01)", "\\(02)", "\\(03)", "\\(04)", "\\(05)", "\\(06)", "\\(07)",
-            "\\(08)", "\\t", "\\n", "\\(0B)", "\\(0C)", "\\r", "\\(0E)", "\\(0F)", "\\(10)", "\\(11)", "\\(12)",
-            "\\(13)", "\\(14)", "\\(15)", "\\(16)", "\\(17)", "\\(18)", "\\(19)", "\\(1A)", "\\(1B)", "\\(1C)",
-            "\\(1D)", "\\(1E)", "\\(1F)", " ", "!", "\"", "#", "$", "%", "&", "\'", "(", ")", "*", "+", ",", "-", ".",
-            "/", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ":", ";", "<", "=", ">", "?", "@", "A", "B", "C",
-            "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X",
-            "Y", "Z", "[", "\\\\", "]", "^", "_", "`", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-            "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "{", "|", "}", "~", "\\(7F)"};
+    static std::string convert_to_c_style_str(const std::string& input) {
+        static const char* shift_map[] = {"\\(00)", "\\(01)", "\\(02)", "\\(03)", "\\(04)", "\\(05)", "\\(06)",
+            "\\(07)", "\\(08)", "\\t", "\\n", "\\(0B)", "\\(0C)", "\\r", "\\(0E)", "\\(0F)", "\\(10)", "\\(11)",
+            "\\(12)", "\\(13)", "\\(14)", "\\(15)", "\\(16)", "\\(17)", "\\(18)", "\\(19)", "\\(1A)", "\\(1B)",
+            "\\(1C)", "\\(1D)", "\\(1E)", "\\(1F)", " ", "!", "\"", "#", "$", "%", "&", "\'", "(", ")", "*", "+", ",",
+            "-", ".", "/", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ":", ";", "<", "=", ">", "?", "@", "A",
+            "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
+            "W", "X", "Y", "Z", "[", "\\\\", "]", "^", "_", "`", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
+            "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "{", "|", "}", "~", "\\(7F)"};
 
-        std::string rstString;
+        std::string rst_string;
         // Pre allocated memory
-        rstString.reserve(_Str.size() * 2);
+        rst_string.reserve(input.size() * 2);
 
-        for (size_t i = 0; i < _Str.size(); i++)
+        for (size_t i = 0; i < input.size(); i++)
         {
             //bool isAscIIChar = int8_t(_Str[i]) >= 0x0 && int8_t(_Str[i]) <= 0x7f;
-            bool isAscIIChar = (static_cast<unsigned char>(_Str[i]) <= 127);
-            if (isAscIIChar)
+            bool is_asc_ii_char = (static_cast<unsigned char>(input[i]) <= 127);
+            if (is_asc_ii_char)
             {
                 // english characters
-                rstString.append(shiftMap[size_t(_Str[i])]);
+                rst_string.append(shift_map[size_t(input[i])]);
             }
             else
             {
                 // other characters
-                rstString.append(1, _Str[i]);
+                rst_string.append(1, input[i]);
             }
         }
-        return rstString;
+        return rst_string;
     }
 
     static std::string hexdump_oneline(const std::string& prefix, const std::string& line, size_t width) {
@@ -365,10 +365,10 @@ public:
         return ostrm.str();
     }
 
-    static std::string to_hex_dump_text(const std::string& _Str, size_t width, const std::string& prefix = "| ") {
+    static std::string to_hex_dump_text(const std::string& input, size_t width, const std::string& prefix = "| ") {
         std::ostringstream ostrm;
 
-        std::string str = _Str;
+        std::string str = input;
         while (str.size() > width)
         {
             std::string line(str.c_str(), width);
@@ -388,66 +388,66 @@ public:
      * ConvertFromCStyleStr
      */
     static bool is_hex_number(const char& c) {
-        const static char hexNumber[] = "0123456789abcdefABCDEF";
-        return (strchr(hexNumber, c) != NULL);
+        const static char hex_number[] = "0123456789abcdefABCDEF";
+        return (strchr(hex_number, c) != NULL);
     }
 
     // pSrc is the string that format is "\(3F)".
-    static int proc_shift_char_by_num(char& dst, const char* const pSrc, int srcStrLen) {
-        assert(pSrc != NULL);
+    static int proc_shift_char_by_num(char& dst, const char* const p_src, int src_str_len) {
+        assert(p_src != NULL);
 
         // check if it's the standard format : "\(3F)"
-        bool isAllowdFormat = false;
-        if (srcStrLen < 5)
+        bool is_allowd_format = false;
+        if (src_str_len < 5)
         {
-            isAllowdFormat = false;
+            is_allowd_format = false;
         }
-        else if (pSrc[0] != '\\' || pSrc[1] != '(' || pSrc[4] != ')')
+        else if (p_src[0] != '\\' || p_src[1] != '(' || p_src[4] != ')')
         {
-            isAllowdFormat = false;
+            is_allowd_format = false;
         }
-        else if ((!is_hex_number(pSrc[2])) || (!is_hex_number(pSrc[3])))
+        else if ((!is_hex_number(p_src[2])) || (!is_hex_number(p_src[3])))
         {
-            isAllowdFormat = false;
+            is_allowd_format = false;
         }
         else
         {
-            isAllowdFormat = true;
+            is_allowd_format = true;
         }
 
-        if (isAllowdFormat == false)
+        if (is_allowd_format == false)
         {
             // illegal format.
             //assert(false); // tag: do not assert
 
             //For unrecognized escapes, the '\' symbol is parsed as a non escape indicator and
             // the cursor points to the next character of the '\' symbol
-            dst = pSrc[0];
+            dst = p_src[0];
             return 1;
         }
 
         // Right situation
-        std::string hexNumString(&pSrc[2], 2);
-        int hexNum = str_to_data(hexNumString, 16);
-        dst = (static_cast<unsigned char>(hexNum));
+        std::string hex_num_string(&p_src[2], 2);
+        int hex_num = str_to_data(hex_num_string, 16);
+        dst = (static_cast<unsigned char>(hex_num));
         return 5; // standard format:"\(3F)" is 5 bytes.
     }
 
     // pSrc is "\r" "\n" "\t" "\\"
-    static int proc_shift_char_by_char(char& dst, const char* const pSrc, int srcStrLen) {
+    static int proc_shift_char_by_char(char& dst, const char* const p_src, int src_str_len) {
         // Check format.
-        if (srcStrLen < 2)
+        if (src_str_len < 2)
         {
             // illegal format.
             //assert(false); // tag: do not assert
 
             // For unrecognized escapes, the '\' symbol is parsed as a non escape indicator and
             // the cursor points to the next character of the '\' symbol
-            dst = pSrc[0];
+            dst = p_src[0];
             return 1;
         }
 
-        switch (pSrc[1])
+        switch (p_src[1])
         {
         case 'r':
             dst = '\r';
@@ -467,56 +467,57 @@ public:
 
             //For unrecognized escapes, the '\' symbol is parsed as a non escape indicator and
             // the cursor points to the next character of the '\' symbol
-            dst = pSrc[0];
+            dst = p_src[0];
             return 1;
         }
     }
 
     // return the pos that the iter moves.
-    static int proc_shift_char(char& dst, const char* pSrc, int srcStrLen) {
-        switch (pSrc[1])
+    static int proc_shift_char(char& dst, const char* p_src, int src_str_len) {
+        switch (p_src[1])
         {
         case 'r':
         case 'n':
         case 't':
         case '\\':
-            return proc_shift_char_by_char(dst, pSrc, srcStrLen);
+            return proc_shift_char_by_char(dst, p_src, src_str_len);
         case '(':
-            return proc_shift_char_by_num(dst, pSrc, srcStrLen);
+            return proc_shift_char_by_num(dst, p_src, src_str_len);
         default:
             // illegal format.
             //assert(false); // tag: do not assert
 
             //For unrecognized escapes, the '\' symbol is parsed as a non escape indicator and
             // the cursor points to the next character of the '\' symbol
-            dst = pSrc[0];
+            dst = p_src[0];
             return 1;
         }
     }
 
-    static std::string convert_from_c_style_str(const std::string& _CStyleStr) {
-        std::string rstString;
+    static std::string convert_from_c_style_str(const std::string& c_style_string) {
+        std::string rst_string;
         // Pre allocated memory
-        rstString.reserve(_CStyleStr.size());
+        rst_string.reserve(c_style_string.size());
 
-        size_t cStyleStrIndex = 0;
-        while (cStyleStrIndex < _CStyleStr.size())
+        size_t c_style_str_index = 0;
+        while (c_style_str_index < c_style_string.size())
         {
-            if (_CStyleStr[cStyleStrIndex] != '\\')
+            if (c_style_string[c_style_str_index] != '\\')
             {
-                rstString.append(1, _CStyleStr[cStyleStrIndex]);
-                cStyleStrIndex++;
+                rst_string.append(1, c_style_string[c_style_str_index]);
+                c_style_str_index++;
             }
             else
             {
-                char shiftChar = 0;
-                int cStyleStrLeftLen = _CStyleStr.size() - cStyleStrIndex;
-                cStyleStrIndex += proc_shift_char(shiftChar, &_CStyleStr[cStyleStrIndex], cStyleStrLeftLen);
-                rstString.append(1, shiftChar);
+                char shift_char = 0;
+                int c_style_str_left_len = c_style_string.size() - c_style_str_index;
+                c_style_str_index +=
+                    proc_shift_char(shift_char, &c_style_string[c_style_str_index], c_style_str_left_len);
+                rst_string.append(1, shift_char);
             }
         }
 
-        return rstString;
+        return rst_string;
     }
 
     // when len <= prefixLen
@@ -587,13 +588,13 @@ public:
     }
 
     static std::string make_test_str(size_t test_str_size) {
-        static const std::string START_STR = "!T_";
-        static const std::string INTERVAL_STR = "_T";
+        static const std::string start_str = "!T_";
+        static const std::string interval_str = "_T";
 
         std::ostringstream ostr;
-        ostr << START_STR << date_time::get_now_time();
+        ostr << start_str << date_time::get_now_time();
         std::string msg_str = ostr.str();
-        msg_str += gen_test_str(INTERVAL_STR, test_str_size - msg_str.size());
+        msg_str += gen_test_str(interval_str, test_str_size - msg_str.size());
         return msg_str;
     }
 

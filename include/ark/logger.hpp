@@ -80,21 +80,21 @@ namespace ark {
 
 enum class k_log_sink_type : uint8_t
 {
-    Date_and_hour_sink = 0, // default, rotate by hour with specific date path
-    Size_step_sink,         // rotate by file size, unused for now
+    date_and_hour_sink = 0, // default, rotate by hour with specific date path
+    size_step_sink,         // rotate by file size, unused for now
     // others
 };
 
 class log_conf_data final
 {
 public:
-    std::string output_path_{"./binlog"};
-    k_log_sink_type sink_type_{k_log_sink_type::Date_and_hour_sink};
-    uint16_t sink_queue_count_{1024};
+    std::string output_path{"./binlog"};
+    k_log_sink_type sink_type{k_log_sink_type::date_and_hour_sink};
+    uint16_t sink_queue_count{1024};
 
-    bool consol_{true};
-    spdlog::level::level_enum level_{spdlog::level::trace};
-    std::string pattern_{};
+    bool consol{true};
+    spdlog::level::level_enum level{spdlog::level::trace};
+    std::string pattern{};
 };
 
 class log_conf final
@@ -112,8 +112,8 @@ public:
             // create AFLogConfData
             auto conf_data = std::make_shared<log_conf_data>();
             auto name = logger_node.get_string("name");
-            conf_data->sink_queue_count_ = logger_node.get_uint32("queue_count");
-            conf_data->output_path_ = logger_node.get_string("path");
+            conf_data->sink_queue_count = logger_node.get_uint32("queue_count");
+            conf_data->output_path = logger_node.get_string("path");
 
 #ifdef ARK_RUN_MODE_DEBUG
             auto mode_node = logger_node.find_node("debug");
@@ -121,9 +121,9 @@ public:
             auto mode_node = logger_node.find_node("release");
 #endif //ARK_RUN_MODE_DEBUG
 
-            conf_data->consol_ = mode_node.get_bool("console");
-            conf_data->level_ = static_cast<spdlog::level::level_enum>(mode_node.get_uint32("level"));
-            conf_data->pattern_ = mode_node.get_string("pattern");
+            conf_data->consol = mode_node.get_bool("console");
+            conf_data->level = static_cast<spdlog::level::level_enum>(mode_node.get_uint32("level"));
+            conf_data->pattern = mode_node.get_string("pattern");
 
             conf_datas_.insert(name, conf_data);
         }
@@ -148,7 +148,8 @@ class spdlogger final
 
 public:
     explicit spdlogger(std::shared_ptr<log_conf_data> conf)
-        : log_conf_(conf) {}
+        : log_conf_(conf) {
+    }
 
     ~spdlogger() {
         spdlog::drop(log_name_);
@@ -156,13 +157,13 @@ public:
 
     void init(std::string const& filename) {
         log_name_ =
-            ARK_FORMAT("{}{}{}", log_conf_->output_path_, spdlog::details::os::folder_seps_filename[0], filename);
+            ARK_FORMAT("{}{}{}", log_conf_->output_path, spdlog::details::os::folder_seps_filename[0], filename);
         std::vector<spdlog::sink_ptr> sinks_vec;
 
 #ifdef OPEN_FILE_LOG
-        switch (log_conf_->sink_type_)
+        switch (log_conf_->sink_type)
         {
-        case k_log_sink_type::Date_and_hour_sink:
+        case k_log_sink_type::date_and_hour_sink:
         {
             auto date_and_hour_sink = std::make_shared<spdlog::sinks::date_and_hour_file_sink_mt>(log_name_);
             sinks_vec.emplace_back(date_and_hour_sink);
@@ -174,7 +175,7 @@ public:
         }
 #endif
 
-        if (log_conf_->consol_)
+        if (log_conf_->consol)
         {
 #ifdef ARK_PLATFORM_WIN
             auto color_sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
@@ -184,9 +185,9 @@ public:
             sinks_vec.push_back(color_sink);
         }
 
-        if (log_conf_->sink_queue_count_ > 0)
+        if (log_conf_->sink_queue_count > 0)
         {
-            tp_ = std::make_shared<spdlog::details::thread_pool>(log_conf_->sink_queue_count_, 1);
+            tp_ = std::make_shared<spdlog::details::thread_pool>(log_conf_->sink_queue_count, 1);
             logger_ =
                 std::make_shared<spdlog::async_logger>(log_name_, std::begin(sinks_vec), std::end(sinks_vec), tp_);
         }
@@ -195,9 +196,9 @@ public:
             logger_ = std::make_shared<spdlog::logger>(log_name_, std::begin(sinks_vec), std::end(sinks_vec));
         }
 
-        logger_->set_pattern(log_conf_->pattern_);
-        logger_->set_level(log_conf_->level_);
-        logger_->flush_on(log_conf_->level_);
+        logger_->set_pattern(log_conf_->pattern);
+        logger_->set_level(log_conf_->level);
+        logger_->flush_on(log_conf_->level);
 
         spdlog::register_logger(logger_);
     }
@@ -318,11 +319,12 @@ public:
         }
     }
 
-    template<typename... ARGS>
-    void log_t(spdlog::source_loc&& loc, spdlog::level::level_enum log_level, const char* my_fmt, ARGS&&... args) {
+    template<typename... argument_types>
+    void log_t(
+        spdlog::source_loc&& loc, spdlog::level::level_enum log_level, const char* my_fmt, argument_types&&... args) {
         static const std::string func_line_fmt = "[{}:{}]";
         auto new_fmt = func_line_fmt + my_fmt;
-        auto content = ARK_FORMAT(new_fmt, loc.filename, loc.line, std::forward<ARGS>(args)...);
+        auto content = ARK_FORMAT(new_fmt, loc.filename, loc.line, std::forward<argument_types>(args)...);
         log_func_(log_level, content);
     }
 

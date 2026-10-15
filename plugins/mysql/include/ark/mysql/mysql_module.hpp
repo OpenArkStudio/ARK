@@ -30,29 +30,29 @@ namespace ark {
 class mysql_module : public module
 {
 public:
-    virtual bool AddMysqlServer(const int nServerID, const std::string& strDns, const std::string& strIP,
-        const int nPort, const std::string strDBName, const std::string strDBUser, const std::string strDBPwd,
-        const int nRconnectTime = 10, const int nRconneCount = -1) = 0;
-    virtual bool UpdateOrInsert(const std::string& strRecordName, const std::string& strKey,
-        const std::vector<std::string>& fieldVec, const std::vector<std::string>& valueVec) = 0;
-    virtual bool Query(const std::string& strRecordName, const std::string& strKey,
-        const std::vector<std::string>& fieldVec, std::vector<std::string>& valueVec) = 0;
-    virtual bool Select(const std::string& strRecordName, const std::string& strKey,
-        const std::vector<std::string>& fieldVec, std::vector<std::string>& valueVec) = 0;
+    virtual bool add_mysql_server(const int server_id, const std::string& dns, const std::string& ip, const int port,
+        const std::string db_name, const std::string db_user, const std::string db_pwd, const int reconnect_time = 10,
+        const int reconnect_count = -1) = 0;
+    virtual bool update_or_insert(const std::string& record_name, const std::string& key,
+        const std::vector<std::string>& field_vec, const std::vector<std::string>& value_vec) = 0;
+    virtual bool query(const std::string& record_name, const std::string& key,
+        const std::vector<std::string>& field_vec, std::vector<std::string>& value_vec) = 0;
+    virtual bool select(const std::string& record_name, const std::string& key,
+        const std::vector<std::string>& field_vec, std::vector<std::string>& value_vec) = 0;
 
-    virtual bool Delete(const std::string& strRecordName, const std::string& strKey) = 0;
-    virtual bool Exists(const std::string& strRecordName, const std::string& strKey, bool& bExit) = 0;
-    virtual bool Keys(
-        const std::string& strRecordName, const std::string& strKeyName, std::vector<std::string>& valueVec) = 0;
+    virtual bool erase(const std::string& record_name, const std::string& key) = 0;
+    virtual bool exists(const std::string& record_name, const std::string& key, bool& exists) = 0;
+    virtual bool keys(
+        const std::string& record_name, const std::string& key_name, std::vector<std::string>& value_vec) = 0;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    virtual bool Insert(const std::string& document, std::vector<kv_pair>& data) = 0;
-    virtual bool UpdateRecord(const std::string& document, std::vector<kv_pair>& data, std::vector<where>& where) = 0;
-    virtual bool Select(const std::string& document, std::vector<std::string>& columns, std::vector<where>& where,
+    virtual bool insert(const std::string& document, std::vector<kv_pair>& data) = 0;
+    virtual bool update_record(const std::string& document, std::vector<kv_pair>& data, std::vector<where>& where) = 0;
+    virtual bool select(const std::string& document, std::vector<std::string>& columns, std::vector<where>& where,
         order_by& order, int limit, result_arr& results) = 0;
-    virtual bool SelectOne(const std::string& document, std::vector<std::string>& columns, std::vector<where>& where,
+    virtual bool select_one(const std::string& document, std::vector<std::string>& columns, std::vector<where>& where,
         order_by& order, result& result) = 0;
 };
 

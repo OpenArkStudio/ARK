@@ -38,50 +38,50 @@ bool g_exit_loop = false;
 std::thread g_cmd_thread;
 
 // mini-dump
-void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* pException) {
-    HANDLE hDumpFile =
-        CreateFile(strDumpFilePathName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+void create_dump_file(const std::string& dump_file_path_name, EXCEPTION_POINTERS* exception_ptr) {
+    HANDLE h_dump_file =
+        CreateFile(dump_file_path_name.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-    MINIDUMP_EXCEPTION_INFORMATION dumpInfo;
-    dumpInfo.ExceptionPointers = pException;
-    dumpInfo.ThreadId = GetCurrentThreadId();
-    dumpInfo.ClientPointers = TRUE;
+    MINIDUMP_EXCEPTION_INFORMATION dump_info;
+    dump_info.ExceptionPointers = exception_ptr;
+    dump_info.ThreadId = GetCurrentThreadId();
+    dump_info.ClientPointers = TRUE;
 
-    MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hDumpFile, MiniDumpNormal, &dumpInfo, NULL, NULL);
+    MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), h_dump_file, MiniDumpNormal, &dump_info, NULL, NULL);
 
-    CloseHandle(hDumpFile);
+    CloseHandle(h_dump_file);
 }
 
-long ApplicationCrashHandler(EXCEPTION_POINTERS* pException) {
+long application_crash_handler(EXCEPTION_POINTERS* exception_ptr) {
     date_time now;
     std::string dump_name =
         ARK_FORMAT("{}-{:04d}{:02d}{:02d}_{:02d}_{:02d}_{:02d}.dmp", plugin_manager::instance()->get_app_name(),
             now.get_year(), now.get_month(), now.get_day(), now.get_hour(), now.get_minute(), now.get_second());
 
-    CreateDumpFile(dump_name.c_str(), pException);
+    create_dump_file(dump_name.c_str(), exception_ptr);
 
     FatalAppExit(-1, dump_name.c_str());
     return EXCEPTION_EXECUTE_HANDLER;
 }
 
-void CloseXButton() {
-    HWND hWnd = GetConsoleWindow();
+void disable_close_button() {
+    HWND h_wnd = GetConsoleWindow();
 
-    if (hWnd)
+    if (h_wnd)
     {
-        HMENU hMenu = GetSystemMenu(hWnd, FALSE);
-        EnableMenuItem(hMenu, SC_CLOSE, MF_DISABLED | MF_BYCOMMAND);
+        HMENU h_menu = GetSystemMenu(h_wnd, FALSE);
+        EnableMenuItem(h_menu, SC_CLOSE, MF_DISABLED | MF_BYCOMMAND);
     }
 }
 
 #elif defined(ARK_PLATFORM_LINUX) || defined(ARK_PLATFORM_DARWIN)
 
-void KillHandler(int signum) {
+void kill_handler(int signum) {
     ARK_LOG_INFO("Server stopped by receiving a signal {}", signum);
     g_exit_loop = true;
 }
 
-void InitDaemon() {
+void init_daemon() {
 #ifdef ARK_PLATFORM_DARWIN
     pid_t pid;
     int ret = posix_spawn(&pid, "/dev/null", nullptr, nullptr, nullptr, nullptr);
@@ -92,7 +92,7 @@ void InitDaemon() {
 }
 #endif
 
-void PrintLogo() {
+void print_logo() {
 #ifdef ARK_PLATFORM_WIN
     SetConsoleTextAttribute(
         GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -123,7 +123,7 @@ Copyright 2020 © X.D. NetWork Inc.
 }
 
 #ifdef ARK_PLATFORM_WIN
-void CreateBackThread() {
+void create_back_thread() {
     auto thread_func = []() {
         while (!g_exit_loop)
         {
@@ -143,7 +143,7 @@ void CreateBackThread() {
 }
 #endif // ARK_PLATFORM_WIN
 
-bool ParseArgs(int argc, char* argv[]) {
+bool parse_args(int argc, char* argv[]) {
 #if defined(ARK_PLATFORM_LINUX) || defined(ARK_PLATFORM_DARWIN)
     // ignore signals
     signal(SIGHUP, SIG_IGN);
@@ -153,21 +153,21 @@ bool ParseArgs(int argc, char* argv[]) {
     signal(SIGTTIN, SIG_IGN);
 
     // interupt signals
-    signal(SIGINT, KillHandler);
-    signal(SIGTERM, KillHandler);
-    signal(SIGSTOP, KillHandler);
+    signal(SIGINT, kill_handler);
+    signal(SIGTERM, kill_handler);
+    signal(SIGSTOP, kill_handler);
 #endif
 
     auto close_x_button = []() {
 #ifdef ARK_PLATFORM_WIN
-        SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ApplicationCrashHandler);
-        CloseXButton();
+        SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)application_crash_handler);
+        disable_close_button();
 #endif
     };
 
     auto use_daemon = []() {
 #if defined(ARK_PLATFORM_LINUX) || defined(ARK_PLATFORM_DARWIN)
-        InitDaemon();
+        init_daemon();
 #endif
     };
 
@@ -265,17 +265,17 @@ bool ParseArgs(int argc, char* argv[]) {
 
 #ifdef ARK_PLATFORM_WIN
     // Create back thread, for some command
-    CreateBackThread();
+    create_back_thread();
 #endif
 
     return true;
 }
 
-void MainLoop() {
+void main_loop() {
 #ifdef ARK_PLATFORM_WIN
     __try
     { plugin_manager::instance()->update(date_time::get_now_time()); }
-    __except (ApplicationCrashHandler(GetExceptionInformation()))
+    __except (application_crash_handler(GetExceptionInformation()))
     {
         // Do nothing for now.
     }
@@ -285,7 +285,7 @@ void MainLoop() {
 }
 
 // load app configuration
-bool LoadPluginConf(std::string const& app_conf_path, OUT std::string& plugin_library_dir,
+bool load_plugin_conf(std::string const& app_conf_path, OUT std::string& plugin_library_dir,
     OUT std::string& plugin_conf_dir, OUT std::unordered_map<std::string, std::string>& plugins) {
     xml xml_doc(app_conf_path);
 
@@ -310,20 +310,20 @@ bool LoadPluginConf(std::string const& app_conf_path, OUT std::string& plugin_li
 }
 
 int main(int argc, char* argv[]) {
-    if (!ParseArgs(argc, argv))
+    if (!parse_args(argc, argv))
     {
         std::cout << "Application parameter is invalid, please check it..." << std::endl;
         return 0;
     }
 
-    PrintLogo();
+    print_logo();
 
     const auto& app_conf_path = plugin_manager::instance()->get_app_conf();
     std::string plugin_library_dir;
     std::string plugin_conf_dir;
     std::unordered_map<std::string, std::string> plugins;
     // load app conf
-    if (!LoadPluginConf(app_conf_path, plugin_library_dir, plugin_conf_dir, plugins))
+    if (!load_plugin_conf(app_conf_path, plugin_library_dir, plugin_conf_dir, plugins))
     {
         return 0;
     }
@@ -337,7 +337,7 @@ int main(int argc, char* argv[]) {
             break;
         }
 
-        MainLoop();
+        main_loop();
     }
 
     plugin_manager::instance()->stop(date_time::get_now_time());

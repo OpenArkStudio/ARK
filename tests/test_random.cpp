@@ -19,13 +19,14 @@
  */
 
 #define CATCH_CONFIG_MAIN
-#include "ark/random/random_xoshiro.hpp"
 #include "catch.hpp"
+
+#include "ark/random/random_xoshiro.hpp"
 
 using namespace ark;
 
-template<typename TOS, typename TVEC>
-void print_vec(TOS& os, const std::vector<TVEC>& vec) {
+template<typename stream_type, typename value_type>
+void print_vec(stream_type& os, const std::vector<value_type>& vec) {
     os << "[ ";
     for (size_t i = 0; i < vec.size(); ++i)
     {

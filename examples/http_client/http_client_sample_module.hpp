@@ -30,8 +30,8 @@ class http_client_sample_module final : public module
 {
     ARK_DECLARE_MODULE_FUNCTIONS
 private:
-    http_client_module* httpCli_;
-    std::shared_ptr<etcd_client> etcdCli_;
+    http_client_module* http_client_;
+    std::shared_ptr<etcd_client> etcd_client_;
 
 public:
     bool init() override;

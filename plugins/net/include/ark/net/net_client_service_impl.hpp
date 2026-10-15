@@ -33,9 +33,9 @@ namespace ark {
 class net_client_service_impl final : public net_client_service
 {
 public:
-    enum e_const_define
+    enum constant_definitions
     {
-        EConstDefine_DefaultWeight = 255,
+        default_weight = 255,
     };
 
     net_client_service_impl(plugin_manager* p);
@@ -79,12 +79,12 @@ protected:
         // TODO
     }
 
-    void log_server_info(const std::string& strServerInfo) {
+    void log_server_info(const std::string& server_info) {
         // TODO
     }
 
     void log_server_info();
-    void keep_alive(std::shared_ptr<connection_data> pServerData);
+    void keep_alive(std::shared_ptr<connection_data> server_data_ptr);
 
     //////////////////////////////////////////////////////////////////////////
     //bool GetServerMachineData(const std::string& strServerID, AFCMachineNode& xMachineData);
@@ -97,13 +97,13 @@ protected:
     void remove_server_node(std::shared_ptr<connection_data> data);
 
     void reg_to_server(const msg_header& head, bus_id_t target_bus_id);
-    void send_report(std::shared_ptr<connection_data> pServerData);
+    void send_report(std::shared_ptr<connection_data> server_data_ptr);
 
 private:
-    plugin_manager* m_pPluginManager;
-    net_service_manager_module* m_pNetServiceManagerModule;
-    bus_module* m_pBusModule;
-    msg_module* m_pMsgModule;
+    plugin_manager* plugin_manager_;
+    net_service_manager_module* net_service_manager_;
+    bus_module* bus_module_;
+    msg_module* msg_module_;
 
     // Connected connections(may the ConnectState is different)
     shared_object_map<bus_id_t, connection_data> real_connections_;

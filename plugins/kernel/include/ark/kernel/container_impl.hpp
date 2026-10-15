@@ -43,7 +43,7 @@ private:
     uint32_t current_index_{0};
 
     // parent id
-    guid_t parent_{NULL_GUID};
+    guid_t parent_{null_guid};
 
     // entity data
     entity_data_list::iterator iter_;
@@ -76,14 +76,16 @@ public:
     bool exist(uint32_t index) const override;
     bool exist(const guid_t& id) const override;
 
-    bool place(std::shared_ptr<entity> pEntity) override;
-    bool place(uint32_t index, std::shared_ptr<entity> pEntity) override;
+    bool place(std::shared_ptr<entity> entity_ptr) override;
+    bool place(uint32_t index, std::shared_ptr<entity> entity_ptr) override;
 
     bool swap(const uint32_t src_index, const uint32_t dest_index) override;
     bool swap(const guid_t& src_entity, const guid_t& dest_entity) override;
 
-    bool swap(std::shared_ptr<container> pSrcContainer, const uint32_t src_index, const uint32_t dest_index) override;
-    bool swap(std::shared_ptr<container> pSrcContainer, const guid_t& src_entity, const guid_t& dest_entity) override;
+    bool swap(
+        std::shared_ptr<container> src_container_ptr, const uint32_t src_index, const uint32_t dest_index) override;
+    bool swap(
+        std::shared_ptr<container> src_container_ptr, const guid_t& src_entity, const guid_t& dest_entity) override;
 
     bool remove(const uint32_t index) override;
     bool remove(const guid_t& id) override;
@@ -94,14 +96,14 @@ public:
 private:
     uint32_t select_index() const;
 
-    bool place_entity(const uint32_t index, std::shared_ptr<entity> pEntity);
+    bool place_entity(const uint32_t index, std::shared_ptr<entity> entity_ptr);
 
-    void on_container_place(const uint32_t index, std::shared_ptr<entity> pEntity);
+    void on_container_place(const uint32_t index, std::shared_ptr<entity> entity_ptr);
     void on_container_swap(const uint32_t index, const uint32_t swap_index);
-    void on_container_remove(const uint32_t index, std::shared_ptr<entity> pEntity);
-    void on_container_destroy(const uint32_t index, std::shared_ptr<entity> pEntity);
+    void on_container_remove(const uint32_t index, std::shared_ptr<entity> entity_ptr);
+    void on_container_destroy(const uint32_t index, std::shared_ptr<entity> entity_ptr);
 
-    bool init_entity_list(const uint32_t index, std::shared_ptr<entity> pEntity);
+    bool init_entity_list(const uint32_t index, std::shared_ptr<entity> entity_ptr);
 };
 
 } // namespace ark

@@ -32,7 +32,8 @@ namespace ark {
 class msg_header
 {
 public:
-    virtual ~msg_header() {}
+    virtual ~msg_header() {
+    }
 
     // 协议头部必须实现的接口如下
 
@@ -73,13 +74,17 @@ public:
         return 0;
     }
 
-    virtual void set_compressed(bool compress) {}
+    virtual void set_compressed(bool compress) {
+    }
 
-    virtual void set_actor_id(guid_t) {}
+    virtual void set_actor_id(guid_t) {
+    }
 
-    virtual void set_source_bus_id(bus_id_t) {}
+    virtual void set_source_bus_id(bus_id_t) {
+    }
 
-    virtual void set_dest_bus_id(bus_id_t) {}
+    virtual void set_dest_bus_id(bus_id_t) {
+    }
 };
 
 // CS通信默认包头
@@ -104,19 +109,19 @@ public:
     }
 
     virtual msg_id_t message_id() const override {
-        return header_.id_;
+        return header_.id;
     }
 
     virtual uint32_t message_length() const override {
-        return header_.length_;
+        return header_.length;
     }
 
     virtual void set_message_id(msg_id_t id) override {
-        header_.id_ = id;
+        header_.id = id;
     }
 
     virtual void set_message_length(uint32_t msg_len) override {
-        header_.length_ = msg_len;
+        header_.length = msg_len;
     }
 
     // 新建包头对象
@@ -130,11 +135,11 @@ public:
     }
 
     virtual bool is_compressed() const override {
-        return header_.compress_;
+        return header_.compress;
     }
 
     virtual void set_compressed(bool compress) override {
-        header_.compress_ = compress;
+        header_.compress = compress;
     }
 
 private:
@@ -142,9 +147,9 @@ private:
 
     struct header_impl
     {
-        msg_id_t id_{0};      // Msg id
-        uint32_t length_{0};  // Msg length(without header length)
-        uint8_t compress_{0}; // Msg data compressed
+        msg_id_t id{0};      // Msg id
+        uint32_t length{0};  // Msg length(without header length)
+        uint8_t compress{0}; // Msg data compressed
     };
 
 #pragma pack(pop)
@@ -173,19 +178,19 @@ public:
     }
 
     virtual msg_id_t message_id() const override {
-        return header_.id_;
+        return header_.id;
     }
 
     virtual uint32_t message_length() const override {
-        return header_.length_;
+        return header_.length;
     }
 
     virtual void set_message_id(msg_id_t id) override {
-        header_.id_ = id;
+        header_.id = id;
     }
 
     virtual void set_message_length(uint32_t msg_len) override {
-        header_.length_ = msg_len;
+        header_.length = msg_len;
     }
 
     // 新建包头对象
@@ -199,35 +204,35 @@ public:
     }
 
     virtual bool is_compressed() const override {
-        return header_.compress_;
+        return header_.compress;
     }
 
     virtual guid_t actor_id() const override {
-        return header_.actor_id_;
+        return header_.actor_id;
     }
 
     virtual bus_id_t source_bus_id() const override {
-        return header_.src_bus_;
+        return header_.src_bus;
     }
 
     virtual bus_id_t dest_bus_id() const override {
-        return header_.dst_bus_;
+        return header_.dst_bus;
     }
 
     virtual void set_compressed(bool compress) override {
-        header_.compress_ = compress;
+        header_.compress = compress;
     }
 
     virtual void set_actor_id(guid_t actor_id) override {
-        header_.actor_id_ = actor_id;
+        header_.actor_id = actor_id;
     }
 
     virtual void set_source_bus_id(bus_id_t src_bus) override {
-        header_.src_bus_ = src_bus;
+        header_.src_bus = src_bus;
     }
 
     virtual void set_dest_bus_id(bus_id_t dst_bus) override {
-        header_.dst_bus_ = dst_bus;
+        header_.dst_bus = dst_bus;
     }
 
 private:
@@ -235,12 +240,12 @@ private:
 
     struct header_impl
     {
-        msg_id_t id_{0};      // Msg id
-        uint32_t length_{0};  // Msg length(without header length)
-        uint8_t compress_{0}; // Msg data compressed
-        guid_t actor_id_{0};  // Actor id
-        bus_id_t src_bus_{0}; // Source bus id
-        bus_id_t dst_bus_{0}; // Destination bus id
+        msg_id_t id{0};      // Msg id
+        uint32_t length{0};  // Msg length(without header length)
+        uint8_t compress{0}; // Msg data compressed
+        guid_t actor_id{0};  // Actor id
+        bus_id_t src_bus{0}; // Source bus id
+        bus_id_t dst_bus{0}; // Destination bus id
     };
 
 #pragma pack(pop)

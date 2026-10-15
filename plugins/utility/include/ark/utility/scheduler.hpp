@@ -22,9 +22,10 @@
 
 #include <iomanip>
 
+#include "ark/utility/ctpl_stl.h"
+
 #include "ark/cron.hpp"
 #include "ark/platform.hpp"
-#include "ark/utility/ctpl_stl.h"
 
 namespace ark {
 
@@ -42,7 +43,8 @@ class interruptable_sleep final
 
 public:
     interruptable_sleep()
-        : interrupted(false) {}
+        : interrupted_(false) {
+    }
 
     interruptable_sleep(const interruptable_sleep&) = delete;
     interruptable_sleep(interruptable_sleep&&) noexcept = delete;
@@ -53,33 +55,33 @@ public:
     interruptable_sleep& operator=(interruptable_sleep&&) noexcept = delete;
 
     void sleep_for(clock::duration duration) {
-        std::unique_lock<std::mutex> ul(m);
-        cv.wait_for(ul, duration, [this] { return interrupted; });
-        interrupted = false;
+        std::unique_lock<std::mutex> ul(mutex_);
+        condition_.wait_for(ul, duration, [this] { return interrupted_; });
+        interrupted_ = false;
     }
 
     void sleep_until(clock::time_point time) {
-        std::unique_lock<std::mutex> ul(m);
-        cv.wait_until(ul, time, [this] { return interrupted; });
-        interrupted = false;
+        std::unique_lock<std::mutex> ul(mutex_);
+        condition_.wait_until(ul, time, [this] { return interrupted_; });
+        interrupted_ = false;
     }
 
     void sleep() {
-        std::unique_lock<std::mutex> ul(m);
-        cv.wait(ul, [this] { return interrupted; });
-        interrupted = false;
+        std::unique_lock<std::mutex> ul(mutex_);
+        condition_.wait(ul, [this] { return interrupted_; });
+        interrupted_ = false;
     }
 
     void interrupt() {
-        std::lock_guard<std::mutex> lg(m);
-        interrupted = true;
-        cv.notify_one();
+        std::lock_guard<std::mutex> lg(mutex_);
+        interrupted_ = true;
+        condition_.notify_one();
     }
 
 private:
-    bool interrupted;
-    std::mutex m;
-    std::condition_variable cv;
+    bool interrupted_;
+    std::mutex mutex_;
+    std::condition_variable condition_;
 };
 
 class task
@@ -88,15 +90,16 @@ public:
     using clock = std::chrono::system_clock;
 
     explicit task(std::function<void()>&& f, bool recur = false, bool interval = false)
-        : f(std::move(f))
-        , recur(recur)
-        , interval(interval) {}
+        : function(std::move(f))
+        , recurring(recur)
+        , interval(interval) {
+    }
 
     virtual clock::time_point get_new_time() const = 0;
 
-    std::function<void()> f;
+    std::function<void()> function;
 
-    bool recur;
+    bool recurring;
     bool interval;
 };
 
@@ -106,7 +109,8 @@ public:
     using clock = std::chrono::system_clock;
 
     explicit in_task(std::function<void()>&& f)
-        : task(std::move(f)) {}
+        : task(std::move(f)) {
+    }
 
     // dummy time_point because it's not used
     clock::time_point get_new_time() const override {
@@ -121,13 +125,14 @@ public:
 
     every_task(clock::duration time, std::function<void()>&& f, bool interval = false)
         : task(std::move(f), true, interval)
-        , time(time) {}
+        , interval_duration(time) {
+    }
 
     clock::time_point get_new_time() const override {
-        return clock::now() + time;
+        return clock::now() + interval_duration;
     };
 
-    clock::duration time;
+    clock::duration interval_duration;
 };
 
 class cron_task final : public task
@@ -135,13 +140,14 @@ class cron_task final : public task
 public:
     cron_task(const std::string& expression, std::function<void()>&& f)
         : task(std::move(f), true)
-        , cron(expression) {}
+        , cron_expression(expression) {
+    }
 
     clock::time_point get_new_time() const override {
-        return cron.cron_to_next();
+        return cron_expression.cron_to_next();
     };
 
-    ark::cron cron;
+    ark::cron cron_expression;
 };
 
 class scheduler final
@@ -150,19 +156,19 @@ public:
     using clock = std::chrono::system_clock;
 
     explicit scheduler(unsigned int max_n_tasks = 4)
-        : done(false)
-        , threads(max_n_tasks + 1) {
-        threads.push([this](int) {
-            while (!done)
+        : stopping_(false)
+        , threads_(max_n_tasks + 1) {
+        threads_.push([this](int) {
+            while (!stopping_)
             {
-                if (tasks.empty())
+                if (tasks_.empty())
                 {
-                    sleeper.sleep();
+                    sleeper_.sleep();
                 }
                 else
                 {
-                    auto time_of_first_task = (*tasks.begin()).first;
-                    sleeper.sleep_until(time_of_first_task);
+                    auto time_of_first_task = (*tasks_.begin()).first;
+                    sleeper_.sleep_until(time_of_first_task);
                 }
                 manage_tasks();
             }
@@ -175,24 +181,24 @@ public:
     scheduler& operator=(scheduler&&) noexcept = delete;
 
     ~scheduler() {
-        done = true;
-        sleeper.interrupt();
+        stopping_ = true;
+        sleeper_.interrupt();
     }
 
-    template<typename _Callable, typename... _Args>
-    void in(const clock::time_point time, _Callable&& f, _Args&&... args) {
+    template<typename callable_type, typename... args_type>
+    void in(const clock::time_point time, callable_type&& f, args_type&&... args) {
         std::shared_ptr<task> t =
-            std::make_shared<in_task>(std::bind(std::forward<_Callable>(f), std::forward<_Args>(args)...));
+            std::make_shared<in_task>(std::bind(std::forward<callable_type>(f), std::forward<args_type>(args)...));
         add_task(time, std::move(t));
     }
 
-    template<typename _Callable, typename... _Args>
-    void in(const clock::duration time, _Callable&& f, _Args&&... args) {
-        in(clock::now() + time, std::forward<_Callable>(f), std::forward<_Args>(args)...);
+    template<typename callable_type, typename... args_type>
+    void in(const clock::duration time, callable_type&& f, args_type&&... args) {
+        in(clock::now() + time, std::forward<callable_type>(f), std::forward<args_type>(args)...);
     }
 
-    template<typename _Callable, typename... _Args>
-    void at(const std::string& time, _Callable&& f, _Args&&... args) {
+    template<typename callable_type, typename... args_type>
+    void at(const std::string& time, callable_type&& f, args_type&&... args) {
         // get current time as a tm object
         auto time_now = clock::to_time_t(clock::now());
         std::tm tm = *std::localtime(&time_now);
@@ -225,13 +231,13 @@ public:
             throw std::runtime_error("Cannot parse time string: " + time);
         }
 
-        in(tp, std::forward<_Callable>(f), std::forward<_Args>(args)...);
+        in(tp, std::forward<callable_type>(f), std::forward<args_type>(args)...);
     }
 
-    template<typename _Callable, typename... _Args>
-    void every(const clock::duration time, _Callable&& f, _Args&&... args) {
-        std::shared_ptr<task> t =
-            std::make_shared<every_task>(time, std::bind(std::forward<_Callable>(f), std::forward<_Args>(args)...));
+    template<typename callable_type, typename... args_type>
+    void every(const clock::duration time, callable_type&& f, args_type&&... args) {
+        std::shared_ptr<task> t = std::make_shared<every_task>(
+            time, std::bind(std::forward<callable_type>(f), std::forward<args_type>(args)...));
         auto next_time = t->get_new_time();
         add_task(next_time, std::move(t));
     }
@@ -246,49 +252,49 @@ public:
     //    │ │ │ │ │
     //    │ │ │ │ │
     //    * * * * *
-    template<typename _Callable, typename... _Args>
-    void cron(const std::string& expression, _Callable&& f, _Args&&... args) {
+    template<typename callable_type, typename... args_type>
+    void cron(const std::string& expression, callable_type&& f, args_type&&... args) {
         std::shared_ptr<task> t = std::make_shared<cron_task>(
-            expression, std::bind(std::forward<_Callable>(f), std::forward<_Args>(args)...));
+            expression, std::bind(std::forward<callable_type>(f), std::forward<args_type>(args)...));
         auto next_time = t->get_new_time();
         add_task(next_time, std::move(t));
     }
 
-    template<typename _Callable, typename... _Args>
-    void interval(const clock::duration time, _Callable&& f, _Args&&... args) {
+    template<typename callable_type, typename... args_type>
+    void interval(const clock::duration time, callable_type&& f, args_type&&... args) {
         std::shared_ptr<task> t = std::make_shared<every_task>(
-            time, std::bind(std::forward<_Callable>(f), std::forward<_Args>(args)...), true);
+            time, std::bind(std::forward<callable_type>(f), std::forward<args_type>(args)...), true);
         add_task(clock::now(), std::move(t));
     }
 
 private:
-    std::atomic<bool> done;
+    std::atomic<bool> stopping_;
 
-    interruptable_sleep sleeper;
+    interruptable_sleep sleeper_;
 
-    std::multimap<clock::time_point, std::shared_ptr<task>> tasks;
-    std::mutex lock;
-    ctpl::thread_pool threads;
+    std::multimap<clock::time_point, std::shared_ptr<task>> tasks_;
+    std::mutex mutex_;
+    ctpl::thread_pool threads_;
 
     void add_task(const clock::time_point time, std::shared_ptr<task> t) {
-        std::lock_guard<std::mutex> l(lock);
-        tasks.emplace(time, std::move(t));
-        sleeper.interrupt();
+        std::lock_guard<std::mutex> l(mutex_);
+        tasks_.emplace(time, std::move(t));
+        sleeper_.interrupt();
     }
 
     void manage_tasks() {
-        std::lock_guard<std::mutex> l(lock);
+        std::lock_guard<std::mutex> l(mutex_);
 
-        auto end_of_tasks_to_run = tasks.upper_bound(clock::now());
+        auto end_of_tasks_to_run = tasks_.upper_bound(clock::now());
 
         // if there are any tasks to be run and removed
-        if (end_of_tasks_to_run != tasks.begin())
+        if (end_of_tasks_to_run != tasks_.begin())
         {
             // keep track of tasks that will be re-added
-            decltype(tasks) recurred_tasks;
+            decltype(tasks_) recurred_tasks;
 
             // for all tasks that have been triggered
-            for (auto i = tasks.begin(); i != end_of_tasks_to_run; ++i)
+            for (auto i = tasks_.begin(); i != end_of_tasks_to_run; ++i)
             {
 
                 auto& task = (*i).second;
@@ -296,8 +302,8 @@ private:
                 if (task->interval)
                 {
                     // if it's an interval task, only add the task back after f() is completed
-                    threads.push([this, task](int) {
-                        task->f();
+                    threads_.push([this, task](int) {
+                        task->function();
                         // no risk of race-condition,
                         // add_task() will wait for manage_tasks() to release lock
                         add_task(task->get_new_time(), task);
@@ -305,9 +311,9 @@ private:
                 }
                 else
                 {
-                    threads.push([task](int) { task->f(); });
+                    threads_.push([task](int) { task->function(); });
                     // calculate time of next run and add the new task to the tasks to be recurred
-                    if (task->recur)
+                    if (task->recurring)
                     {
                         recurred_tasks.emplace(task->get_new_time(), std::move(task));
                     }
@@ -315,12 +321,12 @@ private:
             }
 
             // remove the completed tasks
-            tasks.erase(tasks.begin(), end_of_tasks_to_run);
+            tasks_.erase(tasks_.begin(), end_of_tasks_to_run);
 
             // re-add the tasks that are recurring
             for (auto& task : recurred_tasks)
             {
-                tasks.emplace(task.first, std::move(task.second));
+                tasks_.emplace(task.first, std::move(task.second));
             }
         }
     }

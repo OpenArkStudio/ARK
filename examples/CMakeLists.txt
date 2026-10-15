@@ -50,5 +50,4 @@ add_subdirectory(sample3)
 #add_subdirectory(redis_sample)
 
 #add_subdirectory(http_client)
-#add_subdirectory(kcptool)
 #add_subdirectory(mysql_sample)

@@ -37,11 +37,11 @@ class websocket_server final
     , public std::enable_shared_from_this<websocket_server>
 {
 public:
-    template<typename BaseType>
-    websocket_server(BaseType* pBaseType, void (BaseType::*handleReceive)(const net_msg*, conv_id_t),
-        void (BaseType::*handleEvent)(const net_event*)) {
-        net_msg_cb_ = std::bind(handleReceive, pBaseType, std::placeholders::_1, std::placeholders::_2);
-        net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
+    template<typename base_type>
+    websocket_server(base_type* base_type_ptr, void (base_type::*handle_receive)(const net_msg*, conv_id_t),
+        void (base_type::*handle_event)(const net_event*)) {
+        net_msg_cb_ = std::bind(handle_receive, base_type_ptr, std::placeholders::_1, std::placeholders::_2);
+        net_event_cb_ = std::bind(handle_event, base_type_ptr, std::placeholders::_1);
     }
 
     ~websocket_server() override;
@@ -80,7 +80,7 @@ private:
     net_msg_functor net_msg_cb_;
     net_event_functor net_event_cb_;
 
-    std::atomic<conv_id_t> trusted_session_id_{ARK_CONV_START_ID};
+    std::atomic<conv_id_t> trusted_session_id_{ark_conv_start_id};
     std::shared_ptr<arknet::ws_server> server_;
 };
 

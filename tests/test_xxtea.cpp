@@ -19,8 +19,9 @@
  */
 
 #define CATCH_CONFIG_MAIN
-#include "ark/crypto/xxtea.hpp"
 #include "catch.hpp"
+
+#include "ark/crypto/xxtea.hpp"
 
 using namespace ark;
 

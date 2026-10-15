@@ -19,8 +19,9 @@
  */
 
 #define CATCH_CONFIG_MAIN
-#include "ark/pattern/singleton.hpp"
 #include "catch.hpp"
+
+#include "ark/pattern/singleton.hpp"
 
 using namespace ark;
 

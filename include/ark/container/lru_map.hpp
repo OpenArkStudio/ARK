@@ -24,11 +24,11 @@
 
 namespace ark {
 
-template<typename K, typename V>
+template<typename key_type, typename mapped_type>
 class lru_map
 {
 public:
-    using iterator = typename std::unordered_map<K, V>::iterator;
+    using iterator = typename std::unordered_map<key_type, mapped_type>::iterator;
 
     explicit lru_map(size_t capacity = 1024) {
         capacity_ = capacity > 0 ? capacity : 1024;
@@ -52,7 +52,7 @@ public:
         return kv_.end();
     }
 
-    iterator find(const K& key) {
+    iterator find(const key_type& key) {
         iterator it = kv_.find(key);
         if (it != kv_.end() && kl_.front() != key)
         {
@@ -64,7 +64,7 @@ public:
     }
 
     // The key is not inserted if it already exists.
-    void insert(const K& key, const V& value) {
+    void insert(const key_type& key, const mapped_type& value) {
         auto r = kv_.insert(std::make_pair(key, value));
         if (!r.second)
         {
@@ -76,7 +76,7 @@ public:
 
         if (kv_.size() > capacity_)
         {
-            K k = kl_.back();
+            key_type k = kl_.back();
             kl_.pop_back();
             kv_.erase(k);
             ki_.erase(k);
@@ -93,7 +93,7 @@ public:
         }
     }
 
-    void erase(const K& key) {
+    void erase(const key_type& key) {
         this->erase(kv_.find(key));
     }
 
@@ -111,10 +111,10 @@ public:
     }
 
 private:
-    std::unordered_map<K, V> kv_;
-    std::unordered_map<K, typename std::list<K>::iterator> ki_;
-    std::list<K> kl_; // key list
-    size_t capacity_; // max capacity
+    std::unordered_map<key_type, mapped_type> kv_;
+    std::unordered_map<key_type, typename std::list<key_type>::iterator> ki_;
+    std::list<key_type> kl_; // key list
+    size_t capacity_;        // max capacity
 };
 
 } // namespace ark

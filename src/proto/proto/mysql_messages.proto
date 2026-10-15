@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package ark.protobuf;
+
+message mysql_parameters {
+  string str_record_name = 1 [json_name = "strRecordName"];
+  string str_key = 2 [json_name = "strKey"];
+  string field_vec_list = 3 [json_name = "fieldVecList"];
+  string value_vec_list = 4 [json_name = "valueVecList"];
+  int64 b_exit = 5 [json_name = "bExit"];
+  int64 nreqid = 6;
+  int64 n_ret = 7 [json_name = "nRet"];
+  int64 e_type = 8 [json_name = "eType"];
+}
+
+message mysql_server_info {
+  int64 n_rconnect_time = 1 [json_name = "nRconnectTime"];
+  int64 n_rconne_count = 2 [json_name = "nRconneCount"];
+  int64 n_port = 3 [json_name = "nPort"];
+  string str_db_name = 4 [json_name = "strDBName"];
+  string str_dns_ip = 5 [json_name = "strDnsIp"];
+  string str_db_user = 6 [json_name = "strDBUser"];
+  string str_db_pwd = 7 [json_name = "strDBPwd"];
+  int64 n_server_id = 8 [json_name = "nServerID"];
+}

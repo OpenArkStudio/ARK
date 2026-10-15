@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <type_traits>
+
 #include "ark/dynamic_library.hpp"
 #include "ark/logger.hpp"
 #include "ark/module.hpp"
@@ -32,13 +34,13 @@ class plugin_manager final : private noncopyable
 {
 public:
     static auto instance() -> plugin_manager* {
-        static plugin_manager* instance_ = nullptr;
-        if (instance_ == nullptr)
+        static plugin_manager* instance_ptr = nullptr;
+        if (instance_ptr == nullptr)
         {
-            instance_ = ARK_NEW plugin_manager();
+            instance_ptr = ARK_NEW plugin_manager();
         }
 
-        return instance_;
+        return instance_ptr;
     }
 
     auto start(int64_t const timestamp, std::string const& lib_dir, std::string const& conf_dir,
@@ -82,13 +84,12 @@ public:
     }
 
     template<typename module_type>
+        requires std::is_base_of_v<module, module_type>
     auto find_module() -> module_type* {
         module* logic_module = find_module(GET_CLASS_NAME(module_type));
         ARK_ASSERT_RET_VAL(logic_module != nullptr, nullptr);
 
-        using derived_type = typename std::enable_if<std::is_base_of<module, module_type>::value, module_type>::type;
-
-        auto derived_module = dynamic_cast<derived_type*>(logic_module);
+        auto derived_module = dynamic_cast<module_type*>(logic_module);
         ARK_ASSERT_RET_VAL(derived_module != nullptr, nullptr);
 
         return derived_module;
@@ -173,7 +174,7 @@ public:
     template<typename plugin_type>
     auto get_plugin_conf() -> const std::string& {
         auto plugin = find_plugin<plugin_type>();
-        ARK_ASSERT_RET_VAL(plugin != nullptr, NULL_STR);
+        ARK_ASSERT_RET_VAL(plugin != nullptr, null_str);
 
         return plugin->get_plugin_conf();
     }
@@ -222,9 +223,9 @@ protected:
     }
 
     template<typename plugin_type>
+        requires std::is_base_of_v<plugin, plugin_type>
     auto find_plugin() -> plugin* {
-        using derived_type = typename std::enable_if<std::is_base_of<plugin, plugin_type>::value, plugin_type>::type;
-        auto plugin_name = GET_CLASS_NAME(derived_type);
+        auto plugin_name = GET_CLASS_NAME(plugin_type);
         auto iter = plugin_instances_.find(plugin_name);
         if (iter != plugin_instances_.end())
         {

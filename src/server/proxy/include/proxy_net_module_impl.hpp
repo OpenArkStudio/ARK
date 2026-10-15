@@ -38,28 +38,27 @@ public:
     bool post_init() override;
     //bool PreUpdate() override;
 
-    bool VerifyConnectData(const std::string& strAccount, const std::string& strKey) override;
+    bool verify_connect_data(const std::string& account, const std::string& key) override;
 
 protected:
-    int StartServer();
+    int start_server();
 
-    void OnSelectServerResultProcess(const net_msg* msg, conv_id_t session_id);
-    void OnServerInfoProcess(const net_msg* msg, conv_id_t session_id);
+    void on_select_server_result_process(const net_msg* msg, conv_id_t session_id);
+    void on_server_info_process(const net_msg* msg, conv_id_t session_id);
 
-    void OnOtherMessage(const net_msg* msg, conv_id_t session_id);
-    void OnBrocastmsg(const net_msg* msg, conv_id_t session_id);
+    void on_other_message(const net_msg* msg, conv_id_t session_id);
+    void on_brocastmsg(const net_msg* msg, conv_id_t session_id);
 
-    void OnSocketEvent(const net_event* event);
+    void on_socket_event(const net_event* event);
 
-    void OnClientDisconnect(const guid_t& xClientID);
-    void OnClientConnected(const guid_t& xClientID);
+    void on_client_disconnect(const guid_t& client_id_value);
+    void on_client_connected(const guid_t& client_id_value);
 
     // void OnTransMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const
     // guid_t& xClientID);
 
-    template<class TypeName>
-    void CheckSessionTransMsg(const net_msg* msg) {
-        // ARK_PROCESS_MSG(xHead, msg, nLen, TypeName);
+    template<class message_type>
+    void check_session_trans_msg(const net_msg* msg) {
 
         // if (CheckSessionState(xMsg.game_id(), xClientID, xMsg.account()))
         //{
@@ -67,27 +66,28 @@ protected:
         //}
     }
 
-    bool CheckSessionState(const int nGameID, const guid_t& xClientID, const std::string& strAccount);
+    bool check_session_state(const int game_id, const guid_t& client_id_value, const std::string& account);
 
     class client_connect_data
     {
     public:
-        client_connect_data() {}
+        client_connect_data() {
+        }
 
-        std::string strAccount{};
-        std::string strConnectKey{};
+        std::string account{};
+        std::string connect_key{};
     };
 
-    shared_object_map<std::string, client_connect_data> mxWantToConnectMap;
+    shared_object_map<std::string, client_connect_data> pending_connections_;
 
 private:
     // AFSmartPtrMap<guid_t, AFClientConnectionData> client_connections_; // net_conn_id <--> SessionData
 
-    bus_module* m_pBusModule;
-    net_service_manager_module* m_pNetServiceManagerModule;
-    msg_module* m_pMsgModule;
+    bus_module* bus_module_;
+    net_service_manager_module* net_service_manager_module_;
+    msg_module* msg_module_;
 
-    std::shared_ptr<net_server_service> m_pNetServer{nullptr};
+    std::shared_ptr<net_server_service> net_server_{nullptr};
 };
 
 } // namespace ark

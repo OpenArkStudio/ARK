@@ -43,14 +43,14 @@ private:
     row_callback_functor func_;
 
     // data
-    std::shared_ptr<node_manager> m_pNodeManager{nullptr};
+    std::shared_ptr<node_manager> node_manager_{nullptr};
 
 public:
     row_impl() = delete;
 
     // constructor
     explicit row_impl(
-        std::shared_ptr<class_meta> pClassMeta, uint32_t row, const data_list& args, row_callback_functor&& func);
+        std::shared_ptr<class_meta> class_meta_ptr, uint32_t row, const data_list& args, row_callback_functor&& func);
 
     // get row
     uint32_t get_row() const override;
@@ -104,7 +104,7 @@ public:
 private:
     std::shared_ptr<node_manager> get_node_manager() const;
 
-    int on_node_call_back(node* pNode, const data& old_data, const data& new_data);
+    int on_node_call_back(node* node_ptr, const data& old_data, const data& new_data);
 };
 
 } // namespace ark

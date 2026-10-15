@@ -39,38 +39,39 @@ public:
     bool post_init() override;
     //bool PreUpdate() override;
 
-    bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData,
-        const guid_t nPlayer = 0) override;
-    bool SendMsgToGame(const data_list& argObjectVar, const data_list& argGameID, const AFMsg::EGameMsgID eMsgID,
-        google::protobuf::Message& xData) override;
+    bool send_msg_to_game(const int game_id, const ark::protobuf::game_message_id msg_id,
+        google::protobuf::Message& data_value, const guid_t player = 0) override;
+    bool send_msg_to_game(const data_list& arg_object_var, const data_list& arg_game_id,
+        const ark::protobuf::game_message_id msg_id, google::protobuf::Message& data_value) override;
 
     // std::shared_ptr<AFServerData> GetSuitProxyForEnter();
-    std::shared_ptr<connection_data> GetSuitProxyForEnter() override;
-    std::shared_ptr<net_server_service> GetNetServer() override;
+    std::shared_ptr<connection_data> get_suit_proxy_for_enter() override;
+    std::shared_ptr<net_server_service> get_net_server() override;
 
 protected:
-    int StartServer();
+    int start_server();
     //int StartClient();
 
-    bool SendMsgToPlayer(const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const guid_t nPlayer);
+    bool send_msg_to_player(
+        const ark::protobuf::game_message_id msg_id, google::protobuf::Message& data_value, const guid_t player);
 
-    int GetPlayerGameID(const guid_t& self);
+    int get_player_game_id(const guid_t& self);
 
 private:
     // AFSmartPtrMap<int, AFServerData> reg_servers_;
 
-    int64_t mnLastCheckTime;
+    int64_t last_check_time_;
 
     // server id, data
     // AFSmartPtrMap<int, AFServerData> mGameMap;
     // AFSmartPtrMap<int, AFServerData> mProxyMap;
 
-    kernel_module* m_pKernelModule;
-    bus_module* m_pBusModule;
-    msg_module* m_pMsgModule;
-    net_service_manager_module* m_pNetServiceManagerModule;
+    kernel_module* kernel_module_;
+    bus_module* bus_module_;
+    msg_module* msg_module_;
+    net_service_manager_module* net_service_manager_module_;
 
-    std::shared_ptr<net_server_service> m_pNetServer;
+    std::shared_ptr<net_server_service> net_server_;
 };
 
 } // namespace ark

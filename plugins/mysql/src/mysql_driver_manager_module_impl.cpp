@@ -23,120 +23,120 @@
 
 namespace ark {
 
-mysql_driver_module* mysql_driver_manager_module_impl::GetMySQLDriver() {
+mysql_driver_module* mysql_driver_manager_module_impl::get_mysql_driver() {
     return mysql_modules_.begin()->second;
 }
 
-void mysql_driver_manager_module_impl::CheckMySQL() {
-    int nServerID = 0;
-    std::vector<int> xIntVec;
+void mysql_driver_manager_module_impl::check_mysql() {
+    int server_id = 0;
+    std::vector<int> server_ids;
     for (auto iter : mysql_modules_)
     {
-        auto pMysqlDriver = iter.second;
-        if (!pMysqlDriver->IsAvailable())
+        auto mysql_driver_ptr = iter.second;
+        if (!mysql_driver_ptr->is_available())
         {
-            xIntVec.push_back(nServerID);
-            invalid_mysql_modules_.insert(nServerID, pMysqlDriver);
+            server_ids.push_back(server_id);
+            invalid_mysql_modules_.insert(server_id, mysql_driver_ptr);
         }
     }
 
-    for (auto i : xIntVec)
+    for (auto i : server_ids)
     {
-        mysql_modules_.erase(xIntVec[i]);
+        mysql_modules_.erase(server_ids[i]);
     }
 
-    xIntVec.clear();
-    nServerID = 0;
+    server_ids.clear();
+    server_id = 0;
 
     for (auto iter : invalid_mysql_modules_)
     {
-        auto pMysqlDriver = iter.second;
-        if (!pMysqlDriver->IsAvailable() && pMysqlDriver->CanReconnect())
+        auto mysql_driver_ptr = iter.second;
+        if (!mysql_driver_ptr->is_available() && mysql_driver_ptr->can_reconnect())
         {
-            pMysqlDriver->Reconnect();
-            if (pMysqlDriver->IsAvailable())
+            mysql_driver_ptr->reconnect();
+            if (mysql_driver_ptr->is_available())
             {
-                xIntVec.push_back(nServerID);
-                mysql_modules_.insert(nServerID, pMysqlDriver);
+                server_ids.push_back(server_id);
+                mysql_modules_.insert(server_id, mysql_driver_ptr);
             }
         }
     }
 
-    for (size_t i : xIntVec)
+    for (size_t i : server_ids)
     {
-        invalid_mysql_modules_.erase(xIntVec[i]);
+        invalid_mysql_modules_.erase(server_ids[i]);
     }
 }
 
-bool mysql_driver_manager_module_impl::AddMySQLServer(const int nServerID, const std::string& strDns,
-    const std::string& strIP, const int nPort, const std::string strDBName, const std::string strDBUser,
-    const std::string strDBPwd, const int nRconnectTime, const int nRconneCount) {
-    std::string strDnsIp;
-    if (!strDns.empty())
+bool mysql_driver_manager_module_impl::add_mysql_server(const int server_id, const std::string& dns,
+    const std::string& ip, const int port, const std::string db_name, const std::string db_user,
+    const std::string db_pwd, const int reconnect_time, const int reconnect_count) {
+    std::string dns_ip;
+    if (!dns.empty())
     {
-        strDnsIp = GetIPByHostName(strDns);
+        dns_ip = get_ip_by_host_name(dns);
     }
 
-    if (strDnsIp.empty())
+    if (dns_ip.empty())
     {
-        strDnsIp = strIP;
+        dns_ip = ip;
     }
 
-    if (strDnsIp.empty())
+    if (dns_ip.empty())
     {
         return false;
     }
 
-    if (strDnsIp.empty())
+    if (dns_ip.empty())
     {
         return false;
     }
 
-    mysql_driver_module* pMysqlDriver = mysql_modules_.find_value(nServerID);
-    if (pMysqlDriver)
+    mysql_driver_module* mysql_driver_ptr = mysql_modules_.find_value(server_id);
+    if (mysql_driver_ptr)
     {
         return false;
     }
 
-    mysql_driver_module* pInvalidRedisDriver = invalid_mysql_modules_.find_value(nServerID);
-    if (pInvalidRedisDriver)
+    mysql_driver_module* invalid_redis_driver_ptr = invalid_mysql_modules_.find_value(server_id);
+    if (invalid_redis_driver_ptr)
     {
         return false;
     }
 
-    pMysqlDriver = ARK_NEW mysql_driver_module_impl(nRconnectTime, nRconneCount);
-    if (pMysqlDriver->Connect(strDBName, strDnsIp, nPort, strDBUser, strDBPwd))
+    mysql_driver_ptr = ARK_NEW mysql_driver_module_impl(reconnect_time, reconnect_count);
+    if (mysql_driver_ptr->connect(db_name, dns_ip, port, db_user, db_pwd))
     {
-        mysql_modules_.insert(nServerID, pMysqlDriver);
+        mysql_modules_.insert(server_id, mysql_driver_ptr);
     }
     else
     {
-        invalid_mysql_modules_.insert(nServerID, pMysqlDriver);
+        invalid_mysql_modules_.insert(server_id, mysql_driver_ptr);
     }
 
     return true;
 }
 
-std::string mysql_driver_manager_module_impl::GetIPByHostName(const std::string& strHostName) {
-    if (strHostName.empty())
+std::string mysql_driver_manager_module_impl::get_ip_by_host_name(const std::string& host_name) {
+    if (host_name.empty())
     {
-        return NULL_STR;
+        return null_str;
     }
 
-    hostent* pHost = gethostbyname(strHostName.c_str());
-    if (!pHost)
+    hostent* host_ptr = gethostbyname(host_name.c_str());
+    if (!host_ptr)
     {
-        return NULL_STR;
+        return null_str;
     }
 
-    if (pHost->h_addr_list[0])
+    if (host_ptr->h_addr_list[0])
     {
-        char strIp[32] = {0};
-        inet_ntop(pHost->h_addrtype, pHost->h_addr_list[0], strIp, sizeof(strIp));
-        return std::string(strIp);
+        char ip[32] = {0};
+        inet_ntop(host_ptr->h_addrtype, host_ptr->h_addr_list[0], ip, sizeof(ip));
+        return std::string(ip);
     }
 
-    return NULL_STR;
+    return null_str;
 }
 
 } // namespace ark

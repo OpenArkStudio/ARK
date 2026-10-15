@@ -25,46 +25,46 @@
 namespace ark {
 
 bool game_net_module_impl::init() {
-    m_pKernelModule = find_module<kernel_module>();
-    m_pUUIDModule = find_module<guid_module>();
-    m_pBusModule = find_module<bus_module>();
-    m_pMsgModule = find_module<msg_module>();
-    m_pNetServiceManagerModule = find_module<net_service_manager_module>();
-    m_pMapModule = find_module<map_module>();
+    kernel_module_ = find_module<kernel_module>();
+    uuid_module_ = find_module<guid_module>();
+    bus_module_ = find_module<bus_module>();
+    msg_module_ = find_module<msg_module>();
+    net_service_manager_module_ = find_module<net_service_manager_module>();
+    map_module_ = find_module<map_module>();
 
-    m_pKernelModule->add_common_class_event(this, &game_net_module_impl::OnCommonClassEvent);
+    kernel_module_->add_common_class_event(this, &game_net_module_impl::on_common_class_event);
 
     //m_pKernelModule->AddNodeCallBack(AFEntityMetaPlayer::self_name(), AFEntityMetaBaseEntity::map_inst_id(), this,
     //    &AFCGameNetModule::OnMapInstanceEvent);
     //m_pKernelModule->AddNodeCallBack(
     //    AFEntityMetaPlayer::self_name(), AFEntityMetaBaseEntity::map_id(), this, &AFCGameNetModule::OnContainerEvent);
 
-    m_pKernelModule->add_leave_scene_event(AFEntityMetaPlayer::self_name(), this, &game_net_module_impl::OnLeaveScene);
-    m_pKernelModule->add_enter_scene_event(AFEntityMetaPlayer::self_name(), this, &game_net_module_impl::OnEnterScene);
+    kernel_module_->add_leave_scene_event(entity_meta_player::self_name(), this, &game_net_module_impl::on_leave_scene);
+    kernel_module_->add_enter_scene_event(entity_meta_player::self_name(), this, &game_net_module_impl::on_enter_scene);
 
-    m_pKernelModule->add_class_call_back(AFEntityMetaPlayer::self_name(), this, &game_net_module_impl::OnEntityEvent);
+    kernel_module_->add_class_call_back(entity_meta_player::self_name(), this, &game_net_module_impl::on_entity_event);
 
     return true;
 }
 
 bool game_net_module_impl::post_init() {
-    StartServer();
+    start_server();
     return true;
 }
 
-int game_net_module_impl::StartServer() {
-    auto ret = m_pNetServiceManagerModule->create_server();
+int game_net_module_impl::start_server() {
+    auto ret = net_service_manager_module_->create_server();
     if (!ret)
     {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}", m_pBusModule->get_self_bus_name());
+        ARK_LOG_ERROR("Cannot start server net, busid = {}", bus_module_->get_self_bus_name());
         ARK_ASSERT_NO_EFFECT(0);
         exit(0);
     }
 
-    m_pNetServerService = m_pNetServiceManagerModule->get_inter_net_server();
-    if (m_pNetServerService == nullptr)
+    net_server_service_ = net_service_manager_module_->get_inter_net_server();
+    if (net_server_service_ == nullptr)
     {
-        ARK_LOG_ERROR("Cannot find server net, busid = {}", m_pBusModule->get_self_bus_name());
+        ARK_LOG_ERROR("Cannot find server net, busid = {}", bus_module_->get_self_bus_name());
         exit(0);
     }
 
@@ -102,233 +102,233 @@ int game_net_module_impl::StartServer() {
 //    return 0;
 //}
 
-int game_net_module_impl::OnViewDataNodeEnter(const data_list& argVar, const guid_t& self) {
-    if (argVar.get_count() <= 0 || self == 0)
+int game_net_module_impl::on_view_data_node_enter(const data_list& arg_var, const guid_t& self) {
+    if (arg_var.get_count() <= 0 || self == 0)
     {
         return 1;
     }
 
-    std::shared_ptr<entity> pEntity = m_pKernelModule->get_entity(self);
-    if (nullptr == pEntity)
+    std::shared_ptr<entity> entity_ptr = kernel_module_->get_entity(self);
+    if (nullptr == entity_ptr)
     {
         return 0;
     }
 
-    AFMsg::multi_entity_data_list msg;
-    AFMsg::pb_entity* entity = msg.add_data_list();
+    ark::protobuf::multi_entity_data_list msg;
+    ark::protobuf::protobuf_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
     mask_type mask;
-    mask[(size_t)data_mask::PF_SYNC_VIEW] = 1;
-    m_pKernelModule->entity_node_to_pb_data(pEntity, entity->mutable_data(), mask);
+    mask[(size_t)data_mask::pf_sync_view] = 1;
+    kernel_module_->entity_node_to_protobuf_data(entity_ptr, entity->mutable_data(), mask);
 
-    for (size_t i = 0; i < argVar.get_count(); i++)
+    for (size_t i = 0; i < arg_var.get_count(); i++)
     {
-        guid_t identOther = argVar.int64(i);
+        guid_t ident_other = arg_var.int64(i);
 
-        if (self != identOther)
+        if (self != ident_other)
         {
-            SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, msg, identOther);
+            send_msg_protobuf_to_gate(ark::protobuf::egmi_ack_entity_data_node_enter, msg, ident_other);
         }
     }
 
     return 0;
 }
 
-int game_net_module_impl::OnSelfDataNodeEnter(const guid_t& self) {
+int game_net_module_impl::on_self_data_node_enter(const guid_t& self) {
     if (self == 0)
     {
         return 1;
     }
 
-    std::shared_ptr<entity> pEntity = m_pKernelModule->get_entity(self);
-    if (nullptr == pEntity)
+    std::shared_ptr<entity> entity_ptr = kernel_module_->get_entity(self);
+    if (nullptr == entity_ptr)
     {
         return 1;
     }
 
-    AFMsg::multi_entity_data_list msg;
-    AFMsg::pb_entity* entity = msg.add_data_list();
+    ark::protobuf::multi_entity_data_list msg;
+    ark::protobuf::protobuf_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
     mask_type mask;
-    mask[(size_t)data_mask::PF_SYNC_SELF] = 1;
-    m_pKernelModule->entity_node_to_pb_data(pEntity, entity->mutable_data(), mask);
+    mask[(size_t)data_mask::pf_sync_self] = 1;
+    kernel_module_->entity_node_to_protobuf_data(entity_ptr, entity->mutable_data(), mask);
 
-    SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, msg, self);
+    send_msg_protobuf_to_gate(ark::protobuf::egmi_ack_entity_data_node_enter, msg, self);
     return 0;
 }
 
-int game_net_module_impl::OnSelfDataTableEnter(const guid_t& self) {
+int game_net_module_impl::on_self_data_table_enter(const guid_t& self) {
     if (self == 0)
     {
         return 1;
     }
 
-    std::shared_ptr<entity> pEntity = m_pKernelModule->get_entity(self);
+    std::shared_ptr<entity> entity_ptr = kernel_module_->get_entity(self);
 
-    if (nullptr == pEntity)
+    if (nullptr == entity_ptr)
     {
         return 1;
     }
 
-    AFMsg::multi_entity_data_list msg;
-    AFMsg::pb_entity* entity = msg.add_data_list();
+    ark::protobuf::multi_entity_data_list msg;
+    ark::protobuf::protobuf_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
     mask_type mask;
-    mask[(size_t)data_mask::PF_SYNC_SELF] = 1;
-    m_pKernelModule->entity_table_to_pb_data(pEntity, entity->mutable_data(), mask);
+    mask[(size_t)data_mask::pf_sync_self] = 1;
+    kernel_module_->entity_table_to_protobuf_data(entity_ptr, entity->mutable_data(), mask);
 
-    SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, msg, self);
+    send_msg_protobuf_to_gate(ark::protobuf::egmi_ack_entity_data_table_enter, msg, self);
     return 0;
 }
 
-int game_net_module_impl::OnViewDataTableEnter(const data_list& argVar, const guid_t& self) {
-    if (argVar.get_count() <= 0 || self == 0)
+int game_net_module_impl::on_view_data_table_enter(const data_list& arg_var, const guid_t& self) {
+    if (arg_var.get_count() <= 0 || self == 0)
     {
         return 1;
     }
 
-    std::shared_ptr<entity> pEntity = m_pKernelModule->get_entity(self);
+    std::shared_ptr<entity> entity_ptr = kernel_module_->get_entity(self);
 
-    if (nullptr == pEntity)
+    if (nullptr == entity_ptr)
     {
         return 1;
     }
 
-    AFMsg::multi_entity_data_list msg;
-    AFMsg::pb_entity* entity = msg.add_data_list();
+    ark::protobuf::multi_entity_data_list msg;
+    ark::protobuf::protobuf_entity* entity = msg.add_data_list();
     entity->set_id(self);
 
     mask_type mask;
-    mask[(size_t)data_mask::PF_SYNC_VIEW] = 1;
-    m_pKernelModule->entity_table_to_pb_data(pEntity, entity->mutable_data(), mask);
+    mask[(size_t)data_mask::pf_sync_view] = 1;
+    kernel_module_->entity_table_to_protobuf_data(entity_ptr, entity->mutable_data(), mask);
 
-    for (size_t i = 0; i < argVar.get_count(); i++)
+    for (size_t i = 0; i < arg_var.get_count(); i++)
     {
-        guid_t identOther = argVar.int64(i);
+        guid_t ident_other = arg_var.int64(i);
 
-        if (self != identOther && msg.data_list_size() > 0)
+        if (self != ident_other && msg.data_list_size() > 0)
         {
-            SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, msg, identOther);
+            send_msg_protobuf_to_gate(ark::protobuf::egmi_ack_entity_data_table_enter, msg, ident_other);
         }
     }
 
     return 0;
 }
 
-bool game_net_module_impl::ProcessLeaveGroup(const guid_t& self, int map_id, int old_inst_id) {
+bool game_net_module_impl::process_leave_group(const guid_t& self, int map_id, int old_inst_id) {
     if (old_inst_id <= 0)
     {
         return false;
     }
 
-    data_list_impl valueAllOldObjectList;
-    data_list_impl valueAllOldPlayerList;
-    m_pMapModule->get_inst_entity_list(map_id, old_inst_id, valueAllOldObjectList);
+    data_list_impl value_all_old_object_list;
+    data_list_impl value_all_old_player_list;
+    map_module_->get_inst_entity_list(map_id, old_inst_id, value_all_old_object_list);
 
-    if (valueAllOldObjectList.get_count() > 0)
+    if (value_all_old_object_list.get_count() > 0)
     {
         //broadcast self to others around
-        for (size_t i = 0; i < valueAllOldObjectList.get_count(); i++)
+        for (size_t i = 0; i < value_all_old_object_list.get_count(); i++)
         {
-            guid_t identBC = valueAllOldObjectList.int64(i);
-            auto pEntity = m_pKernelModule->get_entity(identBC);
-            if (pEntity == nullptr)
+            guid_t ident_bc = value_all_old_object_list.int64(i);
+            auto entity_ptr = kernel_module_->get_entity(ident_bc);
+            if (entity_ptr == nullptr)
             {
                 continue;
             }
 
-            if (valueAllOldObjectList.int64(i) == self)
+            if (value_all_old_object_list.int64(i) == self)
             {
-                valueAllOldObjectList.set_int64(i, 0);
+                value_all_old_object_list.set_int64(i, 0);
             }
 
-            const std::string& class_name = pEntity->get_class_name();
-            if (AFEntityMetaPlayer::self_name() == class_name)
+            const std::string& class_name = entity_ptr->get_class_name();
+            if (entity_meta_player::self_name() == class_name)
             {
-                valueAllOldPlayerList << identBC;
+                value_all_old_player_list << ident_bc;
             }
         }
 
-        OnEntityListLeave(valueAllOldPlayerList, data_list_impl() << self);
+        on_entity_list_leave(value_all_old_player_list, data_list_impl() << self);
 
         //broadcast self that leave the map
-        OnEntityListLeave(data_list_impl() << self, valueAllOldObjectList);
+        on_entity_list_leave(data_list_impl() << self, value_all_old_object_list);
     }
 
-    m_pKernelModule->do_event(self, AFED_ON_CLIENT_LEAVE_SCENE, data_list_impl() << old_inst_id);
+    kernel_module_->do_event(self, afed_on_client_leave_scene, data_list_impl() << old_inst_id);
 
     return true;
 }
 
-bool game_net_module_impl::ProcessEnterGroup(const guid_t& self, int nSceneID, int nNewGroupID) {
+bool game_net_module_impl::process_enter_group(const guid_t& self, int scene_id, int new_group_id) {
     // broadcast self enter to others
-    if (nNewGroupID <= 0)
+    if (new_group_id <= 0)
     {
         return false;
     }
 
     //exclude myself
     //////////////////////////////////////////////////////////////////////////
-    data_list_impl valueAllObjectList;
-    data_list_impl valueAllObjectListNoSelf;
-    data_list_impl valuePlayerList;
-    data_list_impl valuePlayerListNoSelf;
-    m_pMapModule->get_inst_entity_list(nSceneID, nNewGroupID, valueAllObjectList);
+    data_list_impl value_all_object_list;
+    data_list_impl value_all_object_list_no_self;
+    data_list_impl value_player_list;
+    data_list_impl value_player_list_no_self;
+    map_module_->get_inst_entity_list(scene_id, new_group_id, value_all_object_list);
 
-    for (size_t i = 0; i < valueAllObjectList.get_count(); i++)
+    for (size_t i = 0; i < value_all_object_list.get_count(); i++)
     {
-        guid_t identBC = valueAllObjectList.int64(i);
-        auto pEntity = m_pKernelModule->get_entity(identBC);
-        if (pEntity == nullptr)
+        guid_t ident_bc = value_all_object_list.int64(i);
+        auto entity_ptr = kernel_module_->get_entity(ident_bc);
+        if (entity_ptr == nullptr)
         {
             continue;
         }
 
-        const std::string& class_name = pEntity->get_class_name();
-        if (AFEntityMetaPlayer::self_name() == class_name)
+        const std::string& class_name = entity_ptr->get_class_name();
+        if (entity_meta_player::self_name() == class_name)
         {
-            valuePlayerList << identBC;
+            value_player_list << ident_bc;
 
-            if (identBC != self)
+            if (ident_bc != self)
             {
-                valuePlayerListNoSelf << identBC;
+                value_player_list_no_self << ident_bc;
             }
         }
 
-        if (identBC != self)
+        if (ident_bc != self)
         {
-            valueAllObjectListNoSelf << identBC;
+            value_all_object_list_no_self << ident_bc;
         }
     }
 
     // broadcast others that I'm here(need exclude self)
-    if (valuePlayerListNoSelf.get_count() > 0)
+    if (value_player_list_no_self.get_count() > 0)
     {
-        auto pEntity = m_pKernelModule->get_entity(self);
-        if (pEntity == nullptr)
+        auto entity_ptr = kernel_module_->get_entity(self);
+        if (entity_ptr == nullptr)
         {
             return false;
         }
 
-        OnEntityListEnter(valuePlayerListNoSelf, data_list_impl() << self);
-        OnViewDataNodeEnter(valuePlayerListNoSelf, self);
-        OnViewDataTableEnter(valuePlayerListNoSelf, self);
+        on_entity_list_enter(value_player_list_no_self, data_list_impl() << self);
+        on_view_data_node_enter(value_player_list_no_self, self);
+        on_view_data_table_enter(value_player_list_no_self, self);
 
-        const std::string class_name = pEntity->get_class_name();
-        if (class_name == AFEntityMetaPlayer::self_name())
+        const std::string class_name = entity_ptr->get_class_name();
+        if (class_name == entity_meta_player::self_name())
         {
-            OnEntityListEnter(data_list_impl() << self, valueAllObjectListNoSelf);
+            on_entity_list_enter(data_list_impl() << self, value_all_object_list_no_self);
 
-            for (size_t i = 0; i < valueAllObjectListNoSelf.get_count(); i++)
+            for (size_t i = 0; i < value_all_object_list_no_self.get_count(); i++)
             {
                 // broadcast myself data to others
-                guid_t identOld = valueAllObjectListNoSelf.int64(i);
+                guid_t ident_old = value_all_object_list_no_self.int64(i);
 
-                OnViewDataNodeEnter(data_list_impl() << self, identOld);
-                OnViewDataTableEnter(data_list_impl() << self, identOld);
+                on_view_data_node_enter(data_list_impl() << self, ident_old);
+                on_view_data_table_enter(data_list_impl() << self, ident_old);
             }
         }
     }
@@ -336,46 +336,46 @@ bool game_net_module_impl::ProcessEnterGroup(const guid_t& self, int nSceneID, i
     return true;
 }
 
-int game_net_module_impl::OnEntityListEnter(const data_list& self, const data_list& argVar) {
-    if (self.get_count() <= 0 || argVar.get_count() <= 0)
+int game_net_module_impl::on_entity_list_enter(const data_list& self, const data_list& arg_var) {
+    if (self.get_count() <= 0 || arg_var.get_count() <= 0)
     {
         return 1;
     }
 
-    AFMsg::AckEntityEnterList xEntityEnterList;
+    ark::protobuf::ack_entity_enter_list entity_enter_list_value;
 
-    for (size_t i = 0; i < argVar.get_count(); i++)
+    for (size_t i = 0; i < arg_var.get_count(); i++)
     {
-        guid_t identOld = argVar.int64(i);
+        guid_t ident_old = arg_var.int64(i);
 
         // Exclude empty entity
-        if (identOld == 0)
+        if (ident_old == 0)
         {
             continue;
         }
 
-        auto pEntity = m_pKernelModule->get_entity(identOld);
-        if (pEntity == nullptr)
+        auto entity_ptr = kernel_module_->get_entity(ident_old);
+        if (entity_ptr == nullptr)
         {
             continue;
         }
 
-        AFMsg::EntityEnterInfo* pEnterInfo = xEntityEnterList.add_entity_list();
-        pEnterInfo->set_object_guid(identOld);
-        vector3d xPoint;
-        xPoint.x = pEntity->get_float("x");
-        xPoint.y = pEntity->get_float("y");
-        xPoint.z = pEntity->get_float("z");
+        ark::protobuf::entity_enter_info* enter_info_ptr = entity_enter_list_value.add_entity_list();
+        enter_info_ptr->set_object_guid(ident_old);
+        vector3d point_value;
+        point_value.x = entity_ptr->get_float("x");
+        point_value.y = entity_ptr->get_float("y");
+        point_value.z = entity_ptr->get_float("z");
 
-        *pEnterInfo->mutable_pos() = msg_module::vec_to_pb(xPoint);
-        pEnterInfo->set_career_type(pEntity->get_int32("Job"));
-        pEnterInfo->set_player_state(pEntity->get_int32("State"));
-        pEnterInfo->set_config_id(pEntity->get_config_id());
-        pEnterInfo->set_scene_id(pEntity->get_map_id());
-        pEnterInfo->set_class_id(pEntity->get_class_name());
+        *enter_info_ptr->mutable_pos() = msg_module::vec_to_protobuf(point_value);
+        enter_info_ptr->set_career_type(entity_ptr->get_int32("Job"));
+        enter_info_ptr->set_player_state(entity_ptr->get_int32("State"));
+        enter_info_ptr->set_config_id(entity_ptr->get_config_id());
+        enter_info_ptr->set_scene_id(entity_ptr->get_map_id());
+        enter_info_ptr->set_class_id(entity_ptr->get_class_name());
     }
 
-    if (xEntityEnterList.entity_list_size() <= 0)
+    if (entity_enter_list_value.entity_list_size() <= 0)
     {
         return 1;
     }
@@ -386,29 +386,29 @@ int game_net_module_impl::OnEntityListEnter(const data_list& self, const data_li
 
         if (ident != 0)
         {
-            SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_ENTER, xEntityEnterList, ident);
+            send_msg_protobuf_to_gate(ark::protobuf::egmi_ack_entity_enter, entity_enter_list_value, ident);
         }
     }
 
     return 0;
 }
 
-int game_net_module_impl::OnEntityListLeave(const data_list& self, const data_list& argVar) {
-    if (self.get_count() <= 0 || argVar.get_count() <= 0)
+int game_net_module_impl::on_entity_list_leave(const data_list& self, const data_list& arg_var) {
+    if (self.get_count() <= 0 || arg_var.get_count() <= 0)
     {
         return 1;
     }
 
-    AFMsg::AckEntityLeaveList xEntityLeaveInfoList;
+    ark::protobuf::ack_entity_leave_list entity_leave_info_list_value;
 
-    for (size_t i = 0; i < argVar.get_count(); i++)
+    for (size_t i = 0; i < arg_var.get_count(); i++)
     {
-        guid_t identOld = argVar.int64(i);
+        guid_t ident_old = arg_var.int64(i);
 
         // Exclude empty entity
-        if (identOld != 0)
+        if (ident_old != 0)
         {
-            xEntityLeaveInfoList.add_entity_list(identOld);
+            entity_leave_info_list_value.add_entity_list(ident_old);
         }
     }
 
@@ -418,90 +418,90 @@ int game_net_module_impl::OnEntityListLeave(const data_list& self, const data_li
 
         if (ident != 0)
         {
-            SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_LEAVE, xEntityLeaveInfoList, ident);
+            send_msg_protobuf_to_gate(ark::protobuf::egmi_ack_entity_leave, entity_leave_info_list_value, ident);
         }
     }
 
     return 0;
 }
 
-int game_net_module_impl::CommonClassDestoryEvent(const guid_t& self) {
-    auto pEntity = m_pKernelModule->get_entity(self);
-    if (nullptr == pEntity)
+int game_net_module_impl::common_class_destory_event(const guid_t& self) {
+    auto entity_ptr = kernel_module_->get_entity(self);
+    if (nullptr == entity_ptr)
     {
         return 0;
     }
 
-    int map_id = pEntity->get_int32(AFEntityMetaBaseEntity::map_id());
-    int map_inst_id = pEntity->get_int32(AFEntityMetaBaseEntity::map_inst_id());
+    int map_id = entity_ptr->get_int32(entity_meta_base_entity::map_id());
+    int map_inst_id = entity_ptr->get_int32(entity_meta_base_entity::map_inst_id());
 
     if (map_inst_id < 0)
     {
         return 0;
     }
 
-    data_list_impl valueAllObjectList;
-    data_list_impl valueBroadCaseList;
-    data_list_impl valueBroadListNoSelf;
-    m_pMapModule->get_inst_entity_list(map_id, map_inst_id, valueAllObjectList);
+    data_list_impl value_all_object_list;
+    data_list_impl value_broad_case_list;
+    data_list_impl value_broad_list_no_self;
+    map_module_->get_inst_entity_list(map_id, map_inst_id, value_all_object_list);
 
-    for (size_t i = 0; i < valueAllObjectList.get_count(); i++)
+    for (size_t i = 0; i < value_all_object_list.get_count(); i++)
     {
-        guid_t identBC = valueAllObjectList.int64(i);
-        auto pBCEntity = m_pKernelModule->get_entity(identBC);
-        if (nullptr == pBCEntity)
+        guid_t ident_bc = value_all_object_list.int64(i);
+        auto bc_entity_ptr = kernel_module_->get_entity(ident_bc);
+        if (nullptr == bc_entity_ptr)
         {
             continue;
         }
 
-        const std::string& class_name = pBCEntity->get_class_name();
+        const std::string& class_name = bc_entity_ptr->get_class_name();
 
-        if (AFEntityMetaPlayer::self_name() == class_name)
+        if (entity_meta_player::self_name() == class_name)
         {
-            valueBroadCaseList << identBC;
+            value_broad_case_list << ident_bc;
 
-            if (identBC != self)
+            if (ident_bc != self)
             {
-                valueBroadListNoSelf << identBC;
+                value_broad_list_no_self << ident_bc;
             }
         }
     }
 
-    OnEntityListLeave(valueBroadListNoSelf, data_list_impl() << self);
+    on_entity_list_leave(value_broad_list_no_self, data_list_impl() << self);
     return 0;
 }
 
-int game_net_module_impl::OnCommonClassEvent(
-    const guid_t& self, const std::string& strClassName, const entity_event eClassEvent, const data_list& var) {
-    switch (eClassEvent)
+int game_net_module_impl::on_common_class_event(
+    const guid_t& self, const std::string& class_name, const entity_event class_event, const data_list& var) {
+    switch (class_event)
     {
-    case entity_event::ENTITY_EVT_DESTROY:
-        CommonClassDestoryEvent(self);
+    case entity_event::entity_evt_destroy:
+        common_class_destory_event(self);
         break;
 
-    case entity_event::ENTITY_EVT_PRE_LOAD_DATA:
+    case entity_event::entity_evt_pre_load_data:
     {
         // do something
     }
     break;
 
-    case entity_event::ENTITY_EVT_LOAD_DATA:
+    case entity_event::entity_evt_load_data:
         break;
 
-    case entity_event::ENTITY_EVT_DATA_FINISHED:
+    case entity_event::entity_evt_data_finished:
     {
         // Just broadcast to self
-        if (strClassName == AFEntityMetaPlayer::self_name())
+        if (class_name == entity_meta_player::self_name())
         {
-            OnEntityListEnter(data_list_impl() << self, data_list_impl() << self);
+            on_entity_list_enter(data_list_impl() << self, data_list_impl() << self);
 
-            OnSelfDataNodeEnter(self);
-            OnSelfDataTableEnter(self);
+            on_self_data_node_enter(self);
+            on_self_data_table_enter(self);
         }
     }
     break;
 
-    case entity_event::ENTITY_EVT_ALL_FINISHED:
+    case entity_event::entity_evt_all_finished:
         break;
 
     default:
@@ -615,54 +615,54 @@ int game_net_module_impl::OnCommonClassEvent(
 //    return 0;
 //}
 
-int game_net_module_impl::OnLeaveScene(const guid_t& self, const int map_id, const int map_inst_id) {
-    ProcessLeaveGroup(self, map_id, map_inst_id);
+int game_net_module_impl::on_leave_scene(const guid_t& self, const int map_id, const int map_inst_id) {
+    process_leave_group(self, map_id, map_inst_id);
     return 0;
 }
 
-int game_net_module_impl::OnEnterScene(const guid_t& self, const int map_id, const int map_inst_id) {
-    ProcessEnterGroup(self, map_id, map_inst_id);
+int game_net_module_impl::on_enter_scene(const guid_t& self, const int map_id, const int map_inst_id) {
+    process_enter_group(self, map_id, map_inst_id);
     return 0;
 }
 
-int game_net_module_impl::GetBroadcastEntityList(const int map_id, const int inst_id, data_list& valueObject) {
+int game_net_module_impl::get_broadcast_entity_list(const int map_id, const int inst_id, data_list& value_object) {
     data_list_impl map_inst_entity_list;
-    m_pMapModule->get_inst_entity_list(map_id, inst_id, map_inst_entity_list);
+    map_module_->get_inst_entity_list(map_id, inst_id, map_inst_entity_list);
 
     for (size_t i = 0; i < map_inst_entity_list.get_count(); i++)
     {
-        auto pEntity = m_pKernelModule->get_entity(map_inst_entity_list.int64(i));
-        if (pEntity == nullptr)
+        auto entity_ptr = kernel_module_->get_entity(map_inst_entity_list.int64(i));
+        if (entity_ptr == nullptr)
         {
             continue;
         }
 
-        const std::string& strObjClassName = pEntity->get_class_name();
+        const std::string& obj_class_name = entity_ptr->get_class_name();
 
-        if (AFEntityMetaPlayer::self_name() == strObjClassName)
+        if (entity_meta_player::self_name() == obj_class_name)
         {
-            valueObject.add_int64(map_inst_entity_list.int64(i));
+            value_object.add_int64(map_inst_entity_list.int64(i));
         }
     }
 
-    return valueObject.get_count();
+    return value_object.get_count();
 }
 
-int game_net_module_impl::OnEntityEvent(
-    const guid_t& self, const std::string& strClassName, const entity_event eClassEvent, const data_list& var) {
-    switch (eClassEvent)
+int game_net_module_impl::on_entity_event(
+    const guid_t& self, const std::string& class_name, const entity_event class_event, const data_list& var) {
+    switch (class_event)
     {
-    case entity_event::ENTITY_EVT_DESTROY:
+    case entity_event::entity_evt_destroy:
         // save data to db by yourself logic
         ARK_LOG_INFO("Player Offline, player_id = {}", self);
         break;
 
-    case entity_event::ENTITY_EVT_LOAD_DATA:
+    case entity_event::entity_evt_load_data:
         // load data from db by yourself logic
         ARK_LOG_INFO("Player online, player_id = {}", self);
         break;
 
-    case entity_event::ENTITY_EVT_ALL_FINISHED:
+    case entity_event::entity_evt_all_finished:
         // load data finished from db by yourself logic
         ARK_LOG_INFO("Player ready, player_id = {}", self);
         break;
@@ -674,7 +674,8 @@ int game_net_module_impl::OnEntityEvent(
     return 0;
 }
 
-void game_net_module_impl::SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const guid_t& self) {
+void game_net_module_impl::send_msg_protobuf_to_gate(
+    const uint16_t msg_id, google::protobuf::Message& msg_value, const guid_t& self) {
     //std::shared_ptr<GateBaseInfo> pData = mRoleBaseData.find_value(self);
 
     //if (nullptr == pData)
@@ -690,7 +691,8 @@ void game_net_module_impl::SendMsgPBToGate(const uint16_t nMsgID, google::protob
     //}
 }
 
-void game_net_module_impl::SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const guid_t& self) {
+void game_net_module_impl::send_msg_protobuf_to_gate(
+    const uint16_t msg_id, const std::string& msg, const guid_t& self) {
     //std::shared_ptr<GateBaseInfo> pData = mRoleBaseData.find_value(self);
 
     //if (nullptr == pData)
@@ -706,11 +708,11 @@ void game_net_module_impl::SendMsgPBToGate(const uint16_t nMsgID, const std::str
     //}
 }
 
-std::shared_ptr<net_server_service> game_net_module_impl::GetNetServerService() {
-    return m_pNetServerService;
+std::shared_ptr<net_server_service> game_net_module_impl::get_net_server_service() {
+    return net_server_service_;
 }
 
-bool game_net_module_impl::AddPlayerGateInfo(const guid_t& nRoleID, const guid_t& nClientID, const int nGateID) {
+bool game_net_module_impl::add_player_gate_info(const guid_t& role_id, const guid_t& client_id, const int gate_id) {
     //if (nGateID <= 0)
     //{
     //    return false;
@@ -774,7 +776,7 @@ bool game_net_module_impl::AddPlayerGateInfo(const guid_t& nRoleID, const guid_t
 //    return true;
 //}
 
-bool game_net_module_impl::RemovePlayerGateInfo(const guid_t& nRoleID) {
+bool game_net_module_impl::remove_player_gate_info(const guid_t& role_id) {
     //std::shared_ptr<GateBaseInfo> pBaseData = mRoleBaseData.find_value(nRoleID);
 
     //if (nullptr == pBaseData)

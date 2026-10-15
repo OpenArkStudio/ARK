@@ -19,8 +19,9 @@
  */
 
 #define CATCH_CONFIG_MAIN
-#include "ark/misc.hpp"
 #include "catch.hpp"
+
+#include "ark/misc.hpp"
 
 using namespace ark;
 

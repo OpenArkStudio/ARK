@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package ark.protobuf;
+
+// URL plugin
+message url_parameters {
+  string str_url = 1 [json_name = "strUrl"];
+  string str_get_params = 2 [json_name = "strGetParams"];
+  string str_body_data = 3 [json_name = "strBodyData"];
+  string str_cookies = 4 [json_name = "strCookies"];
+  double f_time_out_sec = 5 [json_name = "fTimeOutSec"];
+  string str_rsp = 6 [json_name = "strRsp"];
+  int64 n_ret = 7 [json_name = "nRet"];
+  int64 n_req_id = 8 [json_name = "nReqID"];
+}

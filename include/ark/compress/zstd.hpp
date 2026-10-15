@@ -92,14 +92,14 @@ public:
         static char pre_buffer[PRE_ALLOCATED_ZSTD_BUFF_SIZE] = {0};
         memset(pre_buffer, 0, sizeof(pre_buffer));
 
-        unsigned long long const rSize = ZSTD_getFrameContentSize(in_data, in_size);
-        ARK_ASSERT_RET_VAL(rSize != ZSTD_CONTENTSIZE_ERROR, false);
-        ARK_ASSERT_RET_VAL(rSize != ZSTD_CONTENTSIZE_UNKNOWN, false);
+        unsigned long long const r_size = ZSTD_getFrameContentSize(in_data, in_size);
+        ARK_ASSERT_RET_VAL(r_size != ZSTD_CONTENTSIZE_ERROR, false);
+        ARK_ASSERT_RET_VAL(r_size != ZSTD_CONTENTSIZE_UNKNOWN, false);
 
-        size_t const decompressed_size = ZSTD_decompress(pre_buffer, rSize, in_data, in_size);
+        size_t const decompressed_size = ZSTD_decompress(pre_buffer, r_size, in_data, in_size);
         ARK_ASSERT_RET_VAL(!ZSTD_isError(decompressed_size), false);
         // When zstd knows the content size, it will error if it doesn't match.
-        ARK_ASSERT_RET_VAL(decompressed_size == rSize, false);
+        ARK_ASSERT_RET_VAL(decompressed_size == r_size, false);
 
         decompressed_buff.append(pre_buffer, decompressed_size);
         return true;
@@ -165,17 +165,17 @@ public:
         static char pre_buffer[PRE_ALLOCATED_ZSTD_BUFF_SIZE] = {0};
         memset(pre_buffer, 0, sizeof(pre_buffer));
 
-        unsigned long long const rSize = ZSTD_getFrameContentSize(in_data, in_size);
-        ARK_ASSERT_RET_VAL(rSize != ZSTD_CONTENTSIZE_ERROR, false);
-        ARK_ASSERT_RET_VAL(rSize != ZSTD_CONTENTSIZE_UNKNOWN, false);
+        unsigned long long const r_size = ZSTD_getFrameContentSize(in_data, in_size);
+        ARK_ASSERT_RET_VAL(r_size != ZSTD_CONTENTSIZE_ERROR, false);
+        ARK_ASSERT_RET_VAL(r_size != ZSTD_CONTENTSIZE_UNKNOWN, false);
 
         auto iter = decompress_dicts_.find(dict_type);
         ARK_ASSERT_RET_VAL(iter != decompress_dicts_.end(), false);
         ARK_ASSERT_RET_VAL(iter->second != nullptr, false);
 
-        unsigned const expectedDictID = ZSTD_getDictID_fromDDict(iter->second);
-        unsigned const actualDictID = ZSTD_getDictID_fromFrame(in_data, in_size);
-        ARK_ASSERT_RET_VAL(actualDictID == expectedDictID, false);
+        unsigned const expected_dict_id = ZSTD_getDictID_fromDDict(iter->second);
+        unsigned const actual_dict_id = ZSTD_getDictID_fromFrame(in_data, in_size);
+        ARK_ASSERT_RET_VAL(actual_dict_id == expected_dict_id, false);
 
         if (decompress_ctx_ == nullptr)
         {
@@ -185,10 +185,10 @@ public:
         ARK_ASSERT_RET_VAL(decompress_ctx_ != nullptr, false);
 
         std::size_t decompressed_size =
-            ZSTD_decompress_usingDDict(decompress_ctx_, pre_buffer, rSize, in_data, in_size, iter->second);
+            ZSTD_decompress_usingDDict(decompress_ctx_, pre_buffer, r_size, in_data, in_size, iter->second);
         ARK_ASSERT_RET_VAL(!ZSTD_isError(decompressed_size), false);
         // When zstd knows the content size, it will error if it doesn't match.
-        ARK_ASSERT_RET_VAL(decompressed_size == rSize, false);
+        ARK_ASSERT_RET_VAL(decompressed_size == r_size, false);
 
         decompressed_buff.append(pre_buffer, decompressed_size);
         return true;
@@ -202,15 +202,15 @@ protected:
      */
     enum common_error_code
     {
-        ERROR_fsize = 1,
-        ERROR_fopen = 2,
-        ERROR_fclose = 3,
-        ERROR_fread = 4,
-        ERROR_fwrite = 5,
-        ERROR_loadFile = 6,
-        ERROR_saveFile = 7,
-        ERROR_malloc = 8,
-        ERROR_largeFile = 9,
+        error_fsize = 1,
+        error_fopen = 2,
+        error_fclose = 3,
+        error_fread = 4,
+        error_fwrite = 5,
+        error_load_file = 6,
+        error_save_file = 7,
+        error_malloc = 8,
+        error_large_file = 9,
     };
 
     /*! malloc_orDie() :
@@ -229,7 +229,7 @@ protected:
 
         /* error */
         perror("malloc");
-        exit(common_error_code::ERROR_malloc);
+        exit(common_error_code::error_malloc);
     }
 
     /*! fsize_orDie() :
@@ -243,19 +243,19 @@ protected:
         {
             /* error */
             perror(filename);
-            exit(common_error_code::ERROR_fsize);
+            exit(common_error_code::error_fsize);
         }
 
-        off_t const fileSize = st.st_size;
-        size_t const size = (size_t)fileSize;
+        off_t const file_size = st.st_size;
+        size_t const size = (size_t)file_size;
         /* 1. fileSize should be non-negative,
          * 2. if off_t -> size_t type conversion results in discrepancy,
          *    the file size is too large for type size_t.
          */
-        if ((fileSize < 0) || (fileSize != (off_t)size))
+        if ((file_size < 0) || (file_size != (off_t)size))
         {
             fprintf(stderr, "%s : filesize too large \n", filename);
-            exit(common_error_code::ERROR_largeFile);
+            exit(common_error_code::error_large_file);
         }
 
         return size;
@@ -268,14 +268,14 @@ protected:
      * opened file otherwise it sends an error to stderr and exits.
      */
     static FILE* fopen_or_die(const char* filename, const char* instruction) {
-        FILE* const inFile = fopen(filename, instruction);
-        if (inFile)
+        FILE* const in_file = fopen(filename, instruction);
+        if (in_file)
         {
-            return inFile;
+            return in_file;
         }
         /* error */
         perror(filename);
-        exit(common_error_code::ERROR_fopen);
+        exit(common_error_code::error_fopen);
     }
 
     /*! loadFile_orDie() :
@@ -287,19 +287,19 @@ protected:
      * @return If successful this function will load file into buffer and
      * return file size, otherwise it will printout an error to stderr and exit.
      */
-    static size_t load_file_or_die(const char* fileName, void* buffer, size_t bufferSize) {
-        size_t const fileSize = fsize_or_die(fileName);
-        ARK_ASSERT_RET_VAL(fileSize <= bufferSize, 0);
+    static size_t load_file_or_die(const char* file_name, void* buffer, size_t buffer_size) {
+        size_t const file_size = fsize_or_die(file_name);
+        ARK_ASSERT_RET_VAL(file_size <= buffer_size, 0);
 
-        FILE* const inFile = fopen_or_die(fileName, "rb");
-        size_t const readSize = fread(buffer, 1, fileSize, inFile);
-        if (readSize != (size_t)fileSize)
+        FILE* const in_file = fopen_or_die(file_name, "rb");
+        size_t const read_size = fread(buffer, 1, file_size, in_file);
+        if (read_size != (size_t)file_size)
         {
-            fprintf(stderr, "fread: %s : %s \n", fileName, strerror(errno));
-            exit(common_error_code::ERROR_fread);
+            fprintf(stderr, "fread: %s : %s \n", file_name, strerror(errno));
+            exit(common_error_code::error_fread);
         }
-        fclose(inFile); /* can't fail, read only */
-        return fileSize;
+        fclose(in_file); /* can't fail, read only */
+        return file_size;
     }
 
     /*! mallocAndLoadFile_orDie() :
@@ -311,11 +311,11 @@ protected:
      * @return If successful this function will return buffer and bufferSize(=fileSize),
      * otherwise it will printout an error to stderr and exit.
      */
-    static void* malloc_and_load_file_or_die(const char* fileName, size_t* bufferSize) {
-        size_t const fileSize = fsize_or_die(fileName);
-        *bufferSize = fileSize;
-        void* const buffer = malloc_or_die(*bufferSize);
-        load_file_or_die(fileName, buffer, *bufferSize);
+    static void* malloc_and_load_file_or_die(const char* file_name, size_t* buffer_size) {
+        size_t const file_size = fsize_or_die(file_name);
+        *buffer_size = file_size;
+        void* const buffer = malloc_or_die(*buffer_size);
+        load_file_or_die(file_name, buffer, *buffer_size);
         return buffer;
     }
 };

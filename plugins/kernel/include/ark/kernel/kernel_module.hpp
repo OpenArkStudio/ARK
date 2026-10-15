@@ -30,128 +30,132 @@ namespace ark {
 class kernel_module : public module
 {
 public:
-    template<typename BaseType>
-    bool add_common_class_event(BaseType* pBase,
-        int (BaseType::*handler)(const guid_t&, const std::string&, const entity_event, const data_list&),
+    template<typename base_type>
+    bool add_common_class_event(base_type* base_ptr,
+        int (base_type::*handler)(const guid_t&, const std::string&, const entity_event, const data_list&),
         const int32_t prio = 0) {
-        auto functor = std::bind(
-            handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+        auto functor = std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+            std::placeholders::_4);
         return add_common_class_event(std::move(functor), prio);
     }
 
     /////////////////////////////////////////////////////////////////
-    template<typename BaseType>
-    bool add_event_call_back(const guid_t& self, const int nEventID, BaseType* pBase,
-        int (BaseType::*handler)(const guid_t&, const int, const data_list&)) {
-        auto functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-        return add_event_call_back(self, nEventID, std::move(functor));
+    template<typename base_type>
+    bool add_event_call_back(const guid_t& self, const int event_id, base_type* base_ptr,
+        int (base_type::*handler)(const guid_t&, const int, const data_list&)) {
+        auto functor =
+            std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+        return add_event_call_back(self, event_id, std::move(functor));
     }
 
-    template<typename BaseType>
-    bool add_class_call_back(const std::string& name, BaseType* pBase,
-        int (BaseType::*handler)(const guid_t&, const std::string&, const entity_event, const data_list&),
+    template<typename base_type>
+    bool add_class_call_back(const std::string& name, base_type* base_ptr,
+        int (base_type::*handler)(const guid_t&, const std::string&, const entity_event, const data_list&),
         const int32_t prio = 0) {
-        auto functor = std::bind(
-            handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+        auto functor = std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+            std::placeholders::_4);
         return add_class_call_back(name, std::move(functor), prio);
     }
 
-    template<typename BaseType>
-    bool add_node_call_back(const std::string& class_name, const std::string& name, BaseType* pBase,
-        int (BaseType::*handler)(const guid_t&, const std::string&, const uint32_t, const data&, const data&),
+    template<typename base_type>
+    bool add_node_call_back(const std::string& class_name, const std::string& name, base_type* base_ptr,
+        int (base_type::*handler)(const guid_t&, const std::string&, const uint32_t, const data&, const data&),
         const int32_t prio = 0) {
         return add_node_call_back(class_name, name,
-            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+            std::move(std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
                 std::placeholders::_4, std::placeholders::_5)),
             prio);
     }
 
-    template<typename BaseType>
-    bool add_table_call_back(const std::string& class_name, const std::string& name, BaseType* pBase,
-        int (BaseType::*handler)(const guid_t&, const table_event_data&, const data&, const data&),
+    template<typename base_type>
+    bool add_table_call_back(const std::string& class_name, const std::string& name, base_type* base_ptr,
+        int (base_type::*handler)(const guid_t&, const table_event_data&, const data&, const data&),
         const int32_t prio = 0) {
         return add_table_call_back(class_name, name,
-            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+            std::move(std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
                 std::placeholders::_4)),
             prio);
     }
 
     // call back by index
-    template<typename BaseType>
-    bool add_node_call_back(const std::string& class_name, const uint32_t index, BaseType* pBase,
-        int (BaseType::*handler)(const guid_t&, const std::string&, const uint32_t, const data&, const data&),
+    template<typename base_type>
+    bool add_node_call_back(const std::string& class_name, const uint32_t index, base_type* base_ptr,
+        int (base_type::*handler)(const guid_t&, const std::string&, const uint32_t, const data&, const data&),
         const int32_t prio = 0) {
         return add_node_call_back(class_name, index,
-            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+            std::move(std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
                 std::placeholders::_4, std::placeholders::_5)),
             prio);
     }
 
-    template<typename BaseType>
-    bool add_table_call_back(const std::string& class_name, const uint32_t index, BaseType* pBase,
-        int (BaseType::*handler)(const guid_t&, const table_event_data&, const data&, const data&),
+    template<typename base_type>
+    bool add_table_call_back(const std::string& class_name, const uint32_t index, base_type* base_ptr,
+        int (base_type::*handler)(const guid_t&, const table_event_data&, const data&, const data&),
         const int32_t prio = 0) {
         return add_table_call_back(class_name, index,
-            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+            std::move(std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
                 std::placeholders::_4)),
             prio);
     }
 
     // container call back
-    template<typename BaseType>
-    bool add_container_call_back(const std::string& class_name, const uint32_t index, BaseType* pBase,
-        int (BaseType::*handler)(
+    template<typename base_type>
+    bool add_container_call_back(const std::string& class_name, const uint32_t index, base_type* base_ptr,
+        int (base_type::*handler)(
             const guid_t&, const uint32_t, const container_op_type, const uint32_t, const uint32_t),
         const int32_t prio = 0) {
         return add_container_call_back(class_name, index,
-            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+            std::move(std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
                 std::placeholders::_4, std::placeholders::_5)),
             prio);
     }
 
     // only for player
-    template<typename BaseType>
-    bool add_common_container_call_back(BaseType* pBase,
-        int (BaseType::*handler)(
+    template<typename base_type>
+    bool add_common_container_call_back(base_type* base_ptr,
+        int (base_type::*handler)(
             const guid_t&, const uint32_t, const container_op_type, const uint32_t, const uint32_t),
         const int32_t prio = 0) {
         return add_common_container_call_back(
-            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+            std::move(std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
                 std::placeholders::_4, std::placeholders::_5)),
             prio);
     }
 
     // scene event call back
-    template<typename BaseType>
-    bool add_leave_scene_event(const std::string& class_name, BaseType* pBase,
-        int (BaseType::*handler)(const guid_t&, const int, const int), const int32_t prio = 0) {
+    template<typename base_type>
+    bool add_leave_scene_event(const std::string& class_name, base_type* base_ptr,
+        int (base_type::*handler)(const guid_t&, const int, const int), const int32_t prio = 0) {
         return add_leave_scene_event(class_name,
-            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)),
+            std::move(
+                std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)),
             prio);
     }
 
-    template<typename BaseType>
-    bool add_enter_scene_event(const std::string& class_name, BaseType* pBase,
-        int (BaseType::*handler)(const guid_t&, const int, const int), const int32_t prio = 0) {
+    template<typename base_type>
+    bool add_enter_scene_event(const std::string& class_name, base_type* base_ptr,
+        int (base_type::*handler)(const guid_t&, const int, const int), const int32_t prio = 0) {
         return add_enter_scene_event(class_name,
-            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)),
+            std::move(
+                std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)),
             prio);
     }
 
     // move event call back
-    template<typename BaseType>
-    bool add_move_event(const std::string& class_name, BaseType* pBase,
-        int (BaseType::*handler)(const guid_t&, const vector3d&, const vector3d&), const int32_t prio = 0) {
+    template<typename base_type>
+    bool add_move_event(const std::string& class_name, base_type* base_ptr,
+        int (base_type::*handler)(const guid_t&, const vector3d&, const vector3d&), const int32_t prio = 0) {
         return add_move_event(class_name,
-            std::move(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)),
+            std::move(
+                std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)),
             prio);
     }
 
     //////////////////////////////////////////////////////////////////////////
 
     virtual bool do_event(
-        const guid_t& self, const std::string& name, entity_event eEvent, const data_list& valueList) = 0;
-    virtual bool do_event(const guid_t& self, const int nEventID, const data_list& valueList) = 0;
+        const guid_t& self, const std::string& name, entity_event event, const data_list& value_list) = 0;
+    virtual bool do_event(const guid_t& self, const int event_id, const data_list& value_list) = 0;
 
     /////////////////////////////////////////////////////////////////
     virtual std::shared_ptr<entity> create_entity(const guid_t& self, const int map_id, const int map_instance_id,
@@ -169,9 +173,9 @@ public:
     virtual bool exist(const guid_t& self) = 0;
 
     // entity to db data for save
-    virtual bool entity_to_db_data(const guid_t& self, AFMsg::pb_db_entity& pb_data) = 0;
+    virtual bool entity_to_db_data(const guid_t& self, ark::protobuf::protobuf_db_entity& protobuf_data) = 0;
     // create entity by db data
-    virtual std::shared_ptr<entity> create_entity(const AFMsg::pb_db_entity& pb_data) = 0;
+    virtual std::shared_ptr<entity> create_entity(const ark::protobuf::protobuf_db_entity& protobuf_data) = 0;
     // send message
     virtual bool send_custom_message(const guid_t& target, const uint32_t msg_id, const data_list& args) = 0;
 
@@ -180,18 +184,20 @@ public:
     virtual int log_object_data(const guid_t& guid) = 0;
 
     // entity to pb
-    virtual bool node_to_pb_data(const uint32_t index, const data& data, AFMsg::pb_entity_data* pb_data) = 0;
-    virtual bool row_to_pb_data(row* pRow, const uint32_t index, AFMsg::pb_entity_data* pb_data) = 0;
-    virtual bool table_row_data_to_pb_data(
-        const uint32_t index, uint32_t row, const uint32_t col, const data& data, AFMsg::pb_entity_data* pb_data) = 0;
-    virtual bool entity_node_to_pb_data(
-        std::shared_ptr<entity> pEntity, AFMsg::pb_entity_data* pb_data, const mask_type mask = 0) = 0;
-    virtual bool entity_table_to_pb_data(
-        std::shared_ptr<entity> pEntity, AFMsg::pb_entity_data* pb_data, const mask_type mask = 0) = 0;
+    virtual bool node_to_protobuf_data(
+        const uint32_t index, const data& data, ark::protobuf::protobuf_entity_data* protobuf_data) = 0;
+    virtual bool row_to_protobuf_data(
+        row* row_ptr, const uint32_t index, ark::protobuf::protobuf_entity_data* protobuf_data) = 0;
+    virtual bool table_row_data_to_protobuf_data(const uint32_t index, uint32_t row, const uint32_t col,
+        const data& data, ark::protobuf::protobuf_entity_data* protobuf_data) = 0;
+    virtual bool entity_node_to_protobuf_data(std::shared_ptr<entity> entity_ptr,
+        ark::protobuf::protobuf_entity_data* protobuf_data, const mask_type mask = 0) = 0;
+    virtual bool entity_table_to_protobuf_data(std::shared_ptr<entity> entity_ptr,
+        ark::protobuf::protobuf_entity_data* protobuf_data, const mask_type mask = 0) = 0;
 
 protected:
-    virtual bool add_event_call_back(const guid_t& self, const int nEventID, event_process_functor&& cb) = 0;
-    virtual bool add_class_call_back(const std::string& strClassName, class_event_functor&& cb, const int32_t prio) = 0;
+    virtual bool add_event_call_back(const guid_t& self, const int event_id, event_process_functor&& cb) = 0;
+    virtual bool add_class_call_back(const std::string& class_name, class_event_functor&& cb, const int32_t prio) = 0;
 
     virtual bool add_node_call_back(
         const std::string& class_name, const std::string& name, data_node_event_functor&& cb, const int32_t prio) = 0;

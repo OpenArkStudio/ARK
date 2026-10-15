@@ -36,7 +36,7 @@ bool guid_module_impl::init() {
 }
 
 guid_t guid_module_impl::create_guid() {
-    ARK_ASSERT_RET_VAL(uid_generator_ != nullptr, NULL_GUID);
+    ARK_ASSERT_RET_VAL(uid_generator_ != nullptr, null_guid);
 
 #if defined(ARK_USE_GUID_32)
     return uid_generator_->get_uid();

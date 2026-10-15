@@ -34,48 +34,48 @@ class net;
 class net_msg;
 class net_event;
 
-ARK_CONSTEXPR static const int ARK_SOCKET_SEND_SIZE = 32 * 1024; // 32K
-ARK_CONSTEXPR static const int ARK_SOCKET_RECV_SIZE = 32 * 1024; // 32K
+ARK_CONSTEXPR static const int ark_socket_send_size = 32 * 1024; // 32K
+ARK_CONSTEXPR static const int ark_socket_recv_size = 32 * 1024; // 32K
 
-ARK_CONSTEXPR static const int ARK_TCP_RECV_BUFFER_SIZE = 1024 * 1024;                         // 1M
-ARK_CONSTEXPR static const int ARK_HTTP_RECV_BUFFER_SIZE = 32 * 1024;                          // 32K
-ARK_CONSTEXPR static const std::chrono::seconds ARK_CONNECT_TIMEOUT = std::chrono::seconds(5); // 5s
-ARK_CONSTEXPR static const std::chrono::seconds ARK_NET_HEART_TIME = std::chrono::seconds(30); // 30s
-ARK_CONSTEXPR static const std::chrono::seconds ARK_RECONNECT_TIME = std::chrono::seconds(5);  // 5s
-ARK_CONSTEXPR static const int ARK_PROCESS_NET_MSG_COUNT_ONCE = 100;
-ARK_CONSTEXPR static const int ARK_MSG_MAX_LENGTH = 4 * 1024;              // 4K
-ARK_CONSTEXPR static const int ARK_CONV_START_ID = 1000;                   // start conv_id
-ARK_CONSTEXPR static const int ARK_KCP_CONNECTION_TIMEOUT_TIME = 5 * 1000; // default is 5 seconds
+ARK_CONSTEXPR static const int ark_tcp_recv_buffer_size = 1024 * 1024;                         // 1M
+ARK_CONSTEXPR static const int ark_http_recv_buffer_size = 32 * 1024;                          // 32K
+ARK_CONSTEXPR static const std::chrono::seconds ark_connect_timeout = std::chrono::seconds(5); // 5s
+ARK_CONSTEXPR static const std::chrono::seconds ark_net_heart_time = std::chrono::seconds(30); // 30s
+ARK_CONSTEXPR static const std::chrono::seconds ark_reconnect_time = std::chrono::seconds(5);  // 5s
+ARK_CONSTEXPR static const int ark_process_net_msg_count_once = 100;
+ARK_CONSTEXPR static const int ark_msg_max_length = 4 * 1024;              // 4K
+ARK_CONSTEXPR static const int ark_conv_start_id = 1000;                   // start conv_id
+ARK_CONSTEXPR static const int ark_kcp_connection_timeout_time = 5 * 1000; // default is 5 seconds
 
-ARK_CONSTEXPR static const int ARK_KCP_RECV_BUFFER_SIZE = 4 * 1024;        // 4K
-ARK_CONSTEXPR static const int ARK_KCP_UPDATE_INTERVAL_TIME = 10;          // 10 ms
-ARK_CONSTEXPR static const int ARK_KCP_RESEND_CONNECT_MSG_INTERVAL = 3000; // milliseconds
-ARK_CONSTEXPR static const int ARK_KCP_CONNECT_TIMEOUT_TIME = 60000;       // milliseconds
+ARK_CONSTEXPR static const int ark_kcp_recv_buffer_size = 4 * 1024;        // 4K
+ARK_CONSTEXPR static const int ark_kcp_update_interval_time = 10;          // 10 ms
+ARK_CONSTEXPR static const int ark_kcp_resend_connect_msg_interval = 3000; // milliseconds
+ARK_CONSTEXPR static const int ark_kcp_connect_timeout_time = 60000;       // milliseconds
 
 enum class net_event_type : uint8_t
 {
-    NONE = 0,
-    CONNECT,
-    DISCONNECT,
-    RECV_DATA,
-    CONNECT_FAILED,
-    LAG_NOTIFY,
+    none = 0,
+    connect,
+    disconnect,
+    recv_data,
+    connect_failed,
+    lag_notify,
 };
 
 enum class kcp_protocal_type : uint8_t
 {
-    NONE = 0,
-    SYN, // connect
-    ACK, // connected
-    FIN, // disconnect
-    MSG, // msg
+    none = 0,
+    syn, // connect
+    ack, // connected
+    fin, // disconnect
+    msg, // msg
 };
 
 enum class kcp_connect_status : uint8_t
 {
-    STATUS_NONE = 0,
-    STATUS_CONNECTING,
-    STATUS_CONNECTED,
+    status_none = 0,
+    status_connecting,
+    status_connected,
 };
 
 } // namespace ark

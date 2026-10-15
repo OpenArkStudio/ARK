@@ -32,27 +32,27 @@ namespace ark {
 class simulation_event_callback final : public physx::PxSimulationEventCallback
 {
 public:
-    void onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs,
-        physx::PxU32 nbPairs) override {};
+    void onContact(const physx::PxContactPairHeader& pair_header, const physx::PxContactPair* pairs,
+        physx::PxU32 nb_pairs) override {};
 
     void onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 count) override {
         for (physx::PxU32 i = 0; i < count; i++)
         {
             // ignore pairs when shapes have been deleted
-            auto& onePair = pairs[i];
-            if (onePair.flags &
+            auto& one_pair = pairs[i];
+            if (one_pair.flags &
                 (physx::PxTriggerPairFlag::eREMOVED_SHAPE_TRIGGER | physx::PxTriggerPairFlag::eREMOVED_SHAPE_OTHER))
             {
                 continue;
             }
 
-            auto actorTrigger = onePair.triggerActor;
-            if (!actorTrigger || !actorTrigger->userData)
+            auto actor_trigger = one_pair.triggerActor;
+            if (!actor_trigger || !actor_trigger->userData)
             {
                 continue;
             }
 
-            auto px_scene = actorTrigger->getScene();
+            auto px_scene = actor_trigger->getScene();
             if (!px_scene || !px_scene->userData)
             {
                 continue;
@@ -61,10 +61,10 @@ public:
             auto scene_obj_id = reinterpret_cast<guid_t>(px_scene->userData);
 
             physic_trigger_pair trigger_pair;
-            trigger_pair.trigger_obj_id = reinterpret_cast<guid_t>(actorTrigger->userData);
-            if (onePair.otherActor && onePair.otherActor->userData)
+            trigger_pair.trigger_obj_id = reinterpret_cast<guid_t>(actor_trigger->userData);
+            if (one_pair.otherActor && one_pair.otherActor->userData)
             {
-                trigger_pair.other_obj_id = reinterpret_cast<guid_t>(onePair.otherActor->userData);
+                trigger_pair.other_obj_id = reinterpret_cast<guid_t>(one_pair.otherActor->userData);
             }
 
             for (auto& iter : trigger_cb_list_)
@@ -74,15 +74,19 @@ public:
         }
     }
 
-    void onConstraintBreak(physx::PxConstraintInfo*, physx::PxU32) override {}
+    void onConstraintBreak(physx::PxConstraintInfo*, physx::PxU32) override {
+    }
 
-    void onWake(physx::PxActor**, physx::PxU32) override {}
+    void onWake(physx::PxActor**, physx::PxU32) override {
+    }
 
-    void onSleep(physx::PxActor**, physx::PxU32) override {}
+    void onSleep(physx::PxActor**, physx::PxU32) override {
+    }
 
-    void onAdvance(const physx::PxRigidBody* const*, const physx::PxTransform*, const physx::PxU32) override {}
+    void onAdvance(const physx::PxRigidBody* const*, const physx::PxTransform*, const physx::PxU32) override {
+    }
 
-    void RegisterTriggerCallBack(trigger_call_back_function&& cb) {
+    void register_trigger_call_back(trigger_call_back_function&& cb) {
         trigger_cb_list_.push_back(std::forward<trigger_call_back_function>(cb));
     }
 
@@ -95,31 +99,31 @@ class file_output_stream : public physx::PxOutputStream
 {
 public:
     file_output_stream(const std::string& name) {
-        physic::OpenFile(&mFile_, name.c_str(), "wb");
+        physic::open_file(&file_, name.c_str(), "wb");
     }
 
     virtual ~file_output_stream() {
-        Release();
+        release();
     }
 
     physx::PxU32 write(const void* src, physx::PxU32 count) override {
-        return mFile_ ? physx::PxU32(fwrite(src, 1, count, mFile_)) : 0;
+        return file_ ? physx::PxU32(fwrite(src, 1, count, file_)) : 0;
     }
 
-    bool Valid() {
-        return mFile_ != nullptr;
+    bool valid() {
+        return file_ != nullptr;
     }
 
-    void Release() {
-        if (mFile_)
+    void release() {
+        if (file_)
         {
-            fclose(mFile_);
-            mFile_ = nullptr;
+            fclose(file_);
+            file_ = nullptr;
         }
     }
 
 private:
-    PxFileHandle mFile_{nullptr};
+    PxFileHandle file_{nullptr};
 };
 
 ///physic scene
@@ -127,18 +131,18 @@ class physic_scene_cooked
 {
 public:
     ~physic_scene_cooked() {
-        scene_ = nullptr;
-        terrain_mesh_ = nullptr;
-        collider_list_.clear();
-        collider_triangle_list_.clear();
-        collider_convex_list_.clear();
+        scene = nullptr;
+        terrain_mesh = nullptr;
+        colliders.clear();
+        triangle_colliders.clear();
+        convex_colliders.clear();
     }
 
-    physic_scene* scene_{nullptr};
-    physx::PxTriangleMesh* terrain_mesh_{nullptr};
-    std::list<collider*> collider_list_;
-    std::map<physx::PxTriangleMesh*, physx::PxVec3> collider_triangle_list_;
-    std::map<physx::PxConvexMesh*, physx::PxVec3> collider_convex_list_;
+    physic_scene* scene{nullptr};
+    physx::PxTriangleMesh* terrain_mesh{nullptr};
+    std::list<collider*> colliders;
+    std::map<physx::PxTriangleMesh*, physx::PxVec3> triangle_colliders;
+    std::map<physx::PxConvexMesh*, physx::PxVec3> convex_colliders;
 };
 
 class physic_module_impl final : public physic_module
@@ -149,93 +153,97 @@ public:
     bool shut() override;
     bool post_init() override;
 
-    guid_t CreateScene(const std::string& scene_id) override;
-    bool DestroyScene(const guid_t& scene_obj_id) override;
+    guid_t create_scene(const std::string& scene_id) override;
+    bool destroy_scene(const guid_t& scene_obj_id) override;
 
-    bool RayCast(const guid_t& scene_obj_id, const physic3_d& origin, const physic3_d& direction, const float distance,
-        physic_ray_hit& rayHit) override;
+    bool ray_cast(const guid_t& scene_obj_id, const physic3_d& origin, const physic3_d& direction, const float distance,
+        physic_ray_hit& ray_hit) override;
 
-    guid_t CreateDynamicBoxActor(const guid_t& scene_obj_id, const physic3_d& position, const physic3_d& size) override;
-    guid_t CreateStaticBoxActor(const guid_t& scene_obj_id, const physic3_d& position, const physic3_d& size) override;
-    guid_t CreateDynamicCapsuleActor(
+    guid_t create_dynamic_box_actor(
+        const guid_t& scene_obj_id, const physic3_d& position, const physic3_d& size) override;
+    guid_t create_static_box_actor(
+        const guid_t& scene_obj_id, const physic3_d& position, const physic3_d& size) override;
+    guid_t create_dynamic_capsule_actor(
         const guid_t& scene_obj_id, const physic3_d& position, const float radius, const float height) override;
-    guid_t CreateStaticCapsuleActor(
+    guid_t create_static_capsule_actor(
         const guid_t& scene_obj_id, const physic3_d& position, const float radius, const float height) override;
-    guid_t CreateDynamicSphereActor(const guid_t& scene_obj_id, const physic3_d& position, const float radius) override;
-    guid_t CreateStaticSphereActor(const guid_t& scene_obj_id, const physic3_d& position, const float radius) override;
+    guid_t create_dynamic_sphere_actor(
+        const guid_t& scene_obj_id, const physic3_d& position, const float radius) override;
+    guid_t create_static_sphere_actor(
+        const guid_t& scene_obj_id, const physic3_d& position, const float radius) override;
 
-    bool UpdateActor(const guid_t& actor_obj_id, const physic3_d& position) override;
-    bool DestroyActor(const guid_t& actor_obj_id) override;
-    bool GetActorPosition(const guid_t& actor_obj_id, physic3_d& position) override;
+    bool update_actor(const guid_t& actor_obj_id, const physic3_d& position) override;
+    bool destroy_actor(const guid_t& actor_obj_id) override;
+    bool get_actor_position(const guid_t& actor_obj_id, physic3_d& position) override;
 
     //bool AddChild(physx::PxActor* parentActor, const physx::PxTransform& localParent, physx::PxActor* childActor,
     //    const physx::PxTransform& localChild) override;
     //bool RemoveChild(
     //    physx::PxActor* parentActor, physx::PxActor* childActor, const physx::PxTransform& childTransform) override;
 
-    physic3_d RayGetPoint(const physic3_d& origin, const physic3_d& direction, const float distance) override;
+    physic3_d ray_get_point(const physic3_d& origin, const physic3_d& direction, const float distance) override;
 
-    float GetHeight(const guid_t& scene_obj_id, const physic3_d& position) override;
+    float get_height(const guid_t& scene_obj_id, const physic3_d& position) override;
 
 private:
     ///inner functions
-    bool RayCast(const guid_t& scene_obj_id, const physx::PxVec3& origin, const physx::PxVec3& direction,
-        const float distance, physx::PxRaycastBuffer& rayHit);
+    bool ray_cast(const guid_t& scene_obj_id, const physx::PxVec3& origin, const physx::PxVec3& direction,
+        const float distance, physx::PxRaycastBuffer& ray_hit);
 
-    bool RegisterTriggerCallBack(trigger_call_back_function&& cb) override;
+    bool register_trigger_call_back(trigger_call_back_function&& cb) override;
 
-    bool CookSceneMesh(const physic_scene& scene);
-    bool FindPhysicScene(const std::string& scene_id, physic_scene_cooked& scene_cooked);
+    bool cook_scene_mesh(const physic_scene& scene);
+    bool find_physic_scene(const std::string& scene_id, physic_scene_cooked& scene_cooked);
 
-    bool InitPhysic();
-    void CreatePvdConnection();
-    bool InitScene(physx::PxScene* px_scene, const physic_scene_cooked& scene_cooked);
+    bool init_physic();
+    void create_pvd_connection();
+    bool init_scene(physx::PxScene* px_scene, const physic_scene_cooked& scene_cooked);
 
-    physx::PxRigidStatic* CreateStatic(collider* collider);
-    physx::PxRigidStatic* CreateStatic(const physx::PxTransform& transform, const physx::PxGeometry& geometry,
-        physx::PxMaterial& material, const physx::PxTransform& shapeOffset = physx::PxTransform(physx::PxIdentity));
-    physx::PxRigidDynamic* CreateDynamic(const physx::PxTransform& transform, const physx::PxGeometry& geometry,
-        physx::PxMaterial& material, float density = DEFAULT_DENSITY,
-        const physx::PxTransform& shapeOffset = physx::PxTransform(physx::PxIdentity));
+    physx::PxRigidStatic* create_static(collider* collider);
+    physx::PxRigidStatic* create_static(const physx::PxTransform& transform, const physx::PxGeometry& geometry,
+        physx::PxMaterial& material, const physx::PxTransform& shape_offset = physx::PxTransform(physx::PxIdentity));
+    physx::PxRigidDynamic* create_dynamic(const physx::PxTransform& transform, const physx::PxGeometry& geometry,
+        physx::PxMaterial& material, float density = default_density,
+        const physx::PxTransform& shape_offset = physx::PxTransform(physx::PxIdentity));
 
-    guid_t CreateDynamicActor(
+    guid_t create_dynamic_actor(
         physx::PxScene* px_scene, const physx::PxTransform& transform, const physx::PxGeometry& geometry);
-    guid_t CreateStaticActor(
+    guid_t create_static_actor(
         physx::PxScene* px_scene, const physx::PxTransform& transform, const physx::PxGeometry& geometry);
 
     ///not for use
-    physx::PxTriangleMesh* CreateTriangleMesh(const physic_mesh_file& mesh_file);
+    physx::PxTriangleMesh* create_triangle_mesh(const physic_mesh_file& mesh_file);
 
     ///create mesh then store its pointer for reuse
-    physx::PxTriangleMesh* CreateTriangleMesh(const physic_scene& scene_config);
-    physx::PxTriangleMesh* CreateTriangleMesh(mesh_collider* collider);
-    physx::PxConvexMesh* CreateConvexMesh(mesh_collider* collider);
+    physx::PxTriangleMesh* create_triangle_mesh(const physic_scene& scene_config);
+    physx::PxTriangleMesh* create_triangle_mesh(mesh_collider* collider);
+    physx::PxConvexMesh* create_convex_mesh(mesh_collider* collider);
 
-    void ScenePVDSetting(physx::PxScene* px_scene);
-    void QuatRoate(physx::PxTransform& transform);
+    void scene_pvd_setting(physx::PxScene* px_scene);
+    void quat_roate(physx::PxTransform& transform);
 
-    void OnSimulate(uint64_t timer_id, const guid_t& guid);
+    void on_simulate(uint64_t timer_id, const guid_t& guid);
 
-    physx::PxScene* FindScene(const guid_t& scene_obj_id);
-    physx::PxActor* FindActor(const guid_t& actor_obj_id);
+    physx::PxScene* find_scene(const guid_t& scene_obj_id);
+    physx::PxActor* find_actor(const guid_t& actor_obj_id);
 
-    physx::PxVec3 AFVector3DToPxVec3(const physic3_d& vec);
-    physic3_d PxVec3ToAFVector3D(const physx::PxVec3& vec);
+    physx::PxVec3 to_physx_vector(const physic3_d& vec);
+    physic3_d from_physx_vector(const physx::PxVec3& vec);
 
 protected:
-    physx::PxDefaultAllocator mDefaultAllocatorCallback;
-    physx::PxDefaultErrorCallback mDefaultErrorCallback;
-    simulation_event_callback mSimulationEventCallback;
-    physx::PxPlane mPlane;
+    physx::PxDefaultAllocator default_allocator_callback_;
+    physx::PxDefaultErrorCallback default_error_callback_;
+    simulation_event_callback simulation_event_callback_;
+    physx::PxPlane plane_;
 
-    physx::PxMaterial* mMaterial{nullptr};
+    physx::PxMaterial* material_{nullptr};
 
-    physx::PxDefaultCpuDispatcher* mCpuDispatcher{nullptr};
-    physx::PxFoundation* mFoundation{nullptr};
-    physx::PxPhysics* mPhysics{nullptr};
-    physx::PxCooking* mCooking{nullptr};
-    physx::PxPvd* mPvd{nullptr};
-    physx::PxPvdTransport* mPVDTransport{nullptr};
+    physx::PxDefaultCpuDispatcher* cpu_dispatcher_{nullptr};
+    physx::PxFoundation* foundation_{nullptr};
+    physx::PxPhysics* physics_{nullptr};
+    physx::PxCooking* cooking_{nullptr};
+    physx::PxPvd* pvd_{nullptr};
+    physx::PxPvdTransport* pvd_transport_{nullptr};
 
     ///scene list
     std::map<guid_t, physx::PxScene*> scene_list_;
@@ -250,9 +258,9 @@ protected:
     ///physic config
     physic_config config_;
 
-    physic_config_module* m_pPhysicConfigModule{nullptr};
-    timer_module* m_pTimerModule{nullptr};
-    guid_module* m_pGUIDModule{nullptr};
+    physic_config_module* physic_config_module_{nullptr};
+    timer_module* timer_module_{nullptr};
+    guid_module* guid_module_{nullptr};
 };
 
 } // namespace ark

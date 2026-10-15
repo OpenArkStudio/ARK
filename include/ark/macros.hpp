@@ -106,10 +106,10 @@ inline size_t strlcpy(char* dst, const char* src, size_t siz) {
     {                                                                                                                  \
         if (!(exp_))                                                                                                   \
         {                                                                                                              \
-            std::string strInfo("Message:");                                                                           \
-            strInfo += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") +                 \
-                       std::string(file_) + std::string("\n Function:") + func_;                                       \
-            MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_" #exp_), MB_RETRYCANCEL | MB_ICONERROR);                 \
+            std::string error_message("Message:");                                                                     \
+            error_message += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") +           \
+                             std::string(file_) + std::string("\n Function:") + func_;                                 \
+            MessageBox(0, TEXT(error_message.c_str()), TEXT("Error_" #exp_), MB_RETRYCANCEL | MB_ICONERROR);           \
         }                                                                                                              \
         assert(exp_);                                                                                                  \
     } while (false)
@@ -120,13 +120,13 @@ inline size_t strlcpy(char* dst, const char* src, size_t siz) {
 #define ARK_UNUSED
 #define FORCE_INLINE __forceinline
 
-#define DYNLIB_HANDLE hInstance
+#define DYNLIB_HANDLE library_instance
 #define DYNLIB_LOAD(a) LoadLibraryEx((a), NULL, LOAD_WITH_ALTERED_SEARCH_PATH)
 #define DYNLIB_GETSYM(a, b) GetProcAddress((a), (b))
 #define DYNLIB_UNLOAD(a) FreeLibrary((a))
 
 struct HINSTANCE__;
-typedef struct HINSTANCE__* hInstance;
+typedef struct HINSTANCE__* library_instance;
 
 #define ARK_FOLDER_SEP '\\'
 #define FORCE_INLINE __forceinline
@@ -313,14 +313,14 @@ typedef struct HINSTANCE__* hInstance;
 #endif
 
 #ifndef ARK_NEW_ARRAY
-#define ARK_NEW_ARRAY(T, size) new T[(size)];
+#define ARK_NEW_ARRAY(element_type, size) new element_type[(size)];
 #endif
 
 #ifndef ARK_NEW_ARRAY_RET
-#define ARK_NEW_ARRAY_RET(T, size)                                                                                     \
+#define ARK_NEW_ARRAY_RET(element_type, size)                                                                          \
     do                                                                                                                 \
     {                                                                                                                  \
-        return new (std::nothrow) T[(size)];                                                                           \
+        return new (std::nothrow) element_type[(size)];                                                                \
     } while (false);
 #endif // ARK_NEW_ARRAY_RET
 
@@ -337,12 +337,12 @@ typedef struct HINSTANCE__* hInstance;
 #endif
 
 #ifndef ARK_DELETE_ARRAY
-#define ARK_DELETE_ARRAY(T, p)                                                                                         \
+#define ARK_DELETE_ARRAY(element_type, p)                                                                              \
     do                                                                                                                 \
     {                                                                                                                  \
         if ((p) != nullptr)                                                                                            \
         {                                                                                                              \
-            T* t_ptr = static_cast<T*>((p));                                                                           \
+            element_type* t_ptr = static_cast<element_type*>((p));                                                     \
             delete[] t_ptr;                                                                                            \
             t_ptr = nullptr;                                                                                           \
         }                                                                                                              \
@@ -364,15 +364,15 @@ typedef struct HINSTANCE__* hInstance;
 #define GET_CLASS_NAME(class_name) (typeid(class_name).name())
 //////////////////////////////////////////////////////////////////////////
 // Plugin macros
-#define ARK_DECLARE_PLUGIN(PLUGIN_CLASS)                                                                               \
-    class PLUGIN_CLASS final : public plugin                                                                           \
+#define ARK_DECLARE_PLUGIN(plugin_type)                                                                                \
+    class plugin_type final : public plugin                                                                            \
     {                                                                                                                  \
     public:                                                                                                            \
         int get_plugin_version() override {                                                                            \
             return 0;                                                                                                  \
         }                                                                                                              \
         const std::string get_plugin_name() override {                                                                 \
-            return GET_CLASS_NAME(PLUGIN_CLASS);                                                                       \
+            return GET_CLASS_NAME(plugin_type);                                                                        \
         }                                                                                                              \
         void install() override;                                                                                       \
         void uninstall() override;                                                                                     \
@@ -396,44 +396,44 @@ typedef struct HINSTANCE__* hInstance;
         static std::string plugin_conf_;                                                                               \
     };
 
-#define ARK_DECLARE_PLUGIN_DLL_FUNCTION(PLUGIN_CLASS)                                                                  \
+#define ARK_DECLARE_PLUGIN_DLL_FUNCTION(plugin_type)                                                                   \
     ARK_EXPORT_FUNC void DllEntryPlugin(                                                                               \
-        plugin_manager* pPluginManager, std::string const& plugin_name, logger* logger) {                              \
+        plugin_manager* plugin_manager_ptr, std::string const& plugin_name, logger* logger) {                          \
         logger::init(logger);                                                                                          \
-        pPluginManager->register_plugin<PLUGIN_CLASS>(plugin_name);                                                    \
+        plugin_manager_ptr->register_plugin<plugin_type>(plugin_name);                                                 \
     }                                                                                                                  \
-    ARK_EXPORT_FUNC void DllExitPlugin(plugin_manager* pPluginManager) {                                               \
-        pPluginManager->unregister_plugin<PLUGIN_CLASS>();                                                             \
+    ARK_EXPORT_FUNC void DllExitPlugin(plugin_manager* plugin_manager_ptr) {                                           \
+        plugin_manager_ptr->unregister_plugin<plugin_type>();                                                          \
     }                                                                                                                  \
-    std::string PLUGIN_CLASS::plugin_conf_ = ""; // init the plugin_conf in here cuz the duplicate symbol
+    std::string plugin_type::plugin_conf_ = ""; // init the plugin_conf in here cuz the duplicate symbol
 
-#define ARK_REGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                    \
+#define ARK_REGISTER_MODULE(module_type, implementation_type)                                                          \
     do                                                                                                                 \
     {                                                                                                                  \
-        ARK_ASSERT_RET_NONE((std::is_base_of<module, MODULE>::value));                                                 \
-        ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                         \
-        module* pRegModule = ARK_NEW DERIVED_MODULE();                                                                 \
-        ARK_ASSERT_RET_NONE(pRegModule != nullptr);                                                                    \
-        pRegModule->set_plugin_manager(get_plugin_manager());                                                          \
-        pRegModule->set_name(GET_CLASS_NAME(MODULE));                                                                  \
-        get_plugin_manager()->add_module(pRegModule->get_name(), pRegModule);                                          \
-        modules_.insert(std::make_pair(pRegModule->get_name(), pRegModule));                                           \
-        if (typeid(&module::update) != typeid(&DERIVED_MODULE::update))                                                \
+        ARK_ASSERT_RET_NONE((std::is_base_of<module, module_type>::value));                                            \
+        ARK_ASSERT_RET_NONE((std::is_base_of<module_type, implementation_type>::value));                               \
+        module* registered_module = ARK_NEW implementation_type();                                                     \
+        ARK_ASSERT_RET_NONE(registered_module != nullptr);                                                             \
+        registered_module->set_plugin_manager(get_plugin_manager());                                                   \
+        registered_module->set_name(GET_CLASS_NAME(module_type));                                                      \
+        get_plugin_manager()->add_module(registered_module->get_name(), registered_module);                            \
+        modules_.insert(std::make_pair(registered_module->get_name(), registered_module));                             \
+        if (typeid(&module::update) != typeid(&implementation_type::update))                                           \
         {                                                                                                              \
-            get_plugin_manager()->add_update_module(pRegModule);                                                       \
+            get_plugin_manager()->add_update_module(registered_module);                                                \
         }                                                                                                              \
     } while (0)
 
-#define ARK_UNREGISTER_MODULE(MODULE, DERIVED_MODULE)                                                                  \
+#define ARK_UNREGISTER_MODULE(module_type, implementation_type)                                                        \
     {                                                                                                                  \
-        ARK_ASSERT_RET_NONE((std::is_base_of<module, MODULE>::value));                                                 \
-        ARK_ASSERT_RET_NONE((std::is_base_of<MODULE, DERIVED_MODULE>::value));                                         \
-        module* pDeregModule = dynamic_cast<module*>(get_plugin_manager()->template find_module<MODULE>());            \
-        ARK_ASSERT_RET_NONE(pDeregModule != nullptr);                                                                  \
-        get_plugin_manager()->remove_module(pDeregModule->get_name());                                                 \
-        get_plugin_manager()->remove_update_module(pDeregModule->get_name());                                          \
-        modules_.erase(pDeregModule->get_name());                                                                      \
-        ARK_DELETE(pDeregModule);                                                                                      \
+        ARK_ASSERT_RET_NONE((std::is_base_of<module, module_type>::value));                                            \
+        ARK_ASSERT_RET_NONE((std::is_base_of<module_type, implementation_type>::value));                               \
+        module* registered_module = dynamic_cast<module*>(get_plugin_manager()->template find_module<module_type>());  \
+        ARK_ASSERT_RET_NONE(registered_module != nullptr);                                                             \
+        get_plugin_manager()->remove_module(registered_module->get_name());                                            \
+        get_plugin_manager()->remove_update_module(registered_module->get_name());                                     \
+        modules_.erase(registered_module->get_name());                                                                 \
+        ARK_DELETE(registered_module);                                                                                 \
     }
 
 //////////////////////////////////////////////////////////////////////////
@@ -455,9 +455,9 @@ public:                                                                         
     }                                                                                                                  \
                                                                                                                        \
 protected:                                                                                                             \
-    template<typename MODULE>                                                                                          \
-    MODULE* find_module() {                                                                                            \
-        return get_plugin_manager()->template find_module<MODULE>();                                                   \
+    template<typename module_type>                                                                                     \
+    module_type* find_module() {                                                                                       \
+        return get_plugin_manager()->template find_module<module_type>();                                              \
     }                                                                                                                  \
                                                                                                                        \
 private:                                                                                                               \
@@ -468,13 +468,13 @@ private:                                                                        
 #if !defined(ARK_CPP14_OR_GREATER) && !defined(ARK_CPP17_OR_GREATER)
 namespace std {
 
-template<typename T, typename... Ts>
-std::unique_ptr<T> make_unique(Ts&&... params) {
-    return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
+template<typename element_type, typename... argument_types>
+std::unique_ptr<element_type> make_unique(argument_types&&... params) {
+    return std::unique_ptr<element_type>(new element_type(std::forward<argument_types>(params)...));
 }
 
 } // namespace std
 #endif
 
 // clear player data time
-ARK_CONSTEXPR int CLEAR_HOUR = 5;
+ARK_CONSTEXPR int clear_hour = 5;

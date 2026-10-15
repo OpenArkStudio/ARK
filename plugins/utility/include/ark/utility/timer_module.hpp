@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <functional>
+
 #include "ark/define.hpp"
 #include "ark/module.hpp"
 
@@ -28,17 +30,17 @@ namespace ark {
 class timer_module : public module
 {
 public:
-    template<typename BaseType>
+    template<typename receiver_type>
     uint64_t add_single_timer(const guid_t& entity_id, const std::chrono::milliseconds interval, const uint32_t count,
-        BaseType* pBase, void (BaseType::*handler)(uint64_t, const guid_t&)) {
-        timer_functor functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
+        receiver_type* receiver, void (receiver_type::*handler)(uint64_t, const guid_t&)) {
+        timer_functor functor = std::bind_front(handler, receiver);
         return add_single_timer(entity_id, interval, count, std::move(functor));
     }
 
-    template<typename BaseType>
-    uint64_t add_forever_timer(const guid_t& entity_id, const std::chrono::milliseconds interval, BaseType* pBase,
-        void (BaseType::*handler)(uint64_t, const guid_t&)) {
-        timer_functor functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
+    template<typename receiver_type>
+    uint64_t add_forever_timer(const guid_t& entity_id, const std::chrono::milliseconds interval,
+        receiver_type* receiver, void (receiver_type::*handler)(uint64_t, const guid_t&)) {
+        timer_functor functor = std::bind_front(handler, receiver);
         return add_forever_timer(entity_id, interval, std::move(functor));
     }
 

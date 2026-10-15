@@ -33,7 +33,8 @@ public:
 
     explicit node_meta(const std::string& name, const uint32_t index)
         : name_(name)
-        , index_(index) {}
+        , index_(index) {
+    }
 
     virtual ~node_meta() = default;
 
@@ -67,10 +68,10 @@ public:
 
 private:
     // data name
-    std::string name_{NULL_STR};
+    std::string name_{null_str};
 
     // data type
-    data_type type_{data_type::DT_EMPTY};
+    data_type type_{data_type::dt_empty};
 
     //node index
     uint32_t index_{0u};

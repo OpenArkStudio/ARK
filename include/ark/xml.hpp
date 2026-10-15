@@ -84,7 +84,7 @@ public:
         }
     }
 
-    uint32_t get_uint32(const char* key, bool optional = false, uint32_t default_value = NULL_INT) {
+    uint32_t get_uint32(const char* key, bool optional = false, uint32_t default_value = null_int) {
         rapidxml::xml_node<>* node = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
 
         auto attr = node->first_attribute(key);
@@ -106,7 +106,7 @@ public:
         }
     }
 
-    float get_float(const char* key, bool optional = false, float default_value = NULL_FLOAT) {
+    float get_float(const char* key, bool optional = false, float default_value = null_float) {
         rapidxml::xml_node<>* node = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
 
         auto attr = node->first_attribute(key);
@@ -128,7 +128,7 @@ public:
         }
     }
 
-    std::string get_string(const char* key, bool optional = false, std::string default_value = NULL_STR) {
+    std::string get_string(const char* key, bool optional = false, std::string default_value = null_str) {
         rapidxml::xml_node<>* node = reinterpret_cast<rapidxml::xml_node<>*>(xml_node_);
 
         auto attr = node->first_attribute(key);

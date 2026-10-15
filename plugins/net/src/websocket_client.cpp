@@ -36,12 +36,12 @@ bool websocket_client::start_client(
     {
         shutdown();
     }
-    client_ = std::make_shared<arknet::ws_client>(arknet::detail::tcp_frame_size, ARK_TCP_RECV_BUFFER_SIZE);
+    client_ = std::make_shared<arknet::ws_client>(arknet::detail::tcp_frame_size, ark_tcp_recv_buffer_size);
     this->dst_bus_id_ = dst_bus_id;
     const auto weak = weak_from_this();
 
-    client_->set_auto_reconnect(true, ARK_RECONNECT_TIME);
-    client_->set_connect_timeout(ARK_CONNECT_TIMEOUT);
+    client_->set_auto_reconnect(true, ark_reconnect_time);
+    client_->set_connect_timeout(ark_connect_timeout);
     client_
         ->bind_init([weak] {
             if (auto self = weak.lock())
@@ -81,7 +81,7 @@ bool websocket_client::start_client(
             // create net event
             net_event* net_connect_event = net_event::alloc_event();
             net_connect_event->set_id(cur_session_id);
-            net_connect_event->set_type(net_event_type::CONNECT);
+            net_connect_event->set_type(net_event_type::connect);
             net_connect_event->set_bus_id(self->dst_bus_id_);
             net_connect_event->set_ip(self->client_->remote_address());
             // TODO: will add port
@@ -124,7 +124,7 @@ bool websocket_client::start_client(
             // create net event
             net_event* net_disconnect_event = net_event::alloc_event();
             net_disconnect_event->set_id(session_id);
-            net_disconnect_event->set_type(net_event_type::DISCONNECT);
+            net_disconnect_event->set_type(net_event_type::disconnect);
             net_disconnect_event->set_bus_id(self->dst_bus_id_);
             net_disconnect_event->set_ip(self->client_->remote_address());
             // TODO: will add port
@@ -210,7 +210,7 @@ void websocket_client::update_net_msg(const ws_client_session_ptr& session) {
         net_msg::release(msg);
 
         ++msg_count;
-        if (msg_count >= ARK_PROCESS_NET_MSG_COUNT_ONCE && !session->need_remove())
+        if (msg_count >= ark_process_net_msg_count_once && !session->need_remove())
         {
             break;
         }
@@ -223,7 +223,7 @@ bool websocket_client::send_msg(msg_header* head, const char* msg_data, conv_id_
     std::string buffer;
     head->serialize_to_string(buffer);
     const auto message_length = head->message_length();
-    if (buffer.empty() || message_length > ARK_MSG_MAX_LENGTH)
+    if (buffer.empty() || message_length > ark_msg_max_length)
     {
         return false;
     }
