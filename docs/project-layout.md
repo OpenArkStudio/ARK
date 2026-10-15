@@ -8,6 +8,12 @@ library remains in the independent [arknet repository](https://github.com/OpenAr
 
 ## Directories
 
+Build artifacts belong to each CMake build directory: `cmake -S . -B out/release`
+produces executables, plugins and archives under `out/release/bin`. Use another
+directory for Debug or sanitizer builds to keep their artifacts separate. A build
+with `-B build` continues to use `build/bin`. Deployment copies the selected
+build's artifacts into the runtime's `bin/` directory.
+
 | Path | Contents |
 | --- | --- |
 | `include/ark/` | Public core headers |
