@@ -27,6 +27,7 @@
 #include "ark/module.hpp"
 #include "ark/plugin_manager.hpp"
 #include "ark/xml.hpp"
+#include "detail/resource_path.hpp"
 
 namespace ark {
 
@@ -84,7 +85,7 @@ bool config_module_impl::load_config(std::shared_ptr<class_meta> class_meta_ptr)
     }
 
     // TODO: put the config filed in kernel.plgin.conf
-    std::string file_path = "resource" + res_path;
+    const auto file_path = detail::resource_file(res_path);
 
     ARK_LOG_INFO("Load data config files: {}", file_path);
 

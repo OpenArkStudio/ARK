@@ -56,15 +56,16 @@ macOS 27.0.1 arm64 and Apple Clang 21.0.0. Local results:
 
 | Configuration | Core cases / assertions | Network cases / assertions |
 | --- | ---: | ---: |
-| Release, Boost 1.90, 128-bit GUID, Protobuf, TLS enabled | 22 / 1,873 | 36 / 953 |
+| Release, Boost 1.90, 128-bit GUID, Protobuf, TLS enabled | 22 / 1,961 | 36 / 953 |
 | Debug, Boost, 128-bit GUID, ASan/UBSan, network only | — | 36 / 953 |
-| Release, Boost, ASan/UBSan, kernel initialization only | 1 / 88 | — |
+| Release, Boost, ASan/UBSan, kernel initialization only | 1 / 176 | — |
 | Debug, Standalone Asio 1.38.2, core only, Protobuf/TLS disabled | 14 / 1,734 | — |
 
 Protobuf cases cover valid messages, truncated input, actor identity, binary messages containing NUL,
 existing wire payloads, external JSON field names and the new public descriptor/enum names.
 
-The core total includes four kernel/config initialization-order combinations.
+The core total includes four kernel/config initialization-order combinations
+for both resource-relative paths and legacy paths with a leading separator.
 The full Release application, default plugins and examples built. An isolated
 process loaded Bus, Net, Utility and Kernel, entered its main loop and exited
 normally on SIGINT. HTTP requests use the library-owned IO pool; pending futures
