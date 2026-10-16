@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { convertPage, pageExtension, pageRoute } from "./content.mjs";
+import { canonicalFile, convertPage, pageExtension, pageRoute } from "./content.mjs";
 
 test("bilingual routes and home aliases", () => {
   assert.equal(pageRoute("README_CN.md"), "/zh/");
@@ -10,6 +10,24 @@ test("bilingual routes and home aliases", () => {
   assert.equal(pageRoute("features/index.md"), "/features");
   assert.equal(pageRoute("code-style.md"), "/project/code-style");
   assert.equal(pageRoute("project-layout_CN.md"), "/zh/reference/directory-structure");
+  assert.equal(canonicalFile("service-manifests.md"), "guides/service-configuration/application-manifests.md");
+  assert.equal(canonicalFile("service-manifests_CN.md"), "guides/service-configuration/application-manifests_CN.md");
+  assert.equal(pageRoute("service-manifests.md"), "/guides/service-configuration/application-manifests");
+  assert.equal(pageRoute("service-manifests_CN.md"), "/zh/guides/service-configuration/application-manifests");
+});
+
+test("relocated manifest sources resolve links from their original Markdown location", () => {
+  const files = new Set(["service-manifests.md", "service-manifests_CN.md", "networking.md", "networking_CN.md"]);
+  for (const chinese of [false, true]) {
+    const suffix = chinese ? "_CN" : "";
+    const prefix = chinese ? "/zh" : "";
+    const source = `# Manifest\n\n[build](networking${suffix}.md)\n\n[manifest](service-manifests${suffix}.md)\n\n[sample](../build/conf/sample1.app.toml)\n\n\`\`\`toml\n[application]\nplugin_config_dir = "conf/"\n\`\`\`\n`;
+    const result = convertPage(source, `service-manifests${suffix}.md`, files);
+    assert.ok(result.includes(`[build](${prefix}/networking)`));
+    assert.ok(result.includes(`[manifest](${prefix}/guides/service-configuration/application-manifests)`));
+    assert.ok(result.includes("[sample](https://github.com/OpenArkStudio/ark/blob/main/build/conf/sample1.app.toml)"));
+    assert.ok(result.includes('```toml\n[application]\nplugin_config_dir = "conf/"\n```'));
+  }
 });
 
 test("convert parsed links while preserving code and labels", () => {
