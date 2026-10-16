@@ -11,6 +11,14 @@ C++ rebuild or database is required. They verify complete rename-aware path deci
 safe fallback to the full C++ matrix, documentation availability and strict job results.
 Main pushes and manual runs always retain the full C++ matrix.
 
+Each existing PR/ref concurrency group permits one active run and only the most
+recently queued pending run. A new run waits for the active run to finish instead
+of automatically cancelling it. Individual running jobs retain their configured
+timeouts; those limits do not include pending time. Merge-group candidates use
+their own refs. The required gate still rejects failed, cancelled or missing
+results. Manual cancellation can still prevent the `always()` summary from
+completing. See [GitHub concurrency rules](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#concurrency).
+
 Root README link checks run only when a root README changes. They validate local file
 targets, including images, HTML `srcset` and reference links. It handles the forms
 used by these READMEs; it is not a complete Markdown parser. Remote URLs and heading

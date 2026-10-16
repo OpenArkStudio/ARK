@@ -10,6 +10,12 @@ node --test tests/ci/*.test.mjs
 覆盖包含重命名旧路径的完整文件集合、无法确定范围时执行完整 C++ 矩阵、文档站可用性，
 以及各任务结果的严格校验。推送 main 和手动运行始终执行完整 C++ 矩阵。
 
+每个既有的 PR/引用并发分组最多执行一轮，只保留最新进入该分组的一轮等待任务。
+新运行等待旧轮结束，不再自动取消正在执行的旧轮。每个已运行的 job 保留原有超时限制，
+等待时间不计入这些限制；Merge Queue 候选使用各自的引用分组。required gate 仍拒绝失败、
+取消或缺失的结果。手动取消仍可能使 `always()` 汇总无法完成。
+详见 [GitHub 并发规则](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#concurrency)。
+
 只有根 README 变更时才检查其本地文件链接，包含图片、HTML `srcset` 和引用式链接。
 检查器覆盖这些 README 使用的表达形式，不是完整的 Markdown 解析器；不验证远程 URL 或标题锚点。
 Nimbus 检查单独验证生成文档站内的链接与锚点，不包含根 README 的标题锚点。
