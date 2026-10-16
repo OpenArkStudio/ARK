@@ -24,3 +24,15 @@ Initialize Protobuf as described for application builds.
 `check-kernel-initialization` loads real metadata and static data from
 `resource/meta/`. It checks four kernel/config initialization orders with both
 resource-relative paths and legacy paths beginning with `/`, for eight combinations.
+
+`check-logging` runs the independent C++ logging path regressions and is included
+in `check-core`. It checks relative and nested filenames, extensions and hidden
+files, dotted directory names, both hourly sink factories, and the configured
+logger directory. An empty `output_path` uses the working directory. Hourly logs
+retain the `directory/YYYYMMDD/basename_hh.ext` layout; only the filename's final
+extension moves after the hour suffix. Files without an extension and names ending
+in a dot keep that basename. All test writes use temporary directories.
+
+```sh
+cmake --build core-build --target check-logging
+```

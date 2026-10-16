@@ -14,6 +14,14 @@ add_custom_target(check-core
     DEPENDS ark_core_tests
     USES_TERMINAL)
 
+add_executable(ark_logging_tests main.cpp logging_paths.cpp)
+target_link_libraries(ark_logging_tests PRIVATE ark::core)
+add_custom_target(check-logging
+    COMMAND $<TARGET_FILE:ark_logging_tests>
+    DEPENDS ark_logging_tests
+    USES_TERMINAL)
+add_dependencies(check-core check-logging)
+
 find_package(Threads REQUIRED)
 add_executable(ark_app_shutdown_tests ../app/shutdown_request.cpp)
 target_compile_features(ark_app_shutdown_tests PRIVATE cxx_std_20)

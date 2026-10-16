@@ -9,6 +9,7 @@
 #include <chrono>
 #include <cstdio>
 #include <ctime>
+#include <filesystem>
 #include <mutex>
 #include <string>
 #include <tuple>
@@ -41,36 +42,34 @@ struct default_date_and_hour_file_name_calculator
     // "my_folder/.mylog" => ("my_folder/", ".mylog", "")
     // "my_folder/.mylog.txt" => ("my_folder/", ".mylog", ".txt")
     static std::tuple<filename_t, filename_t, filename_t> split_by_dir_and_extenstion(const spdlog::filename_t& fname) {
-        auto ext_index = fname.rfind('.');
+        const auto folder_index = fname.find_last_of(details::os::folder_seps_filename);
+        const auto basename_index = folder_index == filename_t::npos ? 0 : folder_index + 1;
+        const auto directory = fname.substr(0, basename_index);
+        const auto basename = fname.substr(basename_index);
+        const auto ext_index = basename.rfind('.');
 
-        // no valid extension found - return whole path and empty string as extension
-        if (ext_index == filename_t::npos || ext_index == 0 || ext_index == fname.size() - 1)
+        if (ext_index == filename_t::npos || ext_index == 0 || ext_index == basename.size() - 1)
         {
-            return std::make_tuple(spdlog::filename_t(), fname, spdlog::filename_t());
+            return std::make_tuple(directory, basename, filename_t{});
         }
 
-        // treat cases like "/etc/rc.d/somelogfile or "/abc/.hiddenfile"
-        auto folder_index = fname.find_last_of(details::os::folder_seps_filename);
-        if (folder_index != fname.npos && folder_index >= ext_index - 1)
-        {
-            return std::make_tuple(fname.substr(0, folder_index), fname.substr(folder_index + 1), spdlog::filename_t());
-        }
-
-        // finally - return a valid base and extension tuple
-        return std::make_tuple(fname.substr(0, folder_index),
-            fname.substr(folder_index + 1, ext_index - folder_index - 1), fname.substr(ext_index));
+        return std::make_tuple(directory, basename.substr(0, ext_index), basename.substr(ext_index));
     }
 
-    // Create filename for the form pre_dir/filename.YYYY-MM-DD_hh-mm.ext
+    // Create filename for the form pre_dir/YYYYMMDD/filename_hh.ext.
     static filename_t calc_filename(const filename_t& filename) {
         std::tm tm = spdlog::details::os::localtime();
         filename_t pre_dir, basename, ext;
         std::tie(pre_dir, basename, ext) = split_by_dir_and_extenstion(filename);
-        auto dir_path = fmt::format(SPDLOG_FILENAME_T("{}{}{:04d}{:02d}{:02d}{}"), pre_dir,
-            spdlog::details::os::folder_seps_filename[0], tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
-            spdlog::details::os::folder_seps_filename[0]);
-
-        return fmt::format(SPDLOG_FILENAME_T("{}{}_{:02d}{}"), dir_path, basename, tm.tm_hour, ext);
+        const auto day =
+            fmt::format(SPDLOG_FILENAME_T("{:04d}{:02d}{:02d}"), tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+        const auto name = fmt::format(SPDLOG_FILENAME_T("{}_{:02d}{}"), basename, tm.tm_hour, ext);
+        const auto path = std::filesystem::path(pre_dir) / day / name;
+#if defined(_WIN32) && defined(SPDLOG_WCHAR_FILENAMES)
+        return path.wstring();
+#else
+        return path.string();
+#endif
     }
 };
 
@@ -144,12 +143,12 @@ using date_and_hour_file_sink_st = date_and_hour_file_sink<details::null_mutex>;
 
 template<typename factory_type = spdlog::synchronous_factory>
 inline std::shared_ptr<logger> date_and_hour_file_sink_mt(const std::string& logger_name, const filename_t& filename) {
-    return factory_type::template create<sinks::date_and_hour_file_sink_mt>(logger_name);
+    return factory_type::template create<sinks::date_and_hour_file_sink_mt>(logger_name, filename);
 }
 
 template<typename factory_type = spdlog::synchronous_factory>
 inline std::shared_ptr<logger> date_and_hour_file_sink_st(const std::string& logger_name, const filename_t& filename) {
-    return factory_type::template create<sinks::date_and_hour_file_sink_st>(logger_name);
+    return factory_type::template create<sinks::date_and_hour_file_sink_st>(logger_name, filename);
 }
 
 } // namespace spdlog
