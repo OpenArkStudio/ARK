@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+.nimbus/
+src/content/
+public/performance/
+public/assets/
