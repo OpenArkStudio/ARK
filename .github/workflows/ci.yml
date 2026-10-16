@@ -16,8 +16,64 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  scope:
+    name: CI - change scope
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      full_cpp: ${{ steps.scope.outputs.full_cpp }}
+      docs_check: ${{ steps.scope.outputs.docs_check }}
+      readme_check: ${{ steps.scope.outputs.readme_check }}
+      site_available: ${{ steps.scope.outputs.site_available }}
+      files_known: ${{ steps.scope.outputs.files_known }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+      - name: Test CI scope and result rules
+        run: node --test tests/ci/*.test.mjs
+      - name: Classify the exact event commits
+        id: scope
+        run: node .github/scripts/ci-policy.mjs classify
+  documentation:
+    name: CI - documentation validation
+    needs: scope
+    if: ${{ !cancelled() && needs.scope.outputs.docs_check == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+      - name: Require a usable Nimbus site
+        run: node .github/scripts/ci-policy.mjs require-site
+      - run: npm ci --prefix docs/site
+      - run: npm run check --prefix docs/site
+  readme:
+    name: CI - README file links
+    needs: scope
+    if: ${{ !cancelled() && needs.scope.outputs.readme_check == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+      - run: node .github/scripts/check-readme-links.mjs
   network:
     name: Network - ${{ matrix.os }} - Boost - ${{ matrix.sanitizer }}
+    needs: scope
+    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.full_cpp != 'false') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     strategy:
@@ -62,6 +118,8 @@ jobs:
         run: cmake --build ci-build --target check-network
   applications:
     name: Applications - ${{ matrix.os }} - C++20
+    needs: scope
+    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.full_cpp != 'false') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     strategy:
@@ -97,6 +155,8 @@ jobs:
         run: cmake --build ci-build --target check-core
   database:
     name: Database - ${{ matrix.os }} - ${{ matrix.asio }}
+    needs: scope
+    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.full_cpp != 'false') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     strategy:
@@ -151,13 +211,17 @@ jobs:
   required:
     name: CI - required
     if: always()
-    needs: [network, applications, database]
+    needs: [scope, network, applications, database, documentation, readme]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
       - name: Require successful builds and regressions
         env:
-          NETWORK_RESULT: ${{ needs.network.result }}
-          APPLICATION_RESULT: ${{ needs.applications.result }}
-          DATABASE_RESULT: ${{ needs.database.result }}
-        run: test "$NETWORK_RESULT" = success && test "$APPLICATION_RESULT" = success && test "$DATABASE_RESULT" = success
+          CI_NEEDS_JSON: ${{ toJSON(needs) }}
+        run: node .github/scripts/ci-policy.mjs gate
