@@ -14,6 +14,11 @@ branch or worktree when the existing checkout contains uncommitted changes.
 - Examples: `feat(config): support TOML application manifests`,
   `fix(logging): preserve the configured log directory`,
   `ci(cache): restore vcpkg package archives`.
+- Name new topic branches `type/short-kebab-case`, matching the change, for example
+  `feat/database-coroutines`, `fix/windows-includes` or `docs/readme-maintainers`.
+  Do not use the `codex/` prefix or generic `xxx-branch` names. Existing published
+  branches do not need renaming solely to adopt this rule. Use lowercase names
+  for new GitHub repositories.
 - Mark incompatible public changes with `!` and explain them in a
   `BREAKING CHANGE:` footer. Describe migration steps in the PR and release notes.
 - Keep each PR focused on one functional module or related change. Publish
