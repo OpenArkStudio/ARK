@@ -1,0 +1,18 @@
+---
+import routes from "../legacy-routes.json";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+<script is:inline define:vars={{ base, routes }}>
+  if (window.location.hash.startsWith("#/")) {
+    const [oldPage, query = ""] = window.location.hash.slice(2).split("?");
+    const chinese = oldPage.endsWith("_CN");
+    let slug = oldPage.replace(/_CN$/, "");
+    if (slug === "README" || !slug) slug = "";
+    if (slug === "THIRD_PARTY_NOTICES") slug = "third-party-notices";
+    const anchor = new URLSearchParams(query).get("id");
+    const oldRoute = (chinese ? "/zh/" : "/") + slug;
+    const redirect = routes[oldRoute];
+    const target = redirect?.anchors[anchor] ?? redirect?.to ?? oldRoute;
+    window.location.replace(base + target + (anchor ? "#" + encodeURIComponent(anchor) : ""));
+  }
+</script>
