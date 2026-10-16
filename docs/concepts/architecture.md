@@ -1,14 +1,53 @@
 # Applications, plugins and modules
 
-| Layer | Responsibility | Source entry |
+ark composes one application process from plugin libraries. Each plugin registers modules; modules expose interfaces and receive lifecycle calls from `plugin_manager`. Use this page to place responsibilities before following the [application example](application-architecture.md).
+
+## Responsibility boundaries
+
+| Component | Owns | Does not provide automatically |
 | --- | --- | --- |
-| Application | Select plugins and process configuration | [Application sources](https://github.com/OpenArkStudio/ark/tree/main/src/app) |
-| Plugin | Install and uninstall a group of modules | [ark::sample1_plugin](https://github.com/OpenArkStudio/ark/blob/main/examples/sample1/sample1_plugin.cpp) |
-| Module | Provide an interface and participate in the application lifecycle | [ark::module](https://github.com/OpenArkStudio/ark/blob/main/include/ark/module.hpp) |
-| Networking | Integrate arknet endpoints and queue application messages/events | [Network plugin](https://github.com/OpenArkStudio/ark/tree/main/src/plugins/net) |
+| Application launcher | Process identity, manifest path, plugin selection and the update loop | A cluster scheduler or dependency resolver |
+| Plugin | Installation and removal of a group of modules | Safe replacement of code while callbacks still execute |
+| Module | A focused interface, its state and lifecycle work | Concurrent access safety for arbitrary business state |
+| Kernel plugin | Metadata, static configuration, runtime entities and their events | Automatic persistence or client synchronization merely from declaring a field |
+| Network plugin | ark message headers, session identifiers and delivery to the application update thread | Transport algorithms or a separate thread per connection |
+| arknet | IO contexts, worker execution and transport operations | Ownership of ark's business entities or application lifecycle |
 
-The module interface offers `init`, `post_init`, `check_config`, `pre_update`, `update`, `pre_shut` and `shut`. Keep initialization and shutdown responsibilities paired. Stop callback sources before releasing modules they reference.
+[Application composition](application-architecture.md), [data-driven design](data-driven.md) and [reference server topology](server-architecture.md) describe these boundaries at different scales. The server topology is a deployment reference, not a prerequisite for using modules.
 
-arknet provides IO contexts, threads and transport operations. ark's network plugin handles application message headers, session IDs and Update-thread delivery. Protocol algorithms and IO thread runners belong in arknet.
+## Calls within a process
 
-Continue with [plugin creation](../guides/plugins.md) or [networking](../networking.md).
+A plugin's `install()` calls `ARK_REGISTER_MODULE(interface_type, implementation_type)`. The manager records that interface, and application code obtains it through typed lookup:
+
+```cpp
+#include "ark/plugin_manager.hpp"
+#include "ark/utility/timer_module.hpp"
+
+ark::timer_module* find_timers(ark::plugin_manager& manager) {
+    return manager.find_module<ark::timer_module>();
+}
+```
+
+The returned pointer is borrowed; keep the owning plugin loaded while using it. A missing module triggers an assertion when assertions are enabled, and returns null when they are disabled, so typed lookup is for a required, registered dependency rather than optional-service probing. A header include or CMake dependency does not install a runtime module. See [create a module](../guides/modules.md) and [create a plugin](../guides/plugins.md).
+
+## Lifecycle and execution
+
+Startup runs `init()` for modules, then `post_init()`, `check_config()` and `pre_update()`. The launcher repeatedly calls the manager's `update()`; only registered update modules participate in that loop. Shutdown runs `pre_shut()`, then `shut()`, before unloading plugin libraries.
+
+Use `init()` to obtain dependencies and initialize local resources; use later stages for work that requires other modules' initialization. Stop timers, subscriptions and asynchronous producers before releasing the state their callbacks reference. Network business delivery is advanced through the application's update calls; network IO still runs on arknet workers.
+
+Current limits matter when composing modules:
+
+- Modules are traversed through manager containers, without a declared dependency graph or guaranteed manifest order. Do not depend on one module being initialized first within the same stage.
+- The current manager invokes lifecycle callbacks without aggregating their Boolean results. Returning `false` from a module is not a general guarantee of transactional startup rollback or process termination.
+- Lifecycle stages do not establish that arbitrary business tasks have drained. Compatible hot replacement and plugin-unload coordination remain separate design work.
+
+The source of these rules is [plugin_manager.hpp](https://github.com/OpenArkStudio/ark/blob/main/include/ark/plugin_manager.hpp) and the [launcher](https://github.com/OpenArkStudio/ark/blob/main/src/app/main.cpp).
+
+## Header paths and CMake targets
+
+All public headers live under `include/ark/`; for example, `include/ark/kernel/entity.hpp` is included as `<ark/kernel/entity.hpp>`. Core target definitions live in `src/core/` and plugin implementations in `src/plugins/<name>/`. `ark::core` supplies core headers; the individual plugin targets remain optional, and `ark::ark` aggregates available API targets.
+
+`ark/` is a filesystem include prefix. It does not automatically create the C++ namespace: each header explicitly declares `namespace ark`. Linking an API interface target propagates compilation requirements; it does not select or load a plugin shared library.
+
+Implementation headers still share some `include/` directories with public interfaces. Treat `*_impl` types as implementation details, and do not interpret the current paths as a completed public/private separation. The diagrams describe responsibilities rather than prescribing a physical directory layout. See [directory structure](../reference/directory-structure.md) for the current paths and targets.

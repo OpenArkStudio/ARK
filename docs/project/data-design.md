@@ -1,49 +1,39 @@
-# 新的设计思路
+# Data model design notes
 
-## 数据管理
+<Aside type="note" title="Draft">
 
-```text
-                                        |- MetaEntityClassSetting
-        |--- MetaClassSettingBase*  ----|
-        |           ||                  |- MetaConfigClassSetting
-        |           ||
-        |           ||
-        |          \||/                 |- MetaEntityDataSetting
-        |           \/                  |
-AFData -|--- MetaDataSettingBase*   ----|
-        |                               |
-        |                               |- MetaConfigDataSetting
-        |
-        |                               |- bool
-        |--- Parent(AFData*) -----------|- enum
-                                        |- numberic(uint8/int8/uint16/int16/uint32/int32/uint64/int64/double/float)
-                                        |- string
-                                        |- struct(Map<std::string, AFData*>)
-                                        |- array(vector<AFData*>)
-                                        |- table(map<uint64_t, AFData*>)
-```
+This page explains a historical design sketch. Its type names and relationships are proposal vocabulary, not public C++ interfaces or a selected migration plan. Use [data structures](../guides/data-structures.md) and [Kernel](../reference/kernel.md) for current APIs.
 
-## 数据说明
+</Aside>
 
-### MetaEntityClassSetting
+## Separate definitions from values
 
-class_name
-multi-MetaEntityDataSetting
+The sketch proposed a general data value with references to class-level and field-level metadata, plus a parent relationship. It split metadata into two purposes:
 
-### MetaConfigClassSetting
+| Historical name | Intended purpose |
+| --- | --- |
+| `MetaEntityClassSetting` | A class name and multiple entity-field definitions |
+| `MetaConfigClassSetting` | A class name and multiple configuration-field definitions |
+| `MetaEntityDataSetting` | A field type, masks and possible function/script behavior |
+| `MetaConfigDataSetting` | A field type and references, without entity masks or function behavior |
 
-class_name
-multi-MetaConfigDataSetting
+![Historical data-model concept](../assets/draft-data-model.svg)
 
-### MetaEntityDataSetting
+The proposed value forms included Boolean, enum, numeric and string values, structures keyed by field name, arrays of values and tables keyed by an integer. The sketch's parent pointer described a relationship; it did not define allocation, ownership, cycle prevention or thread safety.
 
-包含Type 和 Mask, 函数, 脚本等
+## Relationship to the current model
 
-### MetaConfigDataSetting
+Current code separates `class_meta`, `node_meta`, `table_meta` and `container_meta` from runtime data. Static configuration records and mutable entities also have separate interfaces. That existing separation is useful context, but it does not make the sketch's general struct/array value, script hooks or metadata hierarchy available as APIs.
 
-只有类型和refer, 没有mask/其他函数等
+The historical names above do not prescribe new public names. They also do not change field indices, stored records, Protobuf numbers or generated identifiers. The original note listed Unreal4 and KFrame as references without a concrete dependency or compatibility contract.
 
-## 参考
+## Questions before implementation
 
-- Unreal4
-- KFrame
+- Which metadata belongs to entity behavior, and which belongs only to reusable configuration values?
+- Who owns nested values, and what happens to their parent references during removal, replacement or destruction?
+- How do validation, serialization and callbacks handle nested changes and missing references?
+- How are existing schemas and saved records migrated without silently changing their meaning?
+
+These questions need a separate design and tests. No business configuration format or migration mechanism is selected here. Continue with the related [nested-data proposal](data-model-proposal.md).
+
+The Chinese [original note](https://github.com/OpenArkStudio/ark/blob/main/docs/site/legacy-source/zh-cn/new-desgin.md) is preserved byte-for-byte in the [source archive](https://github.com/OpenArkStudio/ark/blob/main/docs/site/legacy-source/README.md). This English page is an explanation of that source, not an invented historical translation file.

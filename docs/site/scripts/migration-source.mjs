@@ -1,4 +1,5 @@
-// Original Docsify content preserved by the Nimbus migration.
+// Original Docsify bytes are archived in ../legacy-source/README.md.
+// Modern guides may evolve; the archive records source paths and SHA256 checksums.
 export const sourceCommit = 'd2b1f31ee7ac77aa8c273a38ed7c60c0b534084d';
 
 // Preserve Markdown entry points introduced before the site migration without
