@@ -1,4 +1,12 @@
 {
+  "/service-manifests": {
+    "to": "/guides/service-configuration/application-manifests",
+    "anchors": {}
+  },
+  "/zh/service-manifests": {
+    "to": "/zh/guides/service-configuration/application-manifests",
+    "anchors": {}
+  },
   "/code-style": {
     "to": "/project/code-style",
     "anchors": {}

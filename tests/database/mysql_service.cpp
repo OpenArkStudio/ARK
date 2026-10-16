@@ -15,7 +15,7 @@
 #include <utility>
 #include <vector>
 
-#include "mysql/src/detail/mysql_service.hpp"
+#include "mysql/detail/mysql_service.hpp"
 
 using namespace std::chrono_literals;
 using ark::detail::mysql_service;

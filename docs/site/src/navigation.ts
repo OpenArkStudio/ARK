@@ -93,6 +93,17 @@ const tree: Entry[] = [
         "Application launcher",
         "应用启动器"
       ],
+      {
+        "en": "Service configuration",
+        "zh": "服务配置",
+        "children": [
+          [
+            "guides/service-configuration/application-manifests",
+            "Application plugin manifests",
+            "应用插件清单"
+          ]
+        ]
+      },
       [
         "guides/tools",
         "Configuration tools",

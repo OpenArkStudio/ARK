@@ -83,5 +83,28 @@ for (const prefix of ["", "zh/"]) {
   const plugin = await readFile(join(root, prefix, "guides/plugins/index.html"), "utf8");
   assert.match(plugin, /role="note"/);
   assert.match(plugin, /class="astro-code/);
+  const manifestSlug = "guides/service-configuration/application-manifests";
+  const manifestRoute = "/ark/" + prefix + manifestSlug;
+  const manifest = parse(await readFile(join(root, prefix, manifestSlug, "index.html"), "utf8"));
+  const groups = new Set();
+  const labels = new Set();
+  const languages = new Set();
+  const text = node => node.value ?? (node.childNodes ?? []).map(text).join("");
+  function inspect(node) {
+    const attrs = new Map((node.attrs ?? []).map(attr => [attr.name, attr.value]));
+    if (attrs.has("data-nb-sidebar-group-label")) groups.add(text(node).trim());
+    if (attrs.has("data-nb-sidebar-link") && attrs.get("href")?.replace(/\/$/, "") === manifestRoute) labels.add(text(node).trim());
+    if (node.tagName === "option") languages.add(attrs.get("value")?.replace(/\/$/, ""));
+    for (const child of node.childNodes ?? []) inspect(child);
+  }
+  inspect(manifest);
+  assert.ok(groups.has(prefix ? "服务配置" : "Service configuration"), "missing localized service configuration group");
+  assert.ok(labels.has(prefix ? "应用插件清单" : "Application plugin manifests"), "missing localized manifest navigation");
+  assert.ok(languages.has("/ark/" + manifestSlug), "missing English manifest language target");
+  assert.ok(languages.has("/ark/zh/" + manifestSlug), "missing Chinese manifest language target");
+  const manifestMarkdown = await readFile(join(root, prefix, manifestSlug, "index.md"), "utf8");
+  assert.match(manifestMarkdown, /```toml\n\[application\]/);
+  assert.match(manifestMarkdown, /load_application_manifest/);
+  assert.ok(manifestMarkdown.includes(`](/ark/${prefix}networking)`), "manifest Markdown lost its build-guide link");
 }
 console.log(`Checked ${pages.length} static HTML pages and ${references.size} internal references, language switching, cards, callouts, highlighting and AI Markdown.`);

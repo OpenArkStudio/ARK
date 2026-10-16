@@ -2,7 +2,7 @@
 
 [English](MYSQL.md) | [简体中文](MYSQL_CN.md)
 
-This opt-in executable exercises `plugins/mysql/src/detail/mysql_service.hpp`
+This opt-in executable exercises `src/plugins/mysql/detail/mysql_service.hpp`
 against a real MySQL server. The service directly uses the native arknet pool;
 it does not change the published MySQL module API, register a runtime module or
 replace the legacy driver yet. The internal result type is not a plugin SDK

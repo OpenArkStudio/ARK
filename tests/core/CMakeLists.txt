@@ -14,6 +14,14 @@ add_custom_target(check-core
     DEPENDS ark_core_tests
     USES_TERMINAL)
 
+add_executable(ark_logging_tests main.cpp logging_paths.cpp)
+target_link_libraries(ark_logging_tests PRIVATE ark::core)
+add_custom_target(check-logging
+    COMMAND $<TARGET_FILE:ark_logging_tests>
+    DEPENDS ark_logging_tests
+    USES_TERMINAL)
+add_dependencies(check-core check-logging)
+
 find_package(Threads REQUIRED)
 add_executable(ark_app_shutdown_tests ../app/shutdown_request.cpp)
 target_compile_features(ark_app_shutdown_tests PRIVATE cxx_std_20)
@@ -36,22 +44,45 @@ add_custom_target(check-xml
     USES_TERMINAL)
 add_dependencies(check-core check-xml)
 
+if(ARK_BUILD_CONFIG)
+    add_executable(ark_application_manifest_tests main.cpp application_manifest.cpp)
+    # This configuration-only consumer deliberately excludes the inherited network SDK.
+    set_property(TARGET ark_application_manifest_tests PROPERTY LINK_LIBRARIES ark::config)
+    target_compile_definitions(ark_application_manifest_tests PRIVATE ARK_TEST_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+    add_custom_target(check-application-manifest
+        COMMAND $<TARGET_FILE:ark_application_manifest_tests>
+        DEPENDS ark_application_manifest_tests
+        USES_TERMINAL)
+    add_dependencies(check-core check-application-manifest)
+
+    if(TARGET app)
+        add_custom_target(check-app-manifest-failures
+            COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:app>"
+                "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"
+                "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/manifest failure runtime"
+                -P "${PROJECT_SOURCE_DIR}/tests/app/manifest_failures.cmake"
+            DEPENDS app
+            USES_TERMINAL)
+        add_dependencies(check-core check-app-manifest-failures)
+    endif()
+endif()
+
 if(ARK_BUILD_PROTO)
     add_executable(ark_kernel_initialization_tests main.cpp module_initialization.cpp entity_config_copy.cpp
-        ../../plugins/kernel/src/class_call_back_manager.cpp
-        ../../plugins/kernel/src/class_meta.cpp
-        ../../plugins/kernel/src/class_meta_module_impl.cpp
-        ../../plugins/kernel/src/config_module_impl.cpp
-        ../../plugins/kernel/src/container_impl.cpp
-        ../../plugins/kernel/src/container_manager_impl.cpp
-        ../../plugins/kernel/src/entity_impl.cpp
-        ../../plugins/kernel/src/kernel_module_impl.cpp
-        ../../plugins/kernel/src/map_module_impl.cpp
-        ../../plugins/kernel/src/node_manager.cpp
-        ../../plugins/kernel/src/row.cpp
-        ../../plugins/kernel/src/static_entity_impl.cpp
-        ../../plugins/kernel/src/table_impl.cpp
-        ../../plugins/kernel/src/table_meta.cpp)
+        ../../src/plugins/kernel/class_call_back_manager.cpp
+        ../../src/plugins/kernel/class_meta.cpp
+        ../../src/plugins/kernel/class_meta_module_impl.cpp
+        ../../src/plugins/kernel/config_module_impl.cpp
+        ../../src/plugins/kernel/container_impl.cpp
+        ../../src/plugins/kernel/container_manager_impl.cpp
+        ../../src/plugins/kernel/entity_impl.cpp
+        ../../src/plugins/kernel/kernel_module_impl.cpp
+        ../../src/plugins/kernel/map_module_impl.cpp
+        ../../src/plugins/kernel/node_manager.cpp
+        ../../src/plugins/kernel/row.cpp
+        ../../src/plugins/kernel/static_entity_impl.cpp
+        ../../src/plugins/kernel/table_impl.cpp
+        ../../src/plugins/kernel/table_meta.cpp)
     target_link_libraries(ark_kernel_initialization_tests PRIVATE ark::kernel ark::utility ark::proto)
     add_custom_target(check-kernel-initialization
         COMMAND $<TARGET_FILE:ark_kernel_initialization_tests>

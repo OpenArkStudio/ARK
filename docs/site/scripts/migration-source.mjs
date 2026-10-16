@@ -10,6 +10,13 @@ export const sourceAliases = {
   "project-layout_CN.md": "reference/directory-structure_CN.md",
 };
 
+// Keep standalone Markdown sources in place while giving them a canonical
+// location in the documentation hierarchy.
+export const pageLocations = {
+  "service-manifests.md": "guides/service-configuration/application-manifests.md",
+  "service-manifests_CN.md": "guides/service-configuration/application-manifests_CN.md",
+};
+
 export const articles = {
   "en-us/app-architecture.md": "docs/concepts/application-architecture.md",
   "en-us/app.md": "docs/guides/applications.md",
