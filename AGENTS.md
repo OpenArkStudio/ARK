@@ -60,8 +60,7 @@ branch or worktree when the existing checkout contains uncommitted changes.
 - Group includes as system, third-party, then project headers. Keep required
   platform-header dependencies in a valid order. Separate include blocks,
   namespaces and adjacent definitions with the prescribed blank lines.
-- Run `CLANG_FORMAT=/path/to/clang-format bash scripts/test_format.sh` and
-  `CLANG_FORMAT=/path/to/clang-format bash scripts/format.sh --check`.
+- Run `CLANG_FORMAT=/path/to/clang-format bash scripts/format.sh --check`.
 - CI policy tests: `node --test tests/ci/*.test.mjs`. Nimbus documentation:
   `npm ci --prefix docs/site` followed by `npm run check --prefix docs/site`.
 - Keep official plugins in the ark repository and application business plugins
