@@ -174,6 +174,37 @@ function results(plan) {
   };
 }
 
+test('merge queue candidates run full checks even when their changes are documentation-only', t => {
+  const repo = repository(t);
+  repo.write('docs/site/package.json', JSON.stringify({ scripts: { check: 'node check.mjs' } }));
+  repo.write('docs/site/package-lock.json', '{}');
+  const base = repo.commit();
+  repo.write('docs/guide.md', '# Queued documentation change\n');
+  const head = repo.commit();
+  const event = resolve(repo.root, 'event.json');
+  writeFileSync(event, JSON.stringify({ action: 'checks_requested', merge_group: { base_sha: base, head_sha: head } }));
+  const script = fileURLToPath(new URL('../../.github/scripts/ci-policy.mjs', import.meta.url));
+  const env = { ...process.env, GITHUB_EVENT_NAME: 'merge_group', GITHUB_EVENT_PATH: event,
+    GITHUB_OUTPUT: resolve(repo.root, 'outputs'), GITHUB_STEP_SUMMARY: resolve(repo.root, 'summary') };
+  delete env.GITHUB_TOKEN;
+  delete env.GH_TOKEN;
+  const plan = JSON.parse(execFileSync(process.execPath, [script, 'classify'], { cwd: repo.root, env, encoding: 'utf8' }));
+  assert.equal(plan.full_cpp, true);
+  assert.equal(plan.docs_check, true);
+  assert.equal(plan.files_known, false);
+  assert.equal(plan.reason, 'full-event');
+  const valid = results(plan);
+  execFileSync(process.execPath, [script, 'gate'], { cwd: repo.root,
+    env: { ...env, CI_NEEDS_JSON: JSON.stringify(valid) }, stdio: ['ignore', 'pipe', 'pipe'] });
+  for (const job of ['network', 'applications', 'database', 'documentation']) {
+    for (const result of ['skipped', 'failure', 'cancelled']) {
+      const invalid = structuredClone(valid);
+      invalid[job].result = result;
+      assert.throws(() => validateGate(invalid), `${job}/${result}`);
+    }
+  }
+});
+
 test('the required gate accepts only the exact full or explicitly lightweight job plan', () => {
   for (const plan of [decision(['README.md']), decision(['docs/guide.md']), decision(['src/main.cpp']),
     decision(['src/main.cpp'], { site: { present: false, available: false } }),

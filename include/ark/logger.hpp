@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <filesystem>
+
 #include <spdlog/async.h>
 #include <spdlog/async_logger.h>
 #include <spdlog/common.h>
@@ -156,8 +158,7 @@ public:
     }
 
     void init(std::string const& filename) {
-        log_name_ =
-            ARK_FORMAT("{}{}{}", log_conf_->output_path, spdlog::details::os::folder_seps_filename[0], filename);
+        log_name_ = (std::filesystem::path(log_conf_->output_path) / filename).string();
         std::vector<spdlog::sink_ptr> sinks_vec;
 
 #ifdef OPEN_FILE_LOG

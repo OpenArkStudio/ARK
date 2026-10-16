@@ -46,7 +46,7 @@ The source of these rules is [plugin_manager.hpp](https://github.com/OpenArkStud
 
 ## Header paths and CMake targets
 
-The current source layout exposes core headers from `include/` and plugin headers from `plugins/<name>/include/`. Thus `plugins/kernel/include/ark/kernel/entity.hpp` is included as `<ark/kernel/entity.hpp>` when the `ark::kernel` interface target supplies its include directory. `ark::core` supplies core headers; `ark::ark` aggregates available API targets.
+All public headers live under `include/ark/`; for example, `include/ark/kernel/entity.hpp` is included as `<ark/kernel/entity.hpp>`. Core target definitions live in `src/core/` and plugin implementations in `src/plugins/<name>/`. `ark::core` supplies core headers; the individual plugin targets remain optional, and `ark::ark` aggregates available API targets.
 
 `ark/` is a filesystem include prefix. It does not automatically create the C++ namespace: each header explicitly declares `namespace ark`. Linking an API interface target propagates compilation requirements; it does not select or load a plugin shared library.
 

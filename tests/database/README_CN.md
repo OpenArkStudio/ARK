@@ -23,7 +23,8 @@ cmake -S . -B database-build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
   -DASIO_STANDALONE=OFF -DARKNET_ENABLE_SSL=ON
 cmake --build database-build --target ark_database_queue_tests \
   ark_database_task_tests ark_database_task_contract_tests \
-  ark_database_redis_stop_tests ark_database_redis_tests ark_database_mysql_tests \
+  ark_database_redis_stop_tests ark_database_redis_tls_tests \
+  ark_database_redis_tests ark_database_mysql_tests \
   ark_database_service_awaitable_tests --parallel 2
 ```
 
@@ -38,7 +39,7 @@ cmake --build database-build --target ark_database_queue_tests \
 
 ```sh
 cmake --build database-build --target check-database
-# 等价的 shell 入口；也可以直接运行可执行文件。
+# 队列、停止和协程回归；也可以直接运行可执行文件。
 bash scripts/test_databases.sh database-build local
 ./database-build/tests/database/ark_database_queue_tests --list-test-cases
 ```
@@ -49,6 +50,28 @@ bash scripts/test_databases.sh database-build local
 状态回归还通过明确构造的输入验证获取失败的错误与回复映射，不代表复现了原生连接池故障。
 
 `check-database` 不运行真实服务测试。缺少端点配置会明确报错，不会跳过后当作成功。
+
+## Redis TLS 回归
+
+启用 `ARKNET_ENABLE_SSL=ON` 时，`check-database` 也会运行原生 TLS 回归。
+还可以单独构建并运行：
+
+```sh
+cmake --build database-build --target check-database-redis-tls
+# 或：./database-build/tests/database/ark_database_redis_tls_tests
+```
+
+私有 `redis_service` 别名保留原有明文连接 API。私有 `tls_redis_service` 使用 arknet TLS
+连接池，复用相同的请求、取消和拥有线程派发实现。它验证证书链及配置的连接主机；不受信任的
+CA 或错误主机名必须在测试端点收到任何 RESP 命令（包括 `HELLO`）前失败。成功的二进制
+流水线请求在服务销毁后仍保留拥有型结果。已发送请求的取消结果通过 `update()` 和模块协程
+执行器交付，并保留 `command_may_have_run`。
+
+可执行程序绑定随机 IPv4 回环端口，不需要启动 Redis 服务。带超时的 RESP-over-TLS 协议
+测试端点只验证上述约定，不代表真实 Redis 兼容性或容量验收。测试直接读取
+`ARKNET_SOURCE_DIR/tests/certs` 中公开的测试专用证书与密钥（arknet，BSL-1.0；见该目录
+所属仓库的 `LICENSE` 和证书 README），不会复制到应用目录，也不得用于部署。
+`ARKNET_ENABLE_SSL=OFF` 不构建此目标，明文服务仍可使用。
 
 ## Redis 服务检查
 

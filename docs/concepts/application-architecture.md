@@ -17,6 +17,8 @@ The launcher receives `--busid`, `--name` and `--app_conf`. The application mani
 </xml>
 ```
 
+New application manifests can use TOML; the equivalent [sample1.app.toml](https://github.com/OpenArkStudio/ark/blob/main/build/conf/sample1.app.toml) is also supplied. A lowercase `.toml` suffix selects TOML, while the legacy `*.app.conf` entry selects XML. See [Application manifests](../service-manifests.md) for the full schema and validation rules; per-plugin and business-resource formats are unchanged.
+
 The loader loads each library and calls its exported plugin entry. `sample1_plugin::install()` registers `sample1_module`; the utility plugin provides services such as timers. A module resolves those services with `find_module<timer_module>()`, rather than creating another copy of the utility plugin.
 
 The manifest's names are runtime library names. Existing `AFUtilityPlugin` / `Sample1Plugin` names do not follow the C++ class spelling and must match the built artifacts. Debug libraries use the configured `_d` postfix. An empty `conf` supplies no configuration filename; the loader itself does not parse plugin-specific content.
@@ -46,7 +48,7 @@ Adding a public header or CMake API target only makes an interface available to 
 
 ## Ordering and ownership
 
-The manager installs plugins before running the module initialization stages. It does not topologically sort module dependencies or make XML list order a lifecycle-order contract. Missing-module lookups can return null, and module callback return values are not currently aggregated into a transactional startup result. Verify required plugins/resources and application logs; a running process alone does not prove every service initialized successfully.
+The manager installs plugins before running the module initialization stages. It does not topologically sort module dependencies or make manifest list order a lifecycle-order contract. Missing-module lookups can return null, and module callback return values are not currently aggregated into a transactional startup result. Verify required plugins/resources and application logs; a running process alone does not prove every service initialized successfully.
 
 Pointers returned by `find_module()` belong to the loaded plugin. Stop asynchronous producers before teardown and do not retain those pointers after unload. Keeping connections and state through an in-flight business-plugin replacement is not an automatic consequence of this composition model.
 

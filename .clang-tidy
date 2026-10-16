@@ -1,8 +1,8 @@
 ---
 Checks: '-*,readability-identifier-naming,modernize-use-nullptr,modernize-use-override'
 WarningsAsErrors: ''
-HeaderFilterRegex: '(^|/)(include/ark/|plugins/[^/]+/(include/ark/|src/)|src/|examples/|tests/)'
-ExcludeHeaderFilterRegex: '(\.pb\.(h|cc)$|(^|/)(catch\.hpp|doctest\.h)$|(^|/)(plugins/utility/include/ark/utility/ctpl(_stl)?\.h|plugins/physic/include/ark/physic/wave_front\.(hpp|cpp))$)'
+HeaderFilterRegex: '(^|/)(include/ark/|src/|examples/|tests/|benchmarks/)'
+ExcludeHeaderFilterRegex: '(\.pb\.(h|cc)$|(^|/)(catch\.hpp|doctest\.h)$|(^|/)(include/ark/utility/ctpl(_stl)?\.h|include/ark/physic/wave_front\.hpp|src/plugins/physic/wave_front\.cpp)$)'
 FormatStyle: file
 CheckOptions:
   readability-identifier-naming.CheckAnonFieldInParent: true

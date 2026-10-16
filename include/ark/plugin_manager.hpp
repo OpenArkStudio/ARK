@@ -155,7 +155,7 @@ public:
 
     void set_app_conf(const std::string& value) {
         ARK_ASSERT_RET_NONE(!value.empty());
-        ARK_ASSERT_RET_NONE(value.find(".app.conf") != std::string::npos);
+        ARK_ASSERT_RET_NONE(value.find(".app.conf") != std::string::npos || value.ends_with(".toml"));
 
         app_conf_path_ = value;
     }

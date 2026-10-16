@@ -2,6 +2,8 @@
 
 Use a node for one typed value, a table for rows with a shared schema, and a container for child entities. All three belong to the Kernel data model; their definitions are separate from their runtime values. This guide uses the current snake_case interfaces, not the historical AF-prefixed implementation layouts.
 
+The public Kernel interfaces live in `include/ark/kernel/`. See [configuration tools](tools.md) for generated C++ and [Protobuf](../reference/protobuf.md) for protocol messages.
+
 ![Entity fields, tables, containers and their metadata](../assets/entity-data-model.svg)
 
 ## Data definitions

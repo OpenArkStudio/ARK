@@ -46,7 +46,7 @@ ark::timer_module* find_timers(ark::plugin_manager& manager) {
 
 ## 头文件路径与 CMake 目标
 
-当前核心头文件从 `include/` 暴露，插件头文件从 `plugins/<name>/include/` 暴露。例如 `ark::kernel` 接口目标提供包含目录后，`plugins/kernel/include/ark/kernel/entity.hpp` 对应 `<ark/kernel/entity.hpp>`。`ark::core` 提供核心头文件，`ark::ark` 汇总可用 API 目标。
+所有公开头文件统一位于 `include/ark/`，例如 `include/ark/kernel/entity.hpp` 对应 `<ark/kernel/entity.hpp>`。核心目标定义位于 `src/core/`，插件实现位于 `src/plugins/<name>/`。`ark::core` 提供核心头文件，各插件仍保留独立可选目标，`ark::ark` 汇总可用 API 目标。
 
 `ark/` 是文件系统中的头文件前缀，不会自动创建 C++ 命名空间；命名空间由各头文件显式声明的 `namespace ark` 决定。依赖 API 接口目标只传递编译要求，不会选择或加载插件动态库。
 
