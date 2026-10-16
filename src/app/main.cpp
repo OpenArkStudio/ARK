@@ -258,11 +258,6 @@ bool parse_args(int argc, char* argv[]) {
         misc::bus2_str(plugin_manager::instance()->get_bus_id()), ".log");
     logger::instance()->init_logger(log_conf.Get(), log_file_name);
 
-#ifdef ARK_PLATFORM_WIN
-    // Create back thread, for some command
-    create_back_thread();
-#endif
-
     return true;
 }
 
@@ -297,6 +292,10 @@ int main(int argc, char* argv[]) {
         std::cerr << "Application manifest loading failed: " << error.what() << std::endl;
         return 1;
     }
+
+#ifdef ARK_PLATFORM_WIN
+    create_back_thread();
+#endif
 
     plugin_manager::instance()->start(
         date_time::get_now_time(), manifest.plugin_library_dir, manifest.plugin_config_dir, manifest.plugins);

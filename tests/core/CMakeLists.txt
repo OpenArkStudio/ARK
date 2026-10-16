@@ -46,6 +46,17 @@ if(ARK_BUILD_CONFIG)
         DEPENDS ark_application_manifest_tests
         USES_TERMINAL)
     add_dependencies(check-core check-application-manifest)
+
+    if(TARGET app)
+        add_custom_target(check-app-manifest-failures
+            COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:app>"
+                "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"
+                "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/manifest failure runtime"
+                -P "${PROJECT_SOURCE_DIR}/tests/app/manifest_failures.cmake"
+            DEPENDS app
+            USES_TERMINAL)
+        add_dependencies(check-core check-app-manifest-failures)
+    endif()
 endif()
 
 if(ARK_BUILD_PROTO)
