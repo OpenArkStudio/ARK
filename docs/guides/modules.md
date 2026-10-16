@@ -102,7 +102,7 @@ All module libraries are installed before the manager starts the initialization 
 
 <Aside type="caution" title="Callback results do not abort startup">
 
-The current manager discards the Boolean values returned by module lifecycle callbacks, including `post_init()` and `update()`. With assertions disabled, the example's null check prevents dereferencing a failed lookup; returning `false` does not make the application reject startup. Keep the runtime plugin selection complete and report configuration failures explicitly. This guide does not change that behavior.
+The current manager discards the Boolean values returned by module lifecycle callbacks, including `post_init()` and `update()`. With assertions disabled, the example's null check prevents dereferencing a failed lookup; returning `false` does not make the application reject startup. Keep the runtime plugin selection complete and report configuration failures explicitly.
 
 </Aside>
 
