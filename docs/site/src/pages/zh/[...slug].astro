@@ -1,0 +1,7 @@
+---
+import ContentPage from "../../layouts/ContentPage.astro";
+import { getCollectionStaticPaths } from "@cloudflare/nimbus-docs/runtime";
+export const prerender = true;
+export const getStaticPaths = getCollectionStaticPaths("zh");
+---
+<ContentPage {...Astro.props} />

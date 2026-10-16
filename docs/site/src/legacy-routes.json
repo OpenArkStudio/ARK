@@ -1,0 +1,178 @@
+{
+  "/code-style": {
+    "to": "/project/code-style",
+    "anchors": {}
+  },
+  "/zh/code-style": {
+    "to": "/zh/project/code-style",
+    "anchors": {}
+  },
+  "/project-layout": {
+    "to": "/reference/directory-structure",
+    "anchors": {}
+  },
+  "/zh/project-layout": {
+    "to": "/zh/reference/directory-structure",
+    "anchors": {}
+  },
+  "/en-us/app-architecture": {
+    "to": "/concepts/application-architecture",
+    "anchors": {}
+  },
+  "/en-us/app": {
+    "to": "/guides/applications",
+    "anchors": {}
+  },
+  "/en-us/benchmark": {
+    "to": "/performance/benchmark",
+    "anchors": {}
+  },
+  "/en-us/bus-plugin": {
+    "to": "/reference/bus",
+    "anchors": {}
+  },
+  "/en-us/changelog": {
+    "to": "/project/changelog",
+    "anchors": {}
+  },
+  "/en-us/concept": {
+    "to": "/concepts/glossary",
+    "anchors": {}
+  },
+  "/en-us/create-new-module": {
+    "to": "/guides/modules",
+    "anchors": {}
+  },
+  "/en-us/create-new-plugin": {
+    "to": "/guides/plugins",
+    "anchors": {}
+  },
+  "/en-us/data-driven": {
+    "to": "/concepts/data-driven",
+    "anchors": {}
+  },
+  "/en-us/data-structure": {
+    "to": "/guides/data-structures",
+    "anchors": {}
+  },
+  "/en-us/directory-structure": {
+    "to": "/reference/directory-structure",
+    "anchors": {}
+  },
+  "/en-us/faq": {
+    "to": "/project/faq",
+    "anchors": {}
+  },
+  "/en-us/kernel-plugin": {
+    "to": "/reference/kernel",
+    "anchors": {}
+  },
+  "/en-us/net-plugin": {
+    "to": "/reference/network",
+    "anchors": {}
+  },
+  "/en-us/plan": {
+    "to": "/project/roadmap",
+    "anchors": {}
+  },
+  "/en-us/quick-start": {
+    "to": "/get-started/quick-start",
+    "anchors": {}
+  },
+  "/en-us/server-architecture": {
+    "to": "/concepts/server-architecture",
+    "anchors": {}
+  },
+  "/en-us/tools": {
+    "to": "/guides/tools",
+    "anchors": {}
+  },
+  "/zh-cn/app-architecture": {
+    "to": "/zh/concepts/application-architecture",
+    "anchors": {}
+  },
+  "/zh-cn/app": {
+    "to": "/zh/guides/applications",
+    "anchors": {}
+  },
+  "/zh-cn/benchmark": {
+    "to": "/zh/performance/benchmark",
+    "anchors": {}
+  },
+  "/zh-cn/bus-plugin": {
+    "to": "/zh/reference/bus",
+    "anchors": {}
+  },
+  "/zh-cn/changelog": {
+    "to": "/zh/project/changelog",
+    "anchors": {}
+  },
+  "/zh-cn/coding-guide": {
+    "to": "/zh/project/code-style",
+    "anchors": {}
+  },
+  "/zh-cn/concept": {
+    "to": "/zh/concepts/glossary",
+    "anchors": {}
+  },
+  "/zh-cn/create-new-module": {
+    "to": "/zh/guides/modules",
+    "anchors": {}
+  },
+  "/zh-cn/create-new-plugin": {
+    "to": "/zh/guides/plugins",
+    "anchors": {}
+  },
+  "/zh-cn/data-driven": {
+    "to": "/zh/concepts/data-driven",
+    "anchors": {}
+  },
+  "/zh-cn/data-structure": {
+    "to": "/zh/guides/data-structures",
+    "anchors": {}
+  },
+  "/zh-cn/directory-structure": {
+    "to": "/zh/reference/directory-structure",
+    "anchors": {}
+  },
+  "/zh-cn/faq": {
+    "to": "/zh/project/faq",
+    "anchors": {}
+  },
+  "/zh-cn/kernel-plugin": {
+    "to": "/zh/reference/kernel",
+    "anchors": {}
+  },
+  "/zh-cn/net-plugin": {
+    "to": "/zh/reference/network",
+    "anchors": {}
+  },
+  "/zh-cn/new-desgin": {
+    "to": "/zh/project/data-design",
+    "anchors": {}
+  },
+  "/zh-cn/plan": {
+    "to": "/zh/project/roadmap",
+    "anchors": {}
+  },
+  "/zh-cn/quick-start": {
+    "to": "/zh/get-started/quick-start",
+    "anchors": {}
+  },
+  "/zh-cn/server-architecture": {
+    "to": "/zh/concepts/server-architecture",
+    "anchors": {}
+  },
+  "/zh-cn/tools": {
+    "to": "/zh/guides/tools",
+    "anchors": {}
+  },
+  "/design/data": {
+    "to": "/zh/project/data-model-proposal",
+    "anchors": {}
+  },
+  "/design/network": {
+    "to": "/zh/project/network-design",
+    "anchors": {}
+  }
+}

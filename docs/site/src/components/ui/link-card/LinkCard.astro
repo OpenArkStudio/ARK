@@ -1,0 +1,34 @@
+---
+import Icon from "@cloudflare/nimbus-docs/components/Icon.astro";
+import { cn } from "@/lib/cn";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"a"> {
+  title: string;
+  description?: string;
+  href: string;
+  icon?: string;
+}
+
+const { title, description, href, icon, class: className, ...attrs } = Astro.props;
+---
+
+<a
+  href={href}
+  class={cn(
+    "group flex min-h-28 items-center gap-3 rounded-lg bg-card p-5 shadow-sm ring ring-border no-underline text-inherit transition-all hover:shadow-default hover:ring-border-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary",
+    className,
+  )}
+  {...attrs}
+>
+  {icon && <Icon name={icon} class="h-6 w-6 shrink-0 text-primary" aria-hidden="true" />}
+  <div class="min-w-0 flex-1">
+    <h3 class="m-0 break-words text-base font-semibold leading-snug text-foreground transition-colors group-hover:text-primary">{title}</h3>
+    {description && <p class="mb-0 mt-1 text-sm leading-normal text-muted-foreground">{description}</p>}
+  </div>
+  <Icon
+    name="ph:caret-right"
+    class="h-4 w-4 shrink-0 text-muted-foreground transition-all group-hover:translate-x-0.5 group-hover:text-primary"
+    aria-hidden="true"
+  />
+</a>
