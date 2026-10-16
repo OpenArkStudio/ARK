@@ -90,6 +90,25 @@ jobs:
         run: git submodule update --init 3rdparty/args 3rdparty/spdlog 3rdparty/readerwriterqueue
       - uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+      - name: Prepare vcpkg binary cache
+        id: vcpkg-cache
+        env:
+          VCPKG_CACHE_REVISION: 0699a19d0c6386247ce50d4dedbb8217d484d536
+          VCPKG_CACHE_FEATURES: boost
+          VCPKG_CACHE_DEFAULT_FEATURES: 'true'
+          VCPKG_CACHE_PROFILE: network-${{ matrix.sanitizer }}
+        run: node .github/scripts/vcpkg-cache.mjs
+      - name: Restore vcpkg package archives
+        id: vcpkg-restore
+        if: steps.vcpkg-cache.outputs.enabled == 'true'
+        continue-on-error: true
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ steps.vcpkg-cache.outputs.directory }}
+          key: ${{ steps.vcpkg-cache.outputs.key }}
       - uses: lukka/get-cmake@latest
       - uses: lukka/run-vcpkg@v11
         with:
@@ -116,6 +135,13 @@ jobs:
           UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
           TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
         run: cmake --build ci-build --target check-network
+      - name: Save vcpkg package archives
+        if: ${{ success() && steps.vcpkg-cache.outputs.enabled == 'true' && steps.vcpkg-restore.outputs.cache-hit != 'true' }}
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ steps.vcpkg-cache.outputs.directory }}
+          key: ${{ steps.vcpkg-cache.outputs.key }}
   applications:
     name: Applications - ${{ matrix.os }} - C++20
     needs: scope
@@ -132,6 +158,25 @@ jobs:
         run: git submodule update --init 3rdparty/args 3rdparty/spdlog 3rdparty/readerwriterqueue
       - uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+      - name: Prepare vcpkg binary cache
+        id: vcpkg-cache
+        env:
+          VCPKG_CACHE_REVISION: 0699a19d0c6386247ce50d4dedbb8217d484d536
+          VCPKG_CACHE_FEATURES: 'application;boost'
+          VCPKG_CACHE_DEFAULT_FEATURES: 'true'
+          VCPKG_CACHE_PROFILE: applications
+        run: node .github/scripts/vcpkg-cache.mjs
+      - name: Restore vcpkg package archives
+        id: vcpkg-restore
+        if: steps.vcpkg-cache.outputs.enabled == 'true'
+        continue-on-error: true
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ steps.vcpkg-cache.outputs.directory }}
+          key: ${{ steps.vcpkg-cache.outputs.key }}
       - uses: lukka/get-cmake@latest
       - uses: lukka/run-vcpkg@v11
         with:
@@ -153,6 +198,13 @@ jobs:
       - run: cmake --build ci-build --parallel 2
       - name: Run core and Protobuf regressions
         run: cmake --build ci-build --target check-core
+      - name: Save vcpkg package archives
+        if: ${{ success() && steps.vcpkg-cache.outputs.enabled == 'true' && steps.vcpkg-restore.outputs.cache-hit != 'true' }}
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ steps.vcpkg-cache.outputs.directory }}
+          key: ${{ steps.vcpkg-cache.outputs.key }}
   database:
     name: Database - ${{ matrix.os }} - ${{ matrix.asio }}
     needs: scope
@@ -179,6 +231,25 @@ jobs:
           path: ci-arknet
       - uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+      - name: Prepare vcpkg binary cache
+        id: vcpkg-cache
+        env:
+          VCPKG_CACHE_REVISION: 0699a19d0c6386247ce50d4dedbb8217d484d536
+          VCPKG_CACHE_FEATURES: ${{ matrix.features }}
+          VCPKG_CACHE_DEFAULT_FEATURES: 'false'
+          VCPKG_CACHE_PROFILE: database-${{ matrix.asio }}
+        run: node .github/scripts/vcpkg-cache.mjs
+      - name: Restore vcpkg package archives
+        id: vcpkg-restore
+        if: steps.vcpkg-cache.outputs.enabled == 'true'
+        continue-on-error: true
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ steps.vcpkg-cache.outputs.directory }}
+          key: ${{ steps.vcpkg-cache.outputs.key }}
       - uses: lukka/get-cmake@latest
       - uses: lukka/run-vcpkg@v11
         with:
@@ -208,6 +279,13 @@ jobs:
         run: cmake --build ci-database --target check-database
       - name: Run local database benchmark self-tests
         run: cmake --build ci-database --target check-database-benchmark
+      - name: Save vcpkg package archives
+        if: ${{ success() && steps.vcpkg-cache.outputs.enabled == 'true' && steps.vcpkg-restore.outputs.cache-hit != 'true' }}
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ steps.vcpkg-cache.outputs.directory }}
+          key: ${{ steps.vcpkg-cache.outputs.key }}
   required:
     name: CI - required
     if: always()
