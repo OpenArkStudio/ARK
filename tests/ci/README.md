@@ -21,7 +21,9 @@ The vcpkg cache tests cover Windows/Unix archive paths, dependency and runner-im
 key changes, provider exports, unavailable storage and explicit cold-build fallbacks.
 The C++ CI jobs restore only local package archives through Actions cache; vcpkg
 still validates each package ABI. A cache miss/service failure runs the ordinary
-dependency build and tests. Archives are saved only after the job's tests succeed.
+dependency build and tests. Archives are saved after successful CMake configuration,
+before compiling and testing ark; later build or test failures still fail the job.
+Workflow checks cover this order and retain fatal configure/build/test steps.
 Missing runner-image identity or unsupported archive paths disable persistence and
 export `VCPKG_BINARY_SOURCES=clear`, which prevents run-vcpkg's removed `x-gha`
 default from being selected. Missing GitHub file-command channels fail explicitly.
