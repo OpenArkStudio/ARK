@@ -1,0 +1,41 @@
+{
+  "name": "ark-docs",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "prepare:content": "node scripts/prepare-content.mjs",
+    "dev": "npm run prepare:content && astro dev",
+    "build": "npm run prepare:content && astro build && node scripts/redirects.mjs",
+    "preview": "astro preview",
+    "typecheck": "npm run prepare:content && astro check",
+    "check": "node --test scripts/content.test.mjs && npm run typecheck && npm run build && node scripts/check-site.mjs",
+    "lint:docs": "nimbus-docs lint",
+    "lint:docs:fix": "nimbus-docs lint --fix"
+  },
+  "dependencies": {
+    "@cloudflare/nimbus-docs": "0.17.0",
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
+    "@iconify-json/ph": "^1.2.0",
+    "astro": "7.3.1",
+    "astro-og-canvas": "^0.13.0",
+    "canvaskit-wasm": "^0.41.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.5.0",
+    "unified": "^11.0.5",
+    "remark-parse": "^11.0.0"
+  },
+  "devDependencies": {
+    "parse5": "^8.0.0",
+    "@astrojs/check": "^0.9.8",
+    "@astrojs/language-server": "2.16.13",
+    "@tailwindcss/vite": "^4.1.4",
+    "pagefind": "^1.5.2",
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5.8.3"
+  }
+}

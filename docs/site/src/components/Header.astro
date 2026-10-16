@@ -1,0 +1,122 @@
+---
+import type { SidebarSection } from "@cloudflare/nimbus-docs/types";
+import Icon from "@cloudflare/nimbus-docs/components/Icon.astro";
+import { Button } from "./ui/button";
+import { LinkButton } from "./ui/link-button";
+import { ThemeToggle } from "./ui/theme-toggle";
+import SearchTrigger from "./ui/search/SearchTrigger.astro";
+import { getUiLabels } from "@/lib/ui-labels";
+import { config } from "virtual:nimbus/config";
+import { withBase } from "@cloudflare/nimbus-docs/runtime";
+
+interface Props {
+  /** Astro collection id for the current page, forwarded from DocsLayout. */
+  collection?: string;
+  /** Astro entry id for the current page, forwarded from DocsLayout. */
+  entryId?: string;
+  /**
+   * Whether the page has a sidebar to open. When `false`, the mobile
+   * menu button is hidden — pages that opted out via `sidebar: false`
+   * shouldn't show a button that opens an empty dialog. Default `true`.
+   */
+  showSidebar?: boolean;
+  sections?: SidebarSection[];
+}
+
+const { collection, entryId, showSidebar = true, sections: sectionsProp } = Astro.props;
+const chinese = collection === "zh";
+const locale = chinese ? "zh-CN" : "en";
+const labels = getUiLabels(locale);
+const pageSlug = (entryId ?? "").replace(/(?:^|\/)index$/, "").replace(/\/$/, "");
+const englishHref = withBase("/" + pageSlug, import.meta.env.BASE_URL);
+const chineseHref = withBase("/zh/" + pageSlug, import.meta.env.BASE_URL);
+
+// Normalize trailing slash so isActive matches sidebar hrefs.
+const sections =
+  sectionsProp ?? [];
+const showSections = sections.length >= 2;
+const homeHref = withBase(chinese ? "/zh/" : "/", import.meta.env.BASE_URL);
+const resolveSectionHref = (href: string): string =>
+  withBase(href, import.meta.env.BASE_URL);
+---
+
+<header class="sticky top-0 z-30 border-b border-border bg-card/80 backdrop-blur-lg">
+  <div class="mx-auto flex items-center justify-between gap-3 h-14 px-4 lg:px-6">
+    <div class="flex items-center gap-3 min-w-0">
+      <slot name="brand">
+        <a href={homeHref} class="group shrink-0">
+          <span class="font-semibold text-sm text-foreground group-hover:text-primary transition-colors">
+            {config.title}
+          </span>
+        </a>
+      </slot>
+
+      {showSections && (
+        <nav aria-label="Sections" class="hidden md:flex items-center gap-1 ml-4 pl-4 border-l border-border h-6 min-w-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {sections.map((section) => (
+            <a
+              href={resolveSectionHref(section.href)}
+              aria-current={section.isActive ? "page" : undefined}
+              class:list={[
+                "px-2 py-1 rounded-md text-[0.8125rem] font-medium no-underline transition-colors shrink-0 whitespace-nowrap",
+                section.isActive
+                  ? "text-foreground bg-accent"
+                  : "text-muted-foreground hover:text-foreground hover:bg-accent/60",
+              ]}
+            >
+              {section.label}
+            </a>
+          ))}
+        </nav>
+      )}
+    </div>
+
+    <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+      <slot name="actions" />
+      <select
+        data-language-switch
+        aria-label={chinese ? "文档语言" : "Documentation language"}
+        class="h-8 max-w-28 rounded-sm border border-border bg-background px-2 text-sm text-foreground"
+      >
+        <option value={englishHref} selected={!chinese}>English</option>
+        <option value={chineseHref} selected={chinese}>简体中文</option>
+      </select>
+      {config.search !== false && <SearchTrigger locale={locale} />}
+      {config.github && (
+        <LinkButton
+          href={config.github}
+          variant="minimal"
+          shape="square"
+          size="sm"
+          aria-label="GitHub"
+          target="_blank"
+          rel="noopener"
+          class="hidden sm:inline-flex text-muted-foreground"
+        >
+          <Icon name="ph:github-logo" class="w-4 h-4" />
+        </LinkButton>
+      )}
+      <ThemeToggle locale={locale} />
+      {showSidebar && (
+        <Button
+          variant="ghost"
+          shape="square"
+          size="sm"
+          icon="ph:list"
+          aria-label={labels.openNavigation}
+          data-menu-btn
+          class="md:hidden text-muted-foreground"
+        />
+      )}
+    </div>
+  </div>
+</header>
+
+<script>
+  document.addEventListener("change", (event) => {
+    const select = event.target;
+    if (select instanceof HTMLSelectElement && select.matches("[data-language-switch]")) {
+      window.location.assign(select.value);
+    }
+  });
+</script>
