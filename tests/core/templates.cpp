@@ -1,4 +1,6 @@
 // Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
+#include <cstdint>
+#include <limits>
 #include <string>
 #include <type_traits>
 
@@ -33,4 +35,22 @@ DOCTEST_TEST_CASE("Core conversion templates preserve supported values and error
 DOCTEST_TEST_CASE("Plugin-manager typed lookup exposes the requested module type") {
     static_assert(std::is_same_v<decltype(ark::plugin_manager::instance()->find_module<ark::module>()), ark::module*>);
     DOCTEST_REQUIRE(ark::plugin_manager::instance() != nullptr);
+}
+
+DOCTEST_TEST_CASE("Unsigned 32-bit conversion preserves decimal boundaries and accepted prefixes") {
+    struct conversion_case
+    {
+        const char* text;
+        std::uint32_t expected;
+    };
+
+    const conversion_case cases[] = {{"0", 0u}, {"2147483647", 2147483647u}, {"2147483648", 2147483648u},
+        {"4045620583", 4045620583u}, {"4294967295", std::numeric_limits<std::uint32_t>::max()}, {" \t+42suffix", 42u},
+        {"-1", std::numeric_limits<std::uint32_t>::max()}};
+    for (const auto& value : cases)
+    {
+        DOCTEST_CAPTURE(value.text);
+        DOCTEST_CHECK(lexical_cast<std::uint32_t>(std::string(value.text)) == value.expected);
+        DOCTEST_CHECK(lexical_cast<std::uint32_t>(value.text) == value.expected);
+    }
 }

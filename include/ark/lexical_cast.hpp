@@ -80,11 +80,11 @@ template<typename from_type>
 struct value_converter<uint32_t, from_type>
 {
     static uint32_t convert(const string& from) {
-        return std::atoi(from.c_str());
+        return static_cast<uint32_t>(std::strtoul(from.c_str(), nullptr, 10));
     }
 
     static uint32_t convert(const char* from) {
-        return std::atoi(from);
+        return static_cast<uint32_t>(std::strtoul(from, nullptr, 10));
     }
 };
 

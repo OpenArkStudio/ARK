@@ -28,7 +28,7 @@ add_custom_target(check-app-shutdown
 add_dependencies(check-core check-app-shutdown)
 
 if(ARK_BUILD_PROTO)
-    add_executable(ark_kernel_initialization_tests main.cpp module_initialization.cpp
+    add_executable(ark_kernel_initialization_tests main.cpp module_initialization.cpp entity_config_copy.cpp
         ../../plugins/kernel/src/class_call_back_manager.cpp
         ../../plugins/kernel/src/class_meta.cpp
         ../../plugins/kernel/src/class_meta_module_impl.cpp
