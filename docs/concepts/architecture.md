@@ -28,7 +28,7 @@ ark::timer_module* find_timers(ark::plugin_manager& manager) {
 }
 ```
 
-The returned pointer is borrowed. Check for null and keep the owning plugin loaded while using it. Lookup uses the registered module type; a header include or CMake dependency does not install a runtime module. See [create a module](../guides/modules.md) and [create a plugin](../guides/plugins.md).
+The returned pointer is borrowed; keep the owning plugin loaded while using it. A missing module triggers an assertion when assertions are enabled, and returns null when they are disabled, so typed lookup is for a required, registered dependency rather than optional-service probing. A header include or CMake dependency does not install a runtime module. See [create a module](../guides/modules.md) and [create a plugin](../guides/plugins.md).
 
 ## Lifecycle and execution
 

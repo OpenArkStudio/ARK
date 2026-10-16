@@ -28,7 +28,7 @@ ark::timer_module* find_timers(ark::plugin_manager& manager) {
 }
 ```
 
-返回值是借用指针。使用前检查是否为空，并在使用期间保持所属插件已加载。查找依据注册的模块类型；包含头文件或添加 CMake 依赖不会在运行时安装模块。详见[创建模块](../guides/modules_CN.md)与[创建插件](../guides/plugins_CN.md)。
+返回值是借用指针，使用期间应保持所属插件已加载。模块缺失时，启用断言的构建会触发断言，关闭断言后才返回空指针；因此类型查找用于获取已注册的必需依赖，不适合探测可选服务。包含头文件或添加 CMake 依赖不会在运行时安装模块。详见[创建模块](../guides/modules_CN.md)与[创建插件](../guides/plugins_CN.md)。
 
 ## 生命周期与执行
 
