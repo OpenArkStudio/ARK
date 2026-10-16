@@ -1,97 +1,95 @@
-简体中文 | [English](./README.md)
+<p align="right">简体中文 · <a href="README.md">English</a></p>
 
-<p align="right">当前版本: <strong>v1.0.0</strong></p>
-<p align="center"><img src="https://raw.githubusercontent.com/OpenArkStudio/ark/gh-pages/_images/ark_logo.svg?sanitize=true" alt="ark" width="300"/></p>
-ARK 是一个使用C++开发的轻量级,敏捷型,弹性的,分布式的插件开发框架, 让你更快更简单的开发服务端应用. 部分思路来自UE4和Ogre.(当前主要用在游戏领域)
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/ark-wordmark-dark.svg">
+    <img src="docs/assets/ark-wordmark-light.svg" alt="ark" width="320" height="144">
+  </picture>
+</p>
 
----
+<h3 align="center">使用 C++20 构建模块化服务端应用的框架。</h3>
 
-![GitHub release](https://img.shields.io/github/release/OpenArkStudio/ark.svg?style=flat-square)
-![GitHub pre-release](https://img.shields.io/github/release-pre/OpenArkStudio/ark.svg?label=pre-release&style=flat-square)
-[![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows,%20MacOSX-green.svg?style=flat-square)](https://github.com/OpenArkStudio/ark)
-[![C++20](https://img.shields.io/badge/C++-20-4c7e9f.svg?style=flat-square)](https://github.com/OpenArkStudio/ark)
-[![License](https://img.shields.io/github/license/OpenArkStudio/ark.svg?colorB=f48041&style=flat-square)](https://opensource.org/licenses/Apache-2.0)
-![GitHub stars](https://img.shields.io/github/stars/OpenArkStudio/ark.svg?style=flat-square&label=Stars&style=flat-square)
-![GitHub issues](https://img.shields.io/github/issues-raw/OpenArkStudio/ark.svg?style=flat-square)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/OpenArkStudio/ark.svg?style=flat-square)<br>
-[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=ark&metric=alert_status)](https://sonarcloud.io/dashboard/index/ark)
-[![codecov](https://codecov.io/gh/OpenArkStudio/ark/branch/main/graph/badge.svg)](https://codecov.io/gh/OpenArkStudio/ark)
-[![QQ Group](https://img.shields.io/badge/Chat%20on-QQ%20Group-orange.svg?longCache=true&style=flat-square)](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
-[![Discord](https://img.shields.io/discord/471890201124536320.svg?label=Discord&style=flat-square)](https://discord.gg/GmyBbcv)
-[![996.icu](https://img.shields.io/badge/Link-996.icu-red.svg?&style=flat-square)](https://996.icu)
+<p align="center">组织业务服务，描述实体数据，连接应用进程。</p>
 
-</center>
+<p align="center">
+  <a href="https://github.com/OpenArkStudio/ark/actions/workflows/ci.yml"><img src="https://github.com/OpenArkStudio/ark/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
+  <a href="CMakeLists.txt"><img src="https://img.shields.io/badge/C%2B%2B-20-5267df" alt="C++20"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-5267df" alt="Apache-2.0"></a>
+</p>
 
-**Copyright © [OpenArkStudio](https://github.com/OpenArkStudio "OpenArkStudio")**  
-官网: https://openarkstudio.github.io/ARK
-GitHub: https://github.com/OpenArkStudio/ark<br>
-码云: https://gitee.com/OpenArkStudio/ark<br>
-QQ 群: [点击加群](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)  
-Discord: [Join Us](https://discord.gg/GmyBbcv)
-
-[![CI](https://github.com/OpenArkStudio/ark/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/OpenArkStudio/ark/actions/workflows/ci.yml)
-
-开发以受保护的 `main` 分支为准。变更通过 PR 提交，CI 通过后使用 squash 合并，
-提交标题使用英文。具体要求见[贡献指南](.github/CONTRIBUTING.md)。
-
-## 特性
-
-- 灵活的由应用、插件、模块组成
-- 通用抽象的数据系统
-- 面向接口和面向数据编程
-- 事件驱动和数据驱动
-- 数据和过程追踪
-- 面向策划人员友好，使用 Excel 作为配置文件
-- 较低的学习和培训成本
-- 基于标准 C++开发，更容易学习和使用
-- 跨平台(Windows, Linux, MacOS)
-- 高可用的系统架构
-- 高并发和高性能的网络模块
-- 配套的 U3D 客户端
-- 丰富的插件(DB, script, HTTP, WebSocket 等)
-- 提供商业定制服务
-
-## 文档
-
-请访问文档页面: [文档](https://openarkstudio.github.io/ARK)
-
-ARK 使用 C++20，通过独立的 [arknet](https://github.com/OpenArkStudio/arknet)
-实现 TCP、WebSocket、HTTP 和 RDP。构建步骤和正式网络测试见
-[网络构建与回归测试](docs/networking_CN.md)。
-
-## Unity3D 客户端
-
-[Unity3D 客户端](https://github.com/OpenArkStudio/ArkClient-Unity3D)
-
-## 开源协议
-
-ARK 项目当前使用 [Apache License](LICENSE)。
-
-## 捐赠
-
-如有捐赠意向，欢迎入群讨论并捐赠本项目，非常感谢你的付出. 捐赠的收益将会用在网站服务器和部分资源的购买上.
-
-<img src="https://ww1.sinaimg.cn/large/68d69121gy1g24nbkglxqj20yi1au0xm.jpg" alt="donate by wechat" width="200px"/><img src="https://ws1.sinaimg.cn/mw690/68d69121gy1g24ncojoabj20go0p0mzq.jpg" alt="donate by alipay" width="200px"/>
-
-## 核心开发人员
-
-- [Nick Yang](https://github.com/NickYang1988)
-- [flyicegood](https://github.com/flyicegood)
-- [loscaz](https://github.com/loscaz)
+<p align="center"><a href="docs/get-started/installation_CN.md"><strong>开始使用 →</strong></a> &nbsp; · &nbsp; <a href="https://openarkstudio.github.io/ark/zh/">文档</a> &nbsp; · &nbsp; <a href="examples/">示例</a> &nbsp; · &nbsp; <a href="docs/project/roadmap_CN.md">开发规划</a></p>
 
 ---
 
-我们开源团队长期致力于敏捷开发, 并且一直帮助不同的团队降低开发后台应用的难度. 经过多年的积累和开发, 我们开放了该框架并将会持续维护改进该项目.
+ark 为 C++ 服务提供应用组织方式：插件组合、模块生命周期、实体数据及进程通信。适用于游戏服务端及其他模块化服务端应用，支持 Linux、macOS 和 Windows。核心与官方插件放在本仓库，业务插件放在所属应用仓库。
+
+## 围绕业务组织服务
+
+| 组织服务 | 描述数据 | 连接进程 |
+| :--- | :--- | :--- |
+| **插件与模块** | **实体数据** | **进程通信** |
+| 通过接口注册服务，参与初始化、更新和关闭流程。 | 通过元数据描述属性、表格和容器，支持配置默认值及变更回调。 | 通过 [arknet](https://github.com/OpenArkStudio/arknet) 使用 TCP、WebSocket、HTTP 和 RUDP，并提供总线标识及消息路由。 |
+
+通过 Protobuf 消息、Excel 配置生成、独立 C++ 回归测试和可选基准程序支持开发与验证。
+
+## 用 C++ 类实现模块
+
+按需覆盖服务所需的生命周期方法。这个模块记录应用更新次数，由插件将其注册到管理器。
+
+```cpp
+#include <cstddef>
+
+#include <ark/module.hpp>
+#include <ark/plugin_manager.hpp>
+
+namespace ark {
+
+class sample_module final : public module
+{
+    ARK_DECLARE_MODULE_FUNCTIONS
+
+public:
+    bool update() override {
+        ++update_count_;
+        return true;
+    }
+
+private:
+    std::size_t update_count_ = 0;
+};
+
+} // namespace ark
+```
+
+继续了解[模块生命周期与接口](docs/guides/modules_CN.md)和[插件注册](docs/guides/plugins_CN.md)。
+
+## 从示例开始
+
+构建示例应用需要支持 C++20 的编译器、CMake 3.21 或更新版本，以及 vcpkg。[安装指南](docs/get-started/installation_CN.md)提供依赖与各平台的构建命令。Windows 需要 Visual Studio 2022 或更新版本。
+
+完成构建并准备运行目录后，在 `build/` 下启动 `sample1`：
+
+```sh
+./bin/app --busid=1.0.1.1 --name=sample1 --app_conf=conf/sample1.app.conf
+```
+
+| 下一步 | 指南 |
+| :--- | :--- |
+| 运行示例应用 | [快速开始](docs/get-started/quick-start_CN.md) |
+| 了解框架设计 | [架构](docs/concepts/architecture_CN.md) · [实体数据](docs/reference/kernel_CN.md) |
+| 连接应用进程 | [网络接口](docs/reference/network_CN.md) · [消息总线](docs/reference/bus_CN.md) |
+| 复现验证结果 | [测试](docs/networking_CN.md) · [数据库基准测试](docs/performance/database-coroutines_CN.md) |
+
+通过 [vcpkg](vcpkg.json) 和 [Git 子模块](.gitmodules)管理依赖，arknet 的提交版本固定在 [CMakeLists.txt](CMakeLists.txt) 中。
+
+## 参与贡献
+
+欢迎报告问题、讨论设计及提交 PR。编码规范、测试和受保护分支的提交流程见[贡献指南](.github/CONTRIBUTING.md)。可通过 [GitHub Issues](https://github.com/OpenArkStudio/ark/issues) 和 [Discord](https://discord.gg/GmyBbcv) 交流。
+
+感谢 [Nick Yang](https://github.com/NickYang1988)、[flyicegood](https://github.com/flyicegood)、[loscaz](https://github.com/loscaz) 及所有[贡献者](https://github.com/OpenArkStudio/ark/graphs/contributors)。
+
+[Unity 客户端](https://github.com/OpenArkStudio/ArkClient-Unity3D) · 可通过 [PayPal](https://www.paypal.me/nickyang4self) 或 [Patreon](https://www.patreon.com/bePatron?u=19279478) 支持开发。
 
 ---
 
-## Star 趋势图
-
-[![Stargazers over time](https://starchart.cc/OpenArkStudio/ark.svg)](https://starchart.cc/OpenArkStudio/ark)
-
-#### 一些很赞的项目
-
-[PSS](https://github.com/freeeyes/PSS)
-
-- 作者: freeeyes
-- 描述: 基于插件的跨平台网络服务器框架
+[Apache-2.0](LICENSE) · 版权所有 OpenArkStudio。
