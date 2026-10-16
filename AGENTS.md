@@ -65,8 +65,12 @@ branch or worktree when the existing checkout contains uncommitted changes.
 - CI policy tests: `node --test tests/ci/*.test.mjs`. Nimbus documentation:
   `npm ci --prefix docs/site` followed by `npm run check --prefix docs/site`.
 - Keep official plugins in the ark repository and application business plugins
-  in application repositories. Do not expand the paused hot-update design
-  without discussing its lifecycle and compatibility boundaries.
+  in application repositories. The approved layout has one public header root,
+  `include/ark/`, with implementation under `src/core/` and
+  `src/plugins/<name>/`; retain independent plugin targets and optional builds.
+  Verify migration status against accepted source before describing new paths
+  as available. Do not expand the paused hot-update design without discussing
+  its lifecycle and compatibility boundaries.
 
 ## Documentation and releases
 
