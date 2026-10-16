@@ -9,6 +9,14 @@
 #include <ark/lexical_cast.hpp>
 #include <ark/plugin_manager.hpp>
 
+DOCTEST_TEST_CASE("application manifest paths accept TOML and retain legacy XML suffixes") {
+    ark::plugin_manager manager;
+    manager.set_app_conf("conf/sample1.app.toml");
+    DOCTEST_CHECK(manager.get_app_conf() == "conf/sample1.app.toml");
+    manager.set_app_conf("conf/sample1.app.conf");
+    DOCTEST_CHECK(manager.get_app_conf() == "conf/sample1.app.conf");
+}
+
 namespace {
 
 template<typename type>
@@ -52,5 +60,25 @@ DOCTEST_TEST_CASE("Unsigned 32-bit conversion preserves decimal boundaries and a
         DOCTEST_CAPTURE(value.text);
         DOCTEST_CHECK(lexical_cast<std::uint32_t>(std::string(value.text)) == value.expected);
         DOCTEST_CHECK(lexical_cast<std::uint32_t>(value.text) == value.expected);
+    }
+}
+
+DOCTEST_TEST_CASE("Unsigned 64-bit conversion preserves decimal boundaries and accepted prefixes") {
+    struct conversion_case
+    {
+        const char* text;
+        std::uint64_t expected;
+    };
+
+    const conversion_case cases[] = {{"0", 0ULL}, {"4294967295", 4294967295ULL},
+        {"9223372036854775807", 9223372036854775807ULL}, {"9223372036854775808", 9223372036854775808ULL},
+        {"18446744073709551614", 18446744073709551614ULL},
+        {"18446744073709551615", std::numeric_limits<std::uint64_t>::max()}, {" \t+42suffix", 42ULL},
+        {"-1", std::numeric_limits<std::uint64_t>::max()}};
+    for (const auto& value : cases)
+    {
+        DOCTEST_CAPTURE(std::string(value.text));
+        DOCTEST_CHECK(lexical_cast<std::uint64_t>(std::string(value.text)) == value.expected);
+        DOCTEST_CHECK(lexical_cast<std::uint64_t>(value.text) == value.expected);
     }
 }

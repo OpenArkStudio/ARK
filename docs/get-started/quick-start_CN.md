@@ -1,41 +1,80 @@
 # 快速开始
 
-先按[安装与构建](installation_CN.md)编译 C++20 应用和示例插件。`git clone https://github.com/OpenArkStudio/ark.git` 创建的源码目录名为 `ark`。
+运行 Sample1，确认应用能够加载插件并进入模块生命周期。它只使用 `AFUtilityPlugin` 和 `Sample1Plugin`，不需要 Consul、数据库服务或 Excel 配置生成步骤。
 
-## 运行示例应用
+## 编译应用和插件
 
-在仓库根目录执行下面的命令，将选定构建的二进制文件复制到运行目录，再进入 `build/`，确保相对配置路径能够正确解析。上文的 Release 构建在 macOS 或 Linux 上使用：
+先完成[安装与构建](installation_CN.md)。以下命令在仓库根目录执行，使用该文档中的 Release 输出目录 `app-build/bin/`。程序和插件文件应来自同一次构建。
+
+## 准备运行目录
+
+创建独立运行目录，放入程序、应用配置和日志配置，使运行文件与源码配置分开。
+
+macOS/Linux：
 
 ```sh
-mkdir -p build/bin
-cp -R app-build/bin/. build/bin/
-cd build
-./bin/app --busid=1.0.1.1 --name=sample1 --app_conf=conf/sample1.app.conf
+mkdir -p run/sample1/bin run/sample1/conf
+cp -R app-build/bin/. run/sample1/bin/
+cp build/conf/sample1.app.conf build/conf/log.conf run/sample1/conf/
 ```
 
-Windows 使用：
+Windows PowerShell：
 
 ```powershell
-New-Item -ItemType Directory -Path build/bin -Force | Out-Null
-Copy-Item app-build/bin/* build/bin/ -Recurse -Force
-cd build
-.\bin\app.exe --busid=1.0.1.1 --name=sample1 --app_conf=conf/sample1.app.conf
+New-Item -ItemType Directory -Path run/sample1/bin, run/sample1/conf -Force | Out-Null
+Copy-Item app-build/bin/* run/sample1/bin/ -Recurse -Force
+Copy-Item build/conf/sample1.app.conf, build/conf/log.conf run/sample1/conf/
 ```
 
-Debug 构建的程序名为 `app_d` 或 `app_d.exe`。[示例配置](https://github.com/OpenArkStudio/ark/blob/main/build/conf/sample1.app.conf)决定加载哪些插件；对应插件文件需要与应用来自同一次构建，并复制到运行目录的 `build/bin/`。命令行参数见[应用启动器](../guides/applications_CN.md)，示例实现见[创建插件](../guides/plugins_CN.md)。
+运行所需的文件如下：
 
-## 配置与服务发现
+```text
+run/sample1/
+├── bin/       同一次构建的 app、AFUtilityPlugin 和 Sample1Plugin
+└── conf/
+    ├── sample1.app.conf
+    └── log.conf
+```
 
-- 仓库内的配置位于 `build/conf/`，数据资源位于 `build/resource/`。
-- Excel 配置生成器是独立工具，其 Python、openpyxl 依赖和生成文件见[配置工具](../guides/tools_CN.md)。
-- 使用 Consul 插件的部署需要自行准备 Consul 服务和匹配的应用配置。其他插件组合不一定需要 Consul。
+复制命令还会带入同次构建的其他产物，但 `sample1.app.conf` 只选择上述两个动态库。此示例不需要单独的 `sample1.conf` 或 `resource/` 目录。
 
-<Aside type="caution" title="运行部署脚本前先核对配置">
+## 启动 Sample1
 
-现有部分多进程启动脚本仍沿用旧目录布局和服务设置。运行前先核对程序名、插件路径、端口和所选应用配置。
+进入 `run/sample1/` 后启动。应用配置中的 `bin/` 和 `conf/` 都相对于这个工作目录。
+
+macOS/Linux：
+
+```sh
+cd run/sample1
+./bin/app --busid=1.0.1.1 --name=sample1 \
+  --app_conf=conf/sample1.app.conf --log_conf=conf/log.conf
+```
+
+Windows：
+
+```powershell
+cd run/sample1
+.\bin\app.exe --busid=1.0.1.1 --name=sample1 `
+  --app_conf=conf/sample1.app.conf --log_conf=conf/log.conf
+```
+
+Debug 程序名为 `app_d` 或 `app_d.exe`，插件文件在平台后缀前带有 `_d`。将整套 Debug 产物放入独立运行目录，XML 中的插件名称保持不变。
+
+## 确认运行结果
+
+控制台应出现包含 `sample1_module` 和 `PostInit` 的日志。示例注册的定时器每十秒输出一次 `timer log`，共五次。附带的日志配置还会在运行目录的 `binlog/` 下写入文件。
+
+macOS/Linux 使用 Ctrl+C 停止，Windows 在应用控制台输入 `exit`。Sample1 应依次输出 `PreShut`、`Shut`。
+
+<Aside type="caution" title="检查初始化结果，不只检查退出码">
+
+当前启动器没有汇总启动成功与否的退出码约定。如果没有出现目标模块日志，按[应用启动器](../guides/applications_CN.md#排查启动问题)中的步骤检查配置和动态库错误。
 
 </Aside>
 
-## 单独验证网络功能
+## 接入自己的应用
 
-[网络回归测试](../networking_CN.md)使用可编译运行的 C++ 程序，不需要 Python 或 Excel 配置生成器。
+- [创建模块](../guides/modules_CN.md)和[创建插件](../guides/plugins_CN.md)说明如何注册功能。
+- [应用启动器](../guides/applications_CN.md)说明 Bus 标识、插件选择和配置路径。使用 Kernel 数据的应用还需要生成的 `resource/` 文件。
+- [配置工具](../guides/tools_CN.md)提供独立的 Excel 资源导出流程，其 Python 依赖不属于本示例或 C++ 网络测试的运行要求。
+- [网络回归测试](../networking_CN.md)可独立验证网络行为。选择 Consul 或数据库插件的应用需要另外准备对应服务和配置。

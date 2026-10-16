@@ -14,6 +14,14 @@ add_custom_target(check-core
     DEPENDS ark_core_tests
     USES_TERMINAL)
 
+add_executable(ark_logging_tests main.cpp logging_paths.cpp)
+target_link_libraries(ark_logging_tests PRIVATE ark::core)
+add_custom_target(check-logging
+    COMMAND $<TARGET_FILE:ark_logging_tests>
+    DEPENDS ark_logging_tests
+    USES_TERMINAL)
+add_dependencies(check-core check-logging)
+
 find_package(Threads REQUIRED)
 add_executable(ark_app_shutdown_tests ../app/shutdown_request.cpp)
 target_compile_features(ark_app_shutdown_tests PRIVATE cxx_std_20)
@@ -35,6 +43,29 @@ add_custom_target(check-xml
     DEPENDS ark_xml_tests
     USES_TERMINAL)
 add_dependencies(check-core check-xml)
+
+if(ARK_BUILD_CONFIG)
+    add_executable(ark_application_manifest_tests main.cpp application_manifest.cpp)
+    # This configuration-only consumer deliberately excludes the inherited network SDK.
+    set_property(TARGET ark_application_manifest_tests PROPERTY LINK_LIBRARIES ark::config)
+    target_compile_definitions(ark_application_manifest_tests PRIVATE ARK_TEST_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+    add_custom_target(check-application-manifest
+        COMMAND $<TARGET_FILE:ark_application_manifest_tests>
+        DEPENDS ark_application_manifest_tests
+        USES_TERMINAL)
+    add_dependencies(check-core check-application-manifest)
+
+    if(TARGET app)
+        add_custom_target(check-app-manifest-failures
+            COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:app>"
+                "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"
+                "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/manifest failure runtime"
+                -P "${PROJECT_SOURCE_DIR}/tests/app/manifest_failures.cmake"
+            DEPENDS app
+            USES_TERMINAL)
+        add_dependencies(check-core check-app-manifest-failures)
+    endif()
+endif()
 
 if(ARK_BUILD_PROTO)
     add_executable(ark_kernel_initialization_tests main.cpp module_initialization.cpp entity_config_copy.cpp

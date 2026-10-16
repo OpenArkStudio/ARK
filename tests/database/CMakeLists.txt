@@ -39,6 +39,20 @@ add_custom_target(check-database
     USES_TERMINAL)
 
 if(ARKNET_ENABLE_SSL)
+    set(ark_database_redis_cert_dir "${ARKNET_SOURCE_DIR}/tests/certs")
+    foreach(certificate ca.pem server.pem server-key.pem wrong.pem ipv6/ca.pem)
+        if(NOT EXISTS "${ark_database_redis_cert_dir}/${certificate}")
+            message(FATAL_ERROR "Redis TLS regression requires arknet public test fixtures: ${certificate}")
+        endif()
+    endforeach()
+    ark_database_test(ark_database_redis_tls_tests main.cpp redis_service_tls.cpp)
+    target_link_libraries(ark_database_redis_tls_tests PRIVATE arknet::arknet)
+    target_compile_definitions(ark_database_redis_tls_tests PRIVATE
+        ARK_DATABASE_REDIS_CERT_DIR="${ark_database_redis_cert_dir}")
+    add_custom_target(check-database-redis-tls
+        COMMAND $<TARGET_FILE:ark_database_redis_tls_tests>
+        DEPENDS ark_database_redis_tls_tests USES_TERMINAL)
+    add_dependencies(check-database check-database-redis-tls)
     if(NOT EXISTS "${ARKNET_SOURCE_DIR}/include/arknet/mysql/pool.hpp")
         message(FATAL_ERROR "MySQL development tests require a local arknet checkout with the native MySQL pool")
     endif()
