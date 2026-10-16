@@ -20,7 +20,7 @@
 #include <arknet/redis/pool.hpp>
 
 #include "detail/database_awaitable.hpp"
-#include "redis/src/detail/redis_service.hpp"
+#include "redis/detail/redis_service.hpp"
 
 namespace {
 

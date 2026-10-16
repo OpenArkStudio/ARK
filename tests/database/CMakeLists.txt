@@ -6,7 +6,7 @@ endif()
 
 function(ark_database_test target)
     add_executable(${target} ${ARGN})
-    target_include_directories(${target} PRIVATE "${ROOT_DIR}/plugins")
+    target_include_directories(${target} PRIVATE "${ROOT_DIR}/src/plugins")
     target_link_libraries(${target} PRIVATE Threads::Threads)
     set_target_properties(${target} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
     foreach(config DEBUG RELEASE RELWITHDEBINFO MINSIZEREL)

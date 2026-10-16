@@ -177,7 +177,7 @@ TODO：提供独立的双进程示例与测试，覆盖连接建立、消息往�
 ## API 来源
 
 - [Bus 地址与进程配置](https://github.com/OpenArkStudio/ark/blob/main/include/ark/bus.hpp)
-- [Bus 接口](https://github.com/OpenArkStudio/ark/blob/main/plugins/bus/include/ark/bus/bus_module.hpp)
-- [消息接口](https://github.com/OpenArkStudio/ark/blob/main/plugins/bus/include/ark/bus/msg_module.hpp)
-- [网络服务管理接口](https://github.com/OpenArkStudio/ark/blob/main/plugins/net/include/ark/net/net_service_manager_module.hpp)
+- [Bus 接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/bus/bus_module.hpp)
+- [消息接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/bus/msg_module.hpp)
+- [网络服务管理接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/net/net_service_manager_module.hpp)
 - [网络构建与测试](../networking_CN.md)

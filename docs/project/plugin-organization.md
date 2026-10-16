@@ -1,34 +1,36 @@
 # Official plugins and repository organization
 
-The project now uses top-level `plugins/<name>/`, public core headers in `include/ark/` and implementations in `src/`. Core and official plugins belong in `ark`; business plugins belong in application repositories; `arknet` remains independent. Hot-update design and implementation are deferred while individual plugin integrations receive their own functional acceptance. The directory and snake_case migration is complete.
+Public core and plugin headers live in `include/ark/`; core build definitions live in `src/core/` and official plugin implementations in `src/plugins/<name>/`. Core and official plugins belong in `ark`; business plugins belong in application repositories; `arknet` remains independent. Hot-update design and implementation are deferred while individual plugin integrations receive their own functional acceptance. The directory and snake_case migration is complete.
 
 ## Existing implementations
 
 | Repository | Related code in ark | Proposed destination | Integration work |
 | --- | --- | --- | --- |
-| [MySQLPlugin](https://github.com/OpenArkStudio/MySQLPlugin) | `plugins/mysql` | `plugins/mysql` | Implement the MySQL client in arknet; integrate configuration, connection services and business callbacks in the plugin |
-| [RedisPlugin](https://github.com/OpenArkStudio/RedisPlugin) | `plugins/redis` | `plugins/redis` | Implement the Redis client in arknet, then replace aredis and bredis calls |
-| [URLPlugin](https://github.com/OpenArkStudio/URLPlugin) | Net HTTP client and HTTP server plugin | `plugins/http` | Compare libcurl requests, encoding and actor integration; unify the HTTP service interface |
-| [LuaScriptPlugin](https://github.com/OpenArkStudio/LuaScriptPlugin) | Integration with the new plugin interface required | `plugins/lua` | Define bindings and script lifecycle; replace old NFComm interface dependencies |
-| [ActorPlugin](https://github.com/OpenArkStudio/ActorPlugin) | Integration with the new plugin interface required | `plugins/actor` | Define task scheduling, message delivery and business-thread responsibilities |
+| [MySQLPlugin](https://github.com/OpenArkStudio/MySQLPlugin) | `src/plugins/mysql` | `src/plugins/mysql` | Implement the MySQL client in arknet; integrate configuration, connection services and business callbacks in the plugin |
+| [RedisPlugin](https://github.com/OpenArkStudio/RedisPlugin) | `src/plugins/redis` | `src/plugins/redis` | Implement the Redis client in arknet, then replace aredis and bredis calls |
+| [URLPlugin](https://github.com/OpenArkStudio/URLPlugin) | Net HTTP client and HTTP server plugin | `src/plugins/http` | Compare libcurl requests, encoding and actor integration; unify the HTTP service interface |
+| [LuaScriptPlugin](https://github.com/OpenArkStudio/LuaScriptPlugin) | Integration with the new plugin interface required | `src/plugins/lua` | Define bindings and script lifecycle; replace old NFComm interface dependencies |
+| [ActorPlugin](https://github.com/OpenArkStudio/ActorPlugin) | Integration with the new plugin interface required | `src/plugins/actor` | Define task scheduling, message delivery and business-thread responsibilities |
 
 These repositories use different generations of interfaces and build systems. Compare features, overlapping implementations and dependencies during integration. MySQL and Redis clients belong in arknet; discuss other plugin dependencies separately.
 
-## Proposed layout
+## Directory layout
 
 ```text
 ark/
-├── include/ark/         # Public core interfaces
-├── src/                 # Core runtime implementation
-├── plugins/             # Official plugins, one directory per plugin
-│   ├── kernel/
-│   ├── net/
-│   ├── bus/
-│   ├── http/
-│   ├── mysql/
-│   ├── redis/
-│   ├── lua/
-│   └── actor/
+├── include/ark/         # Public core and plugin interfaces
+├── src/
+│   ├── core/            # Header-only core target definitions
+│   ├── plugins/         # Official plugin implementations and CMake files
+│   │   ├── kernel/
+│   │   ├── net/
+│   │   ├── bus/
+│   │   ├── http/
+│   │   ├── mysql/
+│   │   └── redis/
+│   ├── app/
+│   ├── proto/
+│   └── server/
 ├── examples/            # Example applications and business plugins
 ├── tests/               # Core and cross-plugin integration tests
 ├── benchmarks/          # Standalone C++ benchmark programs
@@ -37,16 +39,17 @@ ark/
 └── docs/                # English/Chinese documentation and Nimbus site
 ```
 
-This shows the main directories. Existing Consul, etcd, Kafka and other official plugins follow the same convention.
+This shows the main directories. Existing Consul, etcd, Kafka and other official plugins follow the same convention. Lua and Actor integration remains planned; the table above identifies their proposed implementation directories.
 
 Each plugin follows the same package layout, for example:
 
 ```text
-plugins/mysql/
+include/ark/mysql/      # Public interfaces for plugin consumers
+src/plugins/mysql/
 ├── CMakeLists.txt
-├── include/ark/mysql/   # Public interfaces for plugin consumers
-├── src/                 # Plugin entry point, framework integration and private code
-└── tests/               # Plugin-specific tests
+├── detail/             # Private native database bridge
+└── *.cpp               # Plugin entry point and framework integration
+tests/database/         # Database integration and coroutine tests
 ```
 
 Usage documentation belongs in `docs/`, and example applications in `examples/`. Define public interfaces around capabilities; keep database client types within implementation code where possible.

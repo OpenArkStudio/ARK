@@ -9,13 +9,14 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 
 | 路径 | 内容 |
 | --- | --- |
-| `include/ark/` | 核心公开头文件 |
+| `include/ark/` | 核心与插件公开头文件 |
+| `src/core/` | 核心 CMake target 与 header-only 使用要求 |
 | `src/app/` | 应用入口 |
 | `src/proto/` | 协议定义与编解码实现 |
 | `src/server/` | 内置服务端应用 |
-| `plugins/<name>/include/ark/<name>/` | 官方插件公开头文件 |
-| `plugins/<name>/src/` | 插件实现 |
-| `plugins/<name>/tests/` | 插件专属测试，按需提供 |
+| `include/ark/<name>/` | 官方插件公开头文件 |
+| `src/plugins/<name>/` | 插件实现 |
+| `tests/` | 核心、网络与私有数据库回归测试 |
 | `tests/network/` | 网络与日志回归测试 |
 | `tests/consumer/` | 独立使用公开 SDK 的示例项目 |
 | `examples/` | 应用示例 |

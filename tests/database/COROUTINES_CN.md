@@ -4,7 +4,7 @@
 
 这个可选开发原型复用 Asio 的 `awaitable`、`async_initiate` 和 `co_spawn`，
 不新增协程 promise 实现，也不修改已发布的数据库模块接口。
-辅助实现保留在私有目录 `plugins/detail/` 中。
+辅助实现保留在私有目录 `src/plugins/detail/` 中。
 
 ## 执行与所有权
 
