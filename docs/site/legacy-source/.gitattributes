@@ -1,0 +1,2 @@
+# Preserve original document bytes across platforms and Git line-ending settings.
+*.md -text
