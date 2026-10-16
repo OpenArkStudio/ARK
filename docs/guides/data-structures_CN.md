@@ -1,185 +1,85 @@
 # 数据结构与元数据
 
-数据与定义分离的设计仍保留：元数据描述字段名、下标、类型和标志，实体保存引用及其值。当前公开类型位于 `plugins/kernel/include/ark/kernel/`，使用以下 snake_case 名称。配置工具生成 C++ 的流程见[配置工具](tools_CN.md)，协议消息见 [Protobuf](../reference/protobuf_CN.md)。
+单个类型化的值使用节点，结构相同的行使用表格，需要包含子实体时使用容器。三者都属于 Kernel 数据模型，定义与运行时值分别管理。本页使用当前 snake_case 接口，不依赖历史 AF 前缀的实现布局。
 
-| 旧名称 | 当前名称 |
-| --- | --- |
-| `AFNodeMeta` | `node_meta` |
-| `AFTableMeta` | `table_meta` |
-| `AFContainerMeta` | `container_meta` |
-| `AFClassMeta` | `class_meta` |
-| `AFIStaticEntity / AFCStaticEntity` | `static_entity / static_entity_impl` |
-| `AFIEntity / AFCEntity` | `entity / entity_impl` |
-| `AFNodeManager` | `node_manager` |
-| `AFTableManager` | `table_manager` |
-| `AFIContainer / AFCContainer` | `container / container_impl` |
-| `AFITable / AFCTable` | `table / table_impl` |
-| `AFIRow / AFCRow` | `row / row_impl` |
+![实体字段、表格、容器与元数据的关系](../assets/entity-data-model_CN.svg)
 
-下方完整保留旧文章的字段说明、管理器关系和结构图。其 AF 前缀类型及成员布局是历史实现快照；使用当前接口时，应以对应公开头文件为准，不能把这些私有成员布局当作稳定 API。
+## 数据定义
 
-<details>
-<summary>原数据结构设计与字段说明</summary>
+| 定义 | 描述 | 运行时值 |
+| --- | --- | --- |
+| `node_meta` | 字段名、索引、值类型与标记 | `node`，通过 `entity` 或 `row` 访问 |
+| `table_meta` | 表名、索引、行类型与标记 | 包含 `row` 的 `table` |
+| `container_meta` | 容器名、索引、允许的子实体类型与标记 | 保存子实体的 `container` |
+| `class_meta` | 类名、字段索引映射及上述三类定义集合 | `entity` 或配置 `static_entity` |
 
-`ARK` 使用数据和定义分离的策略 数据定义包含名字 其对应的下标 类型和是否存储等特征 数据实体包含一个指向对应定义的指针和具体的值 对象中属性用数据的下标和值的映射存储
+元数据是共享定义，不是某个实体的可变状态。表的行类型定义各列，容器中的实体则有各自的 ID；容器不是表行，也不是无类型字典。根据应用需要的操作与所有权选择结构。
+
+## 访问值前先查定义
+
+元数据模块在初始化时加载定义资源。先确认类与字段存在，再使用与定义类型匹配的访问接口：
+
+```cpp
+#include <cstdint>
+#include <string>
+
+#include "ark/kernel/class_meta_module.hpp"
+
+bool is_int32_field(ark::class_meta_module& schemas, const std::string& class_name, std::uint32_t index) {
+    auto schema = schemas.find_meta(class_name);
+    if (schema == nullptr)
+    {
+        return false;
+    }
+    auto field = schema->find_data_meta(index);
+    return field != nullptr && field->get_type() == ark::data_type::dt_int32;
+}
+```
+
+`entity::get_node_type()` 可以检查运行时字段的定义类型，再使用 `get_int32()` / `set_int32()`、`get_string()` / `set_string()` 或相应类型接口。零值与空字符串都是合法值，不能据此可靠地判断实体或字段是否缺失。
+
+## 操作表格与行
+
+表格来自已经声明的表元数据。下列函数查找或新增一行，并写入已知的 int32 列。调用者提供定义中的索引，函数不会新建定义或根据值猜测列类型。
+
+```cpp
+#include <cstdint>
+
+#include "ark/kernel/entity.hpp"
+#include "ark/kernel/table.hpp"
+
+bool set_row_value(ark::entity& owner, std::uint32_t table_index,
+    std::uint32_t row_index, std::uint32_t column_index, std::int32_t value) {
+    auto* table = owner.find_table(table_index);
+    if (table == nullptr || table->get_col_type(column_index) != ark::data_type::dt_int32)
+    {
+        return false;
+    }
+    auto* row = table->find_row(row_index);
+    if (row == nullptr)
+    {
+        row = table->add_row(row_index);
+    }
+    return row != nullptr && row->set_int32(column_index, value);
+}
+```
+
+`find_table()`、`find_row()` 与 `add_row()` 返回借用指针。调用 `remove_row()`、`clear()` 后不再保留原行指针，所属实体销毁后也不再使用表指针。行 ID 与列索引是不同标识。非零行 ID 指定某一行，`add_row(0)` 则分配行 ID。需要变更通知时，在修改前注册表回调。
+
+## 操作子实体
+
+`entity::find_container(index)` 返回容器对象或空值。使用 `kernel_module::create_container_entity(parent_id, container_index, class_name, config_id)` 创建符合定义的子实体，并检查返回值；父实体、容器定义、类以及可选的同类配置必须存在。
+
+使用 `container::find(slot)` 或按子实体 ID 查找放置位置。`place()`、`swap()` 修改放置关系，`remove()` 与 `destroy()` 是不同操作，需根据应用要移除关系还是销毁实体来选择。保留 `shared_ptr<entity>` 不代表该实体仍在 Kernel 中注册；需要确认存活注册时，应按 ID 再查一次。
+
+## 配置与运行时所有权
+
+`static_entity` 表示已加载的配置记录，`entity` 进一步提供运行时标识、可变节点、表格、容器和事件行为。普通实体创建使用配置作为默认值，并保留显式初始化参数；之后修改实体不会改变原配置记录。详见[数据驱动创建](../concepts/data-driven_CN.md)。
+
+`node_manager`、`table_manager` 与 `container_manager` 管理相应运行时集合。应用通常通过实体、表格和容器公开接口操作，不依赖管理器内部或 `*_impl` 成员布局。借用指针与回调机制也不代表可以从任意线程并发修改对象。
 
 ## 数据配置生成
 
-`ARK` 通过`build/tools`文件夹下的工具`gen-config`把`build/resource/excel`下的文件生成对应的数据定义文件和配置文件 分别放在`build/resource/meta`和`build/resource/server` 并且在`build/resource/code`生成类的属性名和下标的接口
+现有[配置工具](tools_CN.md)生成 XML 元数据、静态值与 C++ 字段索引定义。修改定义时保持三者一致。保存或同步标记仍需要应用决定持久化与交付策略，不会自动完成存储或复制。
 
-### 数据定义
-
-有四个数据定义类
-
-1. `AFNodeMeta` 对象的属性定义
-
-- `name_` 属性名 `string`
-- `type_` 类型 `enum class ArkDataType`
-- `index_` 下标 `uint32`
-- `mask_` 是否存储同步等特性 `std::bitset`
-
-2. `AFTableMeta` 表结构定义
-
-- `name_` 表名 `string`
-- `index_` 下标 `uint32`
-- `type_name_` 表对应的`AFClassMeta` 名称 `string`
-- `class_meta_` 对应的`AFClassMeta` `ARK_SHARE_PTR<AFClassMeta>`
-- `mask_` 是否存储同步等特性 `std::bitset`
-
-3. `AFContainerMeta` 容器定义(用来存放对象 借以实现复杂数据结构)
-
-- `name_` 容器名 `string`
-- `index_` 下标 `uint32`
-- `class_name_` 容器容纳的对象名 `string`
-
-4. `AFClassMeta` 类结构定义
-
-- `name_` 类名 `string`
-- `res_path_` 资源路径 string
-- `name_index_list_` 字段名和下表映射 `map`
-- `data_meta_list_` 属性映射 `map`
-- `table_meta_list_` 表映射 `map`
-- `container_meta_list_` 容器映射 `map`
-- `class_meta_call_back_` 函数回调 `pointer`
-
-### 数据实体
-
-数据实体有两个
-
-1. `AFCStaticEntity` 配置数据实体类 对应接口类`AFIStaticEntity `
-
-- `config_id_` 配置id `int` (因为配置id通用且需频繁访问 所以单独列出以提高访问效率)
-- `m_pNodeManager` 属性管理器 `ARK_SHARE_PTR<AFNodeManager>`
-
-2. `AFCEntity ` 对象实体类 对应接口类`AFIEntity `
-
-- `guid_` 唯一编号 `AFGUID`
-- `config_id_` 配置id `int`
-- `parent_container_` 所属容器指针 `ARK_SHARE_PTR<AFIContainer>`
-- `map_entity_id_` 地图实体id `int`
-- `custom_data_list_` 自定义属性 `hashmap` (可以手动添加和删除属性 无需在文件中先定义好)
-- `m_pNodeManager` 属性管理器 `ARK_SHARE_PTR<AFNodeManager>`
-- `m_pTableManager` 表管理器 `ARK_SHARE_PTR<AFTableManager>`
-- `m_pContainerManager` 容器管理器 `ARK_SHARE_PTR<AFIContainerManager>`
-- `m_pEventManager` 事件管理器 `ARK_SHARE_PTR<AFIEventManager>`
-
-其中用到的几个类如下
-
-- `AFNodeManager` 属性管理类 用来管理对象的属性
-
-  ```cpp
-      using DataList = AFMap<uint32_t, AFINode>;
-
-      // class meta
-      ARK_SHARE_PTR<AFClassMeta> class_meta_{nullptr};
-
-      // call back
-      NODE_COMPONENT_FUNCTOR func_;
-
-      // data list
-      DataList data_list_;
-  ```
-
-- `AFTableManager` 表管理类 用来管理表 包括创建查找等操作
-
-  ```cpp
-      using TableList = AFMap<uint32_t, AFITable>;
-
-      // class meta
-      ARK_SHARE_PTR<AFClassMeta> class_meta_{nullptr};
-
-      // table list
-      TableList table_list_;
-  ```
-
-- `AFIContainerManager` 容器管理接口类 对应`AFCContainerManager` 用来管理容器 包括创建查找等操作
-
-  ```cpp
-      // container
-      using ContainerList = AFSmartPtrMap<uint32_t, AFIContainer>;
-      ContainerList container_data_;
-  ```
-
-- `AFIContainer` 容器接口类 对应`AFCContainer` 用于复杂结构 可以存放其它子对象
-
-  ```cpp
-      using EntityDataList = AFSmartPtrMap<uint32_t, AFIEntity>;
-
-      // contain entity class meta
-      ARK_SHARE_PTR<AFContainerMeta> container_meta_{nullptr};
-
-      // index start
-      uint32_t current_index_{0u};
-
-      // parent id
-      AFGUID parent_{NULL_GUID};
-
-      // entity data
-      EntityDataList entity_data_list_;
-  ```
-
-- `AFIEventManager` 事件管理类 处理对象的事件
-
-- `AFINode` 属性接口类  对应`AFCNodeTypeName`(`TypeName`是基本类型名) 用来存放属性的值和对应的定义
-
-  ```cpp
-      // meta
-      ARK_SHARE_PTR<AFNodeMeta> data_meta_{nullptr};
-
-      // value
-      TypeName data_{TypeName()};
-  ```
-
-- `AFITable` 表接口类 对应`AFCTable`
-
-  ```cpp
-      using TableData = AFMap<uint32_t, AFIRow>;
-
-      // object unique guid
-      AFGUID guid_{NULL_GUID};
-
-      // table meta
-      ARK_SHARE_PTR<AFTableMeta> table_meta_{nullptr};
-
-      // current row
-      uint32_t current_row{0u};
-
-      // table data
-      TableData data_;
-  ```
-
-- `AFIRow` 表行接口类 对应`AFCRow`
-
-  ```cpp
-      // row
-      uint32_t row_{0u};
-
-      // data
-      ARK_SHARE_PTR<AFNodeManager> m_pNodeManager{nullptr};
-  ```
-
-### 结构图
-
-![data structure](../assets/data-structure.png)
-
-</details>
+完整创建、类型化访问、回调与转换示例见 [Kernel 参考](../reference/kernel_CN.md)，模块可用阶段见[应用架构](../concepts/application-architecture_CN.md)。历史 AF 前缀布局保存在[原始文章](https://github.com/OpenArkStudio/ark/blob/eea25046fa7dd82fbbf181c847f25f9a79effde3/docs/guides/data-structures_CN.md)，这些内部布局不是当前 API 契约。
