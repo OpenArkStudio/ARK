@@ -107,19 +107,20 @@ bool kernel_module_impl::copy_data(
         return false;
     }
 
-    // node manager must be empty
     auto node_manager_ptr = get_node_manager(entity_ptr);
-    if (node_manager_ptr == nullptr || !node_manager_ptr->is_empty())
+    if (node_manager_ptr == nullptr)
     {
         return false;
     }
 
-    // copy data
+    // Fill absent nodes without overwriting explicit initialization arguments.
     auto& data_list = static_node_manager_ptr->get_data_list();
     for (auto& iter : data_list)
     {
-        auto data_ptr = iter.second;
-        node_manager_ptr->create_data(data_ptr);
+        if (node_manager_ptr->get_node(iter.first) == nullptr)
+        {
+            node_manager_ptr->create_data(iter.second);
+        }
     }
 
     return true;
@@ -152,7 +153,7 @@ std::shared_ptr<entity> kernel_module_impl::create_entity(const guid_t& self, co
     std::shared_ptr<static_entity> static_entity_ptr = nullptr;
     if (config_id > 0)
     {
-        auto static_entity_ptr = get_static_entity(config_id);
+        static_entity_ptr = get_static_entity(config_id);
         if (nullptr == static_entity_ptr)
         {
             ARK_LOG_ERROR("There is no config, config_id = {}", config_id);
@@ -240,7 +241,7 @@ std::shared_ptr<entity> kernel_module_impl::create_container_entity(
     std::shared_ptr<static_entity> static_entity_ptr = nullptr;
     if (config_id > 0)
     {
-        auto static_entity_ptr = get_static_entity(config_id);
+        static_entity_ptr = get_static_entity(config_id);
         if (nullptr == static_entity_ptr)
         {
             ARK_LOG_ERROR("There is no config, config_id = {}", config_id);

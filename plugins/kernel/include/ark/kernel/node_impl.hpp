@@ -151,7 +151,7 @@ public:
         ARK_ASSERT_RET_NONE(data_meta_ != nullptr && other != nullptr);
         ARK_ASSERT_RET_NONE(data_meta_->get_type() == other->get_type());
 
-        set_int32(other->get_u_int32());
+        set_u_int32(other->get_u_int32());
     }
 
     void save_to(node* other) override {
