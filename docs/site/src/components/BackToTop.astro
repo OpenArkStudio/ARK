@@ -1,0 +1,22 @@
+---
+import Icon from "@cloudflare/nimbus-docs/components/Icon.astro";
+const { chinese = false } = Astro.props;
+const label = chinese ? "回到顶部" : "Back to top";
+---
+<button type="button" data-back-to-top hidden title={label} aria-label={label}
+  class="fixed bottom-5 right-5 z-40 flex h-10 w-10 items-center justify-center rounded-md border border-border bg-background text-foreground shadow-sm hover:bg-accent">
+  <Icon name="ph:arrow-up" class="h-5 w-5" />
+</button>
+<script>
+  function refresh() {
+    const button = document.querySelector<HTMLButtonElement>("[data-back-to-top]");
+    if (button) button.hidden = window.scrollY < 400;
+  }
+  window.addEventListener("scroll", refresh, { passive: true });
+  document.addEventListener("astro:page-load", refresh);
+  document.addEventListener("click", (event) => {
+    if ((event.target as Element).closest("[data-back-to-top]")) {
+      window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+    }
+  });
+</script>
