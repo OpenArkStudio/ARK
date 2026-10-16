@@ -1,11 +1,12 @@
 # Create a plugin
 
-Plugins install and uninstall a group of modules. Core and official plugins live
-in ark; business plugins live with their application. See [Project layout and SDK](../reference/directory-structure.md).
+A plugin installs and uninstalls a group of modules. Its shared library exports the entry points used by the ark launcher; its modules expose the interfaces used by application code. Core and official plugins live in ark, while business plugins live with their application.
+
+This guide builds a business plugin containing the counter and consumer from [Create a module](modules.md). Keep `sample_module.hpp`, `sample_plugin.hpp`, `sample_plugin.cpp` and `CMakeLists.txt` together for this example.
 
 ## Declare the plugin
 
-`sample_plugin.hpp`:
+Save as `sample_plugin.hpp`:
 
 ```cpp
 #pragma once
@@ -20,9 +21,11 @@ ARK_DECLARE_PLUGIN(sample_plugin)
 } // namespace ark
 ```
 
-## Register a module
+`ARK_DECLARE_PLUGIN` supplies the plugin class, manager/configuration accessors and the declarations of `install()` and `uninstall()`. The macros below use ark's unqualified framework types, so the example declares them inside `namespace ark`.
 
-`sample_plugin.cpp` uses `sample_module` from [Create a module](modules.md):
+## Pair registration and unregistration
+
+Save as `sample_plugin.cpp`:
 
 ```cpp
 #include "sample_module.hpp"
@@ -33,36 +36,98 @@ namespace ark {
 ARK_DECLARE_PLUGIN_DLL_FUNCTION(sample_plugin)
 
 void sample_plugin::install() {
+    ARK_REGISTER_MODULE(counter_module, counter_module_impl);
     ARK_REGISTER_MODULE(sample_module, sample_module);
 }
 
 void sample_plugin::uninstall() {
     ARK_UNREGISTER_MODULE(sample_module, sample_module);
+    ARK_UNREGISTER_MODULE(counter_module, counter_module_impl);
 }
 
 } // namespace ark
 ```
 
-<Aside type="note" title="Interface and implementation">
+| Operation | Meaning |
+| --- | --- |
+| `ARK_REGISTER_MODULE(counter_module, counter_module_impl)` | Allocate the implementation, set its manager/name and register it under the public interface |
+| `ARK_REGISTER_MODULE(sample_module, sample_module)` | Register a simple module using the same type for interface and implementation |
+| `ARK_UNREGISTER_MODULE(...)` | Remove the corresponding module/update entries and delete the module object |
+| `ARK_DECLARE_PLUGIN_DLL_FUNCTION(sample_plugin)` | Define the exported `DllEntryPlugin` / `DllExitPlugin` functions and plugin configuration storage |
 
-The first macro argument is the module interface; the second is the concrete
-implementation. The simple example uses the same type for both. When the module
-has a separate interface, supply its interface and implementation types separately.
+<Aside type="note" title="One entry-point pair per library">
+
+Place the DLL macro in exactly one translation unit per shared library. It generates fixed C entry-point names; adding it to every module source or exporting two independently declared plugin entry points from one library causes duplicate definitions. The C entry points still pass C++ types, so they do not establish a compiler-independent ABI.
 
 </Aside>
 
+Keep `install()` focused on registration. Resolve cross-module dependencies during the lifecycle stages described in [Create a module](modules.md). Pair every registered interface/implementation with an unregistration operation. The example removes the consumer before its counter; that local order does not establish a dependency order between separate plugins.
+
 ## Build the shared library
 
+Install ark's [build prerequisites](../get-started/installation.md), initialize its pinned submodules, and save the following as `CMakeLists.txt` in the business-plugin directory:
+
 ```cmake
+cmake_minimum_required(VERSION 3.21)
+project(sample_business LANGUAGES CXX)
+
+set(ARK_SOURCE_DIR "" CACHE PATH "ark source checkout")
+set(ARK_BUILD_APPLICATIONS OFF CACHE BOOL "Build ark applications" FORCE)
+set(ARK_BUILD_PROTO OFF CACHE BOOL "Build protocol messages" FORCE)
+set(ARK_BUILD_TESTS OFF CACHE BOOL "Build ark tests" FORCE)
+set(ARK_BUILD_CORE_TESTS OFF CACHE BOOL "Build core tests" FORCE)
+set(ARK_BUILD_EXAMPLES OFF CACHE BOOL "Build ark examples" FORCE)
+add_subdirectory("${ARK_SOURCE_DIR}" ark)
+
 add_library(sample_plugin SHARED sample_plugin.cpp)
 target_link_libraries(sample_plugin PRIVATE ark::core)
-set_target_properties(sample_plugin PROPERTIES PREFIX "")
+set_target_properties(sample_plugin PROPERTIES
+    PREFIX ""
+    DEBUG_POSTFIX "_d"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>")
 ```
 
-After the application includes ark through CMake, `ark::core` provides public
-headers and compile requirements. Add targets such as `ark::net` when using
-other official plugin interfaces.
+Configure with the path of the ark checkout. These commands work with a single-configuration generator or a multi-configuration generator such as Visual Studio:
 
-Configuration files use the shared-library name, which can differ from the C++
-plugin type. Existing shared-library filenames are retained. Rebuild applications
-and plugins together for the new C++ API.
+```sh
+cmake -S . -B out -DARK_SOURCE_DIR="path/to/ark" -DCMAKE_BUILD_TYPE=Release
+cmake --build out --config Release --target sample_plugin
+```
+
+The plugin build disables ark's bundled applications/examples; it does not disable this external `sample_plugin` target. `ark::core` carries the public headers, C++20 settings and transitive dependencies. If an interface includes official plugin APIs, add their SDK targets, such as `ark::net`. See [Project layout and SDK](../reference/directory-structure.md) for the full target list.
+
+## Select libraries at runtime
+
+Build requirements and runtime selection are separate:
+
+| Setting | Effect |
+| --- | --- |
+| `target_link_libraries(sample_plugin PRIVATE ark::net)` | Makes the network API headers and usage requirements available at build time; does not load a network plugin |
+| `ARK_BUILD_APPLICATIONS=ON` and `ARK_BUILD_PLUGIN_NET=ON` in an ark application build | Builds the selected official runtime library |
+| A plugin entry in the application manifest | Requests that shared library when the launcher starts |
+
+For this Release example, copy the built shared library from `out/bin/Release/` into the deployment's `bin/` and save this manifest as `conf/sample.app.conf`. Debug artifacts are kept separately in `out/bin/Debug/`:
+
+```xml
+<xml>
+  <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
+    <plugin name="sample_plugin" conf="" />
+  </plugins>
+</xml>
+```
+
+Use the [application launcher](applications.md) to select this manifest. The library name `sample_plugin` is the filename stem, not the RTTI name of the C++ plugin class or a registered module. The loader appends `.dll`, `.so` or `.dylib`; Debug also appends `_d` before the extension. The CMake target deliberately has no `lib` prefix and sets the matching Debug postfix. Use the same build configuration and compatible SDK/ABI settings for the launcher and plugin.
+
+Paths are resolved from the process working directory. The current loader concatenates `plugin_lib_dir` with the filename and `plugin_conf_dir` with `conf`; keep the trailing separators. An empty `conf` in this example means the plugin has no configuration file to read. It still receives the configuration directory prefix; it does not receive an empty resolved path. A supplied plugin configuration path can be read through `sample_plugin::get_plugin_conf()`.
+
+## Diagnose a missing module
+
+| Symptom | Check |
+| --- | --- |
+| Library cannot be opened | Deployment working directory, filename/prefix/extension, Debug postfix and shared-library dependencies |
+| Entry point cannot be found | DLL macro is defined once in the library and exported symbols are visible |
+| Module lookup asserts, or returns `nullptr` with assertions disabled | The runtime manifest includes the provider library, `install()` registers `T`, and consumer/provider use compatible interface definitions |
+| Includes compile but no service is available | An SDK target supplies headers; it does not install a runtime module |
+
+The manager does not make plugin unloading safe for arbitrary outstanding callbacks. Finish the service-specific cancellation and lifetime work described in [Create a module](modules.md). This example has no worker tasks, event subscriptions or hot-update support.
