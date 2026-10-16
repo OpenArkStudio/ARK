@@ -82,13 +82,21 @@ private:
 
 通过 [vcpkg](vcpkg.json) 和 [Git 子模块](.gitmodules)管理依赖，arknet 的提交版本固定在 [CMakeLists.txt](CMakeLists.txt) 中。
 
+## 客户端集成
+
+[原 Unity 客户端](https://github.com/OpenArkStudio/ArkClient-Unity3D)尚未与当前 ark 服务端完成兼容性验证。后续再恢复维护，并与服务端一起联调。
+
 ## 参与贡献
 
 欢迎报告问题、讨论设计及提交 PR。编码规范、测试和受保护分支的提交流程见[贡献指南](.github/CONTRIBUTING.md)。可通过 [GitHub Issues](https://github.com/OpenArkStudio/ark/issues) 和 [Discord](https://discord.gg/GmyBbcv) 交流。
 
-感谢 [Nick Yang](https://github.com/NickYang1988)、[flyicegood](https://github.com/flyicegood)、[loscaz](https://github.com/loscaz) 及所有[贡献者](https://github.com/OpenArkStudio/ark/graphs/contributors)。
+## 核心开发者
 
-[Unity 客户端](https://github.com/OpenArkStudio/ArkClient-Unity3D) · 可通过 [PayPal](https://www.paypal.me/nickyang4self) 或 [Patreon](https://www.patreon.com/bePatron?u=19279478) 支持开发。
+- [Nick Yang](https://github.com/NickYang1988)
+- [flyicegood](https://github.com/flyicegood)
+- [loscaz](https://github.com/loscaz)
+
+感谢所有[贡献者](https://github.com/OpenArkStudio/ark/graphs/contributors)。
 
 ---
 
