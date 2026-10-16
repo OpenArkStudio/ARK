@@ -26,13 +26,15 @@ namespace ark::detail {
 // Private integration envelope; the public module API is not exposed here.
 using redis_service_result = std::variant<arknet::redis::result, std::exception_ptr>;
 
-inline arknet::redis::result redis_acquire_failure(arknet::redis::pool::acquire_result acquired) {
+template<class acquire_type = arknet::redis::pool::acquire_result>
+inline arknet::redis::result redis_acquire_failure(acquire_type acquired) {
     const auto error =
         acquired.error == arknet::redis::client_errc::none ? arknet::redis::client_errc::not_connected : acquired.error;
     return {error, acquired.transport_error, std::move(acquired.replies), false};
 }
 
-class redis_service
+template<class pool_type>
+class basic_redis_service
 {
     using queue_type = completion_queue<redis_service_result>;
     using control_type = database_request_control;
@@ -51,12 +53,12 @@ class redis_service
         control_type control;
         std::weak_ptr<request_registry> registry;
         std::uint64_t id{};
-        std::shared_ptr<arknet::redis::pool> pool;
+        std::shared_ptr<pool_type> pool;
         std::shared_ptr<queue_type> queue;
         queue_type::ticket ticket;
         std::chrono::steady_clock::time_point deadline;
         std::vector<arknet::redis::command> commands;
-        arknet::redis::pool::lease lease;
+        typename pool_type::lease lease;
 
         void forward_cancel(std::optional<control_type::cancellation> cancellation) {
             if (cancellation)
@@ -131,7 +133,7 @@ class redis_service
             erase_request();
         }
 
-        void acquired(arknet::redis::pool::acquire_result result) {
+        void acquired(typename pool_type::acquire_result result) {
             if (!result)
             {
                 finish(redis_acquire_failure(std::move(result)));
@@ -153,7 +155,7 @@ class redis_service
             const auto submission = control.begin(control_type::stage::command);
             const auto native_id = lease.async_pipeline(
                 std::move(commands),
-                [self = shared_from_this(), submission](arknet::redis::result response) mutable {
+                [self = this->shared_from_this(), submission](arknet::redis::result response) mutable {
                     if (self->control.complete(submission))
                     {
                         self->finish(std::move(response));
@@ -168,19 +170,19 @@ public:
     using callback = std::function<void(redis_service_result)>;
     using request_id = std::uint64_t;
 
-    redis_service(
+    basic_redis_service(
         arknet::redis::pool_options options, std::size_t max_operations = 64, std::size_t max_input_bytes = 1024 * 1024)
         : completions_(std::make_shared<queue_type>(max_operations, max_input_bytes))
-        , pool_(std::make_shared<arknet::redis::pool>(std::move(options))) {
+        , pool_(std::make_shared<pool_type>(std::move(options))) {
     }
 
-    ~redis_service() {
+    ~basic_redis_service() {
         // The service is created, updated and destroyed by its module thread.
         stop();
     }
 
-    redis_service(const redis_service&) = delete;
-    redis_service& operator=(const redis_service&) = delete;
+    basic_redis_service(const basic_redis_service&) = delete;
+    basic_redis_service& operator=(const basic_redis_service&) = delete;
 
     // false means not accepted: no callback. Accepted callbacks run in update()
     // unless stop() suppresses them. timeout covers both acquire and execution.
@@ -387,7 +389,7 @@ private:
             }
             const auto submission = pending->control.begin(control_type::stage::acquire);
             const auto native_id = pending->pool->async_acquire(
-                [pending, submission](arknet::redis::pool::acquire_result acquired) mutable {
+                [pending, submission](typename pool_type::acquire_result acquired) mutable {
                     if (!pending->control.complete(submission))
                     {
                         return;
@@ -417,10 +419,15 @@ private:
     }
 
     std::shared_ptr<queue_type> completions_;
-    std::shared_ptr<arknet::redis::pool> pool_;
+    std::shared_ptr<pool_type> pool_;
     std::shared_ptr<request_registry> requests_{std::make_shared<request_registry>()};
     const std::thread::id owner_{std::this_thread::get_id()};
     bool accepting_{true};
 };
+
+using redis_service = basic_redis_service<arknet::redis::pool>;
+#if defined(ARKNET_ENABLE_SSL)
+using tls_redis_service = basic_redis_service<arknet::redis::tls_pool>;
+#endif
 
 } // namespace ark::detail

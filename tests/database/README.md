@@ -24,7 +24,8 @@ cmake -S . -B database-build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
   -DASIO_STANDALONE=OFF -DARKNET_ENABLE_SSL=ON
 cmake --build database-build --target ark_database_queue_tests \
   ark_database_task_tests ark_database_task_contract_tests \
-  ark_database_redis_stop_tests ark_database_redis_tests ark_database_mysql_tests \
+  ark_database_redis_stop_tests ark_database_redis_tls_tests \
+  ark_database_redis_tests ark_database_mysql_tests \
   ark_database_service_awaitable_tests --parallel 2
 ```
 
@@ -41,7 +42,7 @@ are standalone C++ executables.
 
 ```sh
 cmake --build database-build --target check-database
-# Equivalent shell entry; programs can also run directly.
+# Queue, stop and coroutine regressions; programs can also run directly.
 bash scripts/test_databases.sh database-build local
 ./database-build/tests/database/ark_database_queue_tests --list-test-cases
 ```
@@ -56,6 +57,34 @@ input states; it does not reproduce or claim a native connection-pool fault.
 
 The real-service targets are not run by `check-database`. Missing endpoint
 configuration is an error, not a silently skipped successful check.
+
+## Redis TLS regression
+
+With `ARKNET_ENABLE_SSL=ON`, `check-database` also runs the native TLS regression.
+It can be built and run separately:
+
+```sh
+cmake --build database-build --target check-database-redis-tls
+# Or: ./database-build/tests/database/ark_database_redis_tls_tests
+```
+
+The private `redis_service` alias keeps its plain connection API. The private
+`tls_redis_service` uses the same request, cancellation and owner-thread delivery
+implementation with arknet's TLS pool. It verifies the certificate chain and the
+configured connection host; an unrelated CA or wrong hostname must fail before
+any RESP command, including `HELLO`, reaches the test endpoint. A successful
+binary pipeline retains owning results after service destruction. A sent-request
+cancellation returns its terminal result through `update()` and the module
+coroutine executor, preserving `command_may_have_run`.
+
+The executable binds a random IPv4 loopback port and needs no running Redis
+service. Its bounded RESP-over-TLS protocol test endpoint checks only these
+contracts; it is not a real Redis compatibility or capacity test. It reads the
+public test-only certificates and key directly from
+`ARKNET_SOURCE_DIR/tests/certs` (arknet, BSL-1.0; see that checkout's `LICENSE` and
+certificate README). The fixtures remain in that dependency checkout and are
+never copied into the application. They must never be used in deployment.
+`ARKNET_ENABLE_SSL=OFF` omits this target and leaves the plain service available.
 
 ## Redis service check
 
