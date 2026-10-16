@@ -22,6 +22,7 @@
 
 #include <args/args.hxx>
 
+#include "ark/application_manifest.hpp"
 #include "ark/bus.hpp"
 #include "ark/dep.hpp"
 #include "ark/macros.hpp"
@@ -29,7 +30,6 @@
 #include "ark/platform.hpp"
 #include "ark/plugin_manager.hpp"
 #include "ark/time/date_time.hpp"
-#include "ark/xml.hpp"
 #include "shutdown_request.hpp"
 
 using namespace ark;
@@ -279,31 +279,6 @@ void main_loop() {
 #endif
 }
 
-// load app configuration
-bool load_plugin_conf(std::string const& app_conf_path, OUT std::string& plugin_library_dir,
-    OUT std::string& plugin_conf_dir, OUT std::unordered_map<std::string, std::string>& plugins) {
-    xml xml_doc(app_conf_path);
-
-    auto root_node = xml_doc.get_root_node();
-    ARK_ASSERT_RET_VAL(root_node.is_valid(), false);
-
-    auto plugins_node = root_node.find_node("plugins");
-    ARK_ASSERT_RET_VAL(plugins_node.is_valid(), false);
-
-    plugin_library_dir = plugins_node.get_string("plugin_lib_dir");
-    plugin_conf_dir = plugins_node.get_string("plugin_conf_dir");
-
-    for (auto plugin_node = plugins_node.find_node("plugin"); plugin_node.is_valid(); plugin_node.next_node())
-    {
-        std::string plugin_name = plugin_node.get_string("name");
-        std::string plugin_conf = plugin_node.get_string("conf");
-        auto ret = plugins.insert(std::make_pair(plugin_name, plugin_conf)).second;
-        ARK_ASSERT_CONTINUE(ret);
-    }
-
-    return true;
-}
-
 int main(int argc, char* argv[]) {
     if (!parse_args(argc, argv))
     {
@@ -314,16 +289,17 @@ int main(int argc, char* argv[]) {
     print_logo();
 
     const auto& app_conf_path = plugin_manager::instance()->get_app_conf();
-    std::string plugin_library_dir;
-    std::string plugin_conf_dir;
-    std::unordered_map<std::string, std::string> plugins;
-    // load app conf
-    if (!load_plugin_conf(app_conf_path, plugin_library_dir, plugin_conf_dir, plugins))
+    application_manifest manifest;
+    try
+    { manifest = load_application_manifest(app_conf_path); }
+    catch (const application_manifest_error& error)
     {
-        return 0;
+        std::cerr << "Application manifest loading failed: " << error.what() << std::endl;
+        return 1;
     }
 
-    plugin_manager::instance()->start(date_time::get_now_time(), plugin_library_dir, plugin_conf_dir, plugins);
+    plugin_manager::instance()->start(
+        date_time::get_now_time(), manifest.plugin_library_dir, manifest.plugin_config_dir, manifest.plugins);
 
     for (;; std::this_thread::sleep_for(std::chrono::milliseconds(1)))
     {

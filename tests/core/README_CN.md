@@ -19,5 +19,9 @@ cmake --build core-build --target check-core
 旧版报文字节和对外 JSON 字段名，以及新的 `ark::protobuf` 描述符和枚举名称；
 需要按应用构建说明初始化 Protobuf 依赖。
 
+`ARK_BUILD_CONFIG=ON`（核心测试默认启用）时，`check-application-manifest`
+验证 TOML / XML 等价性、默认值、严格字段、无效输入、诊断和拥有型结果，并纳入
+`check-core`。参见[应用插件清单](../../docs/service-manifests_CN.md)。
+
 `check-kernel-initialization` 从 `resource/meta/` 加载真实元数据和静态数据，
 分别使用资源相对路径及以 `/` 开头的旧路径，验证内核与配置模块的四种初始化顺序，共八种组合。

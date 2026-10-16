@@ -36,6 +36,18 @@ add_custom_target(check-xml
     USES_TERMINAL)
 add_dependencies(check-core check-xml)
 
+if(ARK_BUILD_CONFIG)
+    add_executable(ark_application_manifest_tests main.cpp application_manifest.cpp)
+    # This configuration-only consumer deliberately excludes the inherited network SDK.
+    set_property(TARGET ark_application_manifest_tests PROPERTY LINK_LIBRARIES ark::config)
+    target_compile_definitions(ark_application_manifest_tests PRIVATE ARK_TEST_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+    add_custom_target(check-application-manifest
+        COMMAND $<TARGET_FILE:ark_application_manifest_tests>
+        DEPENDS ark_application_manifest_tests
+        USES_TERMINAL)
+    add_dependencies(check-core check-application-manifest)
+endif()
+
 if(ARK_BUILD_PROTO)
     add_executable(ark_kernel_initialization_tests main.cpp module_initialization.cpp entity_config_copy.cpp
         ../../plugins/kernel/src/class_call_back_manager.cpp
