@@ -4,7 +4,7 @@
 #include <memory>
 #include <stdexcept>
 
-#include "redis/src/detail/redis_service.hpp"
+#include "redis/detail/redis_service.hpp"
 
 namespace {
 

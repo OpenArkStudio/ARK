@@ -1,0 +1,10 @@
+[application]
+plugin_library_dir = "bin/"
+plugin_config_dir = "conf/"
+
+[[plugins]]
+name = "AFUtilityPlugin"
+config = ""
+
+[[plugins]]
+name = "Sample1Plugin"

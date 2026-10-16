@@ -171,9 +171,9 @@ private:
 
 ## API 来源
 
-- [Kernel 接口](https://github.com/OpenArkStudio/ark/blob/main/plugins/kernel/include/ark/kernel/kernel_module.hpp)
-- [Entity 接口](https://github.com/OpenArkStudio/ark/blob/main/plugins/kernel/include/ark/kernel/entity.hpp)
-- [元数据接口](https://github.com/OpenArkStudio/ark/blob/main/plugins/kernel/include/ark/kernel/class_meta_module.hpp)
-- [配置接口](https://github.com/OpenArkStudio/ark/blob/main/plugins/kernel/include/ark/kernel/config_module.hpp)
-- [地图接口](https://github.com/OpenArkStudio/ark/blob/main/plugins/kernel/include/ark/kernel/map_module.hpp)
+- [Kernel 接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/kernel_module.hpp)
+- [Entity 接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/entity.hpp)
+- [元数据接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/class_meta_module.hpp)
+- [配置接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/config_module.hpp)
+- [地图接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/map_module.hpp)
 - [数据定义与生成](../guides/data-structures_CN.md)

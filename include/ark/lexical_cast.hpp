@@ -116,11 +116,11 @@ template<typename from_type>
 struct value_converter<uint64_t, from_type>
 {
     static uint64_t convert(const string& from) {
-        return std::atoll(from.c_str());
+        return static_cast<uint64_t>(std::strtoull(from.c_str(), nullptr, 10));
     }
 
     static uint64_t convert(const char* from) {
-        return std::atoll(from);
+        return static_cast<uint64_t>(std::strtoull(from, nullptr, 10));
     }
 };
 

@@ -171,9 +171,9 @@ The map module exposes entity lists and online counts. It does not provide a com
 
 ## API sources
 
-- [Kernel interface](https://github.com/OpenArkStudio/ark/blob/main/plugins/kernel/include/ark/kernel/kernel_module.hpp)
-- [Entity interface](https://github.com/OpenArkStudio/ark/blob/main/plugins/kernel/include/ark/kernel/entity.hpp)
-- [Metadata interface](https://github.com/OpenArkStudio/ark/blob/main/plugins/kernel/include/ark/kernel/class_meta_module.hpp)
-- [Configuration interface](https://github.com/OpenArkStudio/ark/blob/main/plugins/kernel/include/ark/kernel/config_module.hpp)
-- [Map interface](https://github.com/OpenArkStudio/ark/blob/main/plugins/kernel/include/ark/kernel/map_module.hpp)
+- [Kernel interface](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/kernel_module.hpp)
+- [Entity interface](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/entity.hpp)
+- [Metadata interface](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/class_meta_module.hpp)
+- [Configuration interface](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/config_module.hpp)
+- [Map interface](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/map_module.hpp)
 - [Data definitions and generation](../guides/data-structures.md)

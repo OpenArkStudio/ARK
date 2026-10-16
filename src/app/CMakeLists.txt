@@ -8,6 +8,7 @@ endif(UNIX AND (NOT APPLE))
 
 file(GLOB_RECURSE APP_SRC main.cpp)
 add_executable(${project_name} ${APP_SRC})
+target_link_libraries(${project_name} ark::config)
 
 if(WIN32)
     target_link_libraries(${project_name})

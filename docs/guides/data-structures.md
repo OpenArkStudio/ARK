@@ -1,6 +1,6 @@
 # Data structures and metadata
 
-The separation of definitions and values remains: metadata describes field names, indices, types and flags; entities retain definitions and values. Public types now live in `plugins/kernel/include/ark/kernel/` with the snake_case names below. See [configuration tools](tools.md) for generated C++ and [Protobuf](../reference/protobuf.md) for protocol messages.
+The separation of definitions and values remains: metadata describes field names, indices, types and flags; entities retain definitions and values. Public types now live in `include/ark/kernel/` with the snake_case names below. See [configuration tools](tools.md) for generated C++ and [Protobuf](../reference/protobuf.md) for protocol messages.
 
 | Historical name | Current name |
 | --- | --- |

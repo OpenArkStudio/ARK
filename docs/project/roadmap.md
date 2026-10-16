@@ -2,7 +2,7 @@
 
 ## Current modernization
 
-- [x] Complete the `include/ark/`, `src/` and `plugins/<name>/` layout and snake_case API migration, including Protobuf source naming.
+- [x] Complete the `include/ark/`, `src/` and `src/plugins/<name>/` layout and snake_case API migration, including Protobuf source naming.
 - [x] Release native single-node MySQL and Redis clients in arknet 0.2.0.
 - [ ] Replace ark database plugins' legacy drivers, with Asio coroutine entry points, native arknet owning results and module-thread completion.
 - [ ] Integrate the remaining independent official plugins with optional builds and tests.

@@ -7,7 +7,7 @@
 #include <string>
 #include <thread>
 
-#include "redis/src/detail/redis_service.hpp"
+#include "redis/detail/redis_service.hpp"
 
 using namespace std::chrono_literals;
 

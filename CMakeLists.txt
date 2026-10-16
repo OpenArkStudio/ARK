@@ -75,6 +75,14 @@ endif()
 option(ARK_BUILD_TESTS "Enable build tests" ON)
 option(ARK_BUILD_CORE_TESTS "Build core C++20 regressions" ${ARK_BUILD_TESTS})
 option(ARK_BUILD_EXAMPLES "Enable build examples" ON)
+set(ark_config_default OFF)
+if(ARK_BUILD_APPLICATIONS OR ARK_BUILD_CORE_TESTS)
+    set(ark_config_default ON)
+endif()
+option(ARK_BUILD_CONFIG "Build the application manifest reader" ${ark_config_default})
+if(ARK_BUILD_APPLICATIONS AND NOT ARK_BUILD_CONFIG)
+    message(FATAL_ERROR "ARK_BUILD_APPLICATIONS requires ARK_BUILD_CONFIG")
+endif()
 
 #---------------------------------------------------------------------------------------
 # project switches
@@ -201,24 +209,11 @@ endif()
 
 find_path(RAPIDXML_INCLUDE_DIR rapidxml.hpp PATH_SUFFIXES rapidxml REQUIRED)
 
-add_library(ark_core INTERFACE)
-add_library(ark::core ALIAS ark_core)
-target_compile_features(ark_core INTERFACE cxx_std_20)
-target_include_directories(ark_core INTERFACE
-    "$<BUILD_INTERFACE:${ROOT_DIR}/include>"
-    "$<BUILD_INTERFACE:${3RD_PARTY_DIR}>"
-    "$<BUILD_INTERFACE:${3RD_PARTY_DIR}/spdlog/include>"
-    "${RAPIDXML_INCLUDE_DIR}")
-target_link_libraries(ark_core INTERFACE arknet::arknet ${CMAKE_DL_LIBS})
-target_compile_definitions(ark_core INTERFACE
-    $<$<BOOL:${ARK_USE_GUID_32}>:ARK_USE_GUID_32>
-    $<$<BOOL:${ARK_DOCKER_ALPINE}>:ARK_DOCKER_ALPINE>
-    $<$<BOOL:${ARK_OPEN_FILE_LOG}>:OPEN_FILE_LOG>
-    $<$<CONFIG:Debug>:_DEBUG>)
-if(MSVC)
-    target_compile_options(ark_core INTERFACE /bigobj /utf-8 /Zc:__cplusplus)
-    target_compile_definitions(ark_core INTERFACE WIN32_LEAN_AND_MEAN _WIN32_WINNT=0x0601)
+if(ARK_BUILD_CONFIG)
+    add_subdirectory(src/config)
 endif()
+
+add_subdirectory(src/core)
 
 add_library(ark_sdk INTERFACE)
 add_library(ark::ark ALIAS ark_sdk)
@@ -268,7 +263,7 @@ if(ARK_BUILD_PROTO)
     add_subdirectory(src/proto)
     target_link_libraries(ark_sdk INTERFACE ark::proto)
 endif()
-add_subdirectory(plugins)
+add_subdirectory(src/plugins)
 link_libraries(ark::ark)
 if(ARK_BUILD_APPLICATIONS)
     add_subdirectory(src/app)

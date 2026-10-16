@@ -2,7 +2,7 @@ import { existsSync as fsExists } from "node:fs";
 import { readdir, readFile, mkdir, writeFile, cp, rm } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { posix, join } from "node:path";
-import { convertPage, pageExtension } from "./content.mjs";
+import { canonicalFile, convertPage, pageExtension } from "./content.mjs";
 import { sourceAliases } from "./migration-source.mjs";
 
 const site = fileURLToPath(new URL("../", import.meta.url));
@@ -29,7 +29,7 @@ for (const file of files) {
   const chinese = file.endsWith("_CN.md");
   const sibling = chinese ? file.replace(/_CN\.md$/, ".md") : file.replace(/\.md$/, "_CN.md");
   if (!files.has(sibling)) throw new Error(`${file}: missing translation`);
-  const slug = file.replace(/(?:_CN)?\.md$/, "").replace(/^README$/, "index");
+  const slug = canonicalFile(file).replace(/(?:_CN)?\.md$/, "").replace(/^README$/, "index");
   const source = await readFile(join(docs, file), "utf8");
   const target = join(content, chinese ? "zh" : "docs", slug + pageExtension(source));
   await mkdir(join(target, ".."), { recursive: true });

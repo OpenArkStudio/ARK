@@ -1,6 +1,6 @@
 # 数据结构与元数据
 
-数据与定义分离的设计仍保留：元数据描述字段名、下标、类型和标志，实体保存引用及其值。当前公开类型位于 `plugins/kernel/include/ark/kernel/`，使用以下 snake_case 名称。配置工具生成 C++ 的流程见[配置工具](tools_CN.md)，协议消息见 [Protobuf](../reference/protobuf_CN.md)。
+数据与定义分离的设计仍保留：元数据描述字段名、下标、类型和标志，实体保存引用及其值。当前公开类型位于 `include/ark/kernel/`，使用以下 snake_case 名称。配置工具生成 C++ 的流程见[配置工具](tools_CN.md)，协议消息见 [Protobuf](../reference/protobuf_CN.md)。
 
 | 旧名称 | 当前名称 |
 | --- | --- |

@@ -1,11 +1,15 @@
 import { unified } from "unified";
 import remarkParse from "remark-parse";
-import { sourceAliases } from "./migration-source.mjs";
+import { pageLocations, sourceAliases } from "./migration-source.mjs";
 
 const parser = unified().use(remarkParse);
 
+export function canonicalFile(file) {
+  return pageLocations[file] ?? sourceAliases[file] ?? file;
+}
+
 export function pageRoute(file) {
-  file = sourceAliases[file] ?? file;
+  file = canonicalFile(file);
   const chinese = file.endsWith("_CN.md");
   let slug = file.replace(/(?:_CN)?\.md$/, "");
   if (slug === "README") slug = "";

@@ -4,7 +4,7 @@
 
 This opt-in prototype uses Asio `awaitable`, `async_initiate` and `co_spawn`.
 It does not add a coroutine promise implementation or change the published
-database modules. The new helpers stay private in `plugins/detail/`.
+database modules. The new helpers stay private in `src/plugins/detail/`.
 
 ## Execution and ownership
 
