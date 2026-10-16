@@ -1,102 +1,95 @@
-English | [简体中文](./README_CN.md)
+<p align="right">English · <a href="README_CN.md">简体中文</a></p>
 
-<p align="right">Current version: <strong>v1.0.0</strong></p>
-<p align="center"><img src="https://raw.githubusercontent.com/ArkNX/ARK/gh-pages/_images/ark_logo.svg?sanitize=true" alt="ark" width="300"/></p>
-ARK is a lightweight, agility, elastic, distributed plugin framework written in C++，make it easier and faster to create your own application service. Inspired by UnrealEngine and Ogre.
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/ark-wordmark-dark.svg">
+    <img src="docs/assets/ark-wordmark-light.svg" alt="ark" width="320" height="144">
+  </picture>
+</p>
 
----
+<h3 align="center">A C++20 framework for modular server applications.</h3>
 
-![GitHub release](https://img.shields.io/github/release/OpenArkStudio/ark.svg?style=flat-square)
-![GitHub pre-release](https://img.shields.io/github/release-pre/OpenArkStudio/ark.svg?label=pre-release&style=flat-square)
-[![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows,%20MacOSX-green.svg?style=flat-square)](https://github.com/OpenArkStudio/ark)
-[![C++20](https://img.shields.io/badge/C++-20-4c7e9f.svg?style=flat-square)](https://github.com/OpenArkStudio/ark)
-[![License](https://img.shields.io/github/license/OpenArkStudio/ark.svg?colorB=f48041&style=flat-square)](https://opensource.org/licenses/Apache-2.0)
-![GitHub stars](https://img.shields.io/github/stars/OpenArkStudio/ark.svg?style=flat-square&label=Stars&style=flat-square)
-![GitHub issues](https://img.shields.io/github/issues-raw/OpenArkStudio/ark.svg?style=flat-square)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/OpenArkStudio/ark.svg?style=flat-square)<br>
-[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=ark&metric=alert_status)](https://sonarcloud.io/dashboard/index/ark)
-[![codecov](https://codecov.io/gh/OpenArkStudio/ark/branch/main/graph/badge.svg)](https://codecov.io/gh/OpenArkStudio/ark)
-[![QQ Group](https://img.shields.io/badge/Chat%20on-QQ%20Group-orange.svg?longCache=true&style=flat-square)](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
-[![Discord](https://img.shields.io/discord/471890201124536320.svg?label=Discord&style=flat-square)](https://discord.gg/GmyBbcv)
-[![996.icu](https://img.shields.io/badge/Link-996.icu-red.svg?&style=flat-square)](https://996.icu)
+<p align="center">Compose services. Model entities. Connect processes.</p>
 
-</center>
+<p align="center">
+  <a href="https://github.com/OpenArkStudio/ark/actions/workflows/ci.yml"><img src="https://github.com/OpenArkStudio/ark/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
+  <a href="CMakeLists.txt"><img src="https://img.shields.io/badge/C%2B%2B-20-5267df" alt="C++20"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-5267df" alt="Apache-2.0"></a>
+</p>
 
-**Copyright © [OpenArkStudio](https://openark.io "OpenArkStudio")**  
-Website: https://github.com/OpenArkStudio  
-GitHub: https://github.com/OpenArkStudio/ark<br>
-Gitee: https://gitee.com/ArkNX/ARK  
-QQ
-Group: [Join Us](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)  
-Discord: [Join Us](https://discord.gg/GmyBbcv)
-
-[![CI](https://github.com/OpenArkStudio/ark/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/OpenArkStudio/ark/actions/workflows/ci.yml)
-
-Development targets the protected `main` branch. Changes require a pull request
-and passing CI, then merge with squash and an English commit subject.
-See the [Contribution Guide](.github/CONTRIBUTING.md).
-
-## Features
-
-- Flexible apps, plugins, and modules
-- The general abstract data system
-- Interface-oriented and data-oriented programming(IOP & DOP)
-- Event-driven and data-driven
-- Data & procedure tracing
-- Use Excel as configuration files, easier for the designers
-- Lower training and education costs
-- Based on C++ standard, easy to handle and learn
-- Cross-platform (Windows, Linux, MacOS)
-- High availability architectures
-- High concurrency and performance of the network
-- With existed simple Unity3D client for rapid development
-- Plentiful plugins(DB, script, HTTP, WebSocket, etc.)
-- Customization service for business customer
-
-## Document
-
-Please visit doc website: [Document](https://openarkstudio.github.io/ark/)
-
-ARK requires C++20 and uses [arknet](https://github.com/OpenArkStudio/arknet) for
-TCP, WebSocket, HTTP and RDP. Build instructions and permanent network tests
-are described in [Network builds and regression tests](docs/networking.md).
-
-## Unity3D client
-
-[Unity3D Client](https://github.com/OpenArkStudio/ArkClient-Unity3D)
-
-## License
-
-The ARK project is currently available under the [Apache License](LICENSE).
-
-## Donation
-
-Thank you for your donation, all income will be used for development and server fees.
-
-[![Donate by Paypal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/nickyang4self)
-
-[![Donate by Patron](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/bePatron?u=19279478)
-
-## Core Developers
-
-- [Nick Yang](https://github.com/NickYang1988)
-- [flyicegood](https://github.com/flyicegood)
-- [loscaz](https://github.com/loscaz)
+<p align="center"><a href="docs/get-started/installation.md"><strong>Get started →</strong></a> &nbsp; · &nbsp; <a href="https://openarkstudio.github.io/ark/">Documentation</a> &nbsp; · &nbsp; <a href="examples/">Examples</a> &nbsp; · &nbsp; <a href="docs/project/roadmap.md">Roadmap</a></p>
 
 ---
 
-Our team has always specialized in the agile development and try to help different teams to develop game project quickly
-and easily. After years of development, we create this frame. We are still improving it.
+ark provides the application structure around your C++ services: plugin composition, module lifecycles, entity data and communication between processes. Use it for game servers and other modular server applications on Linux, macOS and Windows. Core components and official plugins live here; business plugins live with their application.
+
+## Built around your services
+
+| Compose | Model | Connect |
+| :--- | :--- | :--- |
+| **Plugins and modules** | **Entity data** | **Process communication** |
+| Register services behind interfaces and participate in initialization, updates and shutdown. | Describe properties, tables and containers through metadata, configuration defaults and change callbacks. | Use TCP, WebSocket, HTTP and RUDP through [arknet](https://github.com/OpenArkStudio/arknet), with bus identifiers and message routing. |
+
+Protobuf messages, Excel configuration generation, native C++ regression tests and optional benchmarks support the development workflow.
+
+## A module is a C++ class
+
+Override the lifecycle stages the service needs. This module counts application updates; a plugin registers it with the manager.
+
+```cpp
+#include <cstddef>
+
+#include <ark/module.hpp>
+#include <ark/plugin_manager.hpp>
+
+namespace ark {
+
+class sample_module final : public module
+{
+    ARK_DECLARE_MODULE_FUNCTIONS
+
+public:
+    bool update() override {
+        ++update_count_;
+        return true;
+    }
+
+private:
+    std::size_t update_count_ = 0;
+};
+
+} // namespace ark
+```
+
+Continue with [module lifecycle and interfaces](docs/guides/modules.md) and [plugin registration](docs/guides/plugins.md).
+
+## Start with an example
+
+Build the example applications with a C++20 compiler, CMake 3.21 or newer, and vcpkg. The [installation guide](docs/get-started/installation.md) covers dependencies and platform-specific commands. Windows requires Visual Studio 2022 or newer.
+
+After building and preparing the runtime directory, start `sample1` from `build/`:
+
+```sh
+./bin/app --busid=1.0.1.1 --name=sample1 --app_conf=conf/sample1.app.conf
+```
+
+| Next step | Guide |
+| :--- | :--- |
+| Run the bundled applications | [Quick start](docs/get-started/quick-start.md) |
+| Understand the framework | [Architecture](docs/concepts/architecture.md) · [Entity data](docs/reference/kernel.md) |
+| Connect application processes | [Networking](docs/reference/network.md) · [Message bus](docs/reference/bus.md) |
+| Reproduce validation results | [Tests](docs/networking.md) · [Database benchmarks](docs/performance/database-coroutines.md) |
+
+Dependencies are managed with [vcpkg](vcpkg.json) and [Git submodules](.gitmodules). The arknet revision is pinned in [CMakeLists.txt](CMakeLists.txt).
+
+## Contribute
+
+Bug reports, discussions and pull requests are welcome. See the [contribution guide](.github/CONTRIBUTING.md) for coding style, tests and the protected-branch workflow. Find us on [GitHub Issues](https://github.com/OpenArkStudio/ark/issues) and [Discord](https://discord.gg/GmyBbcv).
+
+Thanks to [Nick Yang](https://github.com/NickYang1988), [flyicegood](https://github.com/flyicegood), [loscaz](https://github.com/loscaz), and all [contributors](https://github.com/OpenArkStudio/ark/graphs/contributors).
+
+[Unity client](https://github.com/OpenArkStudio/ArkClient-Unity3D) · Support development through [PayPal](https://www.paypal.me/nickyang4self) or [Patreon](https://www.patreon.com/bePatron?u=19279478).
 
 ---
 
-## Stargazers over time
-
-[![Stargazers over time](https://starchart.cc/OpenArkStudio/ark.svg)](https://starchart.cc/OpenArkStudio/ark)
-
-#### Some Awesome projects
-
-[PSS](https://github.com/freeeyes/PSS)
-
-- Author: freeeyes
-- Description: Cross platform network service frame
+[Apache-2.0](LICENSE) · Copyright OpenArkStudio.
