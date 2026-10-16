@@ -9,7 +9,19 @@ node --test tests/ci/*.test.mjs
 The tests use temporary local Git repositories. No GitHub API token, network service,
 C++ rebuild or database is required. They verify complete rename-aware path decisions,
 safe fallback to the full C++ matrix, documentation availability and strict job results.
-Main pushes and manual runs always retain the full C++ matrix.
+PRs run the checks required by their changed paths. Merge-group candidates and
+manual runs retain the full C++ matrix. Protected `main` accepts only candidates
+that passed their required checks; its resulting push does not repeat CI for the
+same accepted tree. The separate documentation workflow still publishes on main
+pushes. README badges display the merge-group workflow status.
+
+Each existing PR/ref concurrency group permits one active run and only the most
+recently queued pending run. A new run waits for the active run to finish instead
+of automatically cancelling it. Individual running jobs retain their configured
+timeouts; those limits do not include pending time. Merge-group candidates use
+their own refs. The required gate still rejects failed, cancelled or missing
+results. Manual cancellation can still prevent the `always()` summary from
+completing. See [GitHub concurrency rules](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#concurrency).
 
 Root README link checks run only when a root README changes. They validate local file
 targets, including images, HTML `srcset` and reference links. It handles the forms
@@ -21,7 +33,9 @@ The vcpkg cache tests cover Windows/Unix archive paths, dependency and runner-im
 key changes, provider exports, unavailable storage and explicit cold-build fallbacks.
 The C++ CI jobs restore only local package archives through Actions cache; vcpkg
 still validates each package ABI. A cache miss/service failure runs the ordinary
-dependency build and tests. Archives are saved only after the job's tests succeed.
+dependency build and tests. Archives are saved after successful CMake configuration,
+before compiling and testing ark; later build or test failures still fail the job.
+Workflow checks cover this order and retain fatal configure/build/test steps.
 Missing runner-image identity or unsupported archive paths disable persistence and
 export `VCPKG_BINARY_SOURCES=clear`, which prevents run-vcpkg's removed `x-gha`
 default from being selected. Missing GitHub file-command channels fail explicitly.

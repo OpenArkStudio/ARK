@@ -38,6 +38,11 @@ branch or worktree when the existing checkout contains uncommitted changes.
 
 ## Verification and delivery
 
+- When runner capacity is shared by several PRs, prioritize the oldest unblocked
+  PRs and their required queue candidates. Prepare newer work locally and defer
+  its hosted runs until older ready PRs can finish; do not repeatedly push newer
+  branches ahead of the backlog. Preserve active acceptance runs. A cancelled
+  scheduling run still needs fresh successful checks before acceptance.
 - Run the checks relevant to the change before publishing. Report the exact
   tested revision, commands, results and material limitations.
 - Investigate failed CI logs before changing code or retrying. Do not repeatedly

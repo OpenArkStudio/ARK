@@ -2,8 +2,6 @@ name: CI
 run-name: CI - ${{ github.event_name }} - ${{ github.ref_name }}
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
   merge_group:
@@ -15,7 +13,7 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   scope:
@@ -130,13 +128,6 @@ jobs:
           -DARK_BUILD_NETWORK_TESTS=ON
           -DASIO_STANDALONE=OFF
           ${{ matrix.sanitizer == 'address' && '"-DCMAKE_CXX_FLAGS=-fsanitize=address,undefined -fno-omit-frame-pointer" "-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address,undefined"' || matrix.sanitizer == 'thread' && '"-DCMAKE_CXX_FLAGS=-fsanitize=thread -fno-omit-frame-pointer" "-DCMAKE_EXE_LINKER_FLAGS=-fsanitize=thread"' || '' }}
-      - run: cmake --build ci-build --parallel 2
-      - name: Run network regressions
-        env:
-          ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
-          UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
-          TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
-        run: cmake --build ci-build --target check-network
       - name: Save vcpkg package archives
         if: ${{ success() && steps.vcpkg-cache.outputs.enabled == 'true' && steps.vcpkg-restore.outputs.cache-hit != 'true' }}
         continue-on-error: true
@@ -144,6 +135,13 @@ jobs:
         with:
           path: ${{ steps.vcpkg-cache.outputs.directory }}
           key: ${{ steps.vcpkg-cache.outputs.key }}
+      - run: cmake --build ci-build --parallel 2
+      - name: Run network regressions
+        env:
+          ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+          TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
+        run: cmake --build ci-build --target check-network
   applications:
     name: Applications - ${{ matrix.os }} - C++20
     needs: scope
@@ -197,9 +195,6 @@ jobs:
           -DARK_BUILD_CORE_TESTS=ON
           -DARK_BUILD_EXAMPLES=ON
           -DASIO_STANDALONE=OFF
-      - run: cmake --build ci-build --parallel 2
-      - name: Run core and Protobuf regressions
-        run: cmake --build ci-build --target check-core
       - name: Save vcpkg package archives
         if: ${{ success() && steps.vcpkg-cache.outputs.enabled == 'true' && steps.vcpkg-restore.outputs.cache-hit != 'true' }}
         continue-on-error: true
@@ -207,6 +202,9 @@ jobs:
         with:
           path: ${{ steps.vcpkg-cache.outputs.directory }}
           key: ${{ steps.vcpkg-cache.outputs.key }}
+      - run: cmake --build ci-build --parallel 2
+      - name: Run core and Protobuf regressions
+        run: cmake --build ci-build --target check-core
   database:
     name: Database - ${{ matrix.os }} - ${{ matrix.asio }}
     needs: scope
@@ -275,12 +273,6 @@ jobs:
           "-DARKNET_SOURCE_DIR=$env:GITHUB_WORKSPACE/ci-arknet"
           -DARKNET_ENABLE_SSL=ON
           -DASIO_STANDALONE=${{ matrix.standalone }}
-      - name: Compile native services and coroutine tests
-        run: cmake --build ci-database --parallel 2
-      - name: Run local database lifetime regressions
-        run: cmake --build ci-database --target check-database
-      - name: Run local database benchmark self-tests
-        run: cmake --build ci-database --target check-database-benchmark
       - name: Save vcpkg package archives
         if: ${{ success() && steps.vcpkg-cache.outputs.enabled == 'true' && steps.vcpkg-restore.outputs.cache-hit != 'true' }}
         continue-on-error: true
@@ -288,6 +280,12 @@ jobs:
         with:
           path: ${{ steps.vcpkg-cache.outputs.directory }}
           key: ${{ steps.vcpkg-cache.outputs.key }}
+      - name: Compile native services and coroutine tests
+        run: cmake --build ci-database --parallel 2
+      - name: Run local database lifetime regressions
+        run: cmake --build ci-database --target check-database
+      - name: Run local database benchmark self-tests
+        run: cmake --build ci-database --target check-database-benchmark
   required:
     name: CI - required
     if: always()
