@@ -4,15 +4,26 @@ import test from 'node:test';
 
 const workflow = readFileSync(new URL('../../.github/workflows/ci.yml', import.meta.url), 'utf8').replaceAll('\r\n', '\n');
 
-test('PR, main and merge-group runs retain the bounded per-PR/ref workflow group', () => {
+test('PR, merge-group and manual runs retain the bounded per-PR/ref workflow group', () => {
   const concurrency = workflow.match(/^concurrency:\n((?:  [^\n]+\n)+)/m)?.[1];
   assert.equal(concurrency,
     '  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}\n' +
     '  cancel-in-progress: false\n');
   assert.equal([...workflow.matchAll(/^ *concurrency:/gm)].length, 1, 'keep one workflow-level group');
-  assert.match(workflow, /^  push:\n    branches: \[main\]$/m);
   assert.match(workflow, /^  pull_request:\n    branches: \[main\]$/m);
   assert.match(workflow, /^  merge_group:\n    types: \[checks_requested\]$/m);
+  assert.match(workflow, /^  workflow_dispatch:$/m);
+});
+
+test('protected admission is validated before merge without repeating CI on a main push', () => {
+  assert.doesNotMatch(workflow, /^  push:/m);
+  const publishing = readFileSync(new URL('../../.github/workflows/docs.yml', import.meta.url), 'utf8').replaceAll('\r\n', '\n');
+  assert.match(publishing, /^  push:\n    branches: \[main\]$/m, 'keep documentation publication after merge');
+  for (const name of ['README.md', 'README_CN.md']) {
+    const readme = readFileSync(new URL('../../' + name, import.meta.url), 'utf8');
+    assert.match(readme, /ci\.yml\/badge\.svg\?event=merge_group/);
+    assert.doesNotMatch(readme, /ci\.yml\/badge\.svg\?branch=main/);
+  }
 });
 
 test('the required gate still runs after failed needs and invokes the fatal result validator', () => {

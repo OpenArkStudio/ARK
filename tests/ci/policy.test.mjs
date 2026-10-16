@@ -68,7 +68,7 @@ test('empty, missing, truncated and invalid UTF-8 path lists never grant a light
   assert.equal(decision(['docs/a\nname.md']).full_cpp, true);
 });
 
-test('manual, main pushes and unsupported events retain full C++ coverage', () => {
+test('events outside pull requests cannot grant a lightweight classifier result', () => {
   for (const eventName of ['push', 'workflow_dispatch', 'merge_group', 'unknown']) {
     const plan = decision(['docs/guide.md'], { eventName });
     assert.equal(plan.full_cpp, true);
