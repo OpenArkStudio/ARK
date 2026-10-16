@@ -82,4 +82,4 @@ bool set_row_value(ark::entity& owner, std::uint32_t table_index,
 
 现有[配置工具](tools_CN.md)生成 XML 元数据、静态值与 C++ 字段索引定义。修改定义时保持三者一致。保存或同步标记仍需要应用决定持久化与交付策略，不会自动完成存储或复制。
 
-完整创建、类型化访问、回调与转换示例见 [Kernel 参考](../reference/kernel_CN.md)，模块可用阶段见[应用架构](../concepts/application-architecture_CN.md)。历史 AF 前缀布局保存在[原始文章](https://github.com/OpenArkStudio/ark/blob/eea25046fa7dd82fbbf181c847f25f9a79effde3/docs/guides/data-structures_CN.md)，这些内部布局不是当前 API 契约。
+完整创建、类型化访问、回调与转换示例见 [Kernel 参考](../reference/kernel_CN.md)，模块可用阶段见[应用架构](../concepts/application-architecture_CN.md)。历史 AF 前缀布局保存在[原始文章](https://github.com/OpenArkStudio/ark/blob/main/docs/site/legacy-source/zh-cn/data-structure.md)，这些内部布局不是当前 API 契约。
