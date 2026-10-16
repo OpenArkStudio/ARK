@@ -16,10 +16,10 @@
 #include <vector>
 
 #include "detail/database_awaitable.hpp"
-#include "redis/src/detail/redis_service.hpp"
+#include "redis/detail/redis_service.hpp"
 
 #if defined(ARKNET_ENABLE_SSL)
-#include "mysql/src/detail/mysql_service.hpp"
+#include "mysql/detail/mysql_service.hpp"
 #endif
 
 namespace {

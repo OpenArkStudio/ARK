@@ -2,7 +2,7 @@
 
 ## 当前改造
 
-- [x] 完成 `include/ark/`、`src/` 与 `plugins/<名称>/` 的目录整理和 snake_case 接口迁移，包含 Protobuf 源码命名。
+- [x] 完成 `include/ark/`、`src/` 与 `src/plugins/<名称>/` 的目录整理和 snake_case 接口迁移，包含 Protobuf 源码命名。
 - [x] 随 arknet 0.2.0 发布原生 MySQL、Redis 单节点客户端。
 - [ ] 替换 ark 数据库插件的旧驱动，提供 Asio 协程入口，直接使用 arknet 拥有型结果，并在模块线程恢复。
 - [ ] 整合其余独立官方插件，按需构建并补齐测试。

@@ -3,7 +3,7 @@
 [English](MYSQL.md) | [简体中文](MYSQL_CN.md)
 
 该可选程序通过真实 MySQL 服务验证
-`plugins/mysql/src/detail/mysql_service.hpp`。私有服务直接使用 arknet 原生连接池，
+`src/plugins/mysql/detail/mysql_service.hpp`。私有服务直接使用 arknet 原生连接池，
 尚未修改公开 MySQL 模块接口、注册运行时模块或替换旧驱动。内部结果类型不属于已确定的插件 SDK。
 
 ## 构建

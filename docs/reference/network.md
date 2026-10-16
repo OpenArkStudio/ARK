@@ -11,7 +11,7 @@ The network plugin integrates the independent arknet library with ark's message 
 
 `net` defines start, shutdown, send and Update operations. Application messages retain their existing headers. RUDP uses arknet's compatible ARQ wire format with FEC disabled by default.
 
-See [network builds and tests](../networking.md), [ark::net](https://github.com/OpenArkStudio/ark/blob/main/plugins/net/include/ark/net/net.hpp) and the [arknet protocol guides](https://openarkstudio.github.io/arknet/features/).
+See [network builds and tests](../networking.md), [ark::net](https://github.com/OpenArkStudio/ark/blob/main/include/ark/net/net.hpp) and the [arknet protocol guides](https://openarkstudio.github.io/arknet/features/).
 
 ## Initial application receive buffer
 

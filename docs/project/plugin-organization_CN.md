@@ -1,34 +1,36 @@
 # 官方插件与仓库组织
 
-工程目录已采用顶层平铺的 `plugins/<名称>/`，核心公开接口放在 `include/ark/`，实现放在 `src/`。核心与官方插件纳入 `ark`，业务插件放在应用仓库，`arknet` 保持独立。业务热更新的设计与实现暂缓，目录与 snake_case 整理已经落地，独立插件的功能整合仍按插件分别验收。
+核心与插件的公开接口统一放在 `include/ark/`，核心构建定义放在 `src/core/`，官方插件实现放在 `src/plugins/<名称>/`。核心与官方插件纳入 `ark`，业务插件放在应用仓库，`arknet` 保持独立。业务热更新的设计与实现暂缓，目录与 snake_case 整理已经落地，独立插件的功能整合仍按插件分别验收。
 
 ## 现有实现
 
 | 独立仓库 | ark 内的相关实现 | 建议合入位置 | 需要整理的内容 |
 | --- | --- | --- | --- |
-| [MySQLPlugin](https://github.com/OpenArkStudio/MySQLPlugin) | `plugins/mysql` | `plugins/mysql` | 由 arknet 自主实现 MySQL 客户端；插件整合配置、连接服务和业务回调 |
-| [RedisPlugin](https://github.com/OpenArkStudio/RedisPlugin) | `plugins/redis` | `plugins/redis` | 由 arknet 自主实现 Redis 客户端，再替换 aredis、bredis 的调用 |
-| [URLPlugin](https://github.com/OpenArkStudio/URLPlugin) | Net HTTP client 与 HTTP server 插件 | `plugins/http` | 对照 libcurl 版本的请求、编码与 actor 调用能力，统一 HTTP 服务接口 |
-| [LuaScriptPlugin](https://github.com/OpenArkStudio/LuaScriptPlugin) | 需要按新插件接口接入 | `plugins/lua` | 整理 Lua 绑定与脚本生命周期，移除对旧 NFComm 接口的依赖 |
-| [ActorPlugin](https://github.com/OpenArkStudio/ActorPlugin) | 需要按新插件接口接入 | `plugins/actor` | 明确任务调度、消息投递和业务线程的关系 |
+| [MySQLPlugin](https://github.com/OpenArkStudio/MySQLPlugin) | `src/plugins/mysql` | `src/plugins/mysql` | 由 arknet 自主实现 MySQL 客户端；插件整合配置、连接服务和业务回调 |
+| [RedisPlugin](https://github.com/OpenArkStudio/RedisPlugin) | `src/plugins/redis` | `src/plugins/redis` | 由 arknet 自主实现 Redis 客户端，再替换 aredis、bredis 的调用 |
+| [URLPlugin](https://github.com/OpenArkStudio/URLPlugin) | Net HTTP client 与 HTTP server 插件 | `src/plugins/http` | 对照 libcurl 版本的请求、编码与 actor 调用能力，统一 HTTP 服务接口 |
+| [LuaScriptPlugin](https://github.com/OpenArkStudio/LuaScriptPlugin) | 需要按新插件接口接入 | `src/plugins/lua` | 整理 Lua 绑定与脚本生命周期，移除对旧 NFComm 接口的依赖 |
+| [ActorPlugin](https://github.com/OpenArkStudio/ActorPlugin) | 需要按新插件接口接入 | `src/plugins/actor` | 明确任务调度、消息投递和业务线程的关系 |
 
 这些仓库仍保留不同代际的接口和构建方式。合入时逐项对照功能、重叠实现与依赖。MySQL、Redis 客户端归入 arknet，其他插件的依赖按各自需求讨论。
 
-## 目录建议
+## 目录布局
 
 ```text
 ark/
-├── include/ark/         # 核心公开接口
-├── src/                 # 核心运行时实现
-├── plugins/             # 官方插件，按名称平铺
-│   ├── kernel/
-│   ├── net/
-│   ├── bus/
-│   ├── http/
-│   ├── mysql/
-│   ├── redis/
-│   ├── lua/
-│   └── actor/
+├── include/ark/         # 核心与插件公开接口
+├── src/
+│   ├── core/            # header-only 核心 target 定义
+│   ├── plugins/         # 官方插件实现与 CMake 文件
+│   │   ├── kernel/
+│   │   ├── net/
+│   │   ├── bus/
+│   │   ├── http/
+│   │   ├── mysql/
+│   │   └── redis/
+│   ├── app/
+│   ├── proto/
+│   └── server/
 ├── examples/            # 示例应用与业务插件
 ├── tests/               # 核心与跨插件集成测试
 ├── benchmarks/          # 可独立编译运行的基准程序
@@ -37,16 +39,17 @@ ark/
 └── docs/                # 中英文文档与 Nimbus 站点
 ```
 
-上图列出主要目录。Consul、etcd、Kafka 等现有官方插件也按同一规则组织。
+上图列出主要目录。Consul、etcd、Kafka 等现有官方插件也按同一规则组织。Lua、Actor 的接入仍在规划中，上表列出的是它们的建议实现位置。
 
 每个插件采用相同的目录布局，以 MySQL 为例：
 
 ```text
-plugins/mysql/
+include/ark/mysql/      # 使用该插件时需要的公开接口
+src/plugins/mysql/
 ├── CMakeLists.txt
-├── include/ark/mysql/   # 使用该插件时需要的公开接口
-├── src/                 # 插件入口、框架接入与私有实现
-└── tests/               # 该插件的独立测试
+├── detail/             # 私有原生数据库桥接
+└── *.cpp               # 插件入口与框架接入
+tests/database/         # 数据库集成与协程测试
 ```
 
 插件使用说明放在 `docs/`，示例应用放在 `examples/`。公共接口按能力定义，数据库客户端类型尽量保留在实现内。
