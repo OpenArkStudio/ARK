@@ -5,7 +5,7 @@
 | 应用 | 选择插件与进程配置 | [应用源码](https://github.com/OpenArkStudio/ark/tree/main/src/app) |
 | 插件 | 安装与卸载一组模块 | [ark::sample1_plugin](https://github.com/OpenArkStudio/ark/blob/main/examples/sample1/sample1_plugin.cpp) |
 | 模块 | 提供接口，参与应用生命周期 | [ark::module](https://github.com/OpenArkStudio/ark/blob/main/include/ark/module.hpp) |
-| 网络 | 使用 arknet 端点，排队分发业务消息与事件 | [网络插件](https://github.com/OpenArkStudio/ark/tree/main/plugins/net) |
+| 网络 | 使用 arknet 端点，排队分发业务消息与事件 | [网络插件](https://github.com/OpenArkStudio/ark/tree/main/src/plugins/net) |
 
 模块接口提供 `init`、`post_init`、`check_config`、`pre_update`、`update`、`pre_shut` 和 `shut`。初始化与关闭职责应成对处理；释放模块前，先停止引用它的回调来源。
 
