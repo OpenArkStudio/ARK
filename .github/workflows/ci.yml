@@ -111,11 +111,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Initialize pinned dependencies
         run: git submodule update --init 3rdparty/args 3rdparty/spdlog 3rdparty/readerwriterqueue
-      - name: Check out the coroutine runtime for development tests
+      - name: Check out pinned arknet for database development tests
         uses: actions/checkout@v4
         with:
           repository: OpenArkStudio/arknet
-          ref: 504388db53ef4c1162a19e336433595a1e8b2640
+          ref: 7685e241bebd086d50da403f2cf06a72bbef1085
           path: ci-arknet
       - uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
