@@ -195,7 +195,7 @@ public:
 protected:
     void parse_file() {
         xml_file_ = std::make_unique<rapidxml::file<>>(file_path_.c_str());
-        xml_document_->parse<0>(xml_file_->data());
+        xml_document_->parse<rapidxml::parse_validate_closing_tags>(xml_file_->data());
     }
 
 private:
