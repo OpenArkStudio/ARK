@@ -82,13 +82,21 @@ After building and preparing the runtime directory, start `sample1` from `build/
 
 Dependencies are managed with [vcpkg](vcpkg.json) and [Git submodules](.gitmodules). The arknet revision is pinned in [CMakeLists.txt](CMakeLists.txt).
 
+## Client integration
+
+The [legacy Unity client](https://github.com/OpenArkStudio/ArkClient-Unity3D) has not been verified against the current ark server. Restoring it and testing the client and server together is planned follow-up work.
+
 ## Contribute
 
 Bug reports, discussions and pull requests are welcome. See the [contribution guide](.github/CONTRIBUTING.md) for coding style, tests and the protected-branch workflow. Find us on [GitHub Issues](https://github.com/OpenArkStudio/ark/issues) and [Discord](https://discord.gg/GmyBbcv).
 
-Thanks to [Nick Yang](https://github.com/NickYang1988), [flyicegood](https://github.com/flyicegood), [loscaz](https://github.com/loscaz), and all [contributors](https://github.com/OpenArkStudio/ark/graphs/contributors).
+## Core developers
 
-[Unity client](https://github.com/OpenArkStudio/ArkClient-Unity3D) · Support development through [PayPal](https://www.paypal.me/nickyang4self) or [Patreon](https://www.patreon.com/bePatron?u=19279478).
+- [Nick Yang](https://github.com/NickYang1988)
+- [flyicegood](https://github.com/flyicegood)
+- [loscaz](https://github.com/loscaz)
+
+Thanks to all [contributors](https://github.com/OpenArkStudio/ark/graphs/contributors).
 
 ---
 
