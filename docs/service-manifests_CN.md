@@ -1,10 +1,10 @@
 # 应用插件清单
 
-应用插件清单指定要加载的插件库及配置文件，继续通过 `-a` / `--app_conf` 传入路径。以 `.toml` 结尾的路径使用 TOML，其他路径保留原有 XML 解析方式。TOML 解析失败时直接报错，不会回退到 XML。
+应用插件清单指定要加载的插件库及配置文件，通过 `-a` / `--app_conf` 传入 `.toml` 清单或原有 `.app.conf` XML 清单。TOML 解析失败时直接报错，不会回退到 XML。
 
 ## TOML 格式
 
-仓库中的 [sample1.app.toml](../build/conf/sample1.app.toml) 与 [sample1.app.conf](../build/conf/sample1.app.conf) 等价：
+仓库中的 [sample1.app.toml](../build/conf/sample1.app.toml) 与 [sample1.app.conf](../build/conf/sample1.app.conf) 等价，示例采用 TOML 1.0 语法：
 
 ```toml
 [application]
@@ -63,7 +63,7 @@ Debug 构建使用 `app_d`。日志仍读取 `conf/log.conf`；总线、日志�
 
 ## C++ 和构建集成
 
-`ark::config` 是静态 CMake 目标，公开头文件仅依赖 C++ 标准库：
+`ark::config` 是静态 CMake 目标，公开头文件仅依赖 C++ 标准库。公开读取函数 `load_application_manifest()` 对 `.toml` 后缀使用 TOML，对其他路径使用 XML；应用的 `-a` 参数仍保留前述清单路径限制。
 
 ```cpp
 #include <ark/application_manifest.hpp>

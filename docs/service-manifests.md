@@ -1,10 +1,10 @@
 # Application plugin manifests
 
-An application manifest selects plugin libraries and their configuration files. Pass its path through the existing `-a` / `--app_conf` argument. A `.toml` suffix selects TOML; other paths retain legacy XML parsing. A TOML error never falls back to XML.
+An application manifest selects plugin libraries and their configuration files. Pass a `.toml` manifest or an existing `.app.conf` XML manifest through the `-a` / `--app_conf` argument. A TOML error never falls back to XML.
 
 ## TOML format
 
-The shipped [sample1.app.toml](../build/conf/sample1.app.toml) is equivalent to [sample1.app.conf](../build/conf/sample1.app.conf):
+The shipped [sample1.app.toml](../build/conf/sample1.app.toml) is equivalent to [sample1.app.conf](../build/conf/sample1.app.conf). The example uses TOML 1.0 syntax:
 
 ```toml
 [application]
@@ -63,7 +63,7 @@ The application loader requires a root containing a `plugins` child; a direct `<
 
 ## C++ and build integration
 
-`ark::config` is a static CMake target with a standard-library-only public header:
+`ark::config` is a static CMake target with a standard-library-only public header. The public `load_application_manifest()` reader selects TOML for a `.toml` suffix and XML for other paths; the application's `-a` argument retains the manifest path restrictions described above.
 
 ```cpp
 #include <ark/application_manifest.hpp>
