@@ -21,3 +21,13 @@ cmake --build core-build --target check-core
 
 `check-kernel-initialization` 从 `resource/meta/` 加载真实元数据和静态数据，
 分别使用资源相对路径及以 `/` 开头的旧路径，验证内核与配置模块的四种初始化顺序，共八种组合。
+
+`check-logging` 运行独立的 C++ 日志路径回归测试，并由 `check-core` 一并执行。
+用例覆盖相对路径、嵌套路径、扩展名、隐藏文件、含点的目录名、两个按小时轮转的日志创建函数，
+以及配置中的日志目录。`output_path` 为空时使用当前工作目录。按小时轮转的日志仍采用
+`目录/YYYYMMDD/文件名_hh.扩展名` 布局；只有文件名的最后一个扩展名放在小时后缀之后。
+没有扩展名或以点结尾时保留完整文件名。测试只在临时目录写入文件。
+
+```sh
+cmake --build core-build --target check-logging
+```
