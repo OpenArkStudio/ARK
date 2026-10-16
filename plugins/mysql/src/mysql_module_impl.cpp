@@ -51,16 +51,6 @@ bool mysql_module_impl::init() {
         auto db_user = instance_node.get_string("dbuser");
         auto db_pwd = instance_node.get_string("dbpwd");
 
-        std::cout << "----------\n";
-        std::cout << server_id << "\n"
-                  << dns << "\n"
-                  << ip << "\n"
-                  << port << "\n"
-                  << db_name << "\n"
-                  << db_user << "\n"
-                  << db_pwd << "\n";
-        std::cout << "----------\n";
-
         mysql_driver_manager_->add_mysql_server(server_id, dns, ip, port, db_name, db_user, db_pwd);
     }
 
