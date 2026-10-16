@@ -1,41 +1,80 @@
 # Quick start
 
-Build the C++20 application and sample plugins using [Install and build](installation.md). The checkout created by `git clone https://github.com/OpenArkStudio/ark.git` is named `ark`.
+Run Sample1 to check that the application can load plugins and enter the module lifecycle. It uses `AFUtilityPlugin` and `Sample1Plugin`; it does not require Consul, a database service or Excel configuration generation.
 
-## Run the sample application
+## Build the application and plugins
 
-From the repository root, copy the chosen build's binaries into the runtime directory, then run from `build/` so relative configuration paths resolve correctly. For the Release build above on macOS or Linux:
+Complete [Install and build](installation.md) first. The commands below use its Release output directory, `app-build/bin/`, from the repository root. Keep the executable and plugin files from the same build together.
+
+## Prepare a runtime directory
+
+Create a separate runtime directory with the binaries, application manifest and logger settings. This keeps runtime files separate from the source configuration.
+
+On macOS/Linux:
 
 ```sh
-mkdir -p build/bin
-cp -R app-build/bin/. build/bin/
-cd build
-./bin/app --busid=1.0.1.1 --name=sample1 --app_conf=conf/sample1.app.conf
+mkdir -p run/sample1/bin run/sample1/conf
+cp -R app-build/bin/. run/sample1/bin/
+cp build/conf/sample1.app.conf build/conf/log.conf run/sample1/conf/
+```
+
+On Windows, in PowerShell:
+
+```powershell
+New-Item -ItemType Directory -Path run/sample1/bin, run/sample1/conf -Force | Out-Null
+Copy-Item app-build/bin/* run/sample1/bin/ -Recurse -Force
+Copy-Item build/conf/sample1.app.conf, build/conf/log.conf run/sample1/conf/
+```
+
+The required runtime files are:
+
+```text
+run/sample1/
+├── bin/       app + AFUtilityPlugin + Sample1Plugin from the same build
+└── conf/
+    ├── sample1.app.conf
+    └── log.conf
+```
+
+The copy commands also stage the build's other artifacts. Only the two libraries named by `sample1.app.conf` are selected by this sample. No separate `sample1.conf` or `resource/` directory is required for it.
+
+## Start Sample1
+
+Run from `run/sample1/`: the manifest's `bin/` and `conf/` paths are relative to the working directory.
+
+On macOS/Linux:
+
+```sh
+cd run/sample1
+./bin/app --busid=1.0.1.1 --name=sample1 \
+  --app_conf=conf/sample1.app.conf --log_conf=conf/log.conf
 ```
 
 On Windows:
 
 ```powershell
-New-Item -ItemType Directory -Path build/bin -Force | Out-Null
-Copy-Item app-build/bin/* build/bin/ -Recurse -Force
-cd build
-.\bin\app.exe --busid=1.0.1.1 --name=sample1 --app_conf=conf/sample1.app.conf
+cd run/sample1
+.\bin\app.exe --busid=1.0.1.1 --name=sample1 `
+  --app_conf=conf/sample1.app.conf --log_conf=conf/log.conf
 ```
 
-Debug builds use `app_d` or `app_d.exe`. The checked-in [sample configuration](https://github.com/OpenArkStudio/ark/blob/main/build/conf/sample1.app.conf) selects the plugins to load; their binaries must be staged under `build/bin/` from the same build as the application. See [Application launcher](../guides/applications.md) for command-line parameters and [Create a plugin](../guides/plugins.md) for the sample implementation.
+Debug builds use `app_d` or `app_d.exe` and plugin filenames with `_d` before the platform suffix. Use the complete Debug output in its own runtime directory; the XML plugin names stay unchanged.
 
-## Configuration and service discovery
+## Check the result
 
-- Checked-in configurations are under `build/conf/`, with data resources under `build/resource/`.
-- Excel-based configuration generation is a separate tool. Its Python/openpyxl requirements and generated files are described in [Configuration tools](../guides/tools.md).
-- Deployments that select the Consul plugin must provide their own Consul service and matching application configuration. Consul is not required for every plugin combination.
+The console should show a `sample1_module` log with `PostInit`. The sample registers a timer that emits `timer log` at ten-second intervals, five times. The supplied logger settings also write beneath `binlog/` in the runtime directory.
 
-<Aside type="caution" title="Check deployment scripts before use">
+Stop with Ctrl+C on macOS/Linux, or enter `exit` in the Windows application console. Sample1 should log `PreShut`, then `Shut`.
 
-Some existing multi-process launch scripts use older directory layouts and service settings. Check the executable names, plugin paths and ports against the selected configuration before running them.
+<Aside type="caution" title="Check initialization, not only the exit status">
+
+The current launcher does not provide an aggregate startup-success exit code. If the expected module log is missing, inspect the configuration and library errors using [Application launcher](../guides/applications.md#troubleshoot-startup).
 
 </Aside>
 
-## Verify networking separately
+## Continue with your application
 
-The [network regression tests](../networking.md) compile and run as C++ programs. They do not require Python or the Excel configuration tool.
+- [Create a module](../guides/modules.md) and [Create a plugin](../guides/plugins.md) explain how to register behavior.
+- [Application launcher](../guides/applications.md) explains Bus identity, plugin selection and configuration paths. Applications that load Kernel data also need their generated `resource/` files.
+- [Configuration tools](../guides/tools.md) shows the separate Excel-to-resource workflow. Its Python requirements do not apply to this sample or to the C++ network tests.
+- [Network regression tests](../networking.md) verify network behavior independently. Applications that select Consul or database plugins need those services and their own settings.
