@@ -9,8 +9,13 @@ node --test tests/ci/*.test.mjs
 The tests use temporary local Git repositories. No GitHub API token, network service,
 C++ rebuild or database is required. They verify complete rename-aware path decisions,
 safe fallback to the full C++ matrix, documentation availability and strict job results.
-PRs run the checks required by their changed paths. Merge-group candidates and
-manual runs retain the full C++ matrix. Protected `main` accepts only candidates
+PRs and merge-group candidates select checks from their complete changed paths.
+Queue candidates compare the event's `base_sha` directly with `head_sha`, including
+changes from earlier queued PRs. Only a known, nonempty documentation-only range
+with an available site can skip native jobs; code, build, dependency, CI, unknown
+paths or unavailable enumeration retain the full C++ matrix. Merge groups retain
+site validation when the site is present, and README changes require their link
+check. Manual runs retain the full C++ matrix. Protected `main` accepts only candidates
 that passed their required checks; its resulting push does not repeat CI for the
 same accepted tree. The separate documentation workflow still publishes on main
 pushes. README badges display the merge-group workflow status.
