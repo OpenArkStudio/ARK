@@ -16,3 +16,5 @@
 The project requires C++20 through CMake and disables compiler extensions. Applications and network tests require Boost.Asio and Boost.Beast. Standalone Asio is available for core-only and native database development builds; explicitly disable applications and network tests when selecting it. CMake rejects unsupported combinations before fetching dependencies. A local arknet checkout is a development override, not a copy inside ark.
 
 Official plugin options use `ARK_BUILD_PLUGIN_<NAME>`. The default runtime selection is `kernel`, `net`, `bus`, `utility` and `etcd_client`; optional database-plugin directories do not establish driver replacement or runtime acceptance. See [project layout](directory-structure.md), [protocol generation](protobuf.md) and [network builds](../networking.md).
+
+With `ARK_BUILD_EXAMPLES` enabled, the [coroutine task example](../guides/tasks.md) also builds with applications disabled. Existing plugin examples still require application builds.

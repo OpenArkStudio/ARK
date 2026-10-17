@@ -4,7 +4,8 @@
 
 这个可选开发原型复用 Asio 的 `awaitable`、`async_initiate` 和 `co_spawn`，
 不新增协程 promise 实现，也不修改已发布的数据库模块接口。
-辅助实现保留在私有目录 `src/plugins/detail/` 中。
+任务组通过公开的 `<ark/task.hpp>` 提供，原私有名称保留为同一实现的别名；
+数据库操作桥接仍在 `src/plugins/detail/`。
 
 ## 执行与所有权
 
@@ -125,3 +126,5 @@ MySQL 验证文本查询、预处理查询的有类型结果、独立语句清�
 `SELECT SLEEP` 的取消。两者均使用额度一，检查执行器恢复和显式关闭排空。
 MySQL 需要 `ARKNET_ENABLE_SSL=ON` 及与服务器名称匹配的可信证书。
 这些是本地功能检查，不代表生产容量或跨平台验收结论。
+
+公开的 `ark::task<T>` 和 `ark::task_group` 用法见[协程任务](../../docs/guides/tasks_CN.md)。这里的 `module_task<T>` 和 `module_task_group` 是同一实现的私有兼容别名，不会建立第二套调度器。

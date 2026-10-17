@@ -46,3 +46,14 @@ in a dot keep that basename. All test writes use temporary directories.
 ```sh
 cmake --build core-build --target check-logging
 ```
+
+## Public task SDK
+
+`check-task-sdk` is included in `check-core`. It compiles `<ark/task.hpp>`
+without an earlier include and runs an ordinary `ark::core` consumer. Cases
+cover typed owning values, stopped admission, explicit cancellation and owner
+thread checks. The controlled child checks require exit 77 for pending-task and
+wrong-thread destruction; they do not abandon suspended frames in the test owner.
+Private database task tests retain forwarding aliases to this same public class.
+See [Coroutine tasks](../../docs/guides/tasks.md) for the independently runnable
+`ark_task_example` and explicit lifetime requirements.

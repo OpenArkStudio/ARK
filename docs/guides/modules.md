@@ -90,19 +90,21 @@ The two example modules share the application update thread. The counter is deli
 | --- | --- | --- |
 | `init()` | Initialize local resources | Other registered modules may not have run `init()` yet |
 | `post_init()` | Resolve interfaces and use dependencies initialized in `init()` | Other modules' `post_init()` ordering is not a dependency order |
-| `check_config()` | Check configuration and dependencies | This callback's Boolean result is not currently aggregated |
+| `check_config()` | Check configuration and dependencies | A failure stops the remaining startup work |
 | `pre_update()` | Prepare work before the application loop | Keep this stage bounded |
-| `update()` | Process queued work for a frame | Called only for implementations that override it |
+| `update()` | Process queued work for a frame | Called only for implementations that override it; its Boolean result does not stop updates |
 | `pre_shut()` | Stop new work and begin releasing subscriptions | All modules enter this stage before `shut()` |
 | `shut()` | Release module-owned resources | Library unloading follows the shutdown callbacks |
 
-![Module lifecycle](../assets/module-lifecycle.svg)
+![Successful module lifecycle](../assets/module-lifecycle.svg)
 
 All module libraries are installed before the manager starts the initialization stages. Each stage visits the registered modules; the current containers do not provide dependency sorting or manifest-order execution. The base callbacks return `true`; override only the stages needed. The registration macro adds an implementation to the update list when it overrides `update()`. The counter provider therefore receives no frame updates, while `sample_module` increments it once per manager update.
 
-<Aside type="caution" title="Callback results do not abort startup">
+<Aside type="caution" title="Handle the manager's startup result">
 
-The current manager discards the Boolean values returned by module lifecycle callbacks, including `post_init()` and `update()`. With assertions disabled, the example's null check prevents dereferencing a failed lookup; returning `false` does not make the application reject startup. Keep the runtime plugin selection complete and report configuration failures explicitly.
+The first `false` from `init()`, `post_init()`, `check_config()` or `pre_update()` stops that stage and all later startup stages, and `plugin_manager::start()` returns `false`. Each callback runs at most once in its stage. Modules that already completed a stage are not automatically rolled back.
+
+The application launcher still does not check this result before entering its update loop. Manager failure reporting therefore does not establish application exit or partial-start cleanup. `update()` return values also remain ignored. Keep the runtime plugin selection complete and check startup results in callers that manage their own loop.
 
 </Aside>
 
@@ -116,4 +118,5 @@ The manager does not track arbitrary callbacks or prove that all work using a pl
 
 - [Create a plugin](plugins.md): registration pairs, DLL entry points, build and runtime selection.
 - [Application launcher](applications.md): process arguments and configuration paths.
+- [Coroutine tasks](tasks.md): explicit task ownership, admission and owner-thread polling.
 - [Kernel reference](../reference/kernel.md): entity and data services exposed by official modules.
