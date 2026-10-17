@@ -265,13 +265,13 @@ public:
         char tmp_buffer[buffer_size] = {0};
         bool tmp_use_buffer = (tmp_type == data_type::dt_string) && (this->string_value_ == this->inline_buffer_);
 
+        if (tmp_use_buffer)
+        {
+            memcpy(tmp_buffer, this->inline_buffer_, buffer_size);
+        }
+
         if ((src.type_ == data_type::dt_string) && (src.string_value_ == src.inline_buffer_))
         {
-            if (tmp_use_buffer)
-            {
-                memcpy(tmp_buffer, this->inline_buffer_, buffer_size);
-            }
-
             memcpy(this->inline_buffer_, src.inline_buffer_, buffer_size);
             string_value_ = inline_buffer_;
         }
