@@ -58,6 +58,10 @@ input states; it does not reproduce or claim a native connection-pool fault.
 The real-service targets are not run by `check-database`. Missing endpoint
 configuration is an error, not a silently skipped successful check.
 
+With SSL enabled, local checks also include the private transaction state tests.
+The separate [MySQL transaction test](TRANSACTIONS.md) requires a disposable real
+service and exercises one native lease across multiple statements and completion.
+
 ## Redis TLS regression
 
 With `ARKNET_ENABLE_SSL=ON`, `check-database` also runs the native TLS regression.

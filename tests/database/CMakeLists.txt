@@ -39,6 +39,15 @@ add_custom_target(check-database
     USES_TERMINAL)
 
 if(ARKNET_ENABLE_SSL)
+    ark_database_test(ark_database_mysql_transaction_state_tests main.cpp mysql_transaction_state.cpp)
+    target_link_libraries(ark_database_mysql_transaction_state_tests PRIVATE arknet::arknet)
+    ark_database_test(ark_database_mysql_transaction_tests mysql_transactions.cpp)
+    target_link_libraries(ark_database_mysql_transaction_tests PRIVATE arknet::arknet)
+    add_custom_target(check-database-mysql-transaction-state
+        COMMAND $<TARGET_FILE:ark_database_mysql_transaction_state_tests>
+        DEPENDS ark_database_mysql_transaction_state_tests USES_TERMINAL)
+    add_dependencies(check-database check-database-mysql-transaction-state)
+
     set(ark_database_redis_cert_dir "${ARKNET_SOURCE_DIR}/tests/certs")
     foreach(certificate ca.pem server.pem server-key.pem wrong.pem ipv6/ca.pem)
         if(NOT EXISTS "${ark_database_redis_cert_dir}/${certificate}")
