@@ -51,10 +51,22 @@ public:
         plugin_conf_dir_ = conf_dir;
         plugins_ = plugins;
 
-        ARK_ASSERT_RET_VAL(init(), false);
-        ARK_ASSERT_RET_VAL(post_init(), false);
-        ARK_ASSERT_RET_VAL(check_config(), false);
-        ARK_ASSERT_RET_VAL(pre_update(), false);
+        if (!init())
+        {
+            return false;
+        }
+        if (!post_init())
+        {
+            return false;
+        }
+        if (!check_config())
+        {
+            return false;
+        }
+        if (!pre_update())
+        {
+            return false;
+        }
 
         return true;
     }
@@ -256,7 +268,10 @@ protected:
             module* module_ptr = iter.second;
             ARK_ASSERT_CONTINUE(module_ptr != nullptr);
 
-            module_ptr->init();
+            if (!module_ptr->init())
+            {
+                return false;
+            }
         }
 
         return true;
@@ -268,7 +283,10 @@ protected:
             module* module_ptr = iter.second;
             ARK_ASSERT_CONTINUE(module_ptr != nullptr);
 
-            module_ptr->post_init();
+            if (!module_ptr->post_init())
+            {
+                return false;
+            }
         }
 
         return true;
@@ -280,7 +298,10 @@ protected:
             module* module_ptr = iter.second;
             ARK_ASSERT_CONTINUE(module_ptr != nullptr);
 
-            module_ptr->check_config();
+            if (!module_ptr->check_config())
+            {
+                return false;
+            }
         }
 
         return true;
@@ -292,7 +313,10 @@ protected:
             module* module_ptr = iter.second;
             ARK_ASSERT_CONTINUE(module_ptr != nullptr);
 
-            module_ptr->pre_update();
+            if (!module_ptr->pre_update())
+            {
+                return false;
+            }
         }
 
         return true;
