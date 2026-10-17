@@ -33,6 +33,9 @@ The real-service executable also binds random IPv4 loopback ports for transparen
 TCP fault relays. They forward TLS without decrypting it, then deliberately drop
 server responses after earlier requests have completed. They never belong in
 the library or deployment configuration.
+Prepared-statement leak checks observe the server's global `Prepared_stmt_count`;
+use an otherwise idle disposable MySQL instance so other clients cannot change
+that counter during a check.
 
 ## Ownership and execution
 
@@ -48,18 +51,19 @@ ark::detail::mysql_transaction_service transactions(existing_pool, {16, 65536});
 transactions.start({std::chrono::seconds(5), std::chrono::seconds(1)},
     [](ark::detail::mysql_transaction_reply begun) {
         // Move begun.transaction into the module's owning state, then submit
-        // text queries and explicitly commit or roll back from that scope.
+        // queries or prepared execution, then explicitly commit or roll back.
     });
 // Run on the module thread during normal updates:
 transactions.update();
 ```
 
 `mysql_transaction` is move-only. One native lease covers acquisition, BEGIN,
-every text query and the terminal COMMIT/ROLLBACK. At most one user step is in
+every query/prepared execution and the terminal COMMIT/ROLLBACK. At most one user step is in
 flight per scope; concurrent steps are rejected without queuing or changing the
 transaction. Scope slots remain reserved during acquisition, idle ownership,
-cleanup and undispatched completion/capture destruction. SQL string capacity is
-charged until delivery releases its record. The fixed BEGIN and cleanup command
+cleanup and undispatched completion/capture destruction. SQL string capacity,
+parameter-vector capacity and owned string-parameter capacities are charged
+until delivery releases its record. The fixed BEGIN and cleanup command
 storage is created before BEGIN admission, and cleanup does not need another
 business completion record.
 
@@ -83,8 +87,18 @@ tasks.poll();
 ## Results, deadlines and cleanup
 
 - `reply.result` is the native owning query result; `initiation_exception` keeps
-  a local initiating exception. `bool(reply)` checks both. BEGIN additionally
+  a local initiating exception. `bool(reply)` checks only this business result
+  and exception; it does not certify cleanup or commitment. BEGIN additionally
   returns an owning `transaction` only when it is active.
+- `start_execute(sql, parameters, completion)` prepares, executes and explicitly
+  closes one statement on the held lease. Parameters and results own their data,
+  including embedded NUL bytes. `mysql_transaction_execute()` supplies the same
+  lazy Asio coroutine factory as the existing transaction operations.
+- `reply.statement_close` and `statement_close_exception` preserve statement
+  cleanup independently from the business result and automatic rollback. MySQL's
+  [COM_STMT_CLOSE](https://dev.mysql.com/doc/dev/mysql-server/8.4.10/page_protocol_com_stmt_close.html)
+  has no server response; success means the native close operation completed,
+  not that a server acknowledgement or transaction commit was received.
 - `reply.rollback` is a separate native result for automatic cleanup. An explicit
   rollback returns its operation result in `reply.result`. Neither replaces an
   earlier SQL error or a successful write result.
@@ -96,11 +110,18 @@ tasks.poll();
   all steps and COMMIT. Each native call receives only the remaining duration.
   In-flight calls use the native timeout rather than a competing owner-side
   cancellation. Idle expiry and abandoned handles are observed when the owner
-  is updated.
-- Cleanup gets one separately configured grace deadline, shared by that cleanup
+  is updated. Prepare, execute and statement close all share that same business
+  deadline. Expired/failed statement close preserves the business result and
+  discards the lease with an unconfirmed transaction outcome.
+- Automatic rollback gets one separately configured grace deadline, shared by that cleanup
   attempt. Repeated cancellation cannot cancel the internal rollback or give it
   another grace interval. A lost reply/closed connection is discarded with an
   unconfirmed outcome, without replaying a write or COMMIT.
+- Cancellation after prepare has published its native result, before the owner
+  consumes it, prevents execution. The owner closes the prepared statement and
+  attempts rollback without cancelling an already completed native request.
+  A sent operation's unknown result remains unknown and causes discard instead
+  of another execute, statement-close attempt or fictitious rollback.
 
 All normal methods and snapshot reads use the module thread. Handle destruction
 or `abort()` only records an abandonment request and may run on another thread;
@@ -132,11 +153,15 @@ commit, explicit/automatic rollback, completion modes, binary owning results,
 bounded admission, idle/acquire deadlines, sent cancellation, stale IDs,
 abandoned/throwing deliveries, cross-thread move/abandonment, and coroutine
 ownership on the module thread.
+Prepared execution additionally covers binary/typed parameters, commit/rollback,
+prepare/execute errors, parameter-count rejection, statement deallocation,
+deadline exhaustion between preparation and execution, sent prepare/execute
+cancellation and cancellation at the native-publication/owner-poll boundary.
 The fault relay confirms an actual committed write while the client loses its
 COMMIT reply, and separately exercises a lost cleanup reply. These are functional
 and lifetime checks, not throughput or deployment-capacity measurements.
 
-Prepared execute/statement cleanup, attachment to the old service entry points,
-public plugin configuration, savepoints and normal application shutdown remain
+Attachment to the old service entry points, public plugin configuration,
+savepoints and normal application shutdown remain
 separate modules. No Windows/Linux, arbitrary allocator-fault or public-plugin
 acceptance is implied by the local test programs.

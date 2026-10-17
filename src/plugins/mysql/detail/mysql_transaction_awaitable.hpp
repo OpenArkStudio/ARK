@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "detail/database_awaitable.hpp"
 #include "mysql/detail/mysql_transaction.hpp"
@@ -34,6 +35,19 @@ module_task<mysql_transaction_reply> mysql_transaction_query(
             auto callback = [completion = std::move(completion)](
                                 mysql_transaction_reply reply) mutable { completion({}, std::move(reply)); };
             return transaction.start_query(std::move(sql), std::move(callback));
+        },
+        [&transaction](std::uint64_t id) { transaction.cancel(id); });
+}
+
+template<class transaction_type>
+module_task<mysql_transaction_reply> mysql_transaction_execute(transaction_type& transaction,
+    database_awaitable<mysql_transaction_reply>& bridge, std::string sql,
+    std::vector<arknet::mysql::field_value> parameters) {
+    return bridge.wait(
+        [&transaction, sql = std::move(sql), parameters = std::move(parameters)](auto completion) mutable {
+            auto callback = [completion = std::move(completion)](
+                                mysql_transaction_reply reply) mutable { completion({}, std::move(reply)); };
+            return transaction.start_execute(std::move(sql), std::move(parameters), std::move(callback));
         },
         [&transaction](std::uint64_t id) { transaction.cancel(id); });
 }

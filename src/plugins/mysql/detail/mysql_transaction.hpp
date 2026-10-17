@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <exception>
 #include <functional>
+#include <limits>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -77,6 +78,7 @@ public:
     ~mysql_transaction();
 
     request_id start_query(std::string sql, callback completion);
+    request_id start_execute(std::string sql, std::vector<arknet::mysql::field_value> parameters, callback completion);
     request_id start_commit(callback completion);
     request_id start_rollback(callback completion);
     bool cancel(request_id id);
@@ -97,11 +99,15 @@ private:
 struct mysql_transaction_reply
 {
     arknet::mysql::query_result result;
+    std::optional<arknet::mysql::connection_result> statement_close;
+    std::exception_ptr statement_close_exception;
     std::optional<arknet::mysql::query_result> rollback;
     std::exception_ptr initiation_exception;
     mysql_transaction_snapshot transaction_status;
     std::optional<mysql_transaction> transaction;
 
+    // Business result only. Statement cleanup, rollback and final transaction
+    // outcome remain independent diagnostics, even after a successful execute.
     explicit operator bool() const noexcept {
         return !initiation_exception && bool(result);
     }
@@ -113,6 +119,9 @@ enum class mysql_transaction_phase
     beginning,
     idle,
     query,
+    preparing,
+    executing,
+    closing_statement,
     committing,
     rolling_back,
     cleanup,
@@ -121,12 +130,15 @@ enum class mysql_transaction_phase
 
 struct mysql_transaction_state
 {
-    using event = std::variant<arknet::mysql::pool::acquire_result, arknet::mysql::query_result, std::exception_ptr>;
+    using event = std::variant<arknet::mysql::pool::acquire_result, arknet::mysql::query_result,
+        arknet::mysql::prepare_result, arknet::mysql::connection_result, std::exception_ptr>;
     using queue_type = completion_queue<mysql_transaction_reply>;
 
     std::weak_ptr<mysql_transaction_owner> owner;
     const std::thread::id thread{std::this_thread::get_id()};
     arknet::mysql::pool::lease lease;
+    arknet::mysql::prepared_statement statement;
+    std::vector<arknet::mysql::field_value> parameters;
     mysql_transaction_phase phase{mysql_transaction_phase::acquiring};
     mysql_transaction_snapshot status;
     std::chrono::steady_clock::time_point deadline;
@@ -302,8 +314,8 @@ struct mysql_transaction_owner : std::enable_shared_from_this<mysql_transaction_
         return reject(std::move(completion), arknet::mysql::connection_errc::queue_full);
     }
 
-    request_id submit(
-        const std::shared_ptr<state_type>& state, std::string sql, phase_type phase, callback completion) {
+    request_id submit(const std::shared_ptr<state_type>& state, std::string sql, phase_type phase, callback completion,
+        std::vector<arknet::mysql::field_value> parameters = {}) {
         check_owner();
         if (!accepting || state->retired || state->phase == phase_type::terminal)
         {
@@ -318,8 +330,26 @@ struct mysql_transaction_owner : std::enable_shared_from_this<mysql_transaction_
             state->abandoned = true;
             return reject(std::move(completion), arknet::mysql::connection_errc::timeout);
         }
+        std::size_t bytes = sql.capacity();
+        if (parameters.capacity() >
+            (std::numeric_limits<std::size_t>::max() - bytes) / sizeof(arknet::mysql::field_value))
+        {
+            return reject(std::move(completion), arknet::mysql::connection_errc::queue_full);
+        }
+        bytes += parameters.capacity() * sizeof(arknet::mysql::field_value);
+        for (const auto& value : parameters)
+        {
+            if (const auto* text = std::get_if<std::string>(&value))
+            {
+                if (text->capacity() > std::numeric_limits<std::size_t>::max() - bytes)
+                {
+                    return reject(std::move(completion), arknet::mysql::connection_errc::queue_full);
+                }
+                bytes += text->capacity();
+            }
+        }
         auto handler = std::make_shared<callback>(std::move(completion));
-        if (!reserve(state, sql.capacity(), [handler](auto reply) {
+        if (!reserve(state, bytes, [handler](auto reply) {
                 if (*handler)
                 {
                     (*handler)(std::move(reply));
@@ -332,6 +362,7 @@ struct mysql_transaction_owner : std::enable_shared_from_this<mysql_transaction_
         state->begin_delivery = false;
         state->cancellation_requested = false;
         state->abort_requested = false;
+        state->parameters = std::move(parameters);
         issue(state, std::move(sql), phase);
         return state->logical_id;
     }
@@ -345,17 +376,54 @@ struct mysql_transaction_owner : std::enable_shared_from_this<mysql_transaction_
         options.timeout = std::chrono::duration_cast<std::chrono::milliseconds>(deadline - clock::now());
         if (options.timeout <= std::chrono::milliseconds::zero())
         {
-            arknet::mysql::query_result expired;
-            expired.status.code = arknet::mysql::connection_errc::timeout;
-            state->publish(expected, std::move(expired));
+            if (phase == phase_type::closing_statement)
+            {
+                arknet::mysql::connection_result expired;
+                expired.code = arknet::mysql::connection_errc::timeout;
+                state->publish(expected, std::move(expired));
+            }
+            else
+            {
+                arknet::mysql::query_result expired;
+                expired.status.code = arknet::mysql::connection_errc::timeout;
+                state->publish(expected, std::move(expired));
+            }
             return;
         }
         try
         {
-            state->native_id = state->lease.async_query(
-                std::move(sql),
-                [state, expected](arknet::mysql::query_result result) { state->publish(expected, std::move(result)); },
-                options);
+            if (phase == phase_type::preparing)
+            {
+                state->native_id = state->lease.async_prepare(
+                    std::move(sql),
+                    [state, expected](
+                        arknet::mysql::prepare_result result) { state->publish(expected, std::move(result)); },
+                    options);
+            }
+            else if (phase == phase_type::executing)
+            {
+                state->native_id = state->lease.async_execute(
+                    state->statement, std::move(state->parameters),
+                    [state, expected](
+                        arknet::mysql::query_result result) { state->publish(expected, std::move(result)); },
+                    options);
+            }
+            else if (phase == phase_type::closing_statement)
+            {
+                state->native_id = state->lease.async_close(
+                    state->statement,
+                    [state, expected](
+                        arknet::mysql::connection_result result) { state->publish(expected, std::move(result)); },
+                    options);
+            }
+            else
+            {
+                state->native_id = state->lease.async_query(
+                    std::move(sql),
+                    [state, expected](
+                        arknet::mysql::query_result result) { state->publish(expected, std::move(result)); },
+                    options);
+            }
         }
         catch (...)
         { state->publish(expected, std::current_exception()); }
@@ -369,15 +437,24 @@ struct mysql_transaction_owner : std::enable_shared_from_this<mysql_transaction_
         {
             return false;
         }
+        bool native_completed{};
         {
             std::lock_guard lock(state->event_mutex);
-            if (state->completed)
+            native_completed = state->completed.has_value();
+            if (native_completed && state->phase != phase_type::preparing && state->phase != phase_type::executing &&
+                state->phase != phase_type::closing_statement)
             {
                 return false;
             }
         }
         state->abort_requested = true;
         state->cancellation_requested = true;
+        // A prepared step is not terminal when one native stage completes.
+        // Cancel its pending owner transition without cancelling a stale ID.
+        if (native_completed)
+        {
+            return true;
+        }
         try
         {
             if (state->phase == phase_type::acquiring)
@@ -410,9 +487,13 @@ struct mysql_transaction_owner : std::enable_shared_from_this<mysql_transaction_
         catch (...)
         { state->status.lease_return_exception = std::current_exception(); }
         state->phase = phase_type::terminal;
+        state->statement = {};
+        std::vector<arknet::mysql::field_value>{}.swap(state->parameters);
     }
 
     void deliver(const std::shared_ptr<state_type>& state) {
+        state->statement = {};
+        std::vector<arknet::mysql::field_value>{}.swap(state->parameters);
         if (state->delivery)
         {
             state->reply.transaction_status = state->status;
@@ -440,8 +521,61 @@ struct mysql_transaction_owner : std::enable_shared_from_this<mysql_transaction_
         issue(state, std::move(state->rollback_command), phase_type::cleanup);
     }
 
+    void close_statement(const std::shared_ptr<state_type>& state) {
+        // An uncertain command cannot be replayed or followed by cleanup SQL.
+        // Discarding its connection also disposes of its server-side statement.
+        if (state->reply.result.status.outcome_unknown)
+        {
+            state->status.outcome = mysql_transaction_outcome::unconfirmed;
+            release(state, true);
+            deliver(state);
+            return;
+        }
+        issue(state, {}, phase_type::closing_statement);
+    }
+
     void advance(const std::shared_ptr<state_type>& state, state_type::event response) {
         state->native_id = 0;
+        if (auto* prepared = std::get_if<arknet::mysql::prepare_result>(&response))
+        {
+            if (!*prepared)
+            {
+                arknet::mysql::query_result failed;
+                failed.status = std::move(prepared->status);
+                state->phase = phase_type::query;
+                advance(state, std::move(failed));
+                return;
+            }
+            state->statement = std::move(prepared->statement);
+            if (state->abort_requested || state->abandoned || clock::now() >= state->deadline)
+            {
+                state->reply.result.status.code = state->abort_requested || state->abandoned
+                                                      ? arknet::mysql::connection_errc::cancelled
+                                                      : arknet::mysql::connection_errc::timeout;
+                close_statement(state);
+            }
+            else
+            {
+                issue(state, {}, phase_type::executing);
+            }
+            return;
+        }
+        if (auto* closed = std::get_if<arknet::mysql::connection_result>(&response))
+        {
+            state->reply.statement_close.emplace(std::move(*closed));
+            if (!*state->reply.statement_close)
+            {
+                state->status.outcome = mysql_transaction_outcome::unconfirmed;
+                release(state, true);
+                deliver(state);
+            }
+            else
+            {
+                state->phase = phase_type::query;
+                advance(state, std::move(state->reply.result));
+            }
+            return;
+        }
         if (auto* acquired = std::get_if<arknet::mysql::pool::acquire_result>(&response))
         {
             if (!*acquired)
@@ -470,7 +604,11 @@ struct mysql_transaction_owner : std::enable_shared_from_this<mysql_transaction_
         const bool cleaning = state->phase == phase_type::cleanup;
         if (auto* error = std::get_if<std::exception_ptr>(&response))
         {
-            if (cleaning)
+            if (state->phase == phase_type::closing_statement)
+            {
+                state->reply.statement_close_exception = *error;
+            }
+            else if (cleaning)
             {
                 state->status.cleanup_exception = *error;
             }
@@ -485,6 +623,12 @@ struct mysql_transaction_owner : std::enable_shared_from_this<mysql_transaction_
             return;
         }
         auto result = std::get<arknet::mysql::query_result>(std::move(response));
+        if (state->phase == phase_type::executing)
+        {
+            state->reply.result = std::move(result);
+            close_statement(state);
+            return;
+        }
         // SERVER_STATUS_IN_TRANS is bit 0 in MySQL OK/EOF status flags.
         const bool in_transaction = (result.status_flags & 1u) != 0;
         if (cleaning)
@@ -661,6 +805,16 @@ inline mysql_transaction::request_id mysql_transaction::start_query(std::string 
     if (auto owner = lock_owner())
     {
         return owner->submit(state_, std::move(sql), mysql_transaction_phase::query, std::move(completion));
+    }
+    return mysql_transaction_owner::reject(std::move(completion), arknet::mysql::connection_errc::not_connected);
+}
+
+inline mysql_transaction::request_id mysql_transaction::start_execute(
+    std::string sql, std::vector<arknet::mysql::field_value> parameters, callback completion) {
+    if (auto owner = lock_owner())
+    {
+        return owner->submit(
+            state_, std::move(sql), mysql_transaction_phase::preparing, std::move(completion), std::move(parameters));
     }
     return mysql_transaction_owner::reject(std::move(completion), arknet::mysql::connection_errc::not_connected);
 }
