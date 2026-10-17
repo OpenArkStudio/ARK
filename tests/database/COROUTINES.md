@@ -65,6 +65,23 @@ If submitting the native cancellation throws, `cancellation_exception()` retains
 the first local diagnostic. The operation still waits for its real terminal;
 that diagnostic cannot replace a successful or uncertain native outcome.
 
+## Stop task admission
+
+On the constructing module thread, `tasks.stop_accepting()` makes later
+`start()` calls return zero. Repeated calls are harmless; a call from another
+thread throws `std::logic_error`, even after admission has stopped. It neither
+cancels nor polls accepted tasks. Those tasks can continue through multiple
+`co_await` operations and deliver their completion on the owner thread.
+
+Keep the services and bridges accepting while an accepted task may submit its
+next operation; their own `stop_accepting()` methods reject those later requests.
+`tasks.closed()` becomes true when task admission is stopped and no accepted
+tasks remain. Calling `tasks.close()` later still requests cancellation of any
+remaining tasks and requires explicit polling to finish them.
+
+This private capability does not select a process-shutdown or plugin-unload
+policy, add a deadline, or change the destruction/drain requirements below.
+
 ## Explicit shutdown
 
 Begin shutdown on the module thread:

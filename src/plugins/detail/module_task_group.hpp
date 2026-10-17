@@ -19,7 +19,7 @@ namespace ark::detail {
 template<class result_type = void>
 using module_task = asio::awaitable<result_type>;
 
-// Development prototype: the module thread owns start/cancel/poll/close.
+// Development prototype: the module thread owns admission/cancel/poll/close.
 // close() cancels accepted tasks but never drives their execution. Keep pumping
 // native service completions and this group until closed() before destroying
 // the group or the business state referenced by its tasks. Destruction with
@@ -161,6 +161,13 @@ public:
             next->cancel_requested = true;
             next->cancellation.emit(asio::cancellation_type::terminal);
         }
+    }
+
+    // Stop top-level admission without cancelling or polling accepted tasks.
+    void stop_accepting() {
+        auto shared = state_;
+        shared->check_owner();
+        shared->accepting = false;
     }
 
     void close() {
