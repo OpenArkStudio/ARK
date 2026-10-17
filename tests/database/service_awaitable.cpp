@@ -16,10 +16,10 @@
 #include <vector>
 
 #include "detail/database_awaitable.hpp"
-#include "redis/detail/redis_service.hpp"
+#include "redis/detail/redis_awaitable.hpp"
 
 #if defined(ARKNET_ENABLE_SSL)
-#include "mysql/detail/mysql_service.hpp"
+#include "mysql/detail/mysql_awaitable.hpp"
 #endif
 
 namespace {
@@ -28,6 +28,11 @@ using namespace std::chrono_literals;
 using ark::detail::database_awaitable;
 using ark::detail::module_task;
 using ark::detail::module_task_group;
+using ark::detail::redis_command;
+#if defined(ARKNET_ENABLE_SSL)
+using ark::detail::mysql_execute;
+using ark::detail::mysql_query;
+#endif
 unsigned checks{};
 
 void require(bool condition, const char* message) {
@@ -79,27 +84,6 @@ void pump(service_type& service, database_awaitable<result_type>& bridge, module
 
 using redis_bridge = database_awaitable<arknet::redis::result>;
 
-module_task<arknet::redis::result> redis_command(
-    ark::detail::redis_service& service, redis_bridge& bridge, arknet::redis::command command) {
-    co_return co_await bridge.wait(
-        [&service, command = std::move(command)](auto completion) mutable {
-            return service.start(
-                std::move(command),
-                [completion = std::move(completion)](ark::detail::redis_service_result result) mutable {
-                    if (auto* error = std::get_if<std::exception_ptr>(&result))
-                    {
-                        completion(*error, {});
-                    }
-                    else
-                    {
-                        completion({}, std::get<arknet::redis::result>(std::move(result)));
-                    }
-                },
-                3s);
-        },
-        [&service](std::uint64_t id) { service.cancel(id); });
-}
-
 void check_redis() {
     arknet::redis::pool_options options;
     options.connection.host = environment("ARK_DATABASE_REDIS_HOST");
@@ -129,17 +113,17 @@ void check_redis() {
     auto sequence = [&]() -> module_task<> {
         const auto binary = std::string("ark\0coroutine", 13);
         arknet::redis::command echo{"ECHO", binary};
-        auto first = co_await redis_command(service, bridge, std::move(echo));
+        auto first = co_await redis_command(service, bridge, std::move(echo), 3s);
         require(runtime->get_executor().running_in_this_thread(), "Redis resumed outside its manual executor");
         require(bool(first) && first.replies.size() == 1 && first.replies[0].text == binary,
             "Redis coroutine lost the native binary reply");
         arknet::redis::command ping{"PING"};
-        auto second = co_await redis_command(service, bridge, std::move(ping));
+        auto second = co_await redis_command(service, bridge, std::move(ping), 3s);
         require(bool(second) && second.replies.size() == 1 && second.replies[0].text == "PONG",
             "Redis second operation failed with a one-operation quota");
         require(first.replies[0].text == binary, "Redis owning result changed after the next operation");
         arknet::redis::command empty;
-        auto refused = co_await redis_command(service, bridge, std::move(empty));
+        auto refused = co_await redis_command(service, bridge, std::move(empty), 3s);
         require(refused.error == arknet::redis::client_errc::invalid_command,
             "Redis inline rejection was not returned as its native error");
     };
@@ -155,7 +139,7 @@ void check_redis() {
         const auto stream =
             "ark_coroutine_cancel_" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
         arknet::redis::command read{"XREAD", "BLOCK", "20000", "STREAMS", stream, "$"};
-        auto cancelled = co_await redis_command(service, bridge, std::move(read));
+        auto cancelled = co_await redis_command(service, bridge, std::move(read), 3s);
         require(cancelled.error == arknet::redis::client_errc::cancelled,
             "Redis accepted coroutine did not drain its native cancellation terminal");
         require(runtime->get_executor().running_in_this_thread(), "Cancelled Redis task escaped its manual executor");
@@ -178,25 +162,6 @@ void check_redis() {
 
 #if defined(ARKNET_ENABLE_SSL)
 using mysql_bridge = database_awaitable<ark::detail::mysql_service_reply>;
-
-template<class start_type>
-module_task<ark::detail::mysql_service_reply> mysql_operation(
-    ark::detail::mysql_service& service, mysql_bridge& bridge, start_type start) {
-    co_return co_await bridge.wait(
-        [start = std::move(start)](auto completion) mutable {
-            return start([completion = std::move(completion)](ark::detail::mysql_service_result result) mutable {
-                if (auto* error = std::get_if<std::exception_ptr>(&result))
-                {
-                    completion(*error, {});
-                }
-                else
-                {
-                    completion({}, std::get<ark::detail::mysql_service_reply>(std::move(result)));
-                }
-            });
-        },
-        [&service](std::uint64_t id) { service.cancel(id); });
-}
 
 void check_mysql() {
     arknet::mysql::pool_options options;
@@ -221,9 +186,7 @@ void check_mysql() {
         ++completions;
     };
     auto sequence = [&]() -> module_task<> {
-        auto text = co_await mysql_operation(service, bridge, [&](auto completion) {
-            return service.start_query("SELECT -7, 'native coroutine'", std::move(completion), 3s);
-        });
+        auto text = co_await mysql_query(service, bridge, "SELECT -7, 'native coroutine'", 3s);
         require(runtime->get_executor().running_in_this_thread(), "MySQL resumed outside its manual executor");
         require(bool(text.result.status) && text.result.rows.size() == 1 && text.result.rows[0].size() == 2,
             "MySQL text coroutine lost its native result shape");
@@ -231,10 +194,8 @@ void check_mysql() {
                     std::get<std::string>(text.result.rows[0][1]) == "native coroutine",
             "MySQL native text field types/values changed");
         const auto binary = std::string("mysql\0coroutine", 15);
-        auto prepared = co_await mysql_operation(service, bridge, [&](auto completion) {
-            return service.start_execute(
-                "SELECT CAST(? AS SIGNED), ?", {std::int64_t{-9}, binary}, std::move(completion), 3s);
-        });
+        auto prepared =
+            co_await mysql_execute(service, bridge, "SELECT CAST(? AS SIGNED), ?", {std::int64_t{-9}, binary}, 3s);
         require(bool(prepared.result.status) && prepared.result.rows.size() == 1 &&
                     std::get<std::int64_t>(prepared.result.rows[0][0]) == -9 &&
                     std::get<std::string>(prepared.result.rows[0][1]) == binary,
@@ -243,8 +204,7 @@ void check_mysql() {
             "MySQL prepared cleanup was not reported separately after execution");
         require(std::get<std::string>(text.result.rows[0][1]) == "native coroutine",
             "MySQL previous owning result changed after the next operation");
-        auto refused = co_await mysql_operation(service, bridge,
-            [&](auto completion) { return service.start_query("SELECT 1", std::move(completion), 0ms); });
+        auto refused = co_await mysql_query(service, bridge, "SELECT 1", 0ms);
         require(refused.result.status.code == arknet::mysql::connection_errc::invalid_options,
             "MySQL inline rejection was not returned as its native error");
     };
@@ -257,8 +217,7 @@ void check_mysql() {
     require(completions == 1, "MySQL task did not complete exactly once");
 
     auto cancel_pending = [&]() -> module_task<> {
-        auto cancelled = co_await mysql_operation(service, bridge,
-            [&](auto completion) { return service.start_query("SELECT SLEEP(20)", std::move(completion), 3s); });
+        auto cancelled = co_await mysql_query(service, bridge, "SELECT SLEEP(20)", 3s);
         require(cancelled.result.status.code == arknet::mysql::connection_errc::cancelled,
             "MySQL accepted coroutine did not drain its native cancellation terminal");
         require(runtime->get_executor().running_in_this_thread(), "Cancelled MySQL task escaped its manual executor");
