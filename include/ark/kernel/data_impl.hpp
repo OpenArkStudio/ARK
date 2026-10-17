@@ -146,39 +146,41 @@ public:
             return false;
         }
 
-        this->type_ = data_ptr->get_type();
+        self_t replacement;
+        replacement.type_ = data_ptr->get_type();
 
-        switch (this->type_)
+        switch (replacement.type_)
         {
         case data_type::dt_boolean:
-            bool_value_ = data_ptr->get_bool();
+            replacement.bool_value_ = data_ptr->get_bool();
             break;
         case data_type::dt_int32:
-            int_value_ = data_ptr->get_int32();
+            replacement.int_value_ = data_ptr->get_int32();
             break;
         case data_type::dt_int64:
-            int64_value_ = data_ptr->get_int64();
+            replacement.int64_value_ = data_ptr->get_int64();
             break;
         case data_type::dt_uint32:
-            uint32_value_ = data_ptr->get_u_int32();
+            replacement.uint32_value_ = data_ptr->get_u_int32();
             break;
         case data_type::dt_uint64:
-            uint64_value_ = data_ptr->get_u_int64();
+            replacement.uint64_value_ = data_ptr->get_u_int64();
             break;
         case data_type::dt_float:
-            float_value_ = data_ptr->get_float();
+            replacement.float_value_ = data_ptr->get_float();
             break;
         case data_type::dt_double:
-            double_value_ = data_ptr->get_double();
+            replacement.double_value_ = data_ptr->get_double();
             break;
         case data_type::dt_string:
-            inner_set_string(data_ptr->get_string().c_str());
+            replacement.inner_set_string(data_ptr->get_string().c_str());
             break;
         default:
             ARK_ASSERT_NO_EFFECT(0);
             break;
         }
 
+        swap(replacement);
         return true;
     }
 
