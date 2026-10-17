@@ -127,7 +127,7 @@ TEST_CASE("A failed owner post preserves the owning result and allows exactly on
     group.close();
 }
 
-TEST_CASE("One reserved operation supports sequential A then B after source service retirement") {
+TEST_CASE("One reserved operation supports sequential A then B after task admission stops") {
     auto runtime = std::make_shared<arknet::manual_runtime>();
     module_task_group group(runtime);
     bridge_type bridge(runtime, 1);
@@ -161,6 +161,7 @@ TEST_CASE("One reserved operation supports sequential A then B after source serv
     group.start(sequence(), [](std::exception_ptr error) { CHECK_FALSE(error); });
     group.poll();
     REQUIRE(submitted.size() == 1);
+    group.stop_accepting();
     service.complete(submitted[0], {std::string("A\0", 2), false, false});
     CHECK(service.dispatch() == 1);
     CHECK(received == 0);
