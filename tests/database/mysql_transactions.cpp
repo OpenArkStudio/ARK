@@ -6,11 +6,13 @@
 #include <exception>
 #include <iostream>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <stdexcept>
 #include <string>
 #include <thread>
 #include <utility>
+#include <vector>
 
 #include "detail/database_awaitable.hpp"
 #include "mysql/detail/mysql_service.hpp"
@@ -145,6 +147,20 @@ mysql_transaction_reply query(mysql_transaction_service& service, mysql_transact
     return run(service, [&](auto complete) { return transaction.start_query(std::move(sql), std::move(complete)); });
 }
 
+mysql_transaction_reply execute(mysql_transaction_service& service, mysql_transaction& transaction, std::string sql,
+    std::vector<field_value> parameters) {
+    return run(service, [&](auto complete) {
+        return transaction.start_execute(std::move(sql), std::move(parameters), std::move(complete));
+    });
+}
+
+std::uint64_t prepared_count(mysql_service& observer) {
+    auto result = observe(observer, "SHOW GLOBAL STATUS LIKE 'Prepared_stmt_count'");
+    require(result.result.rows.size() == 1 && result.result.rows[0].size() == 2,
+        "Prepared statement count did not return a status row");
+    return std::stoull(std::get<std::string>(result.result.rows[0][1]));
+}
+
 void success(const mysql_transaction_reply& result) {
     require(bool(result), "Transaction SQL failed");
     require(!result.initiation_exception, "Transaction initiation threw");
@@ -210,6 +226,229 @@ void check_abort(mysql_transaction_service& service, mysql_service& observer, co
         require(result.result.status.code == connection_errc::not_connected, "Terminal scope accepted another commit");
     }) == 0 && rejected == 1,
         "Terminal scope did not reject synchronously");
+}
+
+void check_prepared(mysql_transaction_service& service, mysql_service& observer, const std::string& table) {
+    const auto count = prepared_count(observer);
+    auto transaction = begin(service);
+    const auto connection = integer(query(service, transaction, "SELECT CONNECTION_ID()").result);
+    const std::string binary("own\0ed\xff", 7);
+    auto selected =
+        execute(service, transaction, "SELECT CONNECTION_ID(), ?, ?, ?", {binary, std::int64_t{-7}, std::monostate{}});
+    success(selected);
+    require(selected.statement_close && bool(*selected.statement_close) && !selected.statement_close_exception,
+        "Prepared statement was not explicitly closed on its held lease");
+    require(selected.result.rows.size() == 1 && selected.result.rows[0].size() == 4, "Prepared result shape was lost");
+    const auto& row = selected.result.rows[0];
+    require(std::get<std::uint64_t>(row[0]) == static_cast<std::uint64_t>(connection),
+        "Prepared execution acquired a different connection");
+    require(std::get<std::string>(row[1]) == binary && std::get<std::int64_t>(row[2]) == -7 &&
+                std::holds_alternative<std::monostate>(row[3]),
+        "Prepared parameters or owning binary results were changed");
+    auto inserted = execute(service, transaction, "INSERT INTO " + table + " VALUES(?, ?)", {std::int64_t{10}, binary});
+    success(inserted);
+    require(inserted.result.affected_rows == 1 && inserted.statement_close && bool(*inserted.statement_close),
+        "Parameterized write or statement cleanup failed");
+    require(integer(observe(observer, "SELECT COUNT(*) FROM " + table + " WHERE id=10").result) == 0,
+        "Parameterized write escaped its transaction before commit");
+    wait_until([&] { return prepared_count(observer) == count; });
+    success(run(service, [&](auto complete) { return transaction.start_commit(std::move(complete)); }));
+    require(integer(observe(observer, "SELECT COUNT(*) FROM " + table + " WHERE id=10").result) == 1,
+        "Parameterized commit did not persist its write");
+    require(std::get<std::string>(selected.result.rows[0][1]) == binary,
+        "Prepared result stopped owning its bytes after commit");
+
+    transaction = begin(service);
+    success(execute(
+        service, transaction, "INSERT INTO " + table + " VALUES(?, ?)", {std::int64_t{11}, std::string("rollback")}));
+    success(run(service, [&](auto complete) { return transaction.start_rollback(std::move(complete)); }));
+    require(integer(observe(observer, "SELECT COUNT(*) FROM " + table + " WHERE id=11").result) == 0,
+        "Parameterized rollback retained a write");
+
+    transaction = begin(service);
+    success(execute(service, transaction, "INSERT INTO " + table + " VALUES(?, ?)",
+        {std::int64_t{12}, std::string("must roll back")}));
+    auto duplicate = execute(
+        service, transaction, "INSERT INTO " + table + " VALUES(?, ?)", {std::int64_t{10}, std::string("duplicate")});
+    require(duplicate.result.status.code == connection_errc::server && duplicate.result.status.server_code == 1062 &&
+                duplicate.result.status.sql_state == "23000",
+        "Prepared execution lost its original server error");
+    require(duplicate.statement_close && bool(*duplicate.statement_close) && duplicate.rollback &&
+                bool(*duplicate.rollback) &&
+                duplicate.transaction_status.outcome == mysql_transaction_outcome::rolled_back,
+        "Prepared SQL error did not close its statement and roll back the same scope");
+    require(integer(observe(observer, "SELECT COUNT(*) FROM " + table + " WHERE id=12").result) == 0,
+        "Prepared SQL error committed an earlier step");
+    transaction = begin(service);
+    auto invalid = execute(service, transaction, "SELECT ?", {});
+    require(invalid.result.status.code == connection_errc::invalid_options && invalid.statement_close &&
+                bool(*invalid.statement_close) && invalid.rollback && bool(*invalid.rollback),
+        "Parameter-count rejection leaked a statement or changed the native error");
+    transaction = begin(service);
+    auto prepare_error =
+        execute(service, transaction, "SELECT * FROM " + table + "_missing WHERE id=?", {std::int64_t{1}});
+    require(prepare_error.result.status.code == connection_errc::server &&
+                prepare_error.result.status.server_code == 1146 && !prepare_error.statement_close &&
+                prepare_error.rollback && bool(*prepare_error.rollback),
+        "Prepare failure lost its server error or attempted to execute a nonexistent statement");
+    transaction = begin(service);
+    require(integer(query(service, transaction, "SELECT CONNECTION_ID()").result) == connection,
+        "Known prepared failures discarded a usable lease or returned it before cleanup");
+    success(run(service, [&](auto complete) { return transaction.start_rollback(std::move(complete)); }));
+    require(prepared_count(observer) == count && service.retained_input_bytes() == 0,
+        "Prepared failures leaked server statements or retained input");
+}
+
+void check_prepared_deadline(mysql_transaction_service& service, mysql_service& observer, const std::string& table) {
+    const auto count = prepared_count(observer);
+    const auto started = std::chrono::steady_clock::now();
+    auto transaction = begin(service, 500ms);
+    std::optional<mysql_transaction_reply> response;
+    require(
+        transaction.start_execute("INSERT INTO " + table + " VALUES(?, ?)",
+            {std::int64_t{13}, std::string("must not execute")}, [&](auto reply) { response = std::move(reply); }) != 0,
+        "Deadline test did not admit prepare");
+    // Pause the module owner after the server creates the statement. Preparation
+    // can finish on IO, but execution cannot start until the owner is polled.
+    wait_until([&] { return prepared_count(observer) == count + 1; });
+    std::this_thread::sleep_until(started + 550ms);
+    wait_until([&] {
+        service.update();
+        return bool(response);
+    });
+    require(response->result.status.code == connection_errc::timeout && !response->result.status.outcome_unknown,
+        "Prepare-to-execute transition refreshed the absolute deadline");
+    require(response->statement_close && response->statement_close->code == connection_errc::timeout &&
+                response->transaction_status.outcome == mysql_transaction_outcome::unconfirmed &&
+                response->transaction_status.discard_requested && !response->rollback,
+        "Expired statement cleanup refreshed the business budget or invented a confirmed rollback");
+    wait_until([&] { return prepared_count(observer) == count; });
+    require(integer(observe(observer, "SELECT COUNT(*) FROM " + table + " WHERE id=13").result) == 0,
+        "Expired prepared step executed its write");
+    require(service.retained_input_bytes() == 0, "Expired prepared step retained input quota");
+}
+
+void check_prepared_cancellation(mysql_transaction_service& service, mysql_service& observer) {
+    const auto count = prepared_count(observer);
+    auto transaction = begin(service);
+    const auto tag = "ark_prepared_" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
+    std::optional<mysql_transaction_reply> response;
+    const auto id = transaction.start_execute(
+        "SELECT SLEEP(?) /*" + tag + "*/", {std::int64_t{2}}, [&](auto reply) { response = std::move(reply); });
+    require(id != 0, "Prepared cancellation was not admitted");
+    wait_until([&] {
+        service.update();
+        auto active =
+            observe(observer, "SELECT COUNT(*) FROM information_schema.processlist WHERE ID <> CONNECTION_ID() "
+                              "AND STATE='User sleep' AND INFO LIKE '%" +
+                                  tag + "%'");
+        return integer(active.result) == 1;
+    });
+    require(transaction.cancel(id), "Observed prepared execution could not be cancelled");
+    wait_until([&] {
+        service.update();
+        return bool(response);
+    });
+    require(response->result.status.code == connection_errc::cancelled && response->result.status.outcome_unknown &&
+                response->transaction_status.outcome == mysql_transaction_outcome::unconfirmed &&
+                response->transaction_status.discard_requested && !response->statement_close && !response->rollback,
+        "Cancelled prepared execution lost its unknown outcome or continued with cleanup commands");
+    wait_until([&] { return prepared_count(observer) == count; });
+    auto next = begin(service);
+    require(!next.cancel(id), "Stale prepared request ID cancelled a later scope");
+    success(run(service, [&](auto complete) { return next.start_rollback(std::move(complete)); }));
+    require(service.retained_input_bytes() == 0, "Cancelled prepared step kept admission quota");
+}
+
+void check_prepare_cancellation(const pool_options& options, mysql_service& observer, const std::string& table) {
+    const auto count = prepared_count(observer);
+    mysql_transaction_relay relay(options.connection.port);
+    auto relayed = options;
+    relayed.connection.port = relay.port();
+    auto native = std::make_shared<pool>(relayed);
+    {
+        mysql_transaction_service service(native, {1, 8192});
+        auto transaction = begin(service);
+        relay.drop_responses();
+        std::optional<mysql_transaction_reply> response;
+        const auto id = transaction.start_execute("INSERT INTO " + table + " VALUES(?, ?)",
+            {std::int64_t{14}, std::string("cancel before execute")}, [&](auto reply) { response = std::move(reply); });
+        require(id != 0, "Relayed prepare cancellation was not admitted");
+        wait_until([&] { return prepared_count(observer) == count + 1; });
+        require(transaction.cancel(id), "Sent prepare could not be cancelled while its response was withheld");
+        wait_until([&] {
+            service.update();
+            return bool(response);
+        });
+        require(response->result.status.code == connection_errc::cancelled && response->result.status.outcome_unknown &&
+                    response->transaction_status.discard_requested && !response->statement_close && !response->rollback,
+            "Cancelled prepare continued into execution or lost the native uncertain result");
+        require(relay.discarded_bytes() != 0 && !relay.failed(), "Prepare response withholding was not observed");
+        wait_until([&] { return prepared_count(observer) == count; });
+        require(integer(observe(observer, "SELECT COUNT(*) FROM " + table + " WHERE id=14").result) == 0,
+            "Cancelled prepare executed its parameterized write");
+        require(service.retained_input_bytes() == 0 && service.active() == 0,
+            "Cancelled prepare retained its transaction or parameter quota");
+    }
+    require(native->close_and_wait(), "Prepare-cancellation native pool did not retire explicitly");
+}
+
+void check_prepare_delivery_cancellation(
+    const std::shared_ptr<pool>& native, mysql_service& observer, const std::string& table) {
+    const auto count = prepared_count(observer);
+    // Exercise the production owner directly only to observe its private mailbox
+    // barrier. No synthetic response or protocol endpoint is involved.
+    auto owner = std::make_shared<mysql_transaction_owner>(native, mysql_transaction_limits{1, 8192}, query_options{});
+    try
+    {
+        std::optional<mysql_transaction_reply> begun;
+        require(owner->begin({3s, 1s}, [&](auto reply) { begun = std::move(reply); }) != 0,
+            "Prepare-delivery barrier did not admit BEGIN");
+        wait_until([&] {
+            owner->update(64);
+            return bool(begun);
+        });
+        require(begun->transaction.has_value(), "Prepare-delivery barrier had no active scope");
+        auto transaction = std::move(*begun->transaction);
+        auto state = owner->states[0];
+        std::optional<mysql_transaction_reply> response;
+        const auto id = transaction.start_execute("INSERT INTO " + table + " VALUES(?, ?)",
+            {std::int64_t{15}, std::string("must never execute")}, [&](auto reply) { response = std::move(reply); });
+        require(id != 0, "Prepare-delivery barrier did not admit its step");
+        wait_until([&] {
+            std::lock_guard lock(state->event_mutex);
+            return state->completed && std::holds_alternative<prepare_result>(*state->completed);
+        });
+        {
+            std::lock_guard lock(state->event_mutex);
+            require(
+                bool(std::get<prepare_result>(*state->completed)), "Barrier did not observe successful preparation");
+        }
+        require(prepared_count(observer) == count + 1, "Barrier did not retain the actual server statement");
+        require(transaction.cancel(id), "Logical cancellation was rejected after prepare publication");
+        require(!transaction.cancel(id), "Barrier cancellation was accepted twice");
+        wait_until([&] {
+            owner->update(64);
+            return bool(response);
+        });
+        require(response->result.status.code == connection_errc::cancelled && !response->result.status.outcome_unknown,
+            "Cancelled pending transition executed or fabricated an uncertain business write");
+        require(response->statement_close && bool(*response->statement_close) && response->rollback &&
+                    bool(*response->rollback) &&
+                    response->transaction_status.outcome == mysql_transaction_outcome::rolled_back &&
+                    !response->transaction_status.discard_requested,
+            "Cancelled pending transition did not close its statement and complete rollback");
+        require(integer(observe(observer, "SELECT COUNT(*) FROM " + table + " WHERE id=15").result) == 0,
+            "A prepared write ran after cancellation at the native-publication barrier");
+        require(prepared_count(observer) == count && owner->retained_input->load() == 0,
+            "Barrier cancellation leaked a statement or parameter reservation");
+    }
+    catch (...)
+    {
+        owner->close();
+        throw;
+    }
+    owner->close();
 }
 
 void check_bounds(mysql_transaction_service& service, mysql_service& observer, const std::string& table) {
@@ -410,6 +649,13 @@ module_task<> coroutine_transaction(mysql_transaction_service& service,
     auto result = co_await mysql_transaction_query(transaction, bridge, "SELECT 'owning coroutine result'");
     success(result);
     require(std::this_thread::get_id() == owner, "Transaction coroutine resumed on a native IO thread");
+    const std::string binary("coroutine\0parameter", 19);
+    std::vector<field_value> parameters{binary};
+    auto executed = co_await mysql_transaction_execute(transaction, bridge, "SELECT ?", std::move(parameters));
+    success(executed);
+    require(executed.statement_close && bool(*executed.statement_close), "Coroutine did not close its statement");
+    require(std::this_thread::get_id() == owner && std::get<std::string>(executed.result.rows[0][0]) == binary,
+        "Prepared coroutine resumed on IO or lost its owning binary result");
     auto committed = co_await mysql_transaction_commit(transaction, bridge);
     require(committed.transaction_status.outcome == mysql_transaction_outcome::committed, "Coroutine commit failed");
     require(std::get<std::string>(result.result.rows[0][0]) == "owning coroutine result",
@@ -513,6 +759,9 @@ int main() {
                 mysql_transaction_service service(native, {1, 8192});
                 check_commit(service, observer, table);
                 check_abort(service, observer, table);
+                check_prepared(service, observer, table);
+                check_prepared_deadline(service, observer, table);
+                check_prepared_cancellation(service, observer);
                 check_bounds(service, observer, table);
                 check_cancellation(service, observer);
                 check_coroutine(service);
@@ -526,8 +775,10 @@ int main() {
                 require(service.retained_input_bytes() == 0, "Abandoned BEGIN delivery leaked input quota");
             }
             check_waiter(native, observer);
+            check_prepare_delivery_cancellation(native, observer, table);
             check_unknown_commit(options, observer, table);
             check_cleanup_failure(options, observer, table);
+            check_prepare_cancellation(options, observer, table);
         }
         catch (...)
         {
