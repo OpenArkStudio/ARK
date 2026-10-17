@@ -47,3 +47,18 @@ cmake --build app-build --parallel 2
 </Steps>
 
 只验证网络正确性时，按[网络回归测试](../networking_CN.md)进行精简构建。运行 `build/` 下的脚本前，先核对应用与部署配置。
+
+## 升级 arknet
+
+由 CMake 获取网络库时，仓库中的 `ARKNET_REVISION` 默认值指定一个固定的 arknet commit。更新 ark 源码不会替换已有 `CMakeCache.txt` 中保存的 `ARKNET_REVISION`。
+
+使用新的构建目录并重新执行上面的配置命令，即可采用仓库默认值。需要保留现有构建目录时，先将 `RELEASE_COMMIT` 替换为选定 [arknet release](https://github.com/OpenArkStudio/arknet/releases) 的完整 40 位 commit SHA，再显式更新缓存：
+
+```sh
+cmake -S . -B app-build -DARKNET_REVISION=RELEASE_COMMIT
+cmake --build app-build --parallel 2
+```
+
+已有构建目录会保留其他配置选项。核对 `app-build/CMakeCache.txt` 中的 `ARKNET_REVISION`；使用多配置生成器时，构建仍需添加 `--config Release`。
+
+`ARKNET_SOURCE_DIR` 非空时，CMake 直接使用该本地源码，不会按 `ARKNET_REVISION` 获取版本。开发时需显式更新这个源码目录。需要恢复按固定 commit 获取依赖时，配置 `-DARKNET_SOURCE_DIR=` 并设置所需的 `-DARKNET_REVISION=RELEASE_COMMIT`。这些 CMake 覆盖项仍可使用；CI 策略只核对仓库默认引用，不检查开发者的缓存或本地源码。

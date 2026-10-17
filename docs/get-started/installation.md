@@ -47,3 +47,18 @@ Multi-configuration generators also need `--config Release`. This command writes
 </Steps>
 
 For a smaller correctness build, follow [network regression tests](../networking.md#build-and-run-the-network-tests). Run the provided scripts under `build/` only after checking their application and deployment configuration.
+
+## Upgrade arknet
+
+The repository's `ARKNET_REVISION` default selects a fixed arknet commit when CMake fetches the library. Updating ark's source does not replace an `ARKNET_REVISION` value already saved in an existing `CMakeCache.txt`.
+
+Use a new build directory and repeat the configure command above to take the repository default. To retain an existing build directory, replace `RELEASE_COMMIT` with the full 40-character commit of the selected [arknet release](https://github.com/OpenArkStudio/arknet/releases), then explicitly update the cached value:
+
+```sh
+cmake -S . -B app-build -DARKNET_REVISION=RELEASE_COMMIT
+cmake --build app-build --parallel 2
+```
+
+The existing build directory retains its other configured options. Confirm `ARKNET_REVISION` in `app-build/CMakeCache.txt`; multi-configuration generators still require `--config Release` when building.
+
+A nonempty `ARKNET_SOURCE_DIR` uses that local checkout instead of fetching `ARKNET_REVISION`. Update the checkout explicitly for development. To return to the pinned fetch, configure with `-DARKNET_SOURCE_DIR=` and the desired `-DARKNET_REVISION=RELEASE_COMMIT`. These remain optional CMake overrides; the CI policy compares the repository defaults, not a developer's cache or local checkout.
