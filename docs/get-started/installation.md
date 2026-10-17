@@ -16,7 +16,7 @@ git submodule update --init --recursive
 
 Install vcpkg and set the `VCPKG_ROOT` environment variable to that checkout. Select Boost for the network dependency.
 
-On macOS/Linux, use a POSIX shell:
+On macOS/Linux, use a POSIX shell. The [macOS compiler and SDK example](#macos-compiler-and-sdk) below selects the Apple toolchain explicitly.
 
 ```sh
 cmake -S . -B app-build -G Ninja \
@@ -47,6 +47,30 @@ Multi-configuration generators also need `--config Release`. This command writes
 </Steps>
 
 For a smaller correctness build, follow [network regression tests](../networking.md#build-and-run-the-network-tests). Run the provided scripts under `build/` only after checking their application and deployment configuration.
+
+## macOS compiler and SDK
+
+Select the C compiler, C++ compiler and SDK from the same active Xcode or Command Line Tools installation with `xcrun`. When changing the compiler or SDK, use a new build directory so CMake does not retain the previous selection. Run the following commands instead of the configure and build commands above:
+
+```sh
+ark_macos_sdk="$(xcrun --sdk macosx --show-sdk-path)"
+cmake -S . -B app-build-macos -G Ninja \
+  -DCMAKE_C_COMPILER="$(xcrun --sdk macosx --find clang)" \
+  -DCMAKE_CXX_COMPILER="$(xcrun --sdk macosx --find clang++)" \
+  -DCMAKE_OSX_SYSROOT="$ark_macos_sdk" \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DVCPKG_MANIFEST_FEATURES="application;boost" \
+  -DASIO_STANDALONE=OFF -DCMAKE_BUILD_TYPE=Release
+cmake --build app-build-macos --parallel 2
+```
+
+Use `app-build-macos` in place of `app-build` in the subsequent runtime-copy paths.
+
+<Aside type="caution" title="Homebrew LLVM 22.1.7 with macOS SDK 27.0">
+
+This compiler/SDK combination has a standard-header compatibility issue that depends on include order and can report undeclared `INFINITY` or `DBL_EPSILON`. If these errors occur, use the Apple Clang and SDK selection above in a new build directory.
+
+</Aside>
 
 ## Upgrade arknet
 
