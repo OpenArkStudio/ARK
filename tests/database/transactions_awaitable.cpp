@@ -34,6 +34,7 @@ struct transaction_stub
     std::vector<std::string> submitted;
     mysql_transaction_options options{};
     std::string sql;
+    std::vector<arknet::mysql::field_value> parameters;
     callback completion;
     std::vector<std::uint64_t> cancelled;
     mysql_transaction_reply immediate;
@@ -55,6 +56,12 @@ struct transaction_stub
 
     std::uint64_t start_commit(callback handler) {
         return submit("commit", std::move(handler));
+    }
+
+    std::uint64_t start_execute(std::string text, std::vector<arknet::mysql::field_value> values, callback handler) {
+        sql = std::move(text);
+        parameters = std::move(values);
+        return submit("execute", std::move(handler));
     }
 
     std::uint64_t start_rollback(callback handler) {
@@ -147,6 +154,8 @@ module_task<mysql_transaction_reply> operation(
         return mysql_transaction_query(endpoint, bridge, "UPDATE entries SET n=n+1");
     case 2:
         return mysql_transaction_commit(endpoint, bridge);
+    case 4:
+        return mysql_transaction_execute(endpoint, bridge, "SELECT ?", {std::int64_t{7}});
     default:
         return mysql_transaction_rollback(endpoint, bridge);
     }
@@ -172,7 +181,7 @@ module_task<> sequential_transaction(
 TEST_CASE("Transaction factories own options and SQL before lazy start and drop without submission") {
     transaction_stub endpoint;
     transaction_owner owner;
-    for (unsigned kind = 0; kind < 4; ++kind)
+    for (unsigned kind = 0; kind < 5; ++kind)
     {
         auto unstarted = operation(kind, endpoint, owner.bridge);
     }
@@ -213,10 +222,28 @@ TEST_CASE("Transaction factories own options and SQL before lazy start and drop 
     endpoint.finish();
     owner.drain();
     CHECK(owner.completed == 2);
+    owner.result.reset();
+    const std::string parameter("param\0eter", 10);
+    auto executing = [&] {
+        std::string original_sql = "SELECT ?";
+        std::vector<arknet::mysql::field_value> original_parameters{parameter};
+        auto pending = mysql_transaction_execute(endpoint, owner.bridge, original_sql, original_parameters);
+        original_sql.assign("mutated");
+        std::get<std::string>(original_parameters[0]).assign("changed");
+        return pending;
+    }();
+    owner.start(std::move(executing));
+    owner.tasks.poll();
+    CHECK(endpoint.sql == "SELECT ?");
+    REQUIRE(endpoint.parameters.size() == 1);
+    CHECK(std::get<std::string>(endpoint.parameters[0]) == parameter);
+    endpoint.finish();
+    owner.drain();
+    CHECK(owner.completed == 3);
 }
 
 TEST_CASE("All transaction factories deliver ID zero refusals on the owner executor") {
-    for (unsigned kind = 0; kind < 4; ++kind)
+    for (unsigned kind = 0; kind < 5; ++kind)
     {
         CAPTURE(kind);
         transaction_stub endpoint;
@@ -240,7 +267,7 @@ TEST_CASE("All transaction factories deliver ID zero refusals on the owner execu
 }
 
 TEST_CASE("Transaction initiation throws remain distinct from the reply initiation diagnostic") {
-    for (unsigned kind = 0; kind < 4; ++kind)
+    for (unsigned kind = 0; kind < 5; ++kind)
     {
         CAPTURE(kind);
         transaction_stub endpoint;
@@ -269,6 +296,10 @@ TEST_CASE("Transaction initiation throws remain distinct from the reply initiati
     reply.result.last_insert_id = 23;
     reply.result.rows = {{std::string("result\0value", 12)}};
     reply.rollback.emplace();
+    reply.statement_close.emplace();
+    reply.statement_close->code = connection_errc::transport;
+    reply.statement_close->message = "Independent statement cleanup";
+    reply.statement_close_exception = std::make_exception_ptr(std::runtime_error("Statement close diagnostic"));
     reply.rollback->status.code = connection_errc::timeout;
     reply.rollback->status.outcome_unknown = true;
     reply.transaction_status.outcome = mysql_transaction_outcome::unconfirmed;
@@ -296,6 +327,11 @@ TEST_CASE("Transaction initiation throws remain distinct from the reply initiati
     REQUIRE(owner.result->result.rows[0].size() == 1);
     CHECK(std::get<std::string>(owner.result->result.rows[0][0]) == std::string("result\0value", 12));
     REQUIRE(owner.result->rollback);
+    REQUIRE(owner.result->statement_close);
+    CHECK(owner.result->statement_close->code == connection_errc::transport);
+    CHECK(owner.result->statement_close->message == "Independent statement cleanup");
+    REQUIRE(owner.result->statement_close_exception);
+    CHECK_THROWS_AS(std::rethrow_exception(owner.result->statement_close_exception), std::runtime_error);
     CHECK(owner.result->rollback->status.code == connection_errc::timeout);
     CHECK(owner.result->rollback->status.outcome_unknown);
     CHECK(owner.result->transaction_status.outcome == mysql_transaction_outcome::unconfirmed);
@@ -314,7 +350,7 @@ TEST_CASE("Transaction initiation throws remain distinct from the reply initiati
 }
 
 TEST_CASE("All transaction cancellations retain the record until the native uncertain terminal") {
-    for (unsigned kind = 0; kind < 4; ++kind)
+    for (unsigned kind = 0; kind < 5; ++kind)
     {
         CAPTURE(kind);
         transaction_stub endpoint;
@@ -406,6 +442,12 @@ TEST_CASE("Native transaction service and empty handles instantiate all factorie
         REQUIRE(owner.result);
         CHECK(owner.result->result.status.code == connection_errc::not_connected);
         owner.result.reset();
+        owner.start(mysql_transaction_execute(transaction, owner.bridge, "SELECT ?", {std::int64_t{1}}));
+        owner.tasks.poll();
+        owner.drain();
+        REQUIRE(owner.result);
+        CHECK(owner.result->result.status.code == connection_errc::not_connected);
+        owner.result.reset();
         owner.start(mysql_transaction_commit(transaction, owner.bridge));
         owner.tasks.poll();
         owner.drain();
@@ -418,7 +460,7 @@ TEST_CASE("Native transaction service and empty handles instantiate all factorie
         REQUIRE(owner.result);
         CHECK(owner.result->result.status.code == connection_errc::not_connected);
         CHECK_FALSE(owner.error);
-        CHECK(owner.completed == 4);
+        CHECK(owner.completed == 5);
     }
     CHECK(pool->close_and_wait());
 }
