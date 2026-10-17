@@ -43,6 +43,12 @@ add_custom_target(check-database
     USES_TERMINAL)
 
 if(ARKNET_ENABLE_SSL)
+    ark_database_test(ark_database_mysql_transaction_awaitable_tests main.cpp transactions_awaitable.cpp)
+    target_link_libraries(ark_database_mysql_transaction_awaitable_tests PRIVATE arknet::arknet)
+    add_custom_target(check-database-mysql-transaction-awaitable
+        COMMAND $<TARGET_FILE:ark_database_mysql_transaction_awaitable_tests>
+        DEPENDS ark_database_mysql_transaction_awaitable_tests USES_TERMINAL)
+    add_dependencies(check-database check-database-mysql-transaction-awaitable)
     ark_database_test(ark_database_mysql_transaction_state_tests main.cpp mysql_transaction_state.cpp)
     target_link_libraries(ark_database_mysql_transaction_state_tests PRIVATE arknet::arknet)
     ark_database_test(ark_database_mysql_transaction_tests mysql_transactions.cpp)

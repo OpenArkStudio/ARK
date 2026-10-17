@@ -14,7 +14,7 @@
 
 #include "detail/database_awaitable.hpp"
 #include "mysql/detail/mysql_service.hpp"
-#include "mysql/detail/mysql_transaction.hpp"
+#include "mysql/detail/mysql_transaction_awaitable.hpp"
 #include "mysql_transaction_relay.hpp"
 
 namespace {
@@ -402,31 +402,24 @@ void check_cancellation(mysql_transaction_service& service, mysql_service& obser
     run(service, [&](auto complete) { return next.start_rollback(std::move(complete)); });
 }
 
-auto transaction_completion(auto complete) {
-    return [complete = std::move(complete)](mysql_transaction_reply reply) mutable { complete({}, std::move(reply)); };
-}
-
 module_task<> coroutine_transaction(mysql_transaction_service& service,
     database_awaitable<mysql_transaction_reply>& bridge, std::thread::id owner, bool& completed) {
-    auto begun = co_await bridge.wait(
-        [&](auto complete) { return service.start({4s, 1s}, transaction_completion(std::move(complete))); },
-        [&](std::uint64_t id) { service.cancel(id); });
+    auto begun = co_await mysql_transaction_begin(service, bridge, {4s, 1s});
     require(begun.transaction.has_value(), "Coroutine begin did not own a transaction");
     auto transaction = std::move(*begun.transaction);
-    auto result = co_await bridge.wait(
-        [&](auto complete) {
-            return transaction.start_query(
-                "SELECT 'owning coroutine result'", transaction_completion(std::move(complete)));
-        },
-        [&](std::uint64_t id) { transaction.cancel(id); });
+    auto result = co_await mysql_transaction_query(transaction, bridge, "SELECT 'owning coroutine result'");
     success(result);
     require(std::this_thread::get_id() == owner, "Transaction coroutine resumed on a native IO thread");
-    auto committed = co_await bridge.wait(
-        [&](auto complete) { return transaction.start_commit(transaction_completion(std::move(complete))); },
-        [&](std::uint64_t id) { transaction.cancel(id); });
+    auto committed = co_await mysql_transaction_commit(transaction, bridge);
     require(committed.transaction_status.outcome == mysql_transaction_outcome::committed, "Coroutine commit failed");
     require(std::get<std::string>(result.result.rows[0][0]) == "owning coroutine result",
         "Coroutine result lost ownership");
+    auto next = co_await mysql_transaction_begin(service, bridge, {4s, 1s});
+    require(next.transaction.has_value(), "Coroutine rollback did not own a transaction");
+    auto rollback_transaction = std::move(*next.transaction);
+    auto rolled_back = co_await mysql_transaction_rollback(rollback_transaction, bridge);
+    require(rolled_back.transaction_status.outcome == mysql_transaction_outcome::rolled_back,
+        "Coroutine explicit rollback failed");
     completed = true;
 }
 
