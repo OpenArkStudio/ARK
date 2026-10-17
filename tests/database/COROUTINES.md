@@ -4,7 +4,7 @@
 
 This opt-in prototype uses Asio `awaitable`, `async_initiate` and `co_spawn`.
 It does not add a coroutine promise implementation or change the published
-database modules. The operation bridge stays private in `src/plugins/detail/`; task ownership is also available through the public `<ark/task.hpp>`, with the former private names forwarding to that same implementation.
+database modules. Task ownership is available through the public `<ark/task.hpp>`, with the former private names forwarding to that same implementation. The database operation helpers and bridge remain private under `src/plugins/`.
 
 ## Execution and ownership
 
@@ -31,6 +31,23 @@ tasks.poll();      // Run ready Asio handlers and coroutine continuations.
 The bridge requires its task's executor to equal that manual runtime's executor;
 a different executor is rejected before native submission. Invoking a service
 callback on the module thread alone does not satisfy this executor contract.
+
+## Private operation functions
+
+`mysql/detail/mysql_awaitable.hpp` provides `mysql_query(service, bridge, sql, timeout)` and `mysql_execute(service, bridge, sql, parameters, timeout)`. Both return `module_task<mysql_service_reply>` and preserve the native query result, optional statement-close result and independent statement-close exception. MySQL requires the SSL-enabled development build, as the service does.
+
+`redis/detail/redis_awaitable.hpp` provides `redis_command(service, bridge, command, timeout)` and `redis_pipeline(service, bridge, commands, timeout)`. Both return `module_task<arknet::redis::result>` and accept the existing plain or TLS service. TLS requires an SSL-enabled build. Pipeline reply order, binary data, server error values and `command_may_have_run` remain unchanged.
+
+These are private function templates for the existing service callback contract, not runtime-polymorphic interfaces or published plugin APIs. SQL, parameter vectors and commands are passed by value and moved into the lazy wait during the factory call. They survive changes to or destruction of the caller's original input before the task starts. Dropping the unstarted task issues no request. Keep the referenced service and bridge alive until the returned task completes or is discarded unstarted; the functions do not own them or drain them on destruction.
+
+```cpp
+auto operation = ark::detail::redis_command(service, bridge, {"ECHO", payload}, 3s);
+auto result = co_await std::move(operation);
+```
+
+The caller supplies the timeout explicitly. It starts when the lazy operation initiates the service request and retains the existing acquire-plus-command deadline rather than granting each stage a fresh budget. Cancellation forwards only a nonzero accepted service request ID and waits for its terminal callback. An inline refusal with ID zero still delivers through the bridge and has nothing to cancel. A native error or uncertain write is returned unchanged and is never replayed; a local C++ failure is rethrown through the existing bridge. These functions add no executor, worker thread or normal-stop policy.
+
+`ark_database_operations_tests` runs without a database server. Controlled service callbacks verify ownership and result forwarding, and real plain/TLS service instances verify local invalid-deadline refusal without connecting. These checks do not replace separately configured real-service tests; `ark_database_service_awaitable_tests` now uses the same operation functions for those tests.
 
 ## Results, capacity and cancellation
 

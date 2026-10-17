@@ -4,8 +4,7 @@
 
 这个可选开发原型复用 Asio 的 `awaitable`、`async_initiate` 和 `co_spawn`，
 不新增协程 promise 实现，也不修改已发布的数据库模块接口。
-任务组通过公开的 `<ark/task.hpp>` 提供，原私有名称保留为同一实现的别名；
-数据库操作桥接仍在 `src/plugins/detail/`。
+任务组通过公开的 `<ark/task.hpp>` 提供，原私有名称保留为同一实现的别名；数据库操作函数和协程桥仍保留在 `src/plugins/` 下的私有目录中。
 
 ## 执行与所有权
 
@@ -30,6 +29,23 @@ tasks.poll();      // 执行就绪的 Asio handler 和协程 continuation。
 协程桥要求任务使用同一个手动运行时的执行器。
 使用其他执行器时，会在提交原生请求前拒绝。
 仅在模块线程调用服务回调，并不等于已经进入这个执行器的执行上下文。
+
+## 私有操作函数
+
+`mysql/detail/mysql_awaitable.hpp` 提供 `mysql_query(service, bridge, sql, timeout)` 和 `mysql_execute(service, bridge, sql, parameters, timeout)`，均返回 `module_task<mysql_service_reply>`，保留原生查询结果、可选的语句关闭结果和独立的语句关闭异常。与现有服务一致，MySQL 需要启用 SSL 的开发构建。
+
+`redis/detail/redis_awaitable.hpp` 提供 `redis_command(service, bridge, command, timeout)` 和 `redis_pipeline(service, bridge, commands, timeout)`，均返回 `module_task<arknet::redis::result>`，支持现有明文和 TLS 服务。TLS 需要启用 SSL。流水线结果顺序、二进制数据、服务端错误值和 `command_may_have_run` 字段均保持不变。
+
+这些私有函数模板复用现有服务回调契约，不新增运行时多态接口，也不是已发布的插件 API。SQL、参数列表和命令按值传入，并在函数调用时移入惰性等待对象。因此，即使调用者在任务启动前修改或销毁原始输入，操作仍持有自己的数据。销毁尚未启动的任务不会提交请求。服务和协程桥仍通过引用使用，必须存活到返回的任务完成或被丢弃且尚未启动；操作函数不持有它们，也不在析构时排空请求。
+
+```cpp
+auto operation = ark::detail::redis_command(service, bridge, {"ECHO", payload}, 3s);
+auto result = co_await std::move(operation);
+```
+
+调用者显式传入超时，从惰性操作开始提交服务请求时计时，继续使用服务已有的租约获取与命令执行总时限，不为各阶段重新分配时限。取消只转交非零的已受理服务请求 ID，并等待原生终态。ID 为零的同步拒绝也通过同一协程桥交付，没有可取消的请求。原生错误和写入结果不确定标记保持不变，不自动重试；本地 C++ 异常通过已有协程桥重新抛出。操作函数不新增执行器、工作线程或正常停止策略。
+
+`ark_database_operations_tests` 无需数据库服务。受控服务回调验证输入所有权和结果转交，真实明文和 TLS 服务实例验证无连接的本地无效时限拒绝。这些检查不能代替另行配置的真实服务测试；`ark_database_service_awaitable_tests` 已改为使用同一组操作函数。
 
 ## 结果、容量与取消
 

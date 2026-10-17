@@ -25,6 +25,8 @@ ark_database_test(ark_database_task_contract_tests task_group_contract.cpp)
 target_link_libraries(ark_database_task_contract_tests PRIVATE arknet::arknet)
 ark_database_test(ark_database_service_awaitable_tests service_awaitable.cpp)
 target_link_libraries(ark_database_service_awaitable_tests PRIVATE arknet::arknet)
+ark_database_test(ark_database_operations_tests main.cpp operations_awaitable.cpp)
+target_link_libraries(ark_database_operations_tests PRIVATE arknet::arknet)
 ark_database_test(ark_database_redis_tests redis_service.cpp)
 target_link_libraries(ark_database_redis_tests PRIVATE arknet::arknet)
 ark_database_test(ark_database_redis_stop_tests redis_stop_capture.cpp)
@@ -33,9 +35,11 @@ add_custom_target(check-database
     COMMAND $<TARGET_FILE:ark_database_queue_tests>
     COMMAND $<TARGET_FILE:ark_database_redis_stop_tests>
     COMMAND $<TARGET_FILE:ark_database_task_tests>
+    COMMAND $<TARGET_FILE:ark_database_operations_tests>
     COMMAND ${CMAKE_COMMAND} -DPROGRAM=$<TARGET_FILE:ark_database_task_contract_tests>
         -P "${CMAKE_CURRENT_SOURCE_DIR}/task_group_contract.cmake"
-    DEPENDS ark_database_queue_tests ark_database_redis_stop_tests ark_database_task_tests ark_database_task_contract_tests
+    DEPENDS ark_database_queue_tests ark_database_redis_stop_tests ark_database_task_tests ark_database_operations_tests
+        ark_database_task_contract_tests
     USES_TERMINAL)
 
 if(ARKNET_ENABLE_SSL)
