@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <cstring>
+
 #include "ark/define.hpp"
 #include "ark/enum.hpp"
 #include "ark/kernel/node.hpp"
@@ -80,7 +82,7 @@ public:
             success = (get_double() == src.get_double());
             break;
         case data_type::dt_string:
-            success = (get_string() == src.get_string());
+            success = equal(src.get_string());
             break;
         case data_type::dt_pointer:
             success = (get_pointer() == src.get_pointer());
@@ -146,7 +148,8 @@ public:
             return false;
         }
 
-        return get_string() == value;
+        const char* current = get_string();
+        return current == value || (current != nullptr && value != nullptr && std::strcmp(current, value) == 0);
     }
 
     bool equal(const void* value) {
