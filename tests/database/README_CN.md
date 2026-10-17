@@ -51,6 +51,9 @@ bash scripts/test_databases.sh database-build local
 
 `check-database` 不运行真实服务测试。缺少端点配置会明确报错，不会跳过后当作成功。
 
+启用 SSL 时，本地回归还包含私有事务状态测试。独立的 [MySQL 事务测试](TRANSACTIONS_CN.md)
+需要真实临时服务，验证多条语句及最终提交/回滚始终使用同一个原生 lease。
+
 ## Redis TLS 回归
 
 启用 `ARKNET_ENABLE_SSL=ON` 时，`check-database` 也会运行原生 TLS 回归。
