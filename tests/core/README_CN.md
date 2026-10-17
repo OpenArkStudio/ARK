@@ -39,3 +39,12 @@ cmake --build core-build --target check-core
 ```sh
 cmake --build core-build --target check-logging
 ```
+
+## 公开任务 SDK
+
+`check-core` 包含 `check-task-sdk`：独立编译仅包含 `<ark/task.hpp>` 的文件，
+并运行使用 `ark::core` 的普通调用方。测试覆盖拥有型返回值、停止受理、显式取消
+和所属线程检查。受控子进程检查要求在仍有任务或跨线程析构时以代码 77 结束，
+不会在测试所属对象中直接放弃挂起的协程。私有数据库任务测试通过别名使用同一个
+公开实现。参见[协程任务](../../docs/guides/tasks_CN.md)，了解可独立运行的
+`ark_task_example` 和显式生命周期要求。

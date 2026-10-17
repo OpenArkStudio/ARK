@@ -273,6 +273,9 @@ endif()
 #---------------------------------------------------------------------------------------
 # Building samples
 #---------------------------------------------------------------------------------------
+if(ARK_BUILD_EXAMPLES)
+    add_subdirectory(examples/task_group)
+endif()
 if (ARK_BUILD_APPLICATIONS AND ARK_BUILD_EXAMPLES)
     message(STATUS "Building examples ...")
     add_subdirectory(examples)

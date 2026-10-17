@@ -23,6 +23,25 @@ add_custom_target(check-logging
 add_dependencies(check-core check-logging)
 
 find_package(Threads REQUIRED)
+add_library(ark_task_header_checks OBJECT headers/task.cpp)
+# This SDK consumer uses the public core target without aggregate plugin APIs.
+set_property(TARGET ark_task_header_checks PROPERTY LINK_LIBRARIES ark::core)
+
+add_executable(ark_task_tests main.cpp tasks.cpp)
+set_property(TARGET ark_task_tests PROPERTY LINK_LIBRARIES ark::core Threads::Threads)
+target_include_directories(ark_task_tests PRIVATE "${PROJECT_SOURCE_DIR}/src/plugins")
+add_dependencies(ark_task_tests ark_task_header_checks)
+
+add_executable(ark_task_contract_tests ../database/task_group_contract.cpp)
+set_property(TARGET ark_task_contract_tests PROPERTY LINK_LIBRARIES ark::core Threads::Threads)
+add_custom_target(check-task-sdk
+    COMMAND $<TARGET_FILE:ark_task_tests>
+    COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:ark_task_contract_tests>"
+        -P "${PROJECT_SOURCE_DIR}/tests/database/task_group_contract.cmake"
+    DEPENDS ark_task_tests ark_task_contract_tests
+    USES_TERMINAL)
+add_dependencies(check-core check-task-sdk)
+
 add_executable(ark_app_shutdown_tests ../app/shutdown_request.cpp)
 target_compile_features(ark_app_shutdown_tests PRIVATE cxx_std_20)
 target_include_directories(ark_app_shutdown_tests PRIVATE "${PROJECT_SOURCE_DIR}/src/app")

@@ -15,7 +15,7 @@
 #include <windows.h>
 #endif
 
-#include "detail/module_task_group.hpp"
+#include <ark/task.hpp>
 
 namespace {
 
@@ -34,7 +34,7 @@ void install_contract_exit() noexcept {
     std::set_terminate(exit_on_contract_violation);
 }
 
-ark::detail::module_task<> pending_task() {
+ark::task<> pending_task() {
     co_return;
 }
 
@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
     if (mode == "--pending-destruction")
     {
         auto runtime = std::make_shared<arknet::manual_runtime>();
-        ark::detail::module_task_group group(runtime);
+        ark::task_group group(runtime);
         group.start(pending_task());
         // Even a task which could finish immediately is pending before poll.
         // Destroying this owner violates the documented drain precondition.
@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
     if (mode == "--wrong-thread-destruction")
     {
         auto runtime = std::make_shared<arknet::manual_runtime>();
-        auto group = std::make_unique<ark::detail::module_task_group>(runtime);
+        auto group = std::make_unique<ark::task_group>(runtime);
         std::thread worker([owned = std::move(group)]() mutable {
             // MSVC terminate handlers are per-thread.
             install_contract_exit();

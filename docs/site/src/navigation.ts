@@ -84,6 +84,11 @@ const tree: Entry[] = [
         "创建插件"
       ],
       [
+        "guides/tasks",
+        "Coroutine tasks",
+        "协程任务"
+      ],
+      [
         "guides/data-structures",
         "Data structures and metadata",
         "数据结构与元数据"

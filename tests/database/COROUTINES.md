@@ -4,7 +4,7 @@
 
 This opt-in prototype uses Asio `awaitable`, `async_initiate` and `co_spawn`.
 It does not add a coroutine promise implementation or change the published
-database modules. The new helpers stay private in `src/plugins/detail/`.
+database modules. The operation bridge stays private in `src/plugins/detail/`; task ownership is also available through the public `<ark/task.hpp>`, with the former private names forwarding to that same implementation.
 
 ## Execution and ownership
 
@@ -148,3 +148,5 @@ verified executor delivery and explicit close/drain. MySQL requires
 `ARKNET_ENABLE_SSL=ON` and a matching trusted server certificate. These are local
 functional checks, not production capacity measurements or cross-platform
 acceptance.
+
+See [Coroutine tasks](../../docs/guides/tasks.md) for public `ark::task<T>` and `ark::task_group` usage. The private `module_task<T>` / `module_task_group` names forward to that same implementation and create no second scheduler.
