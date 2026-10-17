@@ -2,7 +2,7 @@ add_library(ark_core_header_checks OBJECT headers/queue.cpp headers/guid128.cpp 
 target_link_libraries(ark_core_header_checks PRIVATE ark::core)
 
 add_executable(ark_core_tests main.cpp strings.cpp containers.cpp templates.cpp callbacks.cpp
-    header_regressions.cpp concurrency.cpp)
+    header_regressions.cpp concurrency.cpp plugin_manager_startup.cpp)
 target_link_libraries(ark_core_tests PRIVATE ark::core ark::utility)
 add_dependencies(ark_core_tests ark_core_header_checks)
 if(ARK_BUILD_PROTO)
