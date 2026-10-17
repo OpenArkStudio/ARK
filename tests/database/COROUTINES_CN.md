@@ -47,6 +47,23 @@ auto result = co_await std::move(operation);
 
 `ark_database_operations_tests` 无需数据库服务。受控服务回调验证输入所有权和结果转交，真实明文和 TLS 服务实例验证无连接的本地无效时限拒绝。这些检查不能代替另行配置的真实服务测试；`ark_database_service_awaitable_tests` 已改为使用同一组操作函数。
 
+## 私有事务函数
+
+`mysql/detail/mysql_transaction_awaitable.hpp` 提供四个惰性操作工厂，需要启用 SSL 的开发构建：
+
+| 函数 | 输入 |
+| --- | --- |
+| `mysql_transaction_begin(service, bridge, options)` | 按值持有事务总超时与独立清理时限 |
+| `mysql_transaction_query(transaction, bridge, sql)` | 按值持有 SQL，沿用现有事务截止时间 |
+| `mysql_transaction_commit(transaction, bridge)` | 使用同一事务句柄及其剩余时限 |
+| `mysql_transaction_rollback(transaction, bridge)` | 通过同一事务句柄显式回滚 |
+
+这些普通函数在调用时持有输入，通过已有协程桥返回 `module_task<mysql_transaction_reply>`，直到任务被推进才提交原生请求。丢弃尚未启动的任务不会提交请求。被引用的服务、协程桥和事务句柄必须存活且保持原位置，直到任务完成或被丢弃且尚未启动；创建惰性步骤后再移动句柄，会改变该步骤实际引用的目标。成功 BEGIN 后，先从回复中移出句柄，再创建后续步骤。只有 BEGIN 接收选项，后续步骤不重置事务总截止时间或独立清理预算。
+
+回复整体移动转交，保留仅可移动的拥有型句柄、查询结果、可选回滚结果和事务快照。回复中的 `initiation_exception` 仍与清理、取消和租约归还诊断一起保留在回复中，不会因重新抛出而丢弃其他字段。受理前发起请求时直接抛出的 C++ 异常，仍走协程桥的异常路径。结果不确定的状态保持不变，不自动重试，也不伪造提交成功。取消只转交已受理的逻辑请求 ID，并等待实际回调；ID 为零的同步拒绝也由手动执行器恢复任务。
+
+`ark_database_mysql_transaction_awaitable_tests` 无需数据库。受控回调验证输入所有权、结果转交、取消与额度为一的连续步骤；真实服务和空句柄实例仅验证本地拒绝，不能证明真实租约或数据库行为。另行配置的 `ark_database_mysql_transaction_tests` 使用同一组函数执行 BEGIN/query/COMMIT，以及显式 BEGIN/ROLLBACK。真实服务检查按[事务说明](TRANSACTIONS_CN.md)运行，测试不会启动数据库。
+
 ## 结果、容量与取消
 
 `database_awaitable<Result>` 为每个受理的操作预留一条记录，完成后等待交付的

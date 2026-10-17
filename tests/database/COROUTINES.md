@@ -49,6 +49,23 @@ The caller supplies the timeout explicitly. It starts when the lazy operation in
 
 `ark_database_operations_tests` runs without a database server. Controlled service callbacks verify ownership and result forwarding, and real plain/TLS service instances verify local invalid-deadline refusal without connecting. These checks do not replace separately configured real-service tests; `ark_database_service_awaitable_tests` now uses the same operation functions for those tests.
 
+## Private transaction functions
+
+`mysql/detail/mysql_transaction_awaitable.hpp` provides four lazy operation factories, available in SSL-enabled development builds:
+
+| Function | Inputs |
+| --- | --- |
+| `mysql_transaction_begin(service, bridge, options)` | Transaction total timeout and independent cleanup timeout, owned by value |
+| `mysql_transaction_query(transaction, bridge, sql)` | SQL owned by value; the existing transaction deadline applies |
+| `mysql_transaction_commit(transaction, bridge)` | The same transaction handle and its remaining deadline |
+| `mysql_transaction_rollback(transaction, bridge)` | Explicit rollback through the same transaction handle |
+
+Each ordinary factory immediately captures its inputs and returns `module_task<mysql_transaction_reply>` through the existing bridge. It performs no native request until polled. Dropping an unstarted task performs no request. Keep the referenced service, bridge and transaction handle alive and unmoved until the task completes or is discarded unstarted; moving the handle after creating a lazy step invalidates that step's intended target. Move the handle out of a successful BEGIN reply before creating subsequent steps. Only BEGIN accepts options; subsequent steps do not reset the transaction's total deadline or independent cleanup budget.
+
+The move-only reply is forwarded whole: the owning handle, query result, optional rollback result and transaction snapshot remain intact. In particular, a reply's `initiation_exception` stays in that reply with any cleanup, cancellation or lease-return diagnostics; it is not rethrown while discarding the other fields. A C++ exception thrown by initiation before acceptance still follows the bridge's exception path. Unknown outcomes remain unknown, with no retry or invented successful commit. Cancellation forwards the accepted logical request ID and waits for the actual callback; an inline ID-zero rejection still resumes on the manual executor.
+
+`ark_database_mysql_transaction_awaitable_tests` requires no database. Controlled callbacks verify ownership, result forwarding, cancellation and quota-one sequential steps; actual service/empty-handle instances verify local refusal only. These checks do not establish real lease or database behavior. The separately configured `ark_database_mysql_transaction_tests` uses these same functions for BEGIN/query/COMMIT and an explicit BEGIN/ROLLBACK sequence. Run its real-service checks using [the transaction instructions](TRANSACTIONS.md); it does not start a database.
+
 ## Results, capacity and cancellation
 
 `database_awaitable<Result>` reserves one record per accepted operation, including
