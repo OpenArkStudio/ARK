@@ -16,7 +16,7 @@ git submodule update --init --recursive
 
 安装 vcpkg，将环境变量 `VCPKG_ROOT` 指向对应目录。网络依赖选择 Boost。
 
-macOS/Linux 使用 POSIX shell：
+macOS/Linux 使用 POSIX shell。下方的 [macOS 编译器与 SDK 示例](#macos-编译器与-sdk)显式选择 Apple 工具链。
 
 ```sh
 cmake -S . -B app-build -G Ninja \
@@ -47,6 +47,30 @@ cmake --build app-build --parallel 2
 </Steps>
 
 只验证网络正确性时，按[网络回归测试](../networking_CN.md)进行精简构建。运行 `build/` 下的脚本前，先核对应用与部署配置。
+
+## macOS 编译器与 SDK
+
+通过 `xcrun` 选择当前 Xcode 或 Command Line Tools 中配套的 C 编译器、C++ 编译器和 SDK。更换编译器或 SDK 时，使用新的构建目录，避免 CMake 保留原有选择。用以下命令替代上面的配置与构建命令：
+
+```sh
+ark_macos_sdk="$(xcrun --sdk macosx --show-sdk-path)"
+cmake -S . -B app-build-macos -G Ninja \
+  -DCMAKE_C_COMPILER="$(xcrun --sdk macosx --find clang)" \
+  -DCMAKE_CXX_COMPILER="$(xcrun --sdk macosx --find clang++)" \
+  -DCMAKE_OSX_SYSROOT="$ark_macos_sdk" \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DVCPKG_MANIFEST_FEATURES="application;boost" \
+  -DASIO_STANDALONE=OFF -DCMAKE_BUILD_TYPE=Release
+cmake --build app-build-macos --parallel 2
+```
+
+后续复制运行文件时，将示例路径中的 `app-build` 替换为 `app-build-macos`。
+
+<Aside type="caution" title="Homebrew LLVM 22.1.7 与 macOS SDK 27.0">
+
+这组编译器与 SDK 存在与包含顺序有关的标准头文件兼容问题，可能报 `INFINITY` 或 `DBL_EPSILON` 未声明。遇到这些错误时，按上面的命令选择配套的 Apple Clang 和 SDK，并使用新的构建目录。
+
+</Aside>
 
 ## 升级 arknet
 
