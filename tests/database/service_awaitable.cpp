@@ -194,8 +194,11 @@ void check_mysql() {
                     std::get<std::string>(text.result.rows[0][1]) == "native coroutine",
             "MySQL native text field types/values changed");
         const auto binary = std::string("mysql\0coroutine", 15);
+        std::vector<arknet::mysql::field_value> parameters;
+        parameters.emplace_back(std::int64_t{-9});
+        parameters.emplace_back(binary);
         auto prepared =
-            co_await mysql_execute(service, bridge, "SELECT CAST(? AS SIGNED), ?", {std::int64_t{-9}, binary}, 3s);
+            co_await mysql_execute(service, bridge, "SELECT CAST(? AS SIGNED), ?", std::move(parameters), 3s);
         require(bool(prepared.result.status) && prepared.result.rows.size() == 1 &&
                     std::get<std::int64_t>(prepared.result.rows[0][0]) == -9 &&
                     std::get<std::string>(prepared.result.rows[0][1]) == binary,
