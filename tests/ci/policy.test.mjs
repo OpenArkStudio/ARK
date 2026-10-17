@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdtempSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import test from 'node:test';
 import { changedPaths, decodePaths, inspectSite, isDocumentationPath, selectScope, validateGate } from '../../.github/scripts/ci-policy.mjs';
 
@@ -24,6 +24,29 @@ function repository(t) {
   write('docs/guide.md', '# Guide\n');
   const base = commit();
   return { root, git, write, commit, base };
+}
+
+function addSite(repo) {
+  repo.write('docs/site/package.json', JSON.stringify({ scripts: { check: 'node check.mjs' } }));
+  repo.write('docs/site/package-lock.json', '{}');
+  return repo.commit();
+}
+
+function classifyEvent(repo, eventName, payload) {
+  const metadata = mkdtempSync(resolve(tmpdir(), 'ark-ci-event-'));
+  try {
+    const event = resolve(metadata, 'event.json');
+    writeFileSync(event, typeof payload === 'string' ? payload : JSON.stringify(payload));
+    const env = { ...process.env, GITHUB_EVENT_NAME: eventName, GITHUB_EVENT_PATH: event,
+      GITHUB_OUTPUT: resolve(metadata, 'outputs'), GITHUB_STEP_SUMMARY: resolve(metadata, 'summary') };
+    delete env.GITHUB_TOKEN;
+    delete env.GH_TOKEN;
+    const script = fileURLToPath(new URL('../../.github/scripts/ci-policy.mjs', import.meta.url));
+    const plan = JSON.parse(execFileSync(process.execPath, [script, 'classify'], { cwd: repo.root, env, encoding: 'utf8' }));
+    return { plan, output: readFileSync(env.GITHUB_OUTPUT, 'utf8'), summary: readFileSync(env.GITHUB_STEP_SUMMARY, 'utf8') };
+  } finally {
+    rmSync(metadata, { recursive: true, force: true });
+  }
 }
 
 test('only recognized documentation paths qualify for the lightweight plan', () => {
@@ -68,8 +91,8 @@ test('empty, missing, truncated and invalid UTF-8 path lists never grant a light
   assert.equal(decision(['docs/a\nname.md']).full_cpp, true);
 });
 
-test('events outside pull requests cannot grant a lightweight classifier result', () => {
-  for (const eventName of ['push', 'workflow_dispatch', 'merge_group', 'unknown']) {
+test('events without changed-path scoping cannot grant a lightweight classifier result', () => {
+  for (const eventName of ['push', 'workflow_dispatch', 'unknown']) {
     const plan = decision(['docs/guide.md'], { eventName });
     assert.equal(plan.full_cpp, true);
     assert.equal(plan.docs_check, true);
@@ -174,7 +197,7 @@ function results(plan) {
   };
 }
 
-test('merge queue candidates run full checks even when their changes are documentation-only', t => {
+test('a documentation-only merge queue candidate runs its required site check and explicitly skips native jobs', t => {
   const repo = repository(t);
   repo.write('docs/site/package.json', JSON.stringify({ scripts: { check: 'node check.mjs' } }));
   repo.write('docs/site/package-lock.json', '{}');
@@ -189,20 +212,162 @@ test('merge queue candidates run full checks even when their changes are documen
   delete env.GITHUB_TOKEN;
   delete env.GH_TOKEN;
   const plan = JSON.parse(execFileSync(process.execPath, [script, 'classify'], { cwd: repo.root, env, encoding: 'utf8' }));
-  assert.equal(plan.full_cpp, true);
+  assert.equal(plan.full_cpp, false);
   assert.equal(plan.docs_check, true);
-  assert.equal(plan.files_known, false);
-  assert.equal(plan.reason, 'full-event');
+  assert.equal(plan.readme_check, false);
+  assert.equal(plan.files_known, true);
+  assert.equal(plan.reason, 'documentation-only');
   const valid = results(plan);
   execFileSync(process.execPath, [script, 'gate'], { cwd: repo.root,
     env: { ...env, CI_NEEDS_JSON: JSON.stringify(valid) }, stdio: ['ignore', 'pipe', 'pipe'] });
   for (const job of ['network', 'applications', 'database', 'documentation']) {
-    for (const result of ['skipped', 'failure', 'cancelled']) {
+    for (const result of [job === 'documentation' ? 'skipped' : 'success', 'failure', 'cancelled', undefined]) {
       const invalid = structuredClone(valid);
       invalid[job].result = result;
       assert.throws(() => validateGate(invalid), `${job}/${result}`);
     }
   }
+});
+
+test('a merge queue candidate includes earlier queued code even when the last PR changes only documentation', t => {
+  const repo = repository(t);
+  const base = addSite(repo);
+  repo.git('checkout', '-b', 'queued-code');
+  repo.write('src/main.cpp', 'int main() { return 1; }\n');
+  repo.commit();
+  repo.git('checkout', '-b', 'queued-docs', base);
+  repo.write('docs/guide.md', '# Queued documentation\n');
+  const docsHead = repo.commit();
+  repo.git('checkout', '-b', 'queue-candidate', base);
+  for (const branch of ['queued-code', 'queued-docs']) {
+    repo.git('-c', 'commit.gpgsign=false', 'merge', '--no-ff', branch, '-m', 'Merge queue fixture');
+  }
+  const head = repo.git('rev-parse', 'HEAD');
+  const sourcePlan = classifyEvent(repo, 'pull_request', { pull_request: { base: { sha: base }, head: { sha: docsHead } } }).plan;
+  assert.equal(sourcePlan.full_cpp, false);
+  const { plan } = classifyEvent(repo, 'merge_group', { merge_group: { base_sha: base, head_sha: head } });
+  assert.deepEqual(changedPaths({ root: repo.root, base, head, pullRequest: false }), ['docs/guide.md', 'src/main.cpp']);
+  assert.equal(plan.full_cpp, true);
+  assert.equal(plan.files_known, true);
+  assert.equal(plan.reason, 'code-build-or-unknown-path');
+  validateGate(results(plan));
+  for (const job of ['network', 'applications', 'database']) {
+    const skipped = results(plan);
+    skipped[job].result = 'skipped';
+    assert.throws(() => validateGate(skipped));
+  }
+});
+
+test('merge group enumeration compares its exact base and head rather than a PR merge base', t => {
+  const repo = repository(t);
+  const ancestor = addSite(repo);
+  repo.git('checkout', '-b', 'docs-topic');
+  repo.write('docs/guide.md', '# Topic documentation\n');
+  const head = repo.commit();
+  repo.git('checkout', 'main');
+  repo.write('src/main.cpp', 'int main() { return 2; }\n');
+  const base = repo.commit();
+  assert.equal(repo.git('merge-base', base, head), ancestor);
+  assert.deepEqual(changedPaths({ root: repo.root, base, head }), ['docs/guide.md']);
+  const { plan } = classifyEvent(repo, 'merge_group', { merge_group: { base_sha: base, head_sha: head } });
+  assert.equal(plan.files_known, true);
+  assert.equal(plan.full_cpp, true);
+  assert.equal(plan.file_count, 2);
+  assert.equal(plan.reason, 'code-build-or-unknown-path');
+});
+
+test('merge queue documentation renames cannot hide a removed code path', t => {
+  const repo = repository(t);
+  const base = addSite(repo);
+  renameSync(resolve(repo.root, 'src/main.cpp'), resolve(repo.root, 'docs/moved.md'));
+  const head = repo.commit();
+  const { plan } = classifyEvent(repo, 'merge_group', { merge_group: { base_sha: base, head_sha: head } });
+  assert.equal(plan.files_known, true);
+  assert.equal(plan.full_cpp, true);
+  assert.equal(plan.file_count, 2);
+});
+
+test('missing, invalid and unavailable merge group objects fall back to full checks', t => {
+  const repo = repository(t);
+  const base = addSite(repo);
+  repo.write('docs/guide.md', '# Candidate documentation\n');
+  const head = repo.commit();
+  for (const payload of [{}, { merge_group: { base_sha: base } },
+    { merge_group: { base_sha: base, head_sha: '0'.repeat(40) } },
+    { merge_group: { base_sha: base, head_sha: 'f'.repeat(40) } },
+    { merge_group: { base_sha: '--help', head_sha: head } }, '{invalid JSON']) {
+    const { plan, output } = classifyEvent(repo, 'merge_group', payload);
+    assert.equal(plan.full_cpp, true);
+    assert.equal(plan.docs_check, true);
+    assert.equal(plan.files_known, false);
+    assert.equal(plan.reason, 'enumeration-unavailable');
+    assert.match(output, /full_cpp=true\n/);
+    validateGate(results(plan));
+  }
+});
+
+test('empty merge ranges and unavailable documentation sites never skip the native matrix', t => {
+  const repo = repository(t);
+  const base = addSite(repo);
+  const empty = classifyEvent(repo, 'merge_group', { merge_group: { base_sha: base, head_sha: base } }).plan;
+  assert.equal(empty.files_known, true);
+  assert.equal(empty.full_cpp, true);
+  assert.equal(empty.reason, 'empty-diff');
+  repo.git('rm', 'docs/site/package-lock.json');
+  const head = repo.commit();
+  const unavailable = classifyEvent(repo, 'merge_group', { merge_group: { base_sha: base, head_sha: head } }).plan;
+  assert.equal(unavailable.full_cpp, true);
+  assert.equal(unavailable.docs_check, true);
+  assert.equal(unavailable.site_available, false);
+  assert.equal(unavailable.reason, 'site-unavailable');
+  const skippedSite = results(unavailable);
+  skippedSite.documentation.result = 'skipped';
+  assert.throws(() => validateGate(skippedSite));
+});
+
+test('a known README-only merge candidate requires both site and README validation', t => {
+  const repo = repository(t);
+  const base = addSite(repo);
+  repo.write('README.md', '# Candidate README\n');
+  const head = repo.commit();
+  const { plan, output } = classifyEvent(repo, 'merge_group', { merge_group: { base_sha: base, head_sha: head } });
+  assert.equal(plan.full_cpp, false);
+  assert.equal(plan.docs_check, true);
+  assert.equal(plan.readme_check, true);
+  assert.equal(plan.files_known, true);
+  assert.match(output, /readme_check=true\n/);
+  validateGate(results(plan));
+  const skippedReadme = results(plan);
+  skippedReadme.readme.result = 'skipped';
+  assert.throws(() => validateGate(skippedReadme));
+});
+
+test('merge candidates with build, dependency, CI, unknown or embedded code paths require native validation', () => {
+  for (const file of ['CMakeLists.txt', 'docs/CMakeLists.txt', 'docs/example.cpp', 'docs/build.cmake',
+    'vcpkg.json', 'docs/site/package-lock.json', '.github/scripts/ci-policy.mjs', 'tests/ci/policy.test.mjs',
+    'docs/unknown.bin', 'scripts/format.sh']) {
+    const plan = decision(['docs/guide.md', file], { eventName: 'merge_group' });
+    assert.equal(plan.full_cpp, true, file);
+    assert.equal(plan.docs_check, true, file);
+    assert.equal(plan.reason, 'code-build-or-unknown-path', file);
+  }
+});
+
+test('a real shallow candidate checkout cannot grant documentation-only coverage', t => {
+  const repo = repository(t);
+  const base = addSite(repo);
+  repo.write('docs/guide.md', '# Candidate documentation\n');
+  const head = repo.commit();
+  const shallow = mkdtempSync(resolve(tmpdir(), 'ark-ci-shallow-'));
+  t.after(() => rmSync(shallow, { recursive: true, force: true }));
+  execFileSync('git', ['clone', '--depth', '1', pathToFileURL(repo.root).href, shallow],
+    { stdio: ['ignore', 'pipe', 'pipe'] });
+  const { plan } = classifyEvent({ root: shallow }, 'merge_group', { merge_group: { base_sha: base, head_sha: head } });
+  assert.equal(plan.full_cpp, true);
+  assert.equal(plan.docs_check, true);
+  assert.equal(plan.files_known, false);
+  assert.equal(plan.reason, 'enumeration-unavailable');
+  validateGate(results(plan));
 });
 
 test('the required gate accepts only the exact full or explicitly lightweight job plan', () => {
@@ -212,7 +377,8 @@ test('the required gate accepts only the exact full or explicitly lightweight jo
 });
 
 test('every required/optional job rejects all unexpected success, skipped, failure, cancellation and missing states', () => {
-  for (const plan of [decision(['README.md']), decision(['src/main.cpp'])]) {
+  for (const plan of [decision(['README.md']), decision(['src/main.cpp']),
+    decision(['docs/guide.md'], { eventName: 'merge_group' }), decision(['README.md'], { eventName: 'merge_group' })]) {
     const valid = results(plan);
     for (const job of ['network', 'applications', 'database', 'documentation', 'readme']) {
       for (const state of ['success', 'skipped', 'failure', 'cancelled', 'neutral', 'timed_out', '', undefined]) {

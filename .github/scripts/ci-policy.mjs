@@ -68,7 +68,8 @@ export function selectScope({ eventName, files, site, enumerationFailed = false 
   const known = !enumerationFailed && Array.isArray(files);
   const paths = known ? files : [];
   const nonempty = known && paths.length > 0;
-  const docsOnly = eventName === 'pull_request' && nonempty && site.available && paths.every(isDocumentationPath);
+  const scopedEvent = eventName === 'pull_request' || eventName === 'merge_group';
+  const docsOnly = scopedEvent && nonempty && site.available && paths.every(isDocumentationPath);
   const readme = paths.some(file => file === 'README.md' || file === 'README_CN.md');
   const docsTouched = readme || paths.some(file => file.startsWith('docs/'));
   const ciTouched = paths.some(file => file.startsWith('.github/') || file.startsWith('tests/ci/'));
@@ -80,7 +81,7 @@ export function selectScope({ eventName, files, site, enumerationFailed = false 
     readme_check: readme,
     site_available: site.available,
     files_known: known,
-    reason: docsOnly ? 'documentation-only' : eventName !== 'pull_request' ? 'full-event' :
+    reason: docsOnly ? 'documentation-only' : !scopedEvent ? 'full-event' :
       !known ? 'enumeration-unavailable' : !nonempty ? 'empty-diff' :
         !site.available ? 'site-unavailable' : 'code-build-or-unknown-path',
   };
@@ -116,6 +117,8 @@ function classify() {
     const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
     if (eventName === 'pull_request') {
       files = changedPaths({ root, base: event.pull_request?.base?.sha, head: event.pull_request?.head?.sha });
+    } else if (eventName === 'merge_group') {
+      files = changedPaths({ root, base: event.merge_group?.base_sha, head: event.merge_group?.head_sha, pullRequest: false });
     } else if (eventName === 'push') {
       files = changedPaths({ root, base: event.before, head: event.after, pullRequest: false });
     } else {
