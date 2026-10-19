@@ -32,7 +32,7 @@ test('the required gate still runs after failed needs and invokes the fatal resu
   assert.ok(required, 'retain the required gate');
   assert.match(required, /^    name: CI - required$/m);
   assert.match(required, /^    if: always\(\)$/m);
-  assert.match(required, /^    needs: \[scope, network, applications, database, documentation, readme\]$/m);
+  assert.match(required, /^    needs: \[scope, network, applications, database, formatting, documentation, readme\]$/m);
   assert.match(required, /^          CI_NEEDS_JSON: \$\{\{ toJSON\(needs\) \}\}$/m);
   assert.match(required, /^        run: node \.github\/scripts\/ci-policy\.mjs gate$/m);
   assert.doesNotMatch(required, /^ *continue-on-error:/m, 'gate errors must fail the job');
