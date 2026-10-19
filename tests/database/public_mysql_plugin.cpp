@@ -56,6 +56,17 @@ int main() {
     }
     if (manager.get_shutdown_state() != ark::plugin_manager::shutdown_state::stopped || failure)
     {
+        std::cerr << "MySQL shutdown state=" << static_cast<int>(manager.get_shutdown_state())
+                  << " pending=" << manager.pending_tasks() << " phase=" << manager.get_shutdown_failure() << "\n";
+        if (failure)
+        {
+            try
+            { std::rethrow_exception(failure); }
+            catch (const std::exception& error)
+            { std::cerr << error.what() << "\n"; }
+            catch (...)
+            { std::cerr << "Non-standard task exception\n"; }
+        }
         return 6;
     }
     if (manager.pending_tasks())

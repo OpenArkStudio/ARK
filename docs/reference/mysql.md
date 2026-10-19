@@ -63,7 +63,7 @@ Transactions retain one native lease across all steps. Their monotonic identifie
 
 Run tasks on the manager's shared business executor. A foreign executor is rejected before native submission. The plugin publishes service completions and bridge deliveries in `update()`; the manager polls its single manual runtime. arknet owns socket IO and worker threads. Inputs are owned before lazy tasks start; returned results remain usable after native retirement.
 
-`max_operations` bounds coroutine delivery records, `max_input_bytes` bounds retained request capacity, and `max_transactions` bounds active transactions per named pool. Configure native pool connections/waiters, query row/column/result-byte limits and connection queue bounds separately. These are per-pool limits, not a process-wide memory budget.
+Each query/transaction bridge separately reserves at most `max_operations` delivery records; query requests and transactions each have a `max_input_bytes` retained-input budget. `max_transactions` bounds active transactions per named pool. Configure native pool connections/waiters, query row/column/result-byte limits and connection queue bounds separately. These are per-pool limits, not a process-wide memory budget.
 
 Keep calling manager updates while `stop()` returns false. Accepted workflows can finish subsequent database steps; idle transactions complete deadline cleanup. Readiness waits for both query and transaction coordinators and their delivery stacks. Only then does the host teardown phase seal admission and retire the owning pool through its native join barrier. A retirement failure retains resources and fails shutdown. This is not a hot-update or arbitrary external coroutine lifetime guarantee.
 

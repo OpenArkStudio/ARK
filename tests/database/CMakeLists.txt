@@ -57,7 +57,8 @@ if(ARKNET_ENABLE_SSL)
         "${ROOT_DIR}/src/plugins/mysql/mysql_plugin.cpp" "${ROOT_DIR}/src/plugins/mysql/mysql_module_impl.cpp")
     target_include_directories(ark_database_mysql_plugin PRIVATE "${ROOT_DIR}/src/plugins")
     target_link_libraries(ark_database_mysql_plugin PRIVATE ark::core arknet::arknet)
-    set_target_properties(ark_database_mysql_plugin PROPERTIES PREFIX "")
+    set_target_properties(ark_database_mysql_plugin PROPERTIES PREFIX ""
+        CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
     ark_database_test(ark_database_public_mysql_plugin_tests public_mysql_plugin.cpp)
     target_link_libraries(ark_database_public_mysql_plugin_tests PRIVATE ark::core arknet::arknet)
     target_compile_definitions(ark_database_public_mysql_plugin_tests PRIVATE
