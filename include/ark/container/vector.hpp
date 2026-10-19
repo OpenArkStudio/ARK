@@ -20,7 +20,12 @@
 
 #pragma once
 
-#include "ark/platform.hpp"
+#include <cstddef>
+#include <memory>
+#include <utility>
+#include <vector>
+
+#include "ark/macros.hpp"
 
 namespace ark {
 
@@ -49,8 +54,8 @@ template<typename element_type, bool is_smart_ptr>
 class object_vector_base
 {
 public:
-    using vector_type = typename std::vector<element_type>;
     using value_type = typename vector_value_type<element_type, is_smart_ptr>::value_type;
+    using vector_type = std::vector<value_type>;
     using reference = value_type&;
     using const_reference = const value_type&;
     using iterator = typename vector_type::iterator;
@@ -59,6 +64,34 @@ public:
     using const_reverse_iterator = typename vector_type::const_reverse_iterator;
 
     object_vector_base() = default;
+
+    object_vector_base(const object_vector_base&)
+        requires(is_smart_ptr)
+    = default;
+    object_vector_base(const object_vector_base&)
+        requires(!is_smart_ptr)
+    = delete;
+    object_vector_base& operator=(const object_vector_base&)
+        requires(is_smart_ptr)
+    = default;
+    object_vector_base& operator=(const object_vector_base&)
+        requires(!is_smart_ptr)
+    = delete;
+
+    object_vector_base(object_vector_base&& other) noexcept
+        : datas_(std::move(other.datas_)) {
+        other.datas_.clear();
+    }
+
+    object_vector_base& operator=(object_vector_base&& other) noexcept {
+        if (this != &other)
+        {
+            clear();
+            datas_ = std::move(other.datas_);
+            other.datas_.clear();
+        }
+        return *this;
+    }
 
     ~object_vector_base() {
         clear();
@@ -123,24 +156,33 @@ public:
 
     void erase(std::size_t index) {
         ARK_ASSERT_RET_NONE(index < size());
-        auto data = datas_[index];
-        ARK_DELETE(data);
+        if constexpr (!is_smart_ptr)
+        {
+            ARK_DELETE(datas_[index]);
+        }
         datas_[index] = nullptr;
     }
 
     void push_back(value_type value) {
         std::size_t index = first_empty();
-        push_back(index, value);
+        push_back(index, std::move(value));
     }
 
     void push_back(std::size_t index, value_type value) {
         if (index < size())
         {
-            datas_[index] = value;
+            if constexpr (!is_smart_ptr)
+            {
+                if (datas_[index] != value)
+                {
+                    ARK_DELETE(datas_[index]);
+                }
+            }
+            datas_[index] = std::move(value);
         }
         else
         {
-            datas_.emplace_back(value);
+            datas_.emplace_back(std::move(value));
         }
     }
 
@@ -157,7 +199,7 @@ public:
     }
 
     const_iterator cend() const noexcept {
-        return datas_.cbegin();
+        return datas_.cend();
     }
 
     reverse_iterator rbegin() noexcept {
@@ -173,7 +215,7 @@ public:
     }
 
     const_reverse_iterator crend() const noexcept {
-        return datas_.crbegin();
+        return datas_.crend();
     }
 
 private:
