@@ -116,6 +116,7 @@ TEST_CASE("A failed owner post preserves the owning result and allows exactly on
     native({}, {"retained after failed post", false, false});
     CHECK_THROWS_AS(ark::detail::database_awaitable_test_access::fail_post(bridge), std::bad_alloc);
     CHECK(bridge.pending() == 1);
+    CHECK_FALSE(bridge.quiescent());
     CHECK(received == 0);
     CHECK(bridge.dispatch());
     CHECK_FALSE(bridge.dispatch());
@@ -123,6 +124,42 @@ TEST_CASE("A failed owner post preserves the owning result and allows exactly on
     CHECK(received == 1);
     CHECK(result.data == "retained after failed post");
     CHECK(bridge.pending() == 0);
+    CHECK(bridge.quiescent());
+    CHECK(group.pending() == 0);
+    group.close();
+}
+
+TEST_CASE("A bridge with no reserved result is not quiescent inside its final resumption") {
+    auto runtime = std::make_shared<arknet::manual_runtime>();
+    module_task_group group(runtime);
+    bridge_type bridge(runtime, 1);
+    callback_type native;
+    bool resumed{};
+    auto operation = [&]() -> module_task<> {
+        auto result = co_await bridge.wait(
+            [&](callback_type completion) {
+                native = std::move(completion);
+                return std::uint64_t{1};
+            },
+            [](std::uint64_t) {});
+        CHECK(result.data == "terminal");
+        CHECK(bridge.pending() == 0);
+        CHECK_FALSE(bridge.quiescent());
+        resumed = true;
+    };
+    CHECK(bridge.quiescent());
+    REQUIRE(group.start(operation(), [](std::exception_ptr error) { CHECK_FALSE(error); }));
+    group.poll();
+    REQUIRE(native);
+    CHECK_FALSE(bridge.quiescent());
+    native({}, {"terminal", false, false});
+    CHECK_FALSE(bridge.quiescent());
+    REQUIRE(bridge.dispatch());
+    CHECK_FALSE(bridge.quiescent());
+    group.poll();
+    CHECK(resumed);
+    CHECK(bridge.pending() == 0);
+    CHECK(bridge.quiescent());
     CHECK(group.pending() == 0);
     group.close();
 }

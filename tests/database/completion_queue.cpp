@@ -1,6 +1,7 @@
 // Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
 #include <atomic>
 #include <chrono>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <thread>
@@ -11,6 +12,95 @@
 #include "detail/database_completion_queue.hpp"
 
 using ark::detail::completion_queue;
+
+TEST_CASE("Queue quiescence includes pending and ready completions") {
+    completion_queue<int> queue(1, 1);
+    CHECK(queue.quiescent());
+    auto pending = queue.admit(1, [&](int value) {
+        CHECK(value == 42);
+        CHECK_FALSE(queue.quiescent());
+    });
+    REQUIRE(pending);
+    CHECK_FALSE(queue.quiescent());
+    queue.complete(pending, 42);
+    CHECK_FALSE(queue.quiescent());
+    queue.stop_accepting();
+    CHECK_FALSE(queue.quiescent());
+    CHECK(queue.dispatch() == 1);
+    CHECK(queue.quiescent());
+}
+
+TEST_CASE("Nested dispatch stays active after a reentrant stop removes all reservations") {
+    completion_queue<int> queue(2, 2);
+    unsigned callbacks{};
+    auto outer = queue.admit(1, [&](int) {
+        ++callbacks;
+        CHECK_FALSE(queue.quiescent());
+        CHECK(queue.dispatch(1) == 1);
+        CHECK_FALSE(queue.quiescent());
+    });
+    auto inner = queue.admit(1, [&](int) {
+        ++callbacks;
+        queue.stop();
+        CHECK_FALSE(queue.quiescent());
+    });
+    REQUIRE(outer);
+    REQUIRE(inner);
+    queue.complete(outer, 1);
+    queue.complete(inner, 2);
+    CHECK(queue.dispatch() == 1);
+    CHECK(callbacks == 2);
+    CHECK(queue.quiescent());
+}
+
+TEST_CASE("Throwing callbacks retire dispatch activity only after unwinding") {
+    completion_queue<int> queue(1, 1);
+    auto pending = queue.admit(1, [&](int) {
+        queue.stop();
+        CHECK_FALSE(queue.quiescent());
+        throw std::runtime_error("expected business failure");
+    });
+    REQUIRE(pending);
+    queue.complete(pending, 1);
+    CHECK_THROWS_AS(queue.dispatch(), std::runtime_error);
+    CHECK(queue.quiescent());
+}
+
+TEST_CASE("Callback captures are destroyed while dispatch is still active") {
+    completion_queue<int> queue(1, 1);
+    unsigned destroyed{};
+    auto capture = std::shared_ptr<int>(new int, [&](int* value) {
+        ++destroyed;
+        CHECK_FALSE(queue.quiescent());
+        delete value;
+    });
+    auto pending = queue.admit(1, [&, capture](int) { queue.stop(); });
+    REQUIRE(pending);
+    capture.reset();
+    queue.complete(pending, 1);
+    CHECK(queue.dispatch() == 1);
+    CHECK(destroyed == 1);
+    CHECK(queue.quiescent());
+}
+
+TEST_CASE("Response ownership is released while dispatch is still active") {
+    completion_queue<std::shared_ptr<int>> queue(1, 1);
+    unsigned destroyed{};
+    auto response = std::shared_ptr<int>(new int, [&](int* value) {
+        ++destroyed;
+        CHECK_FALSE(queue.quiescent());
+        delete value;
+    });
+    auto pending = queue.admit(1, [&](std::shared_ptr<int> value) {
+        REQUIRE(value);
+        queue.stop();
+    });
+    REQUIRE(pending);
+    queue.complete(pending, std::move(response));
+    CHECK(queue.dispatch() == 1);
+    CHECK(destroyed == 1);
+    CHECK(queue.quiescent());
+}
 
 TEST_CASE("Completed but undispatched operations keep admission reservations") {
     completion_queue<std::string> queue(2, 12);

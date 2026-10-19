@@ -332,6 +332,14 @@ public:
         return state_->count;
     }
 
+    // Quota is released before resumption, so count alone misses the final
+    // delivery stack. This is not a native callback or worker retirement barrier.
+    bool quiescent() const {
+        state_->check_owner();
+        std::lock_guard lock(state_->mutex);
+        return state_->count == 0 && !state_->scheduled;
+    }
+
     // A cancellation submission exception does not change the native outcome.
     // The first such local failure remains available without an unbounded log.
     std::exception_ptr cancellation_exception() const {
