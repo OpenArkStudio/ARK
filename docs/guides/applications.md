@@ -77,7 +77,11 @@ Copy the executable and selected plugin libraries from the same build. Keep Debu
 
 For Sample1, look for a log entry containing `sample1_module` and `PostInit`. This identifies entry into the sample's post-initialization callback, which registers its timer.
 
-On macOS/Linux, Ctrl+C or `SIGTERM` requests shutdown through the application's main loop. On Windows, enter `exit` in the application console. Sample1 logs `PreShut` and then `Shut` during orderly shutdown. This sample check is not a readiness or shutdown guarantee for every plugin combination.
+On macOS/Linux, Ctrl+C or `SIGTERM` requests shutdown through the application's main loop. On Windows, enter `exit` in the application console. The launcher first stops managed top-level task admission and continues module updates plus the shared owner-thread poll until accepted tasks finish. Their services and bridges remain available so those tasks can complete later awaits.
+
+After task completion and the active callback stack returns, the manager synchronously invokes shutdown hooks and unloading. When all hooks succeed, Sample1 logs `PreShut` and then `Shut`, and the launcher exits. A hook may block; the handler-count budget is not a shutdown-duration bound.
+
+If a hook returns `false` or throws, the launcher reports its phase, module and available exception details once, keeps the process/resources alive, and does not continue unloading. There is no implicit timeout or cancellation fallback. This managed-task drain does not prove that arbitrary callbacks, native pool workers or background cleanup have finished; see [module task integration](tasks.md#shared-business-executor-for-modules). Sample1's logs alone are not a readiness or shutdown guarantee for every plugin combination.
 
 <Aside type="caution" title="Do not use process survival as the readiness check">
 
