@@ -123,3 +123,5 @@ All plugins must be rebuilt against the same updated manager headers; this chang
 - [Create a module](modules.md): lifecycle callbacks and borrowed module interfaces.
 - [Create a plugin](plugins.md): plugin registration, build and runtime selection.
 - [Database coroutine tests](../../tests/database/COROUTINES.md): private native-operation bridges, owner update order and explicit test teardown; public database plugins are still separate work.
+
+Code deriving directly from the scheduler helper base should use `ark::scheduler_task`. `ark::task<T>` denotes an Asio coroutine; `ark::scheduler` scheduling calls keep their existing signatures.
