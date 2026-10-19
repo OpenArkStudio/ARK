@@ -24,6 +24,18 @@ function matrices(name) {
   return { source: JSON.parse(expression[1]).include, full: JSON.parse(expression[2]).include };
 }
 
+test('actual workflow output bindings provide complete plans to the required gate', () => {
+  const outputs = [...jobBlock('scope').matchAll(/^      (\w+): \$\{\{ steps\.scope\.outputs\.(\w+) \}\}$/gm)];
+  assert.ok(outputs.length > 0);
+  for (const scope of [plan(['tests/network/rudp.cpp']), plan(['include/ark/core/module.hpp']),
+    plan(['README.md']), plan(['tests/database/redis_service.cpp'], 'merge_group'),
+    plan(['README.md'], 'merge_group'), plan([], 'workflow_dispatch'), plan([], 'pull_request')]) {
+    const needs = results(scope);
+    needs.scope.outputs = Object.fromEntries(outputs.map(([, name, source]) => [name, String(scope[source])]));
+    validateGate(needs, scope.event_name);
+  }
+});
+
 test('source paths select actual module regressions and propagate plugin dependencies', () => {
   const cases = [
     ['tests/core/containers.cpp', ['applications']],

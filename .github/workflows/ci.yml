@@ -23,6 +23,7 @@ jobs:
     outputs:
       event_name: ${{ steps.scope.outputs.event_name }}
       validation_stage: ${{ steps.scope.outputs.validation_stage }}
+      reason: ${{ steps.scope.outputs.reason }}
       native_check: ${{ steps.scope.outputs.native_check }}
       network_check: ${{ steps.scope.outputs.network_check }}
       applications_check: ${{ steps.scope.outputs.applications_check }}
