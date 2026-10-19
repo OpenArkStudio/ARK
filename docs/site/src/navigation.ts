@@ -151,6 +151,11 @@ const tree: Entry[] = [
         "MySQL 插件"
       ],
       [
+        "reference/redis",
+        "Redis plugin",
+        "Redis 插件"
+      ],
+      [
         "reference/build-options",
         "Build options",
         "构建选项"
