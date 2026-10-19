@@ -1,10 +1,12 @@
 add_library(ark_core_header_checks OBJECT headers/queue.cpp headers/guid128.cpp headers/rw_lock.cpp
     headers/array_map.cpp headers/bit_value.cpp headers/consistent_hash.cpp headers/list.cpp
-    headers/lock_free_queue.cpp headers/lru_map.cpp headers/map.cpp headers/thread_safe_queue.cpp)
+    headers/lock_free_queue.cpp headers/lru_map.cpp headers/map.cpp headers/thread_safe_queue.cpp
+    headers/object_vector.cpp)
 target_link_libraries(ark_core_header_checks PRIVATE ark::core)
 
 add_executable(ark_core_tests main.cpp strings.cpp containers.cpp templates.cpp callbacks.cpp
-    header_regressions.cpp concurrency.cpp plugin_manager_startup.cpp data_strings.cpp node_data_storage.cpp)
+    header_regressions.cpp concurrency.cpp plugin_manager_startup.cpp data_strings.cpp node_data_storage.cpp
+    object_vectors.cpp)
 target_link_libraries(ark_core_tests PRIVATE ark::core ark::utility)
 add_dependencies(ark_core_tests ark_core_header_checks)
 if(ARK_BUILD_PROTO)

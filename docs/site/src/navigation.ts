@@ -131,6 +131,11 @@ const tree: Entry[] = [
     },
     "children": [
       [
+        "reference/object-vectors",
+        "Object vectors",
+        "对象指针容器"
+      ],
+      [
         "reference/kernel",
         "Kernel plugin",
         "Kernel 插件"
