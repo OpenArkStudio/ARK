@@ -72,7 +72,7 @@ struct redis_module_impl::state
 
     static task<arknet::redis::result> missing(std::shared_ptr<state> pinned) {
         const auto executor = co_await asio::this_coro::executor;
-        if (executor != asio::any_io_executor(pinned->runtime->get_executor()))
+        if (!detail::is_database_executor(executor, *pinned->runtime))
         {
             throw std::logic_error("Redis operation requires its manager task executor");
         }

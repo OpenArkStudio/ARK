@@ -10,6 +10,11 @@
 
 namespace {
 ark::task<> request(ark::redis_module& database) {
+    auto missing = co_await database.command("missing", {"PING"});
+    if (missing.error != arknet::redis::client_errc::not_connected)
+    {
+        throw std::runtime_error("Expected missing connection result across the plugin boundary");
+    }
     auto result = co_await database.command("test", {"PING"}, std::chrono::milliseconds(10));
     if (result)
     {
@@ -56,6 +61,17 @@ int main() {
     }
     if (manager.get_shutdown_state() != ark::plugin_manager::shutdown_state::stopped || failure)
     {
+        std::cerr << "Public Redis DSO shutdown state=" << static_cast<int>(manager.get_shutdown_state())
+                  << ", pending tasks=" << manager.pending_tasks() << '\n';
+        if (failure)
+        {
+            try
+            { std::rethrow_exception(failure); }
+            catch (const std::exception& error)
+            { std::cerr << "Public Redis DSO task failed: " << error.what() << '\n'; }
+            catch (...)
+            { std::cerr << "Public Redis DSO task failed with an unknown exception\n"; }
+        }
         return 6;
     }
     if (manager.pending_tasks())

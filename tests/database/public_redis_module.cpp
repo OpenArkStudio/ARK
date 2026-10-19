@@ -450,7 +450,9 @@ TEST_CASE("Public Redis TLS uses owning pool configuration and native results") 
     module_owner owner;
     auto options = owner.options(peer);
     options.tls = true;
-    options.pool.connection.host = "localhost";
+    // Match the IPv4-only peer. The certificate includes the 127.0.0.1 IP SAN;
+    // this test verifies TLS ownership, not dual-stack hostname resolution.
+    options.pool.connection.host = "127.0.0.1";
     options.pool.certificate_authority = std::string(ARK_DATABASE_REDIS_CERT_DIR) + "/ca.pem";
     REQUIRE(owner.redis.configure("secure", options));
     REQUIRE(owner.redis.init());
@@ -460,6 +462,8 @@ TEST_CASE("Public Redis TLS uses owning pool configuration and native results") 
     REQUIRE(owner.pump_until([&] { return owner.completed == 1; }));
     CHECK_FALSE(owner.error);
     REQUIRE(owner.result);
+    CAPTURE(owner.result->error);
+    CAPTURE(owner.result->transport_error.message());
     CHECK(owner.result->error == client_errc::none);
     REQUIRE(owner.result->replies.size() == 1);
     CHECK(owner.result->replies.front().text == "verified TLS");

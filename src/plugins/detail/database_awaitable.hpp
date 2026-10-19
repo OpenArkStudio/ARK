@@ -19,6 +19,14 @@ namespace ark::detail {
 
 struct database_awaitable_test_access;
 
+inline bool is_database_executor(const asio::any_io_executor& candidate, arknet::manual_runtime& runtime) {
+    // Type-erasure function tables can have different addresses across DSOs.
+    // Compare the exact concrete executor, preserving rejection of strands and
+    // other wrappers even when they use the same execution context.
+    const auto* executor = candidate.target<arknet::manual_runtime::executor_type>();
+    return executor && *executor == runtime.get_executor();
+}
+
 // Private bridge for owner-thread service callbacks. Native results keep their
 // original type; local C++ failures travel through exception_ptr. Every accepted
 // operation reserves one record until its result is actually delivered.
@@ -353,7 +361,7 @@ private:
     template<class start_type, class cancel_type>
     static module_task<result_type> await_result(std::shared_ptr<state> shared, start_type start, cancel_type cancel) {
         const auto executor = co_await asio::this_coro::executor;
-        if (executor != asio::any_io_executor(shared->runtime->get_executor()))
+        if (!is_database_executor(executor, *shared->runtime))
         {
             throw std::logic_error("Database awaitable must run on its manual runtime executor");
         }

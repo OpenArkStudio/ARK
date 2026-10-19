@@ -40,7 +40,10 @@ add_library(ark_database_redis_plugin SHARED
     "${ROOT_DIR}/src/plugins/redis/redis_plugin.cpp" "${ROOT_DIR}/src/plugins/redis/redis_module_impl.cpp")
 target_include_directories(ark_database_redis_plugin PRIVATE "${ROOT_DIR}/src/plugins")
 target_link_libraries(ark_database_redis_plugin PRIVATE ark::core arknet::arknet)
-set_target_properties(ark_database_redis_plugin PROPERTIES PREFIX "")
+# Keep implementation symbols private so this exercises separate Asio executor
+# type-erasure tables in the executable and dynamically loaded plugin.
+set_target_properties(ark_database_redis_plugin PROPERTIES PREFIX ""
+    CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
 ark_database_test(ark_database_public_redis_plugin_tests public_redis_plugin.cpp)
 target_link_libraries(ark_database_public_redis_plugin_tests PRIVATE ark::core arknet::arknet)
 target_compile_definitions(ark_database_public_redis_plugin_tests PRIVATE

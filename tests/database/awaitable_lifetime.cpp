@@ -459,3 +459,32 @@ TEST_CASE("Bridge quota and executor mismatch fail before starting native operat
     CHECK(group.pending() == 0);
     group.close();
 }
+
+TEST_CASE("Bridge rejects foreign runtime and same-runtime strand before native initiation") {
+    auto runtime = std::make_shared<arknet::manual_runtime>();
+    auto foreign_runtime = std::make_shared<arknet::manual_runtime>();
+    bridge_type bridge(runtime, 1);
+    unsigned starts{};
+    unsigned completed{};
+    auto operation = [&]() -> module_task<> {
+        co_await bridge.wait(
+            [&](callback_type) {
+                ++starts;
+                return std::uint64_t{1};
+            },
+            [](std::uint64_t) {});
+    };
+    auto rejected = [&](std::exception_ptr error) {
+        REQUIRE(error);
+        CHECK_THROWS_AS(std::rethrow_exception(error), std::logic_error);
+        ++completed;
+    };
+    asio::co_spawn(foreign_runtime->get_executor(), operation(), rejected);
+    asio::co_spawn(asio::make_strand(runtime->get_executor()), operation(), rejected);
+    foreign_runtime->poll();
+    runtime->poll();
+    CHECK(completed == 2);
+    CHECK(starts == 0);
+    CHECK(bridge.pending() == 0);
+    CHECK(bridge.quiescent());
+}
