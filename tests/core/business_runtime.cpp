@@ -35,6 +35,11 @@ public:
         return true;
     }
 
+    bool ready_to_shut() const override {
+        ++readiness_calls;
+        return on_readiness ? on_readiness() : readiness_result;
+    }
+
     bool pre_shut() override {
         ++pre_shut_calls;
         if (on_pre_shut)
@@ -54,11 +59,14 @@ public:
     }
 
     std::function<void()> on_update;
+    std::function<bool()> on_readiness;
     std::function<void()> on_pre_shut;
     std::function<void()> on_shut;
     bool pre_shut_result{true};
+    bool readiness_result{true};
     bool shut_result{true};
     unsigned pre_shut_calls{};
+    mutable unsigned readiness_calls{};
     unsigned shut_calls{};
 
 private:
@@ -75,11 +83,13 @@ TEST_CASE("Manager stop from an update defers teardown until the active callback
     bool stopped_inside{};
     module.on_update = [&] {
         stopped_inside = manager.stop(2);
+        CHECK(module.readiness_calls == 0);
         CHECK(module.pre_shut_calls == 0);
         CHECK(module.shut_calls == 0);
     };
     CHECK(manager.update(1));
     CHECK_FALSE(stopped_inside);
+    CHECK(module.readiness_calls == 0);
     CHECK(module.pre_shut_calls == 0);
     CHECK(module.shut_calls == 0);
     CHECK(manager.stop(3));
@@ -280,6 +290,7 @@ TEST_CASE("Final completion cannot teardown or mutate owners even during an exte
         CHECK_FALSE(error);
         CHECK(manager.pending_tasks() == 0);
         CHECK_FALSE(manager.stop(1));
+        CHECK(module.readiness_calls == 0);
         CHECK_THROWS_AS(manager.remove_module(module.get_name()), std::logic_error);
         CHECK_THROWS_AS(manager.update(1), std::logic_error);
         CHECK_THROWS_AS(runtime->poll(), std::logic_error);
@@ -290,6 +301,7 @@ TEST_CASE("Final completion cannot teardown or mutate owners even during an exte
     // create a hole in teardown guards when the manager did not initiate poll.
     runtime->poll();
     CHECK(completed == 1);
+    CHECK(module.readiness_calls == 0);
     CHECK(manager.stop(2));
     CHECK(module.pre_shut_calls == 1);
 }
@@ -432,6 +444,112 @@ TEST_CASE("Managed task groups enforce registration capacity identity and irreve
     CHECK_THROWS_AS(manager.start(2, {}, {}, {}), std::logic_error);
     CHECK_FALSE(manager.update(2));
     CHECK(manager.get_shutdown_state() == ark::plugin_manager::shutdown_state::stopped);
+}
+
+TEST_CASE("Every module must be ready before any shutdown hook and updates can finish draining") {
+    ark::plugin_manager manager;
+    observed_module first("first"), second("second");
+    REQUIRE(manager.add_module(first.get_name(), &first));
+    REQUIRE(manager.add_module(second.get_name(), &second));
+    REQUIRE(manager.add_update_module(&second));
+    first.readiness_result = false;
+    second.readiness_result = false;
+    auto& tasks = manager.create_task_group(first);
+    REQUIRE(tasks.start(ready_task()) != 0);
+    CHECK_FALSE(manager.stop(1));
+    CHECK(first.readiness_calls == 0);
+    CHECK(second.readiness_calls == 0);
+    REQUIRE(manager.update(2));
+    REQUIRE(manager.pending_tasks() == 0);
+
+    for (unsigned attempt = 0; attempt < 2; ++attempt)
+    {
+        CHECK_FALSE(manager.stop(3 + attempt));
+        CHECK(manager.get_shutdown_state() == ark::plugin_manager::shutdown_state::draining);
+        CHECK(manager.get_shutdown_failure().empty());
+        CHECK_FALSE(manager.get_shutdown_exception());
+        CHECK(first.readiness_calls == attempt + 1);
+        CHECK(second.readiness_calls == attempt + 1);
+        CHECK(first.pre_shut_calls == 0);
+        CHECK(second.pre_shut_calls == 0);
+        CHECK(first.shut_calls == 0);
+        CHECK(second.shut_calls == 0);
+        first.readiness_result = true;
+    }
+    second.on_update = [&] { second.readiness_result = true; };
+    CHECK(manager.update(5));
+    auto check_all_ready = [&] {
+        CHECK(first.readiness_calls == 3);
+        CHECK(second.readiness_calls == 3);
+    };
+    first.on_pre_shut = check_all_ready;
+    second.on_pre_shut = check_all_ready;
+    CHECK(manager.stop(6));
+    CHECK(manager.stop(7));
+    CHECK(first.pre_shut_calls == 1);
+    CHECK(second.pre_shut_calls == 1);
+    CHECK(first.shut_calls == 1);
+    CHECK(second.shut_calls == 1);
+}
+
+TEST_CASE("Readiness exceptions retain resources and produce a sticky module phase failure") {
+    ark::plugin_manager manager;
+    observed_module module("native-retirement"), other("other");
+    REQUIRE(manager.add_module(module.get_name(), &module));
+    REQUIRE(manager.add_module(other.get_name(), &other));
+    auto& tasks = manager.create_task_group(module);
+    other.readiness_result = false;
+    module.on_readiness = []() -> bool { throw std::runtime_error("native readiness failed"); };
+    CHECK_FALSE(manager.stop(1));
+    CHECK(manager.get_shutdown_state() == ark::plugin_manager::shutdown_state::failed);
+    CHECK(manager.get_shutdown_failure() == "ready_to_shut: native-retirement");
+    REQUIRE(manager.get_shutdown_exception());
+    CHECK_THROWS_WITH_AS(
+        std::rethrow_exception(manager.get_shutdown_exception()), "native readiness failed", std::runtime_error);
+    CHECK(module.pre_shut_calls == 0);
+    CHECK(other.pre_shut_calls == 0);
+    CHECK(module.shut_calls == 0);
+    CHECK(other.shut_calls == 0);
+    CHECK_FALSE(manager.stop(2));
+    CHECK_FALSE(manager.update(3));
+    CHECK(module.readiness_calls == 1);
+    CHECK(&manager.get_tasks(module) == &tasks);
+    CHECK(tasks.start(ready_task()) == 0);
+}
+
+TEST_CASE("Readiness hooks share the active lifecycle and registry reentrancy guards") {
+    ark::plugin_manager manager;
+    observed_module module("readiness-owner"), extra("extra");
+    REQUIRE(manager.add_module(module.get_name(), &module));
+    REQUIRE(manager.add_update_module(&module));
+    auto& tasks = manager.create_task_group(module);
+    module.on_readiness = [&] {
+        CHECK_FALSE(manager.stop(2));
+        CHECK_THROWS_AS(manager.update(2), std::logic_error);
+        CHECK_THROWS_AS(manager.start(2, {}, {}, {}), std::logic_error);
+        CHECK_THROWS_AS(manager.remove_module(module.get_name()), std::logic_error);
+        CHECK_THROWS_AS(manager.remove_update_module(module.get_name()), std::logic_error);
+        CHECK_THROWS_AS(manager.add_module(extra.get_name(), &extra), std::logic_error);
+        CHECK_THROWS_AS(manager.add_update_module(&extra), std::logic_error);
+        CHECK_THROWS_AS(manager.create_task_group(extra), std::logic_error);
+        CHECK(module.pre_shut_calls == 0);
+        CHECK(&manager.get_tasks(module) == &tasks);
+        return true;
+    };
+    CHECK(manager.stop(1));
+    CHECK(module.readiness_calls == 1);
+    CHECK(module.pre_shut_calls == 1);
+    CHECK(module.shut_calls == 1);
+}
+
+TEST_CASE("Modules without a readiness override keep their default shutdown behavior") {
+    ark::plugin_manager manager;
+    ark::module module;
+    CHECK(module.ready_to_shut());
+    REQUIRE(manager.add_module("default-readiness", &module));
+    CHECK(manager.stop(1));
+    CHECK(manager.get_shutdown_state() == ark::plugin_manager::shutdown_state::stopped);
+    CHECK(manager.get_shutdown_failure().empty());
 }
 
 TEST_CASE("Shutdown hook failure is observable and retains modules without repeated teardown") {
