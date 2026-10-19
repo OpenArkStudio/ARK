@@ -316,11 +316,18 @@ public:
         return completions->dispatch(maximum);
     }
 
+    // Observation only: accepted workflows may still submit follow-up requests.
+    bool quiescent() const {
+        check_owner();
+        std::lock_guard lock(requests_->mutex);
+        return activity_->depth == 0 && requests_->active.empty() && completions_->quiescent();
+    }
+
     // Seal admission after accepted workflows finish their later requests.
     // This covers this service's logical activity, not native IO retirement.
     bool logically_drained() const {
         check_owner();
-        return !accepting_ && activity_->depth == 0 && completions_->quiescent();
+        return !accepting_ && quiescent();
     }
 
     // Caller must return from its coroutine/lifecycle stacks to an outer owner
