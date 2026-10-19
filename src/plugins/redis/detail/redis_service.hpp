@@ -20,6 +20,7 @@
 
 #include "detail/database_completion_queue.hpp"
 #include "detail/database_request_control.hpp"
+#include "detail/database_service_activity.hpp"
 
 namespace ark::detail {
 
@@ -186,7 +187,10 @@ public:
 
     // false means not accepted: no callback. Accepted callbacks run in update()
     // unless stop() suppresses them. timeout covers both acquire and execution.
-    bool submit(arknet::redis::command command, callback completion, std::chrono::milliseconds timeout) {
+    bool submit(arknet::redis::command command, callback incoming, std::chrono::milliseconds timeout) {
+        check_owner();
+        database_service_activity::guard active(activity_);
+        auto completion = std::move(incoming);
         std::vector<arknet::redis::command> commands;
         commands.push_back(std::move(command));
         return submit_pipeline(std::move(commands), std::move(completion), timeout);
@@ -199,15 +203,20 @@ public:
 
     // Rejected new-style requests complete inline with ID0; legacy submit keeps
     // its no-callback-on-rejection rule.
-    request_id start(arknet::redis::command command, callback completion, std::chrono::milliseconds timeout) {
+    request_id start(arknet::redis::command command, callback incoming, std::chrono::milliseconds timeout) {
+        check_owner();
+        database_service_activity::guard active(activity_);
+        auto completion = std::move(incoming);
         std::vector<arknet::redis::command> commands;
         commands.push_back(std::move(command));
         return start_pipeline(std::move(commands), std::move(completion), timeout);
     }
 
     request_id start_pipeline(
-        std::vector<arknet::redis::command> commands, callback completion, std::chrono::milliseconds timeout) {
+        std::vector<arknet::redis::command> commands, callback incoming, std::chrono::milliseconds timeout) {
         check_owner();
+        database_service_activity::guard active(activity_);
+        auto completion = std::move(incoming);
         auto handler = std::make_shared<callback>(std::move(completion));
         redis_service_result rejected;
         if (!arknet::detail::checked_deadline(std::chrono::steady_clock::now(), timeout))
@@ -300,14 +309,36 @@ public:
     }
 
     std::size_t update(std::size_t maximum = 64) {
+        check_owner();
+        database_service_activity::guard active(activity_);
         // A business callback may destroy its service while dispatch is active.
         auto completions = completions_;
         return completions->dispatch(maximum);
     }
 
+    // Seal admission after accepted workflows finish their later requests.
+    // This covers this service's logical activity, not native IO retirement.
+    bool logically_drained() const {
+        check_owner();
+        return !accepting_ && activity_->depth == 0 && completions_->quiescent();
+    }
+
+    // Caller must return from its coroutine/lifecycle stacks to an outer owner
+    // frame first. No external runtime or bridge is owned or inspected here.
+    // False means not retired; native false/exception preserves this pool owner.
+    bool retire_native() {
+        return retire_native([](auto& pool) { return pool.close_and_wait(); });
+    }
+
+    bool native_retired() const {
+        check_owner();
+        return activity_->native_retired;
+    }
+
     // Legacy capture suppression; this does not drain native work or continuations.
     void stop() {
         check_owner();
+        database_service_activity::guard active(activity_);
         auto completions = completions_;
         accepting_ = false;
         pool_->close();
@@ -317,6 +348,30 @@ public:
     }
 
 private:
+    friend struct database_service_test_access;
+
+    template<class finalizer_type>
+    bool retire_native(finalizer_type finalizer) {
+        check_owner();
+        if (!logically_drained())
+        {
+            return false;
+        }
+        auto activity = activity_;
+        auto pool = pool_;
+        if (activity->native_retired)
+        {
+            return true;
+        }
+        database_service_activity::guard active(activity);
+        if (!finalizer(*pool))
+        {
+            return false;
+        }
+        activity->native_retired = true;
+        return true;
+    }
+
     void check_owner() const {
         if (std::this_thread::get_id() != owner_)
         {
@@ -325,8 +380,10 @@ private:
     }
 
     request_id initiate(
-        std::vector<arknet::redis::command> commands, callback completion, std::chrono::milliseconds timeout) {
+        std::vector<arknet::redis::command> commands, callback incoming, std::chrono::milliseconds timeout) {
         check_owner();
+        database_service_activity::guard active(activity_);
+        auto completion = std::move(incoming);
         const auto deadline = arknet::detail::checked_deadline(std::chrono::steady_clock::now(), timeout);
         if (!deadline)
         {
@@ -421,6 +478,7 @@ private:
     std::shared_ptr<queue_type> completions_;
     std::shared_ptr<pool_type> pool_;
     std::shared_ptr<request_registry> requests_{std::make_shared<request_registry>()};
+    std::shared_ptr<database_service_activity> activity_{std::make_shared<database_service_activity>()};
     const std::thread::id owner_{std::this_thread::get_id()};
     bool accepting_{true};
 };
