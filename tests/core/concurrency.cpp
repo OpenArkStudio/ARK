@@ -11,6 +11,7 @@
 #include "../network/doctest.h"
 
 #include <ark/container/queue.hpp>
+#include <ark/container/thread_safe_queue.hpp>
 #include <ark/lock/rw_lock.hpp>
 
 namespace {
@@ -72,6 +73,37 @@ bool queue_operation_finishes(ark::queue<throwing_value>& values, operation_type
 }
 
 } // namespace
+
+DOCTEST_TEST_CASE("Thread-safe queue supports const observation and preserves FIFO across batch drains") {
+    ark::thread_safe_queue<int> values;
+    const auto& observed = values;
+    DOCTEST_CHECK(observed.empty());
+    DOCTEST_CHECK(values.size() == 0);
+
+    values.push(10);
+    values.push(20);
+    DOCTEST_CHECK_FALSE(observed.empty());
+    DOCTEST_CHECK(values.size() == 2);
+
+    int output = 0;
+    DOCTEST_REQUIRE(values.try_pop(output));
+    DOCTEST_CHECK(output == 10);
+    values.push(30);
+    auto batch = values.grab_all();
+    DOCTEST_REQUIRE(batch.size() == 2);
+    DOCTEST_CHECK(batch.front() == 20);
+    batch.pop();
+    DOCTEST_CHECK(batch.front() == 30);
+    DOCTEST_CHECK(observed.empty());
+    DOCTEST_CHECK(values.size() == 0);
+    DOCTEST_CHECK_FALSE(values.try_pop(output));
+    DOCTEST_CHECK(output == 10);
+
+    values.push(40);
+    DOCTEST_REQUIRE(values.try_pop(output));
+    DOCTEST_CHECK(output == 40);
+    DOCTEST_CHECK(observed.empty());
+}
 
 DOCTEST_TEST_CASE("Queue operations release their lock when copying or assigning an element throws") {
     ark::queue<throwing_value> values;
