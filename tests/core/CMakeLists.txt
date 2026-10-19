@@ -42,6 +42,21 @@ add_custom_target(check-task-sdk
     USES_TERMINAL)
 add_dependencies(check-core check-task-sdk)
 
+add_executable(ark_business_runtime_tests main.cpp business_runtime.cpp)
+set_property(TARGET ark_business_runtime_tests PROPERTY LINK_LIBRARIES ark::core Threads::Threads)
+target_include_directories(ark_business_runtime_tests PRIVATE "${PROJECT_SOURCE_DIR}/src/plugins")
+add_library(ark_business_runtime_header_check OBJECT headers/business_runtime.cpp)
+set_property(TARGET ark_business_runtime_header_check PROPERTY LINK_LIBRARIES ark::core)
+add_dependencies(ark_business_runtime_tests ark_business_runtime_header_check)
+add_executable(ark_business_runtime_contract_tests business_runtime_contract.cpp)
+set_property(TARGET ark_business_runtime_contract_tests PROPERTY LINK_LIBRARIES ark::core Threads::Threads)
+add_custom_target(check-business-runtime
+    COMMAND $<TARGET_FILE:ark_business_runtime_tests>
+    COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:ark_business_runtime_contract_tests>"
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/business_runtime_contract.cmake"
+    DEPENDS ark_business_runtime_tests ark_business_runtime_contract_tests USES_TERMINAL)
+add_dependencies(check-core check-business-runtime)
+
 add_executable(ark_app_shutdown_tests ../app/shutdown_request.cpp)
 target_compile_features(ark_app_shutdown_tests PRIVATE cxx_std_20)
 target_include_directories(ark_app_shutdown_tests PRIVATE "${PROJECT_SOURCE_DIR}/src/app")
@@ -75,6 +90,19 @@ if(ARK_BUILD_CONFIG)
     add_dependencies(check-core check-application-manifest)
 
     if(TARGET app)
+        add_library(ark_business_runtime_probe SHARED ../app/business_runtime_plugin.cpp)
+        set_property(TARGET ark_business_runtime_probe PROPERTY LINK_LIBRARIES ark::core)
+        target_include_directories(ark_business_runtime_probe PRIVATE "${PROJECT_SOURCE_DIR}/src/plugins")
+        set_target_properties(ark_business_runtime_probe PROPERTIES PREFIX "")
+        add_custom_target(check-app-business-runtime
+            COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:app>"
+                "-DPLUGIN_DIR=$<TARGET_FILE_DIR:ark_business_runtime_probe>"
+                "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"
+                "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/business runtime app"
+                -P "${PROJECT_SOURCE_DIR}/tests/app/business_runtime.cmake"
+            DEPENDS app ark_business_runtime_probe USES_TERMINAL)
+        add_dependencies(check-core check-app-business-runtime)
+
         add_custom_target(check-app-manifest-failures
             COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:app>"
                 "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"

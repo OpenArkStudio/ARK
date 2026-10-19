@@ -57,3 +57,23 @@ wrong-thread destruction; they do not abandon suspended frames in the test owner
 Private database task tests retain forwarding aliases to this same public class.
 See [Coroutine tasks](../../docs/guides/tasks.md) for the independently runnable
 `ark_task_example` and explicit lifetime requirements.
+
+## Shared business runtime
+
+`check-business-runtime`, included in `check-core`, compiles a standalone
+`<ark/plugin_manager.hpp>` consumer and checks one shared executor, the total
+handler budget, module completion publication before polling, sequential awaits
+after admission stops, late results, owner/reentrancy checks, pending-module
+unregister, stable group references and failure diagnostics. The real unregister
+macro must throw before deleting a pending task's module. Four controlled child
+processes cover pending, wrong-thread, update-stack and final-completion-stack
+destruction. These tests require no database service.
+
+```sh
+cmake --build core-build --target check-business-runtime
+```
+
+The tests establish managed business-task drain, not native worker retirement or
+generic dynamic-library unload safety. See [module task integration](../../docs/guides/tasks.md#shared-business-executor-for-modules).
+
+When applications and configuration are built, `check-app-business-runtime` loads a test-only native plugin in the real launcher. POSIX cases request SIGTERM; Windows supplies `exit` to the real command thread. The accepted task receives two controlled private-bridge results during draining and finishes its callback before shutdown/uninstall. Separate false/throwing-hook children must diagnose failure once, retain their module and remain alive until the owned test observation timeout. That timeout terminates only the test child and is not a successful shutdown or a production policy. No real database is involved.

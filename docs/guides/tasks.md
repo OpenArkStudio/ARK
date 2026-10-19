@@ -1,6 +1,6 @@
 # Coroutine tasks
 
-`<ark/task.hpp>` provides `ark::task<T>` and `ark::task_group` for explicitly owned Asio coroutines. Use a group to admit, observe and cancel tasks while an application thread polls the library-provided `arknet::manual_runtime`. This API does not automatically attach tasks to a module or choose an application shutdown policy.
+`<ark/task.hpp>` provides `ark::task<T>` and `ark::task_group`. Business modules can use the shared executor and module-owned groups provided by `plugin_manager`; standalone tools can still create their own runtime and groups.
 
 `ark::task<T>` is an alias for Asio `awaitable<T>`; it adds no coroutine promise implementation. A group starts `task<void>` roots. A root can `co_await task<T>` to receive an owning value, just as it awaits other compatible Asio operations.
 
@@ -58,6 +58,33 @@ The example's `main()` creates a shared `arknet::manual_runtime` and a group, th
 
 Construct, operate and destroy the runtime and group on the same thread. `manual_runtime` creates no worker to run task bodies or continuations: `poll()` runs ready Asio handlers on its constructing thread. Platform services such as timers or name resolution can use their own internal helper threads. Native database/network pools retain their separately documented IO ownership.
 
+## Shared business executor for modules
+
+![Module tasks and their shared executor](../assets/shared-business-runtime.svg)
+
+Each manager owns one library-provided `manual_runtime`. After registering a module, call `manager.create_task_group(module, maximum)` during initialization, then submit work through `manager.get_tasks(module)`. Capacity must be positive; unknown modules, duplicate groups and creation after shutdown begins are rejected. A module pointer can be registered only once. Group references remain stable when other modules register.
+
+Private database bridges use `manager.get_task_runtime()` to share that exact executor. A module's `update()` calls `service.update()` and `bridge.dispatch()` first; `manager.update(timestamp, maximum_handlers = 64)` then polls the runtime once. All groups share the handler budget. Modules must not also poll their group or runtime; a handler budget is not a frame-time limit. Published database plugins have not switched to these private bridges.
+
+`manager.stop(timestamp)` stops top-level business-task admission in every managed group and returns `false` without waiting while tasks or an active update/completion stack remain. Accepted coroutines may submit later operations, so keep their services and bridges accepting. Only another `stop()` after task completion and stack unwinding enters shutdown hooks. It then executes `pre_shut()`, `shut()` and unloading synchronously; user hooks may block, so this API does not bound shutdown duration.
+
+| State | Caller action |
+| --- | --- |
+| `running` | Update normally and accept tasks |
+| `draining` | Continue module updates and the central poll; retain business state and services |
+| `failed` | A shutdown hook returned failure or threw; do not continue unloading, and retain process/resources |
+| `stopped` | Shutdown hooks completed; repeated `stop()` returns `true` |
+
+Use `get_shutdown_state()`, `get_shutdown_failure()` and `get_shutdown_exception()` to distinguish waiting from failure. The launcher keeps pumping while tasks remain, and reports a hook failure once while retaining the process. There is no implicit shutdown timeout, cancellation, detach or frame destruction as a drain substitute. The pending-task check does not wait for completion. The poll budget limits handler count, not execution time, and does not bound user-hook or total shutdown latency.
+
+Use the manager and its groups on their constructing thread. Do not mutate module registries or recursively update from update/shutdown hooks or executor callbacks. While any managed task is pending, no module can unregister: another module’s task may still borrow that provider. Destroying a manager with tasks, on an active callback stack or from another thread terminates; destruction is not a drain entry point.
+
+<Aside type="caution" title="Task completion does not release native IO resources">
+
+This drain check covers only top-level business tasks accepted by managed groups. Modules do not yet define a common phase for stopping incoming requests. External callbacks must return, connection-pool workers must exit and background cleanup must complete before their code can be safely unloaded. A zero task count does not prove those conditions or activate the public native database plugins. Unmanaged work must not reference a module being destroyed.
+
+</Aside>
+
 ## API and admission
 
 | API | Behavior |
@@ -88,6 +115,8 @@ Destroy a group only on its constructing thread and with `pending() == 0`. A pen
 </Aside>
 
 The last completion retires its group membership before invoking user completion code, so that handler may destroy the now-empty group facade. This does not allow destroying unrelated outstanding operations. `closed()` describes this group's tracked roots; it is not a transport drain, callback barrier, DLL-unload guarantee or completed module shutdown design.
+
+All plugins must be rebuilt against the same updated manager headers; this change does not provide a stable binary plugin ABI or hot-update compatibility.
 
 ## Continue
 
