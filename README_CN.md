@@ -78,6 +78,7 @@ private:
 | 运行示例应用 | [快速开始](docs/get-started/quick-start_CN.md) |
 | 了解框架设计 | [架构](docs/concepts/architecture_CN.md) · [实体数据](docs/reference/kernel_CN.md) |
 | 连接应用进程 | [网络接口](docs/reference/network_CN.md) · [消息总线](docs/reference/bus_CN.md) |
+| 异步访问数据库 | [MySQL](docs/reference/mysql_CN.md) · [Redis](docs/reference/redis_CN.md) · [协程任务](docs/guides/tasks_CN.md) |
 | 复现验证结果 | [测试](docs/networking_CN.md) · [数据库基准测试](docs/performance/database-coroutines_CN.md) |
 
 通过 [vcpkg](vcpkg.json) 和 [Git 子模块](.gitmodules)管理依赖，arknet 的提交版本固定在 [CMakeLists.txt](CMakeLists.txt) 中。

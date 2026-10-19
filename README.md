@@ -78,6 +78,7 @@ After building and preparing the runtime directory, start `sample1` from `build/
 | Run the bundled applications | [Quick start](docs/get-started/quick-start.md) |
 | Understand the framework | [Architecture](docs/concepts/architecture.md) · [Entity data](docs/reference/kernel.md) |
 | Connect application processes | [Networking](docs/reference/network.md) · [Message bus](docs/reference/bus.md) |
+| Access databases asynchronously | [MySQL](docs/reference/mysql.md) · [Redis](docs/reference/redis.md) · [Coroutine tasks](docs/guides/tasks.md) |
 | Reproduce validation results | [Tests](docs/networking.md) · [Database benchmarks](docs/performance/database-coroutines.md) |
 
 Dependencies are managed with [vcpkg](vcpkg.json) and [Git submodules](.gitmodules). The arknet revision is pinned in [CMakeLists.txt](CMakeLists.txt).

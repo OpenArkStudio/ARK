@@ -1,11 +1,12 @@
-# Private database integration tests
+# Database integration tests
 
 [简体中文](README_CN.md)
 
-These development tests exercise internal native database services. They do not
-replace the published `mysql_module` / `redis_module` interfaces, select the new
-clients for runtime plugins, remove old drivers or change plugin registration.
-`ARK_BUILD_DATABASE_TESTS` is `OFF` by default.
+These development targets cover native services, public coroutine modules and
+actual plugin registration/shutdown. `ARK_BUILD_DATABASE_TESTS` is `OFF` by
+default; enabling it does not enable the application runtime plugin options.
+See the public [MySQL](../../docs/reference/mysql.md) and
+[Redis](../../docs/reference/redis.md) APIs for application usage.
 
 ## Build
 
@@ -71,7 +72,7 @@ active child connections or deployment capacity.
 For DRAIN, first stop top-level task admission and keep services and bridges open
 for later requests in accepted workflows. Continue pumping results. Only after
 all owning workflows, bridges and transaction participants have drained and the
-outer coroutine/lifecycle execution stacks have returned, call the service's
+outer coroutine/update execution stacks have returned, call the service's
 `stop_accepting()`. `logically_drained()` then includes sealed admission, its
 shared activity guards and completion-queue quiescence. It cannot inspect an
 external runtime or replace the caller's outer execution gate.
@@ -83,7 +84,8 @@ owner, including the native pool's sticky finalization failure. No automatic
 retry, cancellation or bounded shutdown latency is promised. Existing `stop()`
 still suppresses callbacks and requests asynchronous close. Transaction services
 borrow their pools and do not receive this owning-service barrier. These private
-methods are not connected to public database plugins or module shutdown.
+methods implement the public plugins’ host-driven retirement phase after the
+manager drains tasks and observes module readiness.
 
 With SSL enabled, local checks also include the private transaction state tests.
 The separate [MySQL transaction test](TRANSACTIONS.md) requires a disposable real
@@ -165,13 +167,22 @@ preserving accepted terminal delivery. Accepted operations are
 completed once unless `stop()` removes their not-yet-started business callbacks.
 One checked deadline covers acquisition and execution. Native server/transport
 errors, owning results and uncertain write outcomes are preserved; no write is
-replayed. The planned public API uses native arknet owning results and favors
-asynchronous/coroutine calls. The separate [coroutine prototype](COROUTINES.md)
-documents its owner executor, bounded delivery, logical cancellation and explicit
-close/drain tests; it does not change the published modules or plugin lifecycle.
+replayed. The public modules expose native owning results through coroutine
+operations. The [coroutine bridge tests](COROUTINES.md) document owner-executor,
+bounded delivery, logical cancellation and close/drain contracts.
 
 `stop()` suppresses business callbacks and requests pool closure. It **does not
 wait** for native callbacks, transports, TLS resources or IO threads to be destroyed.
 The fix for reentrant capture destruction pins the queue and closes the native pool
 before clearing captures; it does not add an IO-drain barrier. These helpers are
-not registered with runtime plugins or approved for dynamic-library unload.
+used by runtime plugins together with their separate native retirement barrier.
+These checks do not certify OS library unloading or hot update.
+
+## Public plugin checks
+
+`ark_database_public_redis_tests` and `ark_database_public_mysql_tests` exercise
+owning results, cancellation, TLS and graceful drain through local protocol
+peers. `ark_database_public_redis_plugin_tests` and
+`ark_database_public_mysql_plugin_tests` load actual hidden-symbol plugin
+libraries. The migrated samples are also compiled by `check-database`. MySQL
+checks require SSL; real-server targets still require explicit endpoint settings.
