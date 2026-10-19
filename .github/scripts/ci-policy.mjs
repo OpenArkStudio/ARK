@@ -140,7 +140,8 @@ export function validateGate(needs, eventName) {
     flags[key] = value === 'true';
   }
   const reason = needs.scope.outputs.reason;
-  const uncertain = !flags.files_known || ['empty-diff', 'site-unavailable', 'enumeration-unavailable'].includes(reason);
+  const uncertain = !flags.files_known || !flags.site_available ||
+    ['empty-diff', 'site-unavailable', 'enumeration-unavailable'].includes(reason);
   const stage = !flags.native_check ? 'documentation' : eventName === 'pull_request' && !uncertain ? 'modules' : 'full';
   if (needs.scope.outputs.validation_stage !== stage) throw new Error('invalid validation stage');
   if (!['documentation-only', 'full-event', 'enumeration-unavailable', 'empty-diff', 'site-unavailable',

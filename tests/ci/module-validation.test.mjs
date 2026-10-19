@@ -146,6 +146,12 @@ test('required results distinguish source modules from queue acceptance and reje
   }
 });
 
+test('unavailable site outputs cannot qualify for module-only validation', () => {
+  const invalid = results(plan(['tests/network/rudp.cpp']));
+  invalid.scope.outputs.site_available = 'false';
+  assert.throws(() => validateGate(invalid, 'pull_request'));
+});
+
 test('source module, full queue and manual plans reject failed cancelled skipped and unknown required results', () => {
   for (const scope of [plan(['tests/network/rudp.cpp']), plan(['tests/database/redis_service.cpp']),
     plan(['tests/core/containers.cpp']), plan(['unknown.bin']), plan(['tests/network/rudp.cpp'], 'merge_group'),
