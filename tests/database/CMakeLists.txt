@@ -47,6 +47,29 @@ add_custom_target(check-database
     USES_TERMINAL)
 
 if(ARKNET_ENABLE_SSL)
+    ark_database_test(ark_database_public_mysql_tests main.cpp public_mysql_module.cpp
+        "${ROOT_DIR}/src/plugins/mysql/mysql_module_impl.cpp")
+    target_include_directories(ark_database_public_mysql_tests PRIVATE "${ARKNET_SOURCE_DIR}/tests")
+    target_compile_definitions(ark_database_public_mysql_tests PRIVATE
+        ARKNET_TEST_CERT_DIR="${ARKNET_SOURCE_DIR}/tests/certs")
+    target_link_libraries(ark_database_public_mysql_tests PRIVATE ark::core arknet::arknet)
+    add_library(ark_database_mysql_plugin SHARED
+        "${ROOT_DIR}/src/plugins/mysql/mysql_plugin.cpp" "${ROOT_DIR}/src/plugins/mysql/mysql_module_impl.cpp")
+    target_include_directories(ark_database_mysql_plugin PRIVATE "${ROOT_DIR}/src/plugins")
+    target_link_libraries(ark_database_mysql_plugin PRIVATE ark::core arknet::arknet)
+    set_target_properties(ark_database_mysql_plugin PROPERTIES PREFIX "")
+    ark_database_test(ark_database_public_mysql_plugin_tests public_mysql_plugin.cpp)
+    target_link_libraries(ark_database_public_mysql_plugin_tests PRIVATE ark::core arknet::arknet)
+    target_compile_definitions(ark_database_public_mysql_plugin_tests PRIVATE
+        ARK_DATABASE_PLUGIN_DIR="$<TARGET_FILE_DIR:ark_database_mysql_plugin>/")
+    add_dependencies(ark_database_public_mysql_plugin_tests ark_database_mysql_plugin)
+    add_library(ark_database_mysql_sample_check OBJECT "${ROOT_DIR}/examples/mysql_sample/mysql_sample_module.cpp")
+    target_link_libraries(ark_database_mysql_sample_check PRIVATE ark::core arknet::arknet)
+    add_custom_target(check-database-public-mysql
+        COMMAND $<TARGET_FILE:ark_database_public_mysql_tests>
+        COMMAND $<TARGET_FILE:ark_database_public_mysql_plugin_tests>
+        DEPENDS ark_database_public_mysql_tests ark_database_public_mysql_plugin_tests ark_database_mysql_sample_check USES_TERMINAL)
+    add_dependencies(check-database check-database-public-mysql)
     ark_database_test(ark_database_mysql_transaction_awaitable_tests main.cpp transactions_awaitable.cpp)
     target_link_libraries(ark_database_mysql_transaction_awaitable_tests PRIVATE arknet::arknet)
     add_custom_target(check-database-mysql-transaction-awaitable

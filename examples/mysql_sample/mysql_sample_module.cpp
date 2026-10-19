@@ -1,74 +1,68 @@
-/*
- * This source file is part of ARK
- * For the latest info, see https://github.com/ArkNX
- *
- * Copyright (c) 2013-2020 ArkNX authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"),
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
+// Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
+#include <cstdlib>
+#include <stdexcept>
 
-#include "ark/mysql/mysql_module.hpp"
 #include "mysql_sample_module.hpp"
 
 namespace ark {
+namespace {
+
+task<> run_mysql_sample(mysql_module& database) {
+    auto reply = co_await database.query("primary", "SELECT 1");
+    if (!reply)
+    {
+        throw std::runtime_error(reply.result.status.message);
+    }
+    ARK_LOG_INFO("MySQL query completed: {} rows", reply.result.rows.size());
+    std::vector<arknet::mysql::field_value> parameters{std::int64_t{42}};
+    auto prepared = co_await database.execute("primary", "SELECT ?", std::move(parameters));
+    if (!prepared)
+    {
+        throw std::runtime_error(prepared.result.status.message);
+    }
+}
+
+} // namespace
 
 bool mysql_sample_module::init() {
     mysql_module_ptr_ = find_module<mysql_module>();
-    return true;
+    if (!mysql_module_ptr_)
+    {
+        return false;
+    }
+    mysql_options options;
+    if (const auto* value = std::getenv("ARK_MYSQL_HOST"))
+    {
+        options.pool.connection.host = value;
+    }
+    if (const auto* value = std::getenv("ARK_MYSQL_USER"))
+    {
+        options.pool.connection.username = value;
+    }
+    if (const auto* value = std::getenv("ARK_MYSQL_PASSWORD"))
+    {
+        options.pool.connection.password = value;
+    }
+    if (const auto* value = std::getenv("ARK_MYSQL_DATABASE"))
+    {
+        options.pool.connection.database = value;
+    }
+    if (const auto* value = std::getenv("ARK_MYSQL_CA"))
+    {
+        options.pool.connection.ca_file = value;
+    }
+    // Native TLS verification remains enabled. A password is never logged.
+    return mysql_module_ptr_->configure("primary", std::move(options));
 }
 
 bool mysql_sample_module::post_init() {
-    std::cout << "do something to test mysql plugin \n";
-    std::string doc("runoob_tbl");
-
-    // select
-    std::cout << "------------------------------------\n";
-    struct order_by order;
-    result result;
-    std::vector<std::string> col{"*"};
-    std::vector<where> w{where("runoob_id", "1")};
-    if (!mysql_module_ptr_->select_one(doc, col, w, order, result))
-    {
-        std::cout << "select one fail \n";
-        return true;
-    }
-
-    for (auto iter : result)
-    {
-        std::cout << iter.first << " - " << iter.second << std::endl;
-    }
-
-    // insert
-    std::cout << "------------------------------------\n";
-    std::vector<kv_pair> data{
-        kv_pair("runoob_id", "12"), kv_pair("runoob_title", "ark"), kv_pair("runoob_author", "ark")};
-    if (!mysql_module_ptr_->insert(doc, data))
-    {
-        std::cout << "insert fail \n";
-        return true;
-    }
-
-    std::cout << "------------------------------------\n";
-    std::vector<kv_pair> data1{kv_pair("runoob_title", "ark-xxx")};
-    std::vector<where> w1{where("runoob_id", "12")};
-    if (!mysql_module_ptr_->update_record(doc, data1, w1))
-    {
-        std::cout << "update fail \n";
-        return true;
-    }
-
-    return true;
+    auto& tasks = get_plugin_manager()->create_task_group(*this);
+    return tasks.start(run_mysql_sample(*mysql_module_ptr_), [](std::exception_ptr error) {
+        if (error)
+        {
+            ARK_LOG_ERROR("MySQL sample coroutine failed");
+        }
+    }) != 0;
 }
 
 } // namespace ark

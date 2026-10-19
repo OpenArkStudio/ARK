@@ -146,6 +146,11 @@ const tree: Entry[] = [
         "Bus 插件"
       ],
       [
+        "reference/mysql",
+        "MySQL plugin",
+        "MySQL 插件"
+      ],
+      [
         "reference/build-options",
         "Build options",
         "构建选项"

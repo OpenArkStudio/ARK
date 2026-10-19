@@ -23,6 +23,7 @@
 #include <arknet/mysql/pool.hpp>
 
 #include "detail/database_completion_queue.hpp"
+#include "detail/database_service_activity.hpp"
 
 namespace ark::detail {
 
@@ -259,6 +260,7 @@ struct mysql_transaction_owner : std::enable_shared_from_this<mysql_transaction_
 
     request_id begin(mysql_transaction_options options, callback completion) {
         check_owner();
+        database_service_activity::guard active(activity);
         const auto now = clock::now();
         const auto deadline = arknet::detail::checked_deadline(now, options.timeout);
         if (!deadline || !arknet::detail::checked_deadline(now, options.cleanup_timeout))
@@ -317,7 +319,8 @@ struct mysql_transaction_owner : std::enable_shared_from_this<mysql_transaction_
     request_id submit(const std::shared_ptr<state_type>& state, std::string sql, phase_type phase, callback completion,
         std::vector<arknet::mysql::field_value> parameters = {}) {
         check_owner();
-        if (!accepting || state->retired || state->phase == phase_type::terminal)
+        database_service_activity::guard active(activity);
+        if (state->retired || state->phase == phase_type::terminal)
         {
             return reject(std::move(completion), arknet::mysql::connection_errc::not_connected);
         }
@@ -698,6 +701,7 @@ struct mysql_transaction_owner : std::enable_shared_from_this<mysql_transaction_
 
     std::size_t update(std::size_t maximum) {
         check_owner();
+        database_service_activity::guard active(activity);
         const auto inspected = std::min(maximum, states.size());
         for (std::size_t index = 0; index < inspected; ++index)
         {
@@ -741,9 +745,33 @@ struct mysql_transaction_owner : std::enable_shared_from_this<mysql_transaction_
         return dispatched;
     }
 
-    void close() {
+    // Seal only new transactions; accepted handles must finish their workflow.
+    void stop_accepting() {
         check_owner();
         accepting = false;
+    }
+
+    // Logical completion only. The supplied pool remains borrowed and its owner
+    // is responsible for any native close/join barrier after this observation.
+    bool logically_drained() const {
+        check_owner();
+        return !accepting && quiescent();
+    }
+
+    bool quiescent() const {
+        check_owner();
+        if (closed || activity->depth != 0 || !queue->quiescent())
+        {
+            return false;
+        }
+        return std::none_of(states.begin(), states.end(), [](const auto& state) { return bool(state); });
+    }
+
+    void close() {
+        check_owner();
+        database_service_activity::guard active(activity);
+        accepting = false;
+        closed = true;
         for (auto& state : states)
         {
             if (state)
@@ -771,6 +799,8 @@ struct mysql_transaction_owner : std::enable_shared_from_this<mysql_transaction_
     std::size_t progress_cursor{};
     std::size_t reap_cursor{};
     bool accepting{true};
+    bool closed{};
+    std::shared_ptr<database_service_activity> activity{std::make_shared<database_service_activity>()};
 };
 
 inline mysql_transaction& mysql_transaction::operator=(mysql_transaction&& other) noexcept {
@@ -874,7 +904,21 @@ public:
     mysql_transaction_service& operator=(const mysql_transaction_service&) = delete;
 
     request_id start(mysql_transaction_options options, callback completion) {
-        return owner_->begin(options, std::move(completion));
+        // An inline refusal callback may destroy the facade.
+        auto owner = owner_;
+        return owner->begin(options, std::move(completion));
+    }
+
+    void stop_accepting() {
+        owner_->stop_accepting();
+    }
+
+    bool logically_drained() const {
+        return owner_->logically_drained();
+    }
+
+    bool quiescent() const {
+        return owner_->quiescent();
     }
 
     bool cancel(request_id id) {
@@ -910,6 +954,8 @@ public:
     }
 
 private:
+    friend struct database_service_test_access;
+
     std::shared_ptr<mysql_transaction_owner> owner_;
 };
 

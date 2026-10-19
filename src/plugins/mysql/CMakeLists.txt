@@ -1,9 +1,4 @@
-include_directories(${ROOT_DIR}/3rdparty/mysqlpp/mysql)
-
-if(WIN32)
-#    BUILD_PLUGIN_MACRO(AFMysqlPlugin /usr/local/lib/libmysqlpp.so)
-elseif(APPLE)
-    BUILD_PLUGIN_MACRO(AFMysqlPlugin /usr/local/lib/libmysqlpp.dylib)
-else(UNIX)
-    BUILD_PLUGIN_MACRO(AFMysqlPlugin /usr/local/lib/libmysqlpp.so)
+if(NOT ARKNET_ENABLE_SSL)
+    message(FATAL_ERROR "The native MySQL plugin requires ARKNET_ENABLE_SSL for authentication and TLS")
 endif()
+BUILD_PLUGIN_MACRO(AFMysqlPlugin arknet::arknet)

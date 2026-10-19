@@ -1,204 +1,339 @@
-/*
- * This source file is part of ARK
- * For the latest info, see https://github.com/ArkNX
- *
- * Copyright (c) 2013-2019 ArkNX authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"),
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
+// Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
+#include <limits>
+#include <stdexcept>
+#include <thread>
+#include <unordered_map>
+#include <utility>
 
-#include "ark/mysql/mysql_driver_manager_module_impl.hpp"
-#include "ark/mysql/mysql_driver_module_impl.hpp"
 #include "ark/mysql/mysql_module_impl.hpp"
-#include "ark/mysql/mysql_plugin.hpp"
+#include "mysql/detail/mysql_awaitable.hpp"
+#include "mysql/detail/mysql_transaction_awaitable.hpp"
 
 namespace ark {
 
-mysql_module_impl::mysql_module_impl() {
-}
-
-mysql_module_impl::~mysql_module_impl() {
-}
-
-bool mysql_module_impl::init() {
-    mysql_driver_manager_ = std::make_shared<mysql_driver_manager_module_impl>();
-
-    xml xml_doc(mysql_plugin::get_plugin_conf());
-    auto root_node = xml_doc.get_root_node();
-    ARK_ASSERT_RET_VAL(root_node.is_valid(), false);
-
-    auto mysql_node = root_node.find_node("mysql");
-    ARK_ASSERT_RET_VAL(mysql_node.is_valid(), false);
-
-    for (auto instance_node = mysql_node.find_node("instance"); instance_node.is_valid(); instance_node.next_node())
+struct mysql_module_impl::state
+{
+    struct connection
     {
-        auto server_id = instance_node.get_uint32("id");
-        auto dns = instance_node.get_string("dns");
-        auto ip = instance_node.get_string("ip");
-        auto port = instance_node.get_uint32("port");
-        auto db_name = instance_node.get_string("dbname");
-        auto db_user = instance_node.get_string("dbuser");
-        auto db_pwd = instance_node.get_string("dbpwd");
+        detail::mysql_service queries;
+        detail::mysql_transaction_service transactions;
+        detail::database_awaitable<detail::mysql_service_reply> query_bridge;
+        detail::database_awaitable<detail::mysql_transaction_reply> transaction_bridge;
 
-        mysql_driver_manager_->add_mysql_server(server_id, dns, ip, port, db_name, db_user, db_pwd);
+        connection(mysql_options options, const std::shared_ptr<arknet::manual_runtime>& runtime)
+            : queries(std::move(options.pool), options.max_operations, options.max_input_bytes, options.queries)
+            , transactions(queries.borrow_pool(), {options.max_transactions, options.max_input_bytes}, options.queries)
+            , query_bridge(runtime, options.max_operations)
+            , transaction_bridge(runtime, options.max_operations) {
+        }
+
+        bool quiescent() const {
+            return queries.quiescent() && transactions.quiescent() && query_bridge.quiescent() &&
+                   transaction_bridge.quiescent();
+        }
+    };
+
+    struct transaction
+    {
+        std::shared_ptr<connection> owner;
+        detail::mysql_transaction handle;
+        bool busy{};
+
+        transaction(std::shared_ptr<connection> node, detail::mysql_transaction value)
+            : owner(std::move(node))
+            , handle(std::move(value)) {
+        }
+    };
+
+    struct operation_guard
+    {
+        transaction& value;
+
+        explicit operation_guard(transaction& item)
+            : value(item) {
+            if (value.busy)
+            {
+                throw std::logic_error("A transaction already has an active operation");
+            }
+            value.busy = true;
+        }
+
+        ~operation_guard() {
+            value.busy = false;
+        }
+    };
+
+    const std::thread::id owner{std::this_thread::get_id()};
+    std::shared_ptr<arknet::manual_runtime> runtime;
+    std::unordered_map<std::string, std::shared_ptr<connection>> connections;
+    std::unordered_map<mysql_transaction_id, std::shared_ptr<transaction>> transactions;
+    mysql_transaction_id next_id{1};
+    bool closed{};
+
+    void check_owner() const {
+        if (owner != std::this_thread::get_id())
+        {
+            throw std::logic_error("MySQL module requires its framework thread");
+        }
     }
 
+    void check_open() const {
+        check_owner();
+        if (closed)
+        {
+            throw std::logic_error("MySQL module is retiring");
+        }
+    }
+
+    std::shared_ptr<connection> find(const std::string& name) const {
+        check_open();
+        const auto found = connections.find(name);
+        if (found == connections.end())
+        {
+            throw std::invalid_argument("Unknown MySQL connection name");
+        }
+        return found->second;
+    }
+
+    std::shared_ptr<transaction> find(mysql_transaction_id id) const {
+        check_open();
+        const auto found = transactions.find(id);
+        if (!id || found == transactions.end())
+        {
+            throw std::invalid_argument("Unknown MySQL transaction");
+        }
+        return found->second;
+    }
+
+    static mysql_reply adapt(detail::mysql_service_reply reply) {
+        return {std::move(reply.result), std::move(reply.statement_close), std::move(reply.statement_close_exception)};
+    }
+
+    static mysql_transaction_reply adapt(detail::mysql_transaction_reply reply, mysql_transaction_id id) {
+        const auto& status = reply.transaction_status;
+        mysql_transaction_status snapshot{static_cast<mysql_transaction_outcome>(status.outcome), status.rollback_code,
+            status.rollback_outcome_unknown, status.cleanup_exception, status.cancellation_exception,
+            status.lease_return_exception, status.discard_requested};
+        return {std::move(reply.result), std::move(reply.statement_close), std::move(reply.statement_close_exception),
+            std::move(reply.rollback), std::move(reply.initiation_exception), std::move(snapshot), id};
+    }
+
+    static task<mysql_reply> run_query(std::shared_ptr<state> shared, std::shared_ptr<connection> node, std::string sql,
+        std::chrono::milliseconds timeout) {
+        shared->check_open();
+        co_return adapt(co_await detail::mysql_query(node->queries, node->query_bridge, std::move(sql), timeout));
+    }
+
+    static task<mysql_reply> run_execute(std::shared_ptr<state> shared, std::shared_ptr<connection> node,
+        std::string sql, std::vector<arknet::mysql::field_value> parameters, std::chrono::milliseconds timeout) {
+        shared->check_open();
+        co_return adapt(co_await detail::mysql_execute(
+            node->queries, node->query_bridge, std::move(sql), std::move(parameters), timeout));
+    }
+
+    static task<mysql_transaction_reply> run_begin(
+        std::shared_ptr<state> shared, std::shared_ptr<connection> node, mysql_transaction_options options) {
+        shared->check_open();
+        if (shared->next_id == std::numeric_limits<mysql_transaction_id>::max())
+        {
+            throw std::overflow_error("MySQL transaction identifiers exhausted");
+        }
+        const auto id = shared->next_id++;
+        auto reply = co_await detail::mysql_transaction_begin(node->transactions, node->transaction_bridge,
+            detail::mysql_transaction_options{options.timeout, options.cleanup_timeout});
+        mysql_transaction_id admitted{};
+        if (reply.transaction)
+        {
+            // Allocation failure abandons the handle through its normal deadline
+            // cleanup. No private transaction object escapes the plugin module.
+            auto entry = std::make_shared<transaction>(node, std::move(*reply.transaction));
+            shared->transactions.emplace(id, std::move(entry));
+            admitted = id;
+        }
+        co_return adapt(std::move(reply), admitted);
+    }
+    enum class step
+    {
+        query,
+        execute,
+        commit,
+        rollback
+    };
+
+    static task<mysql_transaction_reply> run_step(std::shared_ptr<state> shared, std::shared_ptr<transaction> entry,
+        mysql_transaction_id id, step action, std::string sql = {},
+        std::vector<arknet::mysql::field_value> parameters = {}) {
+        shared->check_open();
+        operation_guard active(*entry);
+        auto& bridge = entry->owner->transaction_bridge;
+        detail::mysql_transaction_reply reply;
+        switch (action)
+        {
+        case step::query:
+            reply = co_await detail::mysql_transaction_query(entry->handle, bridge, std::move(sql));
+            break;
+        case step::execute:
+            reply = co_await detail::mysql_transaction_execute(
+                entry->handle, bridge, std::move(sql), std::move(parameters));
+            break;
+        case step::commit:
+            reply = co_await detail::mysql_transaction_commit(entry->handle, bridge);
+            break;
+        case step::rollback:
+            reply = co_await detail::mysql_transaction_rollback(entry->handle, bridge);
+            break;
+        }
+        co_return adapt(std::move(reply), id);
+    }
+};
+
+mysql_module_impl::mysql_module_impl()
+    : state_(std::make_shared<state>()) {
+}
+
+mysql_module_impl::~mysql_module_impl() = default;
+
+bool mysql_module_impl::init() {
+    state_->check_open();
+    if (!get_plugin_manager())
+    {
+        return false;
+    }
+    state_->runtime = get_plugin_manager()->get_task_runtime();
     return true;
 }
 
-bool mysql_module_impl::shut() {
-    return true;
-}
-
-bool mysql_module_impl::post_init() {
+bool mysql_module_impl::configure(std::string name, mysql_options options) {
+    auto shared = state_;
+    shared->check_open();
+    if (!get_plugin_manager() || shared->connections.contains(name))
+    {
+        return false;
+    }
+    if (name.empty() || !options.max_operations || !options.max_transactions || !options.max_input_bytes)
+    {
+        throw std::invalid_argument("MySQL requires a connection name and positive limits");
+    }
+    if (get_plugin_manager()->get_shutdown_state() != plugin_manager::shutdown_state::running)
+    {
+        return false;
+    }
+    shared->runtime = get_plugin_manager()->get_task_runtime();
+    auto node = std::make_shared<state::connection>(std::move(options), shared->runtime);
+    shared->connections.emplace(std::move(name), std::move(node));
     return true;
 }
 
 bool mysql_module_impl::update() {
-    if (last_check_time_ + 10 > get_plugin_manager()->get_now_time())
+    auto shared = state_;
+    shared->check_owner();
+    for (const auto& [name, node] : shared->connections)
     {
-        return true;
+        node->queries.update();
+        node->transactions.update();
+        node->query_bridge.dispatch();
+        node->transaction_bridge.dispatch();
     }
-
-    last_check_time_ = get_plugin_manager()->get_now_time();
-
-    if (mysql_driver_manager_ != nullptr)
+    for (auto iter = shared->transactions.begin(); iter != shared->transactions.end();)
     {
-        mysql_driver_manager_->check_mysql();
+        const auto& entry = iter->second;
+        if (!entry->busy && entry->handle.snapshot().outcome != detail::mysql_transaction_outcome::active)
+        {
+            iter = shared->transactions.erase(iter);
+        }
+        else
+        {
+            ++iter;
+        }
     }
     return true;
 }
 
-bool mysql_module_impl::add_mysql_server(const int server_id, const std::string& dns, const std::string& ip,
-    const int port, const std::string db_name, const std::string db_user, const std::string db_pwd,
-    const int reconnect_time /* = 10*/, const int reconnect_count /* = -1*/) {
-    if (!mysql_driver_manager_)
+bool mysql_module_impl::ready_to_shut() const {
+    state_->check_owner();
+    for (const auto& [name, node] : state_->connections)
+    {
+        if (!node->quiescent())
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool mysql_module_impl::pre_shut() {
+    auto shared = state_;
+    shared->check_owner();
+    if (!ready_to_shut())
     {
         return false;
     }
-
-    return mysql_driver_manager_->add_mysql_server(
-        server_id, dns, ip, port, db_name, db_user, db_pwd, reconnect_time, reconnect_count);
-}
-
-bool mysql_module_impl::update_or_insert(const std::string& record_name, const std::string& key,
-    const std::vector<std::string>& field_vec, const std::vector<std::string>& value_vec) {
-    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
-    if (driver_ptr)
+    shared->closed = true;
+    for (const auto& [name, node] : shared->connections)
     {
-        return driver_ptr->update_or_insert(record_name, key, field_vec, value_vec);
+        node->query_bridge.stop_accepting();
+        node->transaction_bridge.stop_accepting();
+        node->queries.stop_accepting();
+        node->transactions.stop_accepting();
     }
-
-    return false;
-}
-
-bool mysql_module_impl::query(const std::string& record_name, const std::string& key,
-    const std::vector<std::string>& field_vec, std::vector<std::string>& value_vec) {
-    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
-    if (driver_ptr)
+    for (const auto& [name, node] : shared->connections)
     {
-        return driver_ptr->query(record_name, key, field_vec, value_vec);
+        if (!node->transactions.logically_drained() || !node->queries.logically_drained() ||
+            !node->queries.retire_native())
+        {
+            return false;
+        }
     }
-
-    return false;
+    return true;
 }
 
-bool mysql_module_impl::erase(const std::string& record_name, const std::string& key) {
-    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
-    if (driver_ptr)
+bool mysql_module_impl::shut() {
+    auto shared = state_;
+    shared->check_owner();
+    if (!shared->closed)
     {
-        return driver_ptr->erase(record_name, key);
+        return false;
     }
-
-    return false;
-}
-
-bool mysql_module_impl::exists(const std::string& record_name, const std::string& key, bool& exists) {
-    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
-    if (driver_ptr)
+    for (const auto& [name, node] : shared->connections)
     {
-        return driver_ptr->exists(record_name, key, exists);
+        if (!node->queries.native_retired())
+        {
+            return false;
+        }
     }
-
-    return false;
+    shared->transactions.clear();
+    shared->connections.clear();
+    return true;
 }
 
-bool mysql_module_impl::select(const std::string& record_name, const std::string& key,
-    const std::vector<std::string>& field_vec, std::vector<std::string>& value_vec) {
-    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
-    if (driver_ptr)
-    {
-        return driver_ptr->select(record_name, key, field_vec, value_vec);
-    }
-
-    return false;
+task<mysql_reply> mysql_module_impl::query(std::string name, std::string sql, std::chrono::milliseconds timeout) {
+    return state::run_query(state_, state_->find(name), std::move(sql), timeout);
 }
 
-bool mysql_module_impl::keys(
-    const std::string& record_name, const std::string& key_name, std::vector<std::string>& value_vec) {
-    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
-    if (driver_ptr)
-    {
-        return driver_ptr->keys(record_name, key_name, value_vec);
-    }
-
-    return false;
+task<mysql_reply> mysql_module_impl::execute(std::string name, std::string sql,
+    std::vector<arknet::mysql::field_value> parameters, std::chrono::milliseconds timeout) {
+    return state::run_execute(state_, state_->find(name), std::move(sql), std::move(parameters), timeout);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool mysql_module_impl::insert(const std::string& document, std::vector<kv_pair>& data) {
-    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
-    if (driver_ptr)
-    {
-        return driver_ptr->insert(document, data);
-    }
-
-    return false;
+task<mysql_transaction_reply> mysql_module_impl::begin(std::string name, mysql_transaction_options options) {
+    return state::run_begin(state_, state_->find(name), options);
 }
 
-bool mysql_module_impl::update_record(
-    const std::string& document, std::vector<kv_pair>& data, std::vector<where>& where) {
-    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
-    if (driver_ptr)
-    {
-        return driver_ptr->update_record(document, data, where);
-    }
-
-    return false;
+task<mysql_transaction_reply> mysql_module_impl::query(mysql_transaction_id id, std::string sql) {
+    return state::run_step(state_, state_->find(id), id, state::step::query, std::move(sql));
 }
 
-bool mysql_module_impl::select(const std::string& document, std::vector<std::string>& columns,
-    std::vector<where>& where, order_by& order, int limit, result_arr& results) {
-    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
-    if (driver_ptr)
-    {
-        return driver_ptr->select(document, columns, where, order, limit, results);
-    }
-
-    return false;
+task<mysql_transaction_reply> mysql_module_impl::execute(
+    mysql_transaction_id id, std::string sql, std::vector<arknet::mysql::field_value> parameters) {
+    return state::run_step(state_, state_->find(id), id, state::step::execute, std::move(sql), std::move(parameters));
 }
 
-bool mysql_module_impl::select_one(const std::string& document, std::vector<std::string>& columns,
-    std::vector<where>& where, order_by& order, result& result) {
-    mysql_driver_module* driver_ptr = mysql_driver_manager_->get_mysql_driver();
-    if (driver_ptr)
-    {
-        return driver_ptr->select_one(document, columns, where, order, result);
-    }
-
-    return false;
+task<mysql_transaction_reply> mysql_module_impl::commit(mysql_transaction_id id) {
+    return state::run_step(state_, state_->find(id), id, state::step::commit);
 }
+
+task<mysql_transaction_reply> mysql_module_impl::rollback(mysql_transaction_id id) {
+    return state::run_step(state_, state_->find(id), id, state::step::rollback);
+}
+
 } // namespace ark

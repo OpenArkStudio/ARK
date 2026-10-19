@@ -406,15 +406,28 @@ public:
         return queue->dispatch(maximum);
     }
 
+    // The transaction coordinator borrows this pool. Only its owning service
+    // retires it, after both coordinators have drained.
+    std::shared_ptr<arknet::mysql::pool> borrow_pool() const {
+        check_owner();
+        return pool_;
+    }
+
+    bool quiescent() const {
+        check_owner();
+        std::lock_guard lock(requests_->mutex);
+        return activity_->depth == 0 && requests_->active.empty() && completions_->quiescent();
+    }
+
     // Seal admission only after accepted workflows finish their later requests.
     // This covers this service's logical activity, not native IO retirement.
     bool logically_drained() const {
         check_owner();
-        return !accepting_ && activity_->depth == 0 && completions_->quiescent();
+        return !accepting_ && quiescent();
     }
 
-    // Caller must return from its coroutine/lifecycle stacks to an outer owner
-    // frame first. No external runtime or bridge is owned or inspected here.
+    // Call from the host retirement phase after coroutine/update stacks return,
+    // before unloading plugin code. No external runtime or bridge is inspected.
     // False means not retired; native false/exception preserves this pool owner.
     bool retire_native() {
         return retire_native([](auto& pool) { return pool.close_and_wait(); });

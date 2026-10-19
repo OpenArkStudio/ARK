@@ -6,7 +6,7 @@ Public core and plugin headers live in `include/ark/`; core build definitions li
 
 | Repository | Related code in ark | Proposed destination | Integration work |
 | --- | --- | --- | --- |
-| [MySQLPlugin](https://github.com/OpenArkStudio/MySQLPlugin) | `src/plugins/mysql` | `src/plugins/mysql` | Implement the MySQL client in arknet; integrate configuration, connection services and business callbacks in the plugin |
+| [MySQLPlugin](https://github.com/OpenArkStudio/MySQLPlugin) | `src/plugins/mysql` | `src/plugins/mysql` | [Native coroutine API](../reference/mysql.md), prepared statements, transactions and shared business execution; validate deployment against a real MySQL server |
 | [RedisPlugin](https://github.com/OpenArkStudio/RedisPlugin) | `src/plugins/redis` | `src/plugins/redis` | Implement the Redis client in arknet, then replace aredis and bredis calls |
 | [URLPlugin](https://github.com/OpenArkStudio/URLPlugin) | Net HTTP client and HTTP server plugin | `src/plugins/http` | Compare libcurl requests, encoding and actor integration; unify the HTTP service interface |
 | [LuaScriptPlugin](https://github.com/OpenArkStudio/LuaScriptPlugin) | Integration with the new plugin interface required | `src/plugins/lua` | Define bindings and script lifecycle; replace old NFComm interface dependencies |
