@@ -33,20 +33,42 @@ ark_database_test(ark_database_redis_tests redis_service.cpp)
 target_link_libraries(ark_database_redis_tests PRIVATE arknet::arknet)
 ark_database_test(ark_database_redis_stop_tests redis_stop_capture.cpp)
 target_link_libraries(ark_database_redis_stop_tests PRIVATE arknet::arknet)
+ark_database_test(ark_database_public_redis_tests main.cpp public_redis_module.cpp
+    "${ROOT_DIR}/src/plugins/redis/redis_module_impl.cpp")
+target_link_libraries(ark_database_public_redis_tests PRIVATE ark::core arknet::arknet)
+add_library(ark_database_redis_plugin SHARED
+    "${ROOT_DIR}/src/plugins/redis/redis_plugin.cpp" "${ROOT_DIR}/src/plugins/redis/redis_module_impl.cpp")
+target_include_directories(ark_database_redis_plugin PRIVATE "${ROOT_DIR}/src/plugins")
+target_link_libraries(ark_database_redis_plugin PRIVATE ark::core arknet::arknet)
+set_target_properties(ark_database_redis_plugin PROPERTIES PREFIX "")
+ark_database_test(ark_database_public_redis_plugin_tests public_redis_plugin.cpp)
+target_link_libraries(ark_database_public_redis_plugin_tests PRIVATE ark::core arknet::arknet)
+target_compile_definitions(ark_database_public_redis_plugin_tests PRIVATE
+    ARK_DATABASE_PLUGIN_DIR="$<TARGET_FILE_DIR:ark_database_redis_plugin>/")
+add_dependencies(ark_database_public_redis_plugin_tests ark_database_redis_plugin)
+add_library(ark_database_redis_sample_check OBJECT "${ROOT_DIR}/examples/redis_sample/redis_sample_module.cpp")
+target_link_libraries(ark_database_redis_sample_check PRIVATE ark::core arknet::arknet)
 add_custom_target(check-database
     COMMAND $<TARGET_FILE:ark_database_queue_tests>
     COMMAND $<TARGET_FILE:ark_database_redis_stop_tests>
+    COMMAND $<TARGET_FILE:ark_database_public_redis_tests>
+    COMMAND $<TARGET_FILE:ark_database_public_redis_plugin_tests>
     COMMAND $<TARGET_FILE:ark_database_task_tests>
     COMMAND $<TARGET_FILE:ark_database_operations_tests>
     COMMAND $<TARGET_FILE:ark_database_service_retirement_tests>
     COMMAND ${CMAKE_COMMAND} -DPROGRAM=$<TARGET_FILE:ark_database_task_contract_tests>
         -P "${CMAKE_CURRENT_SOURCE_DIR}/task_group_contract.cmake"
-    DEPENDS ark_database_queue_tests ark_database_redis_stop_tests ark_database_task_tests ark_database_operations_tests
+    DEPENDS ark_database_queue_tests ark_database_redis_stop_tests ark_database_public_redis_tests
+        ark_database_public_redis_plugin_tests ark_database_task_tests ark_database_operations_tests
         ark_database_service_retirement_tests
         ark_database_task_contract_tests
     USES_TERMINAL)
 
+add_dependencies(check-database ark_database_redis_sample_check)
+
 if(ARKNET_ENABLE_SSL)
+    target_compile_definitions(ark_database_public_redis_tests PRIVATE
+        ARK_DATABASE_REDIS_CERT_DIR="${ARKNET_SOURCE_DIR}/tests/certs")
     ark_database_test(ark_database_mysql_transaction_awaitable_tests main.cpp transactions_awaitable.cpp)
     target_link_libraries(ark_database_mysql_transaction_awaitable_tests PRIVATE arknet::arknet)
     add_custom_target(check-database-mysql-transaction-awaitable
