@@ -58,6 +58,33 @@ input states; it does not reproduce or claim a native connection-pool fault.
 The real-service targets are not run by `check-database`. Missing endpoint
 configuration is an error, not a silently skipped successful check.
 
+## Private service retirement
+
+`ark_database_service_retirement_tests` runs without a database server. It covers
+the owning MySQL, plain Redis and TLS Redis services when SSL is enabled; without
+SSL it covers plain Redis. A rejected native acquire runs on the real pool actor,
+and explicit retirement verifies its callback/captures and owned worker have
+finished. Empty-host validation exercises two accepted coroutine requests without
+a network connection. These cases do not validate a database protocol handshake,
+active child connections or deployment capacity.
+
+For DRAIN, first stop top-level task admission and keep services and bridges open
+for later requests in accepted workflows. Continue pumping results. Only after
+all owning workflows, bridges and transaction participants have drained and the
+outer coroutine/lifecycle execution stacks have returned, call the service's
+`stop_accepting()`. `logically_drained()` then includes sealed admission, its
+shared activity guards and completion-queue quiescence. It cannot inspect an
+external runtime or replace the caller's outer execution gate.
+
+`retire_native()` runs the owned pool's permanent `close_and_wait()` barrier and
+sets `native_retired()` only on success. False means retirement is incomplete;
+native `last_error` is preserved. Exceptions propagate without dropping the pool
+owner, including the native pool's sticky finalization failure. No automatic
+retry, cancellation or bounded shutdown latency is promised. Existing `stop()`
+still suppresses callbacks and requests asynchronous close. Transaction services
+borrow their pools and do not receive this owning-service barrier. These private
+methods are not connected to public database plugins or module shutdown.
+
 With SSL enabled, local checks also include the private transaction state tests.
 The separate [MySQL transaction test](TRANSACTIONS.md) requires a disposable real
 service and exercises one native lease across multiple statements and completion.

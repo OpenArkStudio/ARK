@@ -21,6 +21,7 @@
 
 #include "detail/database_completion_queue.hpp"
 #include "detail/database_request_control.hpp"
+#include "detail/database_service_activity.hpp"
 
 namespace ark::detail {
 
@@ -398,15 +399,37 @@ public:
     }
 
     std::size_t update(std::size_t maximum = 64) {
+        check_owner();
+        database_service_activity::guard active(activity_);
         // The business completion may destroy the service itself.
         auto queue = completions_;
         return queue->dispatch(maximum);
+    }
+
+    // Seal admission only after accepted workflows finish their later requests.
+    // This covers this service's logical activity, not native IO retirement.
+    bool logically_drained() const {
+        check_owner();
+        return !accepting_ && activity_->depth == 0 && completions_->quiescent();
+    }
+
+    // Caller must return from its coroutine/lifecycle stacks to an outer owner
+    // frame first. No external runtime or bridge is owned or inspected here.
+    // False means not retired; native false/exception preserves this pool owner.
+    bool retire_native() {
+        return retire_native([](auto& pool) { return pool.close_and_wait(); });
+    }
+
+    bool native_retired() const {
+        check_owner();
+        return activity_->native_retired;
     }
 
     // Only suppresses business callbacks and requests native close. NOT drain,
     // a join barrier, or permission to unload a dynamic library.
     void stop() {
         check_owner();
+        database_service_activity::guard active(activity_);
         // Destroying a business callback capture can destroy this service.
         // Pin the queue and access no members after dropping those captures.
         auto queue = completions_;
@@ -416,6 +439,30 @@ public:
     }
 
 private:
+    friend struct database_service_test_access;
+
+    template<class finalizer_type>
+    bool retire_native(finalizer_type finalizer) {
+        check_owner();
+        if (!logically_drained())
+        {
+            return false;
+        }
+        auto activity = activity_;
+        auto pool = pool_;
+        if (activity->native_retired)
+        {
+            return true;
+        }
+        database_service_activity::guard active(activity);
+        if (!finalizer(*pool))
+        {
+            return false;
+        }
+        activity->native_retired = true;
+        return true;
+    }
+
     void check_owner() const {
         if (std::this_thread::get_id() != owner_)
         {
@@ -423,9 +470,11 @@ private:
         }
     }
 
-    request_id start(std::string sql, std::vector<arknet::mysql::field_value> parameters, callback completion,
+    request_id start(std::string sql, std::vector<arknet::mysql::field_value> parameters, callback incoming,
         std::chrono::milliseconds timeout, bool prepared) {
         check_owner();
+        database_service_activity::guard active(activity_);
+        auto completion = std::move(incoming);
         auto handler = std::make_shared<callback>(std::move(completion));
         mysql_service_result rejected;
         request_id id{};
@@ -465,9 +514,11 @@ private:
         return 0;
     }
 
-    request_id submit(std::string sql, std::vector<arknet::mysql::field_value> parameters, callback completion,
+    request_id submit(std::string sql, std::vector<arknet::mysql::field_value> parameters, callback incoming,
         std::chrono::milliseconds timeout, bool prepared) {
         check_owner();
+        database_service_activity::guard active(activity_);
+        auto completion = std::move(incoming);
         const auto deadline = arknet::detail::checked_deadline(std::chrono::steady_clock::now(), timeout);
         if (!deadline)
         {
@@ -558,6 +609,7 @@ private:
     std::shared_ptr<queue_type> completions_;
     std::shared_ptr<arknet::mysql::pool> pool_;
     std::shared_ptr<request_registry> requests_{std::make_shared<request_registry>()};
+    std::shared_ptr<database_service_activity> activity_{std::make_shared<database_service_activity>()};
     const arknet::mysql::query_options limits_;
     const std::thread::id owner_{std::this_thread::get_id()};
     bool accepting_{true};
