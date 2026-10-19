@@ -361,8 +361,7 @@ void sample4_module::move_actor(const sample_scene& scene, sample_actor_directio
     std::cout << "scene id = " << scene.scene_id << " ray cast distance = " << distance
               << " total count = " << total_count << "(w) actor count = " << actor_count
               << " move count = " << move_count_base << "(w) total time = " << time << "(s) per time = " << average_time
-              << "(us)"
-              << " hit = " << hit << " missed = " << missed << std::endl;
+              << "(us) hit = " << hit << " missed = " << missed << std::endl;
 
     ///reset actor position
     re_random_position(scene);
