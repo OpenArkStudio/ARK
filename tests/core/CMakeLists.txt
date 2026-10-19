@@ -103,6 +103,19 @@ if(ARK_BUILD_CONFIG)
             DEPENDS app ark_business_runtime_probe USES_TERMINAL)
         add_dependencies(check-core check-app-business-runtime)
 
+        add_library(ark_app_startup_failure_plugin SHARED ../app/startup_failure_plugin.cpp)
+        set_property(TARGET ark_app_startup_failure_plugin PROPERTY LINK_LIBRARIES ark::core)
+        set_target_properties(ark_app_startup_failure_plugin PROPERTIES PREFIX "")
+        add_custom_target(check-app-startup-failures
+            COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:app>"
+                "-DPLUGIN_DIR=$<TARGET_FILE_DIR:ark_app_startup_failure_plugin>"
+                "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"
+                "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/startup failure runtime"
+                -P "${PROJECT_SOURCE_DIR}/tests/app/startup_failures.cmake"
+            DEPENDS app ark_app_startup_failure_plugin
+            USES_TERMINAL)
+        add_dependencies(check-core check-app-startup-failures)
+
         add_custom_target(check-app-manifest-failures
             COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:app>"
                 "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"
