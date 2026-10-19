@@ -84,7 +84,7 @@ public:
     }
 
     void remove(const_reference value) {
-        return values_.remove(value);
+        values_.remove(value);
     }
 
     bool get_value(const std::size_t index, reference value) {
@@ -117,7 +117,7 @@ public:
     }
 
     reverse_iterator rend() {
-        return values_.end();
+        return values_.rend();
     }
 
 private:
