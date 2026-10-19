@@ -104,7 +104,7 @@ All module libraries are installed before the manager starts the initialization 
 
 The first `false` from `init()`, `post_init()`, `check_config()` or `pre_update()` stops that stage and all later startup stages, and `plugin_manager::start()` returns `false`. Each callback runs at most once in its stage. Modules that already completed a stage are not automatically rolled back.
 
-The application launcher still does not check this result before entering its update loop. Manager failure reporting therefore does not establish application exit or partial-start cleanup. `update()` return values also remain ignored. Keep the runtime plugin selection complete and check startup results in callers that manage their own loop.
+The application launcher checks this result and returns exit code `1` before its update loop or Windows command thread starts. This failure path does not call `pre_shut()` or `shut()` for partial-start cleanup. `update()` return values remain ignored. Keep the runtime plugin selection complete and check startup results in callers that manage their own loop.
 
 </Aside>
 
