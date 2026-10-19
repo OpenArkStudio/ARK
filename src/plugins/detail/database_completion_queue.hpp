@@ -105,6 +105,21 @@ public:
 
     std::size_t dispatch(std::size_t maximum = 64) {
         check_owner();
+
+        struct dispatch_guard
+        {
+            std::size_t& depth;
+
+            explicit dispatch_guard(std::size_t& active) noexcept
+                : depth(active) {
+                ++depth;
+            }
+
+            ~dispatch_guard() {
+                --depth;
+            }
+        } guard(dispatch_depth_);
+
         std::size_t dispatched{};
         while (dispatched < maximum)
         {
@@ -143,6 +158,21 @@ public:
             ++dispatched;
         }
         return dispatched;
+    }
+
+    // Logical owner-thread observation, not native IO retirement. A reentrant
+    // stop can remove every reservation while dispatch still owns user captures.
+    bool quiescent() const {
+        check_owner();
+        std::lock_guard lock(mutex_);
+        for (const auto& operation : slots_)
+        {
+            if (operation)
+            {
+                return false;
+            }
+        }
+        return dispatch_depth_ == 0;
     }
 
     // Stops admission while preserving delivery of every accepted completion.
@@ -197,12 +227,13 @@ private:
     }
 
     const std::thread::id owner_;
-    std::mutex mutex_;
+    mutable std::mutex mutex_;
     std::vector<ticket> slots_;
     ticket head_;
     ticket tail_;
     const std::size_t max_input_bytes_;
     std::size_t retained_input_bytes_{};
+    std::size_t dispatch_depth_{};
     bool accepting_{true};
     bool dispatch_enabled_{true};
 };
