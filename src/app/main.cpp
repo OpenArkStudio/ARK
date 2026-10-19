@@ -293,12 +293,16 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    if (!plugin_manager::instance()->start(
+            date_time::get_now_time(), manifest.plugin_library_dir, manifest.plugin_config_dir, manifest.plugins))
+    {
+        std::cerr << "Application startup failed" << std::endl;
+        return 1;
+    }
+
 #ifdef ARK_PLATFORM_WIN
     create_back_thread();
 #endif
-
-    plugin_manager::instance()->start(
-        date_time::get_now_time(), manifest.plugin_library_dir, manifest.plugin_config_dir, manifest.plugins);
 
     for (;; std::this_thread::sleep_for(std::chrono::milliseconds(1)))
     {
