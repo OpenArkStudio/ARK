@@ -1,8 +1,8 @@
 # 协程任务
 
-`<ark/task.hpp>` 提供 `ark::task<T>` 和 `ark::task_group`，用于显式管理 Asio 协程。应用线程通过任务组受理、观察和取消任务，并轮询网络库提供的 `arknet::manual_runtime`。该接口不会自动把任务绑定到模块，也不决定应用的停机策略。
+`<ark/task.hpp>` 提供 `ark::task<T>` 和 `ark::task_group`。业务模块可通过 `plugin_manager` 使用统一的任务执行器和模块任务组；独立工具仍可显式创建 runtime 和任务组。
 
-`ark::task<T>` 是 Asio `awaitable<T>` 的类型别名，没有自定义 coroutine promise。任务组启动返回 `void` 的根任务；根任务可以通过 `co_await task<T>` 获得拥有型返回值，也可以等待兼容的 Asio 异步操作。
+`ark::task<T>` 是 Asio `awaitable<T>` 的类型别名，没有自定义 coroutine promise。任务组启动返回 `void` 的顶层业务任务；顶层业务任务可以通过 `co_await task<T>` 获得拥有型返回值，也可以等待兼容的 Asio 异步操作。
 
 ## 构建并运行示例
 
@@ -27,7 +27,7 @@ cmake --build task-build --target ark_task_example check-task-sdk
 
 如有需要，补上项目构建时使用的依赖 toolchain 或 prefix 选项。默认使用 Boost.Asio；仅构建核心任务时也支持 `-DASIO_STANDALONE=ON`。开启 `ARK_BUILD_EXAMPLES=ON` 后，即使关闭应用，也会构建这个普通可执行程序；它不需要插件动态库、生成的 Protobuf 消息或数据库服务。
 
-[完整示例](../../examples/task_group/main.cpp)输出 `result=42 completed=1`。它启动一个协程后停止受理根任务，继续轮询直到已受理任务完成。示例中的两秒检查仅用于失败时以代码 2 结束测试程序，避免销毁尚未完成的协程；它不是应用停机超时或放弃任务的策略。
+[完整示例](../../examples/task_group/main.cpp)输出 `result=42 completed=1`。它启动一个协程后停止受理顶层业务任务，继续轮询直到已受理任务完成。示例中的两秒检查仅用于失败时以代码 2 结束测试程序，避免销毁尚未完成的协程；它不是应用停机超时或放弃任务的策略。
 
 在已经通过 CMake 加入 ark 的项目中，使用公开目标 `ark::core`：
 
@@ -58,18 +58,45 @@ ark::task<> compute(int& result) {
 
 runtime 和任务组必须在同一线程构造、操作和销毁。`manual_runtime` 不创建执行任务体或恢复协程的工作线程，而是在构造线程调用 `poll()` 时执行就绪的 Asio handler。定时器或名称解析等平台服务可能使用内部辅助线程。原生数据库或网络连接池的 IO 所有权仍由各自接口定义。
 
+## 模块共用业务执行器
+
+![模块任务与共享执行器](../assets/shared-business-runtime_CN.svg)
+
+每个管理器拥有一个网络库提供的 `manual_runtime`。在模块注册后的初始化阶段调用 `manager.create_task_group(module, maximum)`，之后用 `manager.get_tasks(module)` 提交业务任务。组上限必须大于零；未注册模块、重复创建或关闭开始后创建都会拒绝。一个模块指针只能注册一次，组引用在其他模块注册时保持稳定。
+
+私有数据库桥接使用 `manager.get_task_runtime()`，从而与业务任务使用同一执行器。模块的 `update()` 先调用 `service.update()` 和 `bridge.dispatch()`；随后 `manager.update(timestamp, maximum_handlers = 64)` 统一轮询一次。多个组共用该 handler 上限。模块不再自行调用组或 runtime 的 `poll()`，handler 上限也不表示单帧耗时上限。公开数据库插件尚未切换到这些私有桥接接口。
+
+`manager.stop(timestamp)` 先停止所有模块组受理顶层业务任务，仍有任务或正在执行更新/完成回调时，不等待它们完成，直接返回 `false`。已受理协程可以继续发起后续操作，因此此时不能关闭其 service 或 bridge 的准入。任务完成且外层回调返回后，再次调用 `stop()` 才同步执行 `pre_shut()`、`shut()` 和卸载。用户钩子可能阻塞，因此该接口不保证停机耗时上限。
+
+| 状态 | 调用方处理 |
+| --- | --- |
+| `running` | 正常更新并受理任务 |
+| `draining` | 继续模块更新与统一轮询，保持业务状态和服务存活 |
+| `failed` | 关闭钩子返回失败或抛出异常；不继续卸载，保留进程和资源 |
+| `stopped` | 关闭钩子完成；重复 `stop()` 返回 `true` |
+
+通过 `get_shutdown_state()`、`get_shutdown_failure()` 和 `get_shutdown_exception()` 区分等待与失败。应用启动器在任务未完成时继续驱动主循环；钩子失败时输出一次原因并保留进程。本实现不设置隐含停机时限，也不以取消、分离任务或销毁协程替代排空。待完成任务的检查不会等待其结束；轮询预算只限制 handler 数量，不限制业务代码或关闭钩子的执行时间。
+
+管理器及其任务必须在构造线程操作。更新/关闭钩子或执行器回调中不能增删模块或递归更新；只要管理器仍有任务，任何模块都不能注销，因为其他模块的任务可能仍引用该服务提供方。管理器在仍有任务、执行回调中或跨线程析构时会终止进程，析构不是排空入口。
+
+<Aside type="caution" title="任务完成不等于 IO 资源已释放">
+
+此排空检查只覆盖管理器组中受理的顶层业务任务。模块尚未统一定义停止接收新请求的阶段；还需等待外部回调返回、连接池线程退出和后台清理完成，才能安全卸载相关代码。任务数归零不证明这些条件已满足，也不代表本轮已经迁移公开数据库插件。不要让未受组管理的工作引用即将销毁的模块。
+
+</Aside>
+
 ## API 与任务准入
 
 | API | 行为 |
 | --- | --- |
-| `task_group(runtime, maximum = 64)` | 保持共享 runtime 存活，并限制已受理根任务数量；runtime 为空或上限为零时抛出 `std::invalid_argument` |
+| `task_group(runtime, maximum = 64)` | 保持共享 runtime 存活，并限制已受理顶层业务任务数量；runtime 为空或上限为零时抛出 `std::invalid_argument` |
 | `start(task<>, completion = {})` | 返回非零观察和取消 ID；达到上限或已停止受理时返回零，被拒绝的惰性协程不会启动，也不调用完成回调 |
-| `stop_accepting()` | 停止受理新根任务，不取消或轮询已受理任务；在所属线程重复调用无副作用 |
+| `stop_accepting()` | 停止受理新顶层业务任务，不取消或轮询已受理任务；在所属线程重复调用无副作用 |
 | `cancel(id)` / `cancel_all()` | 请求 terminal cancellation；仍持有任务直到实际完成 |
 | `close()` | 停止受理并请求取消，不轮询，也不等待 |
 | `poll(maximum = 64)` | 在共享 runtime 上执行至多指定数量的就绪 handler，不等待；零表示不执行 |
-| `pending()` | 返回已受理且尚未移除完成记录的根任务数量 |
-| `closed()` | 只有停止受理且所有已受理根任务均已完成时才为真 |
+| `pending()` | 返回已受理且尚未移除完成记录的顶层业务任务数量 |
+| `closed()` | 只有停止受理且所有已受理顶层业务任务均已完成时才为真 |
 
 丢弃任务 ID 不会取消任务。丢弃尚未启动的 `task<T>` 不会执行协程体。任务体的异常通过可选的完成回调传递，不会变成成功结果；用户完成回调抛出的异常会从 `poll()` 继续抛出。
 
@@ -87,7 +114,11 @@ runtime 和任务组必须在同一线程构造、操作和销毁。`manual_runt
 
 </Aside>
 
-最后一个完成回调会先移除任务组中的对应记录，因此该用户回调可以销毁已经为空的任务组对象；这不允许销毁仍有其他操作的对象。`closed()` 只描述本组跟踪的根任务，不代表传输层排空、回调屏障、动态库可卸载或模块停机流程已经完成设计。
+最后一个完成回调会先移除任务组中的对应记录，因此该用户回调可以销毁已经为空的任务组对象；这不允许销毁仍有其他操作的对象。`closed()` 只描述本组跟踪的顶层业务任务，不代表传输层排空、回调屏障、动态库可卸载或模块停机流程已经完成设计。
+
+所有插件都需要使用同一版本的管理器头文件重新构建；本改动不提供稳定的插件二进制 ABI 或热更新兼容保证。
+
+直接继承调度器基类的代码应改用 `ark::scheduler_task`。`ark::task<T>` 表示 Asio 协程；`ark::scheduler` 的调度接口保持原有签名。
 
 ## 继续阅读
 

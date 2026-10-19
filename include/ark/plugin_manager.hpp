@@ -20,19 +20,74 @@
 
 #pragma once
 
+#include <cstddef>
+#include <exception>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <thread>
 #include <type_traits>
+#include <unordered_map>
 
 #include "ark/dynamic_library.hpp"
 #include "ark/logger.hpp"
 #include "ark/module.hpp"
 #include "ark/noncopyable.hpp"
 #include "ark/plugin.hpp"
+#include "ark/task.hpp"
 
 namespace ark {
 
 class plugin_manager final : private noncopyable
 {
+    enum class call_phase
+    {
+        idle,
+        starting,
+        installing,
+        updating,
+        tearing_down,
+        uninstalling
+    };
+
+    class phase_guard
+    {
+    public:
+        phase_guard(plugin_manager& manager, call_phase phase)
+            : manager_(manager)
+            , previous_(manager.phase_) {
+            manager_.phase_ = phase;
+        }
+
+        ~phase_guard() {
+            manager_.phase_ = previous_;
+        }
+
+    private:
+        plugin_manager& manager_;
+        call_phase previous_;
+    };
+
 public:
+    enum class shutdown_state
+    {
+        running,
+        draining,
+        failed,
+        stopped
+    };
+
+    plugin_manager() = default;
+
+    ~plugin_manager() {
+        // Destruction cannot drive a drain or release code executing on this
+        // stack. Keep the same visible contract as the task groups themselves.
+        if (owner_ != std::this_thread::get_id() || execution_active() || pending_tasks_unchecked())
+        {
+            std::terminate();
+        }
+    }
+
     static auto instance() -> plugin_manager* {
         static plugin_manager* instance_ptr = nullptr;
         if (instance_ptr == nullptr)
@@ -45,6 +100,12 @@ public:
 
     auto start(int64_t const timestamp, std::string const& lib_dir, std::string const& conf_dir,
         std::unordered_map<std::string, std::string> const& plugins) -> bool {
+        check_owner();
+        if (execution_active() || shutdown_state_ != shutdown_state::running)
+        {
+            throw std::logic_error("Plugin manager cannot start during a lifecycle call or after shutdown begins");
+        }
+        phase_guard active(*this, call_phase::starting);
         timestamp_ = timestamp;
 
         plugin_library_dir_ = lib_dir;
@@ -72,15 +133,57 @@ public:
     }
 
     auto stop(const int64_t timestamp) -> bool {
+        check_owner();
         timestamp_ = timestamp;
-
-        pre_shut();
-        shut();
-
+        if (shutdown_state_ == shutdown_state::stopped)
+        {
+            return true;
+        }
+        if (shutdown_state_ == shutdown_state::failed)
+        {
+            return false;
+        }
+        shutdown_state_ = shutdown_state::draining;
+        for (const auto& [owner, tasks] : task_groups_)
+        {
+            tasks->stop_accepting();
+        }
+        // The last task is removed before its completion is called. Even zero
+        // pending tasks cannot permit teardown while that callback is active.
+        if (execution_active() || pending_tasks_unchecked())
+        {
+            return false;
+        }
+        phase_guard active(*this, call_phase::tearing_down);
+        try
+        {
+            if (!pre_shut() || !shut())
+            {
+                shutdown_state_ = shutdown_state::failed;
+                return false;
+            }
+        }
+        catch (...)
+        {
+            shutdown_exception_ = std::current_exception();
+            shutdown_state_ = shutdown_state::failed;
+            return false;
+        }
+        shutdown_state_ = shutdown_state::stopped;
         return true;
     }
 
-    auto update(const int64_t timestamp) -> bool {
+    auto update(const int64_t timestamp, std::size_t maximum_handlers = 64) -> bool {
+        check_owner();
+        if (execution_active())
+        {
+            throw std::logic_error("Plugin manager update does not permit reentrant lifecycle calls");
+        }
+        if (shutdown_state_ == shutdown_state::failed || shutdown_state_ == shutdown_state::stopped)
+        {
+            return false;
+        }
+        phase_guard active(*this, call_phase::updating);
         timestamp_ = timestamp;
 
         // Just loop the modules which have update function.
@@ -92,7 +195,61 @@ public:
             module_ptr->update();
         }
 
+        // Modules publish service results and schedule bridge deliveries first.
+        // One bounded owner poll serves every managed group, including drain.
+        task_runtime_->poll(maximum_handlers);
         return true;
+    }
+
+    std::shared_ptr<arknet::manual_runtime> get_task_runtime() const {
+        check_owner();
+        return task_runtime_;
+    }
+
+    task_group& create_task_group(module& owner, std::size_t maximum = 64) {
+        check_owner();
+        if (shutdown_state_ != shutdown_state::running || !registered_module(owner))
+        {
+            throw std::logic_error("Task group requires a registered module before shutdown begins");
+        }
+        if (task_groups_.contains(&owner))
+        {
+            throw std::logic_error("Module already owns a task group");
+        }
+        auto tasks = std::make_unique<task_group>(task_runtime_, maximum);
+        auto& result = *tasks;
+        task_groups_.emplace(&owner, std::move(tasks));
+        return result;
+    }
+
+    task_group& get_tasks(module& owner) const {
+        check_owner();
+        const auto found = task_groups_.find(&owner);
+        if (!registered_module(owner) || found == task_groups_.end())
+        {
+            throw std::logic_error("Module has no managed task group");
+        }
+        return *found->second;
+    }
+
+    std::size_t pending_tasks() const {
+        check_owner();
+        return pending_tasks_unchecked();
+    }
+
+    shutdown_state get_shutdown_state() const {
+        check_owner();
+        return shutdown_state_;
+    }
+
+    std::exception_ptr get_shutdown_exception() const {
+        check_owner();
+        return shutdown_exception_;
+    }
+
+    const std::string& get_shutdown_failure() const {
+        check_owner();
+        return shutdown_failure_;
     }
 
     template<typename module_type>
@@ -109,6 +266,7 @@ public:
 
     template<typename plugin_type>
     void register_plugin(std::string const& plugin_name) {
+        check_registration();
         plugin* new_plugin = ARK_NEW plugin_type();
         std::string runtime_plugin_name = GET_CLASS_NAME(plugin_type);
         register_plugin(new_plugin, plugin_name, runtime_plugin_name);
@@ -121,27 +279,46 @@ public:
     }
 
     auto add_module(const std::string& module_name, module* module_ptr) -> bool {
+        check_registration();
+        if (!module_ptr || registered_module(*module_ptr))
+        {
+            return false;
+        }
         ARK_ASSERT_RET_VAL(!module_name.empty(), false);
         ARK_ASSERT_RET_VAL(find_module(module_name) == nullptr, false);
         return module_instances_.insert(std::make_pair(module_name, module_ptr)).second;
     }
 
     void remove_module(const std::string& module_name) {
+        check_registry_mutation();
         auto iter = module_instances_.find(module_name);
         if (iter == module_instances_.end())
         {
             return;
         }
 
-        module_instances_.erase(module_name);
+        // A task owned by another module can still borrow this provider. Until
+        // dependency lifetimes are explicit, every managed group must drain.
+        if (pending_tasks_unchecked())
+        {
+            throw std::logic_error("Cannot remove modules while managed tasks are pending");
+        }
+        const auto tasks = task_groups_.find(iter->second);
+        if (tasks != task_groups_.end())
+        {
+            task_groups_.erase(tasks);
+        }
+        module_instances_.erase(iter);
     }
 
     auto add_update_module(module* module_ptr) -> bool {
+        check_registration();
         ARK_ASSERT_RET_VAL(module_ptr != nullptr, false);
         return module_updates_.insert(std::make_pair(module_ptr->get_name(), module_ptr)).second;
     }
 
     void remove_update_module(const std::string& module_name) {
+        check_registry_mutation();
         module_updates_.erase(module_name);
     }
 
@@ -193,6 +370,7 @@ public:
 
 protected:
     void register_plugin(plugin* plugin, std::string const& plugin_name, std::string const& runtime_plugin_name) {
+        check_registration();
         // e.g. plugin_name = class ark::AFKernelPlugin
         // It's a runtime name, so we cannot use it to find the plugin.conf file.
         //std::string plugin_name = plugin->GetPluginName();
@@ -212,6 +390,11 @@ protected:
     }
 
     void unregister_plugin(const std::string& plugin_name) {
+        check_registry_mutation();
+        if (pending_tasks_unchecked())
+        {
+            throw std::logic_error("Cannot uninstall plugins with pending managed tasks");
+        }
         ARK_ASSERT_RET_NONE(!plugin_name.empty());
 
         auto plugin = find_plugin(plugin_name);
@@ -258,6 +441,7 @@ protected:
         // load plugin dynamic libraries
         for (auto const& iter : plugins_)
         {
+            phase_guard installing(*this, call_phase::installing);
             bool ret = load_plugin_library(iter.first);
             ARK_ASSERT_RET_VAL(ret, false);
         }
@@ -328,9 +512,14 @@ protected:
             module* module_ptr = iter.second;
             ARK_ASSERT_CONTINUE(module_ptr != nullptr);
 
-            module_ptr->pre_shut();
+            shutdown_failure_ = "pre_shut: " + iter.first;
+            if (!module_ptr->pre_shut())
+            {
+                return false;
+            }
         }
 
+        shutdown_failure_.clear();
         return true;
     }
 
@@ -340,20 +529,31 @@ protected:
             module* module_ptr = iter.second;
             ARK_ASSERT_CONTINUE(module_ptr != nullptr);
 
-            module_ptr->shut();
+            shutdown_failure_ = "shut: " + iter.first;
+            if (!module_ptr->shut())
+            {
+                return false;
+            }
         }
 
+        phase_guard uninstalling(*this, call_phase::uninstalling);
         for (auto& it : plugins_)
         {
-            unload_plugin_library(it.first);
+            shutdown_failure_ = "uninstall: " + it.first;
+            if (!unload_plugin_library(it.first))
+            {
+                return false;
+            }
         }
 
         for (auto& iter : plugin_libs_)
         {
+            shutdown_failure_ = "unload: " + iter.first;
             iter.second->unload();
             ARK_DELETE(iter.second);
         }
 
+        shutdown_failure_.clear();
         return true;
     }
 
@@ -403,6 +603,64 @@ protected:
     }
 
 private:
+    void check_owner() const {
+        if (owner_ != std::this_thread::get_id())
+        {
+            throw std::logic_error("Plugin manager requires its constructing thread");
+        }
+    }
+
+    bool execution_active() const {
+        return phase_ != call_phase::idle || task_runtime_->get_executor().running_in_this_thread();
+    }
+
+    void check_registry_mutation() const {
+        check_owner();
+        if ((phase_ != call_phase::idle && phase_ != call_phase::installing && phase_ != call_phase::uninstalling) ||
+            task_runtime_->get_executor().running_in_this_thread())
+        {
+            throw std::logic_error("Cannot mutate the module registry during update or shutdown hooks");
+        }
+    }
+
+    void check_registration() const {
+        check_registry_mutation();
+        if (shutdown_state_ != shutdown_state::running)
+        {
+            throw std::logic_error("Cannot register modules or plugins after shutdown begins");
+        }
+    }
+
+    bool registered_module(const module& owner) const {
+        for (const auto& [name, instance] : module_instances_)
+        {
+            if (instance == &owner)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    std::size_t pending_tasks_unchecked() const {
+        std::size_t count{};
+        for (const auto& [owner, tasks] : task_groups_)
+        {
+            count += tasks->pending();
+        }
+        return count;
+    }
+
+    const std::thread::id owner_ = std::this_thread::get_id();
+    // Standard Asio executors do not own their context. Declare runtime before
+    // groups so it outlives every group during valid owner-side destruction.
+    std::shared_ptr<arknet::manual_runtime> task_runtime_ = std::make_shared<arknet::manual_runtime>();
+    std::unordered_map<module*, std::unique_ptr<task_group>> task_groups_;
+    call_phase phase_{call_phase::idle};
+    shutdown_state shutdown_state_{shutdown_state::running};
+    std::exception_ptr shutdown_exception_;
+    std::string shutdown_failure_;
+
     // Bus id
     int bus_id_{0};
     // Current time(ms)

@@ -1,0 +1,7 @@
+foreach(mode --pending-destruction --wrong-thread-destruction --update-destruction --final-completion-destruction)
+    execute_process(COMMAND "${PROGRAM}" "${mode}" RESULT_VARIABLE result TIMEOUT 15)
+    if(NOT "${result}" STREQUAL "77")
+        message(FATAL_ERROR "Business runtime contract ${mode}: expected controlled exit 77, got ${result}")
+    endif()
+    message(STATUS "Business runtime contract ${mode}: controlled exit 77")
+endforeach()

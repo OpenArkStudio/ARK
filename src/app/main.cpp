@@ -19,6 +19,7 @@
  */
 
 #include <csignal>
+#include <exception>
 
 #include <args/args.hxx>
 
@@ -319,7 +320,63 @@ int main(int argc, char* argv[]) {
         main_loop();
     }
 
-    plugin_manager::instance()->stop(date_time::get_now_time());
+    // Normal shutdown closes only managed top-level task admission. Accepted
+    // tasks still need module updates and the shared owner executor to finish.
+    // No implicit deadline, cancellation or detach permits early process exit.
+    bool shutdown_failure_reported = false;
+    bool shutdown_update_error_reported = false;
+    while (!plugin_manager::instance()->stop(date_time::get_now_time()))
+    {
+        if (plugin_manager::instance()->get_shutdown_state() == plugin_manager::shutdown_state::failed)
+        {
+            if (!shutdown_failure_reported)
+            {
+                try
+                {
+                    if (const auto error = plugin_manager::instance()->get_shutdown_exception())
+                    {
+                        std::rethrow_exception(error);
+                    }
+                    ARK_LOG_ERROR("Shutdown failed at {}; process and resources are retained",
+                        plugin_manager::instance()->get_shutdown_failure());
+                }
+                catch (const std::exception& error)
+                {
+                    ARK_LOG_ERROR("Shutdown failed at {}: {}; process and resources are retained",
+                        plugin_manager::instance()->get_shutdown_failure(), error.what());
+                }
+                catch (...)
+                {
+                    ARK_LOG_ERROR("Shutdown failed at {} with an unknown exception; process and resources are retained",
+                        plugin_manager::instance()->get_shutdown_failure());
+                }
+                shutdown_failure_reported = true;
+            }
+        }
+        else
+        {
+            try
+            { main_loop(); }
+            catch (const std::exception& error)
+            {
+                if (!shutdown_update_error_reported)
+                {
+                    ARK_LOG_ERROR(
+                        "Shutdown update failed: {}; resources are retained for the owner pump", error.what());
+                    shutdown_update_error_reported = true;
+                }
+            }
+            catch (...)
+            {
+                if (!shutdown_update_error_reported)
+                {
+                    ARK_LOG_ERROR("{}", "Shutdown update failed with an unknown exception; resources are retained");
+                    shutdown_update_error_reported = true;
+                }
+            }
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
 
 #ifdef ARK_PLATFORM_WIN
     g_cmd_thread.join();

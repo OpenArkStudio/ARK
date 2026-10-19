@@ -84,12 +84,12 @@ private:
     std::condition_variable condition_;
 };
 
-class task
+class scheduler_task
 {
 public:
     using clock = std::chrono::system_clock;
 
-    explicit task(std::function<void()>&& f, bool recur = false, bool interval = false)
+    explicit scheduler_task(std::function<void()>&& f, bool recur = false, bool interval = false)
         : function(std::move(f))
         , recurring(recur)
         , interval(interval) {
@@ -103,13 +103,13 @@ public:
     bool interval;
 };
 
-class in_task final : public task
+class in_task final : public scheduler_task
 {
 public:
     using clock = std::chrono::system_clock;
 
     explicit in_task(std::function<void()>&& f)
-        : task(std::move(f)) {
+        : scheduler_task(std::move(f)) {
     }
 
     // dummy time_point because it's not used
@@ -118,13 +118,13 @@ public:
     }
 };
 
-class every_task final : public task
+class every_task final : public scheduler_task
 {
 public:
     using clock = std::chrono::system_clock;
 
     every_task(clock::duration time, std::function<void()>&& f, bool interval = false)
-        : task(std::move(f), true, interval)
+        : scheduler_task(std::move(f), true, interval)
         , interval_duration(time) {
     }
 
@@ -135,11 +135,11 @@ public:
     clock::duration interval_duration;
 };
 
-class cron_task final : public task
+class cron_task final : public scheduler_task
 {
 public:
     cron_task(const std::string& expression, std::function<void()>&& f)
-        : task(std::move(f), true)
+        : scheduler_task(std::move(f), true)
         , cron_expression(expression) {
     }
 
@@ -187,7 +187,7 @@ public:
 
     template<typename callable_type, typename... args_type>
     void in(const clock::time_point time, callable_type&& f, args_type&&... args) {
-        std::shared_ptr<task> t =
+        std::shared_ptr<scheduler_task> t =
             std::make_shared<in_task>(std::bind(std::forward<callable_type>(f), std::forward<args_type>(args)...));
         add_task(time, std::move(t));
     }
@@ -236,7 +236,7 @@ public:
 
     template<typename callable_type, typename... args_type>
     void every(const clock::duration time, callable_type&& f, args_type&&... args) {
-        std::shared_ptr<task> t = std::make_shared<every_task>(
+        std::shared_ptr<scheduler_task> t = std::make_shared<every_task>(
             time, std::bind(std::forward<callable_type>(f), std::forward<args_type>(args)...));
         auto next_time = t->get_new_time();
         add_task(next_time, std::move(t));
@@ -254,7 +254,7 @@ public:
     //    * * * * *
     template<typename callable_type, typename... args_type>
     void cron(const std::string& expression, callable_type&& f, args_type&&... args) {
-        std::shared_ptr<task> t = std::make_shared<cron_task>(
+        std::shared_ptr<scheduler_task> t = std::make_shared<cron_task>(
             expression, std::bind(std::forward<callable_type>(f), std::forward<args_type>(args)...));
         auto next_time = t->get_new_time();
         add_task(next_time, std::move(t));
@@ -262,7 +262,7 @@ public:
 
     template<typename callable_type, typename... args_type>
     void interval(const clock::duration time, callable_type&& f, args_type&&... args) {
-        std::shared_ptr<task> t = std::make_shared<every_task>(
+        std::shared_ptr<scheduler_task> t = std::make_shared<every_task>(
             time, std::bind(std::forward<callable_type>(f), std::forward<args_type>(args)...), true);
         add_task(clock::now(), std::move(t));
     }
@@ -272,11 +272,11 @@ private:
 
     interruptable_sleep sleeper_;
 
-    std::multimap<clock::time_point, std::shared_ptr<task>> tasks_;
+    std::multimap<clock::time_point, std::shared_ptr<scheduler_task>> tasks_;
     std::mutex mutex_;
     ctpl::thread_pool threads_;
 
-    void add_task(const clock::time_point time, std::shared_ptr<task> t) {
+    void add_task(const clock::time_point time, std::shared_ptr<scheduler_task> t) {
         std::lock_guard<std::mutex> l(mutex_);
         tasks_.emplace(time, std::move(t));
         sleeper_.interrupt();
