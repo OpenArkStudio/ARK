@@ -53,6 +53,12 @@ public:
         return true;
     }
 
+    // Called after managed tasks and active callbacks drain, before any module
+    // tears down. Return false while native work still needs owner-side updates.
+    virtual bool ready_to_shut() const {
+        return true;
+    }
+
     virtual bool pre_shut() {
         return true;
     }

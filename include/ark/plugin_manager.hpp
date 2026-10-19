@@ -157,6 +157,10 @@ public:
         phase_guard active(*this, call_phase::tearing_down);
         try
         {
+            if (!ready_to_shut())
+            {
+                return false;
+            }
             if (!pre_shut() || !shut())
             {
                 shutdown_state_ = shutdown_state::failed;
@@ -504,6 +508,24 @@ protected:
         }
 
         return true;
+    }
+
+    auto ready_to_shut() -> bool {
+        bool ready = true;
+        for (auto const& iter : module_instances_)
+        {
+            const module* module_ptr = iter.second;
+            ARK_ASSERT_CONTINUE(module_ptr != nullptr);
+
+            shutdown_failure_ = "ready_to_shut: " + iter.first;
+            if (!module_ptr->ready_to_shut())
+            {
+                ready = false;
+            }
+        }
+
+        shutdown_failure_.clear();
+        return ready;
     }
 
     auto pre_shut() -> bool {
