@@ -1,4 +1,5 @@
-add_library(ark_core_header_checks OBJECT headers/queue.cpp headers/guid128.cpp headers/rw_lock.cpp)
+add_library(ark_core_header_checks OBJECT headers/queue.cpp headers/guid128.cpp headers/rw_lock.cpp
+    headers/thread_safe_queue.cpp)
 target_link_libraries(ark_core_header_checks PRIVATE ark::core)
 
 add_executable(ark_core_tests main.cpp strings.cpp containers.cpp templates.cpp callbacks.cpp

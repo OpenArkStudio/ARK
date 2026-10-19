@@ -1,4 +1,9 @@
-#include "ark/platform.hpp"
+#pragma once
+
+#include <cstddef>
+#include <mutex>
+#include <queue>
+#include <utility>
 
 namespace ark {
 
@@ -7,12 +12,12 @@ class thread_safe_queue
 {
 private:
     std::queue<element_type> data_queue_;
-    std::mutex mutex_;
+    mutable std::mutex mutex_;
 
 public:
     thread_safe_queue() = default;
 
-    size_t size() {
+    std::size_t size() {
         std::lock_guard guard(mutex_);
         return data_queue_.size();
     }
