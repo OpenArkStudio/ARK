@@ -6,6 +6,7 @@
 #include <memory>
 #include <mutex>
 #include <stdexcept>
+#include <string>
 #include <thread>
 #include <tuple>
 #include <utility>
@@ -120,6 +121,16 @@ struct service_traits<ark::detail::mysql_service>
     }
 };
 #endif
+
+struct finalizer_failure : std::runtime_error
+{
+    std::shared_ptr<int> origin;
+
+    explicit finalizer_failure(std::shared_ptr<int> value)
+        : std::runtime_error("injected native finalizer failure")
+        , origin(std::move(value)) {
+    }
+};
 
 struct callback_capture
 {
@@ -328,15 +339,22 @@ TEST_CASE_TEMPLATE_DEFINE("Failed native finalization preserves the exact pool o
     CHECK_FALSE(pool.expired());
     CHECK_FALSE(service.native_retired());
     CHECK(service.logically_drained());
-    auto failure = std::make_exception_ptr(std::runtime_error("injected native finalizer failure"));
-    std::exception_ptr observed;
+    auto origin = std::make_shared<int>(42);
+    auto failure = std::make_exception_ptr(finalizer_failure(origin));
+    bool observed{};
     try
     {
         test_access::retire(service, [&](auto&) -> bool { std::rethrow_exception(failure); });
     }
+    catch (const finalizer_failure& error)
+    {
+        observed = true;
+        CHECK(error.origin == origin);
+        CHECK(std::string(error.what()) == "injected native finalizer failure");
+    }
     catch (...)
-    { observed = std::current_exception(); }
-    CHECK(observed == failure);
+    { FAIL("Native finalization changed the exception type"); }
+    CHECK(observed);
     CHECK_FALSE(pool.expired());
     CHECK_FALSE(service.native_retired());
     CHECK(service.logically_drained());
