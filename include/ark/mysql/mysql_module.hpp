@@ -1,59 +1,105 @@
-/*
- * This source file is part of ARK
- * For the latest info, see https://github.com/ArkNX
- *
- * Copyright (c) 2013-2019 ArkNX authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"),
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-
+// Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
 #pragma once
 
-#include <mysql++/mysql++.h>
+#include <chrono>
+#include <cstddef>
+#include <cstdint>
+#include <exception>
+#include <optional>
+#include <string>
+#include <vector>
+
+#include <arknet/mysql/pool.hpp>
 
 #include "ark/module.hpp"
-#include "ark/mysql/mysql_driver_module.hpp"
+#include "ark/task.hpp"
 
 namespace ark {
 
+struct mysql_options
+{
+    arknet::mysql::pool_options pool;
+    arknet::mysql::query_options queries;
+    std::size_t max_operations{64};
+    std::size_t max_input_bytes{1024 * 1024};
+    std::size_t max_transactions{16};
+};
+
+struct mysql_reply
+{
+    arknet::mysql::query_result result;
+    std::optional<arknet::mysql::connection_result> statement_close;
+    std::exception_ptr statement_close_exception;
+
+    explicit operator bool() const noexcept {
+        return bool(result);
+    }
+};
+
+enum class mysql_transaction_outcome
+{
+    not_started,
+    active,
+    committed,
+    rolled_back,
+    unconfirmed
+};
+
+struct mysql_transaction_options
+{
+    std::chrono::milliseconds timeout{5000};
+    std::chrono::milliseconds cleanup_timeout{1000};
+};
+
+// Tokens own no plugin object and are valid only for the issuing module instance.
+// An unused transaction rolls back at its original deadline, never auto-commits.
+using mysql_transaction_id = std::uint64_t;
+
+struct mysql_transaction_status
+{
+    mysql_transaction_outcome outcome{mysql_transaction_outcome::not_started};
+    std::optional<arknet::mysql::connection_errc> rollback_code;
+    bool rollback_outcome_unknown{};
+    std::exception_ptr cleanup_exception;
+    std::exception_ptr cancellation_exception;
+    std::exception_ptr lease_return_exception;
+    bool discard_requested{};
+};
+
+struct mysql_transaction_reply
+{
+    arknet::mysql::query_result result;
+    std::optional<arknet::mysql::connection_result> statement_close;
+    std::exception_ptr statement_close_exception;
+    std::optional<arknet::mysql::query_result> rollback;
+    std::exception_ptr initiation_exception;
+    mysql_transaction_status transaction_status;
+    mysql_transaction_id transaction{};
+
+    explicit operator bool() const noexcept {
+        return !initiation_exception && bool(result);
+    }
+};
+
+// Configure and invoke on the framework thread. Await from manager-owned task
+// groups: completion resumes on the shared business executor during update().
+// Inputs and native results own storage. Local admission/C++ failures throw;
+// server/transport failures remain in the native result.
 class mysql_module : public module
 {
 public:
-    virtual bool add_mysql_server(const int server_id, const std::string& dns, const std::string& ip, const int port,
-        const std::string db_name, const std::string db_user, const std::string db_pwd, const int reconnect_time = 10,
-        const int reconnect_count = -1) = 0;
-    virtual bool update_or_insert(const std::string& record_name, const std::string& key,
-        const std::vector<std::string>& field_vec, const std::vector<std::string>& value_vec) = 0;
-    virtual bool query(const std::string& record_name, const std::string& key,
-        const std::vector<std::string>& field_vec, std::vector<std::string>& value_vec) = 0;
-    virtual bool select(const std::string& record_name, const std::string& key,
-        const std::vector<std::string>& field_vec, std::vector<std::string>& value_vec) = 0;
-
-    virtual bool erase(const std::string& record_name, const std::string& key) = 0;
-    virtual bool exists(const std::string& record_name, const std::string& key, bool& exists) = 0;
-    virtual bool keys(
-        const std::string& record_name, const std::string& key_name, std::vector<std::string>& value_vec) = 0;
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    virtual bool insert(const std::string& document, std::vector<kv_pair>& data) = 0;
-    virtual bool update_record(const std::string& document, std::vector<kv_pair>& data, std::vector<where>& where) = 0;
-    virtual bool select(const std::string& document, std::vector<std::string>& columns, std::vector<where>& where,
-        order_by& order, int limit, result_arr& results) = 0;
-    virtual bool select_one(const std::string& document, std::vector<std::string>& columns, std::vector<where>& where,
-        order_by& order, result& result) = 0;
+    virtual bool configure(std::string name, mysql_options options) = 0;
+    virtual task<mysql_reply> query(
+        std::string name, std::string sql, std::chrono::milliseconds timeout = std::chrono::seconds(5)) = 0;
+    virtual task<mysql_reply> execute(std::string name, std::string sql,
+        std::vector<arknet::mysql::field_value> parameters,
+        std::chrono::milliseconds timeout = std::chrono::seconds(5)) = 0;
+    virtual task<mysql_transaction_reply> begin(std::string name, mysql_transaction_options options = {}) = 0;
+    virtual task<mysql_transaction_reply> query(mysql_transaction_id transaction, std::string sql) = 0;
+    virtual task<mysql_transaction_reply> execute(
+        mysql_transaction_id transaction, std::string sql, std::vector<arknet::mysql::field_value> parameters) = 0;
+    virtual task<mysql_transaction_reply> commit(mysql_transaction_id transaction) = 0;
+    virtual task<mysql_transaction_reply> rollback(mysql_transaction_id transaction) = 0;
 };
 
 } // namespace ark

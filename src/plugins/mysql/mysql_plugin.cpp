@@ -18,8 +18,6 @@
  *
  */
 
-#include "ark/mysql/mysql_driver_manager_module_impl.hpp"
-#include "ark/mysql/mysql_driver_module_impl.hpp"
 #include "ark/mysql/mysql_module_impl.hpp"
 #include "ark/mysql/mysql_plugin.hpp"
 
@@ -30,14 +28,10 @@ ARK_DECLARE_PLUGIN_DLL_FUNCTION(mysql_plugin)
 void mysql_plugin::install() {
     // install module
     ARK_REGISTER_MODULE(mysql_module, mysql_module_impl);
-    ARK_REGISTER_MODULE(mysql_driver_module, mysql_driver_module_impl);
-    ARK_REGISTER_MODULE(mysql_driver_manager_module, mysql_driver_manager_module_impl);
 }
 
 void mysql_plugin::uninstall() {
     // uninstall module
-    ARK_UNREGISTER_MODULE(mysql_driver_manager_module, mysql_driver_manager_module_impl);
-    ARK_UNREGISTER_MODULE(mysql_driver_module, mysql_driver_module_impl);
     ARK_UNREGISTER_MODULE(mysql_module, mysql_module_impl);
 }
 

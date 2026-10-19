@@ -6,7 +6,7 @@
 
 | 独立仓库 | ark 内的相关实现 | 建议合入位置 | 需要整理的内容 |
 | --- | --- | --- | --- |
-| [MySQLPlugin](https://github.com/OpenArkStudio/MySQLPlugin) | `src/plugins/mysql` | `src/plugins/mysql` | 由 arknet 自主实现 MySQL 客户端；插件整合配置、连接服务和业务回调 |
+| [MySQLPlugin](https://github.com/OpenArkStudio/MySQLPlugin) | `src/plugins/mysql` | `src/plugins/mysql` | [原生协程接口](../reference/mysql_CN.md)、预处理语句、事务和共享业务执行器；部署仍需真实 MySQL 验收 |
 | [RedisPlugin](https://github.com/OpenArkStudio/RedisPlugin) | `src/plugins/redis` | `src/plugins/redis` | [原生协程接口](../reference/redis_CN.md)、具名连接池、RESP/TLS 和正常停机；部署仍需真实 Redis 验收 |
 | [URLPlugin](https://github.com/OpenArkStudio/URLPlugin) | Net HTTP client 与 HTTP server 插件 | `src/plugins/http` | 对照 libcurl 版本的请求、编码与 actor 调用能力，统一 HTTP 服务接口 |
 | [LuaScriptPlugin](https://github.com/OpenArkStudio/LuaScriptPlugin) | 需要按新插件接口接入 | `src/plugins/lua` | 整理 Lua 绑定与脚本生命周期，移除对旧 NFComm 接口的依赖 |

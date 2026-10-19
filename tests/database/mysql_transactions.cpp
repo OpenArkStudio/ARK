@@ -742,6 +742,60 @@ void check_thread_abandon(mysql_transaction_service& service, mysql_service& obs
     success(run(service, [&](auto complete) { return next.start_rollback(std::move(complete)); }));
 }
 
+void check_natural_drain(const std::shared_ptr<pool>& native) {
+    {
+        mysql_transaction_service service(native, {1, 8192});
+        require(service.quiescent() && !service.logically_drained(), "Open transaction admission reported drain");
+        auto transaction = begin(service);
+        service.stop_accepting();
+        require(!service.quiescent() && !service.logically_drained(), "Idle transaction was omitted from drain");
+        unsigned refused{};
+        require(service.start({1s, 1s},
+                    [&](auto reply) {
+                        ++refused;
+                        require(reply.result.status.code == connection_errc::not_connected,
+                            "Sealed BEGIN used wrong refusal");
+                        require(!service.logically_drained(), "Inline refusal escaped transaction activity");
+                    }) == 0,
+            "Sealed transaction service admitted BEGIN");
+        require(refused == 1, "Sealed transaction BEGIN did not complete inline");
+        success(query(service, transaction, "SELECT 42"));
+        auto committed = run(service, [&](auto complete) {
+            return transaction.start_commit([&, complete = std::move(complete)](auto reply) mutable {
+                require(!service.logically_drained(), "Commit callback reported premature transaction drain");
+                complete(std::move(reply));
+            });
+        });
+        success(committed);
+        require(committed.transaction_status.outcome == mysql_transaction_outcome::committed,
+            "Accepted transaction could not commit after BEGIN admission stopped");
+        require(service.logically_drained(), "Completed transaction did not naturally drain");
+    }
+    {
+        // A new borrower proves the first borrower's natural drain/destruction
+        // left the same real pool and its native connection usable.
+        mysql_transaction_service service(native, {1, 8192});
+        auto transaction = begin(service, 1s);
+        success(query(service, transaction, "SELECT 43"));
+        service.stop_accepting();
+        require(!service.logically_drained(), "Idle deadline cleanup was skipped");
+        wait_until([&] {
+            service.update();
+            return service.logically_drained();
+        });
+        require(transaction.snapshot().outcome == mysql_transaction_outcome::rolled_back,
+            "Idle transaction did not complete rollback before natural drain");
+    }
+    {
+        mysql_transaction_service service(native, {1, 8192});
+        auto transaction = begin(service);
+        success(query(service, transaction, "SELECT 44"));
+        success(run(service, [&](auto complete) { return transaction.start_rollback(std::move(complete)); }));
+        service.stop_accepting();
+        require(service.logically_drained(), "Reused borrowed pool did not naturally drain");
+    }
+}
+
 } // namespace
 
 int main() {
@@ -774,6 +828,7 @@ int main() {
                 });
                 require(service.retained_input_bytes() == 0, "Abandoned BEGIN delivery leaked input quota");
             }
+            check_natural_drain(native);
             check_waiter(native, observer);
             check_prepare_delivery_cancellation(native, observer, table);
             check_unknown_commit(options, observer, table);

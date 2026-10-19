@@ -8,6 +8,9 @@
 | `ARK_BUILD_TESTS` | `ON` | Build legacy test programs |
 | `ARK_BUILD_CORE_TESTS` | Value of `ARK_BUILD_TESTS` | Build C++20 core and optional Protobuf regressions |
 | `ARK_BUILD_EXAMPLES` | `ON` | Build enabled examples |
+| `ARK_BUILD_PLUGIN_MYSQL` | `OFF` | Build the native MySQL coroutine plugin; requires `ARKNET_ENABLE_SSL=ON` |
+| `ARK_BUILD_PLUGIN_REDIS` | `OFF` | Build the native Redis coroutine plugin; enable SSL for TLS pools |
+| `ARK_BUILD_DATABASE_TESTS` | `OFF` | Build native database and public plugin regressions; requires an explicit `ARKNET_SOURCE_DIR` |
 | `ARK_BUILD_BENCHMARKS` | `OFF` | Build standalone C++ benchmark programs |
 | `ARK_USE_GUID_32` | `OFF` | Select the 32-bit GUID configuration; consumers inherit the setting through SDK targets |
 | `ARKNET_SOURCE_DIR` | Empty | Use an independent local arknet checkout |
@@ -18,6 +21,17 @@ The project requires C++20 through CMake and disables compiler extensions. Appli
 
 When upgrading arknet, use a new build directory or explicitly change the cached revision. A nonempty `ARKNET_SOURCE_DIR` takes precedence over fetching the pin; see [Upgrade arknet](../get-started/installation.md#upgrade-arknet).
 
-Official plugin options use `ARK_BUILD_PLUGIN_<NAME>`. The default runtime selection is `kernel`, `net`, `bus`, `utility` and `etcd_client`; optional database-plugin directories do not establish driver replacement or runtime acceptance. See [project layout](directory-structure.md), [protocol generation](protobuf.md) and [network builds](../networking.md).
+Official plugin options use `ARK_BUILD_PLUGIN_<NAME>`. The default runtime selection is `kernel`, `net`, `bus`, `utility` and `etcd_client`; enable the optional MySQL/Redis targets to build native coroutine plugins. Protocol and plugin-load tests do not replace real-server deployment acceptance. See [project layout](directory-structure.md), [protocol generation](protobuf.md) and [network builds](../networking.md).
 
 With `ARK_BUILD_EXAMPLES` enabled, the [coroutine task example](../guides/tasks.md) also builds with applications disabled. Existing plugin examples still require application builds.
+
+See [MySQL](mysql.md) and [Redis](redis.md) for plugin configuration and coroutine APIs.
+
+## Native database plugins
+
+With the dependencies from the installation guide available, build both optional runtime plugins:
+
+```sh
+cmake -S . -B build -DARK_BUILD_PLUGIN_MYSQL=ON -DARK_BUILD_PLUGIN_REDIS=ON -DARKNET_ENABLE_SSL=ON
+cmake --build build --target AFMysqlPlugin AFRedisPlugin
+```
