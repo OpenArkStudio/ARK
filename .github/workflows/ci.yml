@@ -21,7 +21,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
-      full_cpp: ${{ steps.scope.outputs.full_cpp }}
+      event_name: ${{ steps.scope.outputs.event_name }}
+      validation_stage: ${{ steps.scope.outputs.validation_stage }}
+      reason: ${{ steps.scope.outputs.reason }}
+      native_check: ${{ steps.scope.outputs.native_check }}
+      network_check: ${{ steps.scope.outputs.network_check }}
+      applications_check: ${{ steps.scope.outputs.applications_check }}
+      database_check: ${{ steps.scope.outputs.database_check }}
+      format_check: ${{ steps.scope.outputs.format_check }}
       docs_check: ${{ steps.scope.outputs.docs_check }}
       readme_check: ${{ steps.scope.outputs.readme_check }}
       site_available: ${{ steps.scope.outputs.site_available }}
@@ -42,7 +49,7 @@ jobs:
   documentation:
     name: CI - documentation validation
     needs: scope
-    if: ${{ !cancelled() && needs.scope.outputs.docs_check == 'true' }}
+    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.docs_check != 'false') }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -59,7 +66,7 @@ jobs:
   readme:
     name: CI - README file links
     needs: scope
-    if: ${{ !cancelled() && needs.scope.outputs.readme_check == 'true' }}
+    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.readme_check != 'false') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -70,20 +77,29 @@ jobs:
         with:
           node-version: 26
       - run: node .github/scripts/check-readme-links.mjs
+  formatting:
+    name: CI - C++ formatting
+    needs: scope
+    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.format_check != 'false') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install clang-format 18
+        run: sudo apt-get update && sudo apt-get install -y clang-format-18
+      - name: Check tracked source formatting
+        run: CLANG_FORMAT=clang-format-18 bash scripts/format.sh --check
   network:
     name: Network - ${{ matrix.os }} - Boost - ${{ matrix.sanitizer }}
     needs: scope
-    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.full_cpp != 'false') }}
+    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.network_check != 'false') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     strategy:
       fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        sanitizer: [none]
-        include:
-          - {os: ubuntu-latest, sanitizer: address}
-          - {os: ubuntu-latest, sanitizer: thread}
+      matrix: ${{ fromJSON(github.event_name == 'pull_request' && needs.scope.result == 'success' && needs.scope.outputs.validation_stage == 'modules' && '{"include":[{"os":"ubuntu-latest","sanitizer":"none"}]}' || '{"include":[{"os":"ubuntu-latest","sanitizer":"none"},{"os":"macos-latest","sanitizer":"none"},{"os":"windows-latest","sanitizer":"none"},{"os":"ubuntu-latest","sanitizer":"address"},{"os":"ubuntu-latest","sanitizer":"thread"}]}') }}
     steps:
       - uses: actions/checkout@v4
       - name: Initialize pinned dependencies
@@ -145,13 +161,12 @@ jobs:
   applications:
     name: Applications - ${{ matrix.os }} - C++20
     needs: scope
-    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.full_cpp != 'false') }}
+    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.applications_check != 'false') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     strategy:
       fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+      matrix: ${{ fromJSON(github.event_name == 'pull_request' && needs.scope.result == 'success' && needs.scope.outputs.validation_stage == 'modules' && '{"include":[{"os":"ubuntu-latest"}]}' || '{"include":[{"os":"ubuntu-latest"},{"os":"macos-latest"},{"os":"windows-latest"}]}') }}
     steps:
       - uses: actions/checkout@v4
       - name: Initialize pinned dependencies
@@ -208,17 +223,12 @@ jobs:
   database:
     name: Database - ${{ matrix.os }} - ${{ matrix.asio }}
     needs: scope
-    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.full_cpp != 'false') }}
+    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.database_check != 'false') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - {os: ubuntu-latest, asio: Boost, standalone: 'OFF', features: 'database;boost'}
-          - {os: ubuntu-latest, asio: Standalone, standalone: 'ON', features: database}
-          - {os: macos-latest, asio: Boost, standalone: 'OFF', features: 'database;boost'}
-          - {os: windows-latest, asio: Boost, standalone: 'OFF', features: 'database;boost'}
+      matrix: ${{ fromJSON(github.event_name == 'pull_request' && needs.scope.result == 'success' && needs.scope.outputs.validation_stage == 'modules' && '{"include":[{"os":"ubuntu-latest","asio":"Boost","standalone":"OFF","features":"database;boost"}]}' || '{"include":[{"os":"ubuntu-latest","asio":"Boost","standalone":"OFF","features":"database;boost"},{"os":"ubuntu-latest","asio":"Standalone","standalone":"ON","features":"database"},{"os":"macos-latest","asio":"Boost","standalone":"OFF","features":"database;boost"},{"os":"windows-latest","asio":"Boost","standalone":"OFF","features":"database;boost"}]}') }}
     steps:
       - uses: actions/checkout@v4
       - name: Initialize pinned dependencies
@@ -289,7 +299,7 @@ jobs:
   required:
     name: CI - required
     if: always()
-    needs: [scope, network, applications, database, documentation, readme]
+    needs: [scope, network, applications, database, formatting, documentation, readme]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:

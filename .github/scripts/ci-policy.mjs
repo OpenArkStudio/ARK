@@ -8,9 +8,13 @@ const cppPath = /\.(?:c|cc|cpp|cxx|c\+\+|h|hh|hpp|hxx|inl|ipp|tpp|proto)$/i;
 const docPath = /\.(?:md|mdx|markdown|rst|adoc|txt|html|css|js|mjs|cjs|ts|tsx|jsx|astro|json|yaml|yml|svg|png|jpe?g|gif|webp|ico|pdf|woff2?|ttf|otf)$/i;
 const dependencyName = /^(?:package(?:-lock)?\.json|npm-shrinkwrap\.json|pnpm-lock\.yaml|yarn\.lock|vcpkg(?:-configuration)?\.json|conanfile\.(?:py|txt)|conan\.lock|requirements(?:-[\w.-]+)?\.txt|.*\.lock|\.gitmodules)$/i;
 
+function isRepositoryPath(file) {
+  return typeof file === 'string' && file.length > 0 && !/[\x00-\x1f\x7f\\]/.test(file) &&
+    !posix.isAbsolute(file) && posix.normalize(file) === file && !file.split('/').includes('..');
+}
+
 export function isDocumentationPath(file) {
-  if (typeof file !== 'string' || !file || /[\x00-\x1f\x7f\\]/.test(file) ||
-      posix.isAbsolute(file) || posix.normalize(file) !== file || file.split('/').includes('..')) return false;
+  if (!isRepositoryPath(file)) return false;
   const name = posix.basename(file);
   if (cppPath.test(file) || /^CMake(?:Lists\.txt|(?:User)?Presets\.json|Cache\.txt)$/i.test(name) || /\.cmake$/i.test(file) ||
       dependencyName.test(name) || file.split('/').includes('.github') || /^action\.ya?ml$/i.test(name) ||
@@ -64,8 +68,28 @@ export function inspectSite(root) {
   return { present, available };
 }
 
+const nativeJobs = ['network', 'applications', 'database'];
+
+// Shared SDK/build inputs affect every consumer. Only known module paths narrow PRs.
+function modulesForPath(file) {
+  if (isDocumentationPath(file)) return [];
+  if (!isRepositoryPath(file)) return nativeJobs;
+  if (!cppPath.test(file) && !file.endsWith('/CMakeLists.txt')) return nativeJobs;
+  if (/^(?:tests\/network\/|benchmarks\/network_buffers\.cpp$)/.test(file)) return ['network'];
+  if (/^(?:tests\/database\/|benchmarks\/database\.cpp$)/.test(file)) return ['database'];
+  if (/^(?:include\/ark\/|src\/plugins\/)(?:net|http|bus)\//.test(file)) return ['network', 'applications'];
+  if (/^(?:include\/ark\/|src\/plugins\/)(?:mysql|redis)\//.test(file) ||
+      /^examples\/(?:mysql_sample|redis_sample)\//.test(file)) return ['applications', 'database'];
+  if (/^src\/plugins\/detail\//.test(file)) return ['applications', 'database'];
+  if (/^(?:src\/(?:app|server|config|proto)\/|tests\/(?:core|app|consumer)\/|examples\/)/.test(file) ||
+      /^(?:include\/ark\/|src\/plugins\/)(?:kernel|utility|consul|etcd_client|kafka|osssdk|physic)\//.test(file)) {
+    return ['applications'];
+  }
+  return nativeJobs;
+}
+
 export function selectScope({ eventName, files, site, enumerationFailed = false }) {
-  const known = !enumerationFailed && Array.isArray(files);
+  const known = !enumerationFailed && Array.isArray(files) && files.every(isRepositoryPath);
   const paths = known ? files : [];
   const nonempty = known && paths.length > 0;
   const scopedEvent = eventName === 'pull_request' || eventName === 'merge_group';
@@ -75,32 +99,73 @@ export function selectScope({ eventName, files, site, enumerationFailed = false 
   const ciTouched = paths.some(file => file.startsWith('.github/') || file.startsWith('tests/ci/'));
   const siteReferenced = site.present || paths.some(file => file.startsWith('docs/site/'));
   const docs = siteReferenced && (eventName !== 'pull_request' || !known || docsTouched || ciTouched);
+  const native = !docsOnly;
+  const selected = new Set();
+  const narrow = native && eventName === 'pull_request' && nonempty && site.available;
+  for (const file of paths) {
+    for (const job of modulesForPath(file)) selected.add(job);
+  }
+  const unknown = narrow && paths.some(file => modulesForPath(file) === nativeJobs);
+  if (native && (!narrow || unknown)) {
+    for (const job of nativeJobs) selected.add(job);
+  }
   return {
-    full_cpp: !docsOnly,
+    event_name: eventName,
+    validation_stage: !native ? 'documentation' : narrow ? 'modules' : 'full',
+    native_check: native,
+    network_check: native && selected.has('network'),
+    applications_check: native && selected.has('applications'),
+    database_check: native && selected.has('database'),
+    format_check: native,
     docs_check: docs,
     readme_check: readme,
     site_available: site.available,
     files_known: known,
     reason: docsOnly ? 'documentation-only' : !scopedEvent ? 'full-event' :
       !known ? 'enumeration-unavailable' : !nonempty ? 'empty-diff' :
-        !site.available ? 'site-unavailable' : 'code-build-or-unknown-path',
+        !site.available ? 'site-unavailable' : eventName === 'merge_group' ? 'code-build-or-unknown-path' :
+          unknown ? 'unknown-path' : 'module-paths',
   };
 }
 
-export function validateGate(needs) {
+export function validateGate(needs, eventName) {
   if (!needs || needs.scope?.result !== 'success') throw new Error('scope job did not succeed');
+  if (!['pull_request', 'merge_group', 'workflow_dispatch'].includes(eventName) ||
+      needs.scope.outputs?.event_name !== eventName) throw new Error('scope event does not match this run');
   const flags = {};
-  for (const key of ['full_cpp', 'docs_check', 'readme_check', 'site_available', 'files_known']) {
+  for (const key of ['native_check', 'network_check', 'applications_check', 'database_check', 'format_check',
+    'docs_check', 'readme_check', 'site_available', 'files_known']) {
     const value = needs.scope.outputs?.[key];
     if (value !== 'true' && value !== 'false') throw new Error(`invalid scope output: ${key}`);
     flags[key] = value === 'true';
   }
-  if (!flags.full_cpp && (!flags.docs_check || !flags.site_available || !flags.files_known)) {
-    throw new Error('documentation-only scope is incomplete');
+  const reason = needs.scope.outputs.reason;
+  const uncertain = !flags.files_known || !flags.site_available ||
+    ['empty-diff', 'site-unavailable', 'enumeration-unavailable'].includes(reason);
+  const stage = !flags.native_check ? 'documentation' : eventName === 'pull_request' && !uncertain ? 'modules' : 'full';
+  if (needs.scope.outputs.validation_stage !== stage) throw new Error('invalid validation stage');
+  if (!['documentation-only', 'full-event', 'enumeration-unavailable', 'empty-diff', 'site-unavailable',
+    'code-build-or-unknown-path', 'unknown-path', 'module-paths'].includes(reason) ||
+      (!flags.native_check && reason !== 'documentation-only') ||
+      (flags.native_check && reason === 'documentation-only') || (stage === 'full' && reason === 'module-paths')) {
+    throw new Error('invalid scope reason');
+  }
+  if (!flags.native_check && (!flags.docs_check || !flags.site_available || !flags.files_known ||
+      nativeJobs.some(job => flags[`${job}_check`]))) throw new Error('documentation-only scope is incomplete');
+  if (flags.format_check !== flags.native_check) throw new Error('native validation requires formatting');
+  if (flags.native_check && !nativeJobs.some(job => flags[`${job}_check`])) throw new Error('native scope has no regressions');
+  const fullModules = stage === 'full' || !flags.files_known ||
+    ['unknown-path', 'empty-diff', 'site-unavailable', 'enumeration-unavailable'].includes(needs.scope.outputs.reason);
+  if (flags.native_check && fullModules && nativeJobs.some(job => !flags[`${job}_check`])) {
+    throw new Error('full or uncertain scope requires every native module');
+  }
+  if (eventName === 'workflow_dispatch' && !flags.native_check) throw new Error('manual validation must be full');
+  if (eventName !== 'pull_request' && flags.site_available && !flags.docs_check) {
+    throw new Error('queue and manual runs require the available documentation site');
   }
   const required = {
-    network: flags.full_cpp, applications: flags.full_cpp, database: flags.full_cpp,
-    documentation: flags.docs_check, readme: flags.readme_check,
+    network: flags.network_check, applications: flags.applications_check, database: flags.database_check,
+    formatting: flags.format_check, documentation: flags.docs_check, readme: flags.readme_check,
   };
   for (const [job, mustRun] of Object.entries(required)) {
     const expected = mustRun ? 'success' : 'skipped';
@@ -132,7 +197,7 @@ function classify() {
   if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, output);
   const summary = `CI scope: ${decision.reason}\n\n${output}\n` +
     (!decision.site_available ? (decision.docs_check ? 'The required Nimbus site is missing or invalid; its job must fail.\n' :
-      'Nimbus is not introduced in this checkout; site validation is explicitly not required and C++ remains full.\n') : '');
+      'Nimbus is not introduced in this checkout; site validation is explicitly not required and all native modules remain required.\n') : '');
   if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary);
   console.log(JSON.stringify({ ...decision, file_count: files?.length ?? null }, null, 2));
 }
@@ -141,7 +206,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   try {
     if (process.argv[2] === 'classify') classify();
     else if (process.argv[2] === 'gate') {
-      validateGate(JSON.parse(process.env.CI_NEEDS_JSON));
+      validateGate(JSON.parse(process.env.CI_NEEDS_JSON), process.env.GITHUB_EVENT_NAME);
       console.log('Every required job succeeded; only explicitly unnecessary jobs were skipped.');
     } else if (process.argv[2] === 'require-site') {
       if (!inspectSite(process.cwd()).available) throw new Error('Required Nimbus package, lockfile or check script is unavailable');

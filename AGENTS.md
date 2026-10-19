@@ -51,9 +51,14 @@ branch or worktree when the existing checkout contains uncommitted changes.
 - Pending, skipped, cancelled and successful checks are distinct states. A
   cancelled run is not validation. If a run is cancelled for scheduling, record
   the reason and resume its acceptance checks; do not leave it indefinitely red.
-- Use the repository's change-scope policy: documentation changes run the relevant
-  documentation/link checks; code, build, dependencies and CI changes run the
-  full configured matrix. Never fabricate a passing required result.
+- Use the repository's change-scope policy: documentation-only changes run the
+  relevant documentation/link checks. Source PRs run the affected native modules
+  on Linux Boost and clang-format 18; shared SDK, build, dependency, CI and unknown
+  paths require every source module when the changed range is known. Unavailable,
+  malformed or empty ranges fall back to the full matrix. Code merge-queue
+  candidates and manual runs retain the full cross-platform and sanitizer matrix.
+  Source checks admit a PR to the queue;
+  they do not establish final matrix acceptance. Never fabricate a passing result.
 - Include what changed, why, validation and remaining limits in PR descriptions.
   Verify the merge result before saying that a PR has merged.
 
