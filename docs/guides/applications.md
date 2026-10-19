@@ -81,7 +81,7 @@ On macOS/Linux, Ctrl+C or `SIGTERM` requests shutdown through the application's 
 
 <Aside type="caution" title="Do not use process survival as the readiness check">
 
-Manifest loading or validation failures return exit code `1` before plugin startup. Argument parsing failures, including help handling, still return `0`, and the launcher does not aggregate every plugin/module startup result. Check the expected module's initialization log and application-specific readiness before routing traffic to a process. A running PID or a zero exit status alone is insufficient.
+Manifest loading or validation failures return exit code `1` before plugin startup. If `plugin_manager::start()` returns `false`, the launcher reports a startup failure and returns `1` before entering the update loop or starting the Windows command thread. Completed startup work is not automatically rolled back. Argument parsing failures, including help handling, still return `0`. Check the expected module's initialization log and application-specific readiness before routing traffic to a process. A running PID or a zero exit status alone is insufficient.
 
 </Aside>
 
