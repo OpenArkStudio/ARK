@@ -1,4 +1,11 @@
+function(ark_validate_plugin_name plugin_name)
+    if(NOT plugin_name MATCHES "^[a-z][a-z0-9]*(_[a-z0-9]+)*$")
+        message(FATAL_ERROR "Plugin library names must use lowercase snake_case: ${plugin_name}")
+    endif()
+endfunction()
+
 function(BUILD_PLUGIN_MACRO project_name)
+    ark_validate_plugin_name("${project_name}")
     if(UNIX AND NOT APPLE)
         set(CMAKE_INSTALL_RPATH ".")
         set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)

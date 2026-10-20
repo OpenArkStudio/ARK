@@ -11,8 +11,8 @@ The launcher receives `--busid`, `--name` and `--app_conf`. The application mani
 ```xml
 <xml>
     <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
-        <plugin name="AFUtilityPlugin" conf="" />
-        <plugin name="Sample1Plugin" conf="" />
+        <plugin name="ark_utility_plugin" conf="" />
+        <plugin name="sample1_plugin" conf="" />
     </plugins>
 </xml>
 ```
@@ -21,7 +21,7 @@ New application manifests can use TOML; the equivalent [sample1.app.toml](https:
 
 The loader loads each library and calls its exported plugin entry. `sample1_plugin::install()` registers `sample1_module`; the utility plugin provides services such as timers. A module resolves those services with `find_module<timer_module>()`, rather than creating another copy of the utility plugin.
 
-The manifest's names are runtime library names. Existing `AFUtilityPlugin` / `Sample1Plugin` names do not follow the C++ class spelling and must match the built artifacts. Debug libraries use the configured `_d` postfix. An empty `conf` supplies no configuration filename; the loader itself does not parse plugin-specific content.
+The manifest's names are runtime library names. Existing `ark_utility_plugin` / `sample1_plugin` names do not follow the C++ class spelling and must match the built artifacts. Debug libraries use the configured `_d` postfix. An empty `conf` supplies no configuration filename; the loader itself does not parse plugin-specific content.
 
 ## Paths and a runnable starting point
 

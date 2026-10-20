@@ -2,7 +2,7 @@ include_directories(${ROOT_DIR}/3rdparty/physX/include)
 set(PHYSIC_LIB_DIR ${ROOT_DIR}/3rdparty/physX/lib)
 
 if(WIN32)
-    BUILD_PLUGIN_MACRO(AFPhysicPlugin
+    BUILD_PLUGIN_MACRO(ark_physic_plugin
         debug ${PHYSIC_LIB_DIR}/PxPvdSDKDEBUG_x64.lib
         debug ${PHYSIC_LIB_DIR}/LowLevelDEBUG.lib
         debug ${PHYSIC_LIB_DIR}/LowLevelAABBDEBUG.lib
@@ -20,7 +20,7 @@ if(WIN32)
         debug ${PHYSIC_LIB_DIR}/PsFastXmlDEBUG_x64.lib
         debug ${PHYSIC_LIB_DIR}/PhysX3DEBUG_x64.lib
         debug ${PHYSIC_LIB_DIR}/SimulationControllerDEBUG.lib
-        
+
         optimized ${PHYSIC_LIB_DIR}/PxPvdSDK_x64.lib
         optimized ${PHYSIC_LIB_DIR}/LowLevel.lib
         optimized ${PHYSIC_LIB_DIR}/LowLevelAABB.lib
@@ -39,7 +39,7 @@ if(WIN32)
         optimized ${PHYSIC_LIB_DIR}/PhysX3_x64.lib
         optimized ${PHYSIC_LIB_DIR}/SimulationController.lib)
 else(UNIX)
-    BUILD_PLUGIN_MACRO(AFPhysicPlugin
+    BUILD_PLUGIN_MACRO(ark_physic_plugin
         debug ${PHYSIC_LIB_DIR}/libLowLevelDEBUG.a
         debug ${PHYSIC_LIB_DIR}/libLowLevelAABBDEBUG.a
         debug ${PHYSIC_LIB_DIR}/libLowLevelClothDEBUG.a

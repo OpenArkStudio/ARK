@@ -67,6 +67,10 @@ branch or worktree when the existing checkout contains uncommitted changes.
 - Use C++20 and consistent `snake_case` names, including types, functions and
   members (`ark::plugin_manager`, `find_module()`, `module_name_`). Do not manually
   edit generated protobuf output; change the schema or generation source.
+- Use lowercase `snake_case` for plugin CMake targets and shared-library stems,
+  including official, server and sample plugins (`ark_mysql_plugin`,
+  `sample1_plugin`). Keep application manifests, launch scripts and documentation
+  aligned with the generated names; retain platform extensions and Debug `_d`.
 - Follow `.clang-format` and the repository formatting scripts with clang-format
   18. Keep function opening braces on the declaration line, expand short function
   bodies, and use braces for control statements.

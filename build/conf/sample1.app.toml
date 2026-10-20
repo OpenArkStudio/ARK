@@ -3,8 +3,8 @@ plugin_library_dir = "bin/"
 plugin_config_dir = "conf/"
 
 [[plugins]]
-name = "AFUtilityPlugin"
+name = "ark_utility_plugin"
 config = ""
 
 [[plugins]]
-name = "Sample1Plugin"
+name = "sample1_plugin"

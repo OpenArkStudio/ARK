@@ -375,9 +375,8 @@ public:
 protected:
     void register_plugin(plugin* plugin, std::string const& plugin_name, std::string const& runtime_plugin_name) {
         check_registration();
-        // e.g. plugin_name = class ark::AFKernelPlugin
-        // It's a runtime name, so we cannot use it to find the plugin.conf file.
-        //std::string plugin_name = plugin->GetPluginName();
+        // The library stem selects configuration; the runtime name identifies
+        // the C++ plugin type registered by its entry point.
 
         ARK_ASSERT_RET_NONE(find_plugin(plugin_name) == nullptr);
 
