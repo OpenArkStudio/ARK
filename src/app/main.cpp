@@ -279,14 +279,28 @@ bool parse_args(int argc, char* argv[], std::chrono::milliseconds& shutdown_time
     return true;
 }
 
-bool main_loop() {
+bool capture_update_exception(std::exception_ptr& error) noexcept {
+    try
+    { return plugin_manager::instance()->update(date_time::get_now_time()); }
+    catch (...)
+    {
+        error = std::current_exception();
+        return false;
+    }
+}
+
+bool main_loop(std::exception_ptr* error = nullptr) {
 #ifdef ARK_PLATFORM_WIN
     __try
-    { return plugin_manager::instance()->update(date_time::get_now_time()); }
+    {
+        // Catch C++ exceptions before the outer SEH filter sees them. The
+        // shutdown owner rethrows only after this guarded frame returns.
+        return error ? capture_update_exception(*error) : plugin_manager::instance()->update(date_time::get_now_time());
+    }
     __except (application_crash_handler(GetExceptionInformation()))
     { return false; }
 #else
-    return plugin_manager::instance()->update(date_time::get_now_time());
+    return error ? capture_update_exception(*error) : plugin_manager::instance()->update(date_time::get_now_time());
 #endif
 }
 
@@ -391,7 +405,13 @@ int main(int argc, char* argv[]) {
         {
             try
             {
-                if (!main_loop())
+                std::exception_ptr update_error;
+                const auto updated = main_loop(&update_error);
+                if (update_error)
+                {
+                    std::rethrow_exception(update_error);
+                }
+                if (!updated)
                 {
                     shutdown_retained = true;
                     if (!shutdown_update_error_reported)
