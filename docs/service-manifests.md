@@ -12,11 +12,11 @@ plugin_library_dir = "bin/"
 plugin_config_dir = "conf/"
 
 [[plugins]]
-name = "AFUtilityPlugin"
+name = "ark_utility_plugin"
 config = ""
 
 [[plugins]]
-name = "Sample1Plugin"
+name = "sample1_plugin"
 ```
 
 | Field | Type and default | Meaning |
@@ -25,7 +25,7 @@ name = "Sample1Plugin"
 | `application.plugin_library_dir` | String, `""` | Prefix for plugin library names. |
 | `application.plugin_config_dir` | String, `""` | Prefix for plugin configuration names. |
 | `plugins` | Array of tables, empty | Omission and a top-level `plugins = []` both select no plugins. |
-| `plugins[].name` | Required nonempty string | Unique library stem, such as `Sample1Plugin`; platform extensions and the Debug `_d` suffix remain automatic. |
+| `plugins[].name` | Required nonempty string | Unique library stem, such as `sample1_plugin`; platform extensions and the Debug `_d` suffix remain automatic. |
 | `plugins[].config` | String, `""` | Configuration filename; omission and `""` retain empty-configuration behavior. |
 
 Unknown fields, incorrect types, duplicate or empty plugin names, invalid TOML/UTF-8 and embedded NUL characters are rejected before plugin startup. Diagnostics contain the path and available line/column, without printing configuration values.
@@ -36,7 +36,7 @@ The order of `[[plugins]]` entries does **not** define module initialization ord
 
 ## Run sample1
 
-Follow the [application build instructions](networking.md) to build `app`, `AFUtilityPlugin` and `Sample1Plugin`. For a build directory named `out`, run these commands from the repository root:
+Follow the [application build instructions](networking.md) to build `app`, `ark_utility_plugin` and `sample1_plugin`. For a build directory named `out`, run these commands from the repository root:
 
 ```sh
 cp -R build/conf out/conf
@@ -53,8 +53,8 @@ The existing wrapper and attributes remain valid:
 ```xml
 <xml>
     <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
-        <plugin name="AFUtilityPlugin" conf=""/>
-        <plugin name="Sample1Plugin"/>
+        <plugin name="ark_utility_plugin" conf=""/>
+        <plugin name="sample1_plugin"/>
     </plugins>
 </xml>
 ```

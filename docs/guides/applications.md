@@ -29,7 +29,7 @@ Relative paths resolve from the process working directory. Moving the executable
 | --- | --- | --- |
 | Application manifest | `--app_conf` | `conf/sample1.app.conf` |
 | Logger settings | `--log_conf`, or its default | `conf/log.conf` |
-| Plugin libraries | TOML `plugin_library_dir` or XML `plugin_lib_dir`, plus the library filename | `bin/Sample1Plugin.dylib` on macOS Release |
+| Plugin libraries | TOML `plugin_library_dir` or XML `plugin_lib_dir`, plus the library filename | `bin/sample1_plugin.dylib` on macOS Release |
 | Per-plugin settings | TOML `plugin_config_dir` + `config`, or XML `plugin_conf_dir` + `conf` | `conf/my-plugin.conf` when the filename is `my-plugin.conf` |
 | Kernel metadata and configuration | The Kernel's `resource/` directory | `resource/meta/entity_class.config`, `resource/server/item.config` |
 
@@ -45,13 +45,21 @@ plugin_library_dir = "bin/"
 plugin_config_dir = "conf/"
 
 [[plugins]]
-name = "AFUtilityPlugin"
+name = "ark_utility_plugin"
 
 [[plugins]]
-name = "Sample1Plugin"
+name = "sample1_plugin"
 ```
 
 Pass `--app_conf=conf/sample1.app.toml` to select it. The application table is required; directory fields are optional strings. Each plugin requires a unique, nonempty `name`; its optional `config` string selects a per-plugin file. See [Application manifests](../service-manifests.md) for validation rules and format boundaries. Bus, logger and business-resource configuration formats are unchanged.
+
+### Plugin library names
+
+Plugin targets and library stems use lowercase `snake_case`: `ark_utility_plugin`,
+`ark_mysql_plugin` and `sample1_plugin`. Manifest names must match these stems;
+the loader adds the platform extension and the Debug `_d` suffix automatically.
+Update existing manifests and build commands that use `AFUtilityPlugin`,
+`AFMysqlPlugin` or `Sample1Plugin`; the old library filenames are no longer emitted.
 
 ### Existing XML manifests
 
@@ -60,8 +68,8 @@ The checked-in [Sample1 manifest](https://github.com/OpenArkStudio/ark/blob/main
 ```xml
 <xml>
     <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
-        <plugin name="AFUtilityPlugin" conf="" />
-        <plugin name="Sample1Plugin" conf="" />
+        <plugin name="ark_utility_plugin" conf="" />
+        <plugin name="sample1_plugin" conf="" />
     </plugins>
 </xml>
 ```

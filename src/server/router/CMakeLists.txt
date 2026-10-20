@@ -1,1 +1,1 @@
-BUILD_SERVER_MACRO(AFRouterPlugin)
+BUILD_SERVER_MACRO(ark_router_plugin)

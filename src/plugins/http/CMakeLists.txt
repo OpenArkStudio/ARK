@@ -1,1 +1,1 @@
-BUILD_PLUGIN_MACRO(AFHttpPlugin)
+BUILD_PLUGIN_MACRO(ark_http_plugin)

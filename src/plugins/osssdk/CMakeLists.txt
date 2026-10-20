@@ -1,1 +1,1 @@
-BUILD_PLUGIN_MACRO(AFOssSDKPlugin)
+BUILD_PLUGIN_MACRO(ark_oss_sdk_plugin)
