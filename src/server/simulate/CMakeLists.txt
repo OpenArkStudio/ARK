@@ -1,5 +1,3 @@
-include_directories(
-    ${ROOT_DIR}/3rdparty/physX/include
-    ${ROOT_DIR}/3rdparty/msgpack/include)
-
-BUILD_SERVER_MACRO(ark_simulate_plugin)
+message(FATAL_ERROR
+    "The legacy simulate server is not supported by the current build. "
+    "It depends on an unvalidated PhysX 3 and MessagePack integration; no SDK is bundled.")

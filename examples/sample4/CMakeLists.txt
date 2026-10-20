@@ -1,4 +1,3 @@
-include_directories(
-    ${ROOT_DIR}/3rdparty/physX/include)
-
-BUILD_PLUGIN_MACRO("sample4_plugin")
+message(FATAL_ERROR
+    "sample4 requires the unsupported legacy PhysX 3 plugin. "
+    "No compatible SDK is bundled; keep this example disabled.")

@@ -13,9 +13,10 @@ is included.
 - CMake 3.21+ and a C++20 compiler: GCC 12+, Clang with C++20 support, or VS 2022.
 - Boost 1.90+ for applications and network tests, using Boost.Asio and Boost.Beast.
 - Standalone Asio 1.38.0+ is optional for core-only and native database development builds.
-- RapidXML 1.13, spdlog 1.17.0 and ARK's pinned readerwriterqueue/args submodules.
+- RapidXML, spdlog/fmt and readerwriterqueue from the pinned vcpkg baseline.
 - Protobuf, Zstandard and zlib when building applications and plugins.
 
+See [dependency selection](dependencies.md) for optional features and license notices.
 The vcpkg manifest pins the package baseline. CMake retrieves arknet from its
 pinned revision in the independent repository. To validate a development checkout,
 set `ARKNET_SOURCE_DIR` to its absolute path.
@@ -31,7 +32,6 @@ setting `Protobuf_DIR` manually, select matching `absl_DIR` and `utf8_range_DIR`
 ## Build and run the network tests
 
 ```sh
-git submodule update --init 3rdparty/args 3rdparty/spdlog 3rdparty/readerwriterqueue
 cmake -S . -B network-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
   -DARK_BUILD_APPLICATIONS=OFF -DARK_BUILD_NETWORK_TESTS=ON \
@@ -85,7 +85,7 @@ Enable the `application` manifest feature to install Protobuf:
 ```sh
 cmake -S . -B app-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
-  "-DVCPKG_MANIFEST_FEATURES=application;boost" \
+  "-DVCPKG_MANIFEST_FEATURES=application;boost;etcd-client" \
   -DASIO_STANDALONE=OFF
 cmake --build app-build --parallel 2
 cmake --build app-build --target check-core
@@ -99,7 +99,7 @@ database development tests. Disable applications and network tests explicitly:
 ```sh
 cmake -S . -B core-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
-  -DVCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON \
+  -DVCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON -DVCPKG_MANIFEST_FEATURES=config \
   -DARK_BUILD_APPLICATIONS=OFF -DARK_BUILD_PROTO=OFF \
   -DARK_BUILD_NETWORK_TESTS=OFF -DARK_BUILD_CORE_TESTS=ON \
   -DASIO_STANDALONE=ON

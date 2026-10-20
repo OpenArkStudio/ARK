@@ -65,7 +65,7 @@ void sample_plugin::uninstall() {
 
 ## 构建动态库
 
-安装 ark 的[构建依赖](../get-started/installation_CN.md)，初始化固定版本的子模块，再把下面的代码保存为业务插件目录中的 `CMakeLists.txt`：
+安装 ark 的[构建依赖](../get-started/installation_CN.md)，再把下面的代码保存为业务插件目录中的 `CMakeLists.txt`：
 
 ```cmake
 cmake_minimum_required(VERSION 3.21)

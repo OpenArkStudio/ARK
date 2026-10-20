@@ -1,0 +1,61 @@
+// Copyright (c) 2026 OpenArkStudio. SPDX-License-Identifier: Apache-2.0
+import assert from 'node:assert/strict';
+import { existsSync, readFileSync } from 'node:fs';
+import test from 'node:test';
+
+const read = path => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8');
+const manifest = JSON.parse(read('vcpkg.json'));
+const dependencies = values => values.map(value => typeof value === 'string' ? value : value.name);
+
+test('core packages are shared while application, configuration and JSON dependencies retain separate features', () => {
+  const core = dependencies(manifest.dependencies);
+  assert.ok(core.includes('spdlog'));
+  assert.ok(core.includes('readerwriterqueue'));
+  for (const [feature, name] of [['application', 'args'], ['config', 'tomlplusplus'], ['etcd-client', 'nlohmann-json']]) {
+    assert.ok(dependencies(manifest.features[feature].dependencies).includes(name));
+    assert.ok(!core.includes(name), `${name} must remain optional`);
+    for (const [other, value] of Object.entries(manifest.features)) {
+      if (other !== feature) assert.ok(!dependencies(value.dependencies).includes(name), `${name} belongs to ${feature}`);
+    }
+  }
+  assert.ok(manifest['default-features'].includes('config'));
+  assert.ok(!manifest['default-features'].includes('etcd-client'));
+});
+
+test('the public core target propagates package usage requirements without a bundled include root', () => {
+  const core = read('src/core/CMakeLists.txt');
+  assert.match(core, /find_package\(spdlog 1\.17 CONFIG REQUIRED\)/);
+  assert.match(core, /find_package\(readerwriterqueue CONFIG REQUIRED\)/);
+  assert.match(core, /target_link_libraries\(ark_core INTERFACE[^)]*spdlog::spdlog_header_only[^)]*readerwriterqueue::readerwriterqueue/s);
+  assert.doesNotMatch(core + read('CMakeLists.txt'), /3RD_PARTY|3rdparty/);
+  assert.match(read('src/app/CMakeLists.txt'), /target_link_libraries\([^)]*taywee::args\)/);
+  assert.match(read('src/plugins/etcd_client/CMakeLists.txt'), /BUILD_PLUGIN_MACRO\(ark_etcd_client_plugin nlohmann_json::nlohmann_json\)/);
+  assert.doesNotMatch(read('src/plugins/net/net_service_manager_module_impl.cpp'), /json\.hpp/);
+});
+
+function applicationFeatures(workflow) {
+  const applications = workflow.split(/(?=^  [a-z][a-z0-9_-]*:$)/m).find(block => block.startsWith('  applications:\n'));
+  const cache = applications.match(/VCPKG_CACHE_FEATURES: '([^']+)'/)[1].split(';').sort();
+  const configure = applications.match(/-DVCPKG_MANIFEST_FEATURES=([^"\s]+)/)[1].split(';').sort();
+  assert.deepEqual(configure, cache, 'cache metadata must describe the actual package features');
+  assert.ok(configure.includes('etcd-client'), 'default etcd plugin requires its package feature');
+}
+
+test('CI configures the default etcd package feature and caches exactly those features', () => {
+  const workflow = read('.github/workflows/ci.yml');
+  applicationFeatures(workflow);
+  assert.throws(() => applicationFeatures(workflow.replace('VCPKG_CACHE_FEATURES: \'application;boost;etcd-client\'',
+    'VCPKG_CACHE_FEATURES: \'application;boost\'')), /cache metadata/);
+  assert.throws(() => applicationFeatures(workflow.replaceAll('application;boost;etcd-client', 'application;boost')), /requires its package feature/);
+  assert.doesNotMatch(workflow, /git submodule|Initialize pinned dependencies/);
+  assert.equal(existsSync(new URL('../../.gitmodules', import.meta.url)), false);
+});
+
+test('unsupported PhysX and simulate integrations fail explicitly instead of searching absent bundled SDKs', () => {
+  for (const path of ['src/plugins/physic/CMakeLists.txt', 'src/server/simulate/CMakeLists.txt', 'examples/sample4/CMakeLists.txt']) {
+    const source = read(path);
+    assert.match(source, /message\(FATAL_ERROR/);
+    assert.match(source, /PhysX 3/);
+    assert.doesNotMatch(source, /3rdparty|find_package\(PhysX/);
+  }
+});

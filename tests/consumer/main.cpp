@@ -40,7 +40,13 @@ private:
 
 } // namespace
 
+bool check_packaged_dependencies();
+
 int main() {
+    if (!check_packaged_dependencies())
+    {
+        return 9;
+    }
     sample_module service;
     if (!service.init() || !service.initialized() || !service.update() || !service.shut())
     {

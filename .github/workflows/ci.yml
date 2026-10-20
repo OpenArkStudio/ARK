@@ -99,8 +99,6 @@ jobs:
       matrix: ${{ fromJSON(github.event_name == 'pull_request' && needs.scope.result == 'success' && needs.scope.outputs.validation_stage == 'modules' && '{"include":[{"os":"ubuntu-latest","sanitizer":"none"}]}' || '{"include":[{"os":"ubuntu-latest","sanitizer":"none"},{"os":"macos-latest","sanitizer":"none"},{"os":"windows-latest","sanitizer":"none"},{"os":"ubuntu-latest","sanitizer":"address"},{"os":"ubuntu-latest","sanitizer":"thread"}]}') }}
     steps:
       - uses: actions/checkout@v4
-      - name: Initialize pinned dependencies
-        run: git submodule update --init 3rdparty/args 3rdparty/spdlog 3rdparty/readerwriterqueue
       - uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
       - uses: actions/setup-node@v4
@@ -166,8 +164,6 @@ jobs:
       matrix: ${{ fromJSON(github.event_name == 'pull_request' && needs.scope.result == 'success' && needs.scope.outputs.validation_stage == 'modules' && '{"include":[{"os":"ubuntu-latest"}]}' || '{"include":[{"os":"ubuntu-latest"},{"os":"macos-latest"},{"os":"windows-latest"}]}') }}
     steps:
       - uses: actions/checkout@v4
-      - name: Initialize pinned dependencies
-        run: git submodule update --init 3rdparty/args 3rdparty/spdlog 3rdparty/readerwriterqueue
       - uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
       - uses: actions/setup-node@v4
@@ -177,7 +173,7 @@ jobs:
         id: vcpkg-cache
         env:
           VCPKG_CACHE_REVISION: 0699a19d0c6386247ce50d4dedbb8217d484d536
-          VCPKG_CACHE_FEATURES: 'application;boost'
+          VCPKG_CACHE_FEATURES: 'application;boost;etcd-client'
           VCPKG_CACHE_DEFAULT_FEATURES: 'true'
           VCPKG_CACHE_PROFILE: applications
         run: node .github/scripts/vcpkg-cache.mjs
@@ -199,7 +195,7 @@ jobs:
         run: >-
           cmake -S . -B ci-build -G Ninja
           "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
-          "-DVCPKG_MANIFEST_FEATURES=application;boost"
+          "-DVCPKG_MANIFEST_FEATURES=application;boost;etcd-client"
           -DCMAKE_BUILD_TYPE=Debug
           ${{ runner.os == 'Windows' && '-DVCPKG_APPLOCAL_DEPS=OFF' || '' }}
           -DARK_BUILD_APPLICATIONS=ON
@@ -232,8 +228,6 @@ jobs:
       matrix: ${{ fromJSON(github.event_name == 'pull_request' && needs.scope.result == 'success' && needs.scope.outputs.validation_stage == 'modules' && '{"include":[{"os":"ubuntu-latest","asio":"Boost","standalone":"OFF","features":"database;boost"}]}' || '{"include":[{"os":"ubuntu-latest","asio":"Boost","standalone":"OFF","features":"database;boost"},{"os":"ubuntu-latest","asio":"Standalone","standalone":"ON","features":"database"},{"os":"macos-latest","asio":"Boost","standalone":"OFF","features":"database;boost"},{"os":"windows-latest","asio":"Boost","standalone":"OFF","features":"database;boost"}]}') }}
     steps:
       - uses: actions/checkout@v4
-      - name: Initialize pinned dependencies
-        run: git submodule update --init 3rdparty/args 3rdparty/spdlog 3rdparty/readerwriterqueue
       - name: Check out pinned arknet for database development tests
         uses: actions/checkout@v4
         with:

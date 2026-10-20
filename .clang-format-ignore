@@ -1,4 +1,3 @@
-3rdparty/
 src/proto/cpp/
 include/ark/meta_define.hpp
 tests/catch.hpp

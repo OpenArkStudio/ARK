@@ -81,7 +81,7 @@ private:
 | 异步访问数据库 | [MySQL](docs/reference/mysql_CN.md) · [Redis](docs/reference/redis_CN.md) · [协程任务](docs/guides/tasks_CN.md) |
 | 复现验证结果 | [测试](docs/networking_CN.md) · [数据库基准测试](docs/performance/database-coroutines_CN.md) |
 
-通过 [vcpkg](vcpkg.json) 和 [Git 子模块](.gitmodules)管理依赖，arknet 的提交版本固定在 [CMakeLists.txt](CMakeLists.txt) 中。
+通过 [vcpkg](vcpkg.json) 管理依赖，选择方式见[依赖管理](docs/dependencies_CN.md)。arknet 的提交版本固定在 [CMakeLists.txt](CMakeLists.txt) 中。
 
 ## 客户端集成
 

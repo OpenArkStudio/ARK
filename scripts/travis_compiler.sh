@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# git submodules
-git submodule sync
-git submodule update --init
-
 os_name=`uname`
 
 # build ark

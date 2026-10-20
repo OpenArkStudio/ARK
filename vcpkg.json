@@ -6,7 +6,9 @@
   "builtin-baseline": "0699a19d0c6386247ce50d4dedbb8217d484d536",
   "dependencies": [
     "asio",
-    "rapidxml"
+    "rapidxml",
+    "spdlog",
+    "readerwriterqueue"
   ],
   "features": {
     "database": {
@@ -27,11 +29,25 @@
       "dependencies": [
         "protobuf",
         "zlib",
-        "zstd"
+        "zstd",
+        "args"
+      ]
+    },
+    "config": {
+      "description": "Build the TOML/XML application manifest reader",
+      "dependencies": [
+        "tomlplusplus"
+      ]
+    },
+    "etcd-client": {
+      "description": "Build the optional etcd client plugin",
+      "dependencies": [
+        "nlohmann-json"
       ]
     }
   },
   "default-features": [
-    "boost"
+    "boost",
+    "config"
   ]
 }

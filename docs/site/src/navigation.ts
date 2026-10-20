@@ -166,6 +166,16 @@ const tree: Entry[] = [
         "构建选项"
       ],
       [
+        "dependencies",
+        "Dependencies",
+        "依赖管理"
+      ],
+      [
+        "reference/third-party-notices",
+        "Third-party notices",
+        "第三方许可声明"
+      ],
+      [
         "reference/protobuf",
         "Protobuf messages",
         "Protobuf 消息与兼容"
