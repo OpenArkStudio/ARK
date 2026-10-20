@@ -1,1 +1,1 @@
-BUILD_SERVER_MACRO(AFWorldPlugin)
+BUILD_SERVER_MACRO(ark_world_plugin)

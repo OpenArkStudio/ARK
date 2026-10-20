@@ -60,26 +60,26 @@ data:
         <conf ip="127.0.0.1" port="8500" />
     </xml>
   db.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
-    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
-    name=\"AFNetPlugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"ark_net_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   dir.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
-    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
-    name=\"AFNetPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFDirPlugin\" conf=\"\"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_dir_plugin\" conf=\"\"
     />\n\t</plugins>\n</xml>\n"
   freebird.app.conf: |-
     <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
-        <plugin name="AFUtilityPlugin" conf="" />
-        <plugin name="AFRedisPlugin" conf="redis.plugin.conf" />
-        <plugin name="AFHttpPlugin" conf="http.plugin.conf" />
+        <plugin name="ark_utility_plugin" conf="" />
+        <plugin name="ark_redis_plugin" conf="redis.plugin.conf" />
+        <plugin name="ark_http_plugin" conf="http.plugin.conf" />
         <plugin name="AFFreeBirdPlugin" conf="freebird.plugin.conf" />
     </Plugins>
   game.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFKernelPlugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"AFUtilityPlugin\"
-    conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
-    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
-    name=\"AFNetPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFGamePlugin\" conf=\"\"
+    name=\"ark_kernel_plugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"ark_utility_plugin\"
+    conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_game_plugin\" conf=\"\"
     />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
   http.plugin.conf: |-
     <xml>
@@ -111,23 +111,23 @@ data:
         <!-- other name will be added, like remote-log,  -->
     </xml>
   login.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
-    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
-    name=\"AFNetPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFLoginPlugin\" conf=\"\"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_login_plugin\" conf=\"\"
     />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
   master.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
-    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
-    name=\"AFNetPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFMasterPlugin\" conf=\"\"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_master_plugin\" conf=\"\"
     />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
   oss.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
-    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
-    name=\"AFNetPlugin\" conf=\"\" />\n\t</plugins>\n\t<res path=\"resource\" />\n</xml>\n"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"ark_net_plugin\" conf=\"\" />\n\t</plugins>\n\t<res path=\"resource\" />\n</xml>\n"
   photon.example.app.conf: "<?xml version=\"1.0\"?>\n<conf>\n\t<plugins plugin_lib_dir=\"bin/\"
-    plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"AFUtilityPlugin\" conf=\"\"/>\n\t\t<plugin
-    name=\"AFBusPlugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"AFNetPlugin\"
-    conf=\"\"/>\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"/>\n\t\t<plugin
+    plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"ark_utility_plugin\" conf=\"\"/>\n\t\t<plugin
+    name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"ark_net_plugin\"
+    conf=\"\"/>\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"/>\n\t\t<plugin
     name=\"PhotonPlugin\" conf=\"photon.example.plugin.conf\"/>\n\t</plugins>\n</conf>"
   photon.example.plugin.conf: |-
     <?xml version="1.0"?>
@@ -135,9 +135,9 @@ data:
         <set OpenID="test1" Name="anna" Level="100" MaxPlayerCount="8" ModifyPlayerCount="6" ServerIP="127.0.0.1" />
     </conf>
   photon.game.app.conf: "<?xml version=\"1.0\"?>\n<conf>\n\t<plugins plugin_lib_dir=\"bin/\"
-    plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"AFUtilityPlugin\" conf=\"\"/>\n\t\t<plugin
-    name=\"AFBusPlugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"AFNetPlugin\"
-    conf=\"\"/>\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"/>\n\t\t<plugin
+    plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"ark_utility_plugin\" conf=\"\"/>\n\t\t<plugin
+    name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"ark_net_plugin\"
+    conf=\"\"/>\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"/>\n\t\t<plugin
     name=\"AFPhotonGamePlugin\" conf=\"photon.game.plugin.conf\"/>\n\t</plugins>\n</conf>"
   photon.game.plugin.conf: |-
     <?xml version="1.0"?>
@@ -153,9 +153,9 @@ data:
         </game>
     </conf>
   photon.master.app.conf: "<?xml version=\"1.0\"?>\n<conf>\n\t<plugins plugin_lib_dir=\"bin/\"
-    plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"AFUtilityPlugin\" conf=\"\"/>\n\t\t<plugin
-    name=\"AFBusPlugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"AFNetPlugin\"
-    conf=\"\"/>\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"/>\n\t\t<plugin
+    plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"ark_utility_plugin\" conf=\"\"/>\n\t\t<plugin
+    name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"ark_net_plugin\"
+    conf=\"\"/>\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"/>\n\t\t<plugin
     name=\"AFPhotonMasterPlugin\" conf=\"photon.master.plugin.conf\"/>\n\t</plugins>\n</conf>"
   photon.master.plugin.conf: |-
     <?xml version="1.0"?>
@@ -173,52 +173,52 @@ data:
         </master>
     </conf>
   physic.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFPhysicPlugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+    name=\"ark_physic_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   proxy.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFKernelPlugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"AFUtilityPlugin\"
-    conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
-    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
-    name=\"AFNetPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFProxyPlugin\" conf=\"\"
+    name=\"ark_kernel_plugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"ark_utility_plugin\"
+    conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_proxy_plugin\" conf=\"\"
     />\n\t</plugins>\n</xml>\n"
   redis.plugin.conf: |-
     <xml>
         <conf ip="127.0.0.1" port="6379" auth="" />
     </xml>
   redis_sample.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFRedisPlugin\" conf=\"redis.plugin.conf\"
-    />\n\t\t<plugin name=\"RedisSamplePlugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_redis_plugin\" conf=\"redis.plugin.conf\"
+    />\n\t\t<plugin name=\"redis_sample_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   remote_log.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
-    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
-    name=\"AFNetPlugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"ark_net_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   router.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\" conf=\"consul.plugin.conf\"
-    />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
-    name=\"AFNetPlugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    name=\"ark_net_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   sample1.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"Sample1Plugin\" conf=\"\"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"sample1_plugin\" conf=\"\"
     />\n\t</plugins>\n</xml>\n"
   sample2.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFKernelPlugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"AFUtilityPlugin\"
-    conf=\"\" />\n\t\t<plugin name=\"Sample2Plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+    name=\"ark_kernel_plugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"ark_utility_plugin\"
+    conf=\"\" />\n\t\t<plugin name=\"sample2_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   sample3.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFKernelPlugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"AFUtilityPlugin\"
-    conf=\"\" />\n\t\t<plugin name=\"Sample3Plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+    name=\"ark_kernel_plugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"ark_utility_plugin\"
+    conf=\"\" />\n\t\t<plugin name=\"sample3_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   sample4.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFPhysicPlugin\" conf=\"\"
-    />\n\t\t<plugin name=\"Sample4Plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_physic_plugin\" conf=\"\"
+    />\n\t\t<plugin name=\"sample4_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   sample5.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFUtilityPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFHttpPlugin\" conf=\"http.plugin.conf\"
-    />\n\t\t<plugin name=\"Sample5Plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_http_plugin\" conf=\"http.plugin.conf\"
+    />\n\t\t<plugin name=\"sample5_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   simulate.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"AFPhysicPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFBusPlugin\" conf=\"bus.plugin.conf\"
-    />\n\t\t<plugin name=\"AFNetPlugin\" conf=\"\" />\n\t\t<plugin name=\"AFConsulPlugin\"
-    conf=\"consul.plugin.conf\" />\n\t\t<plugin name=\"AFUtilityPlugin\" conf=\"\"
-    />\n\t\t<plugin name=\"AFSimulatePlugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
-  world.app.conf: "<xml>\n\t<plugins path=\"./\">\n\t\t<plugin name=\"AFKernelPlugin\"
-    />\n\t\t<plugin name=\"AFUtilityPlugin\" />\n\t\t<plugin name=\"AFConsulPlugin\"
-    />\n\t\t<plugin name=\"AFBusPlugin\" />\n\t\t<plugin name=\"AFNetPlugin\" />\n\t\t<plugin
-    name=\"AFWorldPlugin\" />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
+    name=\"ark_physic_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\"
+    />\n\t\t<plugin name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\"
+    conf=\"consul.plugin.conf\" />\n\t\t<plugin name=\"ark_utility_plugin\" conf=\"\"
+    />\n\t\t<plugin name=\"ark_simulate_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
+  world.app.conf: "<xml>\n\t<plugins path=\"./\">\n\t\t<plugin name=\"ark_kernel_plugin\"
+    />\n\t\t<plugin name=\"ark_utility_plugin\" />\n\t\t<plugin name=\"ark_consul_plugin\"
+    />\n\t\t<plugin name=\"ark_bus_plugin\" />\n\t\t<plugin name=\"ark_net_plugin\" />\n\t\t<plugin
+    name=\"ark_world_plugin\" />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
 kind: ConfigMap
 metadata:
   creationTimestamp: "2020-06-04T11:02:29Z"

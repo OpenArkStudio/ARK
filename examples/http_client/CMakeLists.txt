@@ -1,1 +1,1 @@
-BUILD_PLUGIN_MACRO(HttpClientSamplePlugin)
+BUILD_PLUGIN_MACRO(http_client_sample_plugin)

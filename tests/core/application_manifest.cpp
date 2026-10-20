@@ -79,8 +79,8 @@ DOCTEST_TEST_CASE("TOML and XML samples produce equivalent owning application ma
     DOCTEST_CHECK(toml.plugin_library_dir == "bin/");
     DOCTEST_CHECK(toml.plugin_config_dir == "conf/");
     DOCTEST_REQUIRE(toml.plugins.size() == 2);
-    DOCTEST_CHECK(toml.plugins.at("AFUtilityPlugin").empty());
-    DOCTEST_CHECK(toml.plugins.at("Sample1Plugin").empty());
+    DOCTEST_CHECK(toml.plugins.at("ark_utility_plugin").empty());
+    DOCTEST_CHECK(toml.plugins.at("sample1_plugin").empty());
     DOCTEST_CHECK(toml.plugin_library_dir == xml.plugin_library_dir);
     DOCTEST_CHECK(toml.plugin_config_dir == xml.plugin_config_dir);
     DOCTEST_CHECK(toml.plugins == xml.plugins);

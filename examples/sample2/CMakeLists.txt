@@ -1,1 +1,1 @@
-BUILD_PLUGIN_MACRO("Sample2Plugin")
+BUILD_PLUGIN_MACRO("sample2_plugin")
