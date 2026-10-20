@@ -22,7 +22,6 @@
 
 #include "ark/bus/bus_module.hpp"
 #include "ark/plugin_manager.hpp"
-#include "ark/xml.hpp"
 
 namespace ark {
 
@@ -55,11 +54,6 @@ public:
     bool get_other_proc(bus_id_t bus_id, proc_config& proc) const override;
 
     int get_other_proc(const app_type app_type, std::vector<const proc_config*>& proc_list) const override;
-
-protected:
-    bool load_bus_relation_config(xml_node& root_node);
-    bool load_reg_center_config(xml_node& root_node);
-    bool load_proc_config(xml_node& root_node);
 
 private:
     app_config app_config_;

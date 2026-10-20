@@ -105,6 +105,27 @@ if(ARK_BUILD_CONFIG)
         DEPENDS ark_plugin_configuration_tests USES_TERMINAL)
     add_dependencies(check-core check-plugin-configuration)
 
+    add_executable(ark_bus_configuration_tests main.cpp bus_configuration.cpp
+        ../../src/plugins/bus/bus_module_impl.cpp)
+    set_property(TARGET ark_bus_configuration_tests PROPERTY LINK_LIBRARIES ark::core tomlplusplus::tomlplusplus)
+    target_include_directories(ark_bus_configuration_tests PRIVATE "${PROJECT_SOURCE_DIR}/src/plugins")
+    target_compile_definitions(ark_bus_configuration_tests PRIVATE ARK_TEST_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+    add_custom_target(check-bus-configuration
+        COMMAND $<TARGET_FILE:ark_bus_configuration_tests>
+        DEPENDS ark_bus_configuration_tests USES_TERMINAL)
+    add_dependencies(check-core check-bus-configuration)
+
+    if(TARGET app AND TARGET ark_bus_plugin AND TARGET ark_net_plugin AND TARGET ark_utility_plugin)
+        add_custom_target(check-app-bus-configuration
+            COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:app>"
+                "-DPLUGIN_DIR=$<TARGET_FILE_DIR:ark_bus_plugin>"
+                "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"
+                "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/bus configuration app"
+                -P "${PROJECT_SOURCE_DIR}/tests/app/bus_configuration.cmake"
+            DEPENDS app ark_bus_plugin ark_net_plugin ark_utility_plugin USES_TERMINAL)
+        add_dependencies(check-core check-app-bus-configuration)
+    endif()
+
     if(TARGET app)
         add_library(ark_business_runtime_probe SHARED ../app/business_runtime_plugin.cpp)
         set_property(TARGET ark_business_runtime_probe PROPERTY LINK_LIBRARIES ark::core)

@@ -22,40 +22,71 @@ Bus 地址使用 `channel.zone.app.instance` 四段形式，例如 `1.1.31.1`。
 
 ## 配置进程与连接关系
 
-`bus_module::init()` 读取 `bus.plugin.conf` 的四个部分：
+`bus_module::init()` 读取 `bus.plugin.toml` 的四个部分：
 
 | 配置节点 | 内容 |
 | --- | --- |
-| `applications` | 应用名称与 `app_type` 数值的映射 |
-| `relations` | 有方向的连接目标：`source` 应连接到哪些 `target` 类型 |
-| `processes` | 每个 Bus ID 的监听端点、连接上限和线程配置 |
-| `center` | 注册中心参数，供 `get_reg_center()` 查询 |
+| `bus.applications` | 应用名称与 `app_type` 数值的映射 |
+| `bus.relations` | 有方向的连接目标：`source` 应连接到哪些 `target` 类型 |
+| `bus.processes` | 每个 Bus ID 的监听端点、连接上限和线程配置 |
+| `bus.registry` | 注册中心参数，供 `get_reg_center()` 查询 |
 
 下面说明 Game 与 World 两类进程的配置关系。内外端点使用不同端口，避免同时监听时冲突。
 
-```xml
-<xml>
-    <applications>
-        <application name="world" type="30" />
-        <application name="game" type="31" />
-    </applications>
-    <relations>
-        <relation source="game" target="world" />
-    </relations>
-    <processes>
-        <proc busid="1.1.30.1" endpoint_server="tcp://127.0.0.1:9101"
-            endpoint_intranet="tcp://127.0.0.1:9111" max_connection="100" thread_num="1" />
-        <proc busid="1.1.31.1" endpoint_server="tcp://127.0.0.1:9102"
-            endpoint_intranet="tcp://127.0.0.1:9112" max_connection="100" thread_num="1" />
-    </processes>
-    <center ip="127.0.0.1" port="8500" service_name="ark-service"
-        check_interval="10s" check_timeout="3s" />
-</xml>
+```toml
+[bus]
+[[bus.applications]]
+name = "world"
+type = 30
+[[bus.applications]]
+name = "game"
+type = 31
+[[bus.relations]]
+source = "game"
+target = "world"
+[[bus.processes]]
+bus_id = "1.1.30.1"
+server_endpoint = "tcp://127.0.0.1:9101"
+intranet_endpoint = "tcp://127.0.0.1:9111"
+max_connections = 100
+threads = 1
+[[bus.processes]]
+bus_id = "1.1.31.1"
+server_endpoint = "tcp://127.0.0.1:9102"
+intranet_endpoint = "tcp://127.0.0.1:9112"
+max_connections = 100
+threads = 1
+[bus.registry]
+host = "127.0.0.1"
+port = 8500
+service_name = "ark-service"
+check_interval = "10s"
+check_timeout = "3s"
 ```
 
 这是 Bus 配置示例，不是完整的双进程启动配置。应用还需加载 Bus、Net 及其依赖插件，设置各自的 Bus ID，启动监听并发起连接。`relations` 只提供目标类型列表；读取关系本身不会自动建立连接。
 
-`center` 有配置项不等于已启用动态注册或发现。当前网络服务管理模块中的 Consul 注册 / 健康检查发现路径仍为注释，不能依靠这份配置自动获得目标进程。
+`bus.registry` 有配置项不等于已启用动态注册或发现。当前网络服务管理模块中的 Consul 注册 / 健康检查发现路径仍为注释，不能依靠这份配置自动获得目标进程。
+
+## 迁移 XML 运行设置
+
+Bus 运行设置现在要求 TOML 内容，不能只修改旧 XML 文件的扩展名。将其替换为 `bus.plugin.toml`，并更新各应用清单中 `ark_bus_plugin` 的配置引用。源码配置位于 `config/bus.plugin.toml`，部署后仍使用运行目录的 `conf/` 前缀。应用清单仍支持 XML，业务数据 XML 保持不变。
+
+| XML 位置或属性 | TOML 位置或键 |
+| --- | --- |
+| `applications/application` | `[[bus.applications]]`；`name`、`type` 不变 |
+| `relations/relation` | `[[bus.relations]]`；`source`、`target` 不变 |
+| `processes/proc` | `[[bus.processes]]` |
+| `busid` | `bus_id` |
+| `endpoint_server`、`endpoint_intranet` | `server_endpoint`、`intranet_endpoint` |
+| `max_connection`、`thread_num` | `max_connections`、`threads` |
+| `center` / `ip` | `[bus.registry]` / `host`；其余键不变 |
+
+四个部分及其字段均为必填。数组可以为空：在 `[bus]` 中写入 `applications = []`、`relations = []`、`processes = []`。未知字段、TOML 类型错误或非法值会导致初始化失败；诊断包含文件、部分或数组下标以及字段。数值必须使用 TOML 整数：应用类型为 `1..254`，连接数上限为 `0..4294967295`，线程数为 `0..255`，注册中心端口为 `0..65535`。零值保留原有配置含义；解析器不启动服务，也不决定并发策略。
+
+Bus ID 必须恰好包含四个 `0..255` 的十进制分量。非空端点必须使用受支持的协议和 `protocol://host:port` 格式（可附加路径），端口为 `0..65535`。主机名原样保留，不进行 DNS 查询。IPv6 字面量必须加方括号，例如 `tcp://[::1]:9011`；解析器仅在本地校验其数值语法，保存供 arknet 使用的无方括号主机名 `::1`。公共端点格式化方法保持不变。端点仍可为空，表示禁用对应监听；两个端点分别校验。注册中心的检查间隔和超时字符串原样传递，不解释时长语法。
+
+公共 `app_config`、`proc_config`、`reg_center` 字段及查询方法不变。应用映射和其他进程映射中的重复键保留首条，本进程配置取最后一条匹配项；关系保留输入顺序及重复项。本进程未配置时仍保持未配置状态。这些设置不会启用服务发现或创建网络连接。私有解析器仅在启用配置或应用构建时使用已有的 toml++ 依赖。
 
 ## 查询本进程与目标进程
 
