@@ -290,6 +290,16 @@ bool main_loop() {
 #endif
 }
 
+void report_startup_failure(const char* detail) {
+    std::cerr << "Application startup failed";
+    const auto& failure = plugin_manager::instance()->get_startup_failure();
+    if (!failure.empty())
+    {
+        std::cerr << " at " << failure;
+    }
+    std::cerr << ": " << detail << std::endl;
+}
+
 int main(int argc, char* argv[]) {
     std::chrono::milliseconds shutdown_timeout{};
     if (!parse_args(argc, argv, shutdown_timeout))
@@ -310,10 +320,23 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    if (!plugin_manager::instance()->start(
-            date_time::get_now_time(), manifest.plugin_library_dir, manifest.plugin_config_dir, manifest.plugins))
+    try
     {
-        std::cerr << "Application startup failed" << std::endl;
+        if (!plugin_manager::instance()->start(
+                date_time::get_now_time(), manifest.plugin_library_dir, manifest.plugin_config_dir, manifest.plugins))
+        {
+            report_startup_failure("returned false");
+            return 1;
+        }
+    }
+    catch (const std::exception& error)
+    {
+        report_startup_failure(error.what());
+        return 1;
+    }
+    catch (...)
+    {
+        report_startup_failure("unknown exception");
         return 1;
     }
 

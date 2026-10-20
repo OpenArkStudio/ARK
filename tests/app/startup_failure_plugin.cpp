@@ -1,6 +1,7 @@
 // Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
 #include <cstdlib>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -13,7 +14,9 @@ class startup_failure_module final : public ark::module
 {
 public:
     void fail_at(std::string phase) {
-        failed_phase_ = std::move(phase);
+        const auto separator = phase.find(':');
+        behavior_ = separator == std::string::npos ? "false" : phase.substr(0, separator);
+        failed_phase_ = separator == std::string::npos ? std::move(phase) : phase.substr(separator + 1);
     }
 
     const std::string& get_name() const override {
@@ -58,10 +61,23 @@ public:
 private:
     bool record(std::string_view phase) {
         std::cerr << "app-startup-test:" << phase << '\n';
-        return phase != failed_phase_;
+        if (phase == failed_phase_)
+        {
+            if (behavior_ == "throw")
+            {
+                throw std::runtime_error("test startup exception in " + std::string(phase));
+            }
+            if (behavior_ == "unknown")
+            {
+                throw 7;
+            }
+            return false;
+        }
+        return true;
     }
 
     std::string failed_phase_;
+    std::string behavior_;
     bool updated_{};
 };
 
@@ -73,15 +89,22 @@ startup_failure_module fixture;
 ARK_EXPORT_FUNC void DllEntryPlugin(
     ark::plugin_manager* manager, const std::string& plugin_name, ark::logger* shared_logger) {
     ark::logger::init(shared_logger);
-    fixture.fail_at(manager->get_plugin_conf(plugin_name));
+    const auto& mode = manager->get_plugin_conf(plugin_name);
+    fixture.fail_at(mode);
     if (!manager->add_module(fixture.get_name(), &fixture) || !manager->add_update_module(&fixture))
     {
         std::cerr << "Startup test module registration failed\n";
         std::abort();
     }
+    if (mode == "throw:load_plugin")
+    {
+        std::cerr << "app-startup-test:load_plugin\n";
+        throw std::runtime_error("test plugin entry exception");
+    }
 }
 
 ARK_EXPORT_FUNC void DllExitPlugin(ark::plugin_manager* manager) {
+    std::cerr << "app-startup-test:uninstall\n";
     manager->remove_update_module(fixture.get_name());
     manager->remove_module(fixture.get_name());
 }

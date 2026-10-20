@@ -106,6 +106,7 @@ public:
             throw std::logic_error("Plugin manager cannot start during a lifecycle call or after shutdown begins");
         }
         phase_guard active(*this, call_phase::starting);
+        startup_failure_.clear();
         timestamp_ = timestamp;
 
         plugin_library_dir_ = lib_dir;
@@ -239,6 +240,11 @@ public:
     std::size_t pending_tasks() const {
         check_owner();
         return pending_tasks_unchecked();
+    }
+
+    const std::string& get_startup_failure() const {
+        check_owner();
+        return startup_failure_;
     }
 
     shutdown_state get_shutdown_state() const {
@@ -446,6 +452,7 @@ protected:
         for (auto const& iter : plugins_)
         {
             phase_guard installing(*this, call_phase::installing);
+            startup_failure_ = "load_plugin: " + iter.first;
             bool ret = load_plugin_library(iter.first);
             ARK_ASSERT_RET_VAL(ret, false);
         }
@@ -456,12 +463,14 @@ protected:
             module* module_ptr = iter.second;
             ARK_ASSERT_CONTINUE(module_ptr != nullptr);
 
+            startup_failure_ = "init: " + iter.first;
             if (!module_ptr->init())
             {
                 return false;
             }
         }
 
+        startup_failure_.clear();
         return true;
     }
 
@@ -471,12 +480,14 @@ protected:
             module* module_ptr = iter.second;
             ARK_ASSERT_CONTINUE(module_ptr != nullptr);
 
+            startup_failure_ = "post_init: " + iter.first;
             if (!module_ptr->post_init())
             {
                 return false;
             }
         }
 
+        startup_failure_.clear();
         return true;
     }
 
@@ -486,12 +497,14 @@ protected:
             module* module_ptr = iter.second;
             ARK_ASSERT_CONTINUE(module_ptr != nullptr);
 
+            startup_failure_ = "check_config: " + iter.first;
             if (!module_ptr->check_config())
             {
                 return false;
             }
         }
 
+        startup_failure_.clear();
         return true;
     }
 
@@ -501,12 +514,14 @@ protected:
             module* module_ptr = iter.second;
             ARK_ASSERT_CONTINUE(module_ptr != nullptr);
 
+            startup_failure_ = "pre_update: " + iter.first;
             if (!module_ptr->pre_update())
             {
                 return false;
             }
         }
 
+        startup_failure_.clear();
         return true;
     }
 
@@ -682,6 +697,7 @@ private:
     shutdown_state shutdown_state_{shutdown_state::running};
     std::exception_ptr shutdown_exception_;
     std::string shutdown_failure_;
+    std::string startup_failure_;
 
     // Bus id
     int bus_id_{0};

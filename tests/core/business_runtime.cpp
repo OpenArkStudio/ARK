@@ -348,6 +348,7 @@ TEST_CASE("Manager owner and active registry checks reject mutations before they
         rejects([&] { manager.get_tasks(module); });
         rejects([&] { manager.create_task_group(extra); });
         rejects([&] { manager.pending_tasks(); });
+        rejects([&] { manager.get_startup_failure(); });
         rejects([&] { manager.get_shutdown_state(); });
         rejects([&] { manager.get_shutdown_exception(); });
         rejects([&] { manager.get_shutdown_failure(); });
@@ -361,7 +362,7 @@ TEST_CASE("Manager owner and active registry checks reject mutations before they
         rejects([&] { tasks.start(ready_task()); });
     });
     worker.join();
-    CHECK(rejected == 15);
+    CHECK(rejected == 16);
     module.on_update = [&] {
         CHECK_THROWS_AS(manager.update(1), std::logic_error);
         CHECK_THROWS_AS(manager.remove_module(module.get_name()), std::logic_error);

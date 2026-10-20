@@ -1,6 +1,7 @@
 // Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
 #include <array>
 #include <cstddef>
+#include <stdexcept>
 #include <string>
 
 #include "../network/doctest.h"
@@ -20,11 +21,20 @@ enum class startup_phase : std::size_t
 
 constexpr std::array phase_names{"init", "post_init", "check_config", "pre_update"};
 
+enum class failure_mode
+{
+    false_result,
+    standard_exception,
+    unknown_exception
+};
+
 class counted_module final : public ark::module
 {
 public:
-    explicit counted_module(startup_phase failed_phase = startup_phase::none)
-        : failed_phase_(failed_phase) {
+    explicit counted_module(
+        startup_phase failed_phase = startup_phase::none, failure_mode mode = failure_mode::false_result)
+        : failed_phase_(failed_phase)
+        , mode_(mode) {
     }
 
     bool init() override {
@@ -43,15 +53,44 @@ public:
         return record(startup_phase::pre_update);
     }
 
+    bool update() override {
+        ++late_calls;
+        return true;
+    }
+
+    bool pre_shut() override {
+        ++late_calls;
+        return true;
+    }
+
+    bool shut() override {
+        ++late_calls;
+        return true;
+    }
+
     std::array<unsigned, phase_names.size()> calls{};
+    unsigned late_calls{};
 
 private:
     bool record(startup_phase phase) {
         ++calls[static_cast<std::size_t>(phase)];
-        return phase != failed_phase_;
+        if (phase == failed_phase_)
+        {
+            if (mode_ == failure_mode::standard_exception)
+            {
+                throw std::runtime_error("startup module exception");
+            }
+            if (mode_ == failure_mode::unknown_exception)
+            {
+                throw 91;
+            }
+            return false;
+        }
+        return true;
     }
 
     startup_phase failed_phase_;
+    failure_mode mode_;
 };
 
 class unconfigured_logger_scope
@@ -84,7 +123,9 @@ TEST_CASE("Plugin startup calls each successful module phase once") {
         REQUIRE(manager.add_module("counted-module-" + std::to_string(index), &modules[index]));
     }
 
+    CHECK(manager.get_startup_failure().empty());
     CHECK(start(manager));
+    CHECK(manager.get_startup_failure().empty());
     for (const auto& module : modules)
     {
         CHECK(module.calls == std::array<unsigned, 4>{1, 1, 1, 1});
@@ -100,6 +141,8 @@ TEST_CASE("Plugin startup returns false without repeating a failed phase or runn
         REQUIRE(manager.add_module("counted-module-single", &module));
 
         CHECK_FALSE(start(manager));
+        CHECK(manager.get_startup_failure() == std::string(phase_names[failed]) + ": counted-module-single");
+        CHECK(module.late_calls == 0);
         for (std::size_t phase = 0; phase < phase_names.size(); ++phase)
         {
             CHECK(module.calls[phase] == (phase <= failed ? 1u : 0u));
@@ -110,26 +153,43 @@ TEST_CASE("Plugin startup returns false without repeating a failed phase or runn
 TEST_CASE("Plugin startup stops a phase at its first failure independently of module iteration order") {
     for (std::size_t failed = 0; failed < phase_names.size(); ++failed)
     {
-        CAPTURE(std::string(phase_names[failed]));
-        ark::plugin_manager manager;
-        std::array modules{counted_module(static_cast<startup_phase>(failed)),
-            counted_module(static_cast<startup_phase>(failed)), counted_module(static_cast<startup_phase>(failed))};
-        for (std::size_t index = 0; index < modules.size(); ++index)
+        for (const auto mode : {failure_mode::false_result, failure_mode::standard_exception})
         {
-            REQUIRE(manager.add_module("counted-module-" + std::to_string(index), &modules[index]));
-        }
-
-        CHECK_FALSE(start(manager));
-        for (std::size_t phase = 0; phase < phase_names.size(); ++phase)
-        {
-            unsigned phase_calls = 0;
-            for (const auto& module : modules)
+            CAPTURE(std::string(phase_names[failed]));
+            ark::plugin_manager manager;
+            std::array modules{counted_module(static_cast<startup_phase>(failed), mode),
+                counted_module(static_cast<startup_phase>(failed), mode),
+                counted_module(static_cast<startup_phase>(failed), mode)};
+            for (std::size_t index = 0; index < modules.size(); ++index)
             {
-                CHECK(module.calls[phase] <= 1);
-                phase_calls += module.calls[phase];
+                REQUIRE(manager.add_module("counted-module-" + std::to_string(index), &modules[index]));
             }
-            const auto expected = phase < failed ? modules.size() : phase == failed ? 1u : 0u;
-            CHECK(phase_calls == expected);
+
+            if (mode == failure_mode::false_result)
+            {
+                CHECK_FALSE(start(manager));
+            }
+            else
+            {
+                CHECK_THROWS_WITH_AS(start(manager), "startup module exception", std::runtime_error);
+            }
+            for (std::size_t phase = 0; phase < phase_names.size(); ++phase)
+            {
+                unsigned phase_calls = 0;
+                for (const auto& module : modules)
+                {
+                    CHECK(module.calls[phase] <= 1);
+                    phase_calls += module.calls[phase];
+                    if (phase == failed && module.calls[phase] == 1)
+                    {
+                        const auto index = static_cast<std::size_t>(&module - modules.data());
+                        CHECK(manager.get_startup_failure() ==
+                              std::string(phase_names[failed]) + ": counted-module-" + std::to_string(index));
+                    }
+                }
+                const auto expected = phase < failed ? modules.size() : phase == failed ? 1u : 0u;
+                CHECK(phase_calls == expected);
+            }
         }
     }
 }
@@ -144,4 +204,31 @@ TEST_CASE("Plugin startup returns false without a configured logger") {
     CHECK_NOTHROW(started = start(manager));
     CHECK_FALSE(started);
     CHECK(module.calls == std::array<unsigned, 4>{1, 0, 0, 0});
+}
+
+TEST_CASE("Startup exceptions preserve the first module and phase without cleanup or exception translation") {
+    for (std::size_t failed = 0; failed < phase_names.size(); ++failed)
+    {
+        for (const auto mode : {failure_mode::standard_exception, failure_mode::unknown_exception})
+        {
+            CAPTURE(std::string(phase_names[failed]));
+            ark::plugin_manager manager;
+            counted_module module(static_cast<startup_phase>(failed), mode);
+            REQUIRE(manager.add_module("throwing-module", &module));
+            if (mode == failure_mode::standard_exception)
+            {
+                CHECK_THROWS_WITH_AS(start(manager), "startup module exception", std::runtime_error);
+            }
+            else
+            {
+                CHECK_THROWS_AS(start(manager), int);
+            }
+            CHECK(manager.get_startup_failure() == std::string(phase_names[failed]) + ": throwing-module");
+            CHECK(module.late_calls == 0);
+            for (std::size_t phase = 0; phase < phase_names.size(); ++phase)
+            {
+                CHECK(module.calls[phase] == (phase <= failed ? 1u : 0u));
+            }
+        }
+    }
 }
