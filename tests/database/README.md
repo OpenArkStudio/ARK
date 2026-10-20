@@ -187,6 +187,12 @@ peers. `ark_database_public_redis_plugin_tests` and
 libraries. The migrated samples are also compiled by `check-database`. MySQL
 checks require SSL; real-server targets still require explicit endpoint settings.
 
+The public MySQL peer also holds the sole pool lease in a transaction and fills
+the one-waiter limit before cancelling the waiting query. It verifies a known-unsent
+cancellation, owner-thread delivery, the still-usable transaction and query/prepared
+work on the same socket during manager drain. This is a local protocol regression,
+not real-server cancellation acceptance.
+
 ## Public modules against real services
 
 `ark_database_public_service_tests` calls the public `mysql_module` and
