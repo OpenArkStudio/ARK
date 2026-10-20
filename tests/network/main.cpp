@@ -4,10 +4,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT
 #include "doctest.h"
 
-#include "ark/http/http_plugin.hpp"
 #include "ark/logger.hpp"
-
-std::string ark::http_plugin::plugin_conf_;
 
 int main(int argc, char** argv) {
     ark::logger logger;

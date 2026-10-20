@@ -30,7 +30,7 @@ void http_plugin::install() {
 }
 
 void http_plugin::uninstall() {
-    ARK_DEREGISTER_MODULE(http_server_module, http_server_module_impl);
+    ARK_UNREGISTER_MODULE(http_server_module, http_server_module_impl);
 }
 
 } // namespace ark

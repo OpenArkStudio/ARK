@@ -1,5 +1,6 @@
 #include <google/protobuf/util/json_util.h>
 
+#include "../detail/plugin_configuration.hpp"
 #include "ark/consul/consul_module_impl.hpp"
 #include "ark/consul/consul_plugin.hpp"
 
@@ -32,16 +33,9 @@ bool consul_module_impl::init() {
 // }
 
 bool consul_module_impl::load_config() {
-    xml xml(consul_plugin::get_plugin_conf());
-    auto root = xml.get_root_node();
-    ARK_ASSERT_RET_VAL(root.is_valid(), false);
-
-    auto conf_node = root.find_node("conf");
-    ARK_ASSERT_RET_VAL(conf_node.is_valid(), false);
-
-    consul_ip_ = conf_node.get_string("ip");
-    consul_port_ = conf_node.get_uint32("port");
-
+    const auto config = plugin_config_detail::load_consul(consul_plugin::get_plugin_conf());
+    consul_ip_ = config.host;
+    consul_port_ = config.port;
     return true;
 }
 

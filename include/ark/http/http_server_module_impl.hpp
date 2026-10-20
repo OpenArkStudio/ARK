@@ -38,7 +38,7 @@ public:
     bool pre_shut() override;
 
     bool start_server() override;
-    bool start_server(std::string const& ip = "0.0.0.0", uint16_t port = 8080, uint8_t thread_num = 1) override;
+    bool start_server(std::string const& ip, uint16_t port = 8080, uint8_t thread_num = 1) override;
 
     arknet::http_router& get_router() override {
         return router_;
