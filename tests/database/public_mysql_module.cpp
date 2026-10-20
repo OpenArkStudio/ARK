@@ -1,7 +1,9 @@
 // Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
 #include <atomic>
 #include <chrono>
+#include <cstddef>
 #include <exception>
+#include <optional>
 #include <thread>
 #include <vector>
 
@@ -142,11 +144,11 @@ struct module_owner
         REQUIRE(database.init());
     }
 
-    void configure(mysql_peer& peer, bool tls = false) {
+    void configure(mysql_peer& peer, bool tls = false, std::size_t max_waiters = 8) {
         ark::mysql_options options;
         options.pool.connection = options_for(peer, tls);
         options.pool.max_connections = 1;
-        options.pool.max_waiters = 8;
+        options.pool.max_waiters = max_waiters;
         options.max_transactions = 2;
         REQUIRE(database.configure("primary", std::move(options)));
     }
@@ -195,6 +197,40 @@ ark::task<> transact(ark::mysql_module& database, bool commit, bool abandon, ark
     REQUIRE(result);
     CHECK(result.transaction_status.outcome ==
           (commit ? ark::mysql_transaction_outcome::committed : ark::mysql_transaction_outcome::rolled_back));
+}
+
+struct queued_query_report
+{
+    std::optional<ark::mysql_reply> reply;
+    std::exception_ptr failure;
+    unsigned completions{};
+    bool resumed_on_owner{};
+};
+
+ark::task<> collect_queued_query(
+    module_owner& owner, std::string sql, queued_query_report& report, std::thread::id thread) {
+    report.reply.emplace(co_await owner.database.query("primary", std::move(sql)));
+    report.resumed_on_owner = std::this_thread::get_id() == thread &&
+                              owner.manager.get_task_runtime()->get_executor().running_in_this_thread();
+}
+
+ark::task<> hold_transaction(ark::mysql_module& database, ark::mysql_transaction_id& id) {
+    auto begun = co_await database.begin("primary", {4s, 500ms});
+    REQUIRE(begun);
+    REQUIRE(begun.transaction_status.outcome == ark::mysql_transaction_outcome::active);
+    id = begun.transaction;
+}
+
+ark::task<> reuse_after_queued_cancellation(
+    module_owner& owner, ark::mysql_transaction_id id, std::vector<ark::mysql_reply>& replies, std::thread::id thread) {
+    const auto changed = co_await owner.database.query(id, "UPDATE records SET value=42");
+    REQUIRE(changed);
+    const auto rolled_back = co_await owner.database.rollback(id);
+    REQUIRE(rolled_back);
+    REQUIRE(rolled_back.transaction_status.outcome == ark::mysql_transaction_outcome::rolled_back);
+    co_await query_and_execute(owner.database, replies);
+    CHECK(std::this_thread::get_id() == thread);
+    CHECK(owner.manager.get_task_runtime()->get_executor().running_in_this_thread());
 }
 } // namespace
 
@@ -307,4 +343,95 @@ TEST_CASE("Public MySQL cancellation retires sent work without replay during man
     owner.stop();
     peer.finish();
     CHECK(seen.queries == 1);
+}
+
+TEST_CASE("Public MySQL cancels a queued acquire without losing its transaction lease or pool capacity") {
+    observed_commands seen;
+    mysql_peer peer([&seen](mysql_peer& server) { return serve(server, seen, true); });
+    queued_query_report waiting, overflow;
+    std::vector<ark::mysql_reply> reused;
+    std::exception_ptr failure;
+    ark::mysql_transaction_id transaction{};
+    module_owner owner;
+    owner.configure(peer, true, 1);
+    auto& tasks = owner.manager.create_task_group(owner.database);
+    const auto thread = std::this_thread::get_id();
+
+    // Drain before destroying reports captured by pending completions, including
+    // when an assertion below unwinds the host stack.
+    struct drain_guard
+    {
+        module_owner& owner;
+        ark::task_group& tasks;
+
+        ~drain_guard() {
+            tasks.cancel_all();
+            owner.stop();
+        }
+    } guard{owner, tasks};
+
+    REQUIRE(tasks.start(hold_transaction(owner.database, transaction), [&](auto error) { failure = error; }));
+    owner.drain();
+    REQUIRE_FALSE(failure);
+    REQUIRE(transaction != 0);
+
+    const auto queued =
+        tasks.start(collect_queued_query(owner, "must remain unsent", waiting, thread), [&](auto error) {
+            waiting.failure = error;
+            ++waiting.completions;
+            CHECK(std::this_thread::get_id() == thread);
+        });
+    REQUIRE(queued);
+    REQUIRE(owner.manager.update(0));
+    REQUIRE(tasks.start(collect_queued_query(owner, "must not fit", overflow, thread), [&](auto error) {
+        overflow.failure = error;
+        ++overflow.completions;
+        CHECK(std::this_thread::get_id() == thread);
+    }));
+    const auto deadline = std::chrono::steady_clock::now() + 3s;
+    while (!overflow.completions && std::chrono::steady_clock::now() < deadline)
+    {
+        REQUIRE(owner.manager.update(0));
+        std::this_thread::sleep_for(1ms);
+    }
+    REQUIRE(overflow.completions == 1);
+    REQUIRE_FALSE(overflow.failure);
+    REQUIRE(overflow.reply);
+    REQUIRE(overflow.reply->result.status.code == arknet::mysql::connection_errc::queue_full);
+    CHECK_FALSE(overflow.reply->result.status.outcome_unknown);
+    CHECK(overflow.resumed_on_owner);
+    // A held sole lease plus a full one-waiter pool establishes waiting state;
+    // elapsed time is not used to infer whether a query has been sent.
+    REQUIRE_FALSE(waiting.reply);
+    REQUIRE(waiting.completions == 0);
+    CHECK(seen.queries == 0);
+    REQUIRE(tasks.cancel(queued));
+    owner.drain();
+    REQUIRE(waiting.completions == 1);
+    REQUIRE_FALSE(waiting.failure);
+    REQUIRE(waiting.reply);
+    CHECK(waiting.reply->result.status.code == arknet::mysql::connection_errc::cancelled);
+    CHECK_FALSE(waiting.reply->result.status.outcome_unknown);
+    CHECK(waiting.resumed_on_owner);
+    CHECK(seen.queries == 0);
+
+    REQUIRE(tasks.start(
+        reuse_after_queued_cancellation(owner, transaction, reused, thread), [&](auto error) { failure = error; }));
+    REQUIRE(owner.manager.update(0));
+    CHECK_FALSE(owner.manager.stop(0));
+    owner.stop();
+    REQUIRE_FALSE(failure);
+    REQUIRE(reused.size() == 2);
+    CHECK(bool(reused[0]));
+    CHECK(bool(reused[1]));
+    CHECK(waiting.completions == 1);
+    CHECK(overflow.completions == 1);
+    peer.finish();
+    // This peer accepts one socket only: successful later work demonstrates
+    // reuse of that connection, not replacement after cancelling a waiter.
+    CHECK(seen.queries == 2);
+    CHECK(seen.rollbacks == 1);
+    CHECK(seen.prepares == 1);
+    CHECK(seen.executes == 1);
+    CHECK(seen.closes == 1);
 }

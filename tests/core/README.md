@@ -16,6 +16,10 @@ Run `core-build/tests/core/ark_core_tests --help` for doctest filters. `check-ne
 also runs these tests when `ARK_BUILD_CORE_TESTS=ON`, including in the existing CI
 matrix. No database service is required.
 
+The public header checks include `<ark/error_code.hpp>` as the first include and
+include it twice. Compile-time checks preserve its unsigned 32-bit underlying type
+and every declared error value.
+
 With `ARK_BUILD_PROTO=ON`, additional cases verify Protobuf parse failures, actor
 identity, binary messages, legacy wire payloads and external JSON field names.
 They also exercise the new `ark::protobuf` descriptor and enum names.

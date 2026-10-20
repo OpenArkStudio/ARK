@@ -20,9 +20,11 @@
 
 #pragma once
 
+#include <cstdint>
+
 namespace ark {
 
-enum class error_code : uint32_t
+enum class error_code : std::uint32_t
 {
     success = 0,
 
