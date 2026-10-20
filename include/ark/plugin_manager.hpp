@@ -453,8 +453,10 @@ protected:
         {
             phase_guard installing(*this, call_phase::installing);
             startup_failure_ = "load_plugin: " + iter.first;
-            bool ret = load_plugin_library(iter.first);
-            ARK_ASSERT_RET_VAL(ret, false);
+            if (!load_plugin_library(iter.first))
+            {
+                return false;
+            }
         }
 
         // initialize all modules
@@ -606,7 +608,13 @@ protected:
         {
             plugin_libs_.insert(std::make_pair(plugin_name, library));
             auto func = reinterpret_cast<dll_entry_plugin_func>(library->get_symbol("DllEntryPlugin"));
-            ARK_ASSERT_RET_VAL(func != nullptr, false);
+            if (func == nullptr)
+            {
+                ARK_LOG_ERROR("Shared library[{}] has no DllEntryPlugin entrypoint", library->get_name());
+                // Keep an already loaded handle until process exit. Static
+                // initializers may have started work before symbol validation.
+                return false;
+            }
             func(this, plugin_name, logger::instance());
 
             return true;
@@ -619,10 +627,10 @@ protected:
             auto error = dlerror();
 #endif
             ARK_LOG_ERROR("Load shared library[{}] failed, ErrorNo[{}]", library->get_name(), error);
-            ARK_ASSERT_RET_VAL(0, false);
+            // Native loading failed, so this object owns no loaded handle.
+            ARK_DELETE(library);
+            return false;
         }
-
-        return true;
     }
 
     auto unload_plugin_library(const std::string& plugin_name) -> bool {

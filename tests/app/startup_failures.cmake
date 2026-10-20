@@ -16,20 +16,27 @@ string(REPLACE "\"" "\\\"" toml_plugin_directory "${plugin_directory}")
 set(plugin_name ark_app_startup_failure_plugin)
 
 foreach(mode false:init false:post_init false:check_config false:pre_update
-    throw:init throw:post_init throw:check_config throw:pre_update unknown:init throw:load_plugin)
+    throw:init throw:post_init throw:check_config throw:pre_update unknown:init throw:load_plugin missing_library:load_plugin missing_entry:load_plugin)
     string(REPLACE ":" ";" parts "${mode}")
     list(GET parts 0 behavior)
     list(GET parts 1 failed_phase)
+    if(behavior STREQUAL "missing_library")
+        set(case_plugin ark_app_missing_library_plugin)
+    elseif(behavior STREQUAL "missing_entry")
+        set(case_plugin ark_app_missing_entry_plugin)
+    else()
+        set(case_plugin "${plugin_name}")
+    endif()
     foreach(format toml app.conf)
         set(manifest "${RUNTIME_DIR}/${behavior}-${failed_phase}.${format}")
         if(format STREQUAL "toml")
             file(WRITE "${manifest}"
                 "[application]\nplugin_library_dir = \"${toml_plugin_directory}\"\n"
-                "[[plugins]]\nname = \"${plugin_name}\"\nconfig = \"${mode}\"\n")
+                "[[plugins]]\nname = \"${case_plugin}\"\nconfig = \"${mode}\"\n")
         else()
             file(WRITE "${manifest}"
                 "<xml><plugins plugin_lib_dir=\"${xml_plugin_directory}\">"
-                "<plugin name=\"${plugin_name}\" conf=\"${mode}\"/></plugins></xml>\n")
+                "<plugin name=\"${case_plugin}\" conf=\"${mode}\"/></plugins></xml>\n")
         endif()
         execute_process(
             COMMAND "${PROGRAM}" --busid=1.0.1.1 --name=startup-error-test
@@ -47,7 +54,7 @@ foreach(mode false:init false:post_init false:check_config false:pre_update
             message(FATAL_ERROR "${failed_phase}/${format}: expected normal exit 1, got ${result}\n${output}\n${errors}")
         endif()
         if(failed_phase STREQUAL "load_plugin")
-            set(owner "${plugin_name}")
+            set(owner "${case_plugin}")
         else()
             set(owner app_startup_failure_module)
         endif()
@@ -71,8 +78,12 @@ foreach(mode false:init false:post_init false:check_config false:pre_update
         elseif(behavior STREQUAL "unknown" AND NOT errors MATCHES "unknown exception")
             message(FATAL_ERROR "${mode}/${format}: unknown exception was not identified\n${errors}")
         endif()
-        set(expected)
-        if(failed_phase STREQUAL "load_plugin")
+        set(expected "")
+        if(behavior STREQUAL "missing_entry")
+            list(APPEND expected "app-startup-test:library_loaded")
+        elseif(behavior STREQUAL "missing_library")
+            # No module or library initializer can run for a missing file.
+        elseif(failed_phase STREQUAL "load_plugin")
             list(APPEND expected "app-startup-test:load_plugin")
         else()
             foreach(phase init post_init check_config pre_update)
@@ -83,7 +94,7 @@ foreach(mode false:init false:post_init false:check_config false:pre_update
             endforeach()
         endif()
         string(REGEX MATCHALL "app-startup-test:[a-z_]+" observed "${errors}")
-        if(NOT observed STREQUAL expected)
+        if(NOT "${observed}" STREQUAL "${expected}")
             message(FATAL_ERROR "${failed_phase}/${format}: unexpected lifecycle calls\nexpected=${expected}\nobserved=${observed}\n${errors}")
         endif()
         message(STATUS "${mode}/${format}: diagnostic and normal exit 1; no later phase, update, shutdown or uninstall call")
