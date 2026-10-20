@@ -186,3 +186,55 @@ peers. `ark_database_public_redis_plugin_tests` and
 `ark_database_public_mysql_plugin_tests` load actual hidden-symbol plugin
 libraries. The migrated samples are also compiled by `check-database`. MySQL
 checks require SSL; real-server targets still require explicit endpoint settings.
+
+## Public modules against real services
+
+`ark_database_public_service_tests` calls the public `mysql_module` and
+`redis_module` interfaces with their real implementations, a registered consumer's
+`task_group`, and the manager's shared `manual_runtime`. It is a separate C++
+executable; `check-database` compiles it without running it or connecting to a server.
+
+```sh
+cmake --build database-build --target ark_database_public_service_tests --parallel 2
+# Configure the isolated endpoints first, then choose either protocol or both.
+bash scripts/test_databases.sh database-build public-redis
+bash scripts/test_databases.sh database-build public-mysql
+bash scripts/test_databases.sh database-build public-services
+# Equivalent direct invocations:
+./database-build/tests/database/ark_database_public_service_tests redis
+./database-build/tests/database/ark_database_public_service_tests mysql
+```
+
+Redis requires `ARK_DATABASE_REDIS_HOST` and `ARK_DATABASE_REDIS_PORT`. Optional
+`ARK_DATABASE_REDIS_USER` and `ARK_DATABASE_REDIS_PASSWORD` configure authentication;
+use an authenticated disposable service to verify that path. The check mutates the
+caller's configuration after registration, verifies an ordered binary ECHO/ECHO/PING
+pipeline and a follow-up command, and makes no writes.
+
+MySQL requires `ARK_DATABASE_MYSQL_HOST`, `ARK_DATABASE_MYSQL_PORT`,
+`ARK_DATABASE_MYSQL_USER`, `ARK_DATABASE_MYSQL_PASSWORD` (present, possibly empty),
+`ARK_DATABASE_MYSQL_DATABASE` and `ARK_DATABASE_MYSQL_CA`. TLS and peer verification
+are required. Use a disposable schema and an account with CREATE, DROP, SELECT and
+INSERT privileges. The check creates a unique `ark_public_service_...` InnoDB
+table, exercises text queries, binary prepared results, transaction queries and
+prepared inserts, then verifies committed data and the absence of rolled-back
+data. It drops its table after the workflow, including assertion failures when the
+connection remains usable. A failed connection, active transaction cleanup, or
+forced process exit can leave the table for disposable-schema cleanup.
+
+Both protocols assert owner-thread/shared-executor coroutine resumption, input and
+configuration ownership, and result ownership after subsequent operations and
+module/runtime destruction. The manager enters natural drain with accepted work
+pending; follow-up requests finish before successful, idempotent stop. There is no
+cancellation or service fault injection in these real-service cases. Each protocol
+also repeats its workflow with deliberate host-stack unwinding while IO is pending:
+named coroutine functions own their input values, the owner destructor drains the
+workflow, and the outer scope verifies its completion and retained results.
+Protocol-peer and DSO regressions remain separate checks; these results do not establish dynamic-library
+unloading, failure recovery or capacity acceptance.
+
+The executable requires explicit endpoints, returns nonzero for missing/invalid
+configuration or failure, and does not print credentials or arbitrary native error
+messages. It never starts or stops servers. `all` also includes both public
+real-service modes and therefore requires an SSL-enabled build and both endpoint
+configurations.
