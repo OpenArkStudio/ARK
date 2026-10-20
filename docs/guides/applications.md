@@ -95,7 +95,7 @@ If a shutdown hook returns `false` or throws, the launcher reports its phase, mo
 
 <Aside type="caution" title="Do not use process survival as the readiness check">
 
-Manifest loading or validation failures return exit code `1` before plugin startup. If `plugin_manager::start()` returns `false`, the launcher reports a startup failure and returns `1` before entering the update loop or starting the Windows command thread. Completed startup work is not automatically rolled back. Argument parsing failures, including help handling, still return `0`. Check the expected module's initialization log and application-specific readiness before routing traffic to a process. A running PID or a zero exit status alone is insufficient.
+Manifest loading or validation failures return exit code `1` before plugin startup. If `plugin_manager::start()` returns `false` or a module/plugin startup exception propagates, the launcher reports the failing phase, module or plugin and available exception details, then returns `1` before entering the update loop or starting the Windows command thread. The launcher does not roll back partial startup, run normal shutdown hooks or retry in the same process. Deployment tools should start a fresh process after this failure exit. Missing libraries or `DllEntryPlugin` entrypoints also report `load_plugin: <plugin>` and return `1`. An already loaded library missing its entrypoint is retained until process exit; it is not automatically unloaded. Argument parsing failures, including help handling, still return `0`. Check the expected module's initialization log and application-specific readiness before routing traffic to a process. A running PID or a zero exit status alone is insufficient.
 
 </Aside>
 

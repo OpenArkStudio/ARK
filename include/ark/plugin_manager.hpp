@@ -106,6 +106,7 @@ public:
             throw std::logic_error("Plugin manager cannot start during a lifecycle call or after shutdown begins");
         }
         phase_guard active(*this, call_phase::starting);
+        startup_failure_.clear();
         timestamp_ = timestamp;
 
         plugin_library_dir_ = lib_dir;
@@ -239,6 +240,11 @@ public:
     std::size_t pending_tasks() const {
         check_owner();
         return pending_tasks_unchecked();
+    }
+
+    const std::string& get_startup_failure() const {
+        check_owner();
+        return startup_failure_;
     }
 
     shutdown_state get_shutdown_state() const {
@@ -445,8 +451,11 @@ protected:
         for (auto const& iter : plugins_)
         {
             phase_guard installing(*this, call_phase::installing);
-            bool ret = load_plugin_library(iter.first);
-            ARK_ASSERT_RET_VAL(ret, false);
+            startup_failure_ = "load_plugin: " + iter.first;
+            if (!load_plugin_library(iter.first))
+            {
+                return false;
+            }
         }
 
         // initialize all modules
@@ -455,12 +464,14 @@ protected:
             module* module_ptr = iter.second;
             ARK_ASSERT_CONTINUE(module_ptr != nullptr);
 
+            startup_failure_ = "init: " + iter.first;
             if (!module_ptr->init())
             {
                 return false;
             }
         }
 
+        startup_failure_.clear();
         return true;
     }
 
@@ -470,12 +481,14 @@ protected:
             module* module_ptr = iter.second;
             ARK_ASSERT_CONTINUE(module_ptr != nullptr);
 
+            startup_failure_ = "post_init: " + iter.first;
             if (!module_ptr->post_init())
             {
                 return false;
             }
         }
 
+        startup_failure_.clear();
         return true;
     }
 
@@ -485,12 +498,14 @@ protected:
             module* module_ptr = iter.second;
             ARK_ASSERT_CONTINUE(module_ptr != nullptr);
 
+            startup_failure_ = "check_config: " + iter.first;
             if (!module_ptr->check_config())
             {
                 return false;
             }
         }
 
+        startup_failure_.clear();
         return true;
     }
 
@@ -500,12 +515,14 @@ protected:
             module* module_ptr = iter.second;
             ARK_ASSERT_CONTINUE(module_ptr != nullptr);
 
+            startup_failure_ = "pre_update: " + iter.first;
             if (!module_ptr->pre_update())
             {
                 return false;
             }
         }
 
+        startup_failure_.clear();
         return true;
     }
 
@@ -590,7 +607,13 @@ protected:
         {
             plugin_libs_.insert(std::make_pair(plugin_name, library));
             auto func = reinterpret_cast<dll_entry_plugin_func>(library->get_symbol("DllEntryPlugin"));
-            ARK_ASSERT_RET_VAL(func != nullptr, false);
+            if (func == nullptr)
+            {
+                ARK_LOG_ERROR("Shared library[{}] has no DllEntryPlugin entrypoint", library->get_name());
+                // Keep an already loaded handle until process exit. Static
+                // initializers may have started work before symbol validation.
+                return false;
+            }
             func(this, plugin_name, logger::instance());
 
             return true;
@@ -603,10 +626,10 @@ protected:
             auto error = dlerror();
 #endif
             ARK_LOG_ERROR("Load shared library[{}] failed, ErrorNo[{}]", library->get_name(), error);
-            ARK_ASSERT_RET_VAL(0, false);
+            // Native loading failed, so this object owns no loaded handle.
+            ARK_DELETE(library);
+            return false;
         }
-
-        return true;
     }
 
     auto unload_plugin_library(const std::string& plugin_name) -> bool {
@@ -681,6 +704,7 @@ private:
     shutdown_state shutdown_state_{shutdown_state::running};
     std::exception_ptr shutdown_exception_;
     std::string shutdown_failure_;
+    std::string startup_failure_;
 
     // Bus id
     int bus_id_{0};
