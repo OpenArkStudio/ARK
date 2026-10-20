@@ -1,6 +1,6 @@
 # CI 策略测试
 
-使用原生 Node 测试入口，不需要安装 npm 包：
+使用原生 Node 测试入口，不需要安装 npm 包；Windows 运行时路径导出的跨平台测试需要 CMake 3.21 或更新版本：
 
 ```sh
 node --test tests/ci/*.test.mjs
@@ -48,6 +48,15 @@ README 徽章展示合并候选的工作流状态。
 只有根 README 变更时才检查其本地文件链接，包含图片、HTML `srcset` 和引用式链接。
 检查器覆盖这些 README 使用的表达形式，不是完整的 Markdown 解析器；不验证远程 URL 或标题锚点。
 Nimbus 检查单独验证生成文档站内的链接与锚点，不包含根 README 的标题锚点。
+
+Windows Applications CI 通过 `VCPKG_APPLOCAL_DEPS=OFF` 关闭 vcpkg 对每个目标执行的本地依赖复制。
+固定版本的工具链默认会在共享库和可执行文件构建后复制依赖，其中多个目标使用同一个输出目录。
+配置完成后，`windows-runtime.cmake` 从真实的 `CMakeCache.txt` 读取依赖安装根目录、目标 triplet 与构建配置。
+脚本要求对应的依赖 `bin` 目录存在，并通过 `GITHUB_PATH` 只导出该目录，使后续并行构建、回归目标与应用子进程继承此路径。
+Debug 使用 `debug/bin`，发布类配置使用 `bin`，不回退到其他配置。缓存参数无效、运行时目录缺失或输出通道不可用时，任务明确失败。
+Network、Database 和普通开发构建保留现有行为。测试实际执行 CMake 缓存加载、目录选择、子进程 PATH 继承与错误传递。
+这一调整移除了共享输出目录中的本地依赖复制写入，但不能据此确认已观察到的 Windows 文件锁由哪个进程持有。
+真实 DLL 加载和完整应用回归仍须由 Windows CI 验收。
 
 vcpkg 缓存测试覆盖 Windows/Unix 归档路径、依赖和执行机镜像变化引起的 key 变化、
 缓存配置导出、目录不可用，以及明确的无缓存构建路径。C++ CI 通过 Actions 缓存本地依赖包归档，

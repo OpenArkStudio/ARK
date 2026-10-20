@@ -201,6 +201,7 @@ jobs:
           "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
           "-DVCPKG_MANIFEST_FEATURES=application;boost"
           -DCMAKE_BUILD_TYPE=Debug
+          ${{ runner.os == 'Windows' && '-DVCPKG_APPLOCAL_DEPS=OFF' || '' }}
           -DARK_BUILD_APPLICATIONS=ON
           -DARK_BUILD_PROTO=ON
           -DARK_BUILD_TESTS=ON
@@ -214,6 +215,9 @@ jobs:
         with:
           path: ${{ steps.vcpkg-cache.outputs.directory }}
           key: ${{ steps.vcpkg-cache.outputs.key }}
+      - name: Set Windows dependency runtime PATH
+        if: runner.os == 'Windows'
+        run: cmake -DBUILD_DIR=ci-build -P .github/scripts/windows-runtime.cmake
       - run: cmake --build ci-build --parallel 2
       - name: Run core and Protobuf regressions
         run: cmake --build ci-build --target check-core

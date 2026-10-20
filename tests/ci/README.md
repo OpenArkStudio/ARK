@@ -1,6 +1,7 @@
 # CI policy tests
 
-Run the native Node tests without installing npm packages:
+Run the native Node tests without installing npm packages (CMake 3.21 or newer
+is required for the portable Windows runtime export fixtures):
 
 ```sh
 node --test tests/ci/*.test.mjs
@@ -69,6 +70,22 @@ targets, including images, HTML `srcset` and reference links. It handles the for
 used by these READMEs; it is not a complete Markdown parser. Remote URLs and heading
 fragments are not validated. The Nimbus check separately validates links and anchors
 within the generated documentation site, not root README fragments.
+
+Windows Applications CI disables vcpkg's per-target app-local dependency copying
+with `VCPKG_APPLOCAL_DEPS=OFF`. The pinned toolchain otherwise adds post-build
+copy commands to shared libraries and executables, many of which use the same
+output directory. After configuration, `windows-runtime.cmake` reads the actual
+installed root, target triplet and build configuration from `CMakeCache.txt`.
+It requires the matching dependency `bin` directory and exports only that directory
+through `GITHUB_PATH`, so subsequent parallel builds, regression targets and their
+application subprocesses inherit it. Debug uses `debug/bin`; release-family
+configurations use `bin`, without a cross-configuration fallback. Invalid cache
+inputs, a missing runtime directory or an unusable output channel fail the job.
+Network, Database and ordinary developer builds retain their existing behavior.
+The tests exercise real CMake cache loading, directory selection, subprocess PATH
+inheritance and failure propagation. This removes shared app-local copy writes;
+it does not identify the owner of an observed Windows file lock. Windows CI must
+still validate actual DLL loading and all application regressions.
 
 The vcpkg cache tests cover Windows/Unix archive paths, dependency and runner-image
 key changes, provider exports, unavailable storage and explicit cold-build fallbacks.
