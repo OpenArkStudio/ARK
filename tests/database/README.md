@@ -238,3 +238,51 @@ configuration or failure, and does not print credentials or arbitrary native err
 messages. It never starts or stops servers. `all` also includes both public
 real-service modes and therefore requires an SSL-enabled build and both endpoint
 configurations.
+
+## Public real-service failure checks
+
+The separate `ark_database_public_failure_service_tests` executable checks wrong
+Redis/MySQL passwords, an untrusted MySQL CA, and real slow-command deadlines.
+`check-database` compiles it without running it. Choose a failure mode explicitly;
+these modes are not included in `all`.
+
+```sh
+cmake --build database-build --target ark_database_public_failure_service_tests --parallel 2
+bash scripts/test_databases.sh database-build public-redis-failures
+bash scripts/test_databases.sh database-build public-mysql-failures
+# Or invoke the executable with redis or mysql.
+```
+
+Use the same isolated endpoint variables as the public service checks above.
+The Redis failure mode additionally requires a nonempty
+`ARK_DATABASE_REDIS_PASSWORD` and permission for `CLIENT LIST`. MySQL requires SSL,
+a trusted `ARK_DATABASE_MYSQL_CA` and access to the current account's sessions in
+`information_schema.processlist`; no PROCESS privilege or extra schema is needed.
+The unrelated CA fixture is `ARKNET_SOURCE_DIR/tests/certs/wrong.pem`, already used
+by the local TLS regressions. No new environment variable or service management is
+introduced. Missing configuration, observer permission errors, or a requested
+protocol unavailable in the build fail with nonzero status.
+
+Credential/TLS failures must retain their native error and known-unsent business
+command state. Subsequent explicit requests use the valid configuration. The
+warmed primary then runs BLPOP on an absent unique `ark_failure_...` key (30-second
+server block) or a tagged `SELECT SLEEP(10)`, with a two-second client deadline.
+BLPOP never receives producer data; the test first checks that its key is absent.
+Both deadlines must be delivered within five seconds.
+
+An independently configured connection observes Redis's named blocked client via
+`CLIENT LIST`, or MySQL's tagged sleeping session via `processlist`. Only this
+server-visible observation establishes that the request was sent; polling timers
+only throttle observations. The timeout must retain its unknown-execution flag.
+An explicit new PING/SELECT must recover through the same public connection name.
+The observer rejects a second slow client/session, then checks for 500 ms after
+the original disappears. This bounds the no-replay evidence to these tagged
+slow requests during the observed recovery window; it does not prove write-replay
+behavior or absence of later activity outside the window.
+
+All coroutines and task completions must stay on the owner thread/shared manual
+runtime. Accepted slow/observer tasks finish during natural manager drain before
+native retirement and idempotent stop. These cases do not test cancellation,
+server termination, dynamic-library unloading or capacity. Slow-query results
+remain owned after module destruction. Native/server error text and credentials
+are not printed.
