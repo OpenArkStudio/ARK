@@ -21,6 +21,8 @@ Build artifacts belong to each CMake build directory: `cmake -S . -B out/release
 | `tests/network/` | Network and logging regressions |
 | `tests/consumer/` | An independent project consuming the public SDK |
 | `examples/` | Application examples |
+| `build/` | Runtime configuration, resources, tools and [launch helpers](../../build/README.md) |
+| `deployment/` | Container recipes and Kubernetes examples |
 
 Include public headers as `<ark/plugin_manager.hpp>` or `<ark/net/tcp_client.hpp>`.
 Do not add implementation directories to an application's include path. Generated

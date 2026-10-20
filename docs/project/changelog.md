@@ -1,5 +1,17 @@
 # changelogs
 
+## Unreleased
+
+### Upgrade notes
+
+- Container recipes and Kubernetes examples now live in `deployment/`. Use
+  `docker build -f deployment/Dockerfile .` from the repository root, and update
+  external references to the former `docker/` and `kubernetes/` directories.
+- Runtime helpers now launch one foreground application with explicit build mode,
+  name and Bus ID. Replace `rund.*` and sample wrappers with `run.* Debug ...`;
+  stop helpers require one explicit PID. See [runtime migration](../../build/README.md#migrate-old-helper-commands)
+  for the removed five-service sequence and Visual Studio cleanup command.
+
 ## version 0.9
 
 - Fix `HeartBeatManager` remove mistake(Thanks @sks)

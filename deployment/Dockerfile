@@ -1,5 +1,5 @@
 # --build-arg 来设置参数
-# docker build -t ark:escort --build-arg -f ./Dockerfile .
+# From the repository root: docker build -t ark:escort -f deployment/Dockerfile .
 
 FROM docker/ark-alpine-build:latest AS Builder
 

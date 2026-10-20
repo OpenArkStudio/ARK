@@ -25,6 +25,8 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 | `tests/network/` | 网络与日志回归测试 |
 | `tests/consumer/` | 独立使用公开 SDK 的示例项目 |
 | `examples/` | 应用示例 |
+| `build/` | 运行配置、资源、工具与[启动脚本](../build/README_CN.md) |
+| `deployment/` | 容器构建文件与 Kubernetes 示例 |
 
 使用 `<ark/plugin_manager.hpp>`、`<ark/net/tcp_client.hpp>` 等公开路径包含头文件，
 不需要把实现目录加入应用的包含路径。Protobuf 生成文件位于构建目录，由 `ark::proto` 提供。

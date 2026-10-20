@@ -1,34 +1,26 @@
-cd /d %~dp0
-
 @echo off
-
-REM the default zone is 1001
-
-set CHANNEL_ID=1
-set ZONE_ID=1
-
-cd Release
-
-echo Starting master...
-start "master" bin/app.exe -x --busid=1.0.1.1 --name=master_server --app_conf=plugin_conf/master.app.conf
-choice /t 5 /d y /n >nul
-
-echo Starting world...
-start "world" bin/app.exe -x --busid=1.1.30.1 --name=world_server --app_conf=plugin_conf/world.app.conf
-choice /t 5 /d y /n >nul
-
-echo Starting login...
-start "login" bin/app.exe -x --busid=1.1.31.1 --name=login_server --app_conf=plugin_conf/login.app.conf
-choice /t 5 /d y /n >nul
-
-echo Starting proxy...
-start "proxy" bin/app.exe -x --busid=1.1.32.1 --name=proxy_server --app_conf=plugin_conf/proxy.app.conf
-choice /t 5 /d y /n >nul
-
-echo Starting game...
-start "game" bin/app.exe -x --busid=1.1.33.1 --name=game_server --app_conf=plugin_conf/game.app.conf
-choice /t 5 /d y /n >nul
-
-echo All processes are launching...
-
-cd 
+setlocal
+if "%~3"=="" goto usage
+if not "%~5"=="" goto usage
+set "binary="
+if "%~1"=="Release" set "binary=bin\app.exe"
+if "%~1"=="Debug" set "binary=bin\app_d.exe"
+if not defined binary goto usage
+echo(%~2| findstr /r /x "[a-zA-Z0-9_-][a-zA-Z0-9_-]*" >nul || goto usage
+set "runtime=%~dp0"
+if not "%~4"=="" set "runtime=%~4"
+pushd "%runtime%" || exit /b 1
+if not exist "%binary%" goto missing
+if not exist "conf\%~2.app.conf" goto missing
+if not exist "conf\log.conf" goto missing
+"%binary%" "--busid=%~3" "--name=%~2" "--app_conf=conf/%~2.app.conf" --log_conf=conf/log.conf
+set "result=%errorlevel%"
+popd
+exit /b %result%
+:missing
+echo Missing executable or configuration in "%CD%". 1>&2
+popd
+exit /b 1
+:usage
+echo Usage: %~nx0 ^<Release^|Debug^> ^<name^> ^<busid^> [runtime-directory] 1>&2
+exit /b 2
