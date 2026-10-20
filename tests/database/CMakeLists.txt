@@ -36,10 +36,13 @@ target_link_libraries(ark_database_redis_stop_tests PRIVATE arknet::arknet)
 ark_database_test(ark_database_public_redis_tests main.cpp public_redis_module.cpp
     "${ROOT_DIR}/src/plugins/redis/redis_module_impl.cpp")
 target_link_libraries(ark_database_public_redis_tests PRIVATE ark::core arknet::arknet)
-# Explicit real-service acceptance; deliberately excluded from check-database.
+# Real-service programs are compiled by check-database, but never run there.
 ark_database_test(ark_database_public_service_tests public_service.cpp
     "${ROOT_DIR}/src/plugins/redis/redis_module_impl.cpp")
 target_link_libraries(ark_database_public_service_tests PRIVATE ark::core arknet::arknet)
+ark_database_test(ark_database_public_failure_service_tests public_failure_service.cpp
+    "${ROOT_DIR}/src/plugins/redis/redis_module_impl.cpp")
+target_link_libraries(ark_database_public_failure_service_tests PRIVATE ark::core arknet::arknet)
 add_library(ark_database_redis_plugin SHARED
     "${ROOT_DIR}/src/plugins/redis/redis_plugin.cpp" "${ROOT_DIR}/src/plugins/redis/redis_module_impl.cpp")
 target_include_directories(ark_database_redis_plugin PRIVATE "${ROOT_DIR}/src/plugins")
@@ -72,9 +75,14 @@ add_custom_target(check-database
     USES_TERMINAL)
 
 # Compile real-service acceptance in ordinary CI without running any server work.
-add_dependencies(check-database ark_database_redis_sample_check ark_database_public_service_tests)
+add_dependencies(check-database ark_database_redis_sample_check ark_database_public_service_tests
+    ark_database_public_failure_service_tests)
 
 if(ARKNET_ENABLE_SSL)
+    target_sources(ark_database_public_failure_service_tests PRIVATE
+        "${ROOT_DIR}/src/plugins/mysql/mysql_module_impl.cpp")
+    target_compile_definitions(ark_database_public_failure_service_tests PRIVATE
+        ARK_DATABASE_UNTRUSTED_CA="${ARKNET_SOURCE_DIR}/tests/certs/wrong.pem")
     target_sources(ark_database_public_service_tests PRIVATE
         "${ROOT_DIR}/src/plugins/mysql/mysql_module_impl.cpp")
     target_compile_definitions(ark_database_public_redis_tests PRIVATE

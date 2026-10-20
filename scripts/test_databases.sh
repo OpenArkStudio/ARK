@@ -3,14 +3,14 @@
 set -euo pipefail
 
 if [[ $# -lt 1 || $# -gt 2 ]]; then
-    printf 'Usage: %s BUILD_DIR [local|redis|mysql|redis-awaitable|mysql-awaitable|public-redis|public-mysql|public-services|all]\n' "$0" >&2
+    printf 'Usage: %s BUILD_DIR [local|redis|mysql|redis-awaitable|mysql-awaitable|public-redis|public-mysql|public-services|public-redis-failures|public-mysql-failures|all]\n' "$0" >&2
     exit 2
 fi
 
 database_test_dir=$(cd -- "$1" && pwd)/tests/database
 database_test_mode=${2:-local}
 case "$database_test_mode" in
-    local|redis|mysql|redis-awaitable|mysql-awaitable|public-redis|public-mysql|public-services|all) ;;
+    local|redis|mysql|redis-awaitable|mysql-awaitable|public-redis|public-mysql|public-services|public-redis-failures|public-mysql-failures|all) ;;
     *) printf 'Unknown database test mode: %s\n' "$database_test_mode" >&2; exit 2 ;;
 esac
 
@@ -55,4 +55,10 @@ if [[ "$database_test_mode" == public-redis || "$database_test_mode" == public-s
 fi
 if [[ "$database_test_mode" == public-mysql || "$database_test_mode" == public-services || "$database_test_mode" == all ]]; then
     run_database_test ark_database_public_service_tests mysql
+fi
+if [[ "$database_test_mode" == public-redis-failures ]]; then
+    run_database_test ark_database_public_failure_service_tests redis
+fi
+if [[ "$database_test_mode" == public-mysql-failures ]]; then
+    run_database_test ark_database_public_failure_service_tests mysql
 fi

@@ -190,3 +190,40 @@ MySQL 要求设置 `ARK_DATABASE_MYSQL_HOST`、`ARK_DATABASE_MYSQL_PORT`、
 程序必须显式配置端点；配置缺失、无效或验收失败均返回非零状态，不打印凭据或任意原生错误文本，
 也不会启动或停止服务。`all` 也运行这两种公开模块真实服务模式，因此要求启用 SSL，
 并配置两种服务的端点。
+
+## 公开模块真实服务负面验收
+
+独立的 `ark_database_public_failure_service_tests` 验证 Redis/MySQL 错误密码、
+MySQL 不可信 CA，以及真实慢命令的截止时间。`check-database` 仅编译该程序，不运行。
+需显式选择负面验收模式；`all` 不包含这些模式。
+
+```sh
+cmake --build database-build --target ark_database_public_failure_service_tests --parallel 2
+bash scripts/test_databases.sh database-build public-redis-failures
+bash scripts/test_databases.sh database-build public-mysql-failures
+# 也可以直接运行程序，参数为 redis 或 mysql。
+```
+
+沿用上方公开服务验收的隔离端点环境变量。Redis 负面模式额外要求非空的
+`ARK_DATABASE_REDIS_PASSWORD`，账号需有 `CLIENT LIST` 权限。MySQL 要求开启 SSL、
+使用可信的 `ARK_DATABASE_MYSQL_CA`，且账号能通过 `information_schema.processlist`
+查看自身会话；不需要 PROCESS 权限或额外数据库。不可信 CA 使用本地 TLS 回归已有的
+`ARKNET_SOURCE_DIR/tests/certs/wrong.pem`，不引入新的环境变量或服务管理操作。
+配置缺失、观察连接权限不足或构建中没有请求的协议时，程序返回非零状态。
+
+认证/TLS 失败必须保留原生错误，以及业务命令尚未发送的已知状态。随后使用正确配置显式发起
+新请求。预热后的主连接对不存在的唯一 `ark_failure_...` key 执行 BLPOP（服务端阻塞
+30 秒），或执行带唯一注释的 `SELECT SLEEP(10)`，客户端截止时间均为 2 秒。
+测试先检查 Redis key 不存在，且不会向该 key 写入数据。两种超时结果均须在 5 秒内交付。
+
+独立配置的观察连接通过 Redis `CLIENT LIST` 确认具名客户端正在阻塞，或通过 MySQL
+`processlist` 确认带唯一注释的会话正在休眠。只有服务端可见状态用于确认请求已经发送；
+轮询定时器仅控制观察频率。超时结果必须保留执行状态未知标志。随后通过同一公开连接名显式
+执行 PING/SELECT，并验证恢复成功。观察连接拒绝出现第二个慢客户端或会话，且在原请求消失后
+继续检查 500 毫秒。该证据仅覆盖观察窗口内的慢查询恢复，不证明写操作的重放行为，也不证明
+窗口以外没有后续活动。
+
+所有协程及任务完成回调均须在拥有线程及共享手动运行时上执行。管理器进入自然排空状态后，
+已受理的慢请求和观察任务继续执行，完成后才退出原生资源，并验证停止操作可重复调用。
+这些用例不测试取消、服务端终止、动态库卸载或容量。模块销毁后，慢查询结果仍须有效。
+程序不打印凭据、原生错误文本或服务端错误文本。
