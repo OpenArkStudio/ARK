@@ -65,6 +65,14 @@ their own refs. The required gate still rejects failed, cancelled or missing
 results. Manual cancellation can still prevent the `always()` summary from
 completing. See [GitHub concurrency rules](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#concurrency).
 
+Only the exact plugin index paths `src/plugins/README.md` and
+`src/plugins/README_CN.md` additionally qualify as documentation. Changes confined
+to these indexes select the Nimbus check on PRs and documentation-only queue
+candidates when the site is available. This does not extend the root README link
+checker to plugin indexes: Nimbus checks the generated site, not the index files
+themselves. Other Markdown under `src/`, nearby build/scripts, mixed code and
+uncertain ranges retain the existing conservative native policy.
+
 Root README link checks run only when a root README changes. They validate local file
 targets, including images, HTML `srcset` and reference links. It handles the forms
 used by these READMEs; it is not a complete Markdown parser. Remote URLs and heading
