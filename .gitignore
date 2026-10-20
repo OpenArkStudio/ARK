@@ -50,12 +50,9 @@ cmake_build
 out
 src/proto/proto-gen/protoc
 src/proto/proto-gen/protoc-3.10.1.0
-build/bin/app_d
-build/bin/protoc
-build/bin/protoc-3.10.1.0
-build/bin/test_*
+/build/
+/run/
 /app
-/build/bin/app
 /cmake-build-debug/
 /cmake-build-release/
 .idea

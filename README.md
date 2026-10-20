@@ -67,7 +67,7 @@ Continue with [module lifecycle and interfaces](docs/guides/modules.md) and [plu
 
 Build the example applications with a C++20 compiler, CMake 3.21 or newer, and vcpkg. The [installation guide](docs/get-started/installation.md) covers dependencies and platform-specific commands. Windows requires Visual Studio 2022 or newer.
 
-After building and preparing the runtime directory, start `sample1` from `build/`:
+After building and preparing the runtime directory, start `sample1` from `run/sample1/`:
 
 ```sh
 ./bin/app --busid=1.0.1.1 --name=sample1 --app_conf=conf/sample1.app.conf

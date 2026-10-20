@@ -23,6 +23,7 @@ spec:
       containers:
         - name: photon-game
           image: ark:photon
+          workingDir: /home/server/escort
           imagePullPolicy: Never
           command: ["./bin/app"]
           args:
@@ -46,7 +47,7 @@ spec:
             - name: tz-config
               mountPath: /etc/localtime
             - name: photon-config
-              mountPath: /root/build/conf
+              mountPath: /home/server/escort/conf
       volumes:
         - name: tz-config
           hostPath:

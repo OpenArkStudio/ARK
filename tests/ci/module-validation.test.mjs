@@ -81,6 +81,8 @@ test('public core headers, build/dependency/CI inputs and unknown paths retain e
   for (const file of ['include/ark/container/vector.hpp', 'include/ark/task.hpp', 'include/ark/hash/crc.hpp',
     'src/core/CMakeLists.txt', 'CMakeLists.txt', 'cmake/utils.cmake', 'vcpkg.json', '.gitmodules',
     '3rdparty/spdlog', 'ports/asio/portfile.cmake', '.github/workflows/ci.yml',
+    'config/sample1.app.toml', 'resources/excel/item.xlsx', 'resources/photon/proto/protocol.proto',
+    'tools/gen-config.sh', 'deployment/scripts/run.sh',
     '.github/scripts/ci-policy.mjs', 'tests/ci/module-validation.test.mjs', 'AGENTS.md', '.clang-format',
     'src/plugins/new_plugin/new_module.cpp', 'src/plugins/net/unknown.bin', 'scripts/new-check.sh',
     'docs/example.cpp', 'docs/site/package-lock.json', 'docs/unknown.bin', 'LICENSE']) {

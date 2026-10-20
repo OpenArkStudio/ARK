@@ -46,7 +46,7 @@ Multi-configuration generators also need `--config Release`. This command writes
 </Step>
 </Steps>
 
-For a smaller correctness build, follow [network regression tests](../networking.md#build-and-run-the-network-tests). Run the provided scripts under `build/` only after checking their application and deployment configuration.
+For a smaller correctness build, follow [network regression tests](../networking.md#build-and-run-the-network-tests). After preparing a separate runtime, use the [launch helpers](../guides/applications.md#run-one-application) under `deployment/scripts/` with its path explicitly selected.
 
 ## macOS compiler and SDK
 

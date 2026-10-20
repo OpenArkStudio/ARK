@@ -18,7 +18,7 @@ These roles need not be separate binaries for every application. Begin with the 
 
 ## What the repository supplies
 
-`src/server/` contains example process roles such as `master`, `router`, `world`, `game`, `proxy`, `login` and `dir`. Their corresponding `build/conf/*.app.conf` manifests select plugins. A role's source directory and configuration demonstrate composition; they do not certify that every service in the reference topology is complete.
+`src/server/` contains example process roles such as `master`, `router`, `world`, `game`, `proxy`, `login` and `dir`. Their corresponding `config/*.app.conf` manifests select plugins. A role's source directory and configuration demonstrate composition; they do not certify that every service in the reference topology is complete.
 
 The Bus plugin represents process addresses and routing destinations. Use the [Bus reference](../reference/bus.md) to configure local process relationships, create a connection, and send a message with the required identifiers. The [network plugin](../reference/network.md) supplies transport integration. Module-to-module calls inside a process continue to use direct interfaces, as shown in [application architecture](application-architecture.md).
 

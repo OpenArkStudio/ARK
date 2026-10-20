@@ -4,7 +4,7 @@
 
 ## TOML 格式
 
-仓库中的 [sample1.app.toml](../build/conf/sample1.app.toml) 与 [sample1.app.conf](../build/conf/sample1.app.conf) 等价，示例采用 TOML 1.0 语法：
+仓库中的 [sample1.app.toml](../config/sample1.app.toml) 与 [sample1.app.conf](../config/sample1.app.conf) 等价，示例采用 TOML 1.0 语法：
 
 ```toml
 [application]
@@ -39,8 +39,10 @@ name = "sample1_plugin"
 按[应用构建说明](networking_CN.md)构建 `app`、`ark_utility_plugin` 和 `sample1_plugin`。假设构建目录为 `out`，从仓库根目录执行：
 
 ```sh
-cp -R build/conf out/conf
-cd out
+mkdir -p run/sample1/bin run/sample1/conf
+cp -R out/bin/. run/sample1/bin/
+cp config/sample1.app.toml config/log.conf run/sample1/conf/
+cd run/sample1
 ./bin/app --busid=1.0.0.1 --name=sample1 -a conf/sample1.app.toml
 ```
 

@@ -6,7 +6,7 @@ An ark application is a process assembled from selected plugin libraries. A plug
 
 ## From manifest to modules
 
-The launcher receives `--busid`, `--name` and `--app_conf`. The application manifest chooses shared-library names and optional per-plugin configuration filenames. The shipped `build/conf/sample1.app.conf` is:
+The launcher receives `--busid`, `--name` and `--app_conf`. The application manifest chooses shared-library names and optional per-plugin configuration filenames. The shipped `config/sample1.app.conf` is:
 
 ```xml
 <xml>
@@ -17,7 +17,7 @@ The launcher receives `--busid`, `--name` and `--app_conf`. The application mani
 </xml>
 ```
 
-New application manifests can use TOML; the equivalent [sample1.app.toml](https://github.com/OpenArkStudio/ark/blob/main/build/conf/sample1.app.toml) is also supplied. A lowercase `.toml` suffix selects TOML, while the legacy `*.app.conf` entry selects XML. See [Application manifests](../service-manifests.md) for the full schema and validation rules; per-plugin and business-resource formats are unchanged.
+New application manifests can use TOML; the equivalent [sample1.app.toml](https://github.com/OpenArkStudio/ark/blob/main/config/sample1.app.toml) is also supplied. A lowercase `.toml` suffix selects TOML, while the legacy `*.app.conf` entry selects XML. See [Application manifests](../service-manifests.md) for the full schema and validation rules; per-plugin and business-resource formats are unchanged.
 
 The loader loads each library and calls its exported plugin entry. `sample1_plugin::install()` registers `sample1_module`; the utility plugin provides services such as timers. A module resolves those services with `find_module<timer_module>()`, rather than creating another copy of the utility plugin.
 

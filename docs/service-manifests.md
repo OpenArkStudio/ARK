@@ -4,7 +4,7 @@ An application manifest selects plugin libraries and their configuration files. 
 
 ## TOML format
 
-The shipped [sample1.app.toml](../build/conf/sample1.app.toml) is equivalent to [sample1.app.conf](../build/conf/sample1.app.conf). The example uses TOML 1.0 syntax:
+The shipped [sample1.app.toml](../config/sample1.app.toml) is equivalent to [sample1.app.conf](../config/sample1.app.conf). The example uses TOML 1.0 syntax:
 
 ```toml
 [application]
@@ -36,11 +36,13 @@ The order of `[[plugins]]` entries does **not** define module initialization ord
 
 ## Run sample1
 
-Follow the [application build instructions](networking.md) to build `app`, `ark_utility_plugin` and `sample1_plugin`. For a build directory named `out`, run these commands from the repository root:
+Follow the [application build instructions](networking.md) to build `app`, `ark_utility_plugin` and `sample1_plugin`. For a build directory named `out`, stage a separate runtime from the repository root:
 
 ```sh
-cp -R build/conf out/conf
-cd out
+mkdir -p run/sample1/bin run/sample1/conf
+cp -R out/bin/. run/sample1/bin/
+cp config/sample1.app.toml config/log.conf run/sample1/conf/
+cd run/sample1
 ./bin/app --busid=1.0.0.1 --name=sample1 -a conf/sample1.app.toml
 ```
 

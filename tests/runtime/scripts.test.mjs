@@ -6,8 +6,8 @@ import { spawnSync } from 'node:child_process';
 import { test } from 'node:test';
 
 const root = resolve(import.meta.dirname, '../..');
-const run = join(root, 'build/run.sh');
-const stop = join(root, 'build/kill.sh');
+const run = join(root, 'deployment/scripts/run.sh');
+const stop = join(root, 'deployment/scripts/kill.sh');
 
 function fixture(t) {
   const dir = mkdtempSync(join(tmpdir(), 'ark runtime '));

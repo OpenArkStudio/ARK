@@ -15,7 +15,7 @@ foreach(manifest missing.toml invalid.toml invalid.app.conf wrong-type.toml)
     execute_process(
         COMMAND "${PROGRAM}" --busid=1.0.1.1 --name=manifest-error-test
             "--app_conf=${RUNTIME_DIR}/${manifest}"
-            "--log_conf=${SOURCE_ROOT}/build/conf/log.conf"
+            "--log_conf=${SOURCE_ROOT}/config/log.conf"
         WORKING_DIRECTORY "${RUNTIME_DIR}"
         RESULT_VARIABLE result
         OUTPUT_VARIABLE output

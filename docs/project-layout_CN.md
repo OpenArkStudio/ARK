@@ -25,7 +25,10 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 | `tests/network/` | 网络与日志回归测试 |
 | `tests/consumer/` | 独立使用公开 SDK 的示例项目 |
 | `examples/` | 应用示例 |
-| `build/` | 运行配置、资源、工具与[启动脚本](../build/README_CN.md) |
+| `config/` | 应用清单、插件和日志配置样例 |
+| `resources/` | 业务数据、工作表与历史资源 |
+| `tools/` | 离线配置工具与保留的历史工具 |
+| `deployment/scripts/` | 单应用启动与显式 PID 停止脚本 |
 | `deployment/` | 容器构建文件与 Kubernetes 示例 |
 
 使用 `<ark/plugin_manager.hpp>`、`<ark/net/tcp_client.hpp>` 等公开路径包含头文件，

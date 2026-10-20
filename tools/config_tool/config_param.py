@@ -2,7 +2,7 @@
 # encoding=utf-8
 
 # resource path
-resource_path = "../../resource"
+resource_path = "../../resources"
 
 # special file
 special_file_name = "entity_class"

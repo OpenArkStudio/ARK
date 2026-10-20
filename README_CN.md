@@ -67,7 +67,7 @@ private:
 
 构建示例应用需要支持 C++20 的编译器、CMake 3.21 或更新版本，以及 vcpkg。[安装指南](docs/get-started/installation_CN.md)提供依赖与各平台的构建命令。Windows 需要 Visual Studio 2022 或更新版本。
 
-完成构建并准备运行目录后，在 `build/` 下启动 `sample1`：
+完成构建并准备运行目录后，在 `run/sample1/` 下启动 `sample1`：
 
 ```sh
 ./bin/app --busid=1.0.1.1 --name=sample1 --app_conf=conf/sample1.app.conf

@@ -33,7 +33,7 @@ foreach(mode drain drain_deadline drain_max_deadline pre_shut_false shut_false s
     execute_process(
         COMMAND "${PROGRAM}" --busid=1.0.1.1 --name=business-runtime-test
             "--app_conf=${directory}/application.toml"
-            "--log_conf=${SOURCE_ROOT}/build/conf/log.conf" ${deadline_argument}
+            "--log_conf=${SOURCE_ROOT}/config/log.conf" ${deadline_argument}
         WORKING_DIRECTORY "${directory}"
         INPUT_FILE "${directory}/exit.txt"
         RESULT_VARIABLE result OUTPUT_VARIABLE output ERROR_VARIABLE errors TIMEOUT ${timeout})

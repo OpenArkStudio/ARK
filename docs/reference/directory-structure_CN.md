@@ -20,7 +20,10 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 | `tests/network/` | 网络与日志回归测试 |
 | `tests/consumer/` | 独立使用公开 SDK 的示例项目 |
 | `examples/` | 应用示例 |
-| `build/` | 运行配置、资源、工具与[启动脚本](../../build/README_CN.md) |
+| `config/` | 应用清单、插件和日志配置样例 |
+| `resources/` | 业务数据、工作表与历史资源 |
+| `tools/` | 离线配置工具与保留的历史工具 |
+| `deployment/scripts/` | 单应用启动与显式 PID 停止脚本 |
 | `deployment/` | 容器构建文件与 Kubernetes 示例 |
 
 使用 `<ark/plugin_manager.hpp>`、`<ark/net/tcp_client.hpp>` 等公开路径包含头文件，
@@ -73,18 +76,18 @@ cmake --build sdk-build --target check-sdk
 
 ## 运行资源与生成数据
 
-源码目录中的 `build/` 还保存运行资源，它与 `app-build/` 这样的独立 CMake 构建目录不同。
+源码资产与运行包分别组织。`build/` 只作为可选的 CMake 构建目录，不再保存受版本控制的运行文件。
 
-| 路径 | 用途 |
+| 源码路径 | 用途与部署位置 |
 | --- | --- |
-| `app-build/bin/` | 使用 `cmake -B app-build` 时的构建产物；各构建目录独立保存输出 |
-| `build/bin/` | 复制到仓库运行目录的应用与插件二进制文件 |
-| `build/binlog/` | 日志配置选用的运行日志目录 |
-| `build/conf/` | 应用、插件与进程配置 |
-| `build/resource/excel/` | 配置表格 |
-| `build/resource/meta/`、`build/resource/server/` | 元数据定义与生成的服务端配置 |
-| `build/resource/client/`、`build/resource/mysql/` | 生成的客户端配置与数据库结构资源 |
-| `build/resource/code/` | 复制到公开头文件前的元数据生成代码 |
-| `build/tools/` | 配置与运行环境准备工具 |
+| `config/` | 配置样例；将所需文件复制到运行目录的 `conf/` |
+| `resources/excel/` | 离线编辑的配置工作表 |
+| `resources/meta/`、`resources/server/` | 生成的元数据与业务数据；部署到运行目录的 `resource/` |
+| `resources/client/`、`resources/mysql/` | 客户端输出目录占位和数据库结构资源 |
+| `resources/code/` | 复制到公开头文件前的元数据生成代码 |
+| `tools/` | 配置导出器和保留的历史工具；状态见工具指南 |
+| `deployment/scripts/` | 启动和停止脚本；可复制到运行目录，或显式传入运行目录 |
+
+运行包继续使用 `bin/`、`conf/` 和按需提供的 `resource/`；日志由配置写入运行目录的 `binlog/`。源码目录改名不改变业务 XML、资源格式或运行时查找规则。见[运行脚本迁移](../guides/applications_CN.md#迁移旧命令)。
 
 旧文中的 `bin/`、`frame/`、`dep/` 目录不是当前 SDK 布局。生成流程见[配置工具](../guides/tools_CN.md)，进程启动见[应用启动器](../guides/applications_CN.md)。协议公开头文件与兼容边界见 [Protobuf 消息](protobuf_CN.md)。

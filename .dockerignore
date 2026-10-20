@@ -4,8 +4,7 @@
 .github
 .idea
 .vscode
-build/*.sh
-build/*.bat
+/build
 scripts
 deployment
 cmake-build-debug

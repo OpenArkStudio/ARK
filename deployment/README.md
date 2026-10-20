@@ -3,8 +3,10 @@
 [简体中文](README_CN.md)
 
 This directory groups the existing container recipes and Kubernetes examples.
-The YAML files retain their existing services, images, namespaces, settings and
-resources; their in-tree plugin library stems follow the current build names.
+The YAML files retain their existing services, images, namespaces and resources;
+their in-tree plugin library stems follow the current build names. The Photon
+examples use `/home/server/escort` as their working directory and mount `conf/`
+there, matching the application image's runtime layout.
 External business-plugin names remain unchanged. Review these environment-specific
 examples before use; moving them does not establish working deployment acceptance.
 
@@ -26,4 +28,10 @@ Cluster example paths are now `deployment/ark_consul.yaml`,
 `deployment/photon_config.yaml`, `deployment/photon_game_deployment.yaml` and
 `deployment/photon_master_deployment.yaml`. Update external build commands that
 used the root `Dockerfile`, `docker/` or `kubernetes/` paths. Runtime launch helpers
-are documented in [build/README.md](../build/README.md).
+are documented in the [application guide](../docs/guides/applications.md#run-one-application).
+
+Source samples live in `config/` and `resources/`. The application image stages
+them as runtime `conf/` and `resource/`; those runtime names are unchanged. Generate
+and review the required Kernel metadata before deploying a Kernel-based service.
+The retained Photon images and external business plugins require their own
+environment validation.

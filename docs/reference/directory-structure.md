@@ -21,7 +21,10 @@ Build artifacts belong to each CMake build directory: `cmake -S . -B out/release
 | `tests/network/` | Network and logging regressions |
 | `tests/consumer/` | An independent project consuming the public SDK |
 | `examples/` | Application examples |
-| `build/` | Runtime configuration, resources, tools and [launch helpers](../../build/README.md) |
+| `config/` | Application manifest, plugin and logger configuration samples |
+| `resources/` | Business data, workbooks and legacy resources |
+| `tools/` | Offline configuration tools and retained legacy tools |
+| `deployment/scripts/` | Single-application launch and explicit-PID stop helpers |
 | `deployment/` | Container recipes and Kubernetes examples |
 
 Include public headers as `<ark/plugin_manager.hpp>` or `<ark/net/tcp_client.hpp>`.
@@ -81,18 +84,18 @@ Use `-DARK_USE_GUID_32=ON` to check the 32-bit GUID configuration.
 
 ## Runtime resources and generated data
 
-The source checkout's `build/` directory also contains runtime material; it is separate from an out-of-tree CMake directory such as `app-build/`.
+Source assets and staged runtimes have separate layouts. `build/` is only an optional CMake build directory; it no longer contains tracked runtime files.
 
-| Path | Purpose |
+| Source path | Purpose and runtime destination |
 | --- | --- |
-| `app-build/bin/` | Build artifacts when configuring with `cmake -B app-build`; each build directory owns its output |
-| `build/bin/` | Application and plugin binaries copied into the checked-in runtime layout |
-| `build/binlog/` | Runtime log output, when selected by logging configuration |
-| `build/conf/` | Application, plugin and process configuration |
-| `build/resource/excel/` | Configuration spreadsheets |
-| `build/resource/meta/`, `build/resource/server/` | Metadata definitions and generated server configuration |
-| `build/resource/client/`, `build/resource/mysql/` | Generated client configuration and database schema resources |
-| `build/resource/code/` | Generated metadata source before it is copied into the public headers |
-| `build/tools/` | Configuration and runtime preparation tools |
+| `config/` | Configuration samples; copy the selected files into the runtime's `conf/` |
+| `resources/excel/` | Workbooks edited offline |
+| `resources/meta/`, `resources/server/` | Generated metadata and business data; stage under the runtime's `resource/` |
+| `resources/client/`, `resources/mysql/` | Client-output placeholders and database schema resources |
+| `resources/code/` | Generated metadata source before copying into the public headers |
+| `tools/` | Configuration exporter and retained legacy tools; see the tools guide for status |
+| `deployment/scripts/` | Launch/stop helpers; copy into the runtime or pass its directory explicitly |
+
+Runtime packages still use `bin/`, `conf/` and optional `resource/`; logging configuration writes to the runtime's `binlog/`. Source moves do not change business XML, resource formats or runtime path resolution. See [helper migration](../guides/applications.md#migrate-old-helper-commands).
 
 The historical `bin/`, `frame/` and `dep/` tree is not the current SDK layout. See [configuration tools](../guides/tools.md) for generation and [application launcher](../guides/applications.md) for process startup. Public protocol headers and compatibility boundaries are documented in [Protobuf messages](protobuf.md).

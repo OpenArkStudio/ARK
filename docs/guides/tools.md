@@ -7,8 +7,8 @@ The Excel generator converts the resource workbooks into XML metadata, configura
 Run the existing generator with Python 3 and `openpyxl` installed in the selected Python environment. PyInstaller is needed only when packaging a standalone executable.
 
 ```sh
-python3 build/tools/config_tool/config_tool.py --help
-python3 build/tools/config_tool/config_tool.py --path /path/to/resource
+python3 tools/config_tool/config_tool.py --help
+python3 tools/config_tool/config_tool.py --path /path/to/resource
 ```
 
 | Argument | Required | Meaning |
@@ -24,8 +24,8 @@ From the repository root, copy the supplied resource tree before changing workbo
 
 ```sh
 resource_demo=$(mktemp -d)
-cp -R build/resource/. "$resource_demo/"
-python3 build/tools/config_tool/config_tool.py --path "$resource_demo"
+cp -R resources/. "$resource_demo/"
+python3 tools/config_tool/config_tool.py --path "$resource_demo"
 printf '%s\n' "$resource_demo"
 ```
 
@@ -34,8 +34,8 @@ On Windows, in PowerShell with Python and openpyxl available:
 ```powershell
 $resourceDemo = Join-Path ([System.IO.Path]::GetTempPath()) ("ark-resource-" + [guid]::NewGuid())
 New-Item -ItemType Directory -Path $resourceDemo | Out-Null
-Copy-Item build/resource/* $resourceDemo -Recurse -Force
-python build/tools/config_tool/config_tool.py --path $resourceDemo
+Copy-Item resources/* $resourceDemo -Recurse -Force
+python tools/config_tool/config_tool.py --path $resourceDemo
 Write-Output $resourceDemo
 ```
 
@@ -74,15 +74,15 @@ The existing exporter is not a complete workbook validator. Do not rely on its `
 
 ## Update the checked-in generated header
 
-After reviewing a resource change, run the wrapper on a working branch. It exports the repository's `build/resource/` tree, formats `code/meta_define.hpp` with the project's clang-format rules and copies it to `include/ark/meta_define.hpp`. It overwrites those generated files.
+After reviewing a resource change, run the wrapper on a working branch. It exports the repository's `resources/` tree, formats `code/meta_define.hpp` with the project's clang-format rules and copies it to `include/ark/meta_define.hpp`. It overwrites those generated files.
 
 On macOS/Linux, select the Python environment and the project's supported clang-format version:
 
 ```sh
-PYTHON=python3 CLANG_FORMAT=clang-format sh build/tools/gen-config.sh
+PYTHON=python3 CLANG_FORMAT=clang-format sh tools/gen-config.sh
 ```
 
-On Windows, set `PYTHON` and `CLANG_FORMAT` as needed, then run `build/tools/gen-config.bat`. Running `config_tool.py` directly does **not** perform the final header copy.
+On Windows, set `PYTHON` and `CLANG_FORMAT` as needed, then run `tools/gen-config.bat`. Running `config_tool.py` directly does **not** perform the final header copy.
 
 The generated header exposes snake_case C++ names while retaining resource strings such as `Player`:
 
@@ -103,4 +103,6 @@ An unknown class or field returns index `0`. C# output retains its existing nami
 | `plugin_and_module_tool` | Legacy scaffolding templates using older interfaces; do not use them as current SDK examples. Follow [Create a module](modules.md) and [Create a plugin](plugins.md) instead |
 | `gcm` | Configuration examples only; the directory does not currently provide a runnable environment-management tool |
 
-The tool sources are under [build/tools](https://github.com/OpenArkStudio/ark/tree/main/build/tools). The application's XML plugin list, logger settings and generated Kernel resources are separate configuration inputs.
+The retained Photon protocol assets in `resources/photon/` contain x86-64 macOS/Linux parser binaries without their generator source. Their compatibility was not verified, so they are not current supported tools. The historical scaffolding executable is likewise unverified against the current SDK.
+
+The tool sources are under [tools](https://github.com/OpenArkStudio/ark/tree/main/tools). The application's XML plugin list, logger settings and generated Kernel resources are separate configuration inputs.

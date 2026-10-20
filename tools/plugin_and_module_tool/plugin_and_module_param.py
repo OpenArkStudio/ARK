@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # encoding=utf-8
 
-base_dir = "../../../src"
+base_dir = "../../src"
 plugin_dir = "plugin,server,special"
 
 # resource path
-# plugin_path = "../../../src/plugin"
-# server_path = "../../../src/server"
+# plugin_path = "../../src/plugin"
+# server_path = "../../src/server"
 
 # some path
 include_path = "include/"
