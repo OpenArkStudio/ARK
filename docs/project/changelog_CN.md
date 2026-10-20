@@ -1,5 +1,16 @@
 # Changelogs
 
+## 未发布
+
+### 升级说明
+
+- 容器构建文件与 Kubernetes 示例已集中到 `deployment/`。从仓库根目录执行
+  `docker build -f deployment/Dockerfile .`，并更新外部命令中的旧 `docker/`、
+  `kubernetes/` 路径。
+- 运行脚本现在按显式构建模式、名称和总线 ID 启动一个前台应用。将 `rund.*` 与示例包装
+  脚本改为 `run.* Debug ...`；停止脚本要求显式传入一个 PID。旧五服务启动顺序与
+  Visual Studio 清理命令的替代方式见[运行脚本迁移](../../build/README_CN.md#迁移旧命令)。
+
 ### version 0.9
 
 - Fix `HeartBeatManager` remove mistake(Thanks @sks)

@@ -1,29 +1,26 @@
-cd bin
+#!/bin/sh
+set -eu
 
-export LC_ALL="C"
-
-#The default zone is 1001
-
-CHANNEL_ID=1
-ZONE_ID=1
-
-echo Starting master...
-./bin/app -d --busid=1.0.1.1 --name=master_server --app_conf=plugin_conf/master.app.conf
-
-echo Starting world...
-./bin/app -d --busid=1.1.30.1 --name=world_server --app_conf=plugin_conf/world.app.conf
-
-echo Starting login...
-./bin/app -d --busid=1.1.31.1 --name=login_server --app_conf=plugin_conf/login.app.conf
-
-echo Starting proxy...
-./bin/app -d --busid=1.1.32.1 --name=proxy_server --app_conf=plugin_conf/proxy.app.conf
-
-echo Starting game...
-./bin/app -d --busid=1.1.33.1 --name=game_server --app_conf=plugin_conf/game.app.conf
-
-echo All processes are launching...
-
-ps aux | grep app
-
-cd ../
+if [ "$#" -lt 3 ] || [ "$#" -gt 4 ]; then
+    echo "Usage: $0 <Release|Debug> <name> <busid> [runtime-directory]" >&2
+    exit 2
+fi
+case "$1" in
+    Release) binary=./bin/app ;;
+    Debug) binary=./bin/app_d ;;
+    *) echo "Configuration must be Release or Debug" >&2; exit 2 ;;
+esac
+case "$2" in
+    ''|*[!a-zA-Z0-9_-]*) echo "Name must contain only letters, digits, _ or -" >&2; exit 2 ;;
+esac
+if [ "$#" -eq 4 ]; then
+    cd -- "$4"
+else
+    CDPATH='' cd -- "$(dirname -- "$0")"
+fi
+[ -x "$binary" ] || { echo "Missing executable: $binary" >&2; exit 1; }
+for config in "conf/$2.app.conf" conf/log.conf; do
+    [ -f "$config" ] || { echo "Missing configuration: $config" >&2; exit 1; }
+done
+export LC_ALL=C
+exec "$binary" "--busid=$3" "--name=$2" "--app_conf=conf/$2.app.conf" --log_conf=conf/log.conf
