@@ -6,25 +6,33 @@ wrappers to named configuration and `co_await command` / `pipeline`. There is no
 blocking compatibility facade. Applications must rebuild against this interface.
 
 ```cpp
-// During the consumer module's init(), after module registration:
-auto* redis = find_module<ark::redis_module>();
-auto& tasks = get_plugin_manager()->create_task_group(*this);
+// Consumer members: ark::redis_module* redis_{}; ark::task_group* tasks_{};
+// In init(), after module registration:
+redis_ = find_module<ark::redis_module>();
+if (!redis_) {
+    throw std::runtime_error("Redis plugin is not registered");
+}
+tasks_ = &get_plugin_manager()->create_task_group(*this);
 ark::redis_options options;
 options.pool.connection.host = "127.0.0.1";
 options.pool.connection.port = "6379";
 options.pool.max_connections = 8;
 options.max_operations = 64;
 options.max_input_bytes = 1024 * 1024;
-redis->configure("cache", std::move(options));
+if (!redis_->configure("cache", std::move(options))) {
+    throw std::runtime_error("Redis configuration unavailable");
+}
 
-// A member coroutine, started through tasks.start(workflow()):
+// Start this member coroutine once in post_init() through tasks_->start(workflow(), on_complete).
+// on_complete handles std::exception_ptr; see the managed task guide.
 ark::task<> workflow() {
-    auto result = co_await redis_->command("cache", {"GET", "key"});
+    arknet::redis::command read{"GET", "key"};
+    auto result = co_await redis_->command("cache", std::move(read));
     if (!result) {
         // Inspect result.error, transport_error and command_may_have_run.
         co_return;
     }
-    // result.replies owns its strings, arrays and binary data.
+    // result.replies owns its strings, arrays and binary data; inspect error replies too.
 }
 ```
 
@@ -35,7 +43,8 @@ empty names and invalid limits throw. It may run before the Redis module's own
 the obsolete `redis.plugin.conf` file. Configuration is owner-thread only and is
 not dynamically replaced. Set `options.tls = true` and configure certificate
 verification through `options.pool` when building with `ARKNET_ENABLE_SSL`;
-requesting TLS in a build without SSL throws.
+requesting TLS in a build without SSL throws. See [build and runtime activation](build-options.md#native-database-plugins)
+and [managed task lifecycle](../guides/tasks.md).
 
 Command factories take owning values and preserve inputs before the lazy task
 starts. The returned task also pins its connection state, including when the
@@ -44,7 +53,8 @@ manager task executor. A foreign executor throws before native submission.
 Unknown connection names return native `not_connected` (`closed` after sealing).
 Local bridge admission failures throw; invalid deadlines return native
 `invalid_command`. Native transport/database failures remain `arknet::redis::result`.
-Redis error replies remain values in the ordered `replies` vector.
+Redis error replies remain values in the ordered `replies` vector. A true result
+reports operation status; it does not mean every Redis reply is successful.
 
 `pipeline(name, commands, timeout)` returns one native result containing ordered
 replies. Its timeout covers pool acquisition and execution. `max_operations`
@@ -61,7 +71,8 @@ introduced. The native result, including partial replies, stays owned by its
 caller after pool retirement.
 
 The Redis plugin runs `service.update()` and then bridge dispatch during manager
-updates. The manager polls its shared task runtime centrally. arknet owns native
+updates. The manager polls its shared task runtime centrally and resumes consumer
+coroutines on its owner thread. arknet owns native
 IO and worker threads. Application code must keep updating the manager while
 stopping it: `stop()` can return false while accepted workflows finish, including
 later commands in the same workflow. Readiness only observes logical activity;
@@ -83,3 +94,25 @@ deployment acceptance, production capacity or a general leak-free guarantee.
 plugin library, exercising macro registration, coroutine delivery and host
 shutdown. This does not certify OS library unloading, hot update or real Redis
 server acceptance.
+
+`ark_database_public_service_tests` uses the real module implementation,
+a consumer task group and the manager's shared runtime. It covers authentication
+configuration, an ordered binary pipeline, input/configuration/result ownership,
+owner-thread resumption, natural drain and host-stack unwinding with work pending.
+`ark_database_public_failure_service_tests` checks a wrong password and a server-observed BLPOP
+deadline, preserving native errors and `command_may_have_run`, then requires an
+explicit new PING to recover.
+
+```sh
+bash scripts/test_databases.sh database-build public-redis
+bash scripts/test_databases.sh database-build public-redis-failures
+```
+
+Use the isolated endpoint settings in the [database test guide](../../tests/database/README.md#public-modules-against-real-services).
+The failure mode requires a nonempty password and permission for `CLIENT LIST`.
+Missing configuration fails; it is not a successful skip. `check-database`
+compiles both real-service executables without running them, and failure modes
+require explicit selection. These cases do not test request cancellation, server
+termination, dynamic-library unloading or capacity. The observed no-replay window
+covers tagged slow requests, not general write-replay behavior; see the
+[failure-check limits](../../tests/database/README.md#public-real-service-failure-checks).

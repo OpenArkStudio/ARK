@@ -15,8 +15,8 @@ Official plugin headers live in the repository's `include/ark/<name>/`; implemen
 | consul | Consul service discovery | Off |
 | kafka | Kafka messaging | Off |
 | physic | Physics services | Off |
-| mysql, redis | Legacy database integrations pending arknet clients | Off |
+| mysql, redis | Native arknet database pools and public coroutine APIs | Off |
 
-Use `ARK_BUILD_PLUGIN_<NAME>` to select a plugin. Optional integrations require their own dependencies and verification. MySQL and Redis clients will be implemented in arknet before replacing the legacy plugin calls. Lua and Actor integrations remain planned work.
+Use `ARK_BUILD_PLUGIN_<NAME>` to select a plugin. Optional integrations require their own dependencies and verification. [MySQL](../../docs/reference/mysql.md) provides queries, prepared statements and transactions; [Redis](../../docs/reference/redis.md) provides commands and ordered pipelines. Both use named configuration and manager-owned coroutine tasks. See [database plugin activation](../../docs/reference/build-options.md#native-database-plugins) for build and runtime selection. Lua and Actor integrations remain planned work.
 
 See [project layout and SDK](../../docs/project-layout.md) for targets and build commands.

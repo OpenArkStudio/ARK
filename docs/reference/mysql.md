@@ -5,8 +5,13 @@
 ## Configure and query
 
 ```cpp
-// Consumer module init(), after plugin registration:
-auto* database = find_module<ark::mysql_module>();
+// Consumer members: ark::mysql_module* database_{}; ark::task_group* tasks_{};
+// In init(), after plugin registration:
+database_ = find_module<ark::mysql_module>();
+if (!database_) {
+    throw std::runtime_error("MySQL plugin is not registered");
+}
+tasks_ = &get_plugin_manager()->create_task_group(*this);
 ark::mysql_options options;
 options.pool.connection.host = "db.example.com";
 options.pool.connection.username = "app";
@@ -16,11 +21,12 @@ options.pool.connection.ca_file = "/etc/app/mysql-ca.pem";
 options.pool.max_connections = 8;
 options.max_operations = 64;
 options.max_input_bytes = 1024 * 1024;
-if (!database->configure("primary", std::move(options))) {
+if (!database_->configure("primary", std::move(options))) {
     throw std::runtime_error("Duplicate or unavailable MySQL configuration");
 }
 
-// A member coroutine started by manager.create_task_group(*this).start(run()):
+// Start this member coroutine once in post_init() through tasks_->start(run(), on_complete).
+// on_complete handles std::exception_ptr; see the managed task guide.
 ark::task<> run() {
     auto reply = co_await database_->query("primary", "SELECT id FROM players LIMIT 10");
     if (!reply) {
@@ -34,7 +40,7 @@ ark::task<> run() {
 }
 ```
 
-Configuration is explicit and owner-thread only. It can precede the database module's `init()` because registration already installs its plugin manager. Duplicates and configuration during shutdown return false; empty names or zero limits throw. Connections cannot be reconfigured in place. TLS certificate verification is enabled by default; configure the CA and server name as needed. The optional MySQL target requires `ARKNET_ENABLE_SSL=ON` and OpenSSL. No mysql++ driver is linked and no legacy MySQL XML configuration is read.
+Configuration is explicit and owner-thread only. It can precede the database module's `init()` because registration already installs its plugin manager. Duplicates and new configuration while the manager is draining return false; empty names or zero limits throw. Once `pre_shut()` seals the module, configuration throws `std::logic_error`. Connections cannot be reconfigured in place. TLS certificate verification is enabled by default; configure the CA and server name as needed. The optional MySQL target requires `ARKNET_ENABLE_SSL=ON` and OpenSSL. No mysql++ driver is linked and no legacy MySQL XML configuration is read. See [build and runtime activation](build-options.md#native-database-plugins) and [managed task lifecycle](../guides/tasks.md).
 
 ## Transactions
 
@@ -61,7 +67,7 @@ Transactions retain one native lease across all steps. Their monotonic identifie
 
 ## Execution, limits and shutdown
 
-Run tasks on the manager's shared business executor. A foreign executor is rejected before native submission. The plugin publishes service completions and bridge deliveries in `update()`; the manager polls its single manual runtime. arknet owns socket IO and worker threads. Inputs are owned before lazy tasks start; returned results remain usable after native retirement.
+Run tasks on the manager's shared business executor. A foreign executor is rejected before native submission. The plugin publishes service completions and bridge deliveries in `update()`; the manager polls its single manual runtime and resumes consumer coroutines on its owner thread. arknet owns socket IO and worker threads. Inputs are owned before lazy tasks start; returned results remain usable after native retirement.
 
 Each query/transaction bridge separately reserves at most `max_operations` delivery records; query requests and transactions each have a `max_input_bytes` retained-input budget. `max_transactions` bounds active transactions per named pool. Configure native pool connections/waiters, query row/column/result-byte limits and connection queue bounds separately. These are per-pool limits, not a process-wide memory budget.
 
@@ -72,3 +78,12 @@ Keep calling manager updates while `stop()` returns false. Accepted workflows ca
 `tests/database/public_mysql_module.cpp` runs public query, prepare/execute/close, TLS, transaction commit/rollback, idle deadline cleanup, cancellation and executor checks against a bounded local MySQL protocol peer. Build with `ARK_BUILD_DATABASE_TESTS=ON` and run `ark_database_public_mysql_tests`, or `check-database` for the development regression suite. Existing `ark_database_mysql_tests` and `ark_database_mysql_transaction_tests` require a real MySQL endpoint and explicit environment configuration; they are not replaced by the local peer. Local protocol regressions do not establish production capacity or real-server deployment acceptance.
 
 `ark_database_public_mysql_plugin_tests` additionally builds and loads the real plugin library to verify macro registration, coroutine delivery and host shutdown. It does not certify OS library unloading or hot update.
+
+`ark_database_public_service_tests` uses the real module implementation with a consumer task group and the manager's shared runtime. It covers query/prepared results, commit/rollback visibility, input/configuration/result ownership, owner-thread resumption, natural drain and host-stack unwinding while work is pending. `ark_database_public_failure_service_tests` checks wrong passwords, an untrusted CA and a server-observed `SELECT SLEEP` deadline. It preserves native errors and `outcome_unknown`, then requires an explicit new request to recover.
+
+```sh
+bash scripts/test_databases.sh database-build public-mysql
+bash scripts/test_databases.sh database-build public-mysql-failures
+```
+
+Configure an isolated endpoint with verified TLS using the environment and permissions in the [database test guide](../../tests/database/README.md#public-modules-against-real-services). Missing configuration fails; it is not a successful skip. `check-database` compiles both real-service executables without running them, and failure modes require explicit selection. These real-service cases do not test request cancellation, server termination, dynamic-library unloading or capacity. The observed no-replay window covers tagged slow requests, not general write-replay behavior; see the [failure-check limits](../../tests/database/README.md#public-real-service-failure-checks).
