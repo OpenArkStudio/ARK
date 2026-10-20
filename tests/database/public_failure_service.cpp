@@ -172,22 +172,26 @@ void redis_success(const arknet::redis::result& result) {
 
 ark::task<> redis_preflight(redis_owner& owner, std::string key) {
     ark::redis_module& database = owner.database;
-    auto rejected = co_await database.command("wrong-password", {"PING"}, 5s);
+    arknet::redis::command rejected_ping{"PING"};
+    auto rejected = co_await database.command("wrong-password", std::move(rejected_ping), 5s);
     owner.check_executor();
     require(rejected.error == arknet::redis::client_errc::handshake_failed && !rejected.command_may_have_run,
         "Wrong Redis password lost its known-unsent handshake failure");
     require(!rejected.replies.empty() && rejected.replies[0].type == arknet::redis::value_type::error,
         "Wrong Redis password lost the native server error reply");
-    auto recovered = co_await database.command("primary", {"PING"}, 5s);
+    arknet::redis::command recovery_ping{"PING"};
+    auto recovered = co_await database.command("primary", std::move(recovery_ping), 5s);
     owner.check_executor();
     redis_success(recovered);
     require(recovered.replies[0].text == "PONG", "Explicit Redis request did not recover with valid credentials");
-    auto absent = co_await database.command("primary", {"EXISTS", std::move(key)}, 5s);
+    arknet::redis::command check_key{"EXISTS", std::move(key)};
+    auto absent = co_await database.command("primary", std::move(check_key), 5s);
     owner.check_executor();
     redis_success(absent);
     require(absent.replies[0].type == arknet::redis::value_type::integer && absent.replies[0].integer == 0,
         "Redis slow-test key already exists; refusing a destructive pop");
-    auto observer = co_await database.command("observer", {"PING"}, 5s);
+    arknet::redis::command observer_ping{"PING"};
+    auto observer = co_await database.command("observer", std::move(observer_ping), 5s);
     owner.check_executor();
     redis_success(observer);
     require(observer.replies[0].text == "PONG", "Redis observer could not authenticate");
@@ -204,7 +208,8 @@ ark::task<> redis_slow(redis_owner& owner, redis_slow_state& state, std::string 
     // An absent unique key and no producer keep the server blocked for 30 seconds.
     // The independently warmed client deadline is two seconds.
     const auto started = std::chrono::steady_clock::now();
-    state.result = co_await owner.database.command("primary", {"BLPOP", std::move(key), "30"}, 2s);
+    arknet::redis::command block{"BLPOP", std::move(key), "30"};
+    state.result = co_await owner.database.command("primary", std::move(block), 2s);
     owner.check_executor();
     require(std::chrono::steady_clock::now() - started < 5s,
         "Redis client deadline was not delivered well before its server block timeout");
@@ -272,7 +277,8 @@ ark::task<> redis_observe(redis_owner& owner, redis_slow_state& state, std::stri
     {
         owner.check_failure();
         require(std::chrono::steady_clock::now() < deadline, "Redis observer did not see deadline and recovery");
-        auto listing = co_await owner.database.command("observer", {"CLIENT", "LIST"}, 3s);
+        arknet::redis::command clients{"CLIENT", "LIST"};
+        auto listing = co_await owner.database.command("observer", std::move(clients), 3s);
         owner.check_executor();
         const auto blocked = blocked_redis_client(listing, tag);
         if (blocked)
@@ -287,7 +293,8 @@ ark::task<> redis_observe(redis_owner& owner, redis_slow_state& state, std::stri
             require(state.observed, "Redis deadline completed before server-visible BLPOP observation");
             require(state.result->error == arknet::redis::client_errc::timeout && state.result->command_may_have_run,
                 "Sent Redis deadline lost its timeout/unknown execution state");
-            auto recovered = co_await owner.database.command("primary", {"PING"}, 5s);
+            arknet::redis::command recovery_ping{"PING"};
+            auto recovered = co_await owner.database.command("primary", std::move(recovery_ping), 5s);
             owner.check_executor();
             redis_success(recovered);
             require(recovered.replies[0].text == "PONG", "Explicit new Redis request did not recover after deadline");
