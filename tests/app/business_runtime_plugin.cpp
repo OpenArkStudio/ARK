@@ -1,11 +1,15 @@
 // Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
+#include <atomic>
+#include <chrono>
 #include <csignal>
 #include <cstdint>
 #include <exception>
 #include <fstream>
 #include <functional>
+#include <mutex>
 #include <stdexcept>
 #include <string>
+#include <thread>
 #include <utility>
 
 #include <ark/plugin_manager.hpp>
@@ -13,7 +17,10 @@
 
 namespace {
 
+std::mutex trace_mutex;
+
 void trace(const std::string& event) {
+    const std::lock_guard lock(trace_mutex);
     std::ofstream output("business-runtime.trace", std::ios::app);
     output << event << '\n';
 }
@@ -38,7 +45,15 @@ public:
     }
 
     bool init() override {
-        auto& tasks = manager_.create_task_group(*this, 1);
+        native_ = std::thread([this] {
+            while (!native_release_.load(std::memory_order_acquire))
+            {
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            }
+            trace("native-exit");
+            native_exited_.store(true, std::memory_order_release);
+        });
+        auto& tasks = manager_.create_task_group(*this, 2);
         return tasks.start(sequence(this), [this](std::exception_ptr error) {
             if (error)
             {
@@ -57,6 +72,44 @@ public:
     }
 
     bool update() override {
+        const auto draining = manager_.get_shutdown_state() == ark::plugin_manager::shutdown_state::draining;
+        if (draining && !drain_observed_)
+        {
+            drain_observed_ = true;
+            drain_started_ = std::chrono::steady_clock::now();
+            auto& tasks = manager_.get_tasks(*this);
+            if (tasks.start(rejected_root(), [](std::exception_ptr) {}) != 0)
+            {
+                throw std::runtime_error("Shutdown accepted a new root task");
+            }
+            trace("root-rejected");
+            if (mode_ == "update_throw_unknown")
+            {
+                trace("update-throw");
+                throw 7;
+            }
+            if (mode_ == "update_throw")
+            {
+                trace("update-throw");
+                throw std::runtime_error("test drain update exception");
+            }
+        }
+        if ((mode_ == "update_throw" || mode_ == "update_throw_unknown") && draining && !update_resumed_)
+        {
+            update_resumed_ = true;
+            trace("update-resumed");
+        }
+        const auto delayed =
+            draining && std::chrono::steady_clock::now() - drain_started_ < std::chrono::milliseconds(200);
+        if (completion_returned_ && !owner_stopped_)
+        {
+            owner_stopped_ = true;
+            trace("owner-stop");
+        }
+        if (owner_stopped_ && ++native_updates_ > 2 && (mode_ != "timeout_native" || !delayed))
+        {
+            native_release_.store(true, std::memory_order_release);
+        }
         if (pending_)
         {
             const auto state = manager_.get_shutdown_state();
@@ -68,7 +121,8 @@ public:
                 std::raise(SIGTERM);
 #endif
             }
-            else if (state == ark::plugin_manager::shutdown_state::draining)
+            else if (state == ark::plugin_manager::shutdown_state::draining && mode_ != "timeout_stalled" &&
+                     (mode_ != "timeout_task" || !delayed))
             {
                 trace("reply-" + std::to_string(started_));
                 auto complete = std::move(pending_);
@@ -79,9 +133,22 @@ public:
         return true;
     }
 
+    bool ready_to_shut() const override {
+        if (!owner_stopped_ || !native_exited_.load(std::memory_order_acquire))
+        {
+            return false;
+        }
+        if (native_.joinable())
+        {
+            native_.join();
+            trace("native-joined");
+        }
+        return true;
+    }
+
     bool pre_shut() override {
         trace("pre-shut");
-        if (!sequence_finished_ || !completion_returned_ || pending_ || bridge_.pending())
+        if (!sequence_finished_ || !completion_returned_ || pending_ || bridge_.pending() || native_.joinable())
         {
             throw std::runtime_error("Teardown preceded accepted business completion");
         }
@@ -110,6 +177,11 @@ private:
         return started_;
     }
 
+    static ark::task<> rejected_root() {
+        trace("unexpected-root");
+        co_return;
+    }
+
     static ark::task<> sequence(probe_module* self) {
         for (unsigned step = 1; step <= 2; ++step)
         {
@@ -134,6 +206,14 @@ private:
     bool stop_requested_{};
     bool sequence_finished_{};
     bool completion_returned_{};
+    bool drain_observed_{};
+    bool update_resumed_{};
+    bool owner_stopped_{};
+    unsigned native_updates_{};
+    std::chrono::steady_clock::time_point drain_started_;
+    std::atomic<bool> native_release_{};
+    std::atomic<bool> native_exited_{};
+    mutable std::thread native_;
 };
 
 probe_module* active_module{};
