@@ -149,6 +149,10 @@ bash scripts/test_databases.sh database-build redis
 `ark_database_public_mysql_plugin_tests` 加载实际隐藏符号动态库。
 `check-database` 还编译迁移后的示例。MySQL 检查要求开启 SSL，真实服务目标仍需显式配置端点。
 
+公开 MySQL 协议端点还通过事务占用唯一连接，并确认单个等待名额已满，再取消等待中的
+查询。该检查验证确定未发送的取消结果、所属线程交付、原事务仍可用，以及管理器排空
+期间同一 socket 上的查询和预处理操作。这是本机协议回归，不代表真实服务取消验收。
+
 ## 公开模块真实服务验收
 
 `ark_database_public_service_tests` 通过公开的 `mysql_module`、`redis_module`
