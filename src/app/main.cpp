@@ -18,7 +18,10 @@
  *
  */
 
+#include <charconv>
+#include <chrono>
 #include <csignal>
+#include <cstdint>
 #include <exception>
 
 #include <args/args.hxx>
@@ -140,7 +143,7 @@ void create_back_thread() {
 }
 #endif // ARK_PLATFORM_WIN
 
-bool parse_args(int argc, char* argv[]) {
+bool parse_args(int argc, char* argv[], std::chrono::milliseconds& shutdown_timeout) {
 #if defined(ARK_PLATFORM_LINUX) || defined(ARK_PLATFORM_DARWIN)
     // ignore signals
     signal(SIGHUP, SIG_IGN);
@@ -185,6 +188,10 @@ bool parse_args(int argc, char* argv[]) {
     args::ValueFlag<std::string> log_conf(parser, "log config path", "Set application log configuration",
         {'l', "log_conf"}, "./conf/log.conf", args::Options::Single);
 
+    args::ValueFlag<std::string> shutdown_wait(parser, "milliseconds",
+        "Retain process/resources if shutdown waits this long (0: unlimited)", {"shutdown_timeout_ms"}, "0",
+        args::Options::Single);
+
     // start parse argument list
     try
     { parser.ParseCLI(argc, argv); }
@@ -203,6 +210,16 @@ bool parse_args(int argc, char* argv[]) {
         std::cout << parser << ", error = " << e.what() << std::endl;
         return false;
     }
+
+    std::int64_t timeout_ms{};
+    const auto& value = shutdown_wait.Get();
+    const auto parsed = std::from_chars(value.data(), value.data() + value.size(), timeout_ms);
+    if (parsed.ec != std::errc{} || parsed.ptr != value.data() + value.size() || timeout_ms < 0)
+    {
+        std::cout << "Shutdown timeout must be a non-negative integer in milliseconds within int64 range" << std::endl;
+        return false;
+    }
+    shutdown_timeout = std::chrono::milliseconds(timeout_ms);
 
     // Set bus id
     if (busid)
@@ -262,21 +279,20 @@ bool parse_args(int argc, char* argv[]) {
     return true;
 }
 
-void main_loop() {
+bool main_loop() {
 #ifdef ARK_PLATFORM_WIN
     __try
-    { plugin_manager::instance()->update(date_time::get_now_time()); }
+    { return plugin_manager::instance()->update(date_time::get_now_time()); }
     __except (application_crash_handler(GetExceptionInformation()))
-    {
-        // Do nothing for now.
-    }
+    { return false; }
 #else
-    plugin_manager::instance()->update(date_time::get_now_time());
+    return plugin_manager::instance()->update(date_time::get_now_time());
 #endif
 }
 
 int main(int argc, char* argv[]) {
-    if (!parse_args(argc, argv))
+    std::chrono::milliseconds shutdown_timeout{};
+    if (!parse_args(argc, argv, shutdown_timeout))
     {
         std::cout << "Application parameter is invalid, please check it..." << std::endl;
         return 0;
@@ -322,11 +338,29 @@ int main(int argc, char* argv[]) {
 
     // Normal shutdown closes only managed top-level task admission. Accepted
     // tasks still need module updates and the shared owner executor to finish.
-    // No implicit deadline, cancellation or detach permits early process exit.
+    // A configured deadline latches resource retention; it never authorizes
+    // cancellation, unloading or process exit, even if work completes later.
+    const auto shutdown_started = std::chrono::steady_clock::now();
+    bool shutdown_retained = false;
     bool shutdown_failure_reported = false;
     bool shutdown_update_error_reported = false;
-    while (!plugin_manager::instance()->stop(date_time::get_now_time()))
+    for (;;)
     {
+        const auto elapsed =
+            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - shutdown_started);
+        if (!shutdown_retained && shutdown_timeout.count() > 0 && elapsed >= shutdown_timeout &&
+            plugin_manager::instance()->get_shutdown_state() == plugin_manager::shutdown_state::draining)
+        {
+            shutdown_retained = true;
+            const auto pending = plugin_manager::instance()->pending_tasks();
+            ARK_LOG_ERROR("Shutdown wait timed out after {} ms (limit={} ms, pending={}, phase={}); "
+                          "process and resources are retained",
+                elapsed.count(), shutdown_timeout.count(), pending, pending ? "managed_tasks" : "ready_to_shut");
+        }
+        if (!shutdown_retained && plugin_manager::instance()->stop(date_time::get_now_time()))
+        {
+            break;
+        }
         if (plugin_manager::instance()->get_shutdown_state() == plugin_manager::shutdown_state::failed)
         {
             if (!shutdown_failure_reported)
@@ -356,21 +390,34 @@ int main(int argc, char* argv[]) {
         else
         {
             try
-            { main_loop(); }
+            {
+                if (!main_loop())
+                {
+                    shutdown_retained = true;
+                    if (!shutdown_update_error_reported)
+                    {
+                        ARK_LOG_ERROR(
+                            "{}", "Shutdown update failed: update returned false; process and resources are retained");
+                        shutdown_update_error_reported = true;
+                    }
+                }
+            }
             catch (const std::exception& error)
             {
+                shutdown_retained = true;
                 if (!shutdown_update_error_reported)
                 {
-                    ARK_LOG_ERROR(
-                        "Shutdown update failed: {}; resources are retained for the owner pump", error.what());
+                    ARK_LOG_ERROR("Shutdown update failed: {}; process and resources are retained", error.what());
                     shutdown_update_error_reported = true;
                 }
             }
             catch (...)
             {
+                shutdown_retained = true;
                 if (!shutdown_update_error_reported)
                 {
-                    ARK_LOG_ERROR("{}", "Shutdown update failed with an unknown exception; resources are retained");
+                    ARK_LOG_ERROR(
+                        "{}", "Shutdown update failed with an unknown exception; process and resources are retained");
                     shutdown_update_error_reported = true;
                 }
             }
