@@ -21,6 +21,8 @@ identity, binary messages, legacy wire payloads and external JSON field names.
 They also exercise the new `ark::protobuf` descriptor and enum names.
 Initialize Protobuf as described for application builds.
 
+The C++20 language regressions check the exact six built-in integer classifications, qualifier and reference handling, constant values, exception contracts and fixed UID allocation outputs. The standalone array-map header check also rejects reintroduced legacy language macros.
+
 With `ARK_BUILD_CONFIG=ON` (the default for core tests),
 `check-application-manifest` checks TOML/XML equivalence, defaults, strict fields,
 invalid input, diagnostics and owning results. It is also part of `check-core`.

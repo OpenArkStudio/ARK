@@ -15,6 +15,8 @@ cmake --build core-build --target check-core
 启用 `ARK_BUILD_CORE_TESTS=ON` 时，`check-network` 也会运行这些用例，现有 CI
 矩阵会执行该入口。测试不需要数据库服务。
 
+C++20 语言回归验证六种精确整数类型分类、限定符与引用处理、常量值、异常契约和固定 UID 位分配结果。独立 array-map 头文件检查还会拒绝重新引入旧语言兼容宏。
+
 启用 `ARK_BUILD_PROTO=ON` 时，还验证 Protobuf 解析失败、Actor ID、二进制消息、
 旧版报文字节和对外 JSON 字段名，以及新的 `ark::protobuf` 描述符和枚举名称；
 需要按应用构建说明初始化 Protobuf 依赖。
