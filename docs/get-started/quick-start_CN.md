@@ -1,6 +1,6 @@
 # 快速开始
 
-运行 Sample1，确认应用能够加载插件并进入模块生命周期。它只使用 `AFUtilityPlugin` 和 `Sample1Plugin`，不需要 Consul、数据库服务或 Excel 配置生成步骤。
+运行 Sample1，确认应用能够加载插件并进入模块生命周期。它只使用 `ark_utility_plugin` 和 `sample1_plugin`，不需要 Consul、数据库服务或 Excel 配置生成步骤。
 
 ## 编译应用和插件
 
@@ -30,7 +30,7 @@ Copy-Item build/conf/sample1.app.conf, build/conf/log.conf run/sample1/conf/
 
 ```text
 run/sample1/
-├── bin/       同一次构建的 app、AFUtilityPlugin 和 Sample1Plugin
+├── bin/       同一次构建的 app、ark_utility_plugin 和 sample1_plugin
 └── conf/
     ├── sample1.app.conf
     └── log.conf

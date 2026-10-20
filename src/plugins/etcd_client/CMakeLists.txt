@@ -1,1 +1,1 @@
-BUILD_PLUGIN_MACRO(AFEtcdClientPlugin)
+BUILD_PLUGIN_MACRO(ark_etcd_client_plugin)

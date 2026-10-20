@@ -29,7 +29,7 @@
 | --- | --- | --- |
 | 应用配置 | `--app_conf` | `conf/sample1.app.conf` |
 | 日志配置 | `--log_conf`，或使用默认值 | `conf/log.conf` |
-| 插件动态库 | TOML `plugin_library_dir` 或 XML `plugin_lib_dir` 加动态库文件名 | macOS Release 使用 `bin/Sample1Plugin.dylib` |
+| 插件动态库 | TOML `plugin_library_dir` 或 XML `plugin_lib_dir` 加动态库文件名 | macOS Release 使用 `bin/sample1_plugin.dylib` |
 | 插件配置 | TOML `plugin_config_dir` + `config`，或 XML `plugin_conf_dir` + `conf` | 配置文件名为 `my-plugin.conf` 时，对应 `conf/my-plugin.conf` |
 | Kernel 元数据和配置 | Kernel 使用的 `resource/` 目录 | `resource/meta/entity_class.config`、`resource/server/item.config` |
 
@@ -45,13 +45,21 @@ plugin_library_dir = "bin/"
 plugin_config_dir = "conf/"
 
 [[plugins]]
-name = "AFUtilityPlugin"
+name = "ark_utility_plugin"
 
 [[plugins]]
-name = "Sample1Plugin"
+name = "sample1_plugin"
 ```
 
 通过 `--app_conf=conf/sample1.app.toml` 选择该文件。`application` 表必须存在，目录字段为可省略的字符串。每个插件的 `name` 必须非空且唯一；可选的 `config` 字符串指定插件配置文件。字段校验和格式边界见[应用配置清单](../service-manifests_CN.md)。Bus、日志和业务资源配置格式保持现有约定。
+
+### 插件库命名
+
+插件构建目标和库文件名统一使用小写 `snake_case`，例如 `ark_utility_plugin`、
+`ark_mysql_plugin` 和 `sample1_plugin`。配置中的插件名必须与库文件名一致；
+加载器自动添加平台扩展名和 Debug 的 `_d` 后缀。
+已有配置和构建命令中的 `AFUtilityPlugin`、`AFMysqlPlugin`、`Sample1Plugin` 需要更新，
+构建不再生成这些旧文件名。
 
 ### 兼容已有 XML 配置
 
@@ -60,8 +68,8 @@ name = "Sample1Plugin"
 ```xml
 <xml>
     <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
-        <plugin name="AFUtilityPlugin" conf="" />
-        <plugin name="Sample1Plugin" conf="" />
+        <plugin name="ark_utility_plugin" conf="" />
+        <plugin name="sample1_plugin" conf="" />
     </plugins>
 </xml>
 ```

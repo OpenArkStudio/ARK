@@ -1,1 +1,1 @@
-BUILD_SERVER_MACRO(AFProxyPlugin)
+BUILD_SERVER_MACRO(ark_proxy_plugin)
