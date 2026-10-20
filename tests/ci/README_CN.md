@@ -45,6 +45,11 @@ README 徽章展示合并候选的工作流状态。
 取消或缺失的结果。手动取消仍可能使 `always()` 汇总无法完成。
 详见 [GitHub 并发规则](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#concurrency)。
 
+仅额外将两个精确的插件索引路径 `src/plugins/README.md` 与 `src/plugins/README_CN.md` 归为文档。
+文档站可用时，只修改这两个索引的 PR 与纯文档合并候选会选择 Nimbus 检查。
+这不会将根 README 链接检查扩展到插件索引；Nimbus 验证生成的文档站，不直接检查索引文件。
+`src/` 下的其他 Markdown、邻近构建／脚本、混合源码和不确定范围仍沿用保守的原生检查策略。
+
 只有根 README 变更时才检查其本地文件链接，包含图片、HTML `srcset` 和引用式链接。
 检查器覆盖这些 README 使用的表达形式，不是完整的 Markdown 解析器；不验证远程 URL 或标题锚点。
 Nimbus 检查单独验证生成文档站内的链接与锚点，不包含根 README 的标题锚点。

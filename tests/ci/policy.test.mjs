@@ -61,6 +61,73 @@ test('only recognized documentation paths qualify for the lightweight plan', () 
   assert.equal(decision(['README.md', 'docs/guide.md']).docs_check, true);
 });
 
+test('only the two exact plugin indexes select documentation and keep root README checks separate', () => {
+  const indexes = ['src/plugins/README.md', 'src/plugins/README_CN.md'];
+  for (const eventName of ['pull_request', 'merge_group']) {
+    for (const files of [[indexes[0]], [indexes[1]], indexes, [...indexes, 'docs/guide.md']]) {
+      const plan = decision(files, { eventName });
+      assert.equal(plan.validation_stage, 'documentation');
+      assert.equal(plan.native_check, false);
+      assert.equal(plan.docs_check, true);
+      assert.equal(plan.readme_check, false);
+      assert.equal(plan.format_check, false);
+      for (const job of ['network', 'applications', 'database']) assert.equal(plan[`${job}_check`], false);
+      validateGate(results(plan));
+      for (const outcome of ['skipped', 'failure', undefined]) {
+        const invalid = results(plan);
+        invalid.validation.outputs.documentation_outcome = outcome;
+        assert.throws(() => validateGate(invalid), `${eventName}/${files}/${outcome}`);
+      }
+    }
+    const withRootReadme = decision([...indexes, 'README.md'], { eventName });
+    assert.equal(withRootReadme.readme_check, true);
+    assert.equal(withRootReadme.docs_check, true);
+  }
+  for (const file of indexes) assert.equal(isDocumentationPath(file), true);
+});
+
+test('plugin index neighbors, build scripts and mixed code cannot inherit documentation-only scope', () => {
+  const paths = ['src/plugins/readme.md', 'src/plugins/README_CN.MD', 'src/plugins/README.md.bak',
+    'src/plugins/README_CN.md.js', 'src/plugins/net/README.md', 'src/plugins/detail/README_CN.md',
+    'src/README.md', 'src/other/README_CN.md', 'src/plugins/CMakeLists.txt', 'src/plugins/build.cmake',
+    'src/plugins/index.mjs', 'src/plugins/update.sh', 'src/main.cpp', 'include/ark/xml.hpp',
+    '.github/workflows/ci.yml', '.github/scripts/ci-policy.mjs'];
+  for (const file of paths) {
+    assert.equal(isDocumentationPath(file), false, file);
+    for (const eventName of ['pull_request', 'merge_group']) {
+      const plan = decision(['src/plugins/README.md', file], { eventName });
+      assert.equal(plan.native_check, true, `${eventName}/${file}`);
+      assert.equal(plan.format_check, true);
+      assert.equal(plan.docs_check, true);
+      assert.equal(plan.readme_check, false);
+      for (const job of ['network', 'applications', 'database']) assert.equal(plan[`${job}_check`], true);
+      validateGate(results(plan));
+    }
+  }
+});
+
+test('plugin index scope keeps uncertain ranges, unavailable sites and manual events conservative', () => {
+  const indexes = ['src/plugins/README.md', 'src/plugins/README_CN.md'];
+  for (const files of [[], undefined, [null], ['src/plugins/../plugins/README.md'], ['./src/plugins/README.md'],
+    ['src//plugins/README.md'], ['src/plugins/README.md\n'], ['src\\plugins\\README.md']]) {
+    if (files?.length) assert.equal(isDocumentationPath(files[0]), false);
+    const plan = decision(files);
+    assert.equal(plan.native_check, true);
+    assert.equal(plan.validation_stage, 'full');
+    for (const job of ['network', 'applications', 'database']) assert.equal(plan[`${job}_check`], true);
+    validateGate(results(plan));
+  }
+  for (const extra of [{ enumerationFailed: true }, { eventName: 'workflow_dispatch' },
+    { site: { present: false, available: false } }, { site: { present: true, available: false } }]) {
+    const plan = decision(indexes, extra);
+    assert.equal(plan.native_check, true);
+    assert.equal(plan.validation_stage, 'full');
+    assert.equal(plan.readme_check, false);
+    if (extra.site?.present) assert.equal(plan.docs_check, true);
+    validateGate(results(plan));
+  }
+});
+
 test('code, build, dependency, CI and unknown paths cannot skip native regressions', () => {
   const paths = ['include/ark/xml.hpp', 'CMakeLists.txt', 'cmake/FindZstd.cmake', 'vcpkg.json', '.gitmodules',
     '.github/workflows/ci.yml', '.github/scripts/ci-policy.mjs', 'tests/core/templates.cpp', 'scripts/format.sh',

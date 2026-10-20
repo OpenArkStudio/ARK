@@ -7,6 +7,7 @@ const shaPattern = /^(?:[a-f0-9]{40}|[a-f0-9]{64})$/;
 const cppPath = /\.(?:c|cc|cpp|cxx|c\+\+|h|hh|hpp|hxx|inl|ipp|tpp|proto)$/i;
 const docPath = /\.(?:md|mdx|markdown|rst|adoc|txt|html|css|js|mjs|cjs|ts|tsx|jsx|astro|json|yaml|yml|svg|png|jpe?g|gif|webp|ico|pdf|woff2?|ttf|otf)$/i;
 const dependencyName = /^(?:package(?:-lock)?\.json|npm-shrinkwrap\.json|pnpm-lock\.yaml|yarn\.lock|vcpkg(?:-configuration)?\.json|conanfile\.(?:py|txt)|conan\.lock|requirements(?:-[\w.-]+)?\.txt|.*\.lock|\.gitmodules)$/i;
+const pluginIndexPaths = new Set(['src/plugins/README.md', 'src/plugins/README_CN.md']);
 
 function isRepositoryPath(file) {
   return typeof file === 'string' && file.length > 0 && !/[\x00-\x1f\x7f\\]/.test(file) &&
@@ -19,7 +20,7 @@ export function isDocumentationPath(file) {
   if (cppPath.test(file) || /^CMake(?:Lists\.txt|(?:User)?Presets\.json|Cache\.txt)$/i.test(name) || /\.cmake$/i.test(file) ||
       dependencyName.test(name) || file.split('/').includes('.github') || /^action\.ya?ml$/i.test(name) ||
       /^\.clang-(?:format|tidy)$/.test(name)) return false;
-  if (file === 'README.md' || file === 'README_CN.md') return true;
+  if (file === 'README.md' || file === 'README_CN.md' || pluginIndexPaths.has(file)) return true;
   return file.startsWith('docs/') && (docPath.test(file) || name === 'LICENSE' || name === '.gitignore');
 }
 
@@ -95,7 +96,7 @@ export function selectScope({ eventName, files, site, enumerationFailed = false 
   const scopedEvent = eventName === 'pull_request' || eventName === 'merge_group';
   const docsOnly = scopedEvent && nonempty && site.available && paths.every(isDocumentationPath);
   const readme = paths.some(file => file === 'README.md' || file === 'README_CN.md');
-  const docsTouched = readme || paths.some(file => file.startsWith('docs/'));
+  const docsTouched = readme || paths.some(file => file.startsWith('docs/') || pluginIndexPaths.has(file));
   const ciTouched = paths.some(file => file.startsWith('.github/') || file.startsWith('tests/ci/'));
   const siteReferenced = site.present || paths.some(file => file.startsWith('docs/site/'));
   const docs = siteReferenced && (eventName !== 'pull_request' || !known || docsTouched || ciTouched);
