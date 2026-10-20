@@ -46,12 +46,16 @@ jobs:
       - name: Classify the exact event commits
         id: scope
         run: node .github/scripts/ci-policy.mjs classify
-  documentation:
-    name: CI - documentation validation
+  validation:
+    name: CI - lightweight validation
     needs: scope
-    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.docs_check != 'false') }}
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
+    outputs:
+      documentation_outcome: ${{ steps.documentation.outcome }}
+      readme_outcome: ${{ steps.readme.outcome }}
+      formatting_outcome: ${{ steps.formatting.outcome }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -59,37 +63,30 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 26
-      - name: Require a usable Nimbus site
-        run: node .github/scripts/ci-policy.mjs require-site
-      - run: npm ci --prefix docs/site
-      - run: npm run check --prefix docs/site
-  readme:
-    name: CI - README file links
-    needs: scope
-    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.readme_check != 'false') }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 26
-      - run: node .github/scripts/check-readme-links.mjs
-  formatting:
-    name: CI - C++ formatting
-    needs: scope
-    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.format_check != 'false') }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - name: Install clang-format 18
-        run: sudo apt-get update && sudo apt-get install -y clang-format-18
+          cache: ${{ needs.scope.outputs.docs_check != 'false' && needs.scope.outputs.site_available == 'true' && 'npm' || '' }}
+          cache-dependency-path: docs/site/package-lock.json
+      - name: Validate Nimbus documentation
+        id: documentation
+        if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.docs_check != 'false') }}
+        run: |
+          node .github/scripts/ci-policy.mjs require-site
+          npm ci --prefix docs/site
+          npm run check --prefix docs/site
+      - name: Check README file links
+        id: readme
+        if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.readme_check != 'false') }}
+        run: node .github/scripts/check-readme-links.mjs
+      - name: Ensure clang-format 18 is available
+        if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.format_check != 'false') }}
+        run: |
+          if ! command -v clang-format-18 >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y clang-format-18
+          fi
+          clang-format-18 --version
       - name: Check tracked source formatting
+        id: formatting
+        if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.format_check != 'false') }}
         run: CLANG_FORMAT=clang-format-18 bash scripts/format.sh --check
   network:
     name: Network - ${{ matrix.os }} - Boost - ${{ matrix.sanitizer }}
@@ -299,7 +296,7 @@ jobs:
   required:
     name: CI - required
     if: always()
-    needs: [scope, network, applications, database, formatting, documentation, readme]
+    needs: [scope, network, applications, database, validation]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:

@@ -9,10 +9,12 @@ const plan = (files, eventName = 'pull_request', extra = {}) => selectScope({ fi
 const selected = scope => jobs.filter(job => scope[`${job}_check`]);
 const results = scope => ({
   scope: { result: 'success', outputs: Object.fromEntries(Object.entries(scope).map(([key, value]) => [key, String(value)])) },
-  ...Object.fromEntries([...jobs, 'formatting', 'documentation', 'readme'].map(job => {
-    const flag = job === 'formatting' ? 'format_check' : job === 'documentation' ? 'docs_check' : `${job}_check`;
-    return [job, { result: scope[flag] ? 'success' : 'skipped' }];
-  })),
+  ...Object.fromEntries(jobs.map(job => [job, { result: scope[`${job}_check`] ? 'success' : 'skipped' }])),
+  validation: { result: 'success', outputs: {
+    formatting_outcome: scope.format_check ? 'success' : 'skipped',
+    documentation_outcome: scope.docs_check ? 'success' : 'skipped',
+    readme_outcome: scope.readme_check ? 'success' : 'skipped',
+  } },
 });
 const workflow = readFileSync(new URL('../../.github/workflows/ci.yml', import.meta.url), 'utf8').replaceAll('\r\n', '\n');
 const jobBlock = name => workflow.split(/(?=^  [a-z][a-z0-9_-]*:$)/m).find(block => block.startsWith(`  ${name}:\n`));
@@ -169,7 +171,7 @@ test('source module, full queue and manual plans reject failed cancelled skipped
     plan(['tests/core/containers.cpp']), plan(['unknown.bin']), plan(['tests/network/rudp.cpp'], 'merge_group'),
     plan([], 'workflow_dispatch')]) {
     const valid = results(scope);
-    for (const job of [...jobs, 'formatting', 'documentation', 'readme']) {
+    for (const job of [...jobs, 'validation']) {
       for (const state of ['success', 'skipped', 'failure', 'cancelled', 'unknown', 'neutral', 'timed_out', '', undefined]) {
         if (state === valid[job].result) continue;
         const invalid = structuredClone(valid);
@@ -217,19 +219,12 @@ test('workflow source jobs reuse Linux Boost and full acceptance retains exactly
   assert.match(jobBlock('database'), /run: cmake --build ci-database --target check-database-benchmark/);
 });
 
-test('formatting is fatal and required alongside event-aware module results', () => {
-  const formatting = jobBlock('formatting');
-  assert.match(formatting, /needs.scope.result != 'success' \|\| needs.scope.outputs.format_check != 'false'/);
-  assert.match(formatting, /sudo apt-get install -y clang-format-18/);
-  assert.match(formatting, /CLANG_FORMAT=clang-format-18 bash scripts\/format.sh --check/);
-  assert.doesNotMatch(formatting, /continue-on-error:/);
-  assert.match(jobBlock('required'), /needs: \[scope, network, applications, database, formatting, documentation, readme\]/);
+test('validation is fatal and required alongside event-aware module results', () => {
+  assert.doesNotMatch(jobBlock('validation'), /continue-on-error:/);
+  assert.match(jobBlock('required'), /needs: \[scope, network, applications, database, validation\]/);
   assert.match(jobBlock('required'), /if: always\(\)/);
   const script = readFileSync(new URL('../../.github/scripts/ci-policy.mjs', import.meta.url), 'utf8');
   assert.match(script, /validateGate\(JSON.parse\(process.env.CI_NEEDS_JSON\), process.env.GITHUB_EVENT_NAME\)/);
-  for (const [job, flag] of [['documentation', 'docs_check'], ['readme', 'readme_check']]) {
-    assert.ok(jobBlock(job).includes(`needs.scope.result != 'success' || needs.scope.outputs.${flag} != 'false'`));
-  }
 });
 
 test('module flags and workflow matrix guards keep uncertain source ranges and queue candidates on full acceptance', () => {

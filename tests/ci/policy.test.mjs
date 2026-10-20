@@ -194,9 +194,11 @@ function results(plan) {
     network: { result: plan.network_check ? 'success' : 'skipped' },
     applications: { result: plan.applications_check ? 'success' : 'skipped' },
     database: { result: plan.database_check ? 'success' : 'skipped' },
-    formatting: { result: plan.format_check ? 'success' : 'skipped' },
-    documentation: { result: plan.docs_check ? 'success' : 'skipped' },
-    readme: { result: plan.readme_check ? 'success' : 'skipped' },
+    validation: { result: 'success', outputs: {
+      formatting_outcome: plan.format_check ? 'success' : 'skipped',
+      documentation_outcome: plan.docs_check ? 'success' : 'skipped',
+      readme_outcome: plan.readme_check ? 'success' : 'skipped',
+    } },
   };
 }
 
@@ -245,8 +247,8 @@ test('a documentation-only merge queue candidate runs its required site check an
   const valid = results(plan);
   execFileSync(process.execPath, [script, 'gate'], { cwd: repo.root,
     env: { ...env, CI_NEEDS_JSON: JSON.stringify(valid) }, stdio: ['ignore', 'pipe', 'pipe'] });
-  for (const job of ['network', 'applications', 'database', 'formatting', 'documentation']) {
-    for (const result of [job === 'documentation' ? 'skipped' : 'success', 'failure', 'cancelled', undefined]) {
+  for (const job of ['network', 'applications', 'database', 'validation']) {
+    for (const result of [job === 'validation' ? 'skipped' : 'success', 'failure', 'cancelled', undefined]) {
       const invalid = structuredClone(valid);
       invalid[job].result = result;
       assert.throws(() => validateGate(invalid), `${job}/${result}`);
@@ -346,7 +348,7 @@ test('empty merge ranges and unavailable documentation sites never skip the nati
   assert.equal(unavailable.site_available, false);
   assert.equal(unavailable.reason, 'site-unavailable');
   const skippedSite = results(unavailable);
-  skippedSite.documentation.result = 'skipped';
+  skippedSite.validation.outputs.documentation_outcome = 'skipped';
   assert.throws(() => validateGate(skippedSite));
 });
 
@@ -363,7 +365,7 @@ test('a known README-only merge candidate requires both site and README validati
   assert.match(output, /readme_check=true\n/);
   validateGate(results(plan));
   const skippedReadme = results(plan);
-  skippedReadme.readme.result = 'skipped';
+  skippedReadme.validation.outputs.readme_outcome = 'skipped';
   assert.throws(() => validateGate(skippedReadme));
 });
 
@@ -405,7 +407,7 @@ test('every required/optional job rejects all unexpected success, skipped, failu
   for (const plan of [decision(['README.md']), decision(['src/main.cpp']),
     decision(['docs/guide.md'], { eventName: 'merge_group' }), decision(['README.md'], { eventName: 'merge_group' })]) {
     const valid = results(plan);
-    for (const job of ['network', 'applications', 'database', 'formatting', 'documentation', 'readme']) {
+    for (const job of ['network', 'applications', 'database', 'validation']) {
       for (const state of ['success', 'skipped', 'failure', 'cancelled', 'neutral', 'timed_out', '', undefined]) {
         if (state === valid[job].result) continue;
         const invalid = structuredClone(valid);

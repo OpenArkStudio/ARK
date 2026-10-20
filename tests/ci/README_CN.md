@@ -19,13 +19,22 @@ Network、HTTP、Bus 插件变更还检查 Applications；MySQL、Redis 和共�
 
 Merge Queue 候选直接比较事件中的 `base_sha` 与 `head_sha`，包含前序排队 PR 带来的变更。
 候选包含代码、构建、依赖、CI 或未知路径时，执行全部 12 个原生任务：Network 的 Linux、macOS、
-Windows 与 Linux ASan/UBSan、TSan；Applications 的 Linux、macOS、Windows；Database 的
+Windows，以及 Linux AddressSanitizer（内存错误检测）与 UndefinedBehaviorSanitizer（未定义行为检测）组合、
+ThreadSanitizer（线程数据竞争检测）；Applications 的 Linux、macOS、Windows；Database 的
 Linux Boost、Linux Standalone、macOS Boost、Windows Boost。手动运行保留相同完整矩阵。
 只有范围已知、非空、文档站可用的纯文档变更才跳过原生任务。文档站存在时，合并候选仍检查文档；
 README 变更还需通过其链接检查。
 
-required gate 核对当前工作流的真实事件和声明的验证阶段，然后要求选中的任务成功、
-不需要的任务明确跳过。失败、取消、未知或缺失的结果均不通过；源分支结果不能替代队列结果。
+文档、根 README 链接和 C++ 格式检查合并到一个 `validation` job，共用一次 checkout 和 Node 设置。
+文档站与锁文件可用时，Nimbus 复用 npm 包缓存；必需的文档站不可用时，预检仍会失败。
+只有命令不存在时才安装 clang-format 18。各项检查保留原有范围标志，并导出实际步骤的 `outcome`；
+前一项检查失败后，后续被选中的检查仍会执行。范围分类保留独立 job，分类结束后，原生矩阵与轻量验证可同时启动。
+工作流定义由 8 个 job 减为 6 个；全部 12 个原生变体和所有轻量检查均被选中时，执行机任务由 17 个减为 15 个。
+实际等待时间取决于执行机可用性和检查耗时。
+
+required gate 核对当前工作流的真实事件和声明的验证阶段。选中的原生任务与合并后的验证任务必须成功；
+不需要的原生任务必须明确跳过。选中的验证步骤必须报告 `success`，不需要的步骤必须报告 `skipped`。
+合并任务成功不能替代缺失或被跳过的必需步骤。失败、取消、未知或缺失的结果均不通过；源分支结果不能替代队列结果。
 最终验收仍要求包含前序变更的合并候选通过检查。受保护的 `main` 只接收已通过必需检查的候选；
 合入后的推送不再对同一代码树重复执行 CI。独立的文档工作流仍在 main 推送后发布文档。
 README 徽章展示合并候选的工作流状态。

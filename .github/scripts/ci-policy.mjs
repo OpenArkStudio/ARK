@@ -165,11 +165,18 @@ export function validateGate(needs, eventName) {
   }
   const required = {
     network: flags.network_check, applications: flags.applications_check, database: flags.database_check,
-    formatting: flags.format_check, documentation: flags.docs_check, readme: flags.readme_check,
   };
   for (const [job, mustRun] of Object.entries(required)) {
     const expected = mustRun ? 'success' : 'skipped';
     if (needs[job]?.result !== expected) throw new Error(`${job}: expected ${expected}, got ${needs[job]?.result ?? 'missing'}`);
+  }
+  if (needs.validation?.result !== 'success') throw new Error('validation job did not succeed');
+  for (const [check, mustRun] of Object.entries({
+    documentation: flags.docs_check, readme: flags.readme_check, formatting: flags.format_check,
+  })) {
+    const expected = mustRun ? 'success' : 'skipped';
+    const outcome = needs.validation.outputs?.[`${check}_outcome`];
+    if (outcome !== expected) throw new Error(`${check}: expected ${expected}, got ${outcome ?? 'missing'}`);
   }
 }
 
@@ -207,7 +214,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
     if (process.argv[2] === 'classify') classify();
     else if (process.argv[2] === 'gate') {
       validateGate(JSON.parse(process.env.CI_NEEDS_JSON), process.env.GITHUB_EVENT_NAME);
-      console.log('Every required job succeeded; only explicitly unnecessary jobs were skipped.');
+      console.log('Every required job and validation step succeeded; only explicitly unnecessary checks were skipped.');
     } else if (process.argv[2] === 'require-site') {
       if (!inspectSite(process.cwd()).available) throw new Error('Required Nimbus package, lockfile or check script is unavailable');
     } else throw new Error('Expected classify, gate or require-site');
