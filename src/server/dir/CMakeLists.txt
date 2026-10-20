@@ -1,1 +1,1 @@
-BUILD_SERVER_MACRO(AFDirPlugin)
+BUILD_SERVER_MACRO(ark_dir_plugin)

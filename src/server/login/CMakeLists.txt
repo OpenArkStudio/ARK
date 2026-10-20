@@ -1,1 +1,1 @@
-BUILD_SERVER_MACRO(AFLoginPlugin)
+BUILD_SERVER_MACRO(ark_login_plugin)

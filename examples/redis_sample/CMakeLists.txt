@@ -1,1 +1,1 @@
-BUILD_PLUGIN_MACRO(RedisSamplePlugin arknet::arknet)
+BUILD_PLUGIN_MACRO(redis_sample_plugin arknet::arknet)

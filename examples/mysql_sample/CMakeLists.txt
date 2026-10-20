@@ -1,1 +1,1 @@
-BUILD_PLUGIN_MACRO(MysqlSamplePlugin)
+BUILD_PLUGIN_MACRO(mysql_sample_plugin)

@@ -1,6 +1,6 @@
 # Quick start
 
-Run Sample1 to check that the application can load plugins and enter the module lifecycle. It uses `AFUtilityPlugin` and `Sample1Plugin`; it does not require Consul, a database service or Excel configuration generation.
+Run Sample1 to check that the application can load plugins and enter the module lifecycle. It uses `ark_utility_plugin` and `sample1_plugin`; it does not require Consul, a database service or Excel configuration generation.
 
 ## Build the application and plugins
 
@@ -30,7 +30,7 @@ The required runtime files are:
 
 ```text
 run/sample1/
-├── bin/       app + AFUtilityPlugin + Sample1Plugin from the same build
+├── bin/       app + ark_utility_plugin + sample1_plugin from the same build
 └── conf/
     ├── sample1.app.conf
     └── log.conf

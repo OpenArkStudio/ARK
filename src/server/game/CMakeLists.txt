@@ -1,1 +1,1 @@
-BUILD_SERVER_MACRO(AFGamePlugin)
+BUILD_SERVER_MACRO(ark_game_plugin)

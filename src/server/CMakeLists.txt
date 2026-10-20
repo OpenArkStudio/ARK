@@ -1,4 +1,5 @@
 function(BUILD_SERVER_MACRO project_name)
+    ark_validate_plugin_name("${project_name}")
     if(UNIX AND (NOT APPLE))
         #Set rpath
         set(CMAKE_INSTALL_RPATH ".")
@@ -13,17 +14,17 @@ function(BUILD_SERVER_MACRO project_name)
     if(WIN32)
         add_definitions(-D_USRDLL)
 
-        target_link_libraries(${project_name} 
+        target_link_libraries(${project_name}
             debug AFProto_d.lib
             optimized AFProto.lib
             ${PROTOBUF_LIBRARIES})
     elseif(APPLE)
-        target_link_libraries(${project_name} 
+        target_link_libraries(${project_name}
             debug ${BIN_OUTPUT_DIR}/AFProto_d.a
             optimized ${BIN_OUTPUT_DIR}/AFProto.a
             ${PROTOBUF_LIBRARIES})
     else()
-        target_link_libraries(${project_name} 
+        target_link_libraries(${project_name}
             debug :AFProto_d.a
             optimized :AFProto.a
             ${PROTOBUF_LIBRARIES})

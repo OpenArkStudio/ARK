@@ -83,10 +83,21 @@ public:
                 throw std::runtime_error("Shutdown accepted a new root task");
             }
             trace("root-rejected");
+            if (mode_ == "update_throw_unknown")
+            {
+                trace("update-throw");
+                throw 7;
+            }
             if (mode_ == "update_throw")
             {
+                trace("update-throw");
                 throw std::runtime_error("test drain update exception");
             }
+        }
+        if ((mode_ == "update_throw" || mode_ == "update_throw_unknown") && draining && !update_resumed_)
+        {
+            update_resumed_ = true;
+            trace("update-resumed");
         }
         const auto delayed =
             draining && std::chrono::steady_clock::now() - drain_started_ < std::chrono::milliseconds(200);
@@ -196,6 +207,7 @@ private:
     bool sequence_finished_{};
     bool completion_returned_{};
     bool drain_observed_{};
+    bool update_resumed_{};
     bool owner_stopped_{};
     unsigned native_updates_{};
     std::chrono::steady_clock::time_point drain_started_;
