@@ -1,10 +1,13 @@
 // Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
 #include <cstdlib>
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <string_view>
 #include <utility>
+
+#include <arknet/tcp/tcp_server.hpp>
 
 #include <ark/plugin_manager.hpp>
 
@@ -13,6 +16,17 @@ namespace {
 class startup_failure_module final : public ark::module
 {
 public:
+    void start_owned_io() {
+        // Registration owns this real listener until DllExitPlugin, just as
+        // runtime plugins own modules that can survive a partial startup.
+        endpoint_ = std::make_unique<arknet::tcp_server>(1024, 4096, 1);
+        if (!endpoint_->start("127.0.0.1", 0) || !endpoint_->is_started() || endpoint_->get_listen_port() == 0)
+        {
+            throw std::runtime_error("Startup test endpoint did not start");
+        }
+        std::cerr << "app-startup-test:owned_io_started port=" << endpoint_->get_listen_port() << '\n';
+    }
+
     void fail_at(std::string phase) {
         const auto separator = phase.find(':');
         behavior_ = separator == std::string::npos ? "false" : phase.substr(0, separator);
@@ -76,12 +90,14 @@ private:
         return true;
     }
 
+    std::unique_ptr<arknet::tcp_server> endpoint_;
     std::string failed_phase_;
     std::string behavior_;
     bool updated_{};
 };
 
-startup_failure_module fixture;
+// Match runtime module ownership: only plugin uninstall deletes the instance.
+startup_failure_module* fixture{};
 
 } // namespace
 
@@ -90,8 +106,10 @@ ARK_EXPORT_FUNC void DllEntryPlugin(
     ark::plugin_manager* manager, const std::string& plugin_name, ark::logger* shared_logger) {
     ark::logger::init(shared_logger);
     const auto& mode = manager->get_plugin_conf(plugin_name);
-    fixture.fail_at(mode);
-    if (!manager->add_module(fixture.get_name(), &fixture) || !manager->add_update_module(&fixture))
+    fixture = new startup_failure_module;
+    fixture->fail_at(mode);
+    fixture->start_owned_io();
+    if (!manager->add_module(fixture->get_name(), fixture) || !manager->add_update_module(fixture))
     {
         std::cerr << "Startup test module registration failed\n";
         std::abort();
@@ -105,6 +123,7 @@ ARK_EXPORT_FUNC void DllEntryPlugin(
 
 ARK_EXPORT_FUNC void DllExitPlugin(ark::plugin_manager* manager) {
     std::cerr << "app-startup-test:uninstall\n";
-    manager->remove_update_module(fixture.get_name());
-    manager->remove_module(fixture.get_name());
+    manager->remove_update_module(fixture->get_name());
+    manager->remove_module(fixture->get_name());
+    delete std::exchange(fixture, nullptr);
 }
