@@ -18,7 +18,7 @@ ark 可以使用同一组插件与模块接口组合不同的服务进程。下�
 
 ## 仓库提供的内容
 
-`src/server/` 包含 `master`、`router`、`world`、`game`、`proxy`、`login`、`dir` 等示例角色，`build/conf/*.app.conf` 中的相应清单选择插件。角色目录与配置展示组合方式，不代表参考拓扑中的每种服务都已经完整实现。
+`src/server/` 包含 `master`、`router`、`world`、`game`、`proxy`、`login`、`dir` 等示例角色，`config/*.app.conf` 中的相应清单选择插件。角色目录与配置展示组合方式，不代表参考拓扑中的每种服务都已经完整实现。
 
 Bus 插件表示进程地址与路由目标。[Bus 参考](../reference/bus_CN.md)说明如何配置本地进程关系、创建连接，以及携带所需标识发送消息；[网络插件](../reference/network_CN.md)提供传输集成。进程内的模块调用仍使用直接接口，见[应用架构](application-architecture_CN.md)。
 

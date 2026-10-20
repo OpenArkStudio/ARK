@@ -21,11 +21,11 @@ test("relocated manifest sources resolve links from their original Markdown loca
   for (const chinese of [false, true]) {
     const suffix = chinese ? "_CN" : "";
     const prefix = chinese ? "/zh" : "";
-    const source = `# Manifest\n\n[build](networking${suffix}.md)\n\n[manifest](service-manifests${suffix}.md)\n\n[sample](../build/conf/sample1.app.toml)\n\n\`\`\`toml\n[application]\nplugin_config_dir = "conf/"\n\`\`\`\n`;
+    const source = `# Manifest\n\n[build](networking${suffix}.md)\n\n[manifest](service-manifests${suffix}.md)\n\n[sample](../config/sample1.app.toml)\n\n\`\`\`toml\n[application]\nplugin_config_dir = "conf/"\n\`\`\`\n`;
     const result = convertPage(source, `service-manifests${suffix}.md`, files);
     assert.ok(result.includes(`[build](${prefix}/networking)`));
     assert.ok(result.includes(`[manifest](${prefix}/guides/service-configuration/application-manifests)`));
-    assert.ok(result.includes("[sample](https://github.com/OpenArkStudio/ark/blob/main/build/conf/sample1.app.toml)"));
+    assert.ok(result.includes("[sample](https://github.com/OpenArkStudio/ark/blob/main/config/sample1.app.toml)"));
     assert.ok(result.includes('```toml\n[application]\nplugin_config_dir = "conf/"\n```'));
   }
 });

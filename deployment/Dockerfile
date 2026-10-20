@@ -18,7 +18,8 @@ RUN cd ./src/proto \
     && cd ../ \
     && mkdir -p /home/server/escort \
     && cp -r ./cmake-build/bin /home/server/escort \
-    && cp -r ./build/conf /home/server/escort
+    && cp -r ./config /home/server/escort/conf \
+    && cp -r ./resources /home/server/escort/resource
 
 FROM  docker/ark-alpine-build:latest
 

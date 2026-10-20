@@ -46,7 +46,7 @@ cmake --build app-build --parallel 2
 </Step>
 </Steps>
 
-只验证网络正确性时，按[网络回归测试](../networking_CN.md)进行精简构建。运行 `build/` 下的脚本前，先核对应用与部署配置。
+只验证网络正确性时，按[网络回归测试](../networking_CN.md)进行精简构建。准备独立运行目录后，使用 `deployment/scripts/` 下的[启动脚本](../guides/applications_CN.md#启动一个应用)，并显式传入运行目录。
 
 ## macOS 编译器与 SDK
 

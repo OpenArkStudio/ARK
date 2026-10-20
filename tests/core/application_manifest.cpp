@@ -73,7 +73,7 @@ void check_error(const std::string& path, bool has_position = true) {
 } // namespace
 
 DOCTEST_TEST_CASE("TOML and XML samples produce equivalent owning application manifests") {
-    const auto base = std::filesystem::path(ARK_TEST_SOURCE_DIR) / "build" / "conf";
+    const auto base = std::filesystem::path(ARK_TEST_SOURCE_DIR) / "config";
     const auto toml = ark::load_application_manifest(utf8_path(base / "sample1.app.toml"));
     const auto xml = ark::load_application_manifest(utf8_path(base / "sample1.app.conf"));
     DOCTEST_CHECK(toml.plugin_library_dir == "bin/");

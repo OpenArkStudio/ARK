@@ -15,7 +15,7 @@ macOS/Linux：
 ```sh
 mkdir -p run/sample1/bin run/sample1/conf
 cp -R app-build/bin/. run/sample1/bin/
-cp build/conf/sample1.app.conf build/conf/log.conf run/sample1/conf/
+cp config/sample1.app.conf config/log.conf run/sample1/conf/
 ```
 
 Windows PowerShell：
@@ -23,7 +23,7 @@ Windows PowerShell：
 ```powershell
 New-Item -ItemType Directory -Path run/sample1/bin, run/sample1/conf -Force | Out-Null
 Copy-Item app-build/bin/* run/sample1/bin/ -Recurse -Force
-Copy-Item build/conf/sample1.app.conf, build/conf/log.conf run/sample1/conf/
+Copy-Item config/sample1.app.conf, config/log.conf run/sample1/conf/
 ```
 
 运行所需的文件如下：

@@ -7,8 +7,8 @@ Excel 生成器将资源工作簿转换为 XML 元数据、配置数据及 C++�
 使用 Python 3 运行现有生成器，并在所选 Python 环境中安装 `openpyxl`。只有打包独立可执行文件时才需要 PyInstaller。
 
 ```sh
-python3 build/tools/config_tool/config_tool.py --help
-python3 build/tools/config_tool/config_tool.py --path /path/to/resource
+python3 tools/config_tool/config_tool.py --help
+python3 tools/config_tool/config_tool.py --path /path/to/resource
 ```
 
 | 参数 | 必填 | 含义 |
@@ -24,8 +24,8 @@ python3 build/tools/config_tool/config_tool.py --path /path/to/resource
 
 ```sh
 resource_demo=$(mktemp -d)
-cp -R build/resource/. "$resource_demo/"
-python3 build/tools/config_tool/config_tool.py --path "$resource_demo"
+cp -R resources/. "$resource_demo/"
+python3 tools/config_tool/config_tool.py --path "$resource_demo"
 printf '%s\n' "$resource_demo"
 ```
 
@@ -34,8 +34,8 @@ Windows PowerShell，需先准备 Python 和 openpyxl：
 ```powershell
 $resourceDemo = Join-Path ([System.IO.Path]::GetTempPath()) ("ark-resource-" + [guid]::NewGuid())
 New-Item -ItemType Directory -Path $resourceDemo | Out-Null
-Copy-Item build/resource/* $resourceDemo -Recurse -Force
-python build/tools/config_tool/config_tool.py --path $resourceDemo
+Copy-Item resources/* $resourceDemo -Recurse -Force
+python tools/config_tool/config_tool.py --path $resourceDemo
 Write-Output $resourceDemo
 ```
 
@@ -74,15 +74,15 @@ Write-Output $resourceDemo
 
 ## 更新仓库中的生成头文件
 
-资源变更经过检查后，在工作分支运行包装脚本。脚本导出仓库的 `build/resource/`，按项目 clang-format 规则格式化 `code/meta_define.hpp`，再复制到 `include/ark/meta_define.hpp`，会覆盖这些生成文件。
+资源变更经过检查后，在工作分支运行包装脚本。脚本导出仓库的 `resources/`，按项目 clang-format 规则格式化 `code/meta_define.hpp`，再复制到 `include/ark/meta_define.hpp`，会覆盖这些生成文件。
 
 macOS/Linux 上选择 Python 环境和项目支持的 clang-format 版本：
 
 ```sh
-PYTHON=python3 CLANG_FORMAT=clang-format sh build/tools/gen-config.sh
+PYTHON=python3 CLANG_FORMAT=clang-format sh tools/gen-config.sh
 ```
 
-Windows 按需设置 `PYTHON`、`CLANG_FORMAT` 后运行 `build/tools/gen-config.bat`。直接运行 `config_tool.py` **不会**执行最后的头文件复制。
+Windows 按需设置 `PYTHON`、`CLANG_FORMAT` 后运行 `tools/gen-config.bat`。直接运行 `config_tool.py` **不会**执行最后的头文件复制。
 
 生成头文件使用 snake_case 的 C++ 名称，保留 `Player` 等资源字符串：
 
@@ -103,4 +103,6 @@ const auto field_index = ark::meta_name_index::get_index(class_name, "map_id");
 | `plugin_and_module_tool` | 使用旧接口的历史脚手架模板，不应作为当前 SDK 示例；创建方式见[模块](modules_CN.md)和[插件](plugins_CN.md)指南 |
 | `gcm` | 仅有配置示例，当前目录未提供可执行的环境管理工具 |
 
-工具源码位于 [build/tools](https://github.com/OpenArkStudio/ark/tree/main/build/tools)。应用的 XML 插件列表、日志配置与生成的 Kernel 资源是不同的配置输入。
+Photon 的历史协议资源保留在 `resources/photon/`，其中只有 x86-64 macOS/Linux 解析器二进制，仓库没有对应生成器源码；本次未验证其兼容性，也不将其列为当前可用工具。脚手架目录中的历史可执行文件同样未通过当前 SDK 验证。
+
+工具源码位于 [tools](https://github.com/OpenArkStudio/ark/tree/main/tools)。应用的 XML 插件列表、日志配置与生成的 Kernel 资源是不同的配置输入。

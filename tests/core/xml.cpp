@@ -132,7 +132,7 @@ DOCTEST_TEST_CASE("XML retains empty documents without a root node") {
 }
 
 DOCTEST_TEST_CASE("XML parses the shipped freebird configuration") {
-    const auto path = std::filesystem::path(ARK_TEST_SOURCE_DIR) / "build" / "conf" / "freebird.app.conf";
+    const auto path = std::filesystem::path(ARK_TEST_SOURCE_DIR) / "config" / "freebird.app.conf";
     ark::xml document(path.string());
     auto root = document.find_node("plugins");
     DOCTEST_REQUIRE(root.is_valid());

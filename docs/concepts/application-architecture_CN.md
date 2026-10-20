@@ -6,7 +6,7 @@ ark 应用是由选定插件库组成的进程。一个插件可以注册多个�
 
 ## 从清单到模块
 
-启动器接收 `--busid`、`--name` 与 `--app_conf`。应用清单选择动态库名称，以及可选的插件配置文件名。仓库提供的 `build/conf/sample1.app.conf` 为：
+启动器接收 `--busid`、`--name` 与 `--app_conf`。应用清单选择动态库名称，以及可选的插件配置文件名。仓库提供的 `config/sample1.app.conf` 为：
 
 ```xml
 <xml>
@@ -17,7 +17,7 @@ ark 应用是由选定插件库组成的进程。一个插件可以注册多个�
 </xml>
 ```
 
-新的应用清单可以使用 TOML，仓库也提供等价的 [sample1.app.toml](https://github.com/OpenArkStudio/ark/blob/main/build/conf/sample1.app.toml)。小写 `.toml` 后缀选择 TOML，原有 `*.app.conf` 入口使用 XML。完整字段与校验规则见[应用清单](../service-manifests_CN.md)；插件专属配置和业务资源格式保持不变。
+新的应用清单可以使用 TOML，仓库也提供等价的 [sample1.app.toml](https://github.com/OpenArkStudio/ark/blob/main/config/sample1.app.toml)。小写 `.toml` 后缀选择 TOML，原有 `*.app.conf` 入口使用 XML。完整字段与校验规则见[应用清单](../service-manifests_CN.md)；插件专属配置和业务资源格式保持不变。
 
 加载器依次加载库并调用导出的插件入口。`sample1_plugin::install()` 注册 `sample1_module`，Utility 插件提供定时器等服务。模块通过 `find_module<timer_module>()` 获取这些服务，不需要再创建一份 Utility 插件。
 

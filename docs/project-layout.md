@@ -27,7 +27,10 @@ build's artifacts into the runtime's `bin/` directory.
 | `tests/network/` | Network and logging regressions |
 | `tests/consumer/` | An independent project consuming the public SDK |
 | `examples/` | Application examples |
-| `build/` | Runtime configuration, resources, tools and [launch helpers](../build/README.md) |
+| `config/` | Application manifest, plugin and logger configuration samples |
+| `resources/` | Business data, workbooks and legacy resources |
+| `tools/` | Offline configuration tools and retained legacy tools |
+| `deployment/scripts/` | Single-application launch and explicit-PID stop helpers |
 | `deployment/` | Container recipes and Kubernetes examples |
 
 Include public headers as `<ark/plugin_manager.hpp>` or `<ark/net/tcp_client.hpp>`.
