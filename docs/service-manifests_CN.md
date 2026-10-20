@@ -46,7 +46,32 @@ cd run/sample1
 ./bin/app --busid=1.0.0.1 --name=sample1 -a conf/sample1.app.toml
 ```
 
-Debug 构建使用 `app_d`。日志仍读取 `conf/log.conf`；总线、日志、数据库和业务配置的格式保持原样。
+Debug 构建使用 `app_d`。日志仍读取 `conf/log.conf`。HTTP 和 Consul 的运行参数使用下方 TOML 文件；应用清单只指定这些文件的路径。本次迁移保留总线配置和业务导出数据的现有格式。
+
+## HTTP 与 Consul 插件配置
+
+`ark_http_plugin` 读取 `http.plugin.toml`：
+
+```toml
+[http]
+host = "0.0.0.0"
+port = 9090
+threads = 4
+```
+
+`host` 为非空地址或域名。`port` 为 0–65535 的整数；服务启动时，零表示申请可用端口。`threads` 为 1–255 的整数，与现有服务接口一致。
+
+`ark_consul_plugin` 读取 `consul.plugin.toml`：
+
+```toml
+[consul]
+host = "127.0.0.1"
+port = 8500
+```
+
+Consul 目标端口必须为 1–65535。未知表或字段、缺失字段、类型错误及数值越界都会使插件初始化失败。错误信息包含文件和字段；语法错误另含行列位置，不输出配置值。解析配置不会进行域名解析或建立连接。
+
+迁移现有部署时，将 HTTP／Consul XML 文件替换为上述 TOML 配置，并修改应用清单中的配置文件名。原 `ip` 改为 `host`，HTTP 的 `thread` 或 `thread_num` 改为 `threads`。仅修改扩展名无效，这两个插件要求内容为 TOML。仓库的应用清单与部署 ConfigMap 已改用新文件名。本次修改不会让 Consul 成为必选依赖，也不调整暂缓讨论的服务发现方案。
 
 ## XML 兼容性
 

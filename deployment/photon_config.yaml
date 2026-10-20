@@ -55,16 +55,16 @@ data:
 
         <center ip="127.0.0.1" port="8500" service_name="ark-service" check_interval="10s" check_timeout="3s" />
     </xml>
-  consul.plugin.conf: |-
-    <xml>
-        <conf ip="127.0.0.1" port="8500" />
-    </xml>
+  consul.plugin.toml: |-
+    [consul]
+    host = "127.0.0.1"
+    port = 8500
   db.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
     />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   dir.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
     />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_dir_plugin\" conf=\"\"
     />\n\t</plugins>\n</xml>\n"
@@ -72,19 +72,20 @@ data:
     <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
         <plugin name="ark_utility_plugin" conf="" />
         <plugin name="ark_redis_plugin" conf="redis.plugin.conf" />
-        <plugin name="ark_http_plugin" conf="http.plugin.conf" />
+        <plugin name="ark_http_plugin" conf="http.plugin.toml" />
         <plugin name="AFFreeBirdPlugin" conf="freebird.plugin.conf" />
     </Plugins>
   game.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
     name=\"ark_kernel_plugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"ark_utility_plugin\"
-    conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
     />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_game_plugin\" conf=\"\"
     />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
-  http.plugin.conf: |-
-    <xml>
-        <conf ip="0.0.0.0" port="9090" thread="4" />
-    </xml>
+  http.plugin.toml: |-
+    [http]
+    host = "0.0.0.0"
+    port = 9090
+    threads = 4
   kernel.plugin.conf: |-
     <?xml version="1.0"?>
     <xml>
@@ -111,23 +112,23 @@ data:
         <!-- other name will be added, like remote-log,  -->
     </xml>
   login.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
     />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_login_plugin\" conf=\"\"
     />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
   master.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
     />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_master_plugin\" conf=\"\"
     />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
   oss.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
     />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t</plugins>\n\t<res path=\"resource\" />\n</xml>\n"
   photon.example.app.conf: "<?xml version=\"1.0\"?>\n<conf>\n\t<plugins plugin_lib_dir=\"bin/\"
     plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"ark_utility_plugin\" conf=\"\"/>\n\t\t<plugin
     name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"ark_net_plugin\"
-    conf=\"\"/>\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"/>\n\t\t<plugin
+    conf=\"\"/>\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"/>\n\t\t<plugin
     name=\"PhotonPlugin\" conf=\"photon.example.plugin.conf\"/>\n\t</plugins>\n</conf>"
   photon.example.plugin.conf: |-
     <?xml version="1.0"?>
@@ -137,7 +138,7 @@ data:
   photon.game.app.conf: "<?xml version=\"1.0\"?>\n<conf>\n\t<plugins plugin_lib_dir=\"bin/\"
     plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"ark_utility_plugin\" conf=\"\"/>\n\t\t<plugin
     name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"ark_net_plugin\"
-    conf=\"\"/>\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"/>\n\t\t<plugin
+    conf=\"\"/>\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"/>\n\t\t<plugin
     name=\"AFPhotonGamePlugin\" conf=\"photon.game.plugin.conf\"/>\n\t</plugins>\n</conf>"
   photon.game.plugin.conf: |-
     <?xml version="1.0"?>
@@ -155,7 +156,7 @@ data:
   photon.master.app.conf: "<?xml version=\"1.0\"?>\n<conf>\n\t<plugins plugin_lib_dir=\"bin/\"
     plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"ark_utility_plugin\" conf=\"\"/>\n\t\t<plugin
     name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"ark_net_plugin\"
-    conf=\"\"/>\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"/>\n\t\t<plugin
+    conf=\"\"/>\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"/>\n\t\t<plugin
     name=\"AFPhotonMasterPlugin\" conf=\"photon.master.plugin.conf\"/>\n\t</plugins>\n</conf>"
   photon.master.plugin.conf: |-
     <?xml version="1.0"?>
@@ -176,7 +177,7 @@ data:
     name=\"ark_physic_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   proxy.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
     name=\"ark_kernel_plugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"ark_utility_plugin\"
-    conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
     />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_proxy_plugin\" conf=\"\"
     />\n\t</plugins>\n</xml>\n"
@@ -188,11 +189,11 @@ data:
     name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_redis_plugin\" conf=\"redis.plugin.conf\"
     />\n\t\t<plugin name=\"redis_sample_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   remote_log.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
     />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   router.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.conf\"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
     />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   sample1.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
@@ -208,12 +209,12 @@ data:
     name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_physic_plugin\" conf=\"\"
     />\n\t\t<plugin name=\"sample4_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   sample5.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_http_plugin\" conf=\"http.plugin.conf\"
+    name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_http_plugin\" conf=\"http.plugin.toml\"
     />\n\t\t<plugin name=\"sample5_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   simulate.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
     name=\"ark_physic_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\"
     />\n\t\t<plugin name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\"
-    conf=\"consul.plugin.conf\" />\n\t\t<plugin name=\"ark_utility_plugin\" conf=\"\"
+    conf=\"consul.plugin.toml\" />\n\t\t<plugin name=\"ark_utility_plugin\" conf=\"\"
     />\n\t\t<plugin name=\"ark_simulate_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   world.app.conf: "<xml>\n\t<plugins path=\"./\">\n\t\t<plugin name=\"ark_kernel_plugin\"
     />\n\t\t<plugin name=\"ark_utility_plugin\" />\n\t\t<plugin name=\"ark_consul_plugin\"

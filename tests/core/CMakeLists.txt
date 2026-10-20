@@ -96,6 +96,15 @@ if(ARK_BUILD_CONFIG)
         USES_TERMINAL)
     add_dependencies(check-core check-application-manifest)
 
+    add_executable(ark_plugin_configuration_tests main.cpp plugin_configuration.cpp)
+    set_property(TARGET ark_plugin_configuration_tests PROPERTY LINK_LIBRARIES tomlplusplus::tomlplusplus)
+    target_include_directories(ark_plugin_configuration_tests PRIVATE "${PROJECT_SOURCE_DIR}/src/plugins")
+    target_compile_features(ark_plugin_configuration_tests PRIVATE cxx_std_20)
+    add_custom_target(check-plugin-configuration
+        COMMAND $<TARGET_FILE:ark_plugin_configuration_tests>
+        DEPENDS ark_plugin_configuration_tests USES_TERMINAL)
+    add_dependencies(check-core check-plugin-configuration)
+
     if(TARGET app)
         add_library(ark_business_runtime_probe SHARED ../app/business_runtime_plugin.cpp)
         set_property(TARGET ark_business_runtime_probe PROPERTY LINK_LIBRARIES ark::core)

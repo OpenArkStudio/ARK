@@ -14,3 +14,4 @@ else(UNIX)
         optimized :AFProto.a
         ${PROTOBUF_LIBRARIES})
 endif()
+set_property(TARGET ark_consul_plugin APPEND PROPERTY LINK_LIBRARIES tomlplusplus::tomlplusplus)

@@ -2,6 +2,8 @@
 
 #include <atomic>
 #include <chrono>
+#include <filesystem>
+#include <fstream>
 #include <functional>
 #include <future>
 #include <map>
@@ -16,6 +18,7 @@
 #include <arknet/http/http_server.hpp>
 #include <arknet/http/request.hpp>
 
+#include "ark/http/http_plugin.hpp"
 #include "ark/http/http_server_module_impl.hpp"
 #include "ark/net/http_client_module_impl.hpp"
 
@@ -25,6 +28,33 @@ using namespace std::chrono_literals;
 using http_request = arknet::http_request::request_type;
 using http_response = arknet::http_request::response_type;
 using http_result = std::pair<bool, std::string>;
+
+class http_plugin_configuration
+{
+public:
+    explicit http_plugin_configuration(const std::string& text)
+        : previous_(ark::http_plugin::get_plugin_conf())
+        , path_(std::filesystem::temp_directory_path() /
+                ("ark-http-plugin-" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) +
+                    ".toml")) {
+        std::ofstream output(path_, std::ios::binary);
+        output.exceptions(std::ios::badbit | std::ios::failbit);
+        output << text;
+        output.close();
+        plugin_.set_plugin_conf(path_.string());
+    }
+
+    ~http_plugin_configuration() {
+        plugin_.set_plugin_conf(previous_);
+        std::error_code ignored;
+        std::filesystem::remove(path_, ignored);
+    }
+
+private:
+    std::string previous_;
+    std::filesystem::path path_;
+    ark::http_plugin plugin_;
+};
 
 template<class predicate_type, class pump_type>
 bool wait_http(predicate_type predicate, pump_type pump, std::chrono::milliseconds timeout = 5s) {
@@ -370,7 +400,10 @@ TEST_CASE("HTTP validates host headers target and timeout before network IO") {
 }
 
 TEST_CASE("ARK HTTP server uses native routing and stops without signal delivery") {
+    const auto port = http_port();
+    http_plugin_configuration config("[http]\nhost='127.0.0.1'\nport=" + std::to_string(port) + "\nthreads=2\n");
     ark::http_server_module_impl server;
+    REQUIRE(server.init());
     server.get_router()
         .add(arknet::http::verb::get, "/users/:id",
             [](const auto& context, auto& response) {
@@ -379,8 +412,7 @@ TEST_CASE("ARK HTTP server uses native routing and stops without signal delivery
             })
         .add(arknet::http::verb::post, "/echo",
             [](const auto& context, auto& response) { response.body() = context.request.body(); });
-    const auto port = http_port();
-    REQUIRE(server.start_server("127.0.0.1", port, 2));
+    REQUIRE(server.start_server());
     CHECK_FALSE(server.start_server("127.0.0.1", port, 2));
     ark::http_client_module_impl client;
     auto get = client.get("127.0.0.1", port, "/users/42?active=1");
@@ -416,4 +448,10 @@ TEST_CASE("ARK HTTP server uses native routing and stops without signal delivery
     auto restarted = client.get("127.0.0.1", port, "/users/7");
     CHECK(await_http(restarted).second == "user:7:");
     CHECK(server.pre_shut());
+}
+
+TEST_CASE("ARK HTTP module rejects a mistyped TOML setting during initialization") {
+    http_plugin_configuration config("[http]\nhost='127.0.0.1'\nport=9090\nthread=4\n");
+    ark::http_server_module_impl server;
+    CHECK_THROWS_AS(server.init(), std::runtime_error);
 }

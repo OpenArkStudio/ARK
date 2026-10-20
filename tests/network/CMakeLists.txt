@@ -14,7 +14,9 @@ add_executable(ark_network_tests
     ../../src/plugins/net/rudp_server.cpp
     ../../src/plugins/net/http_client_module_impl.cpp
     ../../src/plugins/net/http_server.cpp
-    ../../src/plugins/http/http_server_module_impl.cpp)
+    ../../src/plugins/http/http_server_module_impl.cpp
+    ../../src/plugins/http/http_plugin.cpp)
+target_link_libraries(ark_network_tests PRIVATE tomlplusplus::tomlplusplus)
 add_custom_target(check-network
     COMMAND $<TARGET_FILE:ark_network_tests>
     DEPENDS ark_network_tests

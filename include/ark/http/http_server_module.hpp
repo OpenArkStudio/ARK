@@ -36,7 +36,7 @@ class http_server_module : public module
 public:
     virtual arknet::http_router& get_router() = 0;
     virtual bool start_server() = 0;
-    virtual bool start_server(std::string const& ip = "0.0.0.0", uint16_t port = 8080, uint8_t thread_num = 1) = 0;
+    virtual bool start_server(std::string const& ip, uint16_t port = 8080, uint8_t thread_num = 1) = 0;
 
     template<typename response_body_type, class request_body_type>
     arknet::http::response<response_body_type> make_200(const arknet::http::request<request_body_type>& request,

@@ -46,7 +46,32 @@ cd run/sample1
 ./bin/app --busid=1.0.0.1 --name=sample1 -a conf/sample1.app.toml
 ```
 
-Debug builds use `app_d`. Logging still reads `conf/log.conf`; bus, logging, database and business configuration formats are unchanged.
+Debug builds use `app_d`. Logging still reads `conf/log.conf`. HTTP and Consul runtime settings use the TOML files below; the application manifest only selects their paths. This migration leaves Bus settings and exported business data unchanged.
+
+## HTTP and Consul plugin settings
+
+`ark_http_plugin` reads `http.plugin.toml`:
+
+```toml
+[http]
+host = "0.0.0.0"
+port = 9090
+threads = 4
+```
+
+`host` is a nonempty address or hostname. `port` is an integer from 0 to 65535; zero requests an available port when the server starts. `threads` is an integer from 1 to 255, matching the existing server interface.
+
+`ark_consul_plugin` reads `consul.plugin.toml`:
+
+```toml
+[consul]
+host = "127.0.0.1"
+port = 8500
+```
+
+The Consul destination port must be from 1 to 65535. Unknown sections or keys, missing fields, incorrect types and out-of-range values fail plugin initialization. Errors identify the file and field; syntax errors also include a line and column. Configuration values are not printed. The parser does not resolve hosts or start a network connection.
+
+To migrate existing installations, replace the HTTP/Consul XML files with these TOML settings and update each manifest's configuration filename. XML `ip` becomes `host`, and HTTP `thread` or `thread_num` becomes `threads`. Do not merely rename an XML file: these two plugins now require TOML content. Shipped application manifests and the deployment ConfigMap use the new filenames. This change does not add Consul as a mandatory dependency or change the paused service-discovery design.
 
 ## XML compatibility
 

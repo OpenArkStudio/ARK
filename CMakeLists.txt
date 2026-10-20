@@ -208,6 +208,9 @@ else()
 endif()
 
 find_path(RAPIDXML_INCLUDE_DIR rapidxml.hpp PATH_SUFFIXES rapidxml REQUIRED)
+if(ARK_BUILD_CONFIG OR ARK_BUILD_NETWORK_TESTS)
+    include("${ROOT_DIR}/cmake/ark_toml.cmake")
+endif()
 
 if(ARK_BUILD_CONFIG)
     add_subdirectory(src/config)

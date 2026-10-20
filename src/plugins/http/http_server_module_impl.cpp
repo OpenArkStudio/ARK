@@ -22,9 +22,9 @@
 #include <mutex>
 #include <set>
 
+#include "../detail/plugin_configuration.hpp"
 #include "ark/http/http_plugin.hpp"
 #include "ark/http/http_server_module_impl.hpp"
-#include "ark/xml.hpp"
 
 namespace ark {
 
@@ -106,17 +106,10 @@ bool http_server_module_impl::start_server(
 }
 
 bool http_server_module_impl::load_config() {
-    xml config(http_plugin::get_plugin_conf());
-    auto root = config.get_root_node();
-    ARK_ASSERT_RET_VAL(root.is_valid(), false);
-
-    auto conf_node = root.find_node("conf");
-    ARK_ASSERT_RET_VAL(conf_node.is_valid(), false);
-
-    http_ip_ = conf_node.get_string("ip");
-    http_port_ = conf_node.get_uint32("port");
-    http_thread_num_ = conf_node.get_uint32("thread_num");
-
+    const auto config = plugin_config_detail::load_http(http_plugin::get_plugin_conf());
+    http_ip_ = config.host;
+    http_port_ = config.port;
+    http_thread_num_ = config.threads;
     return true;
 }
 
