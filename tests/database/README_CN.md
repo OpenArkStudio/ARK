@@ -148,3 +148,45 @@ bash scripts/test_databases.sh database-build redis
 验证拥有型结果、取消、TLS 与正常停机。`ark_database_public_redis_plugin_tests` 和
 `ark_database_public_mysql_plugin_tests` 加载实际隐藏符号动态库。
 `check-database` 还编译迁移后的示例。MySQL 检查要求开启 SSL，真实服务目标仍需显式配置端点。
+
+## 公开模块真实服务验收
+
+`ark_database_public_service_tests` 通过公开的 `mysql_module`、`redis_module`
+接口调用真实实现，使用已注册消费模块的 `task_group` 和管理器共享的
+`manual_runtime`。这是独立的 C++ 可执行程序；`check-database` 仅编译此程序，不运行，也不连接服务。
+
+```sh
+cmake --build database-build --target ark_database_public_service_tests --parallel 2
+# 先配置隔离服务的端点，再选择一种协议或同时运行两种协议。
+bash scripts/test_databases.sh database-build public-redis
+bash scripts/test_databases.sh database-build public-mysql
+bash scripts/test_databases.sh database-build public-services
+# 也可以直接运行：
+./database-build/tests/database/ark_database_public_service_tests redis
+./database-build/tests/database/ark_database_public_service_tests mysql
+```
+
+Redis 要求设置 `ARK_DATABASE_REDIS_HOST` 和 `ARK_DATABASE_REDIS_PORT`。
+可选的 `ARK_DATABASE_REDIS_USER`、`ARK_DATABASE_REDIS_PASSWORD` 用于认证；
+验证认证路径时，需使用启用了认证的临时服务。测试在注册后修改调用方配置，
+验证有序的二进制 ECHO/ECHO/PING 流水线及后续命令，不执行写入。
+
+MySQL 要求设置 `ARK_DATABASE_MYSQL_HOST`、`ARK_DATABASE_MYSQL_PORT`、
+`ARK_DATABASE_MYSQL_USER`、`ARK_DATABASE_MYSQL_PASSWORD`（必须存在，可以为空）、
+`ARK_DATABASE_MYSQL_DATABASE` 和 `ARK_DATABASE_MYSQL_CA`。连接必须使用 TLS 并验证证书。
+使用临时数据库，以及具备 CREATE、DROP、SELECT、INSERT 权限的账号。
+测试创建唯一的 `ark_public_service_...` InnoDB 表，执行文本查询、二进制预处理查询、
+事务查询和预处理插入，再验证提交数据可见、回滚数据不可见。流程结束后删除测试表；
+断言失败且连接仍可用时，也会尝试删除。连接失败、活动事务清理或强制退出进程可能留下测试表，
+需随临时数据库一起清理。
+
+两种协议均检查协程在拥有线程及共享执行器上恢复、输入与配置的所有权，以及后续操作和
+模块/运行时销毁后结果仍然有效。管理器在已受理任务等待期间进入自然排空状态，
+允许流程完成后续请求，再验证成功且可重复调用的停止操作。每种协议还会在 IO 等待期间主动
+触发宿主栈展开并重复整个流程：命名协程函数按值拥有输入，拥有者析构时排空流程，外层作用域
+再验证完成结果与保留的数据。这些真实服务用例不注入服务故障，也不测试取消。协议端点回归和动态库回归仍是独立检查；此处结果不代表动态库卸载、
+故障恢复或容量验收。
+
+程序必须显式配置端点；配置缺失、无效或验收失败均返回非零状态，不打印凭据或任意原生错误文本，
+也不会启动或停止服务。`all` 也运行这两种公开模块真实服务模式，因此要求启用 SSL，
+并配置两种服务的端点。
