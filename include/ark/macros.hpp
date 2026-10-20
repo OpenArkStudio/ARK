@@ -277,29 +277,6 @@ typedef struct HINSTANCE__* library_instance;
         assert(exp_);                                                                                                  \
     } while (false)
 
-// cpp version
-#if (__cplusplus >= 201103L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 201103L)
-#define ARK_CPP11_OR_GREATER
-#endif
-
-#if (__cplusplus >= 201402L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 201402L)
-#define ARK_CPP14_OR_GREATER
-#endif
-
-#if (__cplusplus >= 201703L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 201703L)
-#define ARK_CPP17_OR_GREATER
-#endif
-
-#ifdef ARK_CPP11_OR_GREATER
-#define ARK_NOEXCEPT noexcept
-#define ARK_CONSTEXPR constexpr
-#define ARK_FINAL final
-#else
-#define ARK_NOEXCEPT throw()
-#define ARK_CONSTEXPR
-#define ARK_FINAL
-#endif
-
 #ifndef ARK_FUNCTION_LINE
 #define ARK_FUNCTION_LINE __FUNCTION__, __LINE__
 #endif
@@ -465,16 +442,5 @@ private:                                                                        
     std::string name_{};
 ////////////////////////////////////////////////////////////////////////////
 
-#if !defined(ARK_CPP14_OR_GREATER) && !defined(ARK_CPP17_OR_GREATER)
-namespace std {
-
-template<typename element_type, typename... argument_types>
-std::unique_ptr<element_type> make_unique(argument_types&&... params) {
-    return std::unique_ptr<element_type>(new element_type(std::forward<argument_types>(params)...));
-}
-
-} // namespace std
-#endif
-
 // clear player data time
-ARK_CONSTEXPR int clear_hour = 5;
+constexpr int clear_hour = 5;

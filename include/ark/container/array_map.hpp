@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <type_traits>
+
 #include "ark/array_pod.hpp"
 #include "ark/macros.hpp"
 #include "ark/platform.hpp"
@@ -35,34 +37,17 @@ class is_buildin_type
 public:
     enum
     {
-        yes = false,
-        no = true
+        yes = std::is_same_v<element_type, uint16_t> || std::is_same_v<element_type, uint32_t> ||
+              std::is_same_v<element_type, uint64_t> || std::is_same_v<element_type, int16_t> ||
+              std::is_same_v<element_type, int32_t> || std::is_same_v<element_type, int64_t>,
+        no = !yes
     };
 };
-
-#define MAKE_BUILDIN_TYPE(element_type)                                                                                \
-    template<>                                                                                                         \
-    class is_buildin_type<element_type>                                                                                \
-    {                                                                                                                  \
-    public:                                                                                                            \
-        enum                                                                                                           \
-        {                                                                                                              \
-            yes = true,                                                                                                \
-            no = false                                                                                                 \
-        };                                                                                                             \
-    };
 
 template<typename element_type>
 bool check_buildin_type(const element_type& t) {
     return is_buildin_type<element_type>::yes ? true : false;
 }
-
-MAKE_BUILDIN_TYPE(uint16_t)
-MAKE_BUILDIN_TYPE(uint32_t)
-MAKE_BUILDIN_TYPE(uint64_t)
-MAKE_BUILDIN_TYPE(int16_t)
-MAKE_BUILDIN_TYPE(int32_t)
-MAKE_BUILDIN_TYPE(int64_t)
 
 //////////////////////////////////////////////////////////////////////////
 

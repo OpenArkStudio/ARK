@@ -53,3 +53,27 @@ clang-tidy 应与 CMake 配置使用同一套编译器工具链，以正确找�
 
 现有配置生成器也按此规范生成 C++，并在复制到 `include/ark` 前格式化 `meta_define.hpp`。
 配置数据、反射字符串和 C# 输出保留原有名称。
+
+## C++20 兼容层迁移
+
+**源码不兼容变更：** ark 不再定义 `ARK_CPP11_OR_GREATER`、
+`ARK_CPP14_OR_GREATER`、`ARK_CPP17_OR_GREATER`、`ARK_NOEXCEPT`、`ARK_CONSTEXPR`、
+`ARK_FINAL` 和 `MAKE_BUILDIN_TYPE`。最低语言版本仍为 C++20。
+
+| 移除的名称 | 迁移方式 |
+| --- | --- |
+| `ARK_CPP11_OR_GREATER`、`ARK_CPP14_OR_GREATER`、`ARK_CPP17_OR_GREATER` | ark 使用方删除过时的条件分支；独立支持其他语言版本的应用自行维护特性检查。 |
+| `ARK_NOEXCEPT` | 直接使用 `noexcept`。 |
+| `ARK_CONSTEXPR` | 直接使用 `constexpr`。 |
+| `ARK_FINAL` | 直接使用 `final`。 |
+| `MAKE_BUILDIN_TYPE(T)` | 若需保留自定义类型分类，显式特化 `ark::is_buildin_type<T>`，继续声明原有的 `yes`、`no` 枚举值。 |
+
+移除 C++11 的 `std::make_unique` 回退实现；包含 `<memory>` 后使用标准 C++20 库。
+平台导出、断言和所有权宏保持原有行为。
+
+`is_buildin_type` 仍只识别 `uint16_t`、`uint32_t`、`uint64_t`、`int16_t`、
+`int32_t` 和 `int64_t` 六种精确类型，以及与它们等同的原生类型别名；不会扩展到
+所有整数类型，也不会移除 cv 或引用限定。`yes`、`no` 枚举值和
+`check_buildin_type` 的签名、异常契约、参数推导保持不变：const 整数左值可通过
+`const T&` 推导出未限定的类型，但显式检查 const 限定的 trait 仍返回 false。
+常量类型和值保持不变，包括 UID 位分配和网络超时。
