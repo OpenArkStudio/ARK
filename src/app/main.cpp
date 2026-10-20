@@ -22,6 +22,7 @@
 #include <chrono>
 #include <csignal>
 #include <cstdint>
+#include <cstdlib>
 #include <exception>
 
 #include <args/args.hxx>
@@ -304,7 +305,7 @@ bool main_loop(std::exception_ptr* error = nullptr) {
 #endif
 }
 
-void report_startup_failure(const char* detail) {
+[[noreturn]] void exit_startup_failure(const char* detail) {
     std::cerr << "Application startup failed";
     const auto& failure = plugin_manager::instance()->get_startup_failure();
     if (!failure.empty())
@@ -312,6 +313,15 @@ void report_startup_failure(const char* detail) {
         std::cerr << " at " << failure;
     }
     std::cerr << ": " << detail << std::endl;
+
+    // The diagnostic is flushed before exiting. Partially started plugins may
+    // retain live IO pools; normal static cleanup can wait for them forever.
+#ifdef ARK_PLATFORM_WIN
+    // Avoid DLL_PROCESS_DETACH and its static destructors as well as main's CRT
+    // cleanup. A failed startup has no safe plugin teardown order.
+    TerminateProcess(GetCurrentProcess(), 1);
+#endif
+    std::_Exit(1);
 }
 
 int main(int argc, char* argv[]) {
@@ -339,20 +349,13 @@ int main(int argc, char* argv[]) {
         if (!plugin_manager::instance()->start(
                 date_time::get_now_time(), manifest.plugin_library_dir, manifest.plugin_config_dir, manifest.plugins))
         {
-            report_startup_failure("returned false");
-            return 1;
+            exit_startup_failure("returned false");
         }
     }
     catch (const std::exception& error)
-    {
-        report_startup_failure(error.what());
-        return 1;
-    }
+    { exit_startup_failure(error.what()); }
     catch (...)
-    {
-        report_startup_failure("unknown exception");
-        return 1;
-    }
+    { exit_startup_failure("unknown exception"); }
 
 #ifdef ARK_PLATFORM_WIN
     create_back_thread();
