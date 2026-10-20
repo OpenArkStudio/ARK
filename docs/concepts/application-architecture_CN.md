@@ -11,8 +11,8 @@ ark 应用是由选定插件库组成的进程。一个插件可以注册多个�
 ```xml
 <xml>
     <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
-        <plugin name="AFUtilityPlugin" conf="" />
-        <plugin name="Sample1Plugin" conf="" />
+        <plugin name="ark_utility_plugin" conf="" />
+        <plugin name="sample1_plugin" conf="" />
     </plugins>
 </xml>
 ```
@@ -21,7 +21,7 @@ ark 应用是由选定插件库组成的进程。一个插件可以注册多个�
 
 加载器依次加载库并调用导出的插件入口。`sample1_plugin::install()` 注册 `sample1_module`，Utility 插件提供定时器等服务。模块通过 `find_module<timer_module>()` 获取这些服务，不需要再创建一份 Utility 插件。
 
-清单名称是运行时库名。现有 `AFUtilityPlugin`、`Sample1Plugin` 不等同于 C++ 类名拼写，必须与构建产物匹配。Debug 库使用配置的 `_d` 后缀。空 `conf` 不提供配置文件名，加载器本身不解析插件专属内容。
+清单名称是运行时库名。现有 `ark_utility_plugin`、`sample1_plugin` 不等同于 C++ 类名拼写，必须与构建产物匹配。Debug 库使用配置的 `_d` 后缀。空 `conf` 不提供配置文件名，加载器本身不解析插件专属内容。
 
 ## 路径与运行入口
 

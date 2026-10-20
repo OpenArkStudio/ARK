@@ -2,7 +2,7 @@ if (WIN32)
     include_directories(
     )
 
-    BUILD_PLUGIN_MACRO(AFKafkaPlugin
+    BUILD_PLUGIN_MACRO(ark_kafka_plugin
             )
 else ()
     find_package(librdkafka REQUIRED)
@@ -20,7 +20,7 @@ else ()
             ${ZLIB_INCLUDE_DIRS}
     )
 
-    BUILD_PLUGIN_MACRO(AFKafkaPlugin
+    BUILD_PLUGIN_MACRO(ark_kafka_plugin
             ${LIBRDKAFKA_CPP_LIBRARIES}
             ${LIBRDKAFKA_LIBRARIES}
             ${OPENSSL_LIBRARIES}

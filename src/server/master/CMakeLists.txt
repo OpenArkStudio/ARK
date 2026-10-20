@@ -1,1 +1,1 @@
-BUILD_SERVER_MACRO(AFMasterPlugin)
+BUILD_SERVER_MACRO(ark_master_plugin)

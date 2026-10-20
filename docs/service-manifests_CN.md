@@ -12,11 +12,11 @@ plugin_library_dir = "bin/"
 plugin_config_dir = "conf/"
 
 [[plugins]]
-name = "AFUtilityPlugin"
+name = "ark_utility_plugin"
 config = ""
 
 [[plugins]]
-name = "Sample1Plugin"
+name = "sample1_plugin"
 ```
 
 | 字段 | 类型及默认值 | 含义 |
@@ -25,7 +25,7 @@ name = "Sample1Plugin"
 | `application.plugin_library_dir` | 字符串，`""` | 插件库名称前的路径前缀。 |
 | `application.plugin_config_dir` | 字符串，`""` | 插件配置文件名的路径前缀。 |
 | `plugins` | 表数组，空 | 省略或在顶层设置 `plugins = []` 均表示不加载插件。 |
-| `plugins[].name` | 非空字符串，必填 | 唯一的动态库名称，例如 `Sample1Plugin`，不含扩展名；平台后缀及 Debug 的 `_d` 后缀仍由加载器补充。 |
+| `plugins[].name` | 非空字符串，必填 | 唯一的动态库名称，例如 `sample1_plugin`，不含扩展名；平台后缀及 Debug 的 `_d` 后缀仍由加载器补充。 |
 | `plugins[].config` | 字符串，`""` | 配置文件名；省略或设置 `""` 均保留原有的空配置语义。 |
 
 类型错误、未知字段、重复或空插件名、无效 TOML / UTF-8 和嵌入的 NUL 字符都会在插件启动前被拒绝。错误信息包含清单路径及可用的行列位置，不输出配置值。
@@ -36,7 +36,7 @@ name = "Sample1Plugin"
 
 ## 运行 sample1
 
-按[应用构建说明](networking_CN.md)构建 `app`、`AFUtilityPlugin` 和 `Sample1Plugin`。假设构建目录为 `out`，从仓库根目录执行：
+按[应用构建说明](networking_CN.md)构建 `app`、`ark_utility_plugin` 和 `sample1_plugin`。假设构建目录为 `out`，从仓库根目录执行：
 
 ```sh
 cp -R build/conf out/conf
@@ -53,8 +53,8 @@ Debug 构建使用 `app_d`。日志仍读取 `conf/log.conf`；总线、日志�
 ```xml
 <xml>
     <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
-        <plugin name="AFUtilityPlugin" conf=""/>
-        <plugin name="Sample1Plugin"/>
+        <plugin name="ark_utility_plugin" conf=""/>
+        <plugin name="sample1_plugin"/>
     </plugins>
 </xml>
 ```

@@ -33,5 +33,5 @@ With the dependencies from the installation guide available, build both optional
 
 ```sh
 cmake -S . -B build -DARK_BUILD_PLUGIN_MYSQL=ON -DARK_BUILD_PLUGIN_REDIS=ON -DARKNET_ENABLE_SSL=ON
-cmake --build build --target AFMysqlPlugin AFRedisPlugin
+cmake --build build --target ark_mysql_plugin ark_redis_plugin
 ```
