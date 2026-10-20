@@ -32,6 +32,20 @@ See [MySQL](mysql.md) and [Redis](redis.md) for plugin configuration and corouti
 With the dependencies from the installation guide available, build both optional runtime plugins:
 
 ```sh
-cmake -S . -B build -DARK_BUILD_PLUGIN_MYSQL=ON -DARK_BUILD_PLUGIN_REDIS=ON -DARKNET_ENABLE_SSL=ON
+cmake -S . -B build -DARK_BUILD_APPLICATIONS=ON \
+  -DARK_BUILD_PLUGIN_MYSQL=ON -DARK_BUILD_PLUGIN_REDIS=ON -DARKNET_ENABLE_SSL=ON
 cmake --build build --target ark_mysql_plugin ark_redis_plugin
 ```
+
+Link a consumer to `ark::mysql` and/or `ark::redis` for the public headers and usage requirements. These SDK targets do not load a runtime library. Deploy the selected libraries with the launcher and add their stems to the application's manifest:
+
+```xml
+<xml>
+  <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
+    <plugin name="ark_mysql_plugin" conf="" />
+    <plugin name="ark_redis_plugin" conf="" />
+  </plugins>
+</xml>
+```
+
+Include only the providers the application needs. The empty `conf` is intentional: consumers configure named connections through the public modules, rather than legacy database XML files. Follow [runtime library selection](../guides/plugins.md#select-libraries-at-runtime) for platform extensions, Debug suffixes and compatible SDK settings. Resolve the module during consumer initialization and start its operations through a [managed task group](../guides/tasks.md).

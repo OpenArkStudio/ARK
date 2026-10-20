@@ -15,8 +15,8 @@
 | consul | Consul 服务发现 | 关闭 |
 | kafka | Kafka 消息服务 | 关闭 |
 | physic | 物理服务 | 关闭 |
-| mysql、redis | 旧数据库接入，等待 arknet 客户端 | 关闭 |
+| mysql、redis | arknet 原生数据库连接池与公开协程接口 | 关闭 |
 
-使用 `ARK_BUILD_PLUGIN_<名称大写>` 选择插件。可选插件需要各自的依赖和验证。MySQL、Redis 客户端先在 arknet 中自主实现，再替换旧插件调用；Lua、Actor 的整合仍在规划中。
+使用 `ARK_BUILD_PLUGIN_<名称大写>` 选择插件。可选插件需要各自的依赖和验证。[MySQL](../../docs/reference/mysql_CN.md) 提供查询、预处理语句和事务；[Redis](../../docs/reference/redis_CN.md) 提供命令和有序流水线。两者均通过具名配置和管理器托管的协程任务使用。构建与运行时选择见[数据库插件启用方式](../../docs/reference/build-options_CN.md#原生数据库插件)。Lua、Actor 的整合仍在规划中。
 
 CMake target 和构建命令见[项目布局与 SDK](../../docs/project-layout_CN.md)。
