@@ -1,4 +1,4 @@
-#include <json/json.hpp>
+#include <nlohmann/json.hpp>
 
 #include "ark/etcd_client/etcd_client_impl.hpp"
 #include "ark/logger.hpp"

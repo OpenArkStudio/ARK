@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "readerwriterqueue/readerwriterqueue.h"
+#include <readerwriterqueue.h>
 
 #include "ark/platform.hpp"
 

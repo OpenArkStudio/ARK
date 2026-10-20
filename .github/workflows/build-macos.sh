@@ -12,10 +12,6 @@ brew install protobuf
 #boost
 brew install boost
 
-# git submodules
-git submodule sync
-git submodule update --init --recursive
-
 # build ark
 if [ -d "cmake-build" ]; then rm -rf cmake-build; fi
 # shellcheck disable=SC2164

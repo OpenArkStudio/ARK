@@ -1,0 +1,57 @@
+# Dependencies
+
+[简体中文](dependencies_CN.md)
+
+The [vcpkg manifest](../vcpkg.json) pins one registry baseline. CMake consumes
+installed packages through imported targets; there is no bundled `3rdparty/`
+source tree or dependency submodule initialization.
+
+| Build scope | vcpkg feature | Package and CMake target |
+| --- | --- | --- |
+| Core | always installed | `spdlog` → `spdlog::spdlog_header_only`; `readerwriterqueue` → `readerwriterqueue::readerwriterqueue`; `rapidxml` headers |
+| Boost networking | `boost` (default) | `boost-asio`, `boost-beast` |
+| Manifest reader | `config` (default) | `tomlplusplus` → `tomlplusplus::tomlplusplus` |
+| Applications | `application` | `args` → `taywee::args`, Protobuf, zlib, Zstandard |
+| etcd client plugin | `etcd-client` | `nlohmann-json` → `nlohmann_json::nlohmann_json` |
+| Native database development | `database` | OpenSSL |
+
+spdlog's imported target propagates its external fmt dependency and compile
+definitions. Consumers of `ark::core` inherit both packages without manual include
+paths or definitions. `args` and JSON are found only when the application or etcd
+plugin is enabled, respectively; JSON is private to the etcd plugin.
+
+The application build enables the etcd plugin by default. Select
+`-DVCPKG_MANIFEST_FEATURES="application;boost;etcd-client"` for that build. To omit
+etcd, set `-DARK_BUILD_PLUGIN_ETCD_CLIENT=OFF` and leave out `etcd-client`.
+Manifest features select packages; the corresponding `ARK_BUILD_*` options select
+CMake targets. They do not automatically enable each other.
+
+For a minimal core build without TOML configuration, disable default manifest
+features with `-DVCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON`, set
+`-DARK_BUILD_CONFIG=OFF`, and select only the needed networking feature. For a
+Standalone core build with configuration, explicitly select
+`-DVCPKG_MANIFEST_FEATURES=config` alongside `-DASIO_STANDALONE=ON`.
+
+The manifest reader first uses an installed toml++ 3.4+ package. For builds without
+that package, its existing fallback remains pinned to commit
+`30172438cee64926dc41fdd9c11fb3ba5b2ba9de`. The fallback is used only when the package
+was not found; a vcpkg configuration build does not install a second copy.
+arknet is also acquired at the revision in the root CMake file, or supplied with
+`ARKNET_SOURCE_DIR` for local development.
+
+## Optional legacy integrations
+
+The physic plugin and sample4 depend on PhysX 3 and have no validated SDK
+integration in this build. They fail with an explicit diagnostic if selected;
+they do not silently substitute modern PhysX packages. The legacy simulate server
+also lacks a validated PhysX 3/MessagePack integration and remains disabled.
+The unused BeastHttp include directory has been removed from the disabled sample5;
+this does not establish that example's runtime acceptance.
+
+The old cpp-bredis submodule had no active references and has been removed. The
+native Redis client comes from arknet. License notices from the removed bundled
+sources are retained in [Third-party notices](reference/third-party-notices.md).
+Installed packages also supply their copyright files.
+
+See [installation](get-started/installation.md) for platform commands and
+[network builds](networking.md) for regression targets.

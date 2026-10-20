@@ -11,7 +11,7 @@ set(ARK_BUILD_TESTS OFF CACHE BOOL "Build legacy tests" FORCE)
 set(ARK_BUILD_EXAMPLES OFF CACHE BOOL "Build examples" FORCE)
 add_subdirectory("${ARK_SOURCE_DIR}" ark)
 
-add_executable(ark_sdk_consumer main.cpp headers.cpp)
+add_executable(ark_sdk_consumer main.cpp headers.cpp dependencies.cpp)
 target_link_libraries(ark_sdk_consumer PRIVATE ark::core ark::net ark::kernel)
 add_custom_target(check-sdk
     COMMAND $<TARGET_FILE:ark_sdk_consumer>

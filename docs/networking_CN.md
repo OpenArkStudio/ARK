@@ -12,10 +12,10 @@ ARK 使用 C++20，直接采用独立仓库的
 - CMake 3.21 及以上；GCC 12+、支持 C++20 的 Clang，或 VS 2022。
 - 应用和网络测试使用 Boost 1.90+，依赖 Boost.Asio 和 Boost.Beast。
 - 仅构建核心或原生数据库开发测试时，可以选择 Standalone Asio 1.38.0+。
-- RapidXML 1.13、spdlog 1.17.0，以及仓库固定版本的 readerwriterqueue、args 子模块。
+- 固定 vcpkg 基线中的 RapidXML、spdlog/fmt 和 readerwriterqueue。
 - 构建应用和插件时需要 Protobuf、Zstandard 和 zlib。
 
-vcpkg 清单固定包版本基线。CMake 从 arknet 的独立仓库获取固定提交。
+可选 feature 与许可声明见[依赖管理](dependencies_CN.md)。vcpkg 清单固定包版本基线。CMake 从 arknet 的独立仓库获取固定提交。
 验证开发版本时，将 `ARKNET_SOURCE_DIR` 设为该仓库的绝对路径。
 
 应用和当前网络测试包含 HTTP/WebSocket，需要 Boost.Beast。
@@ -28,7 +28,6 @@ Protobuf、Abseil 和 utf8_range 使用同一安装前缀。手工指定 `Protob
 ## 构建并运行网络测试
 
 ```sh
-git submodule update --init 3rdparty/args 3rdparty/spdlog 3rdparty/readerwriterqueue
 cmake -S . -B network-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
   -DARK_BUILD_APPLICATIONS=OFF -DARK_BUILD_NETWORK_TESTS=ON \
@@ -76,7 +75,7 @@ macOS ASan 未启用泄漏检测，Linux CI 启用 LeakSanitizer。这些结果�
 ```sh
 cmake -S . -B app-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
-  "-DVCPKG_MANIFEST_FEATURES=application;boost" \
+  "-DVCPKG_MANIFEST_FEATURES=application;boost;etcd-client" \
   -DASIO_STANDALONE=OFF
 cmake --build app-build --parallel 2
 cmake --build app-build --target check-core
@@ -90,7 +89,7 @@ cmake --build app-build --target check-core
 ```sh
 cmake -S . -B core-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
-  -DVCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON \
+  -DVCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON -DVCPKG_MANIFEST_FEATURES=config \
   -DARK_BUILD_APPLICATIONS=OFF -DARK_BUILD_PROTO=OFF \
   -DARK_BUILD_NETWORK_TESTS=OFF -DARK_BUILD_CORE_TESTS=ON \
   -DASIO_STANDALONE=ON

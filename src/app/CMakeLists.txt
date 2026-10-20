@@ -1,3 +1,5 @@
+find_package(args CONFIG REQUIRED)
+
 set(project_name app)
 
 if(UNIX AND (NOT APPLE))
@@ -8,7 +10,7 @@ endif(UNIX AND (NOT APPLE))
 
 file(GLOB_RECURSE APP_SRC main.cpp)
 add_executable(${project_name} ${APP_SRC})
-target_link_libraries(${project_name} ark::config)
+target_link_libraries(${project_name} ark::config taywee::args)
 
 if(WIN32)
     target_link_libraries(${project_name})
