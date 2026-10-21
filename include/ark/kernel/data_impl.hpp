@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <string>
+
 #include "ark/core_def.hpp"
 #include "ark/kernel/data.hpp"
 #include "ark/misc.hpp"
@@ -546,25 +548,25 @@ public:
         switch (get_type())
         {
         case data_type::dt_boolean:
-            return ARK_TO_STRING(this->bool_value_);
+            return std::to_string(this->bool_value_);
             break;
         case data_type::dt_int32:
-            return ARK_TO_STRING(this->int_value_);
+            return std::to_string(this->int_value_);
             break;
         case data_type::dt_int64:
-            return ARK_TO_STRING(this->int64_value_);
+            return std::to_string(this->int64_value_);
             break;
         case data_type::dt_uint32:
-            return ARK_TO_STRING(this->uint32_value_);
+            return std::to_string(this->uint32_value_);
             break;
         case data_type::dt_uint64:
-            return ARK_TO_STRING(this->uint64_value_);
+            return std::to_string(this->uint64_value_);
             break;
         case data_type::dt_float:
-            return ARK_TO_STRING(this->float_value_);
+            return std::to_string(this->float_value_);
             break;
         case data_type::dt_double:
-            return ARK_TO_STRING(this->double_value_);
+            return std::to_string(this->double_value_);
             break;
         case data_type::dt_string:
             return this->string_value_;

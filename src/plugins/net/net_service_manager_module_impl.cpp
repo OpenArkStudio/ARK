@@ -300,7 +300,7 @@ std::shared_ptr<net_client_service> net_service_manager_module_impl::get_client_
 //    auto check = service.mutable_check();
 //    check->set_id(app_whole_name + "_check");
 //    check->set_name(app_whole_name);
-//    check->set_tcp(self_proc.intranet_ep.GetIP() + ":" + ARK_TO_STRING(self_proc.intranet_ep.GetPort()));
+//    check->set_tcp(self_proc.intranet_ep.GetIP() + ":" + std::to_string(self_proc.intranet_ep.GetPort()));
 //    check->set_interval(reg_center.check_interval);
 //    check->set_timeout(reg_center.check_timeout);
 //
