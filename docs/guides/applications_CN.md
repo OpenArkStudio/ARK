@@ -111,7 +111,7 @@ run.bat <Release|Debug> <name> <busid> [runtime-directory]
 运行目录默认为脚本所在目录。从源码仓库调用 `deployment/scripts/` 下的脚本时，显式传入已准备的运行目录；也可将脚本复制到运行目录根部后使用默认值。显式传入的相对路径以调用者的工作目录为基准。
 Release 使用 `bin/app`（Windows 为 `app.exe`），Debug 使用 `bin/app_d`
 （Windows 为 `app_d.exe`）。脚本读取 `conf/<name>.app.toml` 和 `conf/log.conf`，
-在前台运行应用；`name` 同时作为 `--name` 的值。使用 TOML 配置、不同的进程名称或
+在前台运行应用；`name` 同时作为 `--name` 的值。使用旧版 XML、自定义清单路径、不同的进程名称或
 其他启动参数时，直接调用程序。
 
 按[Sample1 快速开始](../get-started/quick-start_CN.md)准备运行目录后，在仓库根目录执行：
@@ -158,4 +158,4 @@ macOS/Linux 优先使用 Ctrl+C，Windows 优先在应用控制台输入 `exit`�
 | 插件已加载，但目标模块不存在 | 核对模块注册、启用的构建目标和依赖插件，详见[创建插件](plugins_CN.md) |
 | Kernel 元数据或配置缺失 | 在进程工作目录准备生成的 `resource/meta/` 和 `resource/server/` 文件 |
 
-启动器实现见 [main.cpp](https://github.com/OpenArkStudio/ark/blob/main/src/app/main.cpp)。采用现有多进程脚本前先检查配置，部分脚本仍沿用旧部署路径和服务设置。
+启动器实现见 [main.cpp](https://github.com/OpenArkStudio/ark/blob/main/application/main.cpp)。采用现有多进程脚本前先检查配置，部分脚本仍沿用旧部署路径和服务设置。

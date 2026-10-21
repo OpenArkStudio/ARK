@@ -11,7 +11,7 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 | --- | --- |
 | `include/ark/` | 核心与其他插件的公开头文件 |
 | `src/core/` | 核心 CMake target 与 header-only 使用要求 |
-| `src/app/` | 应用入口 |
+| `application/` | 应用入口 |
 | `src/proto/` | 协议定义与编解码实现 |
 | `src/server/` | 内置服务端应用 |
 | `include/ark/<name>/` | 尚未迁移的官方插件公开头文件 |

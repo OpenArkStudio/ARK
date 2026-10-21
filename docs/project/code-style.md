@@ -101,7 +101,7 @@ clang-tidy (the existing validation uses version 22):
 cmake -S . -B style-build -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 cmake --build style-build
 ./scripts/clang_tidy.sh style-build
-./scripts/clang_tidy.sh style-build src/app/main.cpp
+./scripts/clang_tidy.sh style-build application/main.cpp
 ```
 
 The default clang-tidy invocation checks source files present in that build's

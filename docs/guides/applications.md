@@ -113,7 +113,7 @@ is relative to the caller's working directory. The helper selects `bin/app`
 (`app.exe` on Windows) for Release or `bin/app_d` (`app_d.exe`) for Debug, reads
 `conf/<name>.app.toml` and `conf/log.conf`, and runs in the foreground. The name
 also becomes the application's `--name` value. Use the executable directly for
-TOML manifests, a different process name or other launcher flags.
+legacy XML manifests, a custom manifest path, a different process name or other launcher flags.
 
 After preparing the [Sample1 runtime](../get-started/quick-start.md), run from
 the repository root:
@@ -165,4 +165,4 @@ their original `bin/rund.*` commands. Use the current commands above instead.
 | Plugin loads but the expected module is unavailable | Check registration, enabled targets and required plugins; see [Create a plugin](plugins.md) |
 | Kernel metadata or configuration is missing | Stage the generated `resource/meta/` and `resource/server/` files in the process working directory |
 
-The launcher implementation is in [main.cpp](https://github.com/OpenArkStudio/ark/blob/main/src/app/main.cpp).
+The launcher implementation is in [main.cpp](https://github.com/OpenArkStudio/ark/blob/main/application/main.cpp).

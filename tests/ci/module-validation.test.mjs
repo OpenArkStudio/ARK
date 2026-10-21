@@ -42,7 +42,9 @@ test('source paths select actual module regressions and propagate plugin depende
   const cases = [
     ['tests/core/containers.cpp', ['applications']],
     ['tests/core/CMakeLists.txt', ['applications']],
-    ['src/app/main.cpp', ['applications']],
+    ['application/main.cpp', ['applications']],
+    ['application/shutdown_request.hpp', ['applications']],
+    ['application/CMakeLists.txt', ['applications']],
     ['src/config/application_manifest.cpp', ['applications']],
     ['src/server/game/game_module_impl.cpp', ['applications']],
     ['src/proto/CMakeLists.txt', ['applications']],
@@ -86,6 +88,7 @@ test('public core headers, build/dependency/CI inputs and unknown paths retain e
     'config/sample1.app.toml', 'resources/excel/item.xlsx', 'resources/photon/proto/protocol.proto',
     'tools/gen-config.sh', 'deployment/scripts/run.sh',
     '.github/scripts/ci-policy.mjs', 'tests/ci/module-validation.test.mjs', 'AGENTS.md', '.clang-format',
+    'application/unknown.bin', 'application/build.cmake', 'applications/main.cpp', 'src/app/main.cpp',
     'src/plugins/new_plugin/new_module.cpp', 'src/plugins/net/unknown.bin', 'scripts/new-check.sh',
     'docs/example.cpp', 'docs/site/package-lock.json', 'docs/unknown.bin', 'LICENSE']) {
     const scope = plan([file]);

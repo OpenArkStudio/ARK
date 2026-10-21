@@ -32,21 +32,21 @@ ark::timer_module* find_timers(ark::plugin_manager& manager) {
 
 ## 生命周期与执行
 
-启动时依次执行所有模块的 `init()`、`post_init()`、`check_config()` 和 `pre_update()` 阶段。启动器持续调用管理器的 `update()`，其中只有已注册更新的模块参与循环。停止时先调用 `pre_shut()`，再调用 `shut()`，然后卸载插件库。
+启动时依次执行模块的 `init()`、`post_init()`、`check_config()` 和 `pre_update()` 阶段。首个 `false` 返回值立即中止启动；启动器报告失败后以退出码 `1` 终止，不回滚部分启动的插件。启动器持续调用管理器的 `update()`，其中只有已注册更新的模块参与循环。停止时先关闭托管任务的接收，等待已接收任务完成和模块就绪，再调用 `pre_shut()`、`shut()` 并卸载插件库。超时与资源保留规则见[应用指南](../guides/applications_CN.md)。
 
 在 `init()` 中获取依赖并初始化本地资源；需要其他模块完成初始化的工作放在后续阶段。释放回调引用的状态前，先停止定时器、订阅与异步生产者。网络业务消息通过应用更新调用推进，网络 IO 仍由 arknet 工作线程执行。
 
 组合模块时需要遵守当前限制：
 
 - 管理器按容器遍历模块，没有声明式依赖图，也不保证清单顺序。同一阶段内不能依赖某个模块先初始化。
-- 当前管理器调用生命周期回调时没有汇总各模块的 Boolean 返回值。模块返回 `false` 不等于框架保证回滚整个启动过程或终止进程。
+- 启动失败会立即向上传递；框架不提供部分启动插件的事务式回滚。
 - 生命周期阶段不代表任意业务任务已经排空。兼容热替换与插件卸载协调仍是独立设计事项。
 
-对应实现见 [plugin_manager.hpp](https://github.com/OpenArkStudio/ark/blob/main/include/ark/plugin_manager.hpp) 和[启动器](https://github.com/OpenArkStudio/ark/blob/main/src/app/main.cpp)。
+对应实现见 [plugin_manager.hpp](https://github.com/OpenArkStudio/ark/blob/main/include/ark/plugin_manager.hpp) 和[启动器](https://github.com/OpenArkStudio/ark/blob/main/application/main.cpp)。
 
 ## 头文件路径与 CMake 目标
 
-所有公开头文件统一位于 `include/ark/`，例如 `include/ark/kernel/entity.hpp` 对应 `<ark/kernel/entity.hpp>`。核心目标定义位于 `src/core/`，插件实现位于 `src/plugins/<name>/`。`ark::core` 提供核心头文件，各插件仍保留独立可选目标，`ark::ark` 汇总可用 API 目标。
+核心及大部分插件的公开头文件位于 `include/ark/`，例如 `include/ark/kernel/entity.hpp` 对应 `<ark/kernel/entity.hpp>`。MySQL/Redis 试点将公开头文件与实现共置于 `src/plugins/<name>/`；CMake 仅将显式列出的公开头文件映射到构建树的 `src/plugins/sdk-include/ark/<name>/`。业务代码依赖 `ark::mysql` 或 `ark::redis`，继续使用 `<ark/...>` 逻辑路径，不会获得私有装配头。核心目标定义位于 `src/core/`，各插件仍保留独立可选目标，`ark::ark` 汇总可用 API 目标。
 
 `ark/` 是文件系统中的头文件前缀，不会自动创建 C++ 命名空间；命名空间由各头文件显式声明的 `namespace ark` 决定。依赖 API 接口目标只传递编译要求，不会选择或加载插件动态库。
 
