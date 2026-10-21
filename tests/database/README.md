@@ -245,6 +245,42 @@ messages. It never starts or stops servers. `all` also includes both public
 real-service modes and therefore requires an SSL-enabled build and both endpoint
 configurations.
 
+## Real plugin DSOs against real services
+
+`ark_database_public_plugin_service_tests` loads the existing hidden-symbol Redis
+or MySQL plugin DSO through the real plugin manager and calls only public
+module/manager/task interfaces. Its executable does not compile or link the
+module implementation objects. `check-database` builds it and its plugin DSOs
+without running the real-service workflows.
+
+```sh
+cmake --build database-build --target ark_database_public_plugin_service_tests --parallel 2
+./database-build/tests/database/ark_database_public_plugin_service_tests redis
+./database-build/tests/database/ark_database_public_plugin_service_tests mysql
+```
+
+Use the same `ARK_DATABASE_*` endpoint/authentication variables described above;
+MySQL requires an SSL-enabled build, its configured schema and verified TLS CA.
+Redis checks ordered binary/empty ECHO replies, PING and a follow-up command.
+MySQL checks signed/text/NULL query fields, a binary prepared result and statement
+close, plus transaction queries followed by confirmed commit and rollback. These
+workflows perform no writes and create no tables; they do not test transaction
+persistence or isolation.
+
+A registered consumer's accepted task is pending when stop seals admission,
+before the first owner poll. All operations then finish during natural drain;
+every continuation and completion must use the owner thread/shared executor.
+Successful, idempotent stop runs the plugin's normal module teardown. Retained
+results are checked after the host scope destroys the manager and its runtime.
+This is not OS dynamic-library unloading, hot-update, cancellation, failure
+recovery or capacity acceptance.
+
+Missing/invalid configuration or an unavailable protocol fails before service
+work. The executable does not start servers or print credentials/native server
+text. Building it and checking those failures do not establish successful
+real-service DSO acceptance; that requires explicitly running each selected mode
+against isolated services.
+
 ## Public real-service failure checks
 
 The separate `ark_database_public_failure_service_tests` executable checks wrong

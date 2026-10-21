@@ -195,6 +195,32 @@ MySQL 要求设置 `ARK_DATABASE_MYSQL_HOST`、`ARK_DATABASE_MYSQL_PORT`、
 也不会启动或停止服务。`all` 也运行这两种公开模块真实服务模式，因此要求启用 SSL，
 并配置两种服务的端点。
 
+## 真实插件动态库与真实服务
+
+`ark_database_public_plugin_service_tests` 通过实际插件管理器加载现有隐藏符号 Redis 或
+MySQL 动态库，只调用公开模块、管理器与任务接口。可执行程序不编译或链接模块实现对象。
+`check-database` 仅构建该程序及其插件动态库，不运行真实服务流程。
+
+```sh
+cmake --build database-build --target ark_database_public_plugin_service_tests --parallel 2
+./database-build/tests/database/ark_database_public_plugin_service_tests redis
+./database-build/tests/database/ark_database_public_plugin_service_tests mysql
+```
+
+沿用上文的 `ARK_DATABASE_*` 端点与认证变量。MySQL 要求启用 SSL、设置数据库，
+并配置可信的 TLS CA。Redis 检查有序的二进制和空 ECHO 回复、PING 与后续命令。
+MySQL 检查有符号整数、文本、NULL 查询字段，二进制预处理结果与语句关闭，
+以及事务查询后确认的 commit 和 rollback。流程不写入数据或创建表，不验证事务持久性或隔离性。
+
+管理器在首次所属线程轮询前，关闭新任务入口；此时已注册使用方的任务已受理且仍待完成。
+所有操作随后在自然排空期间完成，每次协程恢复及完成回调都必须使用所属线程与共享执行器。
+成功且幂等的 stop 会执行插件正常的模块销毁；宿主作用域销毁管理器及运行时后，再检查保留结果。
+这不代表操作系统动态库卸载、热更新、取消、故障恢复或容量验收。
+
+缺少或无效配置、构建中没有请求的协议时，程序在执行服务操作前失败。
+程序不启动服务，也不打印凭据或原生服务端文本。编译与这些失败检查不能证明真实服务 DSO
+正向验收通过；需要显式选择模式，在隔离服务上实际运行。
+
 ## 公开模块真实服务负面验收
 
 独立的 `ark_database_public_failure_service_tests` 验证 Redis/MySQL 错误密码、
