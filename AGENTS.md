@@ -82,12 +82,16 @@ branch or worktree when the existing checkout contains uncommitted changes.
 - CI policy tests: `node --test tests/ci/*.test.mjs`. Nimbus documentation:
   `npm ci --prefix docs/site` followed by `npm run check --prefix docs/site`.
 - Keep official plugins in the ark repository and application business plugins
-  in application repositories. The approved layout has one public header root,
-  `include/ark/`, with implementation under `src/core/` and
-  `src/plugins/<name>/`; retain independent plugin targets and optional builds.
-  Verify migration status against accepted source before describing new paths
-  as available. Do not expand the paused hot-update design without discussing
-  its lifecycle and compatibility boundaries.
+  in application repositories. The approved next plugin layout co-locates public
+  headers, private declarations and implementation files inside each plugin;
+  do not reintroduce a mandatory per-plugin include/src split. Keep public header
+  mappings explicit and independent from physical paths. Concrete implementation
+  types may live in cpp files when registration and tests no longer need their
+  definitions. Public-header staging/installation and creation-macro replacements
+  require the agreed design before implementation; do not silently change ABI,
+  lifecycle or ownership. Retain independent plugin targets and optional builds.
+  Verify accepted source before claiming the new layout or an installed SDK is
+  available. Hot-update and Registry design discussions remain paused.
 
 ## Documentation and releases
 
@@ -143,6 +147,10 @@ branch or worktree when the existing checkout contains uncommitted changes.
 
 ## Keep documentation synchronized
 
+- Resolve legacy page aliases to their canonical source before editing. Nimbus
+  may skip retired Markdown files even when they remain in Git. Check the emitted
+  HTML and Markdown for the changed content; a successful build alone does not
+  prove that an edited source is published.
 - Treat documentation as part of each functional change. Review both languages,
   README, feature/support tables, API and client/server examples, configuration,
   installation, lifecycle, navigation and affected performance/validation reports.
