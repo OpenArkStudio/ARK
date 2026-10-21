@@ -62,6 +62,8 @@ private:
 输出保留 `[basename:line]` 前缀；文件名提取同时识别 `/` 和 `\`，源函数名仍为空。
 格式化、参数求值、消息所有权、日志配置和生命周期保持不变。
 
+MSVC 需要启用标准预处理器模式（`/Zc:preprocessor`）才能使用 `__VA_OPT__`。公开的 `ark::core` 目标会向使用者传递该选项；绕过该目标直接编译 ark 头文件时，需要同时启用 C++20 和此选项。
+
 **源码兼容性说明：** ark 不再定义内部辅助宏 `SPDLOG_STRRCHR` 和
 `SPDLOG_FILE_BASENAME`，也不会重定义或取消外部已提供的同名宏。但预先定义
 `SPDLOG_FILE_BASENAME` 不再影响 `ARK_LOG_*` 的文件名。依赖旧辅助宏定义的代码

@@ -64,6 +64,11 @@ basename extraction recognizes both `/` and `\`, and the source function name
 remains empty. Formatting, argument evaluation, message ownership and logger
 configuration/lifecycle are unchanged.
 
+MSVC needs its standard-conforming preprocessor (`/Zc:preprocessor`) for
+`__VA_OPT__`. The public `ark::core` target propagates this option to consumers.
+When compiling ark headers without that target, enable this option together with
+C++20 mode.
+
 **Source compatibility note:** ark no longer defines the implementation helpers
 `SPDLOG_STRRCHR` and `SPDLOG_FILE_BASENAME`. Existing externally supplied macros
 are left defined, but a custom `SPDLOG_FILE_BASENAME` no longer changes

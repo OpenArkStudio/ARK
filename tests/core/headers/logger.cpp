@@ -18,3 +18,12 @@ constexpr auto header_location = ark::detail::log_source_location();
 static_assert(std::string_view(header_location.filename) == "logger.cpp");
 static_assert(header_location.line == __LINE__ - 2);
 static_assert(std::string_view(header_location.funcname).empty());
+
+namespace ark {
+
+void check_logger_variadic_header() {
+    ARK_LOG_INFO("header-only logging");
+    ARK_LOG_INFO("header-only logging {}", 42);
+}
+
+} // namespace ark
