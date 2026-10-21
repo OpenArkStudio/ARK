@@ -4,6 +4,7 @@ run-name: CI - ${{ github.event_name }} - ${{ github.ref_name }}
 on:
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
   merge_group:
     types: [checks_requested]
   workflow_dispatch:
@@ -91,7 +92,7 @@ jobs:
   network:
     name: Network - ${{ matrix.os }} - Boost - ${{ matrix.sanitizer }}
     needs: scope
-    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.network_check != 'false') }}
+    if: ${{ !cancelled() && !(github.event_name == 'pull_request' && toJSON(github.event.pull_request.draft) == 'true') && (needs.scope.result != 'success' || needs.scope.outputs.network_check != 'false') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     strategy:
@@ -156,7 +157,7 @@ jobs:
   applications:
     name: Applications - ${{ matrix.os }} - C++20
     needs: scope
-    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.applications_check != 'false') }}
+    if: ${{ !cancelled() && !(github.event_name == 'pull_request' && toJSON(github.event.pull_request.draft) == 'true') && (needs.scope.result != 'success' || needs.scope.outputs.applications_check != 'false') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     strategy:
@@ -220,7 +221,7 @@ jobs:
   database:
     name: Database - ${{ matrix.os }} - ${{ matrix.asio }}
     needs: scope
-    if: ${{ !cancelled() && (needs.scope.result != 'success' || needs.scope.outputs.database_check != 'false') }}
+    if: ${{ !cancelled() && !(github.event_name == 'pull_request' && toJSON(github.event.pull_request.draft) == 'true') && (needs.scope.result != 'success' || needs.scope.outputs.database_check != 'false') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     strategy:
@@ -292,7 +293,7 @@ jobs:
       - name: Run local database benchmark self-tests
         run: cmake --build ci-database --target check-database-benchmark
   required:
-    name: CI - required
+    name: ${{ github.event_name == 'pull_request' && toJSON(github.event.pull_request.draft) == 'true' && 'CI - draft preview' || 'CI - required' }}
     if: always()
     needs: [scope, network, applications, database, validation]
     runs-on: ubuntu-latest
@@ -304,7 +305,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 26
-      - name: Require successful builds and regressions
+      - name: Validate acceptance or draft preview
         env:
           CI_NEEDS_JSON: ${{ toJSON(needs) }}
-        run: node .github/scripts/ci-policy.mjs gate
+        run: node .github/scripts/ci-policy.mjs ${{ github.event_name == 'pull_request' && toJSON(github.event.pull_request.draft) == 'true' && 'preview' || 'gate' }}

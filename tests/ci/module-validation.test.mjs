@@ -226,7 +226,7 @@ test('validation is fatal and required alongside event-aware module results', ()
   assert.match(jobBlock('required'), /needs: \[scope, network, applications, database, validation\]/);
   assert.match(jobBlock('required'), /if: always\(\)/);
   const script = readFileSync(new URL('../../.github/scripts/ci-policy.mjs', import.meta.url), 'utf8');
-  assert.match(script, /validateGate\(JSON.parse\(process.env.CI_NEEDS_JSON\), process.env.GITHUB_EVENT_NAME\)/);
+  assert.match(script, /validateGate\(needs, process.env.GITHUB_EVENT_NAME, admission\)/);
 });
 
 test('module flags and workflow matrix guards keep uncertain source ranges and queue candidates on full acceptance', () => {

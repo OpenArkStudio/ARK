@@ -30,10 +30,10 @@ test('the required gate still runs after failed needs and invokes the fatal resu
   const required = workflow.split(/(?=^  [a-z][a-z0-9_-]*:$)/m)
     .find(block => block.startsWith('  required:\n'));
   assert.ok(required, 'retain the required gate');
-  assert.match(required, /^    name: CI - required$/m);
+  assert.match(required, /^    name: \$\{\{ .* && 'CI - draft preview' \|\| 'CI - required' \}\}$/m);
   assert.match(required, /^    if: always\(\)$/m);
   assert.match(required, /^    needs: \[scope, network, applications, database, validation\]$/m);
   assert.match(required, /^          CI_NEEDS_JSON: \$\{\{ toJSON\(needs\) \}\}$/m);
-  assert.match(required, /^        run: node \.github\/scripts\/ci-policy\.mjs gate$/m);
+  assert.match(required, /^        run: node \.github\/scripts\/ci-policy\.mjs \$\{\{ .* && 'preview' \|\| 'gate' \}\}$/m);
   assert.doesNotMatch(required, /^ *continue-on-error:/m, 'gate errors must fail the job');
 });

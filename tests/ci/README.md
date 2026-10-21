@@ -57,13 +57,44 @@ that passed their required checks; its resulting push does not repeat CI for the
 same accepted tree. The separate documentation workflow still publishes on main
 pushes. README badges display the merge-group workflow status.
 
+Draft PRs retain their real scope and required-check flags. Scope classification,
+documentation, root README links and formatting run when selected, but genuine
+boolean `draft: true` metadata prevents new native jobs from starting. Only those
+draft events rename the aggregate to `CI - draft preview` and select its separate
+preview validator. A successful preview requires scope success, every selected
+light step's actual `success`, every unselected light step's `skipped`, and every
+native job's `skipped`. Its summary states that native acceptance was not executed
+in this run and the PR is not admitted. It does not emit a successful
+`CI - required` check. The final gate still rejects deferred admission.
+
+An initial draft run therefore creates no `CI - required` context; the protection
+rule keeps that exact required name. The intended Expected/pending display needs
+hosted confirmation before deployment. Missing or non-boolean draft metadata
+selects conservative full scope, retains the required name and final gate, and is
+rejected. Light-check failures still fail the preview.
+
+`ready_for_review` triggers fresh source validation with the existing module
+selection; opening, updating and reopening ready PRs retain their normal checks.
+`converted_to_draft` applies the hold to a new run. Neither event cancels an active
+run. Code merge-group candidates and manual runs still require the full native
+matrix, and CI policy changes still require every source module before the full
+queue candidate is accepted. The workflow does not enqueue PRs. The root agent
+alone admits the oldest unfinished PR by creation time; newer work stays local or
+in draft with auto-merge disabled until earlier PRs are accepted. Scheduling-only
+cancellations require fresh acceptance before admission. Returning an already
+validated SHA to draft does not erase old check contexts. Keep auto-merge disabled
+and require the fresh `ready_for_review` run to succeed before enabling auto-merge
+or queueing; an earlier success on the same SHA is insufficient. Dynamic names do
+not themselves enforce this freshness or a global admission order. Full code
+queue validation remains necessary.
+
 Each existing PR/ref concurrency group permits one active run and only the most
 recently queued pending run. A new run waits for the active run to finish instead
 of automatically cancelling it. Individual running jobs retain their configured
 timeouts; those limits do not include pending time. Merge-group candidates use
-their own refs. The required gate still rejects failed, cancelled or missing
-results. Manual cancellation can still prevent the `always()` summary from
-completing. See [GitHub concurrency rules](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#concurrency).
+their own refs. Independent groups do not enforce PR creation order. The required
+gate still rejects failed, cancelled or missing results. Manual cancellation can
+still prevent the `always()` summary from completing. See [GitHub concurrency rules](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#concurrency).
 
 Within `src/`, only the exact plugin index paths `src/plugins/README.md` and
 `src/plugins/README_CN.md` additionally qualify as documentation. Changes confined
