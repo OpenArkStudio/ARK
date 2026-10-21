@@ -107,19 +107,21 @@ cmake --build out --config Release --target sample_plugin
 | 在 ark 应用构建中设置 `ARK_BUILD_APPLICATIONS=ON` 与 `ARK_BUILD_PLUGIN_NET=ON` | 构建选中的官方插件动态库 |
 | 在应用清单中增加插件条目 | 让启动器在启动时请求加载这个动态库 |
 
-将这个 Release 示例生成的动态库从 `out/bin/Release/` 复制到部署目录的 `bin/`，并将下面的清单保存为 `conf/sample.app.conf`。Debug 构建产物单独放在 `out/bin/Debug/`：
+将这个 Release 示例生成的动态库从 `out/bin/Release/` 复制到部署目录的 `bin/`，并将下面的清单保存为 `conf/sample.app.toml`。Debug 构建产物单独放在 `out/bin/Debug/`：
 
-```xml
-<xml>
-  <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
-    <plugin name="sample_plugin" conf="" />
-  </plugins>
-</xml>
+```toml
+[application]
+plugin_library_dir = "bin/"
+plugin_config_dir = "conf/"
+
+[[plugins]]
+name = "sample_plugin"
+config = ""
 ```
 
 通过[应用启动器](applications_CN.md)选择这个清单。`sample_plugin` 是动态库文件名的主体，不是 C++ 插件类的 RTTI 名称，也不是模块注册名。加载器会补充 `.dll`、`.so` 或 `.dylib` 后缀；Debug 模式还会在扩展名前补充 `_d`。CMake 目标显式移除了 `lib` 前缀，并设置了相同的 Debug 后缀。启动器和插件应使用相同构建模式，以及兼容的 SDK 与 ABI 设置。
 
-路径相对于进程工作目录解析。当前加载器直接拼接 `plugin_lib_dir` 与库文件名，以及 `plugin_conf_dir` 与 `conf`，因此目录末尾需要保留分隔符。示例中的空 `conf` 表示插件没有需要读取的配置文件，但插件收到的解析路径仍是配置目录前缀，不是空字符串。提供配置文件时，可通过 `sample_plugin::get_plugin_conf()` 读取这个路径。
+路径相对于进程工作目录解析。当前加载器直接拼接 `plugin_library_dir` 与库文件名，以及 `plugin_config_dir` 与 `config`，因此目录末尾需要保留分隔符。示例中的空 `config` 表示插件没有需要读取的配置文件，但插件收到的解析路径仍是配置目录前缀，不是空字符串。提供配置文件时，可通过 `sample_plugin::get_plugin_conf()` 读取这个路径。
 
 ## 排查模块不可用
 

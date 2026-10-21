@@ -1,0 +1,23 @@
+[application]
+plugin_library_dir = "bin/"
+plugin_config_dir = "conf/"
+
+[[plugins]]
+name = "ark_utility_plugin"
+config = ""
+
+[[plugins]]
+name = "ark_consul_plugin"
+config = "consul.plugin.toml"
+
+[[plugins]]
+name = "ark_bus_plugin"
+config = "bus.plugin.toml"
+
+[[plugins]]
+name = "ark_net_plugin"
+config = ""
+
+[[plugins]]
+name = "ark_master_plugin"
+config = ""

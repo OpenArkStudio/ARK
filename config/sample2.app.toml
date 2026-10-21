@@ -1,0 +1,15 @@
+[application]
+plugin_library_dir = "bin/"
+plugin_config_dir = "conf/"
+
+[[plugins]]
+name = "ark_kernel_plugin"
+config = "kernel.plugin.conf"
+
+[[plugins]]
+name = "ark_utility_plugin"
+config = ""
+
+[[plugins]]
+name = "sample2_plugin"
+config = ""

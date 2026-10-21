@@ -4,7 +4,7 @@
 
 ## TOML 格式
 
-仓库中的 [sample1.app.toml](../config/sample1.app.toml) 与 [sample1.app.conf](../config/sample1.app.conf) 等价，示例采用 TOML 1.0 语法：
+仓库中的 [sample1.app.toml](../config/sample1.app.toml) 采用 TOML 1.0 语法；迁移前的 XML 清单保留在解析器回归测试中：
 
 ```toml
 [application]
@@ -46,7 +46,7 @@ cd run/sample1
 ./bin/app --busid=1.0.0.1 --name=sample1 -a conf/sample1.app.toml
 ```
 
-Debug 构建使用 `app_d`。日志仍读取 `conf/log.conf`。HTTP 和 Consul 的运行参数使用下方 TOML 文件；应用清单只指定这些文件的路径。本次迁移保留总线配置和业务导出数据的现有格式。
+Debug 构建使用 `app_d`。Bus、HTTP 和 Consul 的运行参数使用 TOML，应用清单只指定这些文件的路径。Bus 字段见[运行配置](reference/bus_CN.md#配置进程与连接关系)，HTTP／Consul 示例见下文。日志仍读取 XML 格式的 `conf/log.conf`；Kernel 和业务导出数据保留 XML 格式。
 
 ## HTTP 与 Consul 插件配置
 
@@ -105,3 +105,30 @@ target_link_libraries(my_loader PRIVATE ark::config)
 构建应用或核心测试时，`ARK_BUILD_CONFIG` 默认为 `ON`，其他情况下默认为 `OFF`；应用构建要求启用此选项。目标内部使用 MIT 许可的 [toml++](https://github.com/marzer/tomlplusplus)：CMake 优先查找已安装的 3.4 或更新版本的 `tomlplusplus` 包，否则获取固定提交 `30172438cee64926dc41fdd9c11fb3ba5b2ba9de` 对应的 v3.4.0。此目标不会向 `ark::core` / `ark::ark` 的使用者传播解析器头文件和宏。XML 继续使用已有的 RapidXML 依赖。
 
 运行 `cmake --build out --target check-application-manifest` 可执行原生回归；`ARK_BUILD_CONFIG=ON` 时，`check-core` 也会运行这些测试。
+
+## 内置应用清单迁移
+
+内置的 24 份可解析应用清单由 `config/<name>.app.conf` 改为
+`config/<name>.app.toml`。这是文件路径兼容性变更：重新复制清单，更新启动参数、
+部署挂载键和外部脚本中的路径。`deployment/scripts/run.sh` 与 `run.bat` 现在只查找
+`conf/<name>.app.toml`，不会自动回退到 XML；需要保留旧 XML 清单时，直接向启动器
+传入其原有 `--app_conf` 路径。运行时目录仍为 `conf/`。
+
+| 原 XML 字段 | TOML 字段 | 保留的语义 |
+| --- | --- | --- |
+| `plugins/@plugin_lib_dir` | `application.plugin_library_dir` | 原字符串，不补目录分隔符 |
+| `plugins/@plugin_conf_dir` | `application.plugin_config_dir` | 原字符串，缺省为空 |
+| `plugin/@name` | `plugins[].name` | 原动态库名，不改大小写或平台后缀规则 |
+| `plugin/@conf` | `plugins[].config` | 原配置文件名，缺省为空 |
+
+每份清单保留原插件声明顺序；管理器仍使用无序映射，声明顺序不构成模块生命周期顺序保证。
+`world` 的旧 `plugins/@path` 和部分清单的 `res` 节点原本不由应用清单读取器处理；
+迁移不为它们增加含义，`world` 的两个目录前缀和各插件配置名继续为空。
+Kernel 和业务数据 XML、未知插件配置解析器保持原格式。
+
+ConfigMap 中相应应用键改为 `.app.toml`，包括仅用于部署示例的三份 `photon.*` 清单；
+Photon 的启动参数同步使用这些键，外部业务插件名和插件配置名保持不变。
+Freebird 是明确排除项：它依赖外部 `AFFreeBirdPlugin` 和仓库未提供的
+`freebird.plugin.conf`，旧清单直接以 `plugins` 为根，不能通过当前应用清单读取器；
+ConfigMap 中该示例另有大小写不匹配的结束标签。保留这些旧文件，不把格式迁移当作
+已修复或验收过该外部应用。

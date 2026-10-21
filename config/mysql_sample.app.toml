@@ -1,0 +1,11 @@
+[application]
+plugin_library_dir = "bin/"
+plugin_config_dir = "conf/"
+
+[[plugins]]
+name = "ark_mysql_plugin"
+config = ""
+
+[[plugins]]
+name = "mysql_sample_plugin"
+config = ""

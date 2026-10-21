@@ -11,9 +11,9 @@ set "runtime=%~dp0"
 if not "%~4"=="" set "runtime=%~4"
 pushd "%runtime%" || exit /b 1
 if not exist "%binary%" goto missing
-if not exist "conf\%~2.app.conf" goto missing
+if not exist "conf\%~2.app.toml" goto missing
 if not exist "conf\log.conf" goto missing
-"%binary%" "--busid=%~3" "--name=%~2" "--app_conf=conf/%~2.app.conf" --log_conf=conf/log.conf
+"%binary%" "--busid=%~3" "--name=%~2" "--app_conf=conf/%~2.app.toml" --log_conf=conf/log.conf
 set "result=%errorlevel%"
 popd
 exit /b %result%

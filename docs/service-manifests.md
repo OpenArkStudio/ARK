@@ -4,7 +4,7 @@ An application manifest selects plugin libraries and their configuration files. 
 
 ## TOML format
 
-The shipped [sample1.app.toml](../config/sample1.app.toml) is equivalent to [sample1.app.conf](../config/sample1.app.conf). The example uses TOML 1.0 syntax:
+The shipped [sample1.app.toml](../config/sample1.app.toml) uses TOML 1.0 syntax. Its original XML manifest is retained in parser regression fixtures:
 
 ```toml
 [application]
@@ -46,7 +46,7 @@ cd run/sample1
 ./bin/app --busid=1.0.0.1 --name=sample1 -a conf/sample1.app.toml
 ```
 
-Debug builds use `app_d`. Logging still reads `conf/log.conf`. HTTP and Consul runtime settings use the TOML files below; the application manifest only selects their paths. This migration leaves Bus settings and exported business data unchanged.
+Debug builds use `app_d`. Bus, HTTP and Consul runtime settings use TOML; the application manifest only selects their paths. See the [Bus settings](reference/bus.md#configure-processes-and-relationships) and the HTTP/Consul examples below. Logging still reads the XML `conf/log.conf`; Kernel and exported business data retain their XML formats.
 
 ## HTTP and Consul plugin settings
 
@@ -105,3 +105,36 @@ target_link_libraries(my_loader PRIVATE ark::config)
 `ARK_BUILD_CONFIG` defaults to `ON` for application or core-test builds, otherwise `OFF`. Applications require it. The target privately uses [toml++](https://github.com/marzer/tomlplusplus) (MIT): CMake prefers an installed `tomlplusplus` 3.4+ package, otherwise fetches v3.4.0 at `30172438cee64926dc41fdd9c11fb3ba5b2ba9de`. The target does not propagate parser headers or macros to `ark::core` / `ark::ark` consumers. RapidXML remains the XML dependency.
 
 Run `cmake --build out --target check-application-manifest` for native regressions. `check-core` includes them when `ARK_BUILD_CONFIG=ON`.
+
+## Built-in application preset migration
+
+The 24 parseable built-in application presets move from
+`config/<name>.app.conf` to `config/<name>.app.toml`. This is a filename
+compatibility change: restage the manifests and update launch arguments, mounted
+ConfigMap keys and external scripts. `deployment/scripts/run.sh` and `run.bat`
+now require `conf/<name>.app.toml` without automatic XML fallback. To keep a
+user-maintained XML manifest, pass its existing path directly to the launcher's
+`--app_conf`. The runtime directory remains `conf/`.
+
+| Legacy XML field | TOML field | Retained meaning |
+| --- | --- | --- |
+| `plugins/@plugin_lib_dir` | `application.plugin_library_dir` | Exact string; no separator is appended |
+| `plugins/@plugin_conf_dir` | `application.plugin_config_dir` | Exact string, empty when absent |
+| `plugin/@name` | `plugins[].name` | Exact library stem, including case and existing platform suffix rules |
+| `plugin/@conf` | `plugins[].config` | Exact configuration filename, empty when absent |
+
+Plugin declaration order is preserved in each file. The manager still uses an
+unordered map; declaration order is not a module lifecycle-order guarantee.
+The old `world` `plugins/@path` attribute and some manifests' `res` nodes were
+ignored by the application reader. Migration assigns no new meaning to them:
+`world` retains empty directory prefixes and empty per-plugin configurations.
+Kernel/business data XML and unknown plugin-specific parsers keep their formats.
+
+Corresponding application keys in the ConfigMap use `.app.toml`, including the
+three deployment-only `photon.*` manifests. Photon launch arguments select the
+renamed keys; external business-plugin stems and plugin configuration names stay
+unchanged. Freebird is explicitly excluded: it depends on the external
+`AFFreeBirdPlugin` and an absent `freebird.plugin.conf`, and its direct `plugins`
+root is rejected by the current application reader. Its ConfigMap example also
+has a mismatched closing tag. The legacy examples remain as they were; migration
+does not establish that this external application works.

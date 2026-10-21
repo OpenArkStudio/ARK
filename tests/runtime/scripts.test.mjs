@@ -14,7 +14,7 @@ function fixture(t) {
   t.after(() => rmSync(dir, { recursive: true, force: true }));
   mkdirSync(join(dir, 'bin'));
   mkdirSync(join(dir, 'conf'));
-  writeFileSync(join(dir, 'conf/sample1.app.conf'), '<xml/>');
+  writeFileSync(join(dir, 'conf/sample1.app.toml'), '[application]\n');
   writeFileSync(join(dir, 'conf/log.conf'), '<xml/>');
   const binary = '#!/bin/sh\nprintf "%s\\n" "$PWD" "$LC_ALL" "$0" "$@"\nexit 17\n';
   for (const name of ['app', 'app_d']) {
@@ -35,7 +35,7 @@ for (const [configuration, binary] of [['Release', 'app'], ['Debug', 'app_d']]) 
     assert.equal(locale, 'C');
     assert.equal(realpathSync(resolve(cwd, executable)), realpathSync(join(dir, 'bin', binary)));
     assert.deepEqual(args, [
-      '--busid=1.0.1.1', '--name=sample1', '--app_conf=conf/sample1.app.conf',
+      '--busid=1.0.1.1', '--name=sample1', '--app_conf=conf/sample1.app.toml',
       '--log_conf=conf/log.conf',
     ]);
   });
@@ -48,7 +48,7 @@ test('default runtime is the script directory and ignores the caller working dir
     cwd: tmpdir(), encoding: 'utf8',
   });
   assert.equal(result.status, 17, result.stderr);
-  assert.match(result.stdout, /--app_conf=conf\/sample1\.app\.conf/);
+  assert.match(result.stdout, /--app_conf=conf\/sample1\.app\.toml/);
 });
 
 test('missing configuration or executable fails before launching', (t) => {
@@ -61,6 +61,16 @@ test('missing configuration or executable fails before launching', (t) => {
   result = spawnSync('sh', [run, 'Release', 'sample1', '1.0.1.1', dir], { encoding: 'utf8' });
   assert.equal(result.status, 1);
   assert.match(result.stderr, /Missing executable/);
+});
+
+test('launch helper requires the renamed TOML preset without implicit XML fallback', (t) => {
+  const dir = fixture(t);
+  rmSync(join(dir, 'conf/sample1.app.toml'));
+  writeFileSync(join(dir, 'conf/sample1.app.conf'), '<xml><plugins/></xml>');
+  const result = spawnSync('sh', [run, 'Release', 'sample1', '1.0.1.1', dir], { encoding: 'utf8' });
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /Missing configuration: conf\/sample1\.app\.toml/);
+  assert.equal(result.stdout, '');
 });
 
 test('invalid arguments are rejected before starting or stopping a process', () => {

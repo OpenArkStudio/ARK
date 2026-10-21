@@ -15,7 +15,7 @@ macOS/Linux：
 ```sh
 mkdir -p run/sample1/bin run/sample1/conf
 cp -R app-build/bin/. run/sample1/bin/
-cp config/sample1.app.conf config/log.conf run/sample1/conf/
+cp config/sample1.app.toml config/log.conf run/sample1/conf/
 ```
 
 Windows PowerShell：
@@ -23,7 +23,7 @@ Windows PowerShell：
 ```powershell
 New-Item -ItemType Directory -Path run/sample1/bin, run/sample1/conf -Force | Out-Null
 Copy-Item app-build/bin/* run/sample1/bin/ -Recurse -Force
-Copy-Item config/sample1.app.conf, config/log.conf run/sample1/conf/
+Copy-Item config/sample1.app.toml, config/log.conf run/sample1/conf/
 ```
 
 运行所需的文件如下：
@@ -32,11 +32,11 @@ Copy-Item config/sample1.app.conf, config/log.conf run/sample1/conf/
 run/sample1/
 ├── bin/       同一次构建的 app、ark_utility_plugin 和 sample1_plugin
 └── conf/
-    ├── sample1.app.conf
+    ├── sample1.app.toml
     └── log.conf
 ```
 
-复制命令还会带入同次构建的其他产物，但 `sample1.app.conf` 只选择上述两个动态库。此示例不需要单独的 `sample1.conf` 或 `resource/` 目录。
+复制命令还会带入同次构建的其他产物，但 `sample1.app.toml` 只选择上述两个动态库。此示例不需要单独的 `sample1.conf` 或 `resource/` 目录。
 
 ## 启动 Sample1
 
@@ -47,7 +47,7 @@ macOS/Linux：
 ```sh
 cd run/sample1
 ./bin/app --busid=1.0.1.1 --name=sample1 \
-  --app_conf=conf/sample1.app.conf --log_conf=conf/log.conf
+  --app_conf=conf/sample1.app.toml --log_conf=conf/log.conf
 ```
 
 Windows：
@@ -55,7 +55,7 @@ Windows：
 ```powershell
 cd run/sample1
 .\bin\app.exe --busid=1.0.1.1 --name=sample1 `
-  --app_conf=conf/sample1.app.conf --log_conf=conf/log.conf
+  --app_conf=conf/sample1.app.toml --log_conf=conf/log.conf
 ```
 
 Debug 程序名为 `app_d` 或 `app_d.exe`，插件文件在平台后缀前带有 `_d`。将整套 Debug 产物放入独立运行目录，XML 中的插件名称保持不变。

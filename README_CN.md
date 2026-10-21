@@ -70,7 +70,7 @@ private:
 完成构建并准备运行目录后，在 `run/sample1/` 下启动 `sample1`：
 
 ```sh
-./bin/app --busid=1.0.1.1 --name=sample1 --app_conf=conf/sample1.app.conf
+./bin/app --busid=1.0.1.1 --name=sample1 --app_conf=conf/sample1.app.toml
 ```
 
 | 下一步 | 指南 |

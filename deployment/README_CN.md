@@ -31,3 +31,8 @@ docker build -t ark:escort -f deployment/Dockerfile .
 预设。应用清单中这两个插件的 `conf` 应留空；加载插件或挂载此 ConfigMap 不会配置数据库连接。
 使用方的配置方式见 [MySQL](../docs/reference/mysql_CN.md) 和 [Redis](../docs/reference/redis_CN.md)。
 数据库示例目标在默认构建中仍未启用；保留源码及清单不代表这些示例可运行或部署验收通过。
+
+内置应用清单和 Photon 应用 ConfigMap 键现改用 `.app.toml` 后缀；请重新复制文件，
+同步自定义启动参数和挂载键。启动脚本只查找 TOML 名称。旧版外部 Freebird 示例不在
+迁移范围内；启动器仍支持显式传入 XML `--app_conf` 路径。字段对应关系见
+[迁移说明](../docs/service-manifests_CN.md#内置应用清单迁移)。
