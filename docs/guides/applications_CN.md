@@ -134,7 +134,9 @@ macOS/Linux 优先使用 Ctrl+C，Windows 优先在应用控制台输入 `exit`�
 
 - 将 `rund.sh` / `rund.bat` 改为 `run.sh Debug ...` / `run.bat Debug ...`。
 - 将 `sample1.sh`、`mysql_sample.sh` 和 `sample5http_test.sh` 改为
-  `run.sh Debug <name> <busid>`；名称分别为 `sample1`、`mysql_sample`、`sample5`。
+  `run.sh Debug <name> <busid>`；名称分别为 `sample1`、`mysql_sample`、`sample5`。该名称映射
+  不会启用未构建的示例目标。MySQL/Redis 示例在默认构建中仍未启用，其清单不提供数据库连接选项；
+  使用时需要显式配置公开数据库模块。
 - 旧版无参数五服务启动顺序引用了不存在的 `plugin_conf/`，Release 与 Debug 的总线 ID
   也不一致。现在需要显式传入每个应用的名称与总线 ID，并按目标环境安排启动顺序。
   新脚本不再将应用转为守护进程。

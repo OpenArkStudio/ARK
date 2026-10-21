@@ -39,8 +39,10 @@ ark::task<> workflow() {
 Configuration owns its strings, credentials, pool, protocol, response limits and
 TLS settings. `configure` returns false for a duplicate name or sealed admission;
 empty names and invalid limits throw. It may run before the Redis module's own
-`init`: the installed manager already supplies its task runtime. It does not use
-the obsolete `redis.plugin.conf` file. Configuration is owner-thread only and is
+`init`: the installed manager already supplies its task runtime. The official plugin
+does not read database options from the application manifest's `conf` path or from
+a database XML preset. Keep that plugin's `conf` empty and call `configure()` with
+owning options from a business module. Configuration is owner-thread only and is
 not dynamically replaced. Set `options.tls = true` and configure certificate
 verification through `options.pool` when building with `ARKNET_ENABLE_SSL`;
 requesting TLS in a build without SSL throws. See [build and runtime activation](build-options.md#native-database-plugins)

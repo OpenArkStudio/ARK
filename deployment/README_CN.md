@@ -26,3 +26,8 @@ docker build -t ark:escort -f deployment/Dockerfile .
 源码样例位于 `config/` 和 `resources/`；应用镜像将其部署为运行时的 `conf/` 和
 `resource/`，运行时目录名称不变。部署使用 Kernel 的服务前，先生成并检查所需元数据。
 保留的 Photon 镜像和外部业务插件仍需在目标环境中单独验证。
+
+官方 MySQL 和 Redis 插件通过公开的 `configure()` API 接收拥有型选项，不读取数据库 XML
+预设。应用清单中这两个插件的 `conf` 应留空；加载插件或挂载此 ConfigMap 不会配置数据库连接。
+使用方的配置方式见 [MySQL](../docs/reference/mysql_CN.md) 和 [Redis](../docs/reference/redis_CN.md)。
+数据库示例目标在默认构建中仍未启用；保留源码及清单不代表这些示例可运行或部署验收通过。

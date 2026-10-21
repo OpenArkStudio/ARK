@@ -37,8 +37,9 @@ ark::task<> workflow() {
 
 配置持有字符串、凭据、连接池、协议、响应限额和 TLS 设置。连接名重复或入口已封闭时，
 `configure` 返回 false；空名称和无效限额抛出异常。消费模块可以在 Redis 模块自身的
-`init` 之前配置，已安装的管理器会提供任务运行时。插件不再读取旧版
-`redis.plugin.conf` 文件。配置仅限所属线程使用，不支持动态替换。启用
+`init` 之前配置，已安装的管理器会提供任务运行时。官方插件不会从应用清单中的 `conf` 路径
+或数据库 XML 预设读取连接选项。该插件的 `conf` 应留空，由业务模块通过 `configure()`
+传入拥有型选项。配置仅限所属线程使用，不支持动态替换。启用
 `ARKNET_ENABLE_SSL` 后，可设置 `options.tls = true`，并通过 `options.pool`
 配置证书验证；未编译 SSL 时请求 TLS 会抛出异常。另见[构建与运行时启用](build-options_CN.md#原生数据库插件)
 和[托管任务生命周期](../guides/tasks_CN.md)。

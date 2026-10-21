@@ -40,7 +40,7 @@ ark::task<> run() {
 }
 ```
 
-Configuration is explicit and owner-thread only. It can precede the database module's `init()` because registration already installs its plugin manager. Duplicates and new configuration while the manager is draining return false; empty names or zero limits throw. Once `pre_shut()` seals the module, configuration throws `std::logic_error`. Connections cannot be reconfigured in place. TLS certificate verification is enabled by default; configure the CA and server name as needed. The optional MySQL target requires `ARKNET_ENABLE_SSL=ON` and OpenSSL. No mysql++ driver is linked and no legacy MySQL XML configuration is read. See [build and runtime activation](build-options.md#native-database-plugins) and [managed task lifecycle](../guides/tasks.md).
+Configuration is explicit and owner-thread only. It can precede the database module's `init()` because registration already installs its plugin manager. Duplicates and new configuration while the manager is draining return false; empty names or zero limits throw. Once `pre_shut()` seals the module, configuration throws `std::logic_error`. Connections cannot be reconfigured in place. TLS certificate verification is enabled by default; configure the CA and server name as needed. The optional MySQL target requires `ARKNET_ENABLE_SSL=ON` and OpenSSL. No mysql++ driver is linked. The official plugin does not read database options from the application manifest's `conf` path or from a database XML preset. Keep that plugin's `conf` empty and call `configure()` with owning options from a business module. See [build and runtime activation](build-options.md#native-database-plugins) and [managed task lifecycle](../guides/tasks.md).
 
 ## Transactions
 
