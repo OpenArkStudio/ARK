@@ -20,18 +20,15 @@
 
 #pragma once
 
-#include "ark/module.hpp"
-#include "ark/plugin.hpp"
-#include "ark/plugin_manager.hpp"
+#include "ark/module_base.hpp"
 #include "ark/utility/guid_module.hpp"
 #include "ark/utility/schedule_module.hpp"
 #include "ark/utility/timer_module.hpp"
 
 namespace ark {
 
-class sample1_module final : public module
+class sample1_module final : public module_base<module>
 {
-    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool init() override;
     bool post_init() override;

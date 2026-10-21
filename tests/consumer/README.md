@@ -1,7 +1,13 @@
 # SDK consumer
 
-This is an independent CMake project using `ark::core`, `ark::net` and `ark::kernel`. It checks
-public headers and exported compile requirements without building ark applications.
+This is an independent CMake project using `ark::core`, `ark::net`, `ark::kernel`,
+`ark::mysql` and `ark::redis`. It checks public headers and transitive build-tree
+usage requirements without building ark applications or database plugin libraries.
 Run `cmake --build <build-dir> --target check-sdk` after configuration.
 
-Build instructions: [English](../../docs/project-layout.md) · [简体中文](../../docs/project-layout_CN.md).
+Database public headers are staged from explicit lists beside their implementations;
+the consumer rejects visible implementation/assembly headers. Redis's interface is
+checked in all builds; the MySQL compile check requires `ARKNET_ENABLE_SSL=ON`.
+This is an `add_subdirectory` build-tree consumer, not an installed-package test.
+
+Build instructions: [English](../../docs/reference/directory-structure.md) · [简体中文](../../docs/reference/directory-structure_CN.md).

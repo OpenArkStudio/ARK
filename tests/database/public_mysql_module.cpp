@@ -3,11 +3,12 @@
 #include <chrono>
 #include <cstddef>
 #include <exception>
+#include <memory>
 #include <optional>
 #include <thread>
 #include <vector>
 
-#include "ark/mysql/mysql_module_impl.hpp"
+#include "mysql/mysql_plugin.hpp"
 #include "mysql_test_peer.hpp"
 
 namespace {
@@ -134,7 +135,8 @@ asio::awaitable<void> serve(mysql_peer& server, observed_commands& seen, bool tl
 struct module_owner
 {
     ark::plugin_manager manager;
-    ark::mysql_module_impl database;
+    std::unique_ptr<ark::mysql_module> database_owner{ark::detail::make_mysql_module()};
+    ark::mysql_module& database{*database_owner};
 
     module_owner() {
         database.set_name("mysql_module");

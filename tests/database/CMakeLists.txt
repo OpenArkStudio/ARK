@@ -34,37 +34,37 @@ target_link_libraries(ark_database_redis_tests PRIVATE arknet::arknet)
 ark_database_test(ark_database_redis_stop_tests redis_stop_capture.cpp)
 target_link_libraries(ark_database_redis_stop_tests PRIVATE arknet::arknet)
 ark_database_test(ark_database_public_redis_tests main.cpp public_redis_module.cpp
-    "${ROOT_DIR}/src/plugins/redis/redis_module_impl.cpp")
-target_link_libraries(ark_database_public_redis_tests PRIVATE ark::core arknet::arknet)
+    "${ROOT_DIR}/src/plugins/redis/redis_module.cpp")
+target_link_libraries(ark_database_public_redis_tests PRIVATE ark::redis arknet::arknet)
 # Real-service programs are compiled by check-database, but never run there.
 ark_database_test(ark_database_public_service_tests public_service.cpp
-    "${ROOT_DIR}/src/plugins/redis/redis_module_impl.cpp")
-target_link_libraries(ark_database_public_service_tests PRIVATE ark::core arknet::arknet)
+    "${ROOT_DIR}/src/plugins/redis/redis_module.cpp")
+target_link_libraries(ark_database_public_service_tests PRIVATE ark::redis arknet::arknet)
 ark_database_test(ark_database_public_failure_service_tests public_failure_service.cpp
-    "${ROOT_DIR}/src/plugins/redis/redis_module_impl.cpp")
-target_link_libraries(ark_database_public_failure_service_tests PRIVATE ark::core arknet::arknet)
+    "${ROOT_DIR}/src/plugins/redis/redis_module.cpp")
+target_link_libraries(ark_database_public_failure_service_tests PRIVATE ark::redis arknet::arknet)
 add_library(ark_database_redis_plugin SHARED
-    "${ROOT_DIR}/src/plugins/redis/redis_plugin.cpp" "${ROOT_DIR}/src/plugins/redis/redis_module_impl.cpp")
+    "${ROOT_DIR}/src/plugins/redis/redis_plugin.cpp" "${ROOT_DIR}/src/plugins/redis/redis_module.cpp")
 target_include_directories(ark_database_redis_plugin PRIVATE "${ROOT_DIR}/src/plugins")
-target_link_libraries(ark_database_redis_plugin PRIVATE ark::core arknet::arknet)
+target_link_libraries(ark_database_redis_plugin PRIVATE ark::redis arknet::arknet)
 # Keep implementation symbols private so this exercises separate Asio executor
 # type-erasure tables in the executable and dynamically loaded plugin.
 set_target_properties(ark_database_redis_plugin PROPERTIES PREFIX ""
     CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
 ark_database_test(ark_database_public_redis_plugin_tests public_redis_plugin.cpp)
-target_link_libraries(ark_database_public_redis_plugin_tests PRIVATE ark::core arknet::arknet)
+target_link_libraries(ark_database_public_redis_plugin_tests PRIVATE ark::redis arknet::arknet)
 target_compile_definitions(ark_database_public_redis_plugin_tests PRIVATE
     ARK_DATABASE_PLUGIN_DIR="$<TARGET_FILE_DIR:ark_database_redis_plugin>/")
 add_dependencies(ark_database_public_redis_plugin_tests ark_database_redis_plugin)
 # Real-service DSO acceptance: only public SDK headers and no implementation objects.
 ark_database_test(ark_database_public_plugin_service_tests public_plugin_service.cpp)
 set_property(TARGET ark_database_public_plugin_service_tests PROPERTY INCLUDE_DIRECTORIES "")
-set_property(TARGET ark_database_public_plugin_service_tests PROPERTY LINK_LIBRARIES ark::core Threads::Threads)
+set_property(TARGET ark_database_public_plugin_service_tests PROPERTY LINK_LIBRARIES ark::redis Threads::Threads)
 target_compile_definitions(ark_database_public_plugin_service_tests PRIVATE
     ARK_DATABASE_PLUGIN_DIR="$<TARGET_FILE_DIR:ark_database_redis_plugin>/")
 add_dependencies(ark_database_public_plugin_service_tests ark_database_redis_plugin)
 add_library(ark_database_redis_sample_check OBJECT "${ROOT_DIR}/examples/redis_sample/redis_sample_module.cpp")
-target_link_libraries(ark_database_redis_sample_check PRIVATE ark::core arknet::arknet)
+target_link_libraries(ark_database_redis_sample_check PRIVATE ark::redis arknet::arknet)
 add_custom_target(check-database
     COMMAND $<TARGET_FILE:ark_database_queue_tests>
     COMMAND $<TARGET_FILE:ark_database_redis_stop_tests>
@@ -86,34 +86,37 @@ add_dependencies(check-database ark_database_redis_sample_check ark_database_pub
     ark_database_public_failure_service_tests ark_database_public_plugin_service_tests)
 
 if(ARKNET_ENABLE_SSL)
+    target_link_libraries(ark_database_public_failure_service_tests PRIVATE ark::mysql)
+    target_link_libraries(ark_database_public_service_tests PRIVATE ark::mysql)
     target_sources(ark_database_public_failure_service_tests PRIVATE
-        "${ROOT_DIR}/src/plugins/mysql/mysql_module_impl.cpp")
+        "${ROOT_DIR}/src/plugins/mysql/mysql_module.cpp")
     target_compile_definitions(ark_database_public_failure_service_tests PRIVATE
         ARK_DATABASE_UNTRUSTED_CA="${ARKNET_SOURCE_DIR}/tests/certs/wrong.pem")
     target_sources(ark_database_public_service_tests PRIVATE
-        "${ROOT_DIR}/src/plugins/mysql/mysql_module_impl.cpp")
+        "${ROOT_DIR}/src/plugins/mysql/mysql_module.cpp")
     target_compile_definitions(ark_database_public_redis_tests PRIVATE
         ARK_DATABASE_REDIS_CERT_DIR="${ARKNET_SOURCE_DIR}/tests/certs")
     ark_database_test(ark_database_public_mysql_tests main.cpp public_mysql_module.cpp
-        "${ROOT_DIR}/src/plugins/mysql/mysql_module_impl.cpp")
+        "${ROOT_DIR}/src/plugins/mysql/mysql_module.cpp")
     target_include_directories(ark_database_public_mysql_tests PRIVATE "${ARKNET_SOURCE_DIR}/tests")
     target_compile_definitions(ark_database_public_mysql_tests PRIVATE
         ARKNET_TEST_CERT_DIR="${ARKNET_SOURCE_DIR}/tests/certs")
-    target_link_libraries(ark_database_public_mysql_tests PRIVATE ark::core arknet::arknet)
+    target_link_libraries(ark_database_public_mysql_tests PRIVATE ark::mysql arknet::arknet)
     add_library(ark_database_mysql_plugin SHARED
-        "${ROOT_DIR}/src/plugins/mysql/mysql_plugin.cpp" "${ROOT_DIR}/src/plugins/mysql/mysql_module_impl.cpp")
+        "${ROOT_DIR}/src/plugins/mysql/mysql_plugin.cpp" "${ROOT_DIR}/src/plugins/mysql/mysql_module.cpp")
     target_include_directories(ark_database_mysql_plugin PRIVATE "${ROOT_DIR}/src/plugins")
-    target_link_libraries(ark_database_mysql_plugin PRIVATE ark::core arknet::arknet)
+    target_link_libraries(ark_database_mysql_plugin PRIVATE ark::mysql arknet::arknet)
     set_target_properties(ark_database_mysql_plugin PROPERTIES PREFIX ""
         CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
     ark_database_test(ark_database_public_mysql_plugin_tests public_mysql_plugin.cpp)
-    target_link_libraries(ark_database_public_mysql_plugin_tests PRIVATE ark::core arknet::arknet)
+    target_link_libraries(ark_database_public_mysql_plugin_tests PRIVATE ark::mysql arknet::arknet)
     target_compile_definitions(ark_database_public_mysql_plugin_tests PRIVATE
         ARK_DATABASE_PLUGIN_DIR="$<TARGET_FILE_DIR:ark_database_mysql_plugin>/")
     add_dependencies(ark_database_public_mysql_plugin_tests ark_database_mysql_plugin)
     add_dependencies(ark_database_public_plugin_service_tests ark_database_mysql_plugin)
+    target_link_libraries(ark_database_public_plugin_service_tests PRIVATE ark::mysql)
     add_library(ark_database_mysql_sample_check OBJECT "${ROOT_DIR}/examples/mysql_sample/mysql_sample_module.cpp")
-    target_link_libraries(ark_database_mysql_sample_check PRIVATE ark::core arknet::arknet)
+    target_link_libraries(ark_database_mysql_sample_check PRIVATE ark::mysql arknet::arknet)
     add_custom_target(check-database-public-mysql
         COMMAND $<TARGET_FILE:ark_database_public_mysql_tests>
         COMMAND $<TARGET_FILE:ark_database_public_mysql_plugin_tests>

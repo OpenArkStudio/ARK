@@ -66,9 +66,9 @@ Debug 程序名为 `app_d` 或 `app_d.exe`，插件文件在平台后缀前带�
 
 macOS/Linux 使用 Ctrl+C 停止，Windows 在应用控制台输入 `exit`。Sample1 应依次输出 `PreShut`、`Shut`。
 
-<Aside type="caution" title="检查初始化结果，不只检查退出码">
+<Aside type="caution" title="处理启动失败">
 
-当前启动器没有汇总启动成功与否的退出码约定。如果没有出现目标模块日志，按[应用启动器](../guides/applications_CN.md#排查启动问题)中的步骤检查配置和动态库错误。
+插件加载失败，或模块启动回调返回 `false`、抛出异常时，启动器记录失败阶段并以退出码 `1` 结束，不进入后续启动阶段或更新循环。按[应用启动器](../guides/applications_CN.md#排查启动问题)中的步骤检查配置和动态库错误。
 
 </Aside>
 
@@ -78,3 +78,28 @@ macOS/Linux 使用 Ctrl+C 停止，Windows 在应用控制台输入 `exit`。Sam
 - [应用启动器](../guides/applications_CN.md)说明 Bus 标识、插件选择和配置路径。使用 Kernel 数据的应用还需要生成的 `resource/` 文件。
 - [配置工具](../guides/tools_CN.md)提供独立的 Excel 资源导出流程，其 Python 依赖不属于本示例或 C++ 网络测试的运行要求。
 - [网络回归测试](../networking_CN.md)可独立验证网络行为。选择 Consul 或数据库插件的应用需要另外准备对应服务和配置。
+
+## 阅读使用新基类的示例装配
+
+`examples/sample1` 和 `examples/sample2` 使用
+[`module_base<interface_type>`](../guides/modules_CN.md#用基类隐藏具体实现)
+及 [`plugin_base<derived_type>`](../guides/plugins_CN.md#用类型化注册和显式入口)。
+示例类仍放在插件同目录的私有头文件中，不额外引入服务接口；两者均继承
+`module_base<module>`，保留原有 `sample1_module` 或 `sample2_module` 查找标识。
+
+各自的 `sampleN_plugin.hpp` 声明返回 `std::unique_ptr<sampleN_module>` 的工厂，
+由 `sampleN_module.cpp` 定义。插件注册工厂返回的对象，并显式导出
+`DllEntryPlugin` / `DllExitPlugin`，保留原有 logger 初始化。注册成功后仍需在
+`uninstall()` 中显式注销并删除模块。
+
+| 示例 | update 注册 | 运行依赖 |
+| --- | --- | --- |
+| Sample1 | `module_update::enabled`，保留其 `update()` 覆写行为 | Utility 插件，无需外部业务元数据 |
+| Sample2 | `module_update::disabled`，保留其继承的默认 `update()` 行为 | Kernel、Utility 插件及 `resource/meta/` 下的业务元数据 |
+
+生命周期和业务方法体、配置中的动态库名称均保持不变。Sample2 的元数据属于外部
+业务数据，本次装配调整不生成或转换这些数据。启用应用、示例、配置和 core 测试，
+并启用所需 Kernel/Utility 插件后，执行
+`cmake --build app-build --target check-typed-examples -j2`，可加载两个示例的真实
+动态库，在模块管理器所属线程更新五次，并检查启动、停服顺序。该测试为 Sample2 提供小型
+测试元数据，不代表已验证应用导出的业务数据集。

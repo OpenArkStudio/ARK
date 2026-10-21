@@ -18,21 +18,33 @@
  *
  */
 
-#include "ark/mysql/mysql_module_impl.hpp"
-#include "ark/mysql/mysql_plugin.hpp"
+#include <stdexcept>
+
+#include "mysql_plugin.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN_DLL_FUNCTION(mysql_plugin)
+ARK_EXPORT_FUNC void DllEntryPlugin(plugin_manager* manager, const std::string& name, logger* log) {
+    logger::init(log);
+    manager->register_plugin<mysql_plugin>(name);
+}
+
+ARK_EXPORT_FUNC void DllExitPlugin(plugin_manager* manager) {
+    manager->unregister_plugin<mysql_plugin>();
+}
 
 void mysql_plugin::install() {
-    // install module
-    ARK_REGISTER_MODULE(mysql_module, mysql_module_impl);
+    if (!register_module(detail::make_mysql_module(), module_update::enabled))
+    {
+        throw std::runtime_error("mysql module registration rejected");
+    }
 }
 
 void mysql_plugin::uninstall() {
-    // uninstall module
-    ARK_UNREGISTER_MODULE(mysql_module, mysql_module_impl);
+    if (!unregister_module<mysql_module>())
+    {
+        throw std::runtime_error("mysql module unregistration rejected");
+    }
 }
 
 } // namespace ark

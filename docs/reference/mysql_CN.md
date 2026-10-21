@@ -2,6 +2,8 @@
 
 `mysql_module` 提供具名 arknet 原生连接池、查询、参数化预处理语句和事务，替换 mysql++、驱动管理模块及原有同步 SQL 构造接口。应用需要重新编译插件，将调用迁移到受管理的协程任务。
 
+公开接口的唯一源码是 `src/plugins/mysql/mysql_module.hpp`，与实现和私有插件装配文件同目录。链接 `ark::mysql` 获取配置期复制到构建树的 `ark/mysql/mysql_module.hpp`；即使不构建运行时插件，该映射仍有效。不要仅依赖手写 `-I <源码>/include`。实现类已隐藏到 `.cpp`，原 `mysql_module_impl.hpp` 和插件装配头不再是公开 SDK。宿主、插件和相关消费者需要一起重新构建；本次不提供安装包或旧二进制兼容承诺。
+
 ## 配置与查询
 
 ```cpp

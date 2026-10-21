@@ -122,3 +122,45 @@ The manager tracks roots accepted by its task groups, but not arbitrary callback
 - [Application launcher](applications.md): process arguments and configuration paths.
 - [Coroutine tasks](tasks.md): explicit task ownership, admission and owner-thread polling.
 - [Kernel reference](../reference/kernel.md): entity and data services exposed by official modules.
+
+## Use a base class with a private implementation
+
+New modules can replace `ARK_DECLARE_MODULE_FUNCTIONS` with
+`ark::module_base<interface_type>` from `<ark/module_base.hpp>`. Keep the interface in
+an API header that includes `<ark/module.hpp>`, and define the concrete class in
+its implementation `.cpp`:
+
+```cpp
+// counter_factory.hpp: plugin-private factory declaration
+#include <memory>
+#include "counter_module.hpp" // declares ark::counter_module
+
+std::unique_ptr<ark::counter_module> make_counter();
+
+// counter_module.cpp
+#include <ark/module_base.hpp>
+
+class counter_impl final : public ark::module_base<ark::counter_module>
+{
+public:
+    void increment() override { ++value_; }
+    std::uint64_t value() const override { return value_; }
+private:
+    std::uint64_t value_{};
+};
+
+std::unique_ptr<ark::counter_module> make_counter() {
+    return std::make_unique<counter_impl>();
+}
+```
+
+The single inheritance chain is implementation → `module_base<interface_type>` →
+interface → `module`. The base implements manager/name accessors and protected
+`find_module<T>()`; it adds no lifecycle or `update()` override. Lookup retains
+its existing requirement that the requested interface is registered. Include the
+base in the implementation, so consumers do not need the concrete class.
+
+Return `std::unique_ptr<interface_type>` from the private factory. The
+[typed plugin helpers](plugins.md#use-typed-registration-and-explicit-entries)
+register that interface identity and require an explicit update switch. Existing
+module macros remain supported.

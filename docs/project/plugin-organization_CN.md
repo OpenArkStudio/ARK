@@ -1,6 +1,6 @@
 # 官方插件与仓库组织
 
-核心与插件的公开接口统一放在 `include/ark/`，核心构建定义放在 `src/core/`，官方插件实现放在 `src/plugins/<名称>/`。核心与官方插件纳入 `ark`，业务插件放在应用仓库，`arknet` 保持独立。业务热更新的设计与实现暂缓，目录与 snake_case 整理已经落地，独立插件的功能整合仍按插件分别验收。
+核心与其他插件的公开接口仍位于 `include/ark/`，核心构建定义位于 `src/core/`。MySQL、Redis 试点将接口头、实现和私有装配共同放在 `src/plugins/<名称>/`，通过显式 CMake 映射保留逻辑包含路径。业务插件放在应用仓库，`arknet` 保持独立；本次不扩展热更新或其他插件迁移。
 
 ## 现有实现
 
@@ -41,15 +41,17 @@ ark/
 
 上图列出主要目录。Consul、etcd、Kafka 等现有官方插件也按同一规则组织。Lua、Actor 的接入仍在规划中，上表列出的是它们的建议实现位置。
 
-每个插件采用相同的目录布局，以 MySQL 为例：
+MySQL、Redis 试点采用同目录布局，例如：
 
 ```text
-include/ark/mysql/      # 使用该插件时需要的公开接口
 src/plugins/mysql/
 ├── CMakeLists.txt
-├── detail/             # 私有原生数据库桥接
-└── *.cpp               # 插件入口与框架接入
-tests/database/         # 数据库集成与协程测试
+├── mysql_module.hpp    # 显式公开接口；映射为 ark/mysql/mysql_module.hpp
+├── mysql_module.cpp    # 隐藏实现类与单一私有工厂
+├── mysql_plugin.hpp    # 私有插件类型和工厂声明，不进入 SDK
+├── mysql_plugin.cpp    # 注册/注销与显式动态库入口
+└── detail/             # 私有原生服务、协程桥和事务状态
+tests/database/         # 协议、DSO 与显式真实服务检查
 ```
 
 插件使用说明放在 `docs/`，示例应用放在 `examples/`。公共接口按能力定义，数据库客户端类型尽量保留在实现内。
@@ -69,12 +71,12 @@ tests/database/         # 数据库集成与协程测试
 
 MySQL 和 Redis 客户端在 arknet 中自主实现，不采用 Boost.MySQL 或 Boost.Redis。arknet 负责数据库协议编解码、认证和异步通信；ark 的插件负责框架配置、模块服务和业务回调接入。
 
-arknet 的单节点客户端范围为：MySQL 提供查询、参数化预处理和事务；Redis 提供通用命令、RESP2／RESP3 和流水线请求。两者包含认证、TLS、连接池、超时、取消和队列上限。Redis Cluster、Sentinel 和 Pub/Sub 后续再加。原生客户端已随 [arknet 0.2.0](https://github.com/OpenArkStudio/arknet/releases/tag/v0.2.0) 发布，包含独立服务端互通验证和本机性能报告；这不代表 ark 的 MySQL、Redis 插件已经切换到新客户端。插件接入及其业务回归仍待完成。
+arknet 的单节点客户端范围为：MySQL 提供查询、参数化预处理和事务；Redis 提供通用命令、RESP2／RESP3 和流水线请求。两者包含认证、TLS、连接池、超时、取消和队列上限。Redis Cluster、Sentinel 和 Pub/Sub 后续再加。ark 已通过公开协程接口接入原生客户端，并保留协议端点、隐藏符号 DSO 及显式真实服务验收入口；已覆盖与未覆盖场景见[数据库测试指南](../../tests/database/README_CN.md)。这不证明任意部署、旧动态库兼容或生产容量。
 
 ## 接下来讨论
 
 1. 保持已统一的 snake_case SDK 和目录结构；公开头文件与 CMake target 见[项目结构](../reference/directory-structure_CN.md)。
-2. MySQL、Redis 插件采用 Asio 协程和 arknet 原生拥有型结果。arknet 提供调用方驱动的执行器，ark 在模块线程中派发；完成配置、事务、取消和关闭流程验证后，再启用运行时插件。
+2. MySQL、Redis 的部署验证应与公开协程接口和 arknet 原生拥有型结果保持一致。arknet 提供调用方驱动的执行器，ark 在模块线程中派发；部署新的服务配置前，运行显式真实服务验收模式。
 3. 分别确认 Lua、Actor 等官方插件的接口和依赖，按插件补齐编译、功能和异常路径验证。
 
 热更新相关的状态持有、调用完成判断和兼容边界，待当前改造完成后继续讨论。
