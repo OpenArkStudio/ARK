@@ -21,6 +21,8 @@
 #pragma once
 
 #include <filesystem>
+#include <source_location>
+#include <string_view>
 
 #include <spdlog/async.h>
 #include <spdlog/async_logger.h>
@@ -42,41 +44,38 @@
 
 namespace ark {
 
-// Get the basename of __FILE__ (at compile time if possible)
-#if FMT_HAS_FEATURE(__builtin_strrchr)
-#define SPDLOG_STRRCHR(str, sep) __builtin_strrchr(str, sep)
-#else
-#define SPDLOG_STRRCHR(str, sep) strrchr(str, sep)
-#endif //__builtin_strrchr not defined
+namespace detail {
 
-#ifndef SPDLOG_FILE_BASENAME
-#ifdef PLATFORM_WIN
-#define SPDLOG_FILE_BASENAME(file) SPDLOG_STRRCHR("\\" file, '\\') + 1
-#else
-#define SPDLOG_FILE_BASENAME(file) SPDLOG_STRRCHR("/" file, '/') + 1
-#endif
-#endif // SPDLOG_FILE_BASENAME
+constexpr std::string_view log_basename(std::string_view path) noexcept {
+    const auto separator = path.find_last_of("/\\");
+    return path.substr(separator == std::string_view::npos ? 0 : separator + 1);
+}
 
-//SPDLOG_TRACE();
+constexpr spdlog::source_loc log_source_location(
+    const std::source_location& location = std::source_location::current()) noexcept {
+    return {log_basename(location.file_name()).data(), static_cast<int>(location.line()), ""};
+}
+
+} // namespace detail
 
 #define ARK_LOG_TRACE(my_fmt, ...)                                                                                     \
     logger::instance()->log_t(                                                                                         \
-        spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::trace, my_fmt, ##__VA_ARGS__)
+        ::ark::detail::log_source_location(), spdlog::level::trace, my_fmt __VA_OPT__(, ) __VA_ARGS__)
 #define ARK_LOG_DEBUG(my_fmt, ...)                                                                                     \
     logger::instance()->log_t(                                                                                         \
-        spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::debug, my_fmt, ##__VA_ARGS__)
+        ::ark::detail::log_source_location(), spdlog::level::debug, my_fmt __VA_OPT__(, ) __VA_ARGS__)
 #define ARK_LOG_INFO(my_fmt, ...)                                                                                      \
     logger::instance()->log_t(                                                                                         \
-        spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::info, my_fmt, ##__VA_ARGS__)
+        ::ark::detail::log_source_location(), spdlog::level::info, my_fmt __VA_OPT__(, ) __VA_ARGS__)
 #define ARK_LOG_WARN(my_fmt, ...)                                                                                      \
     logger::instance()->log_t(                                                                                         \
-        spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::warn, my_fmt, ##__VA_ARGS__)
+        ::ark::detail::log_source_location(), spdlog::level::warn, my_fmt __VA_OPT__(, ) __VA_ARGS__)
 #define ARK_LOG_ERROR(my_fmt, ...)                                                                                     \
     logger::instance()->log_t(                                                                                         \
-        spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""}, spdlog::level::err, my_fmt, ##__VA_ARGS__)
+        ::ark::detail::log_source_location(), spdlog::level::err, my_fmt __VA_OPT__(, ) __VA_ARGS__)
 #define ARK_LOG_CRITICAL(my_fmt, ...)                                                                                  \
-    logger::instance()->log_t(spdlog::source_loc{SPDLOG_FILE_BASENAME(__FILE__), __LINE__, ""},                        \
-        spdlog::level::critical, my_fmt, ##__VA_ARGS__);
+    logger::instance()->log_t(                                                                                         \
+        ::ark::detail::log_source_location(), spdlog::level::critical, my_fmt __VA_OPT__(, ) __VA_ARGS__);
 
 #define ARK_LOG_OSS(name, content) logger::instance()->log_oss(spdlog::level::info, name, content)
 

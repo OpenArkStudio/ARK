@@ -60,7 +60,9 @@ test('source paths select actual module regressions and propagate plugin depende
     ['tests/database/transactions_awaitable.cpp', ['database']],
     ['tests/database/CMakeLists.txt', ['database']],
     ['benchmarks/database.cpp', ['database']],
-    ['src/plugins/mysql/mysql_module_impl.cpp', ['applications', 'database']],
+    ['src/plugins/mysql/mysql_module.cpp', ['applications', 'database']],
+    ['src/plugins/mysql/mysql_module.hpp', ['applications', 'database']],
+    ['src/plugins/redis/redis_module.hpp', ['applications', 'database']],
     ['src/plugins/redis/detail/redis_service.hpp', ['applications', 'database']],
     ['include/ark/redis/redis_module.hpp', ['applications', 'database']],
     ['src/plugins/detail/database_awaitable.hpp', ['applications', 'database']],
@@ -242,7 +244,7 @@ test('module flags and workflow matrix guards keep uncertain source ranges and q
   assert.equal(count(plan(['tests/network/rudp.cpp'])), 1);
   assert.equal(count(plan(['tests/network/rudp.cpp']), 'failure'), 12);
   assert.equal(count(plan(['src/plugins/net/rudp_client.cpp'])), 2);
-  assert.equal(count(plan(['src/plugins/mysql/mysql_module_impl.cpp'])), 2);
+  assert.equal(count(plan(['src/plugins/mysql/mysql_module.cpp'])), 2);
   assert.equal(count(plan(['tests/core/containers.cpp'])), 1);
   assert.equal(count(plan(['include/ark/container/vector.hpp'])), 3);
   assert.equal(count(plan(['unknown.bin'])), 3);

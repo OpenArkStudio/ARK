@@ -37,6 +37,8 @@ cmake -S . -B build -DARK_BUILD_APPLICATIONS=ON \
 cmake --build build --target ark_mysql_plugin ark_redis_plugin
 ```
 
+MySQL、Redis 的接口头通过显式清单在配置阶段复制到各构建树的 `src/plugins/sdk-include/ark/<名称>/`。`ark::mysql`、`ark::redis` 传递该目录，插件关闭时仍可使用；私有装配头和工厂不进入映射。源码目录与构建目录不能互相替代，也没有新增 `find_package(ark)` 安装包。
+
 业务插件链接 `ark::mysql` 和/或 `ark::redis`，以获取公开头文件和编译要求；SDK 目标不会加载运行时动态库。将所需动态库与启动器一起部署，并在应用清单中填写库名称：
 
 ```xml

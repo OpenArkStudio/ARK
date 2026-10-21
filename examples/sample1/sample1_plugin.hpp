@@ -20,11 +20,20 @@
 
 #pragma once
 
-#include "ark/plugin.hpp"
-#include "ark/plugin_manager.hpp"
+#include <memory>
+
+#include "ark/plugin_base.hpp"
+#include "sample1_module.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN(sample1_plugin)
+std::unique_ptr<sample1_module> make_sample1_module();
+
+class sample1_plugin final : public plugin_base<sample1_plugin>
+{
+public:
+    void install() override;
+    void uninstall() override;
+};
 
 } // namespace ark

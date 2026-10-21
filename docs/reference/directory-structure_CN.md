@@ -9,13 +9,13 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 
 | 路径 | 内容 |
 | --- | --- |
-| `include/ark/` | 核心与插件公开头文件 |
+| `include/ark/` | 核心与其他插件的公开头文件 |
 | `src/core/` | 核心 CMake target 与 header-only 使用要求 |
 | `application/` | 应用入口 |
 | `src/proto/` | 协议定义与编解码实现 |
 | `src/server/` | 内置服务端应用 |
-| `include/ark/<name>/` | 官方插件公开头文件 |
-| `src/plugins/<name>/` | 插件实现 |
+| `include/ark/<name>/` | 尚未迁移的官方插件公开头文件 |
+| `src/plugins/<name>/` | 插件实现；MySQL/Redis 的接口头和私有装配也位于此处 |
 | `tests/` | 核心、网络与私有数据库回归测试 |
 | `tests/network/` | 网络与日志回归测试 |
 | `tests/consumer/` | 独立使用公开 SDK 的示例项目 |
@@ -28,6 +28,8 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 
 使用 `<ark/plugin_manager.hpp>`、`<ark/net/tcp_client.hpp>` 等公开路径包含头文件，
 不需要把实现目录加入应用的包含路径。Protobuf 生成文件位于构建目录，由 `ark::proto` 提供。
+
+MySQL、Redis 的唯一公开接口源码分别是 `src/plugins/mysql/mysql_module.hpp`、`src/plugins/redis/redis_module.hpp`。CMake 在配置阶段按显式清单复制普通文件到各构建树的 `src/plugins/sdk-include/ark/<名称>/`；清理该受控目录中已移除的映射，不复制私有插件头或工厂。通过 `ark::mysql`、`ark::redis` 消费，逻辑包含路径保持不变，插件关闭时同样有效。仅手写 `-I <源码>/include` 的调用需要改用目标传递的包含目录。当前没有正式 SDK 安装或导出包。
 
 ## CMake 目标
 
@@ -67,12 +69,15 @@ target_link_libraries(my_service PRIVATE ark::core ark::net)
 ```sh
 cmake -S tests/consumer -B sdk-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
-  -DASIO_STANDALONE=OFF
+  -DASIO_STANDALONE=OFF -DARKNET_ENABLE_SSL=ON \
+  -DVCPKG_MANIFEST_FEATURES=database
 cmake --build sdk-build --target check-sdk
 ```
 
 该示例关闭应用和 Protobuf 构建，检查公开头文件路径、C++20 编译要求、模块继承和导出的 GUID 配置。
 增加 `-DARK_USE_GUID_32=ON` 可检查 32 位 GUID 配置。
+
+消费者还验证 MySQL/Redis 的公开头映射，并拒绝可见的实现或私有装配头。上述命令启用 SSL 和 vcpkg `database` feature 所需的 OpenSSL，同时检查两种接口；关闭 SSL 时仅编译 Redis 接口。这是构建树消费检查，不是安装包验收。
 
 ## 运行资源与生成数据
 

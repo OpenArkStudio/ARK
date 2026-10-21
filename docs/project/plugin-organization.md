@@ -1,6 +1,6 @@
 # Official plugins and repository organization
 
-Public core and plugin headers live in `include/ark/`; core build definitions live in `src/core/` and official plugin implementations in `src/plugins/<name>/`. Core and official plugins belong in `ark`; business plugins belong in application repositories; `arknet` remains independent. Hot-update design and implementation are deferred while individual plugin integrations receive their own functional acceptance. The directory and snake_case migration is complete.
+Core and other plugin public interfaces remain in `include/ark/`, with core build definitions in `src/core/`. The MySQL/Redis pilot co-locates interface headers, implementation and private assembly in `src/plugins/<name>/`, retaining logical include paths through explicit CMake mapping. Business plugins live with their applications and arknet remains independent; this pilot does not expand hot update or migrate other plugins.
 
 ## Existing implementations
 
@@ -19,7 +19,7 @@ These repositories use different generations of interfaces and build systems. Co
 ```text
 ark/
 ├── application/         # Application launcher
-├── include/ark/         # Public core and plugin interfaces
+├── include/ark/         # Core and other plugin public interfaces
 ├── src/
 │   ├── core/            # Header-only core target definitions
 │   ├── plugins/         # Official plugin implementations and CMake files
@@ -41,15 +41,17 @@ ark/
 
 This shows the main directories. Existing Consul, etcd, Kafka and other official plugins follow the same convention. Lua and Actor integration remains planned; the table above identifies their proposed implementation directories.
 
-Each plugin follows the same package layout, for example:
+The MySQL/Redis pilot uses this co-located layout:
 
 ```text
-include/ark/mysql/      # Public interfaces for plugin consumers
 src/plugins/mysql/
 ├── CMakeLists.txt
-├── detail/             # Private native database bridge
-└── *.cpp               # Plugin entry point and framework integration
-tests/database/         # Database integration and coroutine tests
+├── mysql_module.hpp    # Explicit public API, mapped as ark/mysql/mysql_module.hpp
+├── mysql_module.cpp    # Hidden implementation class and one private factory
+├── mysql_plugin.hpp    # Private plugin type/factory declarations, excluded from SDK
+├── mysql_plugin.cpp    # Registration and explicit dynamic-library entry points
+└── detail/             # Private native services, coroutine bridge and transactions
+tests/database/         # Protocol, DSO and explicit real-service checks
 ```
 
 Usage documentation belongs in `docs/`, and example applications in `examples/`. Define public interfaces around capabilities; keep database client types within implementation code where possible.
@@ -69,12 +71,12 @@ Resolve plugin-specific dependencies when the plugin is enabled. Core public hea
 
 Implement MySQL and Redis clients within arknet rather than adopting Boost.MySQL or Boost.Redis. arknet owns database protocol encoding/decoding, authentication and asynchronous communication. The ark plugins integrate framework configuration, module services and business callbacks.
 
-The arknet single-node scope includes MySQL queries, parameterized prepared statements and transactions; Redis generic commands, RESP2/RESP3 and pipelining; and authentication, TLS, pools, timeouts, cancellation and queue limits for both. Redis Cluster, Sentinel and Pub/Sub follow later. The native clients are available in [arknet 0.2.0](https://github.com/OpenArkStudio/arknet/releases/tag/v0.2.0), with independent-server correctness checks and local performance reports. This does not mean ark's MySQL and Redis plugins have switched to the new clients; plugin integration and application regression remain pending.
+The arknet single-node scope includes MySQL queries, parameterized prepared statements and transactions; Redis generic commands, RESP2/RESP3 and pipelining; and authentication, TLS, pools, timeouts, cancellation and queue limits for both. Redis Cluster, Sentinel and Pub/Sub follow later. ark integrates these clients through its public coroutine interfaces, with protocol-peer, hidden-symbol DSO and explicit real-service acceptance entry points. See the [database test guide](../../tests/database/README.md) for covered cases and limits; this does not establish arbitrary deployment, old-library compatibility or production capacity.
 
 ## Decisions to discuss next
 
 1. Keep the unified snake_case SDK and directory layout; see [Project layout](../reference/directory-structure.md) for public headers and CMake targets.
-2. Integrate MySQL and Redis plugins using Asio coroutines and native arknet owning results. arknet provides the caller-driven executor; ark pumps it on the module thread. Validate configuration, transactions, cancellation and complete shutdown before enabling runtime plugins.
+2. Keep MySQL and Redis deployment validation aligned with the public coroutine APIs and native owning results. arknet provides the caller-driven executor; ark pumps it on the module thread. Use the explicit real-service acceptance modes before deploying a new server configuration.
 3. Confirm interfaces and dependencies for Lua, Actor and other official plugins; add compilation, functional and failure-path verification per plugin.
 
 Resume hot-update discussions about state ownership, in-flight calls and compatibility after the current modernization.
