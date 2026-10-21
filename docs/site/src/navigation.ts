@@ -183,7 +183,7 @@ const tree: Entry[] = [
     ]
   },
   {
-    "en": "Performance",
+    "en": "Performance and testing",
     "zh": "性能与测试",
     "children": [
       [
@@ -200,6 +200,11 @@ const tree: Entry[] = [
         "performance/database-coroutines",
         "Database callbacks and coroutines",
         "数据库回调与协程"
+      ],
+      [
+        "guides/database-validation",
+        "Database service acceptance",
+        "数据库服务验收"
       ]
     ]
   },
