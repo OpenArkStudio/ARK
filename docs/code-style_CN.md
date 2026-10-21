@@ -77,3 +77,19 @@ clang-tidy 应与 CMake 配置使用同一套编译器工具链，以正确找�
 `check_buildin_type` 的签名、异常契约、参数推导保持不变：const 整数左值可通过
 `const T&` 推导出未限定的类型，但显式检查 const 限定的 trait 仍返回 false。
 常量类型和值保持不变，包括 UID 位分配和网络超时。
+
+## 标准工具迁移
+
+**源码不兼容变更：** 不再定义 `ARK_TO_STRING`、`ARRAY_LENTGH`、
+`ARK_SRATIC_ASSERT`、`ARRAY_CLEAR`、`MEMORY_CLEAR` 和 `MEMORY_CLEAR_POINTER`。
+
+| 移除的名称 | 迁移方式 |
+| --- | --- |
+| `ARK_TO_STRING(value)` | 包含 `<string>`，调用 `std::to_string(value)`。它与原别名调用的标准函数相同，包括 C++20 的浮点格式化行为。 |
+| `ARRAY_LENTGH(array)` | 对有界数组，包含 `<iterator>` 并使用 `std::size(array)`。若需要查询类型的首维数组长度，包含 `<type_traits>` 并使用 `std::extent_v<T>`；`std::size` 不接受裸指针。 |
+| `ARK_SRATIC_ASSERT` | 直接使用 `static_assert`。 |
+| `ARRAY_CLEAR`、`MEMORY_CLEAR`、`MEMORY_CLEAR_POINTER` | 移除未使用的工具，不提供替代别名。根据对象的存储契约选择值初始化、类型明确的赋值或显式字节操作；不存在对所有对象都安全的清零操作。`MEMORY_CLEAR_POINTER` 还包含非法 token `0xx`。 |
+
+现有数据和端点转换仍以相同的参数类型调用 `std::to_string`，数值输出和精度不变。
+数组长度调用点保留原有的 `int` 变量、查找顺序、枚举映射和范围处理。
+其余分配、所有权、运行时断言、平台、插件注册和字节序宏保持原有行为。

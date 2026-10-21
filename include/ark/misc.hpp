@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <iterator>
+
 #include "ark/bus.hpp"
 #include "ark/enum.hpp"
 #include "ark/macros.hpp"
@@ -110,7 +112,7 @@ public:
             // If there are more types, please add type name in here.
         };
 
-        static int data_type_len = ARRAY_LENTGH(data_type_names);
+        static int data_type_len = std::size(data_type_names);
         for (int i = 0; i < data_type_len; ++i)
         {
             if (type_name == data_type_names[i])

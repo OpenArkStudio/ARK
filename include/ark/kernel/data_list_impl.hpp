@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <string>
+
 #include "ark/kernel/data.hpp"
 #include "ark/kernel/data_list.hpp"
 #include "ark/misc.hpp"
@@ -739,25 +741,25 @@ public:
         switch (data_[index].type)
         {
         case data_type::dt_boolean:
-            data = ARK_TO_STRING(data_[index].bool_value);
+            data = std::to_string(data_[index].bool_value);
             break;
         case data_type::dt_int32:
-            data = ARK_TO_STRING(data_[index].int_value);
+            data = std::to_string(data_[index].int_value);
             break;
         case data_type::dt_int64:
-            data = ARK_TO_STRING(data_[index].int64_value);
+            data = std::to_string(data_[index].int64_value);
             break;
         case data_type::dt_uint32:
-            data = ARK_TO_STRING(data_[index].uint32_value);
+            data = std::to_string(data_[index].uint32_value);
             break;
         case data_type::dt_uint64:
-            data = ARK_TO_STRING(data_[index].uint64_value);
+            data = std::to_string(data_[index].uint64_value);
             break;
         case data_type::dt_float:
-            data = ARK_TO_STRING(data_[index].float_value);
+            data = std::to_string(data_[index].float_value);
             break;
         case data_type::dt_double:
-            data = ARK_TO_STRING(data_[index].double_value);
+            data = std::to_string(data_[index].double_value);
             break;
         case data_type::dt_string:
             data = string(index);

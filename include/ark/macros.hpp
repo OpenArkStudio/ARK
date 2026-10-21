@@ -39,11 +39,6 @@
 #define INOUT
 #endif
 
-#define ARRAY_CLEAR(v) memset((v), 0x0, sizeof((v)))
-#define MEMORY_CLEAR(v) memset(&(v), 0x0, sizeof((v)))
-#define MEMORY_CLEAR_POINTER(v) memset((v), 0xx, sizeof(*(v)))
-#define ARRAY_LENTGH(v) std::extent<decltype(v)>::value
-
 #define MAX_NAME 256
 #define MAX_BUF 256
 
@@ -326,8 +321,6 @@ typedef struct HINSTANCE__* library_instance;
     } while (false);
 #endif
 
-#define ARK_TO_STRING(value) std::to_string(value)
-
 /// math: is zero
 #define IS_FLOAT_ZERO(type, value) (std::abs(value) < std::numeric_limits<type>::epsilon())
 
@@ -337,7 +330,6 @@ typedef struct HINSTANCE__* library_instance;
 #define ARK_FORMAT_FUNCTION(my_fmt, ...)                                                                               \
     fmt::format(fmt::runtime(std::string("[{}:{}]") + (my_fmt)), ARK_FUNCTION_LINE, ##__VA_ARGS__);
 
-#define ARK_SRATIC_ASSERT static_assert
 #define GET_CLASS_NAME(class_name) (typeid(class_name).name())
 //////////////////////////////////////////////////////////////////////////
 // Plugin macros

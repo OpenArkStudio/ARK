@@ -20,6 +20,9 @@
 
 #pragma once
 
+#include <iterator>
+#include <string>
+
 #include "ark/dep.hpp"
 #include "ark/error.hpp"
 #include "ark/macros.hpp"
@@ -63,7 +66,7 @@ public:
     {
     public:
         static std::string make_url(const std::string& protocol, const std::string& hostname, const uint16_t& port) {
-            std::string domain = protocol + "://" + hostname + ":" + ARK_TO_STRING(port);
+            std::string domain = protocol + "://" + hostname + ":" + std::to_string(port);
             return domain;
         }
 
@@ -79,7 +82,7 @@ public:
                 "zk",
             };
 
-            static int n = ARRAY_LENTGH(proto_type_s);
+            static int n = std::size(proto_type_s);
             for (int i = 0; i < n; ++i)
             {
                 if (ARK_STRICMP(s.c_str(), proto_type_s[i]) == 0)
@@ -103,7 +106,7 @@ public:
                 "zk",
             };
 
-            static int n = ARRAY_LENTGH(proto_type_s);
+            static int n = std::size(proto_type_s);
             if ((int)proto >= n)
             {
                 return proto_type_s[0];
@@ -185,7 +188,7 @@ public:
             url += socket::proto2str(proto()) + "://";
         }
 
-        url += get_ip() + ":" + ARK_TO_STRING(get_port()) + get_path();
+        url += get_ip() + ":" + std::to_string(get_port()) + get_path();
         return url;
     }
 

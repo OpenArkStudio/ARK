@@ -87,3 +87,21 @@ and argument deduction remain unchanged: a const integer lvalue can deduce the
 unqualified type through `const T&`, while explicitly checking a const-qualified
 trait remains false. Constant types and values, including UID bit allocation and
 network timeouts, remain unchanged.
+
+## Standard utility migration
+
+**Breaking source change:** `ARK_TO_STRING`, `ARRAY_LENTGH`, `ARK_SRATIC_ASSERT`,
+`ARRAY_CLEAR`, `MEMORY_CLEAR` and `MEMORY_CLEAR_POINTER` are no longer defined.
+
+| Removed name | Migration |
+| --- | --- |
+| `ARK_TO_STRING(value)` | Include `<string>` and call `std::to_string(value)`. This is the same standard function previously used by the alias, including its C++20 floating-point formatting. |
+| `ARRAY_LENTGH(array)` | Include `<iterator>` and use `std::size(array)` for bounded arrays. If code needs a type's first array extent, include `<type_traits>` and use `std::extent_v<T>`; `std::size` does not accept a raw pointer. |
+| `ARK_SRATIC_ASSERT` | Write `static_assert` directly. |
+| `ARRAY_CLEAR`, `MEMORY_CLEAR`, `MEMORY_CLEAR_POINTER` | These unused helpers are removed without a replacement alias. Choose value initialization, typed assignment or an explicit byte operation according to the object's storage contract; there is no universal safe object-clearing operation. `MEMORY_CLEAR_POINTER` also contained the invalid token `0xx`. |
+
+The existing data and endpoint conversions still call `std::to_string` with the
+same argument types. Numeric output and precision remain unchanged. Array-count
+call sites keep their existing `int` variables, lookup order, enum mappings and
+range handling. Remaining allocation, ownership, runtime-assertion, platform,
+plugin-registration and byte-order macros retain their existing behavior.
