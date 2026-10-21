@@ -116,15 +116,6 @@ message(STATUS "Build ark: v${ARK_VERSION}")
 
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
 set(BIN_OUTPUT_DIR "${PROJECT_BINARY_DIR}/bin")
-set(3RD_PARTY_DIR ${ROOT_DIR}/3rdparty)
-set(3RD_PARTY_LIB_DIR ${BIN_OUTPUT_DIR})
-
-#---------------------------------------------------------------------------------------
-# 3rdparty
-#---------------------------------------------------------------------------------------
-#set(SELF_BUILD_TYPE ${CMAKE_BUILD_TYPE})
-#add_subdirectory(3rdparty)
-#set(CMAKE_BUILD_TYPE ${SELF_BUILD_TYPE})
 
 if (WIN32)
     if (MSVC_VERSION LESS 1930)
@@ -225,21 +216,17 @@ target_link_libraries(ark_sdk INTERFACE ark::core)
 
 # include and link directories
 include_directories(
-        ${3RD_PARTY_DIR}
-        ${3RD_PARTY_DIR}/spdlog/include
         ${RAPIDXML_INCLUDE_DIR}
         ${ROOT_DIR}/src
         ${ROOT_DIR}/src/server)
-include_directories(BEFORE ${3RD_PARTY_DIR}/spdlog/include)
 
-link_directories(${3RD_PARTY_LIB_DIR})
+link_directories(${BIN_OUTPUT_DIR})
 
 #---------------------------------------------------------------------------------------
 # log
 #---------------------------------------------------------------------------------------
 message(STATUS "Current system is [${CMAKE_SYSTEM}]")
 message(STATUS "ROOT_DIR=${ROOT_DIR}")
-message(STATUS "3RD_PARTY_LIB_DIR=${3RD_PARTY_LIB_DIR}")
 message(STATUS "BIN_OUTPUT_DIR=${BIN_OUTPUT_DIR}")
 message(STATUS "CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
 

@@ -146,10 +146,10 @@ private:
 | 1bit |     29bits    |     24bits     |  10bits  |
 */
 
-ARK_CONSTEXPR static const int time_bits = 29;
-ARK_CONSTEXPR static const int worker_bit = 24;
-ARK_CONSTEXPR static const int seq_bits = 10;               // generate pow(2, 10) = 1024 per second
-ARK_CONSTEXPR static const int64_t uid_epoch = 1542643200L; // 2018/11/20 00:00:00
+static constexpr int time_bits = 29;
+static constexpr int worker_bit = 24;
+static constexpr int seq_bits = 10;               // generate pow(2, 10) = 1024 per second
+static constexpr int64_t uid_epoch = 1542643200L; // 2018/11/20 00:00:00
 
 // TODO:remove sign and use uint64_t
 // then seq_bits is 12 bits, mean 2048/s

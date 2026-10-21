@@ -15,6 +15,8 @@ cmake --build core-build --target check-core
 启用 `ARK_BUILD_CORE_TESTS=ON` 时，`check-network` 也会运行这些用例，现有 CI
 矩阵会执行该入口。测试不需要数据库服务。
 
+C++20 语言回归验证六种精确整数类型分类、限定符与引用处理、常量值、异常契约和固定 UID 位分配结果。独立 array-map 头文件检查还会拒绝重新引入旧语言兼容宏。
+
 公共头检查将 `<ark/error_code.hpp>` 放在首个包含位置，并重复包含两次；编译期断言
 验证其无符号 32 位底层类型及所有已声明的错误值。
 

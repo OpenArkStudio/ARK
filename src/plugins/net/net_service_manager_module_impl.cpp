@@ -18,8 +18,6 @@
  *
  */
 
-#include <json/json.hpp>
-
 #include "ark/net/net_client_service_impl.hpp"
 #include "ark/net/net_server_service_impl.hpp"
 #include "ark/net/net_service_manager_module_impl.hpp"

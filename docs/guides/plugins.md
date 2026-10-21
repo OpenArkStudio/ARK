@@ -65,7 +65,7 @@ Keep `install()` focused on registration. Resolve cross-module dependencies duri
 
 ## Build the shared library
 
-Install ark's [build prerequisites](../get-started/installation.md), initialize its pinned submodules, and save the following as `CMakeLists.txt` in the business-plugin directory:
+Install ark's [build prerequisites](../get-started/installation.md), and save the following as `CMakeLists.txt` in the business-plugin directory:
 
 ```cmake
 cmake_minimum_required(VERSION 3.21)

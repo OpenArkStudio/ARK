@@ -3,12 +3,11 @@
 ark 需要 CMake 3.21+、Ninja、支持 C++20 的编译器，以及 vcpkg manifest 选定的依赖。Windows 使用 Visual Studio 2022 Developer PowerShell，macOS/Linux 使用兼容的 Clang 或 GCC 工具链。
 
 <Steps>
-<Step title="克隆仓库并初始化依赖">
+<Step title="克隆仓库">
 
 ```sh
 git clone https://github.com/OpenArkStudio/ark.git
 cd ark
-git submodule update --init --recursive
 ```
 
 </Step>
@@ -21,7 +20,7 @@ macOS/Linux 使用 POSIX shell。下方的 [macOS 编译器与 SDK 示例](#maco
 ```sh
 cmake -S . -B app-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
-  -DVCPKG_MANIFEST_FEATURES="application;boost" \
+  -DVCPKG_MANIFEST_FEATURES="application;boost;etcd-client" \
   -DASIO_STANDALONE=OFF -DCMAKE_BUILD_TYPE=Release
 ```
 
@@ -30,7 +29,7 @@ Windows 使用 Visual Studio 2022 Developer PowerShell：
 ```powershell
 cmake -S . -B app-build -G Ninja `
   "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `
-  "-DVCPKG_MANIFEST_FEATURES=application;boost" `
+  "-DVCPKG_MANIFEST_FEATURES=application;boost;etcd-client" `
   -DASIO_STANDALONE=OFF -DCMAKE_BUILD_TYPE=Release
 ```
 
@@ -59,7 +58,7 @@ cmake -S . -B app-build-macos -G Ninja \
   -DCMAKE_CXX_COMPILER="$(xcrun --sdk macosx --find clang++)" \
   -DCMAKE_OSX_SYSROOT="$ark_macos_sdk" \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
-  -DVCPKG_MANIFEST_FEATURES="application;boost" \
+  -DVCPKG_MANIFEST_FEATURES="application;boost;etcd-client" \
   -DASIO_STANDALONE=OFF -DCMAKE_BUILD_TYPE=Release
 cmake --build app-build-macos --parallel 2
 ```

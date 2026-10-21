@@ -3,12 +3,11 @@
 ark requires CMake 3.21+, Ninja, a C++20 compiler and the dependencies selected by its vcpkg manifest. Use Visual Studio 2022 Developer PowerShell on Windows, or a compatible Clang/GCC toolchain on macOS/Linux.
 
 <Steps>
-<Step title="Clone and initialize dependencies">
+<Step title="Clone the repository">
 
 ```sh
 git clone https://github.com/OpenArkStudio/ark.git
 cd ark
-git submodule update --init --recursive
 ```
 
 </Step>
@@ -21,7 +20,7 @@ On macOS/Linux, use a POSIX shell. The [macOS compiler and SDK example](#macos-c
 ```sh
 cmake -S . -B app-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
-  -DVCPKG_MANIFEST_FEATURES="application;boost" \
+  -DVCPKG_MANIFEST_FEATURES="application;boost;etcd-client" \
   -DASIO_STANDALONE=OFF -DCMAKE_BUILD_TYPE=Release
 ```
 
@@ -30,7 +29,7 @@ On Windows, use Visual Studio 2022 Developer PowerShell:
 ```powershell
 cmake -S . -B app-build -G Ninja `
   "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `
-  "-DVCPKG_MANIFEST_FEATURES=application;boost" `
+  "-DVCPKG_MANIFEST_FEATURES=application;boost;etcd-client" `
   -DASIO_STANDALONE=OFF -DCMAKE_BUILD_TYPE=Release
 ```
 
@@ -59,7 +58,7 @@ cmake -S . -B app-build-macos -G Ninja \
   -DCMAKE_CXX_COMPILER="$(xcrun --sdk macosx --find clang++)" \
   -DCMAKE_OSX_SYSROOT="$ark_macos_sdk" \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
-  -DVCPKG_MANIFEST_FEATURES="application;boost" \
+  -DVCPKG_MANIFEST_FEATURES="application;boost;etcd-client" \
   -DASIO_STANDALONE=OFF -DCMAKE_BUILD_TYPE=Release
 cmake --build app-build-macos --parallel 2
 ```

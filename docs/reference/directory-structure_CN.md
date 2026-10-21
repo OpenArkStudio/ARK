@@ -61,7 +61,7 @@ target_link_libraries(my_service PRIVATE ark::core ark::net)
 
 ## 验证 SDK 使用方式
 
-初始化固定版本的子模块，并按[网络构建与回归测试](../networking_CN.md)安装依赖后，
+按[网络构建与回归测试](../networking_CN.md)安装依赖后，
 编译独立的 SDK 使用示例：
 
 ```sh

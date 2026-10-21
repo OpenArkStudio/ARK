@@ -75,7 +75,7 @@ and protocol migration details.
 
 ## Verify SDK consumption
 
-Initialize the pinned submodules and install the dependencies described in
+Install the dependencies described in
 [Network builds and regression tests](networking.md), then build the independent consumer:
 
 ```sh

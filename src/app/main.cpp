@@ -25,7 +25,7 @@
 #include <cstdlib>
 #include <exception>
 
-#include <args/args.hxx>
+#include <args.hxx>
 
 #include "ark/application_manifest.hpp"
 #include "ark/bus.hpp"
