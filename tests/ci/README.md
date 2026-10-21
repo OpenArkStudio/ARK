@@ -65,13 +65,22 @@ their own refs. The required gate still rejects failed, cancelled or missing
 results. Manual cancellation can still prevent the `always()` summary from
 completing. See [GitHub concurrency rules](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#concurrency).
 
-Only the exact plugin index paths `src/plugins/README.md` and
+Within `src/`, only the exact plugin index paths `src/plugins/README.md` and
 `src/plugins/README_CN.md` additionally qualify as documentation. Changes confined
 to these indexes select the Nimbus check on PRs and documentation-only queue
 candidates when the site is available. This does not extend the root README link
 checker to plugin indexes: Nimbus checks the generated site, not the index files
 themselves. Other Markdown under `src/`, nearby build/scripts, mixed code and
 uncertain ranges retain the existing conservative native policy.
+
+The four exact development guides `tests/core/README.md`, `tests/core/README_CN.md`,
+`tests/database/README.md` and `tests/database/README_CN.md` also qualify as documentation.
+They describe building and running tests; they are not runtime fixtures. A guide-only
+change still selects Nimbus when the site is available, including without a `docs/`
+change. This does not extend the root README link checker to test guides or allow
+other test Markdown/README paths. Fixtures, source, build/dependency/CI inputs,
+unknown neighbors, mixed changes and unavailable ranges retain their native checks.
+This CI policy change itself requires all native modules before acceptance.
 
 Root README link checks run only when a root README changes. They validate local file
 targets, including images, HTML `srcset` and reference links. It handles the forms

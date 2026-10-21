@@ -128,6 +128,139 @@ test('plugin index scope keeps uncertain ranges, unavailable sites and manual ev
   }
 });
 
+const testGuides = ['tests/core/README.md', 'tests/core/README_CN.md',
+  'tests/database/README.md', 'tests/database/README_CN.md'];
+
+// Exact changed paths from PR 113: database validation documentation and its test guides.
+const databaseValidationGuidePaths = ['docs/guides/database-validation.md', 'docs/guides/database-validation_CN.md',
+  'docs/reference/mysql.md', 'docs/reference/mysql_CN.md', 'docs/reference/redis.md', 'docs/reference/redis_CN.md',
+  'docs/site/src/navigation.ts', 'tests/database/README.md', 'tests/database/README_CN.md'];
+
+test('the four exact core and database guides require Nimbus without selecting native jobs', () => {
+  for (const file of testGuides) assert.equal(isDocumentationPath(file), true, file);
+  for (const eventName of ['pull_request', 'merge_group']) {
+    for (const files of [...testGuides.map(file => [file]), testGuides.slice(0, 2), testGuides.slice(2), testGuides]) {
+      const scope = decision(files, { eventName });
+      assert.equal(scope.validation_stage, 'documentation');
+      assert.equal(scope.reason, 'documentation-only');
+      assert.equal(scope.docs_check, true);
+      assert.equal(scope.readme_check, false);
+      assert.equal(scope.native_check, false);
+      assert.equal(scope.format_check, false);
+      for (const job of ['network', 'applications', 'database']) assert.equal(scope[`${job}_check`], false);
+      validateGate(results(scope));
+      for (const outcome of ['skipped', 'failure', 'cancelled', undefined]) {
+        const invalid = results(scope);
+        invalid.validation.outputs.documentation_outcome = outcome;
+        assert.throws(() => validateGate(invalid), `${eventName}/${files}/${outcome}`);
+      }
+    }
+  }
+  assert.equal(decision([...testGuides, 'README.md']).readme_check, true);
+});
+
+test('PR 113 database validation paths select documentation through the real Git classifier', t => {
+  const repo = repository(t);
+  const base = addSite(repo);
+  for (const file of databaseValidationGuidePaths) {
+    repo.write(file, file.endsWith('.ts') ? 'export const navigation = [];\n' : '# Database validation guide\n');
+  }
+  const head = repo.commit();
+  assert.deepEqual(changedPaths({ root: repo.root, base, head }).sort(), [...databaseValidationGuidePaths].sort());
+  for (const eventName of ['pull_request', 'merge_group']) {
+    const payload = eventName === 'pull_request' ? { pull_request: { base: { sha: base }, head: { sha: head } } } :
+      { merge_group: { base_sha: base, head_sha: head } };
+    const { plan: scope, output } = classifyEvent(repo, eventName, payload);
+    assert.equal(scope.reason, 'documentation-only');
+    assert.equal(scope.validation_stage, 'documentation');
+    assert.equal(scope.docs_check, true);
+    assert.equal(scope.readme_check, false);
+    for (const key of ['native_check', 'network_check', 'applications_check', 'database_check', 'format_check']) {
+      assert.equal(scope[key], false, `${eventName}/${key}`);
+      assert.match(output, new RegExp(`^${key}=false$`, 'm'));
+    }
+    validateGate(results(scope));
+  }
+});
+
+test('test guides mixed with source retain PR module selection and full code queue validation', () => {
+  for (const [file, selected] of [['tests/core/strings.cpp', ['applications']],
+    ['tests/database/redis_queue.cpp', ['database']], ['tests/database/CMakeLists.txt', ['database']],
+    ['src/plugins/net/tcp_client.cpp', ['network', 'applications']]]) {
+    assert.equal(isDocumentationPath(file), false);
+    for (const eventName of ['pull_request', 'merge_group']) {
+      const scope = decision([...testGuides, file], { eventName });
+      assert.equal(scope.docs_check, true);
+      assert.equal(scope.native_check, true);
+      assert.equal(scope.format_check, true);
+      assert.equal(scope.validation_stage, eventName === 'pull_request' ? 'modules' : 'full');
+      const required = eventName === 'pull_request' ? selected : ['network', 'applications', 'database'];
+      for (const job of ['network', 'applications', 'database']) {
+        assert.equal(scope[`${job}_check`], required.includes(job), `${eventName}/${file}/${job}`);
+      }
+      validateGate(results(scope));
+    }
+  }
+});
+
+test('test guide neighbors fixtures dependencies and unreviewed READMEs remain conservative', () => {
+  const paths = ['tests/core/readme.md', 'tests/core/README_CN.MD', 'tests/core/README.md.bak',
+    'tests/database/README_CN.md.js', 'tests/database/README.generated.md', 'tests/database/fixtures/README.md',
+    'tests/database/fixture.toml', 'tests/database/fixture.json', 'tests/core/fixture.txt',
+    'tests/core/fixture.md', 'tests/database/package.json', 'tests/database/requirements.txt',
+    'tests/database/build.cmake', 'tests/consumer/README.md', 'tests/network/README.md', 'tests/ci/README.md',
+    'tests/database/MYSQL.md', 'CMakeLists.txt', 'vcpkg.json', '.github/workflows/ci.yml',
+    'tests/core/../database/README.md', './tests/core/README.md', 'tests//core/README.md',
+    'tests/core/README.md\n', 'tests\\core\\README.md'];
+  for (const file of paths) {
+    assert.equal(isDocumentationPath(file), false, file);
+    for (const eventName of ['pull_request', 'merge_group']) {
+      const scope = decision(['tests/database/README.md', file], { eventName });
+      assert.equal(scope.native_check, true, `${eventName}/${file}`);
+      assert.equal(scope.format_check, true);
+      assert.equal(scope.docs_check, true);
+      for (const job of ['network', 'applications', 'database']) assert.equal(scope[`${job}_check`], true);
+      validateGate(results(scope));
+    }
+  }
+});
+
+test('test guide scoping keeps unavailable sites uncertain inputs and manual runs fail closed', () => {
+  for (const extra of [{ site: { present: false, available: false } },
+    { site: { present: true, available: false } }, { enumerationFailed: true }, { eventName: 'workflow_dispatch' }]) {
+    const scope = decision(testGuides, extra);
+    assert.equal(scope.native_check, true);
+    assert.equal(scope.validation_stage, 'full');
+    assert.equal(scope.docs_check, extra.site ? extra.site.present : true);
+    for (const job of ['network', 'applications', 'database']) assert.equal(scope[`${job}_check`], true);
+    validateGate(results(scope));
+  }
+  for (const files of [[], undefined, [testGuides[0], null]]) {
+    const scope = decision(files);
+    assert.equal(scope.native_check, true);
+    assert.equal(scope.validation_stage, 'full');
+    for (const job of ['network', 'applications', 'database']) assert.equal(scope[`${job}_check`], true);
+  }
+});
+
+test('this CI policy change requires all native jobs and the required gate rejects skips', () => {
+  const files = ['.github/scripts/ci-policy.mjs', 'tests/ci/policy.test.mjs',
+    'tests/ci/README.md', 'tests/ci/README_CN.md'];
+  for (const eventName of ['pull_request', 'merge_group']) {
+    const scope = decision(files, { eventName });
+    assert.equal(scope.docs_check, true);
+    assert.equal(scope.native_check, true);
+    assert.equal(scope.format_check, true);
+    for (const job of ['network', 'applications', 'database']) {
+      assert.equal(scope[`${job}_check`], true);
+      const invalid = results(scope);
+      invalid[job].result = 'skipped';
+      assert.throws(() => validateGate(invalid), `${eventName}/${job}`);
+    }
+    validateGate(results(scope));
+  }
+});
+
 test('code, build, dependency, CI and unknown paths cannot skip native regressions', () => {
   const paths = ['include/ark/xml.hpp', 'CMakeLists.txt', 'cmake/FindZstd.cmake', 'vcpkg.json', '.gitmodules',
     '.github/workflows/ci.yml', '.github/scripts/ci-policy.mjs', 'tests/core/templates.cpp', 'scripts/format.sh',
