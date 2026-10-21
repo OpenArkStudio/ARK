@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-官方插件的公开头文件统一放在仓库的 `include/ark/<名称>/`，实现与插件 CMake 文件放在 `src/plugins/<名称>/`，通过单独的 CMake target 按需构建。业务插件放在应用仓库。
+核心与其他插件的公开头文件仍位于 `include/ark/`。MySQL、Redis 试点将公开接口头、实现与私有装配放在 `src/plugins/<名称>/` 同一目录；CMake 仅映射显式列出的接口头，保留 `<ark/mysql/mysql_module.hpp>`、`<ark/redis/redis_module.hpp>` 包含路径。每个插件仍按独立 CMake target 构建，业务插件放在应用仓库。
 
 | 插件 | 职责 | 默认构建 |
 | --- | --- | --- |

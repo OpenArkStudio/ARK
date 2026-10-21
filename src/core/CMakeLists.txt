@@ -15,6 +15,6 @@ target_compile_definitions(ark_core INTERFACE
     $<$<BOOL:${ARK_OPEN_FILE_LOG}>:OPEN_FILE_LOG>
     $<$<CONFIG:Debug>:_DEBUG>)
 if(MSVC)
-    target_compile_options(ark_core INTERFACE /bigobj /utf-8 /Zc:__cplusplus)
+    target_compile_options(ark_core INTERFACE /bigobj /utf-8 /Zc:__cplusplus /Zc:preprocessor)
     target_compile_definitions(ark_core INTERFACE WIN32_LEAN_AND_MEAN _WIN32_WINNT=0x0601)
 endif()

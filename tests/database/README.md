@@ -8,6 +8,14 @@ default; enabling it does not enable the application runtime plugin options.
 See the public [MySQL](../../docs/reference/mysql.md) and
 [Redis](../../docs/reference/redis.md) APIs for application usage.
 
+The public module fixtures construct an owning interface through the plugin-private
+factory; the concrete classes live only in their implementation `.cpp` files.
+These fixtures retain direct lifecycle and protocol-peer coverage. The separate
+`ark_database_public_plugin_service_tests` consumes only public API targets and
+loads the actual hidden-symbol DSOs; it does not link those factories or private
+implementation files. Public headers remain available through `ark::mysql` and
+`ark::redis` with runtime plugins disabled; see the [consumer check](../consumer/README.md).
+
 ## Build
 
 Initialize the existing dependencies described in [network builds](../../docs/networking.md).

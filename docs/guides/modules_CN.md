@@ -122,3 +122,41 @@ private:
 - [应用启动器](applications_CN.md)：进程参数和配置路径。
 - [协程任务](tasks_CN.md)：显式任务所有权、准入和所属线程轮询。
 - [Kernel 接口](../reference/kernel_CN.md)：官方模块提供的实体与数据服务。
+
+## 用基类隐藏具体实现
+
+新模块可用 `<ark/module_base.hpp>` 中的 `ark::module_base<interface_type>` 替代
+`ARK_DECLARE_MODULE_FUNCTIONS`。接口头文件只需包含 `<ark/module.hpp>`，具体类放在
+实现 `.cpp` 中：
+
+```cpp
+// counter_factory.hpp：插件私有的工厂声明
+#include <memory>
+#include "counter_module.hpp" // 声明 ark::counter_module
+
+std::unique_ptr<ark::counter_module> make_counter();
+
+// counter_module.cpp
+#include <ark/module_base.hpp>
+
+class counter_impl final : public ark::module_base<ark::counter_module>
+{
+public:
+    void increment() override { ++value_; }
+    std::uint64_t value() const override { return value_; }
+private:
+    std::uint64_t value_{};
+};
+
+std::unique_ptr<ark::counter_module> make_counter() {
+    return std::make_unique<counter_impl>();
+}
+```
+
+单继承链为具体实现 → `module_base<interface_type>` → 接口 → `module`。基类实现
+manager/name 访问函数及受保护的 `find_module<T>()`，不覆写生命周期或 `update()`。
+查找仍要求目标接口已经注册。在实现中包含基类即可，调用方无需依赖具体类。
+
+私有工厂返回 `std::unique_ptr<interface_type>`。
+[插件的类型化注册辅助函数](plugins_CN.md#用类型化注册和显式入口)
+按该接口注册，并要求显式选择是否参与 update。原有模块宏仍可使用。

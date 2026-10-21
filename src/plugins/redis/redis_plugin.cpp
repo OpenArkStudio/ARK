@@ -18,19 +18,33 @@
  *
  */
 
-#include "ark/redis/redis_module_impl.hpp"
-#include "ark/redis/redis_plugin.hpp"
+#include <stdexcept>
+
+#include "redis_plugin.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN_DLL_FUNCTION(redis_plugin)
+ARK_EXPORT_FUNC void DllEntryPlugin(plugin_manager* manager, const std::string& name, logger* log) {
+    logger::init(log);
+    manager->register_plugin<redis_plugin>(name);
+}
+
+ARK_EXPORT_FUNC void DllExitPlugin(plugin_manager* manager) {
+    manager->unregister_plugin<redis_plugin>();
+}
 
 void redis_plugin::install() {
-    ARK_REGISTER_MODULE(redis_module, redis_module_impl);
+    if (!register_module(detail::make_redis_module(), module_update::enabled))
+    {
+        throw std::runtime_error("redis module registration rejected");
+    }
 }
 
 void redis_plugin::uninstall() {
-    ARK_UNREGISTER_MODULE(redis_module, redis_module_impl);
+    if (!unregister_module<redis_module>())
+    {
+        throw std::runtime_error("redis module unregistration rejected");
+    }
 }
 
 } // namespace ark

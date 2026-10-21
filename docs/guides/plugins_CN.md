@@ -133,3 +133,64 @@ config = ""
 | 头文件可以编译，但没有可用服务 | SDK 目标只提供头文件，不会在运行时安装模块 |
 
 管理器不能保证任意未完成回调下的插件卸载安全。应按[创建模块](modules_CN.md)中的约束完成服务取消和对象生命周期管理。这个示例没有工作线程任务、事件订阅或热更新能力。
+
+## 用类型化注册和显式入口
+
+`<ark/plugin_base.hpp>` 中的 `ark::plugin_base<derived_type>` 可替代
+`ARK_DECLARE_PLUGIN`。它提供版本 `0`、原有的 `typeid(derived_type).name()` 标识、manager
+访问函数和 `get_plugin_conf()` / `set_plugin_conf()`。同一派生类型的实例共享配置，
+不同派生类型的配置相互隔离。安装前设置 manager，模块注册期间不要更换 manager。
+
+私有工厂可返回接口，无需暴露具体类
+（[模块示例](modules_CN.md#用基类隐藏具体实现)）：
+
+```cpp
+#include <stdexcept>
+#include <ark/plugin_base.hpp>
+#include "counter_factory.hpp"
+
+class counter_plugin final : public ark::plugin_base<counter_plugin>
+{
+public:
+    void install() override {
+        if (!register_module(make_counter(), ark::module_update::disabled)) {
+            throw std::runtime_error("counter registration rejected");
+        }
+    }
+    void uninstall() override {
+        if (!unregister_module<ark::counter_module>()) {
+            throw std::runtime_error("counter unregistration rejected");
+        }
+    }
+};
+
+ARK_EXPORT_FUNC void DllEntryPlugin(ark::plugin_manager* manager,
+    const std::string& stem, ark::logger* log) {
+    ark::logger::init(log);
+    manager->register_plugin<counter_plugin>(stem);
+}
+
+ARK_EXPORT_FUNC void DllExitPlugin(ark::plugin_manager* manager) {
+    manager->unregister_plugin<counter_plugin>();
+}
+```
+
+两个辅助函数均为受保护的模板。`register_module<interface_type>(candidate,
+module_update::enabled)` 启用 update；`disabled` 则不参与 update，即使具体实现覆写了
+`update()`。没有默认开关，也不推断覆写。省略模板参数时，工厂返回类型决定注册的
+接口。注册成功后保留工厂返回的接口地址，查找标识为 `typeid(interface_type).name()`。
+
+候选指针须独占一个尚未向 registry 发布的对象；若此前通过旧接口注册了借用指针，
+先移除该记录再转交所有权。注册会接收 `unique_ptr` 的所有权。空指针、重复模块标识、已占用的 update 标识或
+已注册的地址返回 false，被拒绝的候选对象只析构一次。元数据和内存分配异常，以及
+现有的 owner 线程、回调阶段和停服限制继续向上传播；未完成的注册不会留下指向
+被拒绝对象的借用指针。辅助函数不撤销此前成功的注册，也不运行清理钩子。
+
+注册成功后沿用旧宏的显式注销/删除路径。`unregister_module<interface_type>()` 在没有
+对应的自有记录或 registry 标识不匹配时返回 false。活跃回调或未完成的受管任务会
+通过原有检查阻止移除，模块和记录均保留；成功移除只删除对象一次。按所需的模块
+顺序实现 `uninstall()`；仅析构插件不会注销或删除已注册模块。后续安装失败时，
+此前资源按现有启动失败退出进程策略保留，不支持同进程回滚或重试。
+
+原有宏和插件仍可使用。入口函数继续显式使用平台导出宏。插件边界仍传递 C++ 类型，
+不承诺纯 C ABI 或跨版本 ABI 稳定性。生命周期阶段、排空和动态库卸载规则保持不变。

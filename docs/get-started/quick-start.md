@@ -66,9 +66,9 @@ The console should show a `sample1_module` log with `PostInit`. The sample regis
 
 Stop with Ctrl+C on macOS/Linux, or enter `exit` in the Windows application console. Sample1 should log `PreShut`, then `Shut`.
 
-<Aside type="caution" title="Check initialization, not only the exit status">
+<Aside type="caution" title="Handle startup failures">
 
-The current launcher does not provide an aggregate startup-success exit code. If the expected module log is missing, inspect the configuration and library errors using [Application launcher](../guides/applications.md#troubleshoot-startup).
+A failed plugin load or module startup callback stops later startup stages and updates. The launcher reports the failing stage and exits with code `1`. Use [Application launcher](../guides/applications.md#troubleshoot-startup) to diagnose configuration and library errors.
 
 </Aside>
 
@@ -78,3 +78,32 @@ The current launcher does not provide an aggregate startup-success exit code. If
 - [Application launcher](../guides/applications.md) explains Bus identity, plugin selection and configuration paths. Applications that load Kernel data also need their generated `resource/` files.
 - [Configuration tools](../guides/tools.md) shows the separate Excel-to-resource workflow. Its Python requirements do not apply to this sample or to the C++ network tests.
 - [Network regression tests](../networking.md) verify network behavior independently. Applications that select Consul or database plugins need those services and their own settings.
+
+## Read the typed sample construction
+
+`examples/sample1` and `examples/sample2` use
+[`module_base<interface_type>`](../guides/modules.md#use-a-base-class-with-a-private-implementation)
+and [`plugin_base<derived_type>`](../guides/plugins.md#use-typed-registration-and-explicit-entries).
+The sample classes remain in their plugin's private, adjacent headers. They do
+not introduce a separate service interface: each inherits `module_base<module>`
+and retains its existing `sample1_module` or `sample2_module` lookup identity.
+
+Each `sampleN_plugin.hpp` declares a factory returning
+`std::unique_ptr<sampleN_module>`; `sampleN_module.cpp` defines it. The plugin
+registers that owned result and explicitly exports `DllEntryPlugin` /
+`DllExitPlugin`, including the existing logger initialization. Successful
+registration still requires explicit unregister/delete during `uninstall()`.
+
+| Sample | Update registration | Runtime dependencies |
+| --- | --- | --- |
+| Sample1 | `module_update::enabled`, preserving its `update()` override | Utility plugin; no external business metadata |
+| Sample2 | `module_update::disabled`, preserving its inherited default `update()` | Kernel and Utility plugins; business metadata under `resource/meta/` |
+
+The lifecycle/business method bodies and manifest library names are unchanged.
+Sample2's metadata is external business data; this construction change does not
+generate or convert it. When applications, examples, configuration and core tests
+are enabled with the required Kernel/Utility plugins, run
+`cmake --build app-build --target check-typed-examples -j2` to load the actual
+Sample1/Sample2 DSOs, execute five updates on the manager thread and verify ordered startup and
+shutdown. This test supplies a small test dataset for Sample2; it does not
+validate an application's exported business dataset.

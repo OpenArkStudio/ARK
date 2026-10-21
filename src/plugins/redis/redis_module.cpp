@@ -5,10 +5,35 @@
 #include <utility>
 #include <variant>
 
-#include "ark/redis/redis_module_impl.hpp"
+#include "ark/module_base.hpp"
 #include "redis/detail/redis_awaitable.hpp"
+#include "redis/redis_plugin.hpp"
 
 namespace ark {
+
+class redis_module_impl final : public module_base<redis_module>
+{
+public:
+    redis_module_impl();
+    ~redis_module_impl() override;
+
+    bool init() override;
+    bool update() override;
+    bool ready_to_shut() const override;
+    bool pre_shut() override;
+    bool shut() override;
+
+    bool configure(std::string connection, redis_options options) override;
+    task<arknet::redis::result> command(std::string connection, arknet::redis::command command,
+        std::chrono::milliseconds timeout = std::chrono::seconds(5)) override;
+    task<arknet::redis::result> pipeline(std::string connection, std::vector<arknet::redis::command> commands,
+        std::chrono::milliseconds timeout = std::chrono::seconds(5)) override;
+
+private:
+    struct state;
+    std::shared_ptr<state> state_;
+    void ensure_state();
+};
 
 struct redis_module_impl::state
 {
@@ -226,5 +251,13 @@ bool redis_module_impl::shut() {
     }
     return true;
 }
+
+namespace detail {
+
+std::unique_ptr<redis_module> make_redis_module() {
+    return std::make_unique<redis_module_impl>();
+}
+
+} // namespace detail
 
 } // namespace ark
