@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <functional>
+
 #include "ark/bus.hpp"
 #include "ark/net/net.hpp"
 #include "ark/proto.hpp"
@@ -57,25 +59,25 @@ public:
     template<typename base_type>
     bool reg_msg_callback(
         const msg_id_t msg_id, base_type* base_ptr, void (base_type::*handle_recv)(net_msg const*, conv_id_t)) {
-        net_msg_functor functor = std::bind(handle_recv, base_ptr, std::placeholders::_1, std::placeholders::_2);
+        net_msg_functor functor = std::bind_front(handle_recv, base_ptr);
         return reg_msg_callback(msg_id, std::move(functor));
     }
 
     template<typename base_type>
     bool reg_forward_msg_callback(base_type* base_ptr, void (base_type::*handle_recv)(net_msg const*, int)) {
-        net_msg_functor functor = std::bind(handle_recv, base_ptr, std::placeholders::_1, std::placeholders::_2);
+        net_msg_functor functor = std::bind_front(handle_recv, base_ptr);
         return reg_forward_msg_callback(std::move(functor));
     }
 
     template<typename base_type>
     bool reg_net_event_callback(base_type* base_ptr, void (base_type::*handler)(net_event const*)) {
-        net_event_functor functor = std::bind(handler, base_ptr, std::placeholders::_1);
+        net_event_functor functor = std::bind_front(handler, base_ptr);
         return reg_net_event_callback(std::move(functor));
     }
 
     template<typename base_type>
     bool reg_reg_server_call_back(base_type* base_ptr, void (base_type::*handler)(net_msg const*, conv_id_t)) {
-        net_msg_session_functor functor = std::bind(handler, base_ptr, std::placeholders::_1, std::placeholders::_2);
+        net_msg_session_functor functor = std::bind_front(handler, base_ptr);
         return reg_reg_server_call_back(std::move(functor));
     }
 

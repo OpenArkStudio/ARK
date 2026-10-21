@@ -51,6 +51,8 @@ struct receiver
     std::vector<message> messages;
     std::vector<event> events;
     std::function<void(ark::conv_id_t)> on_message;
+    unsigned websocket_reference_calls{};
+    ark::conv_id_t websocket_reference_session{};
 
     void receive_message(const ark::net_msg* message, ark::conv_id_t session) {
         if (std::this_thread::get_id() != dispatch_thread)
@@ -71,6 +73,8 @@ struct receiver
     }
 
     void on_websocket_message(const ark::net_msg* message, const ark::conv_id_t& session) {
+        ++websocket_reference_calls;
+        websocket_reference_session = session;
         receive_message(message, session);
     }
 
@@ -503,6 +507,8 @@ TEST_CASE("TCP and WebSocket clients preserve ARK frames and use Update dispatch
         CHECK(receiver.event_snapshot().empty());
         REQUIRE(wait([&] { return receiver.message_snapshot().size() == 1; }, [&] { client->update(); }));
         CHECK(receiver.message_snapshot().front().body == body);
+        CHECK(receiver.websocket_reference_calls == 1);
+        CHECK(receiver.websocket_reference_session == receiver.message_snapshot().front().session);
         CHECK(binary.load());
         CHECK_FALSE(receiver.wrong_thread.load());
         const std::weak_ptr weak = client;
