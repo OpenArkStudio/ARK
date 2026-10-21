@@ -139,7 +139,10 @@ There is no process-name wildcard or machine-wide stop command.
 
 - Replace `rund.sh` / `rund.bat` with `run.sh Debug ...` / `run.bat Debug ...`.
 - Replace `sample1.sh`, `mysql_sample.sh` and `sample5http_test.sh` with
-  `run.sh Debug <name> <busid>`, using `sample1`, `mysql_sample` or `sample5`.
+  `run.sh Debug <name> <busid>`, using `sample1`, `mysql_sample` or `sample5`. The name
+  mapping does not enable omitted example targets. MySQL/Redis examples remain
+  disabled in the default build; their manifests do not provide database
+  connection options. Configure the public database modules explicitly.
 - The old no-argument five-service launch sequence used missing `plugin_conf/`
   paths and inconsistent Release/Debug Bus IDs. Supply each application's name
   and Bus ID explicitly, and arrange service startup separately for the target

@@ -40,7 +40,7 @@ ark::task<> run() {
 }
 ```
 
-配置只能在框架线程显式创建。注册时已设置插件管理器，因此业务配置可以早于数据库模块自身的 `init()`。重名或管理器排空期间新增配置返回 false，空名称或零限额会抛出异常；`pre_shut()` 封闭模块后再配置会抛出 `std::logic_error`。不支持原位替换连接配置。TLS 默认校验证书，按部署配置 CA 和服务名称。MySQL 可选构建目标要求 `ARKNET_ENABLE_SSL=ON` 及 OpenSSL，不链接 mysql++，不再读取旧版 MySQL XML 配置。另见[构建与运行时启用](build-options_CN.md#原生数据库插件)和[托管任务生命周期](../guides/tasks_CN.md)。
+配置只能在框架线程显式创建。注册时已设置插件管理器，因此业务配置可以早于数据库模块自身的 `init()`。重名或管理器排空期间新增配置返回 false，空名称或零限额会抛出异常；`pre_shut()` 封闭模块后再配置会抛出 `std::logic_error`。不支持原位替换连接配置。TLS 默认校验证书，按部署配置 CA 和服务名称。MySQL 可选构建目标要求 `ARKNET_ENABLE_SSL=ON` 及 OpenSSL，不链接 mysql++。官方插件不会从应用清单中的 `conf` 路径或数据库 XML 预设读取连接选项。该插件的 `conf` 应留空，由业务模块通过 `configure()` 传入拥有型选项。另见[构建与运行时启用](build-options_CN.md#原生数据库插件)和[托管任务生命周期](../guides/tasks_CN.md)。
 
 ## 事务
 

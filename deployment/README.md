@@ -35,3 +35,10 @@ them as runtime `conf/` and `resource/`; those runtime names are unchanged. Gene
 and review the required Kernel metadata before deploying a Kernel-based service.
 The retained Photon images and external business plugins require their own
 environment validation.
+
+The official MySQL and Redis plugins use owning options passed to their public
+`configure()` APIs; they do not read database XML presets. Keep their application
+manifest `conf` values empty. Loading a plugin or mounting this ConfigMap does not
+configure a database connection. See [MySQL](../docs/reference/mysql.md) and
+[Redis](../docs/reference/redis.md) for consumer configuration. The database example targets remain disabled in the default build; retaining their
+sources and manifests does not establish runnable examples or deployment acceptance.
