@@ -42,7 +42,7 @@ ark::timer_module* find_timers(ark::plugin_manager& manager) {
 - 当前管理器调用生命周期回调时没有汇总各模块的 Boolean 返回值。模块返回 `false` 不等于框架保证回滚整个启动过程或终止进程。
 - 生命周期阶段不代表任意业务任务已经排空。兼容热替换与插件卸载协调仍是独立设计事项。
 
-对应实现见 [plugin_manager.hpp](https://github.com/OpenArkStudio/ark/blob/main/include/ark/plugin_manager.hpp) 和[启动器](https://github.com/OpenArkStudio/ark/blob/main/src/app/main.cpp)。
+对应实现见 [plugin_manager.hpp](https://github.com/OpenArkStudio/ark/blob/main/include/ark/plugin_manager.hpp) 和[启动器](https://github.com/OpenArkStudio/ark/blob/main/application/main.cpp)。
 
 ## 头文件路径与 CMake 目标
 

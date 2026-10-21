@@ -28,7 +28,7 @@ test('the public core target propagates package usage requirements without a bun
   assert.match(core, /find_package\(readerwriterqueue CONFIG REQUIRED\)/);
   assert.match(core, /target_link_libraries\(ark_core INTERFACE[^)]*spdlog::spdlog_header_only[^)]*readerwriterqueue::readerwriterqueue/s);
   assert.doesNotMatch(core + read('CMakeLists.txt'), /3RD_PARTY|3rdparty/);
-  assert.match(read('src/app/CMakeLists.txt'), /target_link_libraries\([^)]*taywee::args\)/);
+  assert.match(read('application/CMakeLists.txt'), /target_link_libraries\([^)]*taywee::args\)/);
   assert.match(read('src/plugins/etcd_client/CMakeLists.txt'), /BUILD_PLUGIN_MACRO\(ark_etcd_client_plugin nlohmann_json::nlohmann_json\)/);
   assert.doesNotMatch(read('src/plugins/net/net_service_manager_module_impl.cpp'), /json\.hpp/);
 });

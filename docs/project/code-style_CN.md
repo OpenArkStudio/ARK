@@ -70,6 +70,7 @@ private:
 ./scripts/format.sh
 ./scripts/format.sh --check
 ./scripts/clang_tidy.sh style-build
+./scripts/clang_tidy.sh style-build application/main.cpp
 ```
 
 clang-tidy 需要已配置构建的编译数据库及兼容的编译器工具链。通过 `CLANG_FORMAT`、`CLANG_TIDY` 选择非默认可执行文件。格式检查覆盖 ark 自有 C++ 与 Protobuf 源码；第三方实现和构建生成物保留各自规范。

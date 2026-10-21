@@ -66,7 +66,7 @@ add_dependencies(check-core check-business-runtime)
 
 add_executable(ark_app_shutdown_tests ../app/shutdown_request.cpp)
 target_compile_features(ark_app_shutdown_tests PRIVATE cxx_std_20)
-target_include_directories(ark_app_shutdown_tests PRIVATE "${PROJECT_SOURCE_DIR}/src/app")
+target_include_directories(ark_app_shutdown_tests PRIVATE "${PROJECT_SOURCE_DIR}/application")
 # This app-private state test does not consume the directory's inherited ark SDK.
 set_property(TARGET ark_app_shutdown_tests PROPERTY LINK_LIBRARIES Threads::Threads)
 add_custom_target(check-app-shutdown

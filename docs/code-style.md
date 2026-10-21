@@ -35,7 +35,7 @@ For semantic naming checks, configure a CMake build and use clang-tidy (validate
 cmake -S . -B style-build -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 cmake --build style-build
 ./scripts/clang_tidy.sh style-build
-./scripts/clang_tidy.sh style-build src/app/main.cpp
+./scripts/clang_tidy.sh style-build application/main.cpp
 ```
 
 Set `CLANG_TIDY` to select another executable. The default invocation checks source

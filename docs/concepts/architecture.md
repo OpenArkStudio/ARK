@@ -42,7 +42,7 @@ Current limits matter when composing modules:
 - The current manager invokes lifecycle callbacks without aggregating their Boolean results. Returning `false` from a module is not a general guarantee of transactional startup rollback or process termination.
 - Lifecycle stages do not establish that arbitrary business tasks have drained. Compatible hot replacement and plugin-unload coordination remain separate design work.
 
-The source of these rules is [plugin_manager.hpp](https://github.com/OpenArkStudio/ark/blob/main/include/ark/plugin_manager.hpp) and the [launcher](https://github.com/OpenArkStudio/ark/blob/main/src/app/main.cpp).
+The source of these rules is [plugin_manager.hpp](https://github.com/OpenArkStudio/ark/blob/main/include/ark/plugin_manager.hpp) and the [launcher](https://github.com/OpenArkStudio/ark/blob/main/application/main.cpp).
 
 ## Header paths and CMake targets
 

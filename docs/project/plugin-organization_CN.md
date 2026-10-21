@@ -18,6 +18,7 @@
 
 ```text
 ark/
+├── application/         # 应用启动器
 ├── include/ark/         # 核心与插件公开接口
 ├── src/
 │   ├── core/            # header-only 核心 target 定义
@@ -28,7 +29,6 @@ ark/
 │   │   ├── http/
 │   │   ├── mysql/
 │   │   └── redis/
-│   ├── app/
 │   ├── proto/
 │   └── server/
 ├── examples/            # 示例应用与业务插件

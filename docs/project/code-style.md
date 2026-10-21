@@ -70,6 +70,7 @@ Use clang-format 18 and the checked-in configuration:
 ./scripts/format.sh
 ./scripts/format.sh --check
 ./scripts/clang_tidy.sh style-build
+./scripts/clang_tidy.sh style-build application/main.cpp
 ```
 
 The clang-tidy command needs the configured build's compilation database and a compatible compiler toolchain. Set `CLANG_FORMAT` or `CLANG_TIDY` when selecting a nondefault executable. Formatting covers ark-owned C++ and Protobuf sources; vendored implementations and generated build outputs retain their own rules.
