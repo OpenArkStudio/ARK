@@ -131,7 +131,35 @@ export function selectScope({ eventName, files, site, enumerationFailed = false 
   };
 }
 
-export function validateGate(needs, eventName) {
+export function admissionState(eventName, event) {
+  if (!['pull_request', 'merge_group', 'workflow_dispatch'].includes(eventName)) throw new Error('unsupported admission event');
+  if (eventName !== 'pull_request') return 'ready';
+  if (typeof event?.pull_request?.draft !== 'boolean') throw new Error('missing or invalid pull request draft metadata');
+  return event.pull_request.draft ? 'deferred' : 'ready';
+}
+
+export class AdmissionDeferredError extends Error {
+  constructor() {
+    super('Draft admission deferred: native acceptance was not executed in this run; this PR is not admitted. The root scheduler must release it for fresh ready_for_review validation.');
+    this.name = 'AdmissionDeferredError';
+  }
+}
+
+export function validateGate(needs, eventName, admission = 'ready') {
+  if (!['ready', 'deferred'].includes(admission)) throw new Error('invalid admission state');
+  if (admission === 'deferred') {
+    if (eventName !== 'pull_request') throw new Error('only draft pull requests may defer admission');
+    throw new AdmissionDeferredError();
+  }
+  validateResults(needs, eventName, false);
+}
+
+export function validatePreview(needs, eventName, admission) {
+  if (eventName !== 'pull_request' || admission !== 'deferred') throw new Error('preview requires a genuine draft pull request');
+  validateResults(needs, eventName, true);
+}
+
+function validateResults(needs, eventName, preview) {
   if (!needs || needs.scope?.result !== 'success') throw new Error('scope job did not succeed');
   if (!['pull_request', 'merge_group', 'workflow_dispatch'].includes(eventName) ||
       needs.scope.outputs?.event_name !== eventName) throw new Error('scope event does not match this run');
@@ -170,7 +198,7 @@ export function validateGate(needs, eventName) {
     network: flags.network_check, applications: flags.applications_check, database: flags.database_check,
   };
   for (const [job, mustRun] of Object.entries(required)) {
-    const expected = mustRun ? 'success' : 'skipped';
+    const expected = !preview && mustRun ? 'success' : 'skipped';
     if (needs[job]?.result !== expected) throw new Error(`${job}: expected ${expected}, got ${needs[job]?.result ?? 'missing'}`);
   }
   if (needs.validation?.result !== 'success') throw new Error('validation job did not succeed');
@@ -187,10 +215,12 @@ function classify() {
   const root = process.cwd();
   const eventName = process.env.GITHUB_EVENT_NAME;
   let files;
+  let admission = eventName === 'pull_request' ? 'unknown' : 'ready';
   let enumerationFailed = false;
   try {
     const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
     if (eventName === 'pull_request') {
+      admission = admissionState(eventName, event);
       files = changedPaths({ root, base: event.pull_request?.base?.sha, head: event.pull_request?.head?.sha });
     } else if (eventName === 'merge_group') {
       files = changedPaths({ root, base: event.merge_group?.base_sha, head: event.merge_group?.head_sha, pullRequest: false });
@@ -206,23 +236,39 @@ function classify() {
   const output = Object.entries(decision).map(([key, value]) => `${key}=${value}\n`).join('');
   if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, output);
   const summary = `CI scope: ${decision.reason}\n\n${output}\n` +
+    (admission === 'deferred' ? 'Admission deferred: native checks will not execute. Light checks do not admit this draft or establish native acceptance.\n' :
+      admission === 'unknown' ? 'Invalid draft metadata: full scope fallback; the required gate must reject admission.\n' : '') +
     (!decision.site_available ? (decision.docs_check ? 'The required Nimbus site is missing or invalid; its job must fail.\n' :
       'Nimbus is not introduced in this checkout; site validation is explicitly not required and all native modules remain required.\n') : '');
   if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary);
-  console.log(JSON.stringify({ ...decision, file_count: files?.length ?? null }, null, 2));
+  console.log(JSON.stringify({ ...decision, admission, file_count: files?.length ?? null }, null, 2));
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
     if (process.argv[2] === 'classify') classify();
-    else if (process.argv[2] === 'gate') {
-      validateGate(JSON.parse(process.env.CI_NEEDS_JSON), process.env.GITHUB_EVENT_NAME);
-      console.log('Every required job and validation step succeeded; only explicitly unnecessary checks were skipped.');
+    else if (['gate', 'preview'].includes(process.argv[2])) {
+      const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+      const admission = admissionState(process.env.GITHUB_EVENT_NAME, event);
+      const needs = JSON.parse(process.env.CI_NEEDS_JSON);
+      if (process.argv[2] === 'preview') {
+        validatePreview(needs, process.env.GITHUB_EVENT_NAME, admission);
+        const summary = 'Draft preview only: scope and selected light checks succeeded. Native acceptance was not executed in this run; this PR is not admitted. This preview does not report CI - required success. Root scheduling must release it for fresh ready_for_review checks before admission.\n';
+        if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary);
+        console.log(summary.trim());
+      } else {
+        validateGate(needs, process.env.GITHUB_EVENT_NAME, admission);
+        console.log('Every required job and validation step succeeded; only explicitly unnecessary checks were skipped.');
+      }
     } else if (process.argv[2] === 'require-site') {
       if (!inspectSite(process.cwd()).available) throw new Error('Required Nimbus package, lockfile or check script is unavailable');
-    } else throw new Error('Expected classify, gate or require-site');
+    } else throw new Error('Expected classify, gate, preview or require-site');
   } catch (error) {
-    console.error(error.message);
+    if (error instanceof AdmissionDeferredError && process.env.GITHUB_STEP_SUMMARY) {
+      appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+        'Admission deferred (not a passing check). Native acceptance was not executed in this run; this draft is not admitted. Light-check results remain separate. Root scheduling must release it for fresh ready_for_review checks.\n');
+    }
+    console.error(`${error instanceof AdmissionDeferredError ? '[DRAFT_ADMISSION_DEFERRED] ' : ''}${error.message}`);
     process.exitCode = 1;
   }
 }

@@ -35,6 +35,9 @@ function addSite(repo) {
 }
 
 function classifyEvent(repo, eventName, payload) {
+  if (eventName === 'pull_request' && payload && typeof payload === 'object') {
+    payload = { ...payload, pull_request: { draft: false, ...payload.pull_request } };
+  }
   const metadata = mkdtempSync(resolve(tmpdir(), 'ark-ci-event-'));
   try {
     const event = resolve(metadata, 'event.json');
@@ -375,7 +378,7 @@ test('the real classifier handles a fork PR from pinned local history without an
   repo.write('docs/guide.md', '# Fork change\n');
   const head = repo.commit();
   const event = resolve(repo.root, 'event.json');
-  writeFileSync(event, JSON.stringify({ pull_request: { base: { sha: base }, head: { sha: head, repo: { fork: true } } } }));
+  writeFileSync(event, JSON.stringify({ pull_request: { draft: false, base: { sha: base }, head: { sha: head, repo: { fork: true } } } }));
   const env = { ...process.env, GITHUB_EVENT_NAME: 'pull_request', GITHUB_EVENT_PATH: event,
     GITHUB_OUTPUT: resolve(repo.root, 'outputs'), GITHUB_STEP_SUMMARY: resolve(repo.root, 'summary') };
   delete env.GITHUB_TOKEN;
