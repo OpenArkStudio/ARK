@@ -111,7 +111,7 @@ run.bat <Release|Debug> <name> <busid> [runtime-directory]
 运行目录默认为脚本所在目录。从源码仓库调用 `deployment/scripts/` 下的脚本时，显式传入已准备的运行目录；也可将脚本复制到运行目录根部后使用默认值。显式传入的相对路径以调用者的工作目录为基准。
 Release 使用 `bin/app`（Windows 为 `app.exe`），Debug 使用 `bin/app_d`
 （Windows 为 `app_d.exe`）。脚本读取 `conf/<name>.app.toml` 和 `conf/log.conf`，
-在前台运行应用；`name` 同时作为 `--name` 的值。使用 TOML 配置、不同的进程名称或
+在前台运行应用；`name` 同时作为 `--name` 的值。使用旧版 XML、自定义清单路径、不同的进程名称或
 其他启动参数时，直接调用程序。
 
 按[Sample1 快速开始](../get-started/quick-start_CN.md)准备运行目录后，在仓库根目录执行：

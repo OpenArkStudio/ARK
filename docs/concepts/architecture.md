@@ -32,21 +32,21 @@ The returned pointer is borrowed; keep the owning plugin loaded while using it. 
 
 ## Lifecycle and execution
 
-Startup runs `init()` for modules, then `post_init()`, `check_config()` and `pre_update()`. The launcher repeatedly calls the manager's `update()`; only registered update modules participate in that loop. Shutdown runs `pre_shut()`, then `shut()`, before unloading plugin libraries.
+Startup runs `init()` for modules, then `post_init()`, `check_config()` and `pre_update()`. The first `false` result stops startup; the launcher reports the failure and terminates with exit code `1`, without rolling back partially started plugins. The launcher repeatedly calls the manager's `update()`; only registered update modules participate in that loop. Shutdown first stops managed task admission and waits for accepted tasks and module readiness, then runs `pre_shut()` and `shut()` before unloading plugin libraries. See the [application guide](../guides/applications.md) for timeout and resource-retention behavior.
 
 Use `init()` to obtain dependencies and initialize local resources; use later stages for work that requires other modules' initialization. Stop timers, subscriptions and asynchronous producers before releasing the state their callbacks reference. Network business delivery is advanced through the application's update calls; network IO still runs on arknet workers.
 
 Current limits matter when composing modules:
 
 - Modules are traversed through manager containers, without a declared dependency graph or guaranteed manifest order. Do not depend on one module being initialized first within the same stage.
-- The current manager invokes lifecycle callbacks without aggregating their Boolean results. Returning `false` from a module is not a general guarantee of transactional startup rollback or process termination.
+- Startup failure propagation is immediate; transactional rollback of partially started plugins is not provided.
 - Lifecycle stages do not establish that arbitrary business tasks have drained. Compatible hot replacement and plugin-unload coordination remain separate design work.
 
 The source of these rules is [plugin_manager.hpp](https://github.com/OpenArkStudio/ark/blob/main/include/ark/plugin_manager.hpp) and the [launcher](https://github.com/OpenArkStudio/ark/blob/main/application/main.cpp).
 
 ## Header paths and CMake targets
 
-All public headers live under `include/ark/`; for example, `include/ark/kernel/entity.hpp` is included as `<ark/kernel/entity.hpp>`. Core target definitions live in `src/core/` and plugin implementations in `src/plugins/<name>/`. `ark::core` supplies core headers; the individual plugin targets remain optional, and `ark::ark` aggregates available API targets.
+Core and most plugin public headers live under `include/ark/`; for example, `include/ark/kernel/entity.hpp` is included as `<ark/kernel/entity.hpp>`. The MySQL/Redis pilot co-locates its public headers and implementation in `src/plugins/<name>/`; CMake maps only explicitly listed public headers into the build tree's `src/plugins/sdk-include/ark/<name>/`. Consume `ark::mysql` or `ark::redis` to retain logical `<ark/...>` include paths without exposing private assembly headers. Core target definitions live in `src/core/`. `ark::core` supplies core headers; individual plugin targets remain optional, and `ark::ark` aggregates available API targets.
 
 `ark/` is a filesystem include prefix. It does not automatically create the C++ namespace: each header explicitly declares `namespace ark`. Linking an API interface target propagates compilation requirements; it does not select or load a plugin shared library.
 

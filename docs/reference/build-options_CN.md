@@ -41,13 +41,18 @@ MySQL、Redis 的接口头通过显式清单在配置阶段复制到各构建树
 
 业务插件链接 `ark::mysql` 和/或 `ark::redis`，以获取公开头文件和编译要求；SDK 目标不会加载运行时动态库。将所需动态库与启动器一起部署，并在应用清单中填写库名称：
 
-```xml
-<xml>
-  <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
-    <plugin name="ark_mysql_plugin" conf="" />
-    <plugin name="ark_redis_plugin" conf="" />
-  </plugins>
-</xml>
+```toml
+[application]
+plugin_library_dir = "bin/"
+plugin_config_dir = "conf/"
+
+[[plugins]]
+name = "ark_mysql_plugin"
+config = ""
+
+[[plugins]]
+name = "ark_redis_plugin"
+config = ""
 ```
 
-只保留应用所需的插件。这里的 `conf` 为空：业务模块通过公开接口配置具名连接，不再使用旧版数据库 XML 文件。平台扩展名、Debug 后缀和 SDK 兼容要求见[运行时选择动态库](../guides/plugins_CN.md#在运行时选择动态库)。在业务模块初始化时查找数据库模块，再通过[托管任务组](../guides/tasks_CN.md)启动操作。
+只保留应用所需的插件。这里的 `config` 为空：业务模块通过公开接口配置具名连接，不再使用旧版数据库 XML 文件。平台扩展名、Debug 后缀和 SDK 兼容要求见[运行时选择动态库](../guides/plugins_CN.md#在运行时选择动态库)。在业务模块初始化时查找数据库模块，再通过[托管任务组](../guides/tasks_CN.md)启动操作。

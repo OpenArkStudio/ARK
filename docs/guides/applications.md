@@ -113,7 +113,7 @@ is relative to the caller's working directory. The helper selects `bin/app`
 (`app.exe` on Windows) for Release or `bin/app_d` (`app_d.exe`) for Debug, reads
 `conf/<name>.app.toml` and `conf/log.conf`, and runs in the foreground. The name
 also becomes the application's `--name` value. Use the executable directly for
-TOML manifests, a different process name or other launcher flags.
+legacy XML manifests, a custom manifest path, a different process name or other launcher flags.
 
 After preparing the [Sample1 runtime](../get-started/quick-start.md), run from
 the repository root:
