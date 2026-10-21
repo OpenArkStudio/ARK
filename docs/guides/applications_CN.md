@@ -14,7 +14,7 @@
 
 ```sh
 ./bin/app --busid=1.0.1.1 --name=sample1 \
-  --app_conf=conf/sample1.app.conf --log_conf=conf/log.conf
+  --app_conf=conf/sample1.app.toml --log_conf=conf/log.conf
 ```
 
 `busid`、`name` 和 `app_conf` 都需要显式传入。地址各字段的含义见 [Bus 参考](../reference/bus_CN.md)。其他平台相关参数以程序的 `--help` 输出为准。
@@ -27,7 +27,7 @@
 
 | 输入 | 选择方式 | 相对于运行目录的示例 |
 | --- | --- | --- |
-| 应用配置 | `--app_conf` | `conf/sample1.app.conf` |
+| 应用配置 | `--app_conf` | `conf/sample1.app.toml` |
 | 日志配置 | `--log_conf`，或使用默认值 | `conf/log.conf` |
 | 插件动态库 | TOML `plugin_library_dir` 或 XML `plugin_lib_dir` 加动态库文件名 | macOS Release 使用 `bin/sample1_plugin.dylib` |
 | 插件配置 | TOML `plugin_config_dir` + `config`，或 XML `plugin_conf_dir` + `conf` | 配置文件名为 `my-plugin.conf` 时，对应 `conf/my-plugin.conf` |
@@ -37,7 +37,7 @@
 
 ## 选择插件
 
-新建应用配置可使用 TOML。仓库中的 [sample1.app.toml](https://github.com/OpenArkStudio/ark/blob/main/config/sample1.app.toml) 与 Sample1 的 XML 配置等价：
+内置应用配置采用 TOML。仓库中的 [sample1.app.toml](https://github.com/OpenArkStudio/ark/blob/main/config/sample1.app.toml) 为：
 
 ```toml
 [application]
@@ -51,7 +51,7 @@ name = "ark_utility_plugin"
 name = "sample1_plugin"
 ```
 
-通过 `--app_conf=conf/sample1.app.toml` 选择该文件。`application` 表必须存在，目录字段为可省略的字符串。每个插件的 `name` 必须非空且唯一；可选的 `config` 字符串指定插件配置文件。字段校验和格式边界见[应用配置清单](../service-manifests_CN.md)。Bus、日志和业务资源配置格式保持现有约定。
+通过 `--app_conf=conf/sample1.app.toml` 选择该文件。`application` 表必须存在，目录字段为可省略的字符串。每个插件的 `name` 必须非空且唯一；可选的 `config` 字符串指定插件配置文件。字段校验和格式边界见[应用配置清单](../service-manifests_CN.md)。Bus、HTTP 和 Consul 插件配置使用 TOML，Bus 字段见[运行配置](../reference/bus_CN.md#配置进程与连接关系)。日志配置、Kernel 元数据和业务导出数据保留 XML 格式。
 
 ### 插件库命名
 
@@ -63,7 +63,7 @@ name = "sample1_plugin"
 
 ### 兼容已有 XML 配置
 
-仓库中的 [Sample1 应用配置](https://github.com/OpenArkStudio/ark/blob/main/config/sample1.app.conf)加载工具插件和一个示例插件：
+启动器仍接受用户维护的旧版 XML 清单，例如：
 
 ```xml
 <xml>
@@ -110,7 +110,7 @@ run.bat <Release|Debug> <name> <busid> [runtime-directory]
 
 运行目录默认为脚本所在目录。从源码仓库调用 `deployment/scripts/` 下的脚本时，显式传入已准备的运行目录；也可将脚本复制到运行目录根部后使用默认值。显式传入的相对路径以调用者的工作目录为基准。
 Release 使用 `bin/app`（Windows 为 `app.exe`），Debug 使用 `bin/app_d`
-（Windows 为 `app_d.exe`）。脚本读取 `conf/<name>.app.conf` 和 `conf/log.conf`，
+（Windows 为 `app_d.exe`）。脚本读取 `conf/<name>.app.toml` 和 `conf/log.conf`，
 在前台运行应用；`name` 同时作为 `--name` 的值。使用 TOML 配置、不同的进程名称或
 其他启动参数时，直接调用程序。
 

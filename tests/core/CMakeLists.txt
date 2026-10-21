@@ -164,6 +164,28 @@ if(ARK_BUILD_CONFIG)
             DEPENDS app
             USES_TERMINAL)
         add_dependencies(check-core check-app-manifest-failures)
+
+        if(TARGET ark_utility_plugin AND TARGET sample1_plugin)
+            add_custom_target(check-app-presets
+                COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:app>"
+                    "-DUTILITY_PLUGIN=$<TARGET_FILE:ark_utility_plugin>"
+                    "-DSAMPLE_PLUGIN=$<TARGET_FILE:sample1_plugin>"
+                    "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"
+                    "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/preset runtime 'quoted' #"
+                    -P "${PROJECT_SOURCE_DIR}/tests/app/application_presets.cmake"
+                DEPENDS app ark_utility_plugin sample1_plugin USES_TERMINAL VERBATIM)
+            if(UNIX)
+                add_executable(ark_app_preset_stop_tests ../app/application_preset_stop.cpp)
+                set_property(TARGET ark_app_preset_stop_tests PROPERTY LINK_LIBRARIES Threads::Threads)
+                target_compile_features(ark_app_preset_stop_tests PRIVATE cxx_std_20)
+                add_custom_target(check-app-preset-stop
+                    COMMAND $<TARGET_FILE:ark_app_preset_stop_tests>
+                        "${PROJECT_SOURCE_DIR}/tests/app/application_preset_stop.sh"
+                    DEPENDS ark_app_preset_stop_tests USES_TERMINAL VERBATIM)
+                add_dependencies(check-app-presets check-app-preset-stop)
+            endif()
+            add_dependencies(check-core check-app-presets)
+        endif()
     endif()
 endif()
 

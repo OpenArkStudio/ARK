@@ -48,7 +48,7 @@ spec:
           args:
             - "--busid=1.0.1.${HOSTNAME##*-}"
             - "--name=photon_master"
-            - "--app_conf=conf/photon.master.app.conf"
+            - "--app_conf=conf/photon.master.app.toml"
           env:
             - name: MY_POD_NAME
               valueFrom:

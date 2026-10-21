@@ -70,7 +70,7 @@ Build the example applications with a C++20 compiler, CMake 3.21 or newer, and v
 After building and preparing the runtime directory, start `sample1` from `run/sample1/`:
 
 ```sh
-./bin/app --busid=1.0.1.1 --name=sample1 --app_conf=conf/sample1.app.conf
+./bin/app --busid=1.0.1.1 --name=sample1 --app_conf=conf/sample1.app.toml
 ```
 
 | Next step | Guide |
