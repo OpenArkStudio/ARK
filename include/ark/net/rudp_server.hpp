@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <map>
 #include <memory>
 
@@ -30,8 +31,8 @@ public:
     template<typename base_type>
     rudp_server(base_type* base_type_ptr, void (base_type::*handle_recv)(net_msg const*, conv_id_t),
         void (base_type::*handle_event)(net_event const*)) {
-        net_msg_cb_ = std::bind(handle_recv, base_type_ptr, std::placeholders::_1, std::placeholders::_2);
-        net_event_cb_ = std::bind(handle_event, base_type_ptr, std::placeholders::_1);
+        net_msg_cb_ = std::bind_front(handle_recv, base_type_ptr);
+        net_event_cb_ = std::bind_front(handle_event, base_type_ptr);
     }
 
     ~rudp_server() override;

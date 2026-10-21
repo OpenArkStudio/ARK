@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <functional>
+
 #include "ark/container/consistent_hash.hpp"
 #include "ark/container/map.hpp"
 #include "ark/net/net.hpp"
@@ -57,19 +59,19 @@ public:
     template<typename base_type>
     bool reg_msg_callback(
         const msg_id_t msg_id, base_type* base_ptr, void (base_type::*handle_recv)(const net_msg*, conv_id_t)) {
-        net_msg_functor functor = std::bind(handle_recv, base_ptr, std::placeholders::_1, std::placeholders::_2);
+        net_msg_functor functor = std::bind_front(handle_recv, base_ptr);
         return reg_msg_callback(msg_id, std::move(functor));
     }
 
     template<typename base_type>
     bool reg_forward_msg_callback(base_type* base_ptr, void (base_type::*handle_recv)(const net_msg*, conv_id_t)) {
-        net_msg_functor functor = std::bind(handle_recv, base_ptr, std::placeholders::_1, std::placeholders::_2);
+        net_msg_functor functor = std::bind_front(handle_recv, base_ptr);
         return reg_forward_msg_callback(std::move(functor));
     }
 
     template<typename base_type>
     bool reg_net_event_callback(base_type* base_ptr, void (base_type::*handler)(const net_event*)) {
-        net_event_functor functor = std::bind(handler, base_ptr, std::placeholders::_1);
+        net_event_functor functor = std::bind_front(handler, base_ptr);
         return reg_net_event_callback(std::move(functor));
     }
 
