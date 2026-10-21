@@ -18,19 +18,33 @@
  *
  */
 
-#include "sample1_module.hpp"
+#include <stdexcept>
+
 #include "sample1_plugin.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN_DLL_FUNCTION(sample1_plugin)
+ARK_EXPORT_FUNC void DllEntryPlugin(plugin_manager* manager, const std::string& plugin_name, logger* log) {
+    logger::init(log);
+    manager->register_plugin<sample1_plugin>(plugin_name);
+}
+
+ARK_EXPORT_FUNC void DllExitPlugin(plugin_manager* manager) {
+    manager->unregister_plugin<sample1_plugin>();
+}
 
 void sample1_plugin::install() {
-    ARK_REGISTER_MODULE(sample1_module, sample1_module);
+    if (!register_module(make_sample1_module(), module_update::enabled))
+    {
+        throw std::runtime_error("sample1 module registration rejected");
+    }
 }
 
 void sample1_plugin::uninstall() {
-    ARK_UNREGISTER_MODULE(sample1_module, sample1_module);
+    if (!unregister_module<sample1_module>())
+    {
+        throw std::runtime_error("sample1 module unregistration rejected");
+    }
 }
 
 } // namespace ark

@@ -131,3 +131,77 @@ Paths are resolved from the process working directory. The current loader concat
 | Includes compile but no service is available | An SDK target supplies headers; it does not install a runtime module |
 
 The manager does not make plugin unloading safe for arbitrary outstanding callbacks. Finish the service-specific cancellation and lifetime work described in [Create a module](modules.md). This example has no worker tasks, event subscriptions or hot-update support.
+
+## Use typed registration and explicit entries
+
+`<ark/plugin_base.hpp>` provides `ark::plugin_base<derived_type>` as an alternative to
+`ARK_DECLARE_PLUGIN`. It supplies version `0`, the existing `typeid(derived_type).name()`
+identity, manager accessors, and `get_plugin_conf()` / `set_plugin_conf()`.
+Configuration is shared by instances of the same derived plugin and isolated
+between different derived types. Set the manager before installation and keep it
+unchanged while modules are registered.
+
+A private factory can return an interface without exposing its concrete class
+([module example](modules.md#use-a-base-class-with-a-private-implementation)):
+
+```cpp
+#include <stdexcept>
+#include <ark/plugin_base.hpp>
+#include "counter_factory.hpp"
+
+class counter_plugin final : public ark::plugin_base<counter_plugin>
+{
+public:
+    void install() override {
+        if (!register_module(make_counter(), ark::module_update::disabled)) {
+            throw std::runtime_error("counter registration rejected");
+        }
+    }
+    void uninstall() override {
+        if (!unregister_module<ark::counter_module>()) {
+            throw std::runtime_error("counter unregistration rejected");
+        }
+    }
+};
+
+ARK_EXPORT_FUNC void DllEntryPlugin(ark::plugin_manager* manager,
+    const std::string& stem, ark::logger* log) {
+    ark::logger::init(log);
+    manager->register_plugin<counter_plugin>(stem);
+}
+
+ARK_EXPORT_FUNC void DllExitPlugin(ark::plugin_manager* manager) {
+    manager->unregister_plugin<counter_plugin>();
+}
+```
+
+Both helpers are protected templates. `register_module<interface_type>(candidate,
+module_update::enabled)` opts into update; `disabled` excludes it even when the
+implementation overrides `update()`. There is no default or override detection.
+The factory return type determines the interface when the template argument is
+omitted. Successful registration preserves the factory's interface address and
+uses `typeid(interface_type).name()` for lookup.
+
+The candidate must exclusively own an object not yet published to the registry;
+remove any legacy borrowed observers before transferring it. Registration consumes
+the `unique_ptr`. A null candidate, duplicate module
+identity, occupied update identity, or already registered address returns false.
+A rejected candidate is destroyed once. Metadata/allocation exceptions and the
+existing owner-thread, callback-phase and shutdown guards propagate; an incomplete
+registry insertion leaves no borrowed pointer to the rejected candidate. These
+helpers do not undo earlier successful registrations or run cleanup hooks.
+
+After success, ownership follows the explicit unregister/delete path used by the
+legacy macros. `unregister_module<interface_type>()` returns false for a missing owned
+identity or a registry identity mismatch. Active callbacks or pending managed
+work prevent removal through the existing guards, retaining the module and its
+records. A successful removal deletes the module once. Implement `uninstall()`
+in the required module order; destruction alone does not uninstall or delete
+registered modules. A later installation failure retains earlier resources under
+the existing startup-failure process-exit policy, without same-process rollback
+or retry.
+
+Existing macros and plugins remain supported. Export the entry functions
+explicitly with the existing platform visibility macro. The plugin boundary
+still passes C++ types; this API does not promise a pure C ABI or cross-version
+ABI stability. Lifecycle phases, draining and library unload rules are unchanged.

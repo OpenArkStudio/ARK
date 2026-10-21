@@ -7,6 +7,12 @@
 应用用法见公开 [MySQL](../../docs/reference/mysql_CN.md) 与
 [Redis](../../docs/reference/redis_CN.md) 接口。
 
+公开模块测试通过插件私有工厂创建拥有型接口对象，具体实现类仅定义在实现 `.cpp` 中，
+保留直接生命周期和协议端点覆盖。独立的 `ark_database_public_plugin_service_tests`
+仅使用公开 API target 并加载实际的隐藏符号 DSO，不链接私有工厂或实现源文件。
+关闭运行时插件时仍可通过 `ark::mysql`、`ark::redis` 使用公开头文件，
+见[消费方检查](../consumer/README.md)。
+
 ## 构建
 
 按[网络构建说明](../../docs/networking_CN.md)初始化既有依赖。

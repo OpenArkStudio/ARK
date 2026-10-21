@@ -22,8 +22,13 @@
 #include "ark/kernel/entity_impl.hpp"
 #include "ark/kernel/kernel_module.hpp"
 #include "sample2_module.hpp"
+#include "sample2_plugin.hpp"
 
 namespace ark {
+
+std::unique_ptr<sample2_module> make_sample2_module() {
+    return std::make_unique<sample2_module>();
+}
 
 bool sample2_module::init() {
     std::cout << GET_CLASS_NAME(sample2_module) << ", Init" << std::endl;

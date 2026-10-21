@@ -14,10 +14,10 @@
 #include <utility>
 #include <variant>
 
-#include "ark/redis/redis_module_impl.hpp"
+#include "redis/redis_plugin.hpp"
 
 #if defined(ARKNET_ENABLE_SSL)
-#include "ark/mysql/mysql_module_impl.hpp"
+#include "mysql/mysql_plugin.hpp"
 #endif
 
 namespace {
@@ -66,7 +66,8 @@ template<class module_type>
 struct module_owner
 {
     ark::plugin_manager manager;
-    module_type database;
+    std::unique_ptr<module_type> database_owner;
+    module_type& database;
     ark::module consumer;
     ark::task_group* tasks{};
     std::shared_ptr<arknet::manual_runtime> runtime;
@@ -76,7 +77,9 @@ struct module_owner
     bool completions_on_owner{true};
     bool stopped{};
 
-    module_owner() {
+    explicit module_owner(std::unique_ptr<module_type> instance)
+        : database_owner(std::move(instance))
+        , database(*database_owner) {
         database.set_plugin_manager(&manager);
         database.set_name("database");
         require(manager.add_module("database", &database) && manager.add_module("consumer", &consumer),
@@ -164,7 +167,7 @@ struct module_owner
     }
 };
 
-using redis_owner = module_owner<ark::redis_module_impl>;
+using redis_owner = module_owner<ark::redis_module>;
 
 void redis_success(const arknet::redis::result& result) {
     require(bool(result) && result.replies.size() == 1, "Explicit Redis recovery/observer request failed");
@@ -332,7 +335,7 @@ void check_redis() {
     options.pool.connection.client_name = tag;
     redis_slow_state state;
     {
-        redis_owner owner;
+        redis_owner owner(ark::detail::make_redis_module());
         require(owner.database.configure("primary", options), "Cannot configure Redis primary");
         auto wrong_password = options;
         wrong_password.pool.connection.password += "-ark-rejected-" + tag;
@@ -350,7 +353,7 @@ void check_redis() {
 }
 
 #if defined(ARKNET_ENABLE_SSL)
-using mysql_owner = module_owner<ark::mysql_module_impl>;
+using mysql_owner = module_owner<ark::mysql_module>;
 
 void mysql_success(const ark::mysql_reply& reply) {
     require(bool(reply), "Explicit MySQL recovery/observer request failed (code " +
@@ -467,7 +470,7 @@ void check_mysql() {
     const auto tag = "ark_failure_" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
     mysql_slow_state state;
     {
-        mysql_owner owner;
+        mysql_owner owner(ark::detail::make_mysql_module());
         require(owner.database.configure("primary", options), "Cannot configure MySQL primary");
         auto wrong_password = options;
         wrong_password.pool.connection.password += "-ark-rejected-" + tag;

@@ -21,15 +21,12 @@
 #pragma once
 
 #include "ark/kernel/data.hpp"
-#include "ark/module.hpp"
-#include "ark/plugin.hpp"
-#include "ark/plugin_manager.hpp"
+#include "ark/module_base.hpp"
 
 namespace ark {
 
-class sample2_module final : public module
+class sample2_module final : public module_base<module>
 {
-    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     explicit sample2_module() = default;
 

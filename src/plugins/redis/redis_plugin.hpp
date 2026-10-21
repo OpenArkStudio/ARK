@@ -2,7 +2,7 @@
  * This source file is part of ARK
  * For the latest info, see https://github.com/ArkNX
  *
- * Copyright (c) 2013-2019 ArkNX authors.
+ * Copyright (c) 2013-2020 ArkNX authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"),
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,23 @@
 
 #pragma once
 
-#include "ark/plugin.hpp"
-#include "ark/plugin_manager.hpp"
+#include <memory>
+
+#include "ark/plugin_base.hpp"
+#include "ark/redis/redis_module.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN(mysql_plugin)
+class redis_plugin final : public plugin_base<redis_plugin>
+{
+public:
+    void install() override;
+    void uninstall() override;
+};
+
+// Plugin-private construction channel; this header is not part of the SDK.
+namespace detail {
+std::unique_ptr<redis_module> make_redis_module();
+} // namespace detail
 
 } // namespace ark
