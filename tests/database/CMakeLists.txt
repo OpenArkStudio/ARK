@@ -56,6 +56,13 @@ target_link_libraries(ark_database_public_redis_plugin_tests PRIVATE ark::core a
 target_compile_definitions(ark_database_public_redis_plugin_tests PRIVATE
     ARK_DATABASE_PLUGIN_DIR="$<TARGET_FILE_DIR:ark_database_redis_plugin>/")
 add_dependencies(ark_database_public_redis_plugin_tests ark_database_redis_plugin)
+# Real-service DSO acceptance: only public SDK headers and no implementation objects.
+ark_database_test(ark_database_public_plugin_service_tests public_plugin_service.cpp)
+set_property(TARGET ark_database_public_plugin_service_tests PROPERTY INCLUDE_DIRECTORIES "")
+set_property(TARGET ark_database_public_plugin_service_tests PROPERTY LINK_LIBRARIES ark::core Threads::Threads)
+target_compile_definitions(ark_database_public_plugin_service_tests PRIVATE
+    ARK_DATABASE_PLUGIN_DIR="$<TARGET_FILE_DIR:ark_database_redis_plugin>/")
+add_dependencies(ark_database_public_plugin_service_tests ark_database_redis_plugin)
 add_library(ark_database_redis_sample_check OBJECT "${ROOT_DIR}/examples/redis_sample/redis_sample_module.cpp")
 target_link_libraries(ark_database_redis_sample_check PRIVATE ark::core arknet::arknet)
 add_custom_target(check-database
@@ -76,7 +83,7 @@ add_custom_target(check-database
 
 # Compile real-service acceptance in ordinary CI without running any server work.
 add_dependencies(check-database ark_database_redis_sample_check ark_database_public_service_tests
-    ark_database_public_failure_service_tests)
+    ark_database_public_failure_service_tests ark_database_public_plugin_service_tests)
 
 if(ARKNET_ENABLE_SSL)
     target_sources(ark_database_public_failure_service_tests PRIVATE
@@ -104,6 +111,7 @@ if(ARKNET_ENABLE_SSL)
     target_compile_definitions(ark_database_public_mysql_plugin_tests PRIVATE
         ARK_DATABASE_PLUGIN_DIR="$<TARGET_FILE_DIR:ark_database_mysql_plugin>/")
     add_dependencies(ark_database_public_mysql_plugin_tests ark_database_mysql_plugin)
+    add_dependencies(ark_database_public_plugin_service_tests ark_database_mysql_plugin)
     add_library(ark_database_mysql_sample_check OBJECT "${ROOT_DIR}/examples/mysql_sample/mysql_sample_module.cpp")
     target_link_libraries(ark_database_mysql_sample_check PRIVATE ark::core arknet::arknet)
     add_custom_target(check-database-public-mysql
