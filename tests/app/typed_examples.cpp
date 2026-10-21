@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
     const std::string sample = argv[3];
     require(sample == "sample1" || sample == "sample2", "Unknown sample");
     const auto manifest =
-        ark::load_application_manifest((std::filesystem::path(argv[1]) / "config" / (sample + ".app.conf")).string());
+        ark::load_application_manifest((std::filesystem::path(argv[1]) / "config" / (sample + ".app.toml")).string());
     std::ostringstream events;
     auto* original = std::cout.rdbuf(events.rdbuf());
     ark::logger log;
