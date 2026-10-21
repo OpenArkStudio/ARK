@@ -116,3 +116,5 @@ require explicit selection. These cases do not test request cancellation, server
 termination, dynamic-library unloading or capacity. The observed no-replay window
 covers tagged slow requests, not general write-replay behavior; see the
 [failure-check limits](../../tests/database/README.md#public-real-service-failure-checks).
+
+The recorded machine, revisions and outcomes are in [local public-service acceptance](../guides/database-validation.md).

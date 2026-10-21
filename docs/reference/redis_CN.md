@@ -92,3 +92,5 @@ bash scripts/test_databases.sh database-build public-redis-failures
 `check-database` 仅编译两个真实服务程序，不运行它们；负面模式需显式选择。这些用例
 不覆盖请求取消、服务器终止、动态库卸载或容量。无重放观察窗口仅覆盖带标记的慢请求，
 不证明一般写操作的重放行为，具体限制见测试指南中的“公开真实服务负面验收”。
+
+测试机器、源码版本与执行结果见[本机公开接口服务验收](../guides/database-validation_CN.md)。

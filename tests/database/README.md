@@ -292,3 +292,7 @@ native retirement and idempotent stop. These cases do not test cancellation,
 server termination, dynamic-library unloading or capacity. Slow-query results
 remain owned after module destruction. Native/server error text and credentials
 are not printed.
+
+## Local public-service acceptance
+
+The recorded machine, revisions and outcomes are in [database service acceptance](../../docs/guides/database-validation.md).

@@ -231,3 +231,7 @@ bash scripts/test_databases.sh database-build public-mysql-failures
 已受理的慢请求和观察任务继续执行，完成后才退出原生资源，并验证停止操作可重复调用。
 这些用例不测试取消、服务端终止、动态库卸载或容量。模块销毁后，慢查询结果仍须有效。
 程序不打印凭据、原生错误文本或服务端错误文本。
+
+## 本机公开接口服务验收
+
+测试机器、源码版本与执行结果见[数据库服务验收](../../docs/guides/database-validation_CN.md)。
