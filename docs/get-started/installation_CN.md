@@ -26,6 +26,8 @@ cmake -S . -B app-build -G Ninja \
 
 Windows 使用 Visual Studio 2022 Developer PowerShell：
 
+ark 的公开目标会启用 MSVC 标准预处理器模式（`/Zc:preprocessor`）。自定义目标通过 `ark::core` 继承该选项；手动编译 ark 头文件时，需要同时启用 C++20 和此选项。
+
 ```powershell
 cmake -S . -B app-build -G Ninja `
   "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `
