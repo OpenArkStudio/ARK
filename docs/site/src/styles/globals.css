@@ -641,3 +641,7 @@ body:not(:has([data-mobile-sidebar])) [data-menu-btn] {
 		animation: none;
 	}
 }
+
+/* The archived brand lockup follows the site's explicit theme setting. */
+html[data-mode="dark"] .site-brand-light { display: none; }
+html[data-mode="dark"] .site-brand-dark { display: block; }

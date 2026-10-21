@@ -44,10 +44,9 @@ const resolveSectionHref = (href: string): string =>
   <div class="mx-auto flex items-center justify-between gap-3 h-14 px-4 lg:px-6">
     <div class="flex items-center gap-3 min-w-0">
       <slot name="brand">
-        <a href={homeHref} class="group shrink-0">
-          <span class="font-semibold text-sm text-foreground group-hover:text-primary transition-colors">
-            {config.title}
-          </span>
+        <a href={homeHref} class="group shrink-0" aria-label={config.title}>
+          <img src={withBase("/brand/ark-logo-light.svg", import.meta.env.BASE_URL)} alt={config.title} class="site-brand-light block h-9 w-auto" />
+          <img src={withBase("/brand/ark-logo-dark.svg", import.meta.env.BASE_URL)} alt="" aria-hidden="true" class="site-brand-dark hidden h-9 w-auto" />
         </a>
       </slot>
 
