@@ -1,0 +1,148 @@
+# Bus runtime configuration. Business data files remain XML.
+[bus]
+
+[[bus.applications]]
+name = "master"
+type = 1
+
+[[bus.applications]]
+name = "router"
+type = 2
+
+[[bus.applications]]
+name = "world"
+type = 30
+
+[[bus.applications]]
+name = "game"
+type = 31
+
+[[bus.applications]]
+name = "login"
+type = 32
+
+[[bus.applications]]
+name = "proxy"
+type = 33
+
+[[bus.applications]]
+name = "db"
+type = 34
+
+[[bus.relations]]
+source = "proxy"
+target = "world"
+
+[[bus.relations]]
+source = "proxy"
+target = "game"
+
+[[bus.relations]]
+source = "proxy"
+target = "login"
+
+[[bus.relations]]
+source = "login"
+target = "world"
+
+[[bus.relations]]
+source = "login"
+target = "game"
+
+[[bus.relations]]
+source = "game"
+target = "world"
+
+[[bus.relations]]
+source = "game"
+target = "db"
+
+[[bus.relations]]
+source = "game"
+target = "master"
+
+[[bus.relations]]
+source = "db"
+target = "world"
+
+[[bus.relations]]
+source = "world"
+target = "master"
+
+[[bus.relations]]
+source = "world"
+target = "router"
+
+[[bus.relations]]
+source = "router"
+target = "master"
+
+[[bus.processes]]
+bus_id = "1.0.1.1"
+server_endpoint = "tcp://0.0.0.0:9001"
+intranet_endpoint = "tcp://127.0.0.1:9011"
+max_connections = 5000
+threads = 2
+
+[[bus.processes]]
+bus_id = "1.0.31.1"
+server_endpoint = "tcp://0.0.0.0:9002"
+intranet_endpoint = ""
+max_connections = 5000
+threads = 2
+
+[[bus.processes]]
+bus_id = "1.0.31.2"
+server_endpoint = "tcp://0.0.0.0:9003"
+intranet_endpoint = ""
+max_connections = 5000
+threads = 2
+
+[[bus.processes]]
+bus_id = "1.0.31.10"
+server_endpoint = "tcp://0.0.0.0:9002"
+intranet_endpoint = "tcp://127.0.0.1:9002"
+max_connections = 5000
+threads = 2
+
+[[bus.processes]]
+bus_id = "1.0.2.1"
+server_endpoint = "tcp://0.0.0.0:9002"
+intranet_endpoint = "tcp://127.0.0.1:9002"
+max_connections = 5000
+threads = 2
+
+[[bus.processes]]
+bus_id = "1.1.30.1"
+server_endpoint = "tcp://0.0.0.0:10001"
+intranet_endpoint = "tcp://127.0.0.1:10001"
+max_connections = 5000
+threads = 2
+
+[[bus.processes]]
+bus_id = "1.1.31.1"
+server_endpoint = "tcp://0.0.0.0:10002"
+intranet_endpoint = "tcp://127.0.0.1:10002"
+max_connections = 5000
+threads = 2
+
+[[bus.processes]]
+bus_id = "1.1.32.1"
+server_endpoint = "tcp://0.0.0.0:10003"
+intranet_endpoint = "tcp://127.0.0.1:10003"
+max_connections = 5000
+threads = 2
+
+[[bus.processes]]
+bus_id = "1.1.33.1"
+server_endpoint = "tcp://0.0.0.0:10004"
+intranet_endpoint = "tcp://127.0.0.1:10004"
+max_connections = 5000
+threads = 2
+
+[bus.registry]
+host = "127.0.0.1"
+port = 8500
+service_name = "ark-service"
+check_interval = "10s"
+check_timeout = "3s"

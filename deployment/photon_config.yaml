@@ -1,71 +1,151 @@
 apiVersion: v1
 data:
-  bus.plugin.conf: |
-    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-    <xml>
-        <applications>
-            <application name="master" type="1"/>
-            <application name="router" type="2"/>
+  bus.plugin.toml: |
+    # Bus runtime configuration. Business data files remain XML.
+    [bus]
 
-            <application name="world" type="30"/>
-            <application name="game" type="31"/>
-            <application name="login" type="32"/>
-            <application name="proxy" type="33"/>
-            <application name="db" type="34"/>
-        </applications>
+    [[bus.applications]]
+    name = "master"
+    type = 1
 
-        <relations>
-            <!-- zone begin -->
-            <!-- proxy -->
-            <relation source="proxy" target="world"/>
-            <relation source="proxy" target="game"/>
-            <relation source="proxy" target="login"/>
-            <!-- login -->
-            <relation source="login" target="world"/>
-            <relation source="login" target="game"/>
-            <!-- game -->
-            <relation source="game" target="world"/>
-            <relation source="game" target="db"/>
-            <relation source="game" target="master"/>
-            <!-- db -->
-            <relation source="db" target="world"/>
-            <!-- world -->
-            <relation source="world" target="master"/>
-            <relation source="world" target="router"/>
-            <!-- zone end -->
-            <!-- router begin-->
-            <relation source="router" target="master"/>
-            <!-- router end-->
-            <!-- cluster begin -->
-            <!-- log -->
-            <!-- <relation source="log" target="router"/> -->
-            <!-- <relation source="log" target="master"/> -->
-        </relations>
+    [[bus.applications]]
+    name = "router"
+    type = 2
 
-        <processes>
-            <proc busid="1.0.1.0" endpoint_server="udp://0.0.0.0:9001" endpoint_intranet="tcp://sts-photon-master-0.svc-photon-master:9002" max_connection="5000" thread_num="2"/>
-            <proc busid="1.0.31.0" endpoint_server="udp://0.0.0.0:9003" endpoint_intranet="tcp://127.0.0.1:9004" max_connection="5000" thread_num="2"/>
-            <proc busid="1.0.2.1" endpoint_server="tcp://0.0.0.0:9002" endpoint_intranet="tcp://127.0.0.1:9002" max_connection="5000" thread_num="2"/>
-            <proc busid="1.1.30.1" endpoint_server="tcp://0.0.0.0:10001" endpoint_intranet="tcp://127.0.0.1:10001" max_connection="5000" thread_num="2"/>
-            <proc busid="1.1.31.1" endpoint_server="tcp://0.0.0.0:10002" endpoint_intranet="tcp://127.0.0.1:10002" max_connection="5000" thread_num="2"/>
-            <proc busid="1.1.32.1" endpoint_server="tcp://0.0.0.0:10003" endpoint_intranet="tcp://127.0.0.1:10003" max_connection="5000" thread_num="2"/>
-            <proc busid="1.1.33.1" endpoint_server="tcp://0.0.0.0:10004" endpoint_intranet="tcp://127.0.0.1:10004" max_connection="5000" thread_num="2"/>
-            <!-- <proc busid="1.1.34.3" endpoint_server="tcp://0.0.0.0:10005" endpoint_intranet="tcp://127.0.0.1:10005" max_connection="5000" thread_num="2"/> -->
-        </processes>
+    [[bus.applications]]
+    name = "world"
+    type = 30
 
-        <center ip="127.0.0.1" port="8500" service_name="ark-service" check_interval="10s" check_timeout="3s" />
-    </xml>
+    [[bus.applications]]
+    name = "game"
+    type = 31
+
+    [[bus.applications]]
+    name = "login"
+    type = 32
+
+    [[bus.applications]]
+    name = "proxy"
+    type = 33
+
+    [[bus.applications]]
+    name = "db"
+    type = 34
+
+    [[bus.relations]]
+    source = "proxy"
+    target = "world"
+
+    [[bus.relations]]
+    source = "proxy"
+    target = "game"
+
+    [[bus.relations]]
+    source = "proxy"
+    target = "login"
+
+    [[bus.relations]]
+    source = "login"
+    target = "world"
+
+    [[bus.relations]]
+    source = "login"
+    target = "game"
+
+    [[bus.relations]]
+    source = "game"
+    target = "world"
+
+    [[bus.relations]]
+    source = "game"
+    target = "db"
+
+    [[bus.relations]]
+    source = "game"
+    target = "master"
+
+    [[bus.relations]]
+    source = "db"
+    target = "world"
+
+    [[bus.relations]]
+    source = "world"
+    target = "master"
+
+    [[bus.relations]]
+    source = "world"
+    target = "router"
+
+    [[bus.relations]]
+    source = "router"
+    target = "master"
+
+    [[bus.processes]]
+    bus_id = "1.0.1.0"
+    server_endpoint = "udp://0.0.0.0:9001"
+    intranet_endpoint = "tcp://sts-photon-master-0.svc-photon-master:9002"
+    max_connections = 5000
+    threads = 2
+
+    [[bus.processes]]
+    bus_id = "1.0.31.0"
+    server_endpoint = "udp://0.0.0.0:9003"
+    intranet_endpoint = "tcp://127.0.0.1:9004"
+    max_connections = 5000
+    threads = 2
+
+    [[bus.processes]]
+    bus_id = "1.0.2.1"
+    server_endpoint = "tcp://0.0.0.0:9002"
+    intranet_endpoint = "tcp://127.0.0.1:9002"
+    max_connections = 5000
+    threads = 2
+
+    [[bus.processes]]
+    bus_id = "1.1.30.1"
+    server_endpoint = "tcp://0.0.0.0:10001"
+    intranet_endpoint = "tcp://127.0.0.1:10001"
+    max_connections = 5000
+    threads = 2
+
+    [[bus.processes]]
+    bus_id = "1.1.31.1"
+    server_endpoint = "tcp://0.0.0.0:10002"
+    intranet_endpoint = "tcp://127.0.0.1:10002"
+    max_connections = 5000
+    threads = 2
+
+    [[bus.processes]]
+    bus_id = "1.1.32.1"
+    server_endpoint = "tcp://0.0.0.0:10003"
+    intranet_endpoint = "tcp://127.0.0.1:10003"
+    max_connections = 5000
+    threads = 2
+
+    [[bus.processes]]
+    bus_id = "1.1.33.1"
+    server_endpoint = "tcp://0.0.0.0:10004"
+    intranet_endpoint = "tcp://127.0.0.1:10004"
+    max_connections = 5000
+    threads = 2
+
+    [bus.registry]
+    host = "127.0.0.1"
+    port = 8500
+    service_name = "ark-service"
+    check_interval = "10s"
+    check_timeout = "3s"
   consul.plugin.toml: |-
     [consul]
     host = "127.0.0.1"
     port = 8500
   db.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
     name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
-    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.toml\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   dir.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
     name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
-    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.toml\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_dir_plugin\" conf=\"\"
     />\n\t</plugins>\n</xml>\n"
   freebird.app.conf: |-
@@ -78,7 +158,7 @@ data:
   game.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
     name=\"ark_kernel_plugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"ark_utility_plugin\"
     conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
-    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.toml\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_game_plugin\" conf=\"\"
     />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
   http.plugin.toml: |-
@@ -113,21 +193,21 @@ data:
     </xml>
   login.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
     name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
-    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.toml\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_login_plugin\" conf=\"\"
     />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
   master.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
     name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
-    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.toml\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_master_plugin\" conf=\"\"
     />\n\t</plugins>\n\t<res path=\"resource/\" />\n</xml>\n"
   oss.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
     name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
-    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.toml\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t</plugins>\n\t<res path=\"resource\" />\n</xml>\n"
   photon.example.app.conf: "<?xml version=\"1.0\"?>\n<conf>\n\t<plugins plugin_lib_dir=\"bin/\"
     plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"ark_utility_plugin\" conf=\"\"/>\n\t\t<plugin
-    name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"ark_net_plugin\"
+    name=\"ark_bus_plugin\" conf=\"bus.plugin.toml\"/>\n\t\t<plugin name=\"ark_net_plugin\"
     conf=\"\"/>\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"/>\n\t\t<plugin
     name=\"PhotonPlugin\" conf=\"photon.example.plugin.conf\"/>\n\t</plugins>\n</conf>"
   photon.example.plugin.conf: |-
@@ -137,7 +217,7 @@ data:
     </conf>
   photon.game.app.conf: "<?xml version=\"1.0\"?>\n<conf>\n\t<plugins plugin_lib_dir=\"bin/\"
     plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"ark_utility_plugin\" conf=\"\"/>\n\t\t<plugin
-    name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"ark_net_plugin\"
+    name=\"ark_bus_plugin\" conf=\"bus.plugin.toml\"/>\n\t\t<plugin name=\"ark_net_plugin\"
     conf=\"\"/>\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"/>\n\t\t<plugin
     name=\"AFPhotonGamePlugin\" conf=\"photon.game.plugin.conf\"/>\n\t</plugins>\n</conf>"
   photon.game.plugin.conf: |-
@@ -155,7 +235,7 @@ data:
     </conf>
   photon.master.app.conf: "<?xml version=\"1.0\"?>\n<conf>\n\t<plugins plugin_lib_dir=\"bin/\"
     plugin_conf_dir=\"conf/\">\n\t\t<plugin name=\"ark_utility_plugin\" conf=\"\"/>\n\t\t<plugin
-    name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\"/>\n\t\t<plugin name=\"ark_net_plugin\"
+    name=\"ark_bus_plugin\" conf=\"bus.plugin.toml\"/>\n\t\t<plugin name=\"ark_net_plugin\"
     conf=\"\"/>\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"/>\n\t\t<plugin
     name=\"AFPhotonMasterPlugin\" conf=\"photon.master.plugin.conf\"/>\n\t</plugins>\n</conf>"
   photon.master.plugin.conf: |-
@@ -178,7 +258,7 @@ data:
   proxy.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
     name=\"ark_kernel_plugin\" conf=\"kernel.plugin.conf\" />\n\t\t<plugin name=\"ark_utility_plugin\"
     conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
-    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.toml\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_proxy_plugin\" conf=\"\"
     />\n\t</plugins>\n</xml>\n"
   redis.plugin.conf: |-
@@ -190,11 +270,11 @@ data:
     />\n\t\t<plugin name=\"redis_sample_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   remote_log.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
     name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
-    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.toml\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   router.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
     name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\" conf=\"consul.plugin.toml\"
-    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\" />\n\t\t<plugin
+    />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.toml\" />\n\t\t<plugin
     name=\"ark_net_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   sample1.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
     name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"sample1_plugin\" conf=\"\"
@@ -212,7 +292,7 @@ data:
     name=\"ark_utility_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_http_plugin\" conf=\"http.plugin.toml\"
     />\n\t\t<plugin name=\"sample5_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"
   simulate.app.conf: "<xml>\n\t<plugins plugin_lib_dir=\"bin/\" plugin_conf_dir=\"conf/\">\n\t\t<plugin
-    name=\"ark_physic_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.conf\"
+    name=\"ark_physic_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_bus_plugin\" conf=\"bus.plugin.toml\"
     />\n\t\t<plugin name=\"ark_net_plugin\" conf=\"\" />\n\t\t<plugin name=\"ark_consul_plugin\"
     conf=\"consul.plugin.toml\" />\n\t\t<plugin name=\"ark_utility_plugin\" conf=\"\"
     />\n\t\t<plugin name=\"ark_simulate_plugin\" conf=\"\" />\n\t</plugins>\n</xml>\n"

@@ -22,40 +22,71 @@ A Bus address has four components, `channel.zone.app.instance`, such as `1.1.31.
 
 ## Configure processes and relationships
 
-`bus_module::init()` reads four sections from `bus.plugin.conf`:
+`bus_module::init()` reads four sections from `bus.plugin.toml`:
 
 | Section | Contents |
 | --- | --- |
-| `applications` | Application names mapped to numeric `app_type` values |
-| `relations` | Directed targets: which `target` types a `source` should connect to |
-| `processes` | Listening endpoints, connection limits and thread settings for each Bus ID |
-| `center` | Registry parameters exposed by `get_reg_center()` |
+| `bus.applications` | Application names mapped to numeric `app_type` values |
+| `bus.relations` | Directed targets: which `target` types a `source` should connect to |
+| `bus.processes` | Listening endpoints, connection limits and thread settings for each Bus ID |
+| `bus.registry` | Registry parameters exposed by `get_reg_center()` |
 
 The following example describes Game and World processes. External and intranet endpoints use different ports to avoid conflicts when both listeners start.
 
-```xml
-<xml>
-    <applications>
-        <application name="world" type="30" />
-        <application name="game" type="31" />
-    </applications>
-    <relations>
-        <relation source="game" target="world" />
-    </relations>
-    <processes>
-        <proc busid="1.1.30.1" endpoint_server="tcp://127.0.0.1:9101"
-            endpoint_intranet="tcp://127.0.0.1:9111" max_connection="100" thread_num="1" />
-        <proc busid="1.1.31.1" endpoint_server="tcp://127.0.0.1:9102"
-            endpoint_intranet="tcp://127.0.0.1:9112" max_connection="100" thread_num="1" />
-    </processes>
-    <center ip="127.0.0.1" port="8500" service_name="ark-service"
-        check_interval="10s" check_timeout="3s" />
-</xml>
+```toml
+[bus]
+[[bus.applications]]
+name = "world"
+type = 30
+[[bus.applications]]
+name = "game"
+type = 31
+[[bus.relations]]
+source = "game"
+target = "world"
+[[bus.processes]]
+bus_id = "1.1.30.1"
+server_endpoint = "tcp://127.0.0.1:9101"
+intranet_endpoint = "tcp://127.0.0.1:9111"
+max_connections = 100
+threads = 1
+[[bus.processes]]
+bus_id = "1.1.31.1"
+server_endpoint = "tcp://127.0.0.1:9102"
+intranet_endpoint = "tcp://127.0.0.1:9112"
+max_connections = 100
+threads = 1
+[bus.registry]
+host = "127.0.0.1"
+port = 8500
+service_name = "ark-service"
+check_interval = "10s"
+check_timeout = "3s"
 ```
 
 This is a Bus configuration example, not a complete two-process launch configuration. Applications must also load Bus, Net and their dependencies, set each process's Bus ID, start listeners and initiate connections. `relations` supplies target types; reading a relationship does not automatically create a connection.
 
-Configuring `center` does not enable dynamic registration or discovery. The Consul registration and health-based discovery paths in the current network service manager remain commented out. This configuration alone cannot discover target processes.
+Configuring `bus.registry` does not enable dynamic registration or discovery. The Consul registration and health-based discovery paths in the current network service manager remain commented out. This configuration alone cannot discover target processes.
+
+## Migrate XML runtime settings
+
+Bus runtime settings now require TOML content; renaming the old XML file is insufficient. Replace it with `bus.plugin.toml` and update each application's `ark_bus_plugin` configuration reference. The source asset is `config/bus.plugin.toml`; deployment still places it under the runtime `conf/` prefix. XML application manifests remain supported, and business data XML is unchanged.
+
+| XML location/attribute | TOML location/key |
+| --- | --- |
+| `applications/application` | `[[bus.applications]]`; `name`, `type` unchanged |
+| `relations/relation` | `[[bus.relations]]`; `source`, `target` unchanged |
+| `processes/proc` | `[[bus.processes]]` |
+| `busid` | `bus_id` |
+| `endpoint_server`, `endpoint_intranet` | `server_endpoint`, `intranet_endpoint` |
+| `max_connection`, `thread_num` | `max_connections`, `threads` |
+| `center` / `ip` | `[bus.registry]` / `host`; other keys unchanged |
+
+All four sections and their fields are required. Arrays may be empty (`applications = []`, `relations = []`, `processes = []` under `[bus]`). Unknown keys, wrong TOML types and invalid values fail initialization with the file, section or array index, and field in the diagnostic. Integer settings use TOML integers: application types are `1..254`, connection limits `0..4294967295`, threads `0..255`, and registry ports `0..65535`. Zero retains its existing configured meaning; the parser does not start services or choose a concurrency policy.
+
+Bus IDs require exactly four decimal components in `0..255`. Nonempty endpoints require a supported protocol and `protocol://host:port` (optional path), with port `0..65535`. Hostnames are retained without DNS lookup. IPv6 literals use brackets, for example `tcp://[::1]:9011`; their numeric syntax is validated locally, and the stored host is `::1` without brackets for arknet. The public endpoint formatter is unchanged. An empty endpoint remains allowed and disables that listener. Both endpoints are validated independently. Registry interval and timeout strings are passed through without interpreting their duration grammar.
+
+The public `app_config`, `proc_config` and `reg_center` fields and query methods remain unchanged. Application maps and other-process maps keep their first entry for a duplicate key; the last matching self-process entry wins, and relations retain input order and duplicates. A missing self-process entry remains unconfigured. These settings do not enable discovery or create network connections. The private parser uses the existing toml++ dependency only when configuration or application builds are enabled.
 
 ## Query local and target processes
 

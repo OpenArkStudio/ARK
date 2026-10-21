@@ -14,3 +14,5 @@ else(UNIX)
         optimized :AFProto.a
         ${PROTOBUF_LIBRARIES})
 endif()
+
+target_link_libraries(ark_bus_plugin tomlplusplus::tomlplusplus)
