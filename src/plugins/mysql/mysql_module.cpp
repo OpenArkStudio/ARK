@@ -5,11 +5,39 @@
 #include <unordered_map>
 #include <utility>
 
-#include "ark/mysql/mysql_module_impl.hpp"
+#include "ark/module_base.hpp"
 #include "mysql/detail/mysql_awaitable.hpp"
 #include "mysql/detail/mysql_transaction_awaitable.hpp"
+#include "mysql/mysql_plugin.hpp"
 
 namespace ark {
+
+class mysql_module_impl final : public module_base<mysql_module>
+{
+public:
+    mysql_module_impl();
+    ~mysql_module_impl() override;
+    bool init() override;
+    bool update() override;
+    bool ready_to_shut() const override;
+    bool pre_shut() override;
+    bool shut() override;
+    bool configure(std::string name, mysql_options options) override;
+    task<mysql_reply> query(
+        std::string name, std::string sql, std::chrono::milliseconds timeout = std::chrono::seconds(5)) override;
+    task<mysql_reply> execute(std::string name, std::string sql, std::vector<arknet::mysql::field_value> parameters,
+        std::chrono::milliseconds timeout = std::chrono::seconds(5)) override;
+    task<mysql_transaction_reply> begin(std::string name, mysql_transaction_options options = {}) override;
+    task<mysql_transaction_reply> query(mysql_transaction_id transaction, std::string sql) override;
+    task<mysql_transaction_reply> execute(
+        mysql_transaction_id transaction, std::string sql, std::vector<arknet::mysql::field_value> parameters) override;
+    task<mysql_transaction_reply> commit(mysql_transaction_id transaction) override;
+    task<mysql_transaction_reply> rollback(mysql_transaction_id transaction) override;
+
+private:
+    struct state;
+    std::shared_ptr<state> state_;
+};
 
 struct mysql_module_impl::state
 {
@@ -335,5 +363,13 @@ task<mysql_transaction_reply> mysql_module_impl::commit(mysql_transaction_id id)
 task<mysql_transaction_reply> mysql_module_impl::rollback(mysql_transaction_id id) {
     return state::run_step(state_, state_->find(id), id, state::step::rollback);
 }
+
+namespace detail {
+
+std::unique_ptr<mysql_module> make_mysql_module() {
+    return std::make_unique<mysql_module_impl>();
+}
+
+} // namespace detail
 
 } // namespace ark

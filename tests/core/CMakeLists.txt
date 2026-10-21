@@ -6,9 +6,12 @@ target_link_libraries(ark_core_header_checks PRIVATE ark::core)
 
 add_executable(ark_core_tests main.cpp strings.cpp containers.cpp templates.cpp callbacks.cpp
     header_regressions.cpp cxx20_language.cpp concurrency.cpp plugin_manager_startup.cpp data_strings.cpp node_data_storage.cpp
-    object_vectors.cpp)
+    object_vectors.cpp plugin_construction.cpp module_factory.cpp)
 target_link_libraries(ark_core_tests PRIVATE ark::core ark::utility)
 add_dependencies(ark_core_tests ark_core_header_checks)
+add_library(ark_construction_header_checks OBJECT headers/module_base.cpp headers/plugin_base.cpp)
+set_property(TARGET ark_construction_header_checks PROPERTY LINK_LIBRARIES ark::core)
+add_dependencies(ark_core_tests ark_construction_header_checks)
 if(ARK_BUILD_PROTO)
     target_sources(ark_core_tests PRIVATE protobuf_messages.cpp)
     target_link_libraries(ark_core_tests PRIVATE ark::bus ark::proto)
@@ -189,4 +192,18 @@ if(ARK_BUILD_PROTO)
         DEPENDS ark_kernel_initialization_tests
         USES_TERMINAL)
     add_dependencies(check-core check-kernel-initialization)
+endif()
+
+if(ARK_BUILD_CONFIG AND TARGET sample1_plugin AND TARGET sample2_plugin AND
+        TARGET ark_utility_plugin AND TARGET ark_kernel_plugin)
+    add_executable(ark_typed_examples_tests ../app/typed_examples.cpp)
+    set_property(TARGET ark_typed_examples_tests PROPERTY LINK_LIBRARIES ark::core ark::config)
+    add_custom_target(check-typed-examples
+        COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:ark_typed_examples_tests>"
+            "-DPLUGIN_DIR=$<TARGET_FILE_DIR:sample1_plugin>" "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"
+            "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/typed examples runtime"
+            -P "${PROJECT_SOURCE_DIR}/tests/app/typed_examples.cmake"
+        DEPENDS ark_typed_examples_tests sample1_plugin sample2_plugin ark_utility_plugin ark_kernel_plugin
+        USES_TERMINAL VERBATIM)
+    add_dependencies(check-core check-typed-examples)
 endif()
