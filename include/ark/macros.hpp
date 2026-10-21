@@ -94,7 +94,6 @@ inline size_t strlcpy(char* dst, const char* src, size_t siz) {
 // Windows
 #define ARK_SPRINTF sprintf_s
 #define ARK_STRICMP _stricmp
-#define ARK_SLEEP(s) Sleep(s)
 #define ARK_STRNCPY strlcpy
 #define ARK_ASSERT(exp_, msg_, file_, func_)                                                                           \
     do                                                                                                                 \
@@ -132,7 +131,6 @@ typedef struct HINSTANCE__* library_instance;
 // Linux
 #define ARK_SPRINTF snprintf
 #define ARK_STRICMP strcasecmp
-#define ARK_SLEEP(s) usleep(s * 1000)
 #define ARK_STRNCPY strlcpy
 #define ARK_ASSERT(exp_, msg_, file_, func_)                                                                           \
     do                                                                                                                 \
@@ -161,7 +159,6 @@ typedef struct HINSTANCE__* library_instance;
 
 #define ARK_SPRINTF snprintf
 #define ARK_STRICMP strcasecmp
-#define ARK_SLEEP(s) usleep(s * 1000)
 #define ARK_STRNCPY strlcpy
 #define ARK_ASSERT(exp_, msg_, file_, func_)                                                                           \
     do                                                                                                                 \
