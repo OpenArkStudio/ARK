@@ -23,8 +23,13 @@
 #include "ark/time/date_time.hpp"
 #include "ark/utility/scheduler.hpp"
 #include "sample1_module.hpp"
+#include "sample1_plugin.hpp"
 
 namespace ark {
+
+std::unique_ptr<sample1_module> make_sample1_module() {
+    return std::make_unique<sample1_module>();
+}
 
 bool sample1_module::init() {
     timer_module_ = find_module<timer_module>();

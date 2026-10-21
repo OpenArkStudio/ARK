@@ -2,7 +2,7 @@
 
 [简体中文](README_CN.md)
 
-Official plugin headers live in the repository's `include/ark/<name>/`; implementations and per-plugin CMake files live in `src/plugins/<name>/`. Each plugin has an optional CMake target. Business plugins belong in application repositories.
+Core and other plugin public headers remain under `include/ark/`. The MySQL/Redis pilot co-locates public interface headers, implementation and private assembly under `src/plugins/<name>/`; CMake maps only explicitly listed interface headers, preserving `<ark/mysql/mysql_module.hpp>` and `<ark/redis/redis_module.hpp>`. Runtime plugins retain independent optional targets. Business plugins belong in application repositories.
 
 | Plugin | Responsibility | Default build |
 | --- | --- | --- |

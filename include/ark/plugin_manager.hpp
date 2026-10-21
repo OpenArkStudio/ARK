@@ -38,6 +38,9 @@
 
 namespace ark {
 
+template<typename derived_type>
+class plugin_base;
+
 class plugin_manager final : private noncopyable
 {
     enum class call_phase
@@ -647,6 +650,49 @@ protected:
     }
 
 private:
+    template<typename derived_type>
+    friend class plugin_base;
+
+    // Publish only registry bookkeeping; no user callbacks or lifecycle rollback.
+    bool register_owned_module(const std::string& name, module& instance, bool update) {
+        check_registration();
+        if (module_instances_.contains(name) || module_updates_.contains(name) || registered_module(instance))
+        {
+            return false;
+        }
+        const auto entry = module_instances_.emplace(name, &instance).first;
+        try
+        {
+            if (update)
+            {
+                module_updates_.emplace(name, &instance);
+            }
+        }
+        catch (...)
+        {
+            module_instances_.erase(entry);
+            throw;
+        }
+        return true;
+    }
+
+    bool unregister_owned_module(const std::string& name, module& expected) {
+        check_registry_mutation();
+        const auto entry = module_instances_.find(name);
+        const auto update = module_updates_.find(name);
+        if (entry == module_instances_.end() || entry->second != &expected ||
+            (update != module_updates_.end() && update->second != &expected))
+        {
+            return false;
+        }
+        remove_module(name); // Preserve the global pending-task and owner/phase guards.
+        if (update != module_updates_.end())
+        {
+            module_updates_.erase(update);
+        }
+        return true;
+    }
+
     void check_owner() const {
         if (owner_ != std::this_thread::get_id())
         {

@@ -13,7 +13,7 @@
 
 #include "../network/doctest.h"
 
-#include "ark/redis/redis_module_impl.hpp"
+#include "redis/redis_plugin.hpp"
 
 namespace {
 
@@ -200,7 +200,8 @@ private:
 struct module_owner
 {
     ark::plugin_manager manager;
-    ark::redis_module_impl redis;
+    std::unique_ptr<ark::redis_module> redis_owner{ark::detail::make_redis_module()};
+    ark::redis_module& redis{*redis_owner};
     ark::module consumer;
     ark::task_group* tasks{};
     std::optional<result_type> result;
@@ -396,7 +397,7 @@ TEST_CASE("Manager stop drains an accepted Redis workflow before sealing its nex
 
 TEST_CASE("Unstarted Redis task pins state across facade destruction and rejects after retirement") {
     ark::plugin_manager manager;
-    auto redis = std::make_unique<ark::redis_module_impl>();
+    auto redis = ark::detail::make_redis_module();
     redis->set_plugin_manager(&manager);
     REQUIRE(redis->configure("main", {}));
     auto operation = redis->command("main", {"PING"});

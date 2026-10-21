@@ -14,10 +14,10 @@
 #include <utility>
 #include <vector>
 
-#include "ark/redis/redis_module_impl.hpp"
+#include "redis/redis_plugin.hpp"
 
 #if defined(ARKNET_ENABLE_SSL)
-#include "ark/mysql/mysql_module_impl.hpp"
+#include "mysql/mysql_plugin.hpp"
 #endif
 
 namespace {
@@ -80,7 +80,8 @@ template<class module_type>
 struct module_owner
 {
     ark::plugin_manager manager;
-    module_type database;
+    std::unique_ptr<module_type> database_owner;
+    module_type& database;
     ark::module consumer;
     ark::task_group* tasks{};
     std::shared_ptr<arknet::manual_runtime> runtime;
@@ -88,8 +89,10 @@ struct module_owner
     workflow_result& result;
     bool stopped{};
 
-    explicit module_owner(workflow_result& report)
-        : result(report) {
+    module_owner(workflow_result& report, std::unique_ptr<module_type> instance)
+        : database_owner(std::move(instance))
+        , database(*database_owner)
+        , result(report) {
         database.set_plugin_manager(&manager);
         database.set_name("database");
         require(manager.add_module("database", &database) && manager.add_module("consumer", &consumer),
@@ -159,7 +162,7 @@ struct module_owner
     }
 };
 
-ark::task<> redis_workflow(module_owner<ark::redis_module_impl>& owner, ark::task<arknet::redis::result> pending,
+ark::task<> redis_workflow(module_owner<ark::redis_module>& owner, ark::task<arknet::redis::result> pending,
     std::string binary, std::optional<arknet::redis::result>& retained) {
     ark::redis_module& database = owner.database;
     retained = co_await std::move(pending);
@@ -195,7 +198,7 @@ void check_redis(bool unwind) {
     bool unwound{};
     try
     {
-        module_owner<ark::redis_module_impl> owner(report);
+        module_owner<ark::redis_module> owner(report, ark::detail::make_redis_module());
         ark::redis_module& database = owner.database;
         require(database.configure("primary", options), "Cannot configure public Redis module");
         // The module owns endpoint and authentication strings after configure().
@@ -239,7 +242,7 @@ void success(const ark::mysql_transaction_reply& reply) {
         "Public MySQL transaction cleanup failed");
 }
 
-ark::task<> mysql_checks(module_owner<ark::mysql_module_impl>& owner, ark::task<ark::mysql_reply> prepared,
+ark::task<> mysql_checks(module_owner<ark::mysql_module>& owner, ark::task<ark::mysql_reply> prepared,
     std::string table, std::string binary, std::optional<ark::mysql_reply>& retained_text,
     std::optional<ark::mysql_reply>& retained_prepared) {
     ark::mysql_module& database = owner.database;
@@ -300,7 +303,7 @@ ark::task<> mysql_checks(module_owner<ark::mysql_module_impl>& owner, ark::task<
         "Public MySQL prior results changed after transaction reuse");
 }
 
-ark::task<> mysql_workflow(module_owner<ark::mysql_module_impl>& owner, ark::task<ark::mysql_reply> prepared,
+ark::task<> mysql_workflow(module_owner<ark::mysql_module>& owner, ark::task<ark::mysql_reply> prepared,
     std::string table, std::string binary, std::optional<ark::mysql_reply>& retained_text,
     std::optional<ark::mysql_reply>& retained_prepared) {
     ark::mysql_module& database = owner.database;
@@ -341,7 +344,7 @@ void check_mysql(bool unwind) {
     bool unwound{};
     try
     {
-        module_owner<ark::mysql_module_impl> owner(report);
+        module_owner<ark::mysql_module> owner(report, ark::detail::make_mysql_module());
         ark::mysql_module& database = owner.database;
         require(database.configure("primary", options), "Cannot configure public MySQL module");
         options.pool.connection.host = "invalid.invalid";
