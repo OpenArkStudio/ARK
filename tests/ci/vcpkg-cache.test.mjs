@@ -47,7 +47,9 @@ test('Unix and Windows plans use only the runner temporary archives directory', 
     assert.equal(plan.enabled, true);
     assert.equal(plan.directory, expected);
     assert.equal(plan.binarySources, `clear;files,${expected},readwrite`);
-    assert.match(plan.key, /^ark-vcpkg-files-v1-[A-Za-z]+-[A-Z0-9]+-[a-f0-9]{64}$/);
+    assert.match(plan.key, /^ark-vcpkg-files-v2-[A-Za-z]+-[A-Z0-9]+-[a-f0-9]{64}-[a-f0-9]{64}$/);
+    assert.ok(plan.key.startsWith(plan.restoreKey));
+    assert.equal(plan.key.length - plan.restoreKey.length, 64);
     assert.ok(plan.key.length < 512);
   }
 });
@@ -74,6 +76,7 @@ test('missing runner, image and dependency identity cannot enable a cache with a
       assert.equal(plan.enabled, false, name);
       assert.equal(plan.binarySources, 'clear', name);
       assert.equal(plan.key, '');
+      assert.equal(plan.restoreKey, '');
     }
   }
   for (const extra of [{ RUNNER_OS: 'unknown' }, { RUNNER_ARCH: 'unknown' },
@@ -93,10 +96,10 @@ test('keys are stable across workspaces, feature ordering and existing provider 
   assert.equal(f.plan({ RUNNER_TEMP: '/different/temporary/location' }).key, f.plan().key);
 });
 
-test('runner/compiler, pinned revision, manifest features and build profile changes invalidate the key', t => {
+test('runner/compiler, pinned revision, manifest features and build profile changes isolate both keys', t => {
   const f = fixture(t);
   for (const extra of [{ RUNNER_OS: 'macOS' }, { RUNNER_ARCH: 'ARM64' }, { ImageOS: 'ubuntu26' },
-    { ImageVersion: '20261015.2' }, { VCPKG_CACHE_REVISION: 'a'.repeat(40) },
+    { VCPKG_CACHE_REVISION: 'a'.repeat(40) },
     { VCPKG_CACHE_FEATURES: 'application;boost' }, { VCPKG_CACHE_DEFAULT_FEATURES: 'false' },
     { VCPKG_CACHE_PROFILE: 'network-address' }, { CC: '/other/cc' }, { CXX: '/other/cxx' },
     { CFLAGS: '-O2' }, { CXXFLAGS: '-O3' }, { LDFLAGS: '-flto' },
@@ -105,7 +108,35 @@ test('runner/compiler, pinned revision, manifest features and build profile chan
     const plan = f.plan(extra);
     assert.equal(plan.enabled, true);
     assert.notEqual(plan.key, f.plan().key, JSON.stringify(extra));
+    assert.notEqual(plan.restoreKey, f.plan().restoreKey, JSON.stringify(extra));
   }
+});
+
+test('rolling runner images share only a narrow archive prefix, never the exact key', t => {
+  const f = fixture(t);
+  for (const [os, temp, imageOS] of [
+    ['Linux', '/tmp/runner', 'ubuntu24'],
+    ['macOS', '/tmp/runner', 'macos15'],
+    ['Windows', 'D:\\a\\_temp', 'win25'],
+  ]) {
+    const oldImage = f.plan({ RUNNER_OS: os, RUNNER_TEMP: temp, ImageOS: imageOS, ImageVersion: '20261007.264.1' });
+    const newImage = f.plan({ RUNNER_OS: os, RUNNER_TEMP: temp, ImageOS: imageOS, ImageVersion: '20261018.275.1' });
+    assert.equal(oldImage.enabled, true);
+    assert.equal(newImage.enabled, true);
+    assert.notEqual(oldImage.key, newImage.key);
+    assert.equal(oldImage.restoreKey, newImage.restoreKey);
+    assert.ok(oldImage.key.startsWith(newImage.restoreKey));
+    assert.match(newImage.restoreKey, /^ark-vcpkg-files-v2-[A-Za-z]+-[A-Z0-9]+-[a-f0-9]{64}-$/);
+    assert.equal(newImage.binarySources, `clear;files,${newImage.directory},readwrite`);
+  }
+});
+
+test('a baseline-only change isolates both exact and fallback lookup', t => {
+  const f = fixture(t);
+  const before = f.plan();
+  f.write('vcpkg.json', JSON.stringify({ 'builtin-baseline': 'a'.repeat(40), dependencies: ['asio'] }));
+  assert.notEqual(f.plan().key, before.key);
+  assert.notEqual(f.plan().restoreKey, before.restoreKey);
 });
 
 test('manifest, configuration and local overlay content all affect the key', t => {
@@ -117,9 +148,10 @@ test('manifest, configuration and local overlay content all affect the key', t =
     ['ports/asio/vcpkg.json', '{"name":"asio","version":"1.39.0"}'],
     ['ports/extra/portfile.cmake', '# newly added port\n'],
   ]) {
-    const before = f.plan().key;
+    const before = f.plan();
     f.write(file, value);
-    assert.notEqual(f.plan().key, before, file);
+    assert.notEqual(f.plan().key, before.key, file);
+    assert.notEqual(f.plan().restoreKey, before.restoreKey, file);
   }
 });
 
@@ -154,7 +186,7 @@ test('prepare exports a nonempty files provider before the action and preserves 
   const environment = readFileSync(f.env.GITHUB_ENV, 'utf8');
   assert.equal(environment, `EXISTING_VALUE=preserved\nVCPKG_BINARY_SOURCES=${plan.binarySources}\n`);
   assert.equal(readFileSync(f.env.GITHUB_OUTPUT, 'utf8'),
-    `existing_output=preserved\nenabled=true\ndirectory=${plan.directory}\nkey=${plan.key}\n`);
+    `existing_output=preserved\nenabled=true\ndirectory=${plan.directory}\nkey=${plan.key}\nrestore-key=${plan.restoreKey}\n`);
   assert.doesNotMatch(environment, /x-gha|nuget/);
   assert.equal(f.env.VCPKG_BINARY_SOURCES, 'clear;x-gha,readwrite'); // Only later GitHub steps receive file commands.
 });
@@ -165,7 +197,7 @@ test('cold fallback still explicitly exports clear instead of leaving the action
     const plan = prepareCache({ root: f.root, env: { ...f.env, ...extra } });
     assert.equal(plan.enabled, false);
     assert.match(readFileSync(f.env.GITHUB_ENV, 'utf8'), /\nVCPKG_BINARY_SOURCES=clear\n$/);
-    assert.match(readFileSync(f.env.GITHUB_OUTPUT, 'utf8'), /\nenabled=false\ndirectory=\nkey=\n$/);
+    assert.match(readFileSync(f.env.GITHUB_OUTPUT, 'utf8'), /\nenabled=false\ndirectory=\nkey=\nrestore-key=\n$/);
   }
 });
 
