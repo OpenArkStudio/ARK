@@ -33,21 +33,21 @@ package's full ABI hash, including compiler tracking, and retrieves only matchin
 archives; mismatched packages build from source. The workflow does not disable
 compiler tracking, override ABI hashes or rename package archives. See the
 [vcpkg ABI mismatch guide](https://learn.microsoft.com/en-us/vcpkg/users/binarycaching-troubleshooting#cause-3-differences-between-local-and-remote-build-environments).
-A rolling image can therefore share an archive container without treating its
+A rolling image can therefore share an archive cache without treating its
 packages as compatible in advance.
 
 After successful configuration, a miss or prefix restore saves only the exact
 key. There is no second save under the compatibility prefix. Image-specific
 snapshots can still overlap and use cache capacity. The v1 keys cannot be safely
 searched by this prefix and are deliberately excluded: v2 starts cold until an
-accessible run has saved a matching family. Actions cache branch/ref visibility
-still applies; see the [Actions cache reference](https://docs.github.com/en/actions/reference/workflows-and-actions/dependency-caching#cache-key-matching).
+accessible run has saved a v2 cache for the same dependency configuration.
+Actions cache branch/ref visibility still applies; see the [Actions cache reference](https://docs.github.com/en/actions/reference/workflows-and-actions/dependency-caching#cache-key-matching).
 This change does not make caches from another merge-queue ref readable. A compatible v2 archive on the default branch is needed to seed queue
 runs that cannot access each other's entries.
 
 Missing identity, unsupported dependency layout or archive paths keep persistence
 disabled with `VCPKG_BINARY_SOURCES=clear`. Cache-service failures retain ordinary
 source configuration, compilation and regressions. The cache covers archives only,
-not installed trees or project object files. Local Node fixtures validate the
+not installed trees or project object files. Local Node tests validate the
 lookup boundaries, exports and workflow wiring; hosted cache reuse and any timing
 improvement require separate CI evidence.

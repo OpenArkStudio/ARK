@@ -148,12 +148,12 @@ default from being selected. Missing GitHub file-command channels fail explicitl
 No project object files, installed trees, credentials or compiler caches are persisted.
 
 
-The v2 archive fixtures keep exact-image keys distinct across image rolls while
+The v2 archive tests keep exact-image keys distinct across image rolls while
 sharing one compatibility prefix. OS/architecture, `ImageOS`, vcpkg revision,
 baseline, dependency/overlay bytes, feature/default selection, profile, compiler
-flags and triplets isolate both lookups. Workflow fixtures require exactly one
+flags and triplets isolate both lookups. Workflow tests require exactly one
 restore and one exact-key save per native job, pass the one prefix only to restore,
 and retain vcpkg compiler tracking and fatal configure/build/regression steps.
 See [CI dependency archive cache](../../docs/project/contributing.md#ci-dependency-archive-cache)
 for the ABI boundary, v1 cold transition and branch/ref visibility limits.
-These fixtures do not execute vcpkg ABI matching or validate hosted cache hits.
+These tests do not execute vcpkg ABI matching or validate hosted cache hits.
