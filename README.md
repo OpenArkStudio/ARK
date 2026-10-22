@@ -21,84 +21,36 @@
 
 ---
 
-ark provides the application structure around your C++ services: plugin composition, module lifecycles, entity data and communication between processes. Use it for game servers and other modular server applications on Linux, macOS and Windows. Core components and official plugins live here; business plugins live with their application.
+## Features
 
-## Built around your services
+- **Services:** plugins and modules with lifecycle hooks; business plugins stay in their application repositories.
+- **Entity data:** properties, tables and containers with metadata, configuration defaults and change callbacks.
+- **Communication:** TCP, WebSocket, HTTP and RUDP through [arknet](https://github.com/OpenArkStudio/arknet), with bus identifiers and message routing.
+- **Tooling:** Protobuf messages and Excel configuration generation.
 
-| Compose | Model | Connect |
-| :--- | :--- | :--- |
-| **Plugins and modules** | **Entity data** | **Process communication** |
-| Register services behind interfaces and participate in initialization, updates and shutdown. | Describe properties, tables and containers through metadata, configuration defaults and change callbacks. | Use TCP, WebSocket, HTTP and RUDP through [arknet](https://github.com/OpenArkStudio/arknet), with bus identifiers and message routing. |
+## Get started
 
-Protobuf messages, Excel configuration generation, native C++ regression tests and optional benchmarks support the development workflow.
+Build on Linux, macOS or Windows with **C++20**, **CMake 3.21+**, Ninja and vcpkg. Windows requires **Visual Studio 2022+**.
 
-## A module is a C++ class
-
-Override the lifecycle stages the service needs. This module counts application updates; a plugin registers it with the manager.
-
-```cpp
-#include <cstddef>
-
-#include <ark/module.hpp>
-#include <ark/plugin_manager.hpp>
-
-namespace ark {
-
-class sample_module final : public module
-{
-    ARK_DECLARE_MODULE_FUNCTIONS
-
-public:
-    bool update() override {
-        ++update_count_;
-        return true;
-    }
-
-private:
-    std::size_t update_count_ = 0;
-};
-
-} // namespace ark
-```
-
-Continue with [module lifecycle and interfaces](docs/guides/modules.md) and [plugin registration](docs/guides/plugins.md).
-
-## Start with an example
-
-Build the example applications with a C++20 compiler, CMake 3.21 or newer, and vcpkg. The [installation guide](docs/get-started/installation.md) covers dependencies and platform-specific commands. Windows requires Visual Studio 2022 or newer.
-
-After building and preparing the runtime directory, start `sample1` from `run/sample1/`:
+Configure `app-build/` using the [installation guide](docs/get-started/installation.md), then build:
 
 ```sh
-./bin/app --busid=1.0.1.1 --name=sample1 --app_conf=conf/sample1.app.toml
+cmake --build app-build --config Release --parallel 2
 ```
 
-| Next step | Guide |
-| :--- | :--- |
-| Run the bundled applications | [Quick start](docs/get-started/quick-start.md) |
-| Understand the framework | [Architecture](docs/concepts/architecture.md) · [Entity data](docs/reference/kernel.md) |
-| Connect application processes | [Networking](docs/reference/network.md) · [Message bus](docs/reference/bus.md) |
-| Access databases asynchronously | [MySQL](docs/reference/mysql.md) · [Redis](docs/reference/redis.md) · [Coroutine tasks](docs/guides/tasks.md) |
-| Reproduce validation results | [Tests](docs/networking.md) · [Database benchmarks](docs/performance/database-coroutines.md) |
+Follow the [quick start](docs/get-started/quick-start.md) to prepare the runtime binaries and configuration. On macOS/Linux, start Sample1 from `run/sample1/`:
 
-Dependencies are managed with [vcpkg](vcpkg.json); see [dependency selection](docs/dependencies.md). The arknet revision is pinned in [CMakeLists.txt](CMakeLists.txt).
+```sh
+./bin/app --busid=1.0.1.1 --name=sample1 \
+  --app_conf=conf/sample1.app.toml --log_conf=conf/log.conf
+```
 
-## Client integration
+The [legacy Unity client](https://github.com/OpenArkStudio/ArkClient-Unity3D) has not been verified against the current ark server.
 
-The [legacy Unity client](https://github.com/OpenArkStudio/ArkClient-Unity3D) has not been verified against the current ark server. Restoring it and testing the client and server together is planned follow-up work.
+[Module guide](docs/guides/modules.md) · [Architecture](docs/concepts/architecture.md) · [Tests](docs/networking.md) · [Contribute](.github/CONTRIBUTING.md) · [Discord](https://discord.gg/GmyBbcv)
 
-## Contribute
-
-Bug reports, discussions and pull requests are welcome. See the [contribution guide](.github/CONTRIBUTING.md) for coding style, tests and the protected-branch workflow. Find us on [GitHub Issues](https://github.com/OpenArkStudio/ark/issues) and [Discord](https://discord.gg/GmyBbcv).
-
-## Core developers
-
-- [Nick Yang](https://github.com/NickYang1988)
-- [flyicegood](https://github.com/flyicegood)
-- [loscaz](https://github.com/loscaz)
-
-Thanks to all [contributors](https://github.com/OpenArkStudio/ark/graphs/contributors).
+Core developers: [Nick Yang](https://github.com/NickYang1988), [flyicegood](https://github.com/flyicegood) and [loscaz](https://github.com/loscaz). Thanks to all [contributors](https://github.com/OpenArkStudio/ark/graphs/contributors).
 
 ---
 
-[Apache-2.0](LICENSE) · Copyright OpenArkStudio.
+[Apache-2.0](LICENSE) · Copyright [OpenArkStudio](https://github.com/OpenArkStudio).
