@@ -5,9 +5,14 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <typeinfo>
 
 #include <ark/application_manifest.hpp>
 #include <ark/plugin_manager.hpp>
+#include <ark/utility/compress_module.hpp>
+#include <ark/utility/guid_module.hpp>
+#include <ark/utility/schedule_module.hpp>
+#include <ark/utility/timer_module.hpp>
 #include "../../examples/sample1/sample1_module.hpp"
 #include "../../examples/sample2/sample2_module.hpp"
 
@@ -18,6 +23,19 @@ static_assert(std::derived_from<ark::sample1_module, ark::module_base<ark::modul
 static_assert(std::derived_from<ark::sample2_module, ark::module_base<ark::module>>);
 
 namespace {
+
+struct timer_receiver
+{
+    void on_timer(uint64_t id, const ark::guid_t& entity) {
+        ++calls;
+        timer_id = id;
+        entity_id = entity;
+    }
+
+    int calls{};
+    uint64_t timer_id{};
+    ark::guid_t entity_id{};
+};
 
 void require(bool condition, const std::string& message) {
     if (!condition)
@@ -46,11 +64,45 @@ int main(int argc, char* argv[]) {
     {
         const bool started = manager.start(0, std::string(argv[2]) + "/", "conf/", manifest.plugins);
         require(started, "Sample startup failed: " + manager.get_startup_failure());
+        auto* guids = manager.find_module<ark::guid_module>();
+        auto* timers = manager.find_module<ark::timer_module>();
+        auto* schedules = manager.find_module<ark::schedule_module>();
+        auto* compression = manager.find_module<ark::compress_module>();
+        for (auto* service : {static_cast<ark::module*>(guids), static_cast<ark::module*>(timers),
+                 static_cast<ark::module*>(schedules), static_cast<ark::module*>(compression)})
+        {
+            require(service && service->get_plugin_manager() == &manager, "Utility interface lost manager ownership");
+        }
+        require(guids->get_name() == typeid(ark::guid_module).name() &&
+                    timers->get_name() == typeid(ark::timer_module).name() &&
+                    schedules->get_name() == typeid(ark::schedule_module).name() &&
+                    compression->get_name() == typeid(ark::compress_module).name(),
+            "Utility registration must retain interface RTTI keys");
+        const auto first_id = guids->create_guid();
+        const auto second_id = guids->create_guid();
+        require(first_id != ark::null_guid && second_id != first_id && !guids->parse_uid(first_id).empty(),
+            "Utility GUID generation or parsing failed");
+        const std::string input("utility binary\0round trip", 25);
+        for (auto algorithm : {ark::compress_type::compress_type_zlib, ark::compress_type::compress_type_zstd})
+        {
+            std::string packed;
+            std::string unpacked;
+            require(compression->compress(algorithm, input.data(), input.size(), packed), "Utility compression failed");
+            require(compression->decompress(algorithm, packed.data(), packed.size(), unpacked) && unpacked == input,
+                "Utility decompression did not preserve binary bytes");
+        }
+        timer_receiver timer;
+        const auto timer_id =
+            timers->add_single_timer(first_id, std::chrono::milliseconds(20), 1, &timer, &timer_receiver::on_timer);
+        require(timer_id != 0 && timer.calls == 0, "Utility timer fired without manager updates");
         for (int i = 1; i <= 5; ++i)
         {
-            require(manager.update(i), "Sample owner update failed");
+            require(manager.update(i * 10), "Sample owner update failed");
         }
-        require(manager.stop(6), "Sample shutdown did not complete");
+        require(timer.calls == 1 && timer.timer_id == timer_id && timer.entity_id == first_id,
+            "Utility timer must fire once through owner-thread updates with original callback arguments");
+        require(manager.stop(60), "Sample shutdown did not complete");
+        require(manager.stop(61), "Repeated stop must not unregister Utility modules twice");
         require(manager.get_shutdown_state() == ark::plugin_manager::shutdown_state::stopped,
             "Sample resources were retained instead of stopped");
     }
@@ -78,5 +130,8 @@ int main(int argc, char* argv[]) {
         require(position != std::string::npos, "Missing/out-of-order sample event: " + event);
         previous = output.find('\n', position);
     }
-    std::cout << sample << ": actual DSOs, five manager-thread updates, startup and shutdown passed" << std::endl;
+    std::cout << sample
+              << ": actual DSOs, four Utility interfaces, GUID, zlib/zstd binary round trips, owner-driven timer, "
+                 "startup and shutdown passed"
+              << std::endl;
 }

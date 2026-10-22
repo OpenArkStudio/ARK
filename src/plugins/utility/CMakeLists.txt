@@ -16,4 +16,6 @@ endif(ZLIB_FOUND)
 include_directories(${ZLIB_INCLUDE_DIRS})
 
 BUILD_PLUGIN_MACRO(ark_utility_plugin ${ZSTD_LIBRARIES} ${ZLIB_LIBRARIES})
+set_target_properties(ark_utility_plugin PROPERTIES
+    CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
 # BUILD_PLUGIN_MACRO(ark_utility_plugin ${LZ4_LIBRARY})

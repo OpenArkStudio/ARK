@@ -151,6 +151,11 @@ const tree: Entry[] = [
         "Bus 插件"
       ],
       [
+        "reference/utility",
+        "Utility plugin",
+        "Utility 插件"
+      ],
+      [
         "reference/mysql",
         "MySQL plugin",
         "MySQL 插件"

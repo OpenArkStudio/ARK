@@ -43,6 +43,7 @@ test('source paths select actual module regressions and propagate plugin depende
     ['tests/core/containers.cpp', ['applications']],
     ['tests/core/CMakeLists.txt', ['applications']],
     ['application/main.cpp', ['applications']],
+    ['src/plugins/utility/timer_module.hpp', ['applications']],
     ['application/shutdown_request.hpp', ['applications']],
     ['application/CMakeLists.txt', ['applications']],
     ['src/config/application_manifest.cpp', ['applications']],

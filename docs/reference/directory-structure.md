@@ -15,8 +15,8 @@ Build artifacts belong to each CMake build directory: `cmake -S . -B out/release
 | `application/` | Application entry point |
 | `src/proto/` | Protocol schemas and codec implementation |
 | `src/server/` | Built-in server applications |
-| `include/ark/<name>/` | Public headers for plugins outside the database pilot |
-| `src/plugins/<name>/` | Implementation; MySQL/Redis also keep interface headers and private assembly here |
+| `include/ark/<name>/` | Public headers for plugins outside the co-located set |
+| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility also keep public headers and private assembly here |
 | `tests/` | Core, network and private database regressions |
 | `tests/network/` | Network and logging regressions |
 | `tests/consumer/` | An independent project consuming the public SDK |
@@ -31,7 +31,7 @@ Include public headers as `<ark/plugin_manager.hpp>` or `<ark/net/tcp_client.hpp
 Do not add implementation directories to an application's include path. Generated
 Protobuf headers are placed under the build directory, exposed through `ark::proto`.
 
-The MySQL/Redis interfaces have one source each: `src/plugins/mysql/mysql_module.hpp` and `src/plugins/redis/redis_module.hpp`. At configuration time CMake copies ordinary files from explicit lists into each ark build tree's `src/plugins/sdk-include/ark/<name>/`, removing obsolete mappings only within those controlled directories. Private plugin headers and factories are excluded. Consume `ark::mysql` and `ark::redis` to retain the logical include paths, including when runtime plugins are disabled. Commands using only handwritten `-I <source>/include` must adopt the target-provided include roots. No formal SDK installation or export package is supplied.
+The MySQL/Redis interfaces have one source each: `src/plugins/mysql/mysql_module.hpp` and `src/plugins/redis/redis_module.hpp`. Utility public interfaces and retained scheduler helpers likewise live in `src/plugins/utility/`. At configuration time CMake copies ordinary files from explicit lists into each ark build tree's `src/plugins/sdk-include/ark/<name>/`, removing obsolete mappings only within those controlled directories. Private plugin headers and factories are excluded. Consume `ark::mysql`, `ark::redis` and `ark::utility` to retain the logical include paths, including when runtime plugins are disabled. Commands using only handwritten `-I <source>/include` must adopt the target-provided include roots. No formal SDK installation or export package is supplied.
 
 ## CMake targets
 
@@ -85,7 +85,7 @@ The consumer builds with applications and Protobuf disabled. It verifies public
 include paths, inherited C++20 settings, module overrides and exported GUID configuration.
 Use `-DARK_USE_GUID_32=ON` to check the 32-bit GUID configuration.
 
-The consumer also checks MySQL/Redis public-header mapping and rejects visible implementation or private assembly headers. The command enables SSL and the vcpkg `database` feature's OpenSSL dependency to check both interfaces; with SSL disabled, only Redis is compiled. This is build-tree consumption, not installed-package acceptance.
+The consumer also checks MySQL/Redis/Utility public-header mapping and rejects visible implementation or private assembly headers. The command enables SSL and the vcpkg `database` feature's OpenSSL dependency to check both interfaces; with SSL disabled, only Redis is compiled. This is build-tree consumption, not installed-package acceptance.
 
 ## Runtime resources and generated data
 

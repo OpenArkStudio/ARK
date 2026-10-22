@@ -40,7 +40,7 @@ set_property(TARGET ark_task_tests PROPERTY LINK_LIBRARIES ark::core Threads::Th
 target_include_directories(ark_task_tests PRIVATE "${PROJECT_SOURCE_DIR}/src/plugins")
 add_dependencies(ark_task_tests ark_task_header_checks)
 add_library(ark_task_scheduler_header_checks OBJECT headers/task_scheduler.cpp headers/scheduler_task.cpp)
-set_property(TARGET ark_task_scheduler_header_checks PROPERTY LINK_LIBRARIES ark::core)
+set_property(TARGET ark_task_scheduler_header_checks PROPERTY LINK_LIBRARIES ark::core ark::utility)
 add_dependencies(ark_task_tests ark_task_scheduler_header_checks)
 
 add_executable(ark_task_contract_tests ../database/task_group_contract.cpp)
@@ -220,7 +220,7 @@ endif()
 if(ARK_BUILD_CONFIG AND TARGET sample1_plugin AND TARGET sample2_plugin AND
         TARGET ark_utility_plugin AND TARGET ark_kernel_plugin)
     add_executable(ark_typed_examples_tests ../app/typed_examples.cpp)
-    set_property(TARGET ark_typed_examples_tests PROPERTY LINK_LIBRARIES ark::core ark::config)
+    set_property(TARGET ark_typed_examples_tests PROPERTY LINK_LIBRARIES ark::core ark::config ark::utility)
     add_custom_target(check-typed-examples
         COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:ark_typed_examples_tests>"
             "-DPLUGIN_DIR=$<TARGET_FILE_DIR:sample1_plugin>" "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"

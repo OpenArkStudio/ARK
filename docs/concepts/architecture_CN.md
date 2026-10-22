@@ -17,7 +17,7 @@ ark 在一个应用进程中组合多个插件库。插件注册模块，模块�
 
 ## 进程内调用
 
-插件在 `install()` 中调用 `ARK_REGISTER_MODULE(interface_type, implementation_type)`。管理器记录该接口，应用通过类型查找模块：
+插件在 `install()` 中通过 `plugin_base::register_module()` 或保留的 `ARK_REGISTER_MODULE(interface_type, implementation_type)` 宏注册接口。管理器记录该接口，应用通过类型查找模块：
 
 ```cpp
 #include "ark/plugin_manager.hpp"
@@ -46,7 +46,7 @@ ark::timer_module* find_timers(ark::plugin_manager& manager) {
 
 ## 头文件路径与 CMake 目标
 
-核心及大部分插件的公开头文件位于 `include/ark/`，例如 `include/ark/kernel/entity.hpp` 对应 `<ark/kernel/entity.hpp>`。MySQL/Redis 试点将公开头文件与实现共置于 `src/plugins/<name>/`；CMake 仅将显式列出的公开头文件映射到构建树的 `src/plugins/sdk-include/ark/<name>/`。业务代码依赖 `ark::mysql` 或 `ark::redis`，继续使用 `<ark/...>` 逻辑路径，不会获得私有装配头。核心目标定义位于 `src/core/`，各插件仍保留独立可选目标，`ark::ark` 汇总可用 API 目标。
+核心及大部分插件的公开头文件位于 `include/ark/`，例如 `include/ark/kernel/entity.hpp` 对应 `<ark/kernel/entity.hpp>`。MySQL、Redis 和 Utility 将公开头文件与实现共置于 `src/plugins/<name>/`；CMake 仅将显式列出的公开头文件映射到构建树的 `src/plugins/sdk-include/ark/<name>/`。业务代码依赖 `ark::mysql`、`ark::redis` 或 `ark::utility`，继续使用 `<ark/...>` 逻辑路径，不会获得私有装配头。核心目标定义位于 `src/core/`，各插件仍保留独立可选目标，`ark::ark` 汇总可用 API 目标。
 
 `ark/` 是文件系统中的头文件前缀，不会自动创建 C++ 命名空间；命名空间由各头文件显式声明的 `namespace ark` 决定。依赖 API 接口目标只传递编译要求，不会选择或加载插件动态库。
 

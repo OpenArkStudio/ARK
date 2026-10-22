@@ -16,13 +16,13 @@ build's artifacts into the runtime's `bin/` directory.
 
 | Path | Contents |
 | --- | --- |
-| `include/ark/` | Public core and plugin headers |
+| `include/ark/` | Public core and other plugin headers |
 | `src/core/` | Core CMake target and header-only usage requirements |
 | `application/` | Application entry point |
 | `src/proto/` | Protocol schemas and codec implementation |
 | `src/server/` | Built-in server applications |
-| `include/ark/<name>/` | Public headers for an official plugin |
-| `src/plugins/<name>/` | Plugin implementation |
+| `include/ark/<name>/` | Public headers for plugins outside the co-located set |
+| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility public headers and private assembly |
 | `tests/` | Core, network and private database regressions |
 | `tests/network/` | Network and logging regressions |
 | `tests/consumer/` | An independent project consuming the public SDK |
