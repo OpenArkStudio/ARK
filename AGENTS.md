@@ -117,10 +117,13 @@ branch or worktree when the existing checkout contains uncommitted changes.
   connection configuration programmatic. Configuration-only targets must not
   acquire core, arknet or runtime dependencies; compiled configuration must be
   position-independent for shared-library consumers.
-  Kernel source colocation preserves all existing `ark/kernel/...` headers,
-  including implementation/value templates and `kernel_plugin.hpp`; keep them
-  byte-identical during physical moves. Do not hide these types or replace
-  Kernel creation macros as part of colocation.
+  Kernel retains all existing `ark/kernel/...` headers, including public
+  implementation/value templates and `kernel_plugin.hpp`. Its typed construction
+  uses module_base for the original interfaces, plugin_base, private factories
+  and explicit entry points. Do not hide/remove retained public types. Preserve
+  interface RTTI keys, explicit update selection and registration order; public
+  class layout changes require a breaking notice and rebuilding consumers.
+  Keep private factory headers outside public mappings and installation.
   All official plugin families now use explicit public-header mappings from
   `src/plugins/<name>/`; do not restore header discovery under `include/ark/`.
   Consul, Etcd Client, Kafka, OSS SDK and Physic retain every existing public

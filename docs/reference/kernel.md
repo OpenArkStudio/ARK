@@ -184,8 +184,8 @@ Kernel keeps all 38 existing headers beside its cpp files in `src/plugins/kernel
 The explicit `ark::kernel` mapping preserves every `<ark/kernel/...>` include,
 including `data_impl.hpp`, `data_list_impl.hpp` and `kernel_plugin.hpp`, even when
 the runtime plugin is disabled. Value/template definitions remain available to
-business code. This source move does not change creation macros, registration,
-lifecycle or type visibility. Core headers remain under `include/ark/`.
+business code. The four module implementations now inherit `module_base<their_interface>`;
+`kernel_plugin` inherits `plugin_base<kernel_plugin>`. Core source headers live under `src/core/`.
 
 The independent `tests/consumer/kernel` project links only `ark::kernel`, compiles
 the 38 headers separately with Protobuf enabled, and runs value/template usage.
@@ -205,3 +205,20 @@ cmake -S tests/consumer/kernel -B kernel-headers-build -G Ninja \
   -DVCPKG_MANIFEST_FEATURES=application -DASIO_STANDALONE=OFF
 cmake --build kernel-headers-build --target check-kernel-headers --parallel 2
 ```
+
+## Typed Kernel construction
+
+**Breaking ABI/layout change:** `class_meta_module_impl`, `config_module_impl`, `kernel_module_impl` and `map_module_impl` now inherit `module_base<their_existing_interface>`, while `kernel_plugin` inherits `plugin_base<kernel_plugin>`. All existing public types, constructors, methods and 38 header paths remain available. Rebuild Kernel and consumers together; old implementation/plugin binaries are not compatible with the changed class layout. No new compiler-independent plugin ABI is introduced.
+
+The plugin uses private owning factories and explicit `DllEntryPlugin`/`DllExitPlugin`. `kernel_factory.hpp` stays inside the plugin source directory and is neither mapped nor installed. Factory return types preserve the original interface RTTI keys:
+
+| Registration interface | Retained implementation | Update registration |
+| --- | --- | --- |
+| `class_meta_module` | `class_meta_module_impl` | `module_update::disabled`; inherited default update |
+| `config_module` | `config_module_impl` | `module_update::disabled`; inherited default update |
+| `kernel_module` | `kernel_module_impl` | `module_update::enabled`; existing override |
+| `map_module` | `map_module_impl` | `module_update::disabled`; inherited default update |
+
+Installation retains the table order; uninstallation uses its reverse. Registration still completes before lifecycle initialization, whose container traversal does not guarantee dependency order. Entity defaults, configuration/schema loading phases, Protobuf messages and business data formats are unchanged.
+
+`check-kernel-plugin` is a `check-core` dependency when Protobuf and the Kernel/Utility runtime targets are available. The independent runner links only the public `ark::kernel` target and loads both actual DSOs. It checks all four interface keys and manager ownership, metadata/static record loading, map/entity registration, public lifecycle callbacks, manager updates, normal plugin exit and repeated stop. It does not inspect the registry after unloading or certify arbitrary hot update. The public-header consumer also checks the typed bases and retained update overrides; existing initialization/entity-default regressions remain required.

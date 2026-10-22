@@ -68,6 +68,8 @@ endforeach()
     }
     assert.match(readFileSync(join(build, 'etcd_client.txt'), 'utf8'), /ark::net/);
     assert.match(readFileSync(join(build, 'physic.txt'), 'utf8'), /ark::utility/);
+    assert.equal(existsSync(join(staging, 'kernel/kernel_factory.hpp')), false);
+    assert.ok(existsSync(join(staging, 'kernel/kernel_plugin.hpp')));
     for (const [name, headers] of Object.entries(retainedHeaders)) {
       assert.equal(existsSync(join(root, 'include/ark', name)), false);
       assert.deepEqual(readdirSync(join(staging, name)).sort(), [...headers].sort());

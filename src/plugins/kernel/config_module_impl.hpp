@@ -22,13 +22,12 @@
 
 #include "ark/kernel/class_meta_module.hpp"
 #include "ark/kernel/config_module.hpp"
-#include "ark/plugin_manager.hpp"
+#include "ark/module_base.hpp"
 
 namespace ark {
 
-class config_module_impl final : public config_module
+class config_module_impl final : public module_base<config_module>
 {
-    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool init() override;
     bool post_init() override;

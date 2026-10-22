@@ -207,3 +207,5 @@ Existing macros and plugins remain supported. Export the entry functions
 explicitly with the existing platform visibility macro. The plugin boundary
 still passes C++ types; this API does not promise a pure C ABI or cross-version
 ABI stability. Lifecycle phases, draining and library unload rules are unchanged.
+
+Kernel also uses typed construction while retaining its public `*_impl` and `kernel_plugin` types and header paths. Its private factory header is not installed. Rebuild Kernel and consumers together because those public class layouts change; the [Kernel migration table](../reference/kernel.md#typed-kernel-construction) records unchanged interface keys, update selection and registration order.

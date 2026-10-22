@@ -24,13 +24,12 @@
 #include "ark/kernel/class_meta.hpp"
 #include "ark/kernel/class_meta_manager.hpp"
 #include "ark/kernel/class_meta_module.hpp"
-#include "ark/plugin_manager.hpp"
+#include "ark/module_base.hpp"
 
 namespace ark {
 
-class class_meta_module_impl final : public class_meta_module
+class class_meta_module_impl final : public module_base<class_meta_module>
 {
-    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     class_meta_module_impl() = default;
     virtual ~class_meta_module_impl() = default;
