@@ -90,9 +90,14 @@ add_custom_target(check-xml
 add_dependencies(check-core check-xml)
 
 if(ARK_BUILD_CONFIG)
-    add_executable(ark_application_manifest_tests main.cpp application_manifest.cpp)
-    # This configuration-only consumer deliberately excludes the inherited network SDK.
-    set_property(TARGET ark_application_manifest_tests PROPERTY LINK_LIBRARIES ark::config)
+    add_library(ark_config_shared_probe SHARED ../consumer/config/shared.cpp)
+    set_property(TARGET ark_config_shared_probe PROPERTY LINK_LIBRARIES ark::config tomlplusplus::tomlplusplus)
+    target_include_directories(ark_config_shared_probe PRIVATE "${PROJECT_SOURCE_DIR}/src/plugins")
+    target_compile_definitions(ark_config_shared_probe PRIVATE ARK_CONFIG_PROBE_BUILD)
+
+    add_executable(ark_application_manifest_tests main.cpp application_manifest.cpp ../consumer/config/shared_library.cpp)
+    # These configuration-only consumers deliberately exclude the inherited network SDK.
+    set_property(TARGET ark_application_manifest_tests PROPERTY LINK_LIBRARIES ark::config ark_config_shared_probe)
     target_compile_definitions(ark_application_manifest_tests PRIVATE ARK_TEST_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
     add_custom_target(check-application-manifest
         COMMAND $<TARGET_FILE:ark_application_manifest_tests>
@@ -101,7 +106,7 @@ if(ARK_BUILD_CONFIG)
     add_dependencies(check-core check-application-manifest)
 
     add_executable(ark_plugin_configuration_tests main.cpp plugin_configuration.cpp)
-    set_property(TARGET ark_plugin_configuration_tests PROPERTY LINK_LIBRARIES tomlplusplus::tomlplusplus)
+    set_property(TARGET ark_plugin_configuration_tests PROPERTY LINK_LIBRARIES ark::config tomlplusplus::tomlplusplus)
     target_include_directories(ark_plugin_configuration_tests PRIVATE "${PROJECT_SOURCE_DIR}/src/plugins")
     target_compile_features(ark_plugin_configuration_tests PRIVATE cxx_std_20)
     add_custom_target(check-plugin-configuration
@@ -111,7 +116,7 @@ if(ARK_BUILD_CONFIG)
 
     add_executable(ark_bus_configuration_tests main.cpp bus_configuration.cpp
         ../../src/plugins/bus/bus_module_impl.cpp)
-    set_property(TARGET ark_bus_configuration_tests PROPERTY LINK_LIBRARIES ark::bus tomlplusplus::tomlplusplus)
+    set_property(TARGET ark_bus_configuration_tests PROPERTY LINK_LIBRARIES ark::bus ark::config tomlplusplus::tomlplusplus)
     target_include_directories(ark_bus_configuration_tests PRIVATE "${PROJECT_SOURCE_DIR}/src/plugins")
     target_compile_definitions(ark_bus_configuration_tests PRIVATE ARK_TEST_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
     add_custom_target(check-bus-configuration

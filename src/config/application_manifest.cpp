@@ -1,68 +1,17 @@
 // Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
-#include <filesystem>
-#include <fstream>
 #include <initializer_list>
-#include <iterator>
 #include <string_view>
 #include <utility>
 
 #include <rapidxml.hpp>
-#include <toml++/toml.hpp>
 
 #include <ark/application_manifest.hpp>
+#include "configuration_reader.hpp"
 
 namespace ark {
 namespace {
 
-std::string diagnostic_path(std::string_view path) {
-    std::string result;
-    for (const auto character : path)
-    {
-        switch (character)
-        {
-        case '\0':
-            result += "\\0";
-            break;
-        case '\n':
-            result += "\\n";
-            break;
-        case '\r':
-            result += "\\r";
-            break;
-        default:
-            result += character;
-            break;
-        }
-    }
-    return result;
-}
-
-std::string error_message(const std::string& path, const std::string& reason, std::size_t line, std::size_t column) {
-    auto message = diagnostic_path(path);
-    if (line != 0)
-    {
-        message += ":" + std::to_string(line) + ":" + std::to_string(column);
-    }
-    return message + ": " + reason;
-}
-
-[[noreturn]] void fail_at(const std::string& path, const char* reason, std::string_view contents, std::size_t offset) {
-    std::size_t line = 1;
-    std::size_t column = 1;
-    for (std::size_t index = 0; index < offset && index < contents.size(); ++index)
-    {
-        if (contents[index] == '\n')
-        {
-            ++line;
-            column = 1;
-        }
-        else
-        {
-            ++column;
-        }
-    }
-    throw application_manifest_error(path, reason, line, column);
-}
+using config_detail::fail_at;
 
 [[noreturn]] void fail_at(const std::string& path, const char* reason, const toml::source_region& source) {
     throw application_manifest_error(path, reason, source.begin.line, source.begin.column);
@@ -111,11 +60,7 @@ std::string read_string(
 }
 
 application_manifest parse_toml(const std::string& path, std::string_view contents) {
-    toml::table document;
-    try
-    { document = toml::parse(contents); }
-    catch (const toml::parse_error& error)
-    { fail_at(path, "invalid TOML syntax or encoding", error.source()); }
+    const auto document = config_detail::parse_toml(path, contents, "invalid TOML syntax or encoding");
     validate_keys(document, {"application", "plugins"}, path);
     const auto* application_node = document.get("application");
     if (application_node == nullptr)
@@ -210,7 +155,7 @@ application_manifest parse_xml(const std::string& path, const std::string& conte
 
 application_manifest_error::application_manifest_error(
     const std::string& path, const std::string& reason, std::size_t line, std::size_t column)
-    : std::runtime_error(error_message(path, reason, line, column))
+    : std::runtime_error(config_detail::error_message(path, reason, line, column))
     , path_(path)
     , line_(line)
     , column_(column) {
@@ -229,36 +174,13 @@ std::size_t application_manifest_error::column() const noexcept {
 }
 
 application_manifest load_application_manifest(const std::string& path) {
-    if (path.find('\0') != std::string::npos)
-    {
-        throw application_manifest_error(path, "manifest path contains NUL");
-    }
-    std::string contents;
     try
     {
-        const std::filesystem::path native_path(std::u8string(path.begin(), path.end()));
-        if (std::filesystem::is_directory(native_path))
-        {
-            throw application_manifest_error(path, "manifest path is a directory");
-        }
-        std::ifstream input(native_path, std::ios::binary);
-        input.exceptions(std::ios::badbit);
-        if (!input)
-        {
-            throw application_manifest_error(path, "could not open manifest");
-        }
-        contents.assign(std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>());
+        const auto contents = config_detail::read_file(path, "manifest");
+        return path.ends_with(".toml") ? parse_toml(path, contents) : parse_xml(path, contents);
     }
-    catch (const std::filesystem::filesystem_error&)
-    { throw application_manifest_error(path, "could not open manifest path"); }
-    catch (const std::ios_base::failure&)
-    { throw application_manifest_error(path, "could not read manifest"); }
-    const auto nul = contents.find('\0');
-    if (nul != std::string::npos)
-    {
-        fail_at(path, "manifest contains NUL", contents, nul);
-    }
-    return path.ends_with(".toml") ? parse_toml(path, contents) : parse_xml(path, contents);
+    catch (const config_detail::read_error& error)
+    { throw application_manifest_error(path, error.reason, error.line, error.column); }
 }
 
 } // namespace ark

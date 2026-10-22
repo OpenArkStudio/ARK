@@ -3,6 +3,7 @@
 | 选项 | 默认值 | 用途 |
 | --- | --- | --- |
 | `ARK_BUILD_APPLICATIONS` | `ON` | 构建应用及选中的运行时插件 |
+| `ARK_BUILD_CONFIG` | 应用或核心测试启用时为 `ON`，否则为 `OFF` | 构建应用／插件共享配置读取器；网络回归也会为 HTTP 构建读取器 |
 | `ARK_BUILD_PROTO` | 与 `ARK_BUILD_APPLICATIONS` 一致 | 生成并构建协议消息；构建应用时必须启用 |
 | `ARK_BUILD_NETWORK_TESTS` | `OFF` | 构建独立 C++ 网络与日志回归测试 |
 | `ARK_BUILD_TESTS` | `ON` | 构建原有测试程序 |

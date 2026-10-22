@@ -15,4 +15,4 @@ else(UNIX)
         ${PROTOBUF_LIBRARIES})
 endif()
 
-target_link_libraries(ark_bus_plugin tomlplusplus::tomlplusplus)
+target_link_libraries(ark_bus_plugin ark::config tomlplusplus::tomlplusplus)
