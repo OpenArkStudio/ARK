@@ -151,6 +151,11 @@ const tree: Entry[] = [
         "Net 插件"
       ],
       [
+        "reference/http",
+        "HTTP server plugin",
+        "HTTP 服务端插件"
+      ],
+      [
         "reference/bus",
         "Bus plugin",
         "Bus 插件"

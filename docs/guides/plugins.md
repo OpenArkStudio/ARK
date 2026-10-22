@@ -95,7 +95,7 @@ cmake -S . -B out -DARK_SOURCE_DIR="path/to/ark" -DCMAKE_BUILD_TYPE=Release
 cmake --build out --config Release --target sample_plugin
 ```
 
-The plugin build disables ark's bundled applications/examples; it does not disable this external `sample_plugin` target. `ark::core` carries the public headers, C++20 settings and transitive dependencies. If an interface includes official plugin APIs, add their SDK targets, such as `ark::net`. See [Project layout and SDK](../reference/directory-structure.md) for the full target list.
+The plugin build disables ark's bundled applications/examples; it does not disable this external `sample_plugin` target. `ark::core` carries the public headers, C++20 settings and transitive dependencies. If an interface includes official plugin APIs, add their interface targets, such as `ark::net`. See [Project layout and public plugin interfaces](../reference/directory-structure.md) for the full target list.
 
 ## Select libraries at runtime
 
@@ -119,7 +119,7 @@ name = "sample_plugin"
 config = ""
 ```
 
-Use the [application launcher](applications.md) to select this manifest. The library name `sample_plugin` is the filename stem, not the RTTI name of the C++ plugin class or a registered module. The loader appends `.dll`, `.so` or `.dylib`; Debug also appends `_d` before the extension. The CMake target deliberately has no `lib` prefix and sets the matching Debug postfix. Use the same build configuration and compatible SDK/ABI settings for the launcher and plugin.
+Use the [application launcher](applications.md) to select this manifest. The library name `sample_plugin` is the filename stem, not the RTTI name of the C++ plugin class or a registered module. The loader appends `.dll`, `.so` or `.dylib`; Debug also appends `_d` before the extension. The CMake target deliberately has no `lib` prefix and sets the matching Debug postfix. Use the same build configuration and compatible public plugin interfaces and ABI settings for the launcher and plugin.
 
 Paths are resolved from the process working directory. The current loader concatenates `plugin_library_dir` with the filename and `plugin_config_dir` with `config`; keep the trailing separators. An empty `config` in this example means the plugin has no configuration file to read. It still receives the configuration directory prefix; it does not receive an empty resolved path. A supplied plugin configuration path can be read through `sample_plugin::get_plugin_conf()`.
 
@@ -130,7 +130,7 @@ Paths are resolved from the process working directory. The current loader concat
 | Library cannot be opened | Deployment working directory, filename/prefix/extension, Debug postfix and shared-library dependencies |
 | Entry point cannot be found | DLL macro is defined once in the library and exported symbols are visible |
 | Module lookup asserts, or returns `nullptr` with assertions disabled | The runtime manifest includes the provider library, `install()` registers `T`, and consumer/provider use compatible interface definitions |
-| Includes compile but no service is available | An SDK target supplies headers; it does not install a runtime module |
+| Includes compile but no service is available | An interface target supplies headers; it does not install a runtime module |
 
 The manager does not make plugin unloading safe for arbitrary outstanding callbacks. Finish the service-specific cancellation and lifetime work described in [Create a module](modules.md). This example has no worker tasks, event subscriptions or hot-update support.
 

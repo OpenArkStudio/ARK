@@ -51,3 +51,34 @@ source configuration, compilation and regressions. The cache covers archives onl
 not installed trees or project object files. Local Node tests validate the
 lookup boundaries, exports and workflow wiring; hosted cache reuse and any timing
 improvement require separate CI evidence.
+
+
+### Windows ABI diagnostics
+
+After dependency configuration and the existing archive-save step, Windows
+Applications logs a bounded JSON report for Asio, rapidxml and Protobuf. The
+helper reads only `ci-build/vcpkg_installed/x64-windows/share/<port>/vcpkg_abi_info.txt`,
+without searching directories or invoking build tools. It rejects symbolic links,
+non-regular files, malformed records, unexpected triplets and files over 64 KiB.
+Absent or rejected metadata is explicitly `unavailable`; missing optional fields
+also remain `unavailable` rather than being treated as equal.
+
+`packageAbi` is the SHA256 of the exact ABI metadata bytes. Field values are
+reported only as SHA256 fingerprints under fixed names: `triplet`, `triplet_abi`,
+`features`, `cmake`, `powershell`, `compiler_hash`, `portfile.cmake`, `ports.cmake`,
+`vcpkg.json`, `post_build_checks`, `sbom_info`, `vcpkg-cmake`, `vcpkg-cmake-config`,
+`abseil` and `utf8-range`. Unknown field names and all raw values are omitted;
+no full environment, absolute paths or credentials are logged. Metadata files
+and artifacts are not uploaded.
+A separate `compiler_hash` record may be absent; the report does not infer one
+from a compiler version string or split the opaque `triplet_abi` value.
+
+The diagnostic also runs after an earlier step fails, unless the job is cancelled.
+Its availability status describes metadata only. It cannot turn failed
+configuration, compilation or tests into success, and diagnostic errors do not
+become a new native acceptance requirement. Cache keys/providers, compiler
+tracking and build settings remain unchanged. Compare the fingerprints across
+runs to narrow an ABI difference; equal reported fields do not establish equal
+unreported inputs. This report is neither a cache-hit verdict nor a performance
+measurement. In the investigated Windows pair, all 74 package ABIs differed;
+the particular input causing that difference remains unproven.

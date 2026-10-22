@@ -95,7 +95,7 @@ cmake -S . -B out -DARK_SOURCE_DIR="path/to/ark" -DCMAKE_BUILD_TYPE=Release
 cmake --build out --config Release --target sample_plugin
 ```
 
-这个构建关闭 ark 自带的应用与示例，不影响外部项目的 `sample_plugin` 目标。`ark::core` 提供公开头文件、C++20 要求和传递依赖。接口使用官方插件 API 时，再增加 `ark::net` 等 SDK 目标。完整目标列表见[项目结构与 SDK](../reference/directory-structure_CN.md)。
+这个构建关闭 ark 自带的应用与示例，不影响外部项目的 `sample_plugin` 目标。`ark::core` 提供公开头文件、C++20 要求和传递依赖。接口使用官方插件 API 时，再增加 `ark::net` 等接口目标。完整目标列表见[项目结构与公共插件接口](../reference/directory-structure_CN.md)。
 
 ## 在运行时选择动态库
 
@@ -119,7 +119,7 @@ name = "sample_plugin"
 config = ""
 ```
 
-通过[应用启动器](applications_CN.md)选择这个清单。`sample_plugin` 是动态库文件名的主体，不是 C++ 插件类的 RTTI 名称，也不是模块注册名。加载器会补充 `.dll`、`.so` 或 `.dylib` 后缀；Debug 模式还会在扩展名前补充 `_d`。CMake 目标显式移除了 `lib` 前缀，并设置了相同的 Debug 后缀。启动器和插件应使用相同构建模式，以及兼容的 SDK 与 ABI 设置。
+通过[应用启动器](applications_CN.md)选择这个清单。`sample_plugin` 是动态库文件名的主体，不是 C++ 插件类的 RTTI 名称，也不是模块注册名。加载器会补充 `.dll`、`.so` 或 `.dylib` 后缀；Debug 模式还会在扩展名前补充 `_d`。CMake 目标显式移除了 `lib` 前缀，并设置了相同的 Debug 后缀。启动器和插件应使用相同构建模式，以及兼容的公共插件接口与 ABI 设置。
 
 路径相对于进程工作目录解析。当前加载器直接拼接 `plugin_library_dir` 与库文件名，以及 `plugin_config_dir` 与 `config`，因此目录末尾需要保留分隔符。示例中的空 `config` 表示插件没有需要读取的配置文件，但插件收到的解析路径仍是配置目录前缀，不是空字符串。提供配置文件时，可通过 `sample_plugin::get_plugin_conf()` 读取这个路径。
 
@@ -130,7 +130,7 @@ config = ""
 | 无法打开动态库 | 部署工作目录、文件名前缀与扩展名、Debug 后缀及动态库依赖 |
 | 找不到入口 | DLL 宏是否只定义一次，导出符号是否可见 |
 | 查找模块触发断言，或关闭断言时返回 `nullptr` | 运行清单是否包含提供模块的库，`install()` 是否以 `T` 注册，调用方与提供方是否使用兼容接口 |
-| 头文件可以编译，但没有可用服务 | SDK 目标只提供头文件，不会在运行时安装模块 |
+| 头文件可以编译，但没有可用服务 | 接口目标只提供头文件，不会在运行时安装模块 |
 
 管理器不能保证任意未完成回调下的插件卸载安全。应按[创建模块](modules_CN.md)中的约束完成服务取消和对象生命周期管理。这个示例没有工作线程任务、事件订阅或热更新能力。
 

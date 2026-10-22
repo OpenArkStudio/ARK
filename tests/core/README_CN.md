@@ -79,3 +79,9 @@ cmake --build core-build --target check-business-runtime
 启用 Net、Bus、Utility 与 Protobuf 时，`check-net-plugin` 加载真实动态库，验证两个 Net 接口及 RTTI 键、管理器线程上的 TCP／HTTP 回调、重复停服与监听端口释放。该目标也是 `check-core` 的依赖，无需外部服务。独立的 `tests/consumer/net` 工程仅链接 `ark::net`，逐个编译保留的公开头。
 
 启用 Bus、Net、Utility 与 Protobuf 时，`check-bus-plugin` 加载真实动态库，验证 Bus／消息接口键、配置查询、路由 Protobuf 消息头与正文、传输失败传播及正常重复停服。`check-core` 包含该目标。独立的 `tests/consumer/bus` 工程仅链接 `ark::bus`，分别编译两个公开模块头。既有解析／配置用例通过接口工厂保留原断言，仍支持关闭 Protobuf 的构建。
+
+启用 `ARK_BUILD_PLUGIN_HTTP=ON` 时，`check-http-plugin` 加载真实 HTTP 动态库并发送真实回环请求，覆盖所属线程停服期间的受控活动处理器退出与端点复用。可选 HTTP 目标存在时，`check-core` 包含该检查。独立的 `tests/consumer/http` 工程仅链接 `ark::http`，关闭应用与 Protobuf。
+
+Applications CI 显式开启 `ARK_BUILD_PLUGIN_HTTP=ON` 并运行 `check-core`，因此既有源码检查与全矩阵均包含真实 HTTP 动态库回归。本地启用 HTTP 的原生验证已通过；本次变更的托管全矩阵仍待验收。永久 CI 策略测试检查配置到真实动态库回归的依赖链。
+
+Kernel 的 38 个既有头通过 `ark::kernel` 从 `src/plugins/kernel/` 映射；`check-core` 保留数据与节点回归，`check-kernel-initialization` 保留初始化与配置复制断言。独立工程 `tests/consumer/kernel` 在 Protobuf 开启/关闭时分别消费 38/35 个头，其中 `container_meta.hpp` 保留原有 `ark/define.hpp` 与 `ark/enum.hpp` 前置包含要求。详见 [Kernel 参考](../../docs/reference/kernel_CN.md)。
