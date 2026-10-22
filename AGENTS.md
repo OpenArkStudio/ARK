@@ -92,9 +92,14 @@ branch or worktree when the existing checkout contains uncommitted changes.
   types may live in cpp files when registration and tests no longer need their
   definitions. Public-header staging/installation and creation-macro replacements
   require the agreed design before implementation; do not silently change ABI,
-  lifecycle or ownership. Retain independent plugin targets and optional builds.
-  Verify accepted source before claiming the new layout or an installed SDK is
-  available. Hot-update and Registry design discussions remain paused.
+  lifecycle or ownership. Kernel source colocation preserves all existing
+  `ark/kernel/...` headers, including implementation/value templates and
+  `kernel_plugin.hpp`; keep them byte-identical during physical moves. Do not
+  hide these types or replace Kernel creation macros as part of colocation.
+  Retain independent plugin targets and optional builds.
+  Describe public plugin interfaces as interfaces, not a separate product.
+  Verify accepted source before claiming the new layout is available. Hot-update
+  and Registry design discussions remain paused.
 
 ## Documentation and releases
 

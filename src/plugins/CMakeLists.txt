@@ -32,7 +32,8 @@ endfunction()
 
 # Public plugin APIs can be consumed without building their shared libraries.
 # These plugins keep their source headers beside their implementation.
-# Only this explicit list enters the build-tree SDK; plugin assembly stays private.
+# Explicit mappings preserve logical public paths independently of source layout.
+# Kernel retains every existing header and type, including its assembly header.
 set(ark_mysql_public_headers "${CMAKE_CURRENT_SOURCE_DIR}/mysql/mysql_module.hpp")
 set(ark_redis_public_headers "${CMAKE_CURRENT_SOURCE_DIR}/redis/redis_module.hpp")
 set(ark_utility_public_headers
@@ -69,7 +70,47 @@ set(ark_bus_public_headers
     "${CMAKE_CURRENT_SOURCE_DIR}/bus/bus_module.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/bus/msg_module.hpp"
 )
-set(ark_colocated_plugin_names mysql redis utility net bus)
+set(ark_kernel_public_headers
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/class_call_back_manager.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/class_meta.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/class_meta_manager.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/class_meta_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/class_meta_module_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/component.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/config_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/config_module_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/container.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/container_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/container_manager.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/container_manager_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/container_meta.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/data.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/data_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/data_list.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/data_list_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/entity.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/entity_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/event_manager.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/event_manager_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/kernel_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/kernel_module_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/kernel_plugin.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/map_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/map_module_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/node.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/node_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/node_manager.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/node_meta.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/row.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/static_entity.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/static_entity_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/static_entity_manager.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/table.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/table_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/table_manager.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kernel/table_meta.hpp"
+)
+set(ark_colocated_plugin_names mysql redis utility net bus kernel)
 set(ark_plugin_sdk_include_dir "${CMAKE_CURRENT_BINARY_DIR}/sdk-include")
 foreach(plugin_name IN LISTS ark_colocated_plugin_names)
     set(staged_headers)

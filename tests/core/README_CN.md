@@ -47,7 +47,7 @@ C++20 语言回归验证六种精确整数类型分类、限定符与引用处�
 cmake --build core-build --target check-logging
 ```
 
-## 公开任务 SDK
+## 公开任务接口
 
 `check-core` 包含 `check-task-sdk`：独立编译仅包含 `<ark/task.hpp>` 的文件，
 并运行使用 `ark::core` 的普通调用方。测试覆盖拥有型返回值、停止受理、显式取消
@@ -79,3 +79,5 @@ cmake --build core-build --target check-business-runtime
 启用 Net、Bus、Utility 与 Protobuf 时，`check-net-plugin` 加载真实动态库，验证两个 Net 接口及 RTTI 键、管理器线程上的 TCP／HTTP 回调、重复停服与监听端口释放。该目标也是 `check-core` 的依赖，无需外部服务。独立的 `tests/consumer/net` 工程仅链接 `ark::net`，逐个编译保留的公开头。
 
 启用 Bus、Net、Utility 与 Protobuf 时，`check-bus-plugin` 加载真实动态库，验证 Bus／消息接口键、配置查询、路由 Protobuf 消息头与正文、传输失败传播及正常重复停服。`check-core` 包含该目标。独立的 `tests/consumer/bus` 工程仅链接 `ark::bus`，分别编译两个公开模块头。既有解析／配置用例通过接口工厂保留原断言，仍支持关闭 Protobuf 的构建。
+
+Kernel 的 38 个既有头通过 `ark::kernel` 从 `src/plugins/kernel/` 映射；`check-core` 保留数据与节点回归，`check-kernel-initialization` 保留初始化与配置复制断言。独立工程 `tests/consumer/kernel` 在 Protobuf 开启/关闭时分别消费 38/35 个头，其中 `container_meta.hpp` 保留原有 `ark/define.hpp` 与 `ark/enum.hpp` 前置包含要求。详见 [Kernel 参考](../../docs/reference/kernel_CN.md)。

@@ -55,7 +55,7 @@ in a dot keep that basename. All test writes use temporary directories.
 cmake --build core-build --target check-logging
 ```
 
-## Public task SDK
+## Public task interfaces
 
 `check-task-sdk` is included in `check-core`. It compiles `<ark/task.hpp>`
 without an earlier include and runs an ordinary `ark::core` consumer. Cases
@@ -90,3 +90,5 @@ With applications, examples, Kernel and Utility enabled, `check-typed-examples` 
 With Net, Bus, Utility and Protobuf enabled, `check-net-plugin` loads actual DSOs and checks both Net interfaces and RTTI keys, manager-thread TCP/HTTP callbacks, repeated shutdown and listener release. It is also a `check-core` dependency and requires no external service. The independent `tests/consumer/net` project links only `ark::net` and compiles every retained public header separately.
 
 With Bus, Net, Utility and Protobuf enabled, `check-bus-plugin` loads actual DSOs and checks Bus/message interface keys, configured queries, routed Protobuf headers/body, transport failure propagation and repeated normal shutdown. `check-core` includes this target. The independent `tests/consumer/bus` project links only `ark::bus` and compiles both public module headers separately. Existing parser/configuration cases use an interface factory while retaining their assertions, and still support Protobuf-disabled builds.
+
+Kernel maps its 38 existing headers from `src/plugins/kernel/` through `ark::kernel`. `check-core` retains data/node regressions; `check-kernel-initialization` retains initialization/configuration-copy assertions. The independent `tests/consumer/kernel` project consumes 38/35 headers with Protobuf enabled/disabled; `container_meta.hpp` retains its existing `ark/define.hpp` and `ark/enum.hpp` include prerequisites. See [Kernel reference](../../docs/reference/kernel.md).

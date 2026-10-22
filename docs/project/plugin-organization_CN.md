@@ -1,6 +1,6 @@
 # 官方插件与仓库组织
 
-核心与其他插件的公开接口仍位于 `include/ark/`，核心构建定义位于 `src/core/`。MySQL、Redis、Utility、Net 和 Bus 将公开头、实现和私有装配共同放在 `src/plugins/<名称>/`，通过显式 CMake 映射保留逻辑包含路径。业务插件放在应用仓库，`arknet` 保持独立；该布局不扩展热更新或其他插件迁移。
+核心与其他插件的公开接口仍位于 `include/ark/`，核心构建定义位于 `src/core/`。MySQL、Redis、Utility、Net、Bus 和 Kernel 将公开头、实现和私有装配共同放在 `src/plugins/<名称>/`，通过显式 CMake 映射保留逻辑包含路径。业务插件放在应用仓库，`arknet` 保持独立；该布局不扩展热更新或其他插件迁移。
 
 ## 现有实现
 
@@ -42,14 +42,14 @@ ark/
 
 上图列出主要目录。Consul、etcd、Kafka 等现有官方插件也按同一规则组织。Lua、Actor 的接入仍在规划中，上表列出的是它们的建议实现位置。
 
-MySQL、Redis、Utility、Net 和 Bus 采用同目录布局，下面以数据库插件为例：
+MySQL、Redis、Utility、Net、Bus 和 Kernel 采用同目录布局，下面以数据库插件为例：
 
 ```text
 src/plugins/mysql/
 ├── CMakeLists.txt
 ├── mysql_module.hpp    # 显式公开接口；映射为 ark/mysql/mysql_module.hpp
 ├── mysql_module.cpp    # 隐藏实现类与单一私有工厂
-├── mysql_plugin.hpp    # 私有插件类型和工厂声明，不进入 SDK
+├── mysql_plugin.hpp    # 私有插件类型和工厂声明，不进入公开接口映射
 ├── mysql_plugin.cpp    # 注册/注销与显式动态库入口
 └── detail/             # 私有原生服务、协程桥和事务状态
 tests/database/         # 协议、DSO 与显式真实服务检查
@@ -76,7 +76,7 @@ arknet 的单节点客户端范围为：MySQL 提供查询、参数化预处理�
 
 ## 接下来讨论
 
-1. 保持已统一的 snake_case SDK 和目录结构；公开头文件与 CMake target 见[项目结构](../reference/directory-structure_CN.md)。
+1. 保持已统一的 snake_case 公开接口和目录结构；公开头文件与 CMake target 见[项目结构](../reference/directory-structure_CN.md)。
 2. MySQL、Redis 的部署验证应与公开协程接口和 arknet 原生拥有型结果保持一致。arknet 提供调用方驱动的执行器，ark 在模块线程中派发；部署新的服务配置前，运行显式真实服务验收模式。
 3. 分别确认 Lua、Actor 等官方插件的接口和依赖，按插件补齐编译、功能和异常路径验证。
 
@@ -86,4 +86,6 @@ arknet 的单节点客户端范围为：MySQL 提供查询、参数化预处理�
 
 Utility 的四个模块公开接口与调度辅助头位于 `src/plugins/utility/`，由 `ark::utility` 显式映射。各模块实现类只在对应 cpp 中定义，通过私有工厂返回公开接口。插件采用 `plugin_base` 与显式的 `DllEntryPlugin`/`DllExitPlugin` 入口，只有 timer 模块参与管理器更新。接口与迁移方式见 [Utility 参考](../reference/utility_CN.md)。
 
-移除 `ark/utility/*_module_impl.hpp` 与 `ark/utility/utility_plugin.hpp` 是源码兼容性变更。使用公开模块接口和类型化查找，不再直接构造实现类。Utility 与使用方需要一起重新编译；本次不保证旧实现类二进制兼容，也没有新增 SDK 安装包。
+移除 `ark/utility/*_module_impl.hpp` 与 `ark/utility/utility_plugin.hpp` 是源码兼容性变更。使用公开模块接口和类型化查找，不再直接构造实现类。Utility 与使用方需要一起重新编译；本次不保证旧实现类二进制兼容。
+
+Kernel 的原有 38 个头与 cpp 共置于 `src/plugins/kernel/`，通过 `ark::kernel` 保留全部 `<ark/kernel/...>` 路径，包括 `data_impl.hpp`、`data_list_impl.hpp` 和 `kernel_plugin.hpp`。此次只移动源码，创建宏、注册方式、类型可见性和生命周期均不变。消费检查及 Protobuf 条件见 [Kernel 参考](../reference/kernel_CN.md)。
