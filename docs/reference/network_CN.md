@@ -7,7 +7,7 @@
 | TCP | `tcp_client` | `tcp_server` |
 | WebSocket | `websocket_client` | `websocket_server` |
 | RUDP | `rudp_client` | `rudp_server` |
-| HTTP | `http_client_module_impl` | `http_server` |
+| HTTP | `http_client_module` | `http_server` |
 
 `net` 定义启动、关闭、发送和 Update 操作。业务消息继续使用现有消息头；RUDP 使用 arknet 兼容的 ARQ 报文格式，默认关闭 FEC。
 
@@ -18,22 +18,29 @@
 ## API 与私有创建
 
 Net 的全部源头文件与实现位于 `src/plugins/net/`。`ark::net` API 目标通过显式清单，
-将 19 个公开头映射到 `<ark/net/...>`，并传递公开依赖。包含协议消息的服务头需要
+将 18 个公开头映射到 `<ark/net/...>`，并传递公开依赖。包含协议消息的服务头需要
 `ARK_BUILD_PROTO=ON`；此时 `ark::net` 会传递 `ark::proto`。直接端点头仍可在关闭协议生成时使用。
 API 目标本身不会构建或加载运行时动态库。
 
 私有插件采用 `plugin_base`，工厂返回 `std::unique_ptr<net_service_manager_module>`，
 具体类型在 cpp 中继承 `module_base<net_service_manager_module>`。查找继续使用公开接口的
-RTTI 键，HTTP 客户端也按其公开接口键注册。两个模块仍参与更新；HTTP 先安装、最后卸载。
+RTTI 键。另一个私有工厂返回 `std::unique_ptr<http_client_module>`，具体类型仅在
+`http_client_module_impl.cpp` 内声明，继承 `module_base<http_client_module>`。
+HTTP 客户端仍按其公开接口键注册。两个模块仍参与更新；HTTP 先安装、最后卸载。
 库名 `ark_net_plugin` 与 `DllEntryPlugin`／`DllExitPlugin` 签名保持不变，arknet 继续拥有
 IO 工作线程与传输操作。
 
-**头文件迁移：**移除 `<ark/net/net_service_manager_module_impl.hpp>` 与
-`<ark/net/net_plugin.hpp>` 的包含。通过应用清单加载插件，再获取已注册的
+**头文件迁移：**移除 `<ark/net/net_service_manager_module_impl.hpp>`、
+`<ark/net/net_plugin.hpp>` 和 `<ark/net/http_client_module_impl.hpp>` 的包含。通过应用清单加载插件，再获取已注册的
 `net_service_manager_module`，不直接构造管理器实现。改用 CMake 目标传递的包含目录，
 不能仅使用 `-I <源码>/include`。安装后的消费者使用 `find_package(ark CONFIG REQUIRED COMPONENTS net)` 和 `ark::net`；独立 arknet 依赖及设置一致性要求见[安装说明](../get-started/installation_CN.md#安装并消费-cmake-包)。
-`http_client_module_impl.hpp`、`net_client_service_impl.hpp`、`net_server_service_impl.hpp`、
-端点类与回调模板继续公开，原有使用方无需更换这些类型。
+
+**源码／ABI 不兼容变更：** `http_client_module_impl` 及其旧公开头不再属于源码、构建或安装接口。
+包含 `<ark/net/http_client_module.hpp>`，通过插件管理器查找 `http_client_module`，
+不直接构造具体客户端。工厂属于 Net 内部实现，不是应用 API；Net 与消费者需要一起重建。
+安装时使用新前缀，避免旧安装遗留已移除的头文件。
+`net_client_service_impl.hpp`、`net_server_service_impl.hpp`、端点类与回调模板继续公开。
+请求重载、超时默认值、future 结果、所属 update 线程的回调派发及停机行为保持不变。
 
 ## 服务端与客户端服务示例
 
@@ -59,9 +66,13 @@ bool connect_tcp(ark::plugin_manager& manager, const ark::bus_addr& target,
 并在回调停止前保持接收者有效。进程身份与端点配置见 [Bus](bus_CN.md)。
 
 启用应用构建时，`check-core` 包含的 `check-net-plugin` 加载真实 Bus／Utility／Net 动态库，
-验证两个接口键、管理器线程上的 TCP 消息与 HTTP 回调、正常重复停服及监听释放。
+验证两个接口键、管理器线程上的 TCP 消息与 HTTP 回调、无需管理器更新即可完成的 future、
+`pre_shut()` 对未完成请求的取消、正常重复停服及监听释放。DSO 创建的 future 在实现库
+仍加载时消费，不代表 future 可以跨任意动态库卸载继续使用。
 独立的 `tests/consumer/net` 工程仅链接 `ark::net`，分别编译各公开头，
-并拒绝两个私有头路径。既有 `check-network` 继续覆盖端点、拆包、重连与停服。
+并拒绝已移除实现及私有工厂／装配头路径。既有 `check-network` 继续覆盖端点、拆包、重连与停服。
+使用 Boost 时，`check-install` 还通过迁移后的 `ark::net` 安装包编译公开 HTTP 客户端接口，
+并拒绝安装目录中出现实现头文件。
 
 ## 应用层初始收包缓冲
 

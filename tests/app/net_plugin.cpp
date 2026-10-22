@@ -3,6 +3,7 @@
 #include <chrono>
 #include <cstdlib>
 #include <fstream>
+#include <future>
 #include <iostream>
 #include <string>
 #include <thread>
@@ -102,7 +103,13 @@ int main(int argc, char* argv[]) {
 
     arknet::http_server peer(1024, 1024 * 1024, 1);
     std::atomic<bool> answered{};
+    std::atomic<bool> pending_received{};
     peer.bind_recv([&](auto& session, arknet::http_request::request_type& request) {
+        if (request.target() == "/pending")
+        {
+            pending_received.store(true);
+            return;
+        }
         arknet::http_request::response_type response(arknet::http::status::ok, request.version());
         response.body() = "net-http";
         response.prepare_payload();
@@ -110,6 +117,11 @@ int main(int argc, char* argv[]) {
         answered.store(true);
     });
     require(peer.start("127.0.0.1", 0), "Owned HTTP peer failed to start");
+    auto independent = http->get("127.0.0.1", peer.get_listen_port(), "/future");
+    wait_for([&] { return independent.wait_for(0ms) == std::future_status::ready; }, [] {});
+    const auto independent_result = independent.get();
+    require(independent_result.first && independent_result.second == "net-http",
+        "HTTP DSO future must complete without manager updates");
     bool completed{};
     http->post(
         [&](std::pair<bool, std::string> result) {
@@ -121,6 +133,16 @@ int main(int argc, char* argv[]) {
     wait_for([&] { return answered.load(); }, [] {});
     require(!completed, "HTTP callback fired without a manager update");
     wait_for([&] { return completed; }, update);
+    auto pending = http->get("127.0.0.1", peer.get_listen_port(), "/pending");
+    wait_for([&] { return pending_received.load(); }, [] {});
+    require(pending.wait_for(0ms) != std::future_status::ready, "Controlled pending HTTP request completed early");
+    // Consume the DSO-created future while its implementation library remains
+    // loaded; retaining future state across arbitrary unload is not this test.
+    require(http->pre_shut(), "HTTP DSO pre_shut failed");
+    require(pending.wait_for(0ms) == std::future_status::ready, "HTTP DSO shutdown did not settle the pending future");
+    const auto cancelled = pending.get();
+    require(!cancelled.first && cancelled.second == arknet::error_code(asio::error::operation_aborted).message(),
+        "HTTP DSO shutdown changed pending-request cancellation");
     client.stop();
     peer.stop();
     server.reset();

@@ -50,7 +50,6 @@ set(ark_utility_public_headers
 )
 set(ark_net_public_headers
     "${CMAKE_CURRENT_SOURCE_DIR}/net/http_client_module.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/net/http_client_module_impl.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/net/http_server.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/net/net.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/net/net_client_service.hpp"
