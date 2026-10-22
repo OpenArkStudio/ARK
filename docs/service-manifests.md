@@ -61,6 +61,8 @@ threads = 4
 
 `host` is a nonempty address or hostname. `port` is an integer from 0 to 65535; zero requests an available port when the server starts. `threads` is an integer from 1 to 255, matching the existing server interface.
 
+The HTTP plugin parses these fields during initialization; start its listener explicitly through the [public HTTP interface](reference/http.md). Route handlers execute on arknet IO workers, and owner-thread `pre_shut()` stops the listener.
+
 `ark_consul_plugin` reads `consul.plugin.toml`:
 
 ```toml

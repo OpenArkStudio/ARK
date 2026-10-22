@@ -202,6 +202,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Debug
           ${{ runner.os == 'Windows' && '-DVCPKG_APPLOCAL_DEPS=OFF' || '' }}
           -DARK_BUILD_APPLICATIONS=ON
+          -DARK_BUILD_PLUGIN_HTTP=ON
           -DARK_BUILD_PROTO=ON
           -DARK_BUILD_TESTS=ON
           -DARK_BUILD_CORE_TESTS=ON

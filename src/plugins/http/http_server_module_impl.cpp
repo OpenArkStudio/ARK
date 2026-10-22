@@ -19,14 +19,45 @@
  */
 
 #include <algorithm>
+#include <memory>
 #include <mutex>
 #include <set>
+#include <string>
+
+#include <arknet/http/http_server.hpp>
 
 #include "../detail/plugin_configuration.hpp"
-#include "ark/http/http_plugin.hpp"
-#include "ark/http/http_server_module_impl.hpp"
+#include "ark/http/http_server_module.hpp"
+#include "ark/module_base.hpp"
+#include "ark/plugin_manager.hpp"
+#include "http_plugin.hpp"
 
 namespace ark {
+
+class http_server_module_impl final : public module_base<http_server_module>
+{
+public:
+    bool init() override;
+    bool pre_shut() override;
+
+    bool start_server() override;
+    bool start_server(std::string const& ip, uint16_t port = 8080, uint8_t thread_num = 1) override;
+
+    arknet::http_router& get_router() override {
+        return router_;
+    }
+
+protected:
+    bool load_config();
+    std::string http_ip_{"0.0.0.0"};
+    uint16_t http_port_{9090};
+    uint8_t http_thread_num_{1};
+
+private:
+    arknet::http_router router_;
+    std::unique_ptr<arknet::http_server> server_;
+    std::string listen_key_;
+};
 
 namespace {
 
@@ -112,5 +143,13 @@ bool http_server_module_impl::load_config() {
     http_thread_num_ = config.threads;
     return true;
 }
+
+namespace detail {
+
+std::unique_ptr<http_server_module> make_http_server_module() {
+    return std::make_unique<http_server_module_impl>();
+}
+
+} // namespace detail
 
 } // namespace ark
