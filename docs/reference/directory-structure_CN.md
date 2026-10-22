@@ -147,3 +147,12 @@ cmake --build etcd-client-headers --target check-etcd-client-headers --parallel 
 ## 安装目录
 
 [安装](../get-started/installation_CN.md#安装并消费-cmake-包)后，逻辑 `<ark/...>` 头位于 `<prefix>/include/ark/`。CMake 包文件位于 GNUInstallDirs 库目录下的 `cmake/ark/`，选定启动程序与运行时插件位于 `bin/`，配置样例与许可证位于 `share/ark/`。安装消费者使用 `find_package(ark CONFIG REQUIRED)` 和 `ark::core`／`ark::<plugin>`；源码消费者使用 `add_subdirectory` 和相同 target，无需指定生成映射路径。安装导出不包含源码或构建目录；arknet 等依赖仍由外部提供。`tests/install/` 保存独立安装消费者与删除临时生产者后的迁移检查。
+
+
+## 内置服务端源码布局
+
+八组服务端源码将接口、实现与插件的 hpp/cpp 共置于 `src/server/<role>/`。实现类继承 `module_base<interface_type>`，私有工厂向 `plugin_base` 提供由接口类型持有的 `std::unique_ptr`。原有九个模块保留接口 RTTI 注册名，均不启用帧更新。每个动态库显式定义 `DllEntryPlugin` 与 `DllExitPlugin`。
+
+`login/interface/login_net_module.hpp`、`login/include/login_plugin.hpp` 等源码包含路径通过构建树中的 `src/server/compat-include/` 转发头保留，内部源码使用相邻头文件。转发清单保留原有全部 28 个头文件，包括实现与插件声明，但不包含新增的私有工厂头。该兼容映射独立于公开 `<ark/...>` 映射，不新增可安装的服务端 API。具体类的继承链变化后，C++ 消费方需要重新编译。
+
+设置 `ARK_BUILD_APPLICATIONS=ON` 后，CMake 编译 Game、Login、Proxy、World、Master、Dir、Router 七个服务动态库。Simulate 源码采用相同创建方式，但仍不参与默认构建，并保留未受支持的 PhysX 3／MessagePack 集成配置失败。源码共置不代表该集成已经通过验证。定向创建检查及其边界见[服务器架构](../concepts/server-architecture_CN.md#验证服务端创建方式)。

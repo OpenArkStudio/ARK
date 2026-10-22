@@ -154,6 +154,15 @@ cmake --build etcd-client-headers --target check-etcd-client-headers --parallel 
 
 Header mapping does not establish Consul, Kafka or OSS SDK runtime compatibility. Physic and `physics_scene` still require the unsupported legacy PhysX 3 integration and retain their explicit configuration failure; no passing PhysX build is claimed.
 
+
+## Built-in server source layout
+
+The eight server source families co-locate their interface, implementation and plugin hpp/cpp files in `src/server/<role>/`. Each implementation derives from `module_base<interface_type>`; private factories supply interface-owned `std::unique_ptr` values to `plugin_base`. The nine existing modules retain interface RTTI registration names and disabled frame updates. Each library defines its `DllEntryPlugin` and `DllExitPlugin` functions explicitly.
+
+Server source includes such as `login/interface/login_net_module.hpp` and `login/include/login_plugin.hpp` remain available through build-tree forwarding headers under `src/server/compat-include/`. Internal source uses adjacent headers. The forwarding inventory preserves all 28 previous headers, including implementation and plugin declarations, without adding the private factory headers to that inventory. This compatibility mapping is separate from public `<ark/...>` mappings and is not a new installed server API. Rebuild C++ consumers after changing the concrete inheritance chain.
+
+With `ARK_BUILD_APPLICATIONS=ON`, CMake builds seven server libraries: Game, Login, Proxy, World, Master, Dir and Router. The Simulate sources use the same construction pattern, but their target remains disabled and its explicit unsupported PhysX 3/MessagePack configuration failure is retained. Source colocation does not validate that integration. See [server architecture](../concepts/server-architecture.md#verify-server-construction) for the focused construction checks and their limits.
+
 ## Installed layout
 
 [Installation](../get-started/installation.md#install-and-consume-the-cmake-package) preserves logical `<ark/...>` headers under `<prefix>/include/ark/`. CMake package files use the GNUInstallDirs library directory under `cmake/ark/`; selected launcher and runtime plugins install under `bin/`. Configuration samples and licensing are under `share/ark/`. Consumers use `find_package(ark CONFIG REQUIRED)` and `ark::core` / `ark::<plugin>` targets; source consumers use `add_subdirectory` with the same target names. Neither requires a generated mapping path. Source/build directories are absent from installed exports; arknet and other dependencies remain external. `tests/install/` contains independent installed consumers and the disposable-producer relocation test.

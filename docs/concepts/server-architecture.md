@@ -34,3 +34,23 @@ Discovery is a separate integration decision. The framework does not require eve
 ## Limits to verify in a deployment
 
 Endpoint connectivity alone does not verify authentication, message delivery after reconnect, state transfer, split-brain behavior or storage consistency. The 100,000–200,000 concurrent-user target is a multi-process deployment goal, not a measured single-process limit. [Benchmarks and acceptance](../performance/benchmark.md) distinguish local correctness/performance tools from cross-host capacity and endurance tests.
+
+## Verify server construction
+
+The built-in server plugins use typed module factories and explicit dynamic-library entry points. Construction keeps the existing plugin version, configuration access, interface RTTI names, installation order and disabled frame updates. Network callbacks, lifecycle methods, protocols and resources retain their existing behavior.
+
+With the [application build dependencies](../networking.md) installed, run:
+
+```sh
+cmake -S . -B out/server-construction -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  '-DVCPKG_MANIFEST_FEATURES=application;boost;etcd-client' \
+  -DCMAKE_BUILD_TYPE=Debug -DASIO_STANDALONE=OFF \
+  -DARK_BUILD_APPLICATIONS=ON -DARK_BUILD_PROTO=ON \
+  -DARK_BUILD_CORE_TESTS=ON -DARK_BUILD_EXAMPLES=OFF
+cmake --build out/server-construction --target check-server-plugins --parallel 2
+```
+
+`check-server-plugins` exercises the real factory and assembly of each of the seven enabled server libraries, checks the retained source include paths, verifies disabled update admission, and loads each actual shared library to inspect both exported entry symbols. A counted substitute through the real Login assembly checks destruction of rejected candidates, preservation of the original registration and a successful retry. `check-core` includes these focused checks in application builds. A separate shared-library fixture runs the real Login entry and exit through the manager loader with a controlled module. The seven business libraries receive export inspection and direct construction checks, without business lifecycle calls. These checks do not start network services or establish deployment readiness.
+
+`node --test tests/ci/server-construction.test.mjs` checks configure-only compatibility forwarding and construction policy without compiling native code. Simulate has source-policy coverage only; its unsupported PhysX 3/MessagePack integration is outside these native targets.

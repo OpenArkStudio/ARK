@@ -274,3 +274,7 @@ if(TARGET ark_http_plugin)
         USES_TERMINAL VERBATIM)
     add_dependencies(check-core check-http-plugin)
 endif()
+
+if(TARGET check-server-plugins)
+    add_dependencies(check-core check-server-plugins)
+endif()

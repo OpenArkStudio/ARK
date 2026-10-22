@@ -34,3 +34,23 @@ Bus 插件表示进程地址与路由目标。[Bus 参考](../reference/bus_CN.m
 ## 部署时需要验证的边界
 
 端点可连通，不等于已经验证鉴权、重连后的消息交付、状态转移、网络分区行为或存储一致性。10 万至 20 万同时在线是多进程部署目标，不是实测的单进程上限。[基准测试与验收](../performance/benchmark_CN.md)区分本机正确性与性能工具，以及跨主机容量和耐久测试。
+
+## 验证服务端创建方式
+
+内置服务端插件使用类型化模块工厂与显式动态库入口。改造保留插件版本、配置访问、接口 RTTI 注册名、安装顺序与关闭帧更新的行为；网络回调、生命周期方法、协议与资源行为保持不变。
+
+安装[应用构建依赖](../networking_CN.md)后运行：
+
+```sh
+cmake -S . -B out/server-construction -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  '-DVCPKG_MANIFEST_FEATURES=application;boost;etcd-client' \
+  -DCMAKE_BUILD_TYPE=Debug -DASIO_STANDALONE=OFF \
+  -DARK_BUILD_APPLICATIONS=ON -DARK_BUILD_PROTO=ON \
+  -DARK_BUILD_CORE_TESTS=ON -DARK_BUILD_EXAMPLES=OFF
+cmake --build out/server-construction --target check-server-plugins --parallel 2
+```
+
+`check-server-plugins` 对七个启用的服务动态库分别检查真实工厂与装配、原有源码包含路径和关闭更新的注册方式，并加载实际动态库检查两个导出入口符号。真实 Login 装配另以计数替身检查被拒绝候选对象的析构、原有注册的保留以及重试成功。应用构建中的 `check-core` 包含这些定向检查。另一个动态库夹具通过管理器加载器运行真实 Login 入口与退出函数，并使用受控模块。七个业务动态库只检查导出与直接创建，不调用业务生命周期。这些检查不启动网络服务，也不代表部署就绪。
+
+`node --test tests/ci/server-construction.test.mjs` 在不编译原生代码的情况下检查兼容转发映射与创建约束。Simulate 只参与源码策略检查，其未受支持的 PhysX 3／MessagePack 集成不在这些原生目标中。
