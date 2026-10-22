@@ -108,3 +108,11 @@ profile、编译器参数和 triplet 变化均隔离这两种查找。
 ABI 边界、v1 冷启动迁移和分支／引用可见性限制见
 [CI 依赖包归档缓存](../../docs/project/contributing_CN.md#ci-依赖包归档缓存)。
 这些测试不执行 vcpkg ABI 匹配，也不验证托管环境的缓存命中。
+
+
+Windows ABI 诊断测试使用合成记录，格式已对照本地安装的 Asio、rapidxml 和 Protobuf 元数据确认。
+测试覆盖原始字节的包 ABI 散列、固定字段值指纹、CRLF、格式错误／重复记录、元数据缺失、
+固定安装路径、符号链接与 64 KiB 限制。CLI 测试确保输出不包含原始值、未知字段名、绝对路径或继承环境中的敏感值。
+工作流测试保留仅在 Windows Applications 执行的范围，以及配置、编译和测试失败时的原有约束。
+这些测试不执行 vcpkg 构建或托管缓存验收，详见
+[Windows ABI 诊断](../../docs/project/contributing_CN.md#windows-abi-诊断)。
