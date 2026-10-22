@@ -12,7 +12,7 @@ Build artifacts belong to each CMake build directory: `cmake -S . -B out/release
 | --- | --- |
 | `include/ark/` | Public core and other plugin headers |
 | `src/core/` | Core CMake target and header-only usage requirements |
-| `src/app/` | Application entry point |
+| `application/` | Application entry point |
 | `src/proto/` | Protocol schemas and codec implementation |
 | `src/server/` | Built-in server applications |
 | `include/ark/<name>/` | Public headers for plugins outside the database pilot |

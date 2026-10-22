@@ -1,0 +1,15 @@
+[application]
+plugin_library_dir = "bin/"
+plugin_config_dir = "conf/"
+
+[[plugins]]
+name = "ark_utility_plugin"
+config = ""
+
+[[plugins]]
+name = "ark_redis_plugin"
+config = ""
+
+[[plugins]]
+name = "redis_sample_plugin"
+config = ""

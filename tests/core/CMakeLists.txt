@@ -1,7 +1,7 @@
 add_library(ark_core_header_checks OBJECT headers/queue.cpp headers/guid128.cpp headers/rw_lock.cpp
     headers/array_map.cpp headers/bit_value.cpp headers/consistent_hash.cpp headers/list.cpp
     headers/lock_free_queue.cpp headers/lru_map.cpp headers/map.cpp headers/thread_safe_queue.cpp
-    headers/object_vector.cpp headers/error_code.cpp)
+    headers/object_vector.cpp headers/error_code.cpp headers/logger.cpp)
 target_link_libraries(ark_core_header_checks PRIVATE ark::core)
 
 add_executable(ark_core_tests main.cpp strings.cpp containers.cpp templates.cpp callbacks.cpp
@@ -21,8 +21,9 @@ add_custom_target(check-core
     DEPENDS ark_core_tests
     USES_TERMINAL)
 
-add_executable(ark_logging_tests main.cpp logging_paths.cpp)
+add_executable(ark_logging_tests main.cpp logging_paths.cpp logging_source.cpp)
 target_link_libraries(ark_logging_tests PRIVATE ark::core)
+add_dependencies(ark_logging_tests ark_core_header_checks)
 add_custom_target(check-logging
     COMMAND $<TARGET_FILE:ark_logging_tests>
     DEPENDS ark_logging_tests
@@ -69,7 +70,7 @@ add_dependencies(check-core check-business-runtime)
 
 add_executable(ark_app_shutdown_tests ../app/shutdown_request.cpp)
 target_compile_features(ark_app_shutdown_tests PRIVATE cxx_std_20)
-target_include_directories(ark_app_shutdown_tests PRIVATE "${PROJECT_SOURCE_DIR}/src/app")
+target_include_directories(ark_app_shutdown_tests PRIVATE "${PROJECT_SOURCE_DIR}/application")
 # This app-private state test does not consume the directory's inherited ark SDK.
 set_property(TARGET ark_app_shutdown_tests PROPERTY LINK_LIBRARIES Threads::Threads)
 add_custom_target(check-app-shutdown
@@ -167,6 +168,28 @@ if(ARK_BUILD_CONFIG)
             DEPENDS app
             USES_TERMINAL)
         add_dependencies(check-core check-app-manifest-failures)
+
+        if(TARGET ark_utility_plugin AND TARGET sample1_plugin)
+            add_custom_target(check-app-presets
+                COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:app>"
+                    "-DUTILITY_PLUGIN=$<TARGET_FILE:ark_utility_plugin>"
+                    "-DSAMPLE_PLUGIN=$<TARGET_FILE:sample1_plugin>"
+                    "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"
+                    "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/preset runtime 'quoted' #"
+                    -P "${PROJECT_SOURCE_DIR}/tests/app/application_presets.cmake"
+                DEPENDS app ark_utility_plugin sample1_plugin USES_TERMINAL VERBATIM)
+            if(UNIX)
+                add_executable(ark_app_preset_stop_tests ../app/application_preset_stop.cpp)
+                set_property(TARGET ark_app_preset_stop_tests PROPERTY LINK_LIBRARIES Threads::Threads)
+                target_compile_features(ark_app_preset_stop_tests PRIVATE cxx_std_20)
+                add_custom_target(check-app-preset-stop
+                    COMMAND $<TARGET_FILE:ark_app_preset_stop_tests>
+                        "${PROJECT_SOURCE_DIR}/tests/app/application_preset_stop.sh"
+                    DEPENDS ark_app_preset_stop_tests USES_TERMINAL VERBATIM)
+                add_dependencies(check-app-presets check-app-preset-stop)
+            endif()
+            add_dependencies(check-core check-app-presets)
+        endif()
     endif()
 endif()
 

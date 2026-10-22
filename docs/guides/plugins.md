@@ -107,19 +107,21 @@ Build requirements and runtime selection are separate:
 | `ARK_BUILD_APPLICATIONS=ON` and `ARK_BUILD_PLUGIN_NET=ON` in an ark application build | Builds the selected official runtime library |
 | A plugin entry in the application manifest | Requests that shared library when the launcher starts |
 
-For this Release example, copy the built shared library from `out/bin/Release/` into the deployment's `bin/` and save this manifest as `conf/sample.app.conf`. Debug artifacts are kept separately in `out/bin/Debug/`:
+For this Release example, copy the built shared library from `out/bin/Release/` into the deployment's `bin/` and save this manifest as `conf/sample.app.toml`. Debug artifacts are kept separately in `out/bin/Debug/`:
 
-```xml
-<xml>
-  <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
-    <plugin name="sample_plugin" conf="" />
-  </plugins>
-</xml>
+```toml
+[application]
+plugin_library_dir = "bin/"
+plugin_config_dir = "conf/"
+
+[[plugins]]
+name = "sample_plugin"
+config = ""
 ```
 
 Use the [application launcher](applications.md) to select this manifest. The library name `sample_plugin` is the filename stem, not the RTTI name of the C++ plugin class or a registered module. The loader appends `.dll`, `.so` or `.dylib`; Debug also appends `_d` before the extension. The CMake target deliberately has no `lib` prefix and sets the matching Debug postfix. Use the same build configuration and compatible SDK/ABI settings for the launcher and plugin.
 
-Paths are resolved from the process working directory. The current loader concatenates `plugin_lib_dir` with the filename and `plugin_conf_dir` with `conf`; keep the trailing separators. An empty `conf` in this example means the plugin has no configuration file to read. It still receives the configuration directory prefix; it does not receive an empty resolved path. A supplied plugin configuration path can be read through `sample_plugin::get_plugin_conf()`.
+Paths are resolved from the process working directory. The current loader concatenates `plugin_library_dir` with the filename and `plugin_config_dir` with `config`; keep the trailing separators. An empty `config` in this example means the plugin has no configuration file to read. It still receives the configuration directory prefix; it does not receive an empty resolved path. A supplied plugin configuration path can be read through `sample_plugin::get_plugin_conf()`.
 
 ## Diagnose a missing module
 

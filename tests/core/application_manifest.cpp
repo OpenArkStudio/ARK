@@ -1,4 +1,5 @@
 // Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
+#include <algorithm>
 #include <array>
 #include <chrono>
 #include <filesystem>
@@ -75,7 +76,8 @@ void check_error(const std::string& path, bool has_position = true) {
 DOCTEST_TEST_CASE("TOML and XML samples produce equivalent owning application manifests") {
     const auto base = std::filesystem::path(ARK_TEST_SOURCE_DIR) / "config";
     const auto toml = ark::load_application_manifest(utf8_path(base / "sample1.app.toml"));
-    const auto xml = ark::load_application_manifest(utf8_path(base / "sample1.app.conf"));
+    const auto xml = ark::load_application_manifest(
+        utf8_path(base.parent_path() / "tests/core/fixtures/application_presets/sample1.app.conf"));
     DOCTEST_CHECK(toml.plugin_library_dir == "bin/");
     DOCTEST_CHECK(toml.plugin_config_dir == "conf/");
     DOCTEST_REQUIRE(toml.plugins.size() == 2);
@@ -84,6 +86,105 @@ DOCTEST_TEST_CASE("TOML and XML samples produce equivalent owning application ma
     DOCTEST_CHECK(toml.plugin_library_dir == xml.plugin_library_dir);
     DOCTEST_CHECK(toml.plugin_config_dir == xml.plugin_config_dir);
     DOCTEST_CHECK(toml.plugins == xml.plugins);
+}
+
+namespace {
+
+void check_equivalent_manifest(const ark::application_manifest& actual, const ark::application_manifest& legacy) {
+    DOCTEST_CHECK(actual.plugin_library_dir == legacy.plugin_library_dir);
+    DOCTEST_CHECK(actual.plugin_config_dir == legacy.plugin_config_dir);
+    DOCTEST_CHECK(actual.plugins == legacy.plugins);
+    // Retain the same insertion sequence and resulting traversal on this STL.
+    // An unordered map does not establish a public lifecycle-order contract.
+    DOCTEST_CHECK(
+        std::equal(actual.plugins.begin(), actual.plugins.end(), legacy.plugins.begin(), legacy.plugins.end()));
+}
+
+} // namespace
+
+DOCTEST_TEST_CASE("built-in TOML presets retain their legacy XML application schema") {
+    const auto root = std::filesystem::path(ARK_TEST_SOURCE_DIR);
+    size_t count = 0;
+    for (const auto& entry : std::filesystem::directory_iterator(root / "config"))
+    {
+        const auto name = entry.path().filename().string();
+        if (!name.ends_with(".app.toml"))
+        {
+            continue;
+        }
+        DOCTEST_CAPTURE(name);
+        auto legacy = entry.path().filename();
+        legacy.replace_extension(".conf");
+        check_equivalent_manifest(ark::load_application_manifest(utf8_path(entry.path())),
+            ark::load_application_manifest(utf8_path(root / "tests/core/fixtures/application_presets" / legacy)));
+        ++count;
+    }
+    DOCTEST_CHECK(count == 24);
+}
+
+DOCTEST_TEST_CASE("deployment TOML application payloads retain their legacy XML schema") {
+    const auto root = std::filesystem::path(ARK_TEST_SOURCE_DIR);
+    std::ifstream input(root / "deployment/photon_config.yaml");
+    DOCTEST_REQUIRE(input.is_open());
+    manifest_files files;
+    size_t count = 0;
+    bool has_data = false;
+    bool has_kind = false;
+    bool has_metadata = false;
+    std::string line;
+    while (std::getline(input, line))
+    {
+        has_data = has_data || line == "data:";
+        has_kind = has_kind || line == "kind: ConfigMap";
+        has_metadata = has_metadata || line == "metadata:";
+        if (!line.starts_with("  ") || !line.ends_with(".app.toml: |-"))
+        {
+            continue;
+        }
+        const auto name = line.substr(2, line.size() - 2 - 4);
+        DOCTEST_CAPTURE(name);
+        std::string payload;
+        while (input.peek() == ' ' || input.peek() == '\n')
+        {
+            const auto position = input.tellg();
+            std::getline(input, line);
+            if (!line.empty() && !line.starts_with("    "))
+            {
+                input.seekg(position);
+                break;
+            }
+            payload += (line.empty() ? "" : line.substr(4)) + "\n";
+        }
+        auto legacy = std::filesystem::path(name);
+        legacy.replace_extension(".conf");
+        check_equivalent_manifest(ark::load_application_manifest(files.write(payload, name)),
+            ark::load_application_manifest(utf8_path(root / "tests/core/fixtures/application_presets" / legacy)));
+        ++count;
+    }
+    DOCTEST_CHECK(count == 21);
+    DOCTEST_CHECK(has_data);
+    DOCTEST_CHECK(has_kind);
+    DOCTEST_CHECK(has_metadata);
+}
+
+DOCTEST_TEST_CASE("XML entities and TOML strings preserve literal configuration characters") {
+    manifest_files files;
+    const auto xml = ark::load_application_manifest(files.write(
+        R"(<xml><plugins plugin_lib_dir="bin &amp; &quot;quoted&quot;\" plugin_conf_dir="配置/#' ">
+<plugin name="plugin &amp; &quot;quoted&quot;" conf="settings/#' &amp; &lt;literal&gt;.conf"/>
+</plugins></xml>)",
+        "characters.app.conf"));
+    const auto toml = ark::load_application_manifest(files.write(
+        R"([application]
+plugin_library_dir = 'bin & "quoted"\'
+plugin_config_dir = "配置/#' "
+[[plugins]]
+name = 'plugin & "quoted"'
+config = "settings/#' & <literal>.conf"
+)"));
+    check_equivalent_manifest(toml, xml);
+    DOCTEST_CHECK(toml.plugin_library_dir == R"(bin & "quoted"\)");
+    DOCTEST_CHECK(toml.plugins.at(R"(plugin & "quoted")") == "settings/#' & <literal>.conf");
 }
 
 DOCTEST_TEST_CASE("TOML preserves directory prefixes and optional empty plugin configurations") {

@@ -14,7 +14,7 @@ The `app` executable selects a process identity, reads a TOML or XML application
 
 ```sh
 ./bin/app --busid=1.0.1.1 --name=sample1 \
-  --app_conf=conf/sample1.app.conf --log_conf=conf/log.conf
+  --app_conf=conf/sample1.app.toml --log_conf=conf/log.conf
 ```
 
 `busid`, `name` and `app_conf` must be supplied explicitly. The [Bus reference](../reference/bus.md) describes the address fields. Use the executable's `--help` output for additional platform-specific flags.
@@ -27,7 +27,7 @@ Relative paths resolve from the process working directory. Moving the executable
 
 | Input | How it is selected | Example from the runtime directory |
 | --- | --- | --- |
-| Application manifest | `--app_conf` | `conf/sample1.app.conf` |
+| Application manifest | `--app_conf` | `conf/sample1.app.toml` |
 | Logger settings | `--log_conf`, or its default | `conf/log.conf` |
 | Plugin libraries | TOML `plugin_library_dir` or XML `plugin_lib_dir`, plus the library filename | `bin/sample1_plugin.dylib` on macOS Release |
 | Per-plugin settings | TOML `plugin_config_dir` + `config`, or XML `plugin_conf_dir` + `conf` | `conf/my-plugin.conf` when the filename is `my-plugin.conf` |
@@ -37,7 +37,7 @@ The launcher passes the per-plugin path to the plugin manager; each module decid
 
 ## Select plugins
 
-For a new manifest, use TOML. The equivalent of Sample1's XML configuration is checked in as [sample1.app.toml](https://github.com/OpenArkStudio/ark/blob/main/config/sample1.app.toml):
+Built-in application presets use TOML. The checked-in [sample1.app.toml](https://github.com/OpenArkStudio/ark/blob/main/config/sample1.app.toml) contains:
 
 ```toml
 [application]
@@ -51,7 +51,7 @@ name = "ark_utility_plugin"
 name = "sample1_plugin"
 ```
 
-Pass `--app_conf=conf/sample1.app.toml` to select it. The application table is required; directory fields are optional strings. Each plugin requires a unique, nonempty `name`; its optional `config` string selects a per-plugin file. See [Application manifests](../service-manifests.md) for validation rules and format boundaries. Bus, logger and business-resource configuration formats are unchanged.
+Pass `--app_conf=conf/sample1.app.toml` to select it. The application table is required; directory fields are optional strings. Each plugin requires a unique, nonempty `name`; its optional `config` string selects a per-plugin file. See [Application manifests](../service-manifests.md) for validation rules and format boundaries. Bus, HTTP and Consul plugin settings use TOML; see the [Bus reference](../reference/bus.md#configure-processes-and-relationships) for its fields. Logger settings, Kernel metadata and exported business data retain their XML formats.
 
 ### Plugin library names
 
@@ -63,7 +63,7 @@ Update existing manifests and build commands that use `AFUtilityPlugin`,
 
 ### Existing XML manifests
 
-The checked-in [Sample1 manifest](https://github.com/OpenArkStudio/ark/blob/main/config/sample1.app.conf) loads a utility plugin and one sample plugin:
+The launcher still accepts user-maintained legacy XML manifests, for example:
 
 ```xml
 <xml>
@@ -111,9 +111,9 @@ run.bat <Release|Debug> <name> <busid> [runtime-directory]
 The default runtime directory is the script's directory. When invoking the checkout's `deployment/scripts/` helpers, pass the staged runtime explicitly; alternatively copy a helper into the runtime root to use that default. An explicit runtime path
 is relative to the caller's working directory. The helper selects `bin/app`
 (`app.exe` on Windows) for Release or `bin/app_d` (`app_d.exe`) for Debug, reads
-`conf/<name>.app.conf` and `conf/log.conf`, and runs in the foreground. The name
+`conf/<name>.app.toml` and `conf/log.conf`, and runs in the foreground. The name
 also becomes the application's `--name` value. Use the executable directly for
-TOML manifests, a different process name or other launcher flags.
+legacy XML manifests, a custom manifest path, a different process name or other launcher flags.
 
 After preparing the [Sample1 runtime](../get-started/quick-start.md), run from
 the repository root:
@@ -165,4 +165,4 @@ their original `bin/rund.*` commands. Use the current commands above instead.
 | Plugin loads but the expected module is unavailable | Check registration, enabled targets and required plugins; see [Create a plugin](plugins.md) |
 | Kernel metadata or configuration is missing | Stage the generated `resource/meta/` and `resource/server/` files in the process working directory |
 
-The launcher implementation is in [main.cpp](https://github.com/OpenArkStudio/ark/blob/main/src/app/main.cpp).
+The launcher implementation is in [main.cpp](https://github.com/OpenArkStudio/ark/blob/main/application/main.cpp).

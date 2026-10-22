@@ -72,6 +72,9 @@ branch or worktree when the existing checkout contains uncommitted changes.
   including official, server and sample plugins (`ark_mysql_plugin`,
   `sample1_plugin`). Keep application manifests, launch scripts and documentation
   aligned with the generated names; retain platform extensions and Debug `_d`.
+- Keep standalone launcher programs in the top-level `application/` directory;
+  do not recreate `src/app/`. Retain the current `app` CMake target and the
+  `app`/`app_d` executable names.
 - Follow `.clang-format` and the repository formatting scripts with clang-format
   18. Keep function opening braces on the declaration line, expand short function
   bodies, and use braces for control statements.

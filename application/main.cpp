@@ -184,7 +184,7 @@ bool parse_args(int argc, char* argv[], std::chrono::milliseconds& shutdown_time
         args::Options::Required | args::Options::Single);
 
     args::ValueFlag<std::string> app_conf(parser, "app config path", "Set application configuration", {'a', "app_conf"},
-        "some.app.conf", args::Options::Required | args::Options::Single);
+        "some.app.toml", args::Options::Required | args::Options::Single);
 
     args::ValueFlag<std::string> log_conf(parser, "log config path", "Set application log configuration",
         {'l', "log_conf"}, "./conf/log.conf", args::Options::Single);

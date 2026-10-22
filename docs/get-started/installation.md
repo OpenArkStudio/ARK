@@ -26,6 +26,10 @@ cmake -S . -B app-build -G Ninja \
 
 On Windows, use Visual Studio 2022 Developer PowerShell:
 
+The public ark targets enable MSVC's standard-conforming preprocessor
+(`/Zc:preprocessor`). Custom targets inherit it through `ark::core`; when compiling
+ark headers manually, enable this option together with C++20 mode.
+
 ```powershell
 cmake -S . -B app-build -G Ninja `
   "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `

@@ -18,7 +18,7 @@ build's artifacts into the runtime's `bin/` directory.
 | --- | --- |
 | `include/ark/` | Public core and plugin headers |
 | `src/core/` | Core CMake target and header-only usage requirements |
-| `src/app/` | Application entry point |
+| `application/` | Application entry point |
 | `src/proto/` | Protocol schemas and codec implementation |
 | `src/server/` | Built-in server applications |
 | `include/ark/<name>/` | Public headers for an official plugin |

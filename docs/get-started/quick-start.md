@@ -15,7 +15,7 @@ On macOS/Linux:
 ```sh
 mkdir -p run/sample1/bin run/sample1/conf
 cp -R app-build/bin/. run/sample1/bin/
-cp config/sample1.app.conf config/log.conf run/sample1/conf/
+cp config/sample1.app.toml config/log.conf run/sample1/conf/
 ```
 
 On Windows, in PowerShell:
@@ -23,7 +23,7 @@ On Windows, in PowerShell:
 ```powershell
 New-Item -ItemType Directory -Path run/sample1/bin, run/sample1/conf -Force | Out-Null
 Copy-Item app-build/bin/* run/sample1/bin/ -Recurse -Force
-Copy-Item config/sample1.app.conf, config/log.conf run/sample1/conf/
+Copy-Item config/sample1.app.toml, config/log.conf run/sample1/conf/
 ```
 
 The required runtime files are:
@@ -32,11 +32,11 @@ The required runtime files are:
 run/sample1/
 ├── bin/       app + ark_utility_plugin + sample1_plugin from the same build
 └── conf/
-    ├── sample1.app.conf
+    ├── sample1.app.toml
     └── log.conf
 ```
 
-The copy commands also stage the build's other artifacts. Only the two libraries named by `sample1.app.conf` are selected by this sample. No separate `sample1.conf` or `resource/` directory is required for it.
+The copy commands also stage the build's other artifacts. Only the two libraries named by `sample1.app.toml` are selected by this sample. No separate `sample1.conf` or `resource/` directory is required for it.
 
 ## Start Sample1
 
@@ -47,7 +47,7 @@ On macOS/Linux:
 ```sh
 cd run/sample1
 ./bin/app --busid=1.0.1.1 --name=sample1 \
-  --app_conf=conf/sample1.app.conf --log_conf=conf/log.conf
+  --app_conf=conf/sample1.app.toml --log_conf=conf/log.conf
 ```
 
 On Windows:
@@ -55,7 +55,7 @@ On Windows:
 ```powershell
 cd run/sample1
 .\bin\app.exe --busid=1.0.1.1 --name=sample1 `
-  --app_conf=conf/sample1.app.conf --log_conf=conf/log.conf
+  --app_conf=conf/sample1.app.toml --log_conf=conf/log.conf
 ```
 
 Debug builds use `app_d` or `app_d.exe` and plugin filenames with `_d` before the platform suffix. Use the complete Debug output in its own runtime directory; the XML plugin names stay unchanged.

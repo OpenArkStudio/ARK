@@ -38,7 +38,13 @@ environment validation.
 
 The official MySQL and Redis plugins use owning options passed to their public
 `configure()` APIs; they do not read database XML presets. Keep their application
-manifest `conf` values empty. Loading a plugin or mounting this ConfigMap does not
+manifest `config` values empty. Loading a plugin or mounting this ConfigMap does not
 configure a database connection. See [MySQL](../docs/reference/mysql.md) and
 [Redis](../docs/reference/redis.md) for consumer configuration. The database example targets remain disabled in the default build; retaining their
 sources and manifests does not establish runnable examples or deployment acceptance.
+
+Built-in application presets and Photon application ConfigMap keys now end in
+`.app.toml`; restage these files and update custom launch arguments and mounts.
+The launch helpers require the TOML names. The legacy external Freebird example
+is excluded; XML application loading remains available through an explicit
+`--app_conf` path. See the [migration mapping](../docs/service-manifests.md#built-in-application-preset-migration).

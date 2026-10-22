@@ -18,6 +18,7 @@ These repositories use different generations of interfaces and build systems. Co
 
 ```text
 ark/
+├── application/         # Application launcher
 ├── include/ark/         # Core and other plugin public interfaces
 ├── src/
 │   ├── core/            # Header-only core target definitions
@@ -28,7 +29,6 @@ ark/
 │   │   ├── http/
 │   │   ├── mysql/
 │   │   └── redis/
-│   ├── app/
 │   ├── proto/
 │   └── server/
 ├── examples/            # Example applications and business plugins

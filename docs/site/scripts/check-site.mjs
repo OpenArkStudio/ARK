@@ -106,5 +106,38 @@ for (const prefix of ["", "zh/"]) {
   assert.match(manifestMarkdown, /```toml\n\[application\]/);
   assert.match(manifestMarkdown, /load_application_manifest/);
   assert.ok(manifestMarkdown.includes(`](/ark/${prefix}networking)`), "manifest Markdown lost its build-guide link");
+  const codeStylePath = join(root, prefix, "project/code-style/index.html");
+  const codeStyle = parse(await readFile(codeStylePath, "utf8"));
+  let codeStyleArticle;
+  const codeStyleLanguages = new Set();
+  function inspectCodeStyle(node) {
+    if (node.tagName === "article") codeStyleArticle = node;
+    if (node.tagName === "option") {
+      codeStyleLanguages.add(node.attrs?.find(attr => attr.name === "value")?.value?.replace(/\/$/, ""));
+    }
+    for (const child of node.childNodes ?? []) inspectCodeStyle(child);
+  }
+  inspectCodeStyle(codeStyle);
+  assert.ok(codeStyleArticle, "missing canonical code-style article");
+  const codeStyleText = text(codeStyleArticle);
+  const codeStyleMarkdown = await readFile(join(root, prefix, "project/code-style/index.md"), "utf8");
+  // The skipped aliases still contain accepted compatibility notes. Check their
+  // API literals in actual output so adding a migration only to an alias fails.
+  const styleAlias = await readFile(new URL(`../../code-style${prefix ? "_CN" : ""}.md`, import.meta.url), "utf8");
+  const migrationStart = styleAlias.indexOf(prefix ? "## C++20 兼容层迁移" : "## C++20 compatibility migration");
+  assert.ok(migrationStart >= 0, "missing accepted code-style migration boundary");
+  const migrationTokens = [...styleAlias.slice(migrationStart).matchAll(/`([^`\n]+)`/g)].map(match => match[1]);
+  for (const token of new Set([...migrationTokens, "CMAKE_EXPORT_COMPILE_COMMANDS=ON", "application/main.cpp",
+    "meta_define.hpp", "session_counter", "RAII"])) {
+    assert.ok(codeStyleText.includes(token), `${prefix}canonical code-style HTML lost ${token}`);
+    assert.ok(codeStyleMarkdown.includes(token), `${prefix}canonical code-style Markdown lost ${token}`);
+  }
+  for (const anchor of prefix ? ["c20-兼容层迁移", "标准工具迁移"] : ["c20-compatibility-migration", "standard-utility-migration"]) {
+    assert.ok(documents.get(codeStylePath).has(anchor), `${prefix}canonical code-style lost #${anchor}`);
+  }
+  for (const language of ["/ark/project/code-style", "/ark/zh/project/code-style"]) {
+    assert.ok(codeStyleLanguages.has(language), `canonical code-style lost language target ${language}`);
+  }
+
 }
 console.log(`Checked ${pages.length} static HTML pages and ${references.size} internal references, language switching, cards, callouts, highlighting and AI Markdown.`);
