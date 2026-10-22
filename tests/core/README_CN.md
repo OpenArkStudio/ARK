@@ -90,4 +90,12 @@ Kernel 的 38 个既有头通过 `ark::kernel` 从 `src/plugins/kernel/` 映射�
 
 Net 注册的 HTTP 客户端现在由私有接口工厂创建。`check-net-plugin` 还验证无需管理器更新即可完成的 future，以及 DSO 仍加载时通过 `pre_shut()` 取消未完成请求；在正常插件退出前消费这些 future，不证明 future 可跨任意卸载继续使用。`check-network` 经由相同私有工厂和公开客户端接口保留请求、超时、回调与停机覆盖。
 
+核心测试配置使用 Boost.Asio 且存在 `ark::http`、`ark::net`、`ark::etcd_client` 三个 API target 时，
+`ARK_BUILD_HTTP_EXAMPLE_TESTS` 默认 `ON`，否则默认 `OFF`；显式设置 `OFF` 仍然有效。
+选中后 `check-core` 包含 `check-http-examples`，编译真实旧 HTTP 示例模块及动态库入口。
+既有 Applications CI 通过该依赖运行测试，默认应用示例集合不变。
+测试通过独立的公开服务替身验证接口工厂／RTTI／配置、原有 POST／租约参数与超时默认值、
+所属线程 update 回调派发、监听参数、租约析构及重复停机／重新加载，不向外部 HTTP／etcd 发请求。
+保留的固定演示端点与真实传输验证边界见 [HTTP 示例](../../docs/reference/http_CN.md#旧-http-示例的类型化创建)。
+
 开启 Protobuf 且存在 Kernel／Utility 运行时 target 时，`check-kernel-plugin` 通过独立公开接口 runner 加载真实 DSO，检查原有四个接口键与管理器指针、元数据／静态记录加载、地图／实体注册和回调、管理器更新、停机销毁与重复 stop。它与现有直接初始化／实体默认值测试一起纳入 `check-core`；不在卸载后检查注册表，也不证明任意热更新安全。Kernel 公开头消费者检查全部保留类型的基类和 update 声明。

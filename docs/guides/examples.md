@@ -10,7 +10,8 @@ The bundled examples use capability names. Configure with applications and examp
 | `examples/mysql_sample` / `mysql_sample` | `mysql_sample_plugin` | Native MySQL coroutine example; disabled in the application example list, assembly checked by database tests with SSL enabled |
 | `examples/redis_sample` / `redis_sample` | `redis_sample_plugin` | Native Redis coroutine example; disabled in the application example list, assembly checked by database tests |
 | `examples/physics_scene` / `physics_scene` | `physics_scene_plugin` | Disabled; requires unsupported legacy PhysX 3. The checked-in sources and manifest do not establish a runnable integration |
-| `examples/http_server` / `http_server` | `http_server_plugin` | Disabled; retained HTTP server example, without runtime acceptance |
+| `examples/http_server` / `http_server` | `http_server_plugin` | Disabled as an application example; [typed construction and controlled DSO regression](../reference/http.md#legacy-http-example-construction) |
+| `examples/http_client` / `http_client_sample` | `http_client_sample_plugin` | Disabled as an application example; future/callback POST and etcd lease demonstration with fixed external endpoints |
 
 hpp/cpp files remain adjacent in each directory. Start with the [timers quick start](../get-started/quick-start.md). The generic launcher helpers select `conf/<name>.app.toml`, so use the capability name for both the process and application manifest. Kernel examples still require their business metadata.
 
@@ -26,7 +27,7 @@ hpp/cpp files remain adjacent in each directory. Start with the [timers quick st
 
 Rebuild modules and their consumers together: the C++ module/plugin type names and RTTI registration keys change. Replace old library stems such as `sample1_plugin` with `timers_plugin`, including platform extensions and Debug `_d`. Replace staged `conf/sample1.app.toml` with `conf/timers.app.toml` and update `--name`, `--app_conf`, launcher arguments and deployment ConfigMaps consistently for every row. The old targets, library aliases and configuration filenames are not emitted. An existing runtime directory is not migrated automatically; stage a fresh matching executable, plugin set and configuration before switching it over.
 
-The byte-preserved historical documentation archive retains original names and commands. It is not the current naming guide. This page records names and supported status, not new runtime or performance acceptance.
+The byte-preserved historical documentation archive retains original names and commands. It is not the current naming guide. This page records names and supported status; the HTTP example fixture uses public service doubles and does not establish external-service or performance acceptance.
 
 ## Run entity operations
 

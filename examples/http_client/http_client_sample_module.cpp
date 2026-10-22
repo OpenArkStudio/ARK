@@ -18,22 +18,46 @@
  *
  */
 
-#include <map>
+#include <iostream>
+#include <string>
+#include <thread>
+#include <utility>
+#include <vector>
 
-#include "http_client_sample_module.hpp"
+#include "ark/etcd_client/etcd_client_module.hpp"
+#include "ark/module_base.hpp"
+#include "ark/net/http_client_module.hpp"
+#include "http_client_sample_plugin.hpp"
 
 using namespace std;
 
 namespace ark {
+namespace {
 
-bool http_client_sample_module::init() {
+class http_client_sample_module_impl final : public module_base<http_client_sample_module>
+{
+public:
+    bool init() override;
+    bool post_init() override;
+
+private:
+    http_client_module* http_client_{};
+    std::shared_ptr<etcd_client> etcd_client_;
+};
+
+bool http_client_sample_module_impl::init() {
     http_client_ = find_module<http_client_module>();
-    etcd_client_ = find_module<etcd_client_module>()->create_etcd_client(
-        vector<string>{"172.20.3.74:2379" /*, "172.20.3.75:2379", "172.20.3.76:2379" */});
+    auto* etcd = find_module<etcd_client_module>();
+    if (!http_client_ || !etcd)
+    {
+        return false;
+    }
+    etcd_client_ =
+        etcd->create_etcd_client(vector<string>{"172.20.3.74:2379" /*, "172.20.3.75:2379", "172.20.3.76:2379" */});
     return http_client_ != nullptr && etcd_client_ != nullptr;
 }
 
-bool http_client_sample_module::post_init() {
+bool http_client_sample_module_impl::post_init() {
     std::cout << "Start testing Http Client" << endl;
 
     string body = "{\"key\": \"Zm9v\", \"value\": \"YmFy\"}";
@@ -51,6 +75,12 @@ bool http_client_sample_module::post_init() {
 
     std::cout << "Finish testing Http Client" << endl;
     return true;
+}
+
+} // namespace
+
+std::unique_ptr<http_client_sample_module> make_http_client_sample_module() {
+    return std::make_unique<http_client_sample_module_impl>();
 }
 
 } // namespace ark

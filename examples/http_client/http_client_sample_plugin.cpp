@@ -18,19 +18,33 @@
  *
  */
 
-#include "http_client_sample_module.hpp"
+#include <stdexcept>
+
 #include "http_client_sample_plugin.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN_DLL_FUNCTION(http_client_sample_plugin)
+ARK_EXPORT_FUNC void DllEntryPlugin(plugin_manager* manager, const std::string& plugin_name, logger* log) {
+    logger::init(log);
+    manager->register_plugin<http_client_sample_plugin>(plugin_name);
+}
+
+ARK_EXPORT_FUNC void DllExitPlugin(plugin_manager* manager) {
+    manager->unregister_plugin<http_client_sample_plugin>();
+}
 
 void http_client_sample_plugin::install() {
-    ARK_REGISTER_MODULE(http_client_sample_module, http_client_sample_module);
+    if (!register_module(make_http_client_sample_module(), module_update::disabled))
+    {
+        throw std::runtime_error("http_client example module registration rejected");
+    }
 }
 
 void http_client_sample_plugin::uninstall() {
-    ARK_UNREGISTER_MODULE(http_client_sample_module, http_client_sample_module);
+    if (!unregister_module<http_client_sample_module>())
+    {
+        throw std::runtime_error("http_client example module unregistration rejected");
+    }
 }
 
 } // namespace ark

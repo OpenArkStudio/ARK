@@ -101,4 +101,16 @@ Kernel maps its 38 existing headers from `src/plugins/kernel/` through `ark::ker
 
 The registered Net HTTP client now comes from a private interface factory. `check-net-plugin` additionally checks future completion without manager updates and pending-request cancellation through `pre_shut()` while the DSO remains loaded. It consumes those futures before normal plugin exit; no arbitrary post-unload future lifetime is established. `check-network` retains request/timeout/callback/shutdown coverage through the same private factory and public client interface.
 
+`ARK_BUILD_HTTP_EXAMPLE_TESTS` defaults to `ON` in core-test configurations with
+Boost.Asio and all three API targets (`ark::http`, `ark::net`, `ark::etcd_client`),
+and to `OFF` otherwise. Explicit `OFF` is respected. When selected, it adds
+`check-http-examples` to `check-core`, compiling the actual legacy HTTP example
+modules and their shared-library entries. Existing Applications CI exercises this
+dependency; the default application-example selection remains unchanged.
+The fixture checks interface factories/RTTI/configuration, original POST/lease
+arguments and timeout defaults, owner-update callback delivery, listener arguments,
+lease destruction and repeated stop/reload using isolated public service doubles.
+No external HTTP/etcd request is made. See [HTTP examples](../../docs/reference/http.md#legacy-http-example-construction)
+for the preserved fixed demonstration endpoints and the real-wire coverage boundary.
+
 With Protobuf and the Kernel/Utility runtime targets enabled, `check-kernel-plugin` loads their actual DSOs through an independent public-interface runner. It checks the four original interface keys and manager pointers, metadata/static record loading, map/entity registration and callbacks, manager updates, shutdown destruction and repeated stop. It is part of `check-core`, alongside the existing direct initialization/entity-default tests; no post-unload registry inspection or arbitrary hot-update safety is claimed. The Kernel public-header consumer checks all retained types and their typed bases/update declarations.

@@ -20,20 +20,12 @@
 
 #pragma once
 
-#include "ark/http/http_server_module.hpp"
-#include "ark/plugin_manager.hpp"
+#include "ark/module.hpp"
 
 namespace ark {
 
-class http_server_module final : public module
+class http_server_sample_module : public module
 {
-    ARK_DECLARE_MODULE_FUNCTIONS
-public:
-    bool init() override;
-    bool post_init() override;
-
-protected:
-    http_server_module* http_server_module_;
 };
 
 } // namespace ark

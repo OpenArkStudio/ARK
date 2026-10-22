@@ -291,3 +291,29 @@ endif()
 if(TARGET check-server-plugins)
     add_dependencies(check-core check-server-plugins)
 endif()
+
+# Legacy HTTP demonstrations remain excluded from normal applications/examples.
+# Core validation uses the real sources/DSOs when their public prerequisites exist.
+set(ark_http_examples_default OFF)
+if(NOT ASIO_STANDALONE AND TARGET ark::http AND TARGET ark::net AND TARGET ark::etcd_client)
+    set(ark_http_examples_default ON)
+endif()
+option(ARK_BUILD_HTTP_EXAMPLE_TESTS "Build HTTP example construction regressions" ${ark_http_examples_default})
+if(ARK_BUILD_HTTP_EXAMPLE_TESTS)
+    if(ASIO_STANDALONE OR NOT TARGET ark::http OR NOT TARGET ark::net OR NOT TARGET ark::etcd_client)
+        message(FATAL_ERROR "HTTP example tests require Boost.Asio/Beast and ark::http, ark::net, ark::etcd_client")
+    endif()
+    add_subdirectory("${PROJECT_SOURCE_DIR}/examples/http_client" "${CMAKE_CURRENT_BINARY_DIR}/http_client_example")
+    add_subdirectory("${PROJECT_SOURCE_DIR}/examples/http_server" "${CMAKE_CURRENT_BINARY_DIR}/http_server_example")
+    add_executable(ark_http_examples_tests ../app/http_examples.cpp
+        ../../examples/http_client/http_client_sample_module.cpp
+        ../../examples/http_server/http_server_module.cpp)
+    set_property(TARGET ark_http_examples_tests PROPERTY LINK_LIBRARIES ark::http ark::net ark::etcd_client)
+    add_custom_target(check-http-examples
+        COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:ark_http_examples_tests>"
+            "-DPLUGIN_DIR=$<TARGET_FILE_DIR:http_server_plugin>"
+            "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/http examples runtime"
+            -P "${PROJECT_SOURCE_DIR}/tests/app/http_examples.cmake"
+        DEPENDS ark_http_examples_tests http_client_sample_plugin http_server_plugin USES_TERMINAL)
+    add_dependencies(check-core check-http-examples)
+endif()

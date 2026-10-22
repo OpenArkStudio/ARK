@@ -20,12 +20,20 @@
 
 #pragma once
 
-#include "ark/module.hpp"
-#include "ark/plugin.hpp"
-#include "ark/plugin_manager.hpp"
+#include <memory>
+
+#include "ark/plugin_base.hpp"
+#include "http_server_module.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN(http_server_plugin)
+std::unique_ptr<http_server_sample_module> make_http_server_sample_module();
+
+class http_server_plugin final : public plugin_base<http_server_plugin>
+{
+public:
+    void install() override;
+    void uninstall() override;
+};
 
 } // namespace ark

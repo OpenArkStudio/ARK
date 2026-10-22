@@ -42,7 +42,9 @@ test('capability examples preserve the enabled set and retain disabled examples 
   for (const [index, name] of names.entries()) {
     assert.match(cmake, new RegExp(`^${index < 3 ? '' : '#'}add_subdirectory\\(${name}\\)$`, 'm'));
     const header = readFileSync(resolve(root, `examples/${name}/${name}_module.hpp`), 'utf8');
-    assert.match(header, new RegExp(`class ${name}_module final`));
+    assert.match(header, name === 'http_server'
+      ? /class http_server_sample_module : public module/
+      : new RegExp(`class ${name}_module final`));
     const manifest = readFileSync(resolve(root, `config/${name}.app.toml`), 'utf8');
     assert.ok(manifest.includes(`name = "${name}_plugin"`));
   }

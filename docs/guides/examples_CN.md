@@ -10,7 +10,8 @@
 | `examples/mysql_sample`／`mysql_sample` | `mysql_sample_plugin` | 原生 MySQL 协程示例；应用示例列表中仍关闭，开启 SSL 的数据库测试检查其装配 |
 | `examples/redis_sample`／`redis_sample` | `redis_sample_plugin` | 原生 Redis 协程示例；应用示例列表中仍关闭，数据库测试检查其装配 |
 | `examples/physics_scene`／`physics_scene` | `physics_scene_plugin` | 关闭，依赖不支持的旧 PhysX 3；保留源码与清单不代表集成可运行 |
-| `examples/http_server`／`http_server` | `http_server_plugin` | 关闭，保留 HTTP 服务示例，尚无运行验收 |
+| `examples/http_server`／`http_server` | `http_server_plugin` | 默认应用示例中关闭；支持[类型化创建与受控动态库回归](../reference/http_CN.md#旧-http-示例的类型化创建) |
+| `examples/http_client`／`http_client_sample` | `http_client_sample_plugin` | 默认应用示例中关闭；使用固定外部端点演示 future／回调 POST 与 etcd 租约 |
 
 每个目录中的 hpp/cpp 继续并排存放。可从 [timers 快速开始](../get-started/quick-start_CN.md)入手。
 通用启动脚本选择 `conf/<name>.app.toml`，因此进程名称和应用清单都应使用能力名称。Kernel 示例仍需要业务元数据。
@@ -30,7 +31,7 @@
 将已部署的 `conf/sample1.app.toml` 换为 `conf/timers.app.toml`，并按上表逐项同步 `--name`、`--app_conf`、启动脚本参数和部署 ConfigMap。
 不再生成旧 target、旧库别名或旧配置文件名。已有运行目录不会自动迁移；切换前应重新准备同次构建的可执行文件、插件集与配置。
 
-按字节保存的历史文档归档仍保留原始名称和命令，不作为当前命名指南。本页说明名称和支持边界，不代表新增运行或性能验收。
+按字节保存的历史文档归档仍保留原始名称和命令，不作为当前命名指南。本页说明名称与支持边界；HTTP 示例测试使用公开服务替身，不代表外部服务或性能验收。
 
 ## 运行实体操作示例
 
