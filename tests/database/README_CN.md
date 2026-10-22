@@ -153,7 +153,7 @@ bash scripts/test_databases.sh database-build redis
 `ark_database_public_redis_tests` 和 `ark_database_public_mysql_tests` 使用本机协议端点
 验证拥有型结果、取消、TLS 与正常停机。`ark_database_public_redis_plugin_tests` 和
 `ark_database_public_mysql_plugin_tests` 加载实际隐藏符号动态库。
-`check-database` 还编译迁移后的示例。MySQL 检查要求开启 SSL，真实服务目标仍需显式配置端点。
+MySQL 检查要求开启 SSL，真实服务目标仍需显式配置端点。
 
 公开 MySQL 协议端点还通过事务占用唯一连接，并确认单个等待名额已满，再取消等待中的
 查询。该检查验证确定未发送的取消结果、所属线程交付、原事务仍可用，以及管理器排空
@@ -267,3 +267,15 @@ bash scripts/test_databases.sh database-build public-mysql-failures
 ## 本机公开接口服务验收
 
 测试机器、源码版本与执行结果见[数据库服务验收](../../docs/guides/database-validation_CN.md)。
+
+## 示例插件装配
+
+`check-database-samples` 是 `check-database` 的依赖。它将真实 Redis 示例模块与插件装配一起构建为 `ark_database_redis_sample_check`，并运行 `ark_database_redis_sample_tests`。开启 `ARKNET_ENABLE_SSL=ON` 时，同一路径还会构建并运行 `ark_database_mysql_sample_check` 与 `ark_database_mysql_sample_tests`；关闭 SSL 时继续排除 MySQL。
+
+```sh
+cmake --build database-build --target check-database-samples --parallel 2
+```
+
+每个 runner 都通过管理器的标准入口与退出符号加载真实 DSO。fixture 注册公开数据库接口，并拒绝第一次配置请求。示例必须查找到该接口，保留 `primary`（MySQL）或 `sample`（Redis）连接名，报告受控的 init 失败，保留具体示例模块的 RTTI 注册键和管理器所有权，再通过真实插件退出路径注销其拥有的模块。重复 stop 必须成功，不能再次删除模块。编译期检查保留类型基类与继承的默认 update 行为；装配显式使用 `module_update::disabled`。
+
+这些测试替代仅编译 module.cpp 的检查：即使应用与示例关闭，插件入口／退出源文件仍是必需依赖。保留源码原有许可证，不启用其他示例。拒绝配置的 provider 不运行示例协程，也不连接服务；真实 MySQL／Redis 业务流程与部署仍需单独验收。

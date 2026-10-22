@@ -1,14 +1,13 @@
 // Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
 #pragma once
 
-#include "ark/plugin_manager.hpp"
+#include "ark/module_base.hpp"
 #include "ark/redis/redis_module.hpp"
 
 namespace ark {
 
-class redis_sample_module final : public module
+class redis_sample_module final : public module_base<module>
 {
-    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool init() override;
     bool post_init() override;

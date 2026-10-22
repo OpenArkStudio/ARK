@@ -18,19 +18,33 @@
  *
  */
 
-#include "mysql_sample_module.hpp"
+#include <stdexcept>
+
 #include "mysql_sample_plugin.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN_DLL_FUNCTION(mysql_sample_plugin)
+ARK_EXPORT_FUNC void DllEntryPlugin(plugin_manager* manager, const std::string& plugin_name, logger* log) {
+    logger::init(log);
+    manager->register_plugin<mysql_sample_plugin>(plugin_name);
+}
+
+ARK_EXPORT_FUNC void DllExitPlugin(plugin_manager* manager) {
+    manager->unregister_plugin<mysql_sample_plugin>();
+}
 
 void mysql_sample_plugin::install() {
-    ARK_REGISTER_MODULE(mysql_sample_module, mysql_sample_module);
+    if (!register_module(make_mysql_sample_module(), module_update::disabled))
+    {
+        throw std::runtime_error("mysql sample module registration rejected");
+    }
 }
 
 void mysql_sample_plugin::uninstall() {
-    ARK_UNREGISTER_MODULE(mysql_sample_module, mysql_sample_module);
+    if (!unregister_module<mysql_sample_module>())
+    {
+        throw std::runtime_error("mysql sample module unregistration rejected");
+    }
 }
 
 } // namespace ark

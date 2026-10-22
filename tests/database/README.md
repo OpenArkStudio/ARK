@@ -192,8 +192,7 @@ These checks do not certify OS library unloading or hot update.
 owning results, cancellation, TLS and graceful drain through local protocol
 peers. `ark_database_public_redis_plugin_tests` and
 `ark_database_public_mysql_plugin_tests` load actual hidden-symbol plugin
-libraries. The migrated samples are also compiled by `check-database`. MySQL
-checks require SSL; real-server targets still require explicit endpoint settings.
+libraries. MySQL checks require SSL; real-server targets still require explicit endpoint settings.
 
 The public MySQL peer also holds the sole pool lease in a transaction and fills
 the one-waiter limit before cancelling the waiting query. It verifies a known-unsent
@@ -340,3 +339,15 @@ are not printed.
 ## Local public-service acceptance
 
 The recorded machine, revisions and outcomes are in [database service acceptance](../../docs/guides/database-validation.md).
+
+## Sample plugin assembly
+
+`check-database-samples` is part of `check-database`. It builds the real Redis sample module and plugin assembly together as `ark_database_redis_sample_check`, then runs `ark_database_redis_sample_tests`. With `ARKNET_ENABLE_SSL=ON`, the same path builds and runs `ark_database_mysql_sample_check` and `ark_database_mysql_sample_tests`. SSL-disabled builds retain the existing MySQL exclusion.
+
+```sh
+cmake --build database-build --target check-database-samples --parallel 2
+```
+
+Each runner loads the actual DSO through the manager's normal entry and exit symbols. A fixture registers the public database interface and rejects its first configuration request. The sample must resolve that interface, preserve its `primary` (MySQL) or `sample` (Redis) connection name, report a controlled init failure, retain its concrete sample module RTTI key and manager ownership, then unregister its owned module through the real plugin exit. Repeated stop must succeed without a second deletion. Compile-time checks preserve typed bases and inherited default update behavior; assembly explicitly selects `module_update::disabled`.
+
+These tests replace module-only compilation: plugin entry/exit sources are required dependencies even when application/examples are disabled. They preserve original source licenses and do not enable other examples. The rejecting provider does not run sample coroutines or contact services; live MySQL/Redis workflow and deployment acceptance remain separate.
