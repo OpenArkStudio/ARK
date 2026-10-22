@@ -23,6 +23,7 @@
 #include "ark/kernel/data_list_impl.hpp"
 #include "ark/meta_define.hpp"
 #include "entity_operations_module.hpp"
+#include "entity_operations_plugin.hpp"
 
 static const int map_id = 1;
 static const size_t item_config_id = 100001;
@@ -32,6 +33,10 @@ static const uint32_t col_count = ark::entity_meta_item_bag::count_index();
 static const uint32_t col_guid = ark::entity_meta_item_bag::guid_index();
 
 namespace ark {
+
+std::unique_ptr<entity_operations_module> make_entity_operations_module() {
+    return std::make_unique<entity_operations_module>();
+}
 
 bool entity_operations_module::init() {
     std::cout << GET_CLASS_NAME(entity_operations_module) << ", Init" << std::endl;
@@ -105,21 +110,16 @@ void entity_operations_module::data_test() {
     ARK_ASSERT_RET_NONE(entity_ptr != nullptr);
 
     const guid_t& id = entity_ptr->get_id();
-    const size_t count = 5000000;
-
-    query_string_test(id, count, 1);
-    //QueryStringTest(id, count, 2);
-    //QueryStringTest(id, count, 3);
-
-    query_int_test(id, count, 1);
-    //QueryIntTest(id, count, 2);
-    //QueryIntTest(id, count, 3);
-
-    set_data_test(id, count, 1);
-    //SetDataTest(id, count, 2);
-    //SetDataTest(id, count, 3);
-
-    custom_data_test(id, count, 1);
+    ARK_ASSERT_RET_NONE(entity_ptr->get_string(entity_meta_player::name_index()) == "Xiaoming");
+    ARK_ASSERT_RET_NONE(entity_ptr->get_string(entity_meta_player::name()) == "Xiaoming");
+    ARK_ASSERT_RET_NONE(entity_ptr->get_int32(entity_meta_player::gender_index()) == 1);
+    ARK_ASSERT_RET_NONE(entity_ptr->get_int32(entity_meta_player::gender()) == 1);
+    entity_ptr->set_int32(entity_meta_player::gender_index(), 22);
+    entity_ptr->set_int32(entity_meta_player::gender(), 22);
+    kernel_module_->get_entity(id)->set_int32(entity_meta_player::gender_index(), 11);
+    kernel_module_->get_entity(id)->set_int32(entity_meta_player::gender(), 11);
+    custom_data_test(id, 1, 1);
+    std::cout << "Entity data demonstration: name=Xiaoming gender=11 custom=111" << std::endl;
 }
 
 void entity_operations_module::table_test() {
@@ -243,204 +243,6 @@ std::shared_ptr<ark::entity> entity_operations_module::create_an_player_and_init
               << entity_meta_player::gender() << entity_ptr->get_int32(entity_meta_player::gender()) << std::endl;
 
     return entity_ptr;
-}
-
-void entity_operations_module::query_string_test(const guid_t& guid, size_t count, const uint32_t index) {
-    auto entity_ptr = kernel_module_->get_entity(guid);
-    if (nullptr == entity_ptr)
-    {
-        return;
-    }
-
-    std::cout << "----------[" << index << "] time [query string] test start----------" << std::endl;
-
-    // query string data with int key
-    auto begin = std::chrono::system_clock::now().time_since_epoch();
-    for (size_t i = 0; i < count; i++)
-    {
-        auto& value = entity_ptr->get_string(entity_meta_player::name_index());
-    }
-    auto end = std::chrono::system_clock::now().time_since_epoch();
-    auto time_int_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-
-    // query string data with string key
-    begin = std::chrono::system_clock::now().time_since_epoch();
-    for (size_t i = 0; i < count; i++)
-    {
-        auto& value = entity_ptr->get_string(entity_meta_player::name());
-    }
-    end = std::chrono::system_clock::now().time_since_epoch();
-    auto time_string_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-
-    std::cout << "[" << count << "] query with [int key] time = " << time_int_key << " ms"
-              << " with [string key] time = " << time_string_key << std::endl;
-
-    // query string data with int key
-    begin = std::chrono::system_clock::now().time_since_epoch();
-    for (size_t i = 0; i < count; i++)
-    {
-        auto obj_ptr = kernel_module_->get_entity(guid);
-        if (nullptr == obj_ptr)
-        {
-            return;
-        }
-
-        auto& value = obj_ptr->get_string(entity_meta_player::name_index());
-    }
-    end = std::chrono::system_clock::now().time_since_epoch();
-    time_int_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-
-    // query string data with string key
-    begin = std::chrono::system_clock::now().time_since_epoch();
-    for (size_t i = 0; i < count; i++)
-    {
-        auto obj_ptr = kernel_module_->get_entity(guid);
-        if (nullptr == obj_ptr)
-        {
-            return;
-        }
-
-        auto& value = obj_ptr->get_string(entity_meta_player::name());
-    }
-    end = std::chrono::system_clock::now().time_since_epoch();
-    time_string_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-
-    std::cout << "[" << count << "] find then query with [int key] time = " << time_int_key << " ms"
-              << " with [string key] time = " << time_string_key << std::endl;
-
-    std::cout << "----------[" << index << "] time [query string] test end----------" << std::endl;
-}
-
-void entity_operations_module::query_int_test(const guid_t& guid, size_t count, const uint32_t index) {
-    auto entity_ptr = kernel_module_->get_entity(guid);
-    if (nullptr == entity_ptr)
-    {
-        return;
-    }
-
-    std::cout << "----------[" << index << "] time [query int] test start----------" << std::endl;
-
-    // query string data with int key
-    auto begin = std::chrono::system_clock::now().time_since_epoch();
-    for (size_t i = 0; i < count; i++)
-    {
-        auto value = entity_ptr->get_int32(entity_meta_player::gender_index());
-    }
-    auto end = std::chrono::system_clock::now().time_since_epoch();
-    auto time_int_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-
-    // query string data with string key
-    begin = std::chrono::system_clock::now().time_since_epoch();
-    for (size_t i = 0; i < count; i++)
-    {
-        auto value = entity_ptr->get_int32(entity_meta_player::gender());
-    }
-    end = std::chrono::system_clock::now().time_since_epoch();
-    auto time_string_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-
-    std::cout << "[" << count << "] query with [int key] time = " << time_int_key << " ms"
-              << " with [string key] time = " << time_string_key << std::endl;
-
-    // query string data with int key
-    begin = std::chrono::system_clock::now().time_since_epoch();
-    for (size_t i = 0; i < count; i++)
-    {
-        auto obj_ptr = kernel_module_->get_entity(guid);
-        if (nullptr == obj_ptr)
-        {
-            return;
-        }
-
-        auto value = obj_ptr->get_int32(entity_meta_player::gender_index());
-    }
-    end = std::chrono::system_clock::now().time_since_epoch();
-    time_int_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-
-    // query string data with string key
-    begin = std::chrono::system_clock::now().time_since_epoch();
-    for (size_t i = 0; i < count; i++)
-    {
-        auto obj_ptr = kernel_module_->get_entity(guid);
-        if (nullptr == obj_ptr)
-        {
-            return;
-        }
-
-        auto value = obj_ptr->get_int32(entity_meta_player::gender());
-    }
-    end = std::chrono::system_clock::now().time_since_epoch();
-    time_string_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-
-    std::cout << "[" << count << "] find then query with [int key] time = " << time_int_key << " ms"
-              << " with [string key] time = " << time_string_key << std::endl;
-
-    std::cout << "----------[" << index << "] time [query int] test end----------" << std::endl;
-}
-
-void entity_operations_module::set_data_test(const guid_t& guid, size_t count, const uint32_t index) {
-    auto entity_ptr = kernel_module_->get_entity(guid);
-    if (nullptr == entity_ptr)
-    {
-        return;
-    }
-
-    std::cout << "----------[" << index << "] time [set int] test start----------" << std::endl;
-
-    // set data with int key
-    auto begin = std::chrono::system_clock::now().time_since_epoch();
-    for (size_t i = 0; i < count; i++)
-    {
-        entity_ptr->set_int32(entity_meta_player::gender_index(), 22);
-    }
-    auto end = std::chrono::system_clock::now().time_since_epoch();
-    auto time_int_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-
-    // set data with string key
-    begin = std::chrono::system_clock::now().time_since_epoch();
-    for (size_t i = 0; i < count; i++)
-    {
-        entity_ptr->set_int32(entity_meta_player::gender(), 22);
-    }
-    end = std::chrono::system_clock::now().time_since_epoch();
-    auto time_string_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-
-    std::cout << "[" << count << "] set with [int key] time = " << time_int_key << " ms"
-              << " with [string key] time = " << time_string_key << std::endl;
-
-    // set data with int key
-    begin = std::chrono::system_clock::now().time_since_epoch();
-    for (size_t i = 0; i < count; i++)
-    {
-        auto obj_ptr = kernel_module_->get_entity(guid);
-        if (nullptr == obj_ptr)
-        {
-            return;
-        }
-
-        obj_ptr->set_int32(entity_meta_player::gender_index(), 11);
-    }
-    end = std::chrono::system_clock::now().time_since_epoch();
-    time_int_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-
-    // set data with string key
-    begin = std::chrono::system_clock::now().time_since_epoch();
-    for (size_t i = 0; i < count; i++)
-    {
-        auto obj_ptr = kernel_module_->get_entity(guid);
-        if (nullptr == obj_ptr)
-        {
-            return;
-        }
-
-        obj_ptr->set_int32(entity_meta_player::gender(), 11);
-    }
-    end = std::chrono::system_clock::now().time_since_epoch();
-    time_string_key = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-
-    std::cout << "[" << count << "] find then set with [int key] time = " << time_int_key << " ms"
-              << " with [string key] time = " << time_string_key << std::endl;
-
-    std::cout << "----------[" << index << "] time [set int] test end----------" << std::endl;
 }
 
 void entity_operations_module::custom_data_test(const guid_t& guid, size_t count, const uint32_t index) {

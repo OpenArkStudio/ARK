@@ -6,7 +6,7 @@ The bundled examples use capability names. Configure with applications and examp
 | --- | --- | --- |
 | `examples/timers` / `timers` | `timers_plugin` | Utility timers and module lifecycle; enabled, participates in updates |
 | `examples/module_lifecycle` / `module_lifecycle` | `module_lifecycle_plugin` | Lifecycle and a small data-list demonstration; enabled, no update override. The callback demonstration remains commented out |
-| `examples/entity_operations` / `entity_operations` | `entity_operations_plugin` | Kernel entity/data/table operations; enabled, no update override. Startup still includes the old timed loops; do not use it as a lightweight startup check |
+| `examples/entity_operations` / `entity_operations` | `entity_operations_plugin` | Kernel entity/data/table operations; enabled, no update override. Startup performs a bounded functional demonstration; the [old timed workload](../../benchmarks/ENTITY_OPERATIONS.md) runs only through an explicit benchmark command |
 | `examples/physics_scene` / `physics_scene` | `physics_scene_plugin` | Disabled; requires unsupported legacy PhysX 3. The checked-in sources and manifest do not establish a runnable integration |
 | `examples/http_server` / `http_server` | `http_server_plugin` | Disabled; retained HTTP server example, without runtime acceptance |
 
@@ -25,3 +25,7 @@ hpp/cpp files remain adjacent in each directory. Start with the [timers quick st
 Rebuild modules and their consumers together: the C++ module/plugin type names and RTTI registration keys change. Replace old library stems such as `sample1_plugin` with `timers_plugin`, including platform extensions and Debug `_d`. Replace staged `conf/sample1.app.toml` with `conf/timers.app.toml` and update `--name`, `--app_conf`, launcher arguments and deployment ConfigMaps consistently for every row. The old targets, library aliases and configuration filenames are not emitted. An existing runtime directory is not migrated automatically; stage a fresh matching executable, plugin set and configuration before switching it over.
 
 The byte-preserved historical documentation archive retains original names and commands. It is not the current naming guide. This page records names and supported status, not new runtime or performance acceptance.
+
+## Run entity operations
+
+Stage the matching build, `config/entity_operations.app.toml`, `config/kernel.plugin.conf` and `config/log.conf` under a separate runtime, and copy `examples/entity_operations/resource` into that runtime. Start with `--name=entity_operations --app_conf=conf/entity_operations.app.toml`; see the [example instructions](../../examples/entity_operations/README.md). Startup creates four players and demonstrates data/table/custom values without timed loops. The real-DSO regression uses this same manifest and metadata. A separate benchmark requires an explicit `--iterations N`; its eight-iteration smoke disables timing and is not performance evidence.

@@ -217,16 +217,16 @@ if(ARK_BUILD_PROTO)
     add_dependencies(check-core check-kernel-initialization)
 endif()
 
-if(ARK_BUILD_CONFIG AND TARGET timers_plugin AND TARGET module_lifecycle_plugin AND
+if(ARK_BUILD_CONFIG AND TARGET timers_plugin AND TARGET module_lifecycle_plugin AND TARGET entity_operations_plugin AND
         TARGET ark_utility_plugin AND TARGET ark_kernel_plugin)
     add_executable(ark_typed_examples_tests ../app/typed_examples.cpp)
-    set_property(TARGET ark_typed_examples_tests PROPERTY LINK_LIBRARIES ark::core ark::config ark::utility)
+    set_property(TARGET ark_typed_examples_tests PROPERTY LINK_LIBRARIES ark::core ark::config ark::utility ark::kernel)
     add_custom_target(check-typed-examples
         COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:ark_typed_examples_tests>"
             "-DPLUGIN_DIR=$<TARGET_FILE_DIR:timers_plugin>" "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"
             "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/typed examples runtime"
             -P "${PROJECT_SOURCE_DIR}/tests/app/typed_examples.cmake"
-        DEPENDS ark_typed_examples_tests timers_plugin module_lifecycle_plugin ark_utility_plugin ark_kernel_plugin
+        DEPENDS ark_typed_examples_tests timers_plugin module_lifecycle_plugin entity_operations_plugin ark_utility_plugin ark_kernel_plugin
         USES_TERMINAL VERBATIM)
     add_dependencies(check-core check-typed-examples)
 endif()

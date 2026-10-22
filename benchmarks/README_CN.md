@@ -34,3 +34,5 @@ bash benchmarks/run_network_buffers.sh ./bench-build/benchmarks/ark_network_buff
 `report_receive_buffers.mjs` 生成中英文 Markdown 和 SVG 图表，生成前检查测量数量与源文件哈希。仓库只保留正式报告使用的数据，其他本地输出放在源码目录之外。
 
 单独启用的[私有数据库基准测试](DATABASE_CN.md)使用不写入数据的 Redis/MySQL 操作，比较原生服务回调与 Asio 协程桥接方式。
+
+[实体访问负载](ENTITY_OPERATIONS_CN.md)是独立、显式运行的 C++ 基准；小规模正确性 smoke 不测量性能。

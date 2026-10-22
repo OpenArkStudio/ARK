@@ -34,3 +34,5 @@ bash benchmarks/run_network_buffers.sh ./bench-build/benchmarks/ark_network_buff
 Published report generation uses `report_receive_buffers.mjs`, which checks measurement counts and source hashes before producing bilingual Markdown and SVG charts. Only data supporting a published report belongs in the repository; other local output stays outside the source tree.
 
 The separately enabled [private database benchmark](DATABASE.md) compares native service callbacks with the Asio coroutine bridge using nonwriting Redis/MySQL operations.
+
+The [entity access workload](ENTITY_OPERATIONS.md) is a separate, explicit C++ benchmark; its small correctness smoke does not measure performance.
