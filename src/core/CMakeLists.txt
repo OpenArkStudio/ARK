@@ -73,6 +73,11 @@ foreach(header IN LISTS ark_core_public_headers)
     set(mapped_header "${ark_core_include_dir}/ark/${header}")
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/${header}" "${mapped_header}" COPYONLY)
     list(APPEND mapped_headers "${mapped_header}")
+    if(ARK_INSTALL)
+        get_filename_component(header_dir "${header}" DIRECTORY)
+        install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/${header}"
+            DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/ark/${header_dir}")
+    endif()
 endforeach()
 # Clean only this target's generated header directory, never source files.
 file(GLOB_RECURSE previous_headers LIST_DIRECTORIES FALSE "${ark_core_include_dir}/ark/*")
@@ -87,9 +92,9 @@ add_library(ark::core ALIAS ark_core)
 target_compile_features(ark_core INTERFACE cxx_std_20)
 target_include_directories(ark_core INTERFACE
     "$<BUILD_INTERFACE:${ark_core_include_dir}>"
-    "${RAPIDXML_INCLUDE_DIR}")
+    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 target_link_libraries(ark_core INTERFACE ark::config_headers arknet::arknet spdlog::spdlog_header_only
-    readerwriterqueue::readerwriterqueue ${CMAKE_DL_LIBS})
+    readerwriterqueue::readerwriterqueue RapidXML::RapidXML ${CMAKE_DL_LIBS})
 target_compile_definitions(ark_core INTERFACE
     $<$<BOOL:${ARK_USE_GUID_32}>:ARK_USE_GUID_32>
     $<$<BOOL:${ARK_DOCKER_ALPINE}>:ARK_DOCKER_ALPINE>

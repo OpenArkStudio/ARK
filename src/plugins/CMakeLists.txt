@@ -20,6 +20,13 @@ function(BUILD_PLUGIN_MACRO project_name)
         ARCHIVE_OUTPUT_DIRECTORY "${BIN_OUTPUT_DIR}"
         RUNTIME_OUTPUT_DIRECTORY "${BIN_OUTPUT_DIR}"
         LIBRARY_OUTPUT_DIRECTORY "${BIN_OUTPUT_DIR}")
+    if(ARK_INSTALL)
+        set_property(GLOBAL APPEND PROPERTY ARK_INSTALL_RUNTIME_TARGETS ${project_name})
+        install(TARGETS ${project_name}
+            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}"
+            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+    endif()
     add_dependencies(${project_name} AFProto)
     target_link_libraries(${project_name} ark::ark ${ARGN})
 endfunction()
@@ -148,6 +155,9 @@ foreach(plugin_name IN LISTS ark_colocated_plugin_names)
         get_filename_component(header_name "${header}" NAME)
         set(staged_header "${staging_dir}/${header_name}")
         configure_file("${header}" "${staged_header}" COPYONLY)
+        if(ARK_INSTALL)
+            install(FILES "${header}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/ark/${plugin_name}")
+        endif()
         list(APPEND staged_headers "${staged_header}")
     endforeach()
     # These managed directories are owned by the explicit mapping. This
@@ -171,7 +181,8 @@ foreach(plugin_dir IN LISTS plugin_entries)
             message(FATAL_ERROR "Plugin ${plugin_name} needs an explicit public-header mapping")
         endif()
         target_include_directories(ark_${plugin_name}_api INTERFACE
-            "$<BUILD_INTERFACE:${ark_plugin_sdk_include_dir}>")
+            "$<BUILD_INTERFACE:${ark_plugin_sdk_include_dir}>"
+            "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
         target_link_libraries(ark_${plugin_name}_api INTERFACE ark::core)
         target_link_libraries(ark_sdk INTERFACE ark::${plugin_name})
     endif()
@@ -212,3 +223,6 @@ if(ARK_BUILD_APPLICATIONS)
         endif()
     endforeach()
 endif()
+
+# The root package exports the same public targets as source-tree consumers.
+set(ark_plugin_names "${ark_plugin_names}" PARENT_SCOPE)

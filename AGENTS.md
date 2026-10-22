@@ -102,8 +102,13 @@ branch or worktree when the existing checkout contains uncommitted changes.
   Public plugin/module hpp and cpp sources belong together by function. Generated
   build-tree header mappings preserve logical `<ark/...>` paths; they are not a
   second source tree. Keep the existing CMake and `check-sdk` machine identifiers.
-  Do not turn interface-header mapping into a separate public SDK product or add
-  packaging/installation work to source co-location.
+  Do not turn interface-header mapping into a separate public SDK product.
+  Public plugin installation and packaging use GNUInstallDirs, explicit header
+  inventories and relocatable CMake exports; preserve the source aliases and
+  logical <ark/...> paths. Install arknet separately through its own package.
+  Never export source/build paths, bundle arbitrary dependencies or claim
+  dependency-free runtime redistribution. Keep installed-consumer relocation
+  tests and bilingual installation/build/layout documentation synchronized.
   Keep application manifest declarations and the compiled file/TOML reader in
   `src/config/`. Preserve `<ark/application_manifest.hpp>` through the always
   available `ark::config_headers` mapping, including with `ARK_BUILD_CONFIG=OFF`.

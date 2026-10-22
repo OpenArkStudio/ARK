@@ -89,3 +89,56 @@ cmake --build app-build --parallel 2
 The existing build directory retains its other configured options. Confirm `ARKNET_REVISION` in `app-build/CMakeCache.txt`; multi-configuration generators still require `--config Release` when building.
 
 A nonempty `ARKNET_SOURCE_DIR` uses that local checkout instead of fetching `ARKNET_REVISION`. Update the checkout explicitly for development. To return to the pinned fetch, configure with `-DARKNET_SOURCE_DIR=` and the desired `-DARKNET_REVISION=RELEASE_COMMIT`. These remain optional CMake overrides; the CI policy compares the repository defaults, not a developer's cache or local checkout.
+
+## Install and consume the CMake package
+
+A top-level build enables `ARK_INSTALL` by default; an embedded `add_subdirectory` build defaults it to `OFF`. Build the selected outputs before installing:
+
+```sh
+cmake --build app-build --parallel 2
+cmake --install app-build --prefix "$PWD/ark-prefix"
+```
+
+Multi-configuration generators also need `--config Release` for both commands. GNUInstallDirs selects `include/ark/`, the library directory (usually `lib/` or `lib64/`), `bin/` for the selected launcher/runtime plugins, and `share/ark/` for license/readme/configuration samples. Only explicitly mapped public headers are installed. Preserved Kernel and optional plugin implementation/assembly headers remain public; private factory/parser headers stay excluded. Disabled runtime plugins are not built or installed, although their public API targets remain available.
+
+arknet remains an independent dependency: install a compatible arknet package separately, using the same Boost/Standalone Asio and SSL settings as the ark build. ark does not copy the fetched/local arknet source into its install tree. Other dependencies are supplied by the consumer's toolchain or `CMAKE_PREFIX_PATH`: spdlog 1.17+, readerwriterqueue and RapidXML for core; Protobuf when generated protocols were built. Header-only toml++ is compiled into the private configuration reader; a build using a compiled toml++ library discovers that package for installed reader consumers. Optional driver headers/libraries still require their integration's dependencies; installing headers does not validate those integrations. Retain dependency licenses when distributing their binaries.
+
+To build against an already installed arknet instead of fetching/building its source, configure with `-DARK_USE_INSTALLED_ARKNET=ON`; this takes precedence over `ARKNET_SOURCE_DIR` and `ARKNET_REVISION`. Existing source builds remain supported.
+
+An independent application's `CMakeLists.txt` uses the same aliases as source consumption:
+
+```cmake
+find_package(ark CONFIG REQUIRED)
+add_executable(game main.cpp)
+target_link_libraries(game PRIVATE ark::core ark::mysql)
+```
+
+```sh
+cmake -S game -B game-build -DCMAKE_PREFIX_PATH="/path/to/ark-prefix;/path/to/dependencies"
+cmake --build game-build
+```
+
+Include `<ark/plugin_manager.hpp>` or `<ark/mysql/mysql_module.hpp>`; do not add ark's source/build directories to include paths. For source consumption, use `add_subdirectory(path/to/ark ark-build)` before linking those same targets. Public plugin API targets do not load runtime libraries.
+
+A configuration-only consumer can request `find_package(ark CONFIG REQUIRED COMPONENTS config)` and link `ark::config`. It does not discover core or arknet. `COMPONENTS config_headers` with `ark::config_headers` provides only `<ark/application_manifest.hpp>`, including builds with `ARK_BUILD_CONFIG=OFF`. A required unavailable component fails package discovery. Default discovery imports the core/public plugin targets and the compiled configuration reader/protocol target when built.
+
+The prefix can be moved without changing the package files; dependency prefixes must still be discoverable and ABI-compatible. `cmake --build app-build --target check-install` stages and relocates an installation and checks independent installed consumers. The stronger isolated test builds in disposable copies, removes their source/build directories, then compiles and runs the relocated consumers:
+
+```sh
+cmake -DARK_SOURCE_DIR="$PWD" -DARK_TEST_WORK=/tmp/ark-install-check \
+  '-DARK_TEST_PREFIX_PATH=/path/to/installed/dependencies' \
+  -P tests/install/run_isolated.cmake
+```
+
+The work directory must not exist. Repeat with a new directory and `-DARK_TEST_BUILD_CONFIG=OFF` for declaration/core-only packaging. Add `-DARK_TEST_MYSQL=ON` with an SSL-enabled arknet dependency to compile the public MySQL interface; this does not run database services. Use `ARK_TEST_TOOLCHAIN` to pass a consumer/producer toolchain when required.
+
+## Create an archive
+
+After building, CPack creates standard archives from the install rules:
+
+```sh
+cpack --config app-build/CPackConfig.cmake -G TGZ -C Release
+cpack --config app-build/CPackConfig.cmake -G ZIP -C Release
+```
+
+Archives are written under the build's `packages/` directory. They contain the selected install outputs and samples, not a source checkout, build cache or runtime business data. External runtime libraries, platform compatibility, application manifests, working directory and resources remain deployment responsibilities. The archive is not a dependency-free application installer; signing, system installers and release publication are separate operations.
