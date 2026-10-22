@@ -9,13 +9,12 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 
 | 路径 | 内容 |
 | --- | --- |
-| `include/ark/` | 其余插件头文件与应用清单声明 |
+| `include/ark/` | 应用清单声明 |
 | `src/core/` | 核心头文件、实现与 CMake 使用要求 |
 | `src/application/` | 应用入口与停服请求 |
 | `src/proto/` | 协议定义与编解码实现 |
 | `src/server/` | 内置服务端应用 |
-| `include/ark/<name>/` | 尚未迁移的官方插件公开头文件 |
-| `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility/Net/Bus/HTTP/Kernel 的公开头和私有装配也位于此处 |
+| `src/plugins/<name>/` | 全部官方插件头文件、实现与装配 |
 | `tests/` | 核心、网络与私有数据库回归测试 |
 | `tests/network/` | 网络与日志回归测试 |
 | `tests/consumer/` | 独立使用公共插件接口的示例项目 |
@@ -29,7 +28,7 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 使用 `<ark/plugin_manager.hpp>`、`<ark/net/tcp_client.hpp>` 等公开路径包含头文件，
 不需要把实现目录加入应用的包含路径。Protobuf 生成文件位于构建目录，由 `ark::proto` 提供。
 
-MySQL、Redis 的唯一公开接口源码分别是 `src/plugins/mysql/mysql_module.hpp`、`src/plugins/redis/redis_module.hpp`。Utility 的公开接口与保留的调度辅助头位于 `src/plugins/utility/`；Net 的公开接口、端点模板与传输辅助类型位于 `src/plugins/net/`。Net 仅将私有插件装配与具体服务管理器定义排除在公开映射之外。Bus 的两个公开模块头位于 `src/plugins/bus/`；共享 `<ark/bus.hpp>` 核心值类型的源码位于 `src/core/bus.hpp`。HTTP 映射公开的 `src/plugins/http/http_server_module.hpp`，排除私有插件与具体类。CMake 在配置阶段按显式清单复制普通文件到各构建树的 `src/plugins/sdk-include/ark/<名称>/`；清理该受控目录中已移除的映射，其他已迁移插件不复制私有装配头或工厂；Kernel 保留包括 `kernel_plugin.hpp` 在内的原有 38 个头，具体类型与装配可见性不变。通过 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net`、`ark::bus`、`ark::http`、`ark::kernel` 消费，逻辑包含路径保持不变，插件关闭时同样有效。仅手写 `-I <源码>/include` 的调用需要改用目标传递的包含目录。映射副本是生成的构建产物；应编辑功能目录中的共置源码头。
+MySQL、Redis 的唯一公开接口源码分别是 `src/plugins/mysql/mysql_module.hpp`、`src/plugins/redis/redis_module.hpp`。Utility 的公开接口与保留的调度辅助头位于 `src/plugins/utility/`；Net 的公开接口、端点模板与传输辅助类型位于 `src/plugins/net/`。Net 仅将私有插件装配与具体服务管理器定义排除在公开映射之外。Bus 的两个公开模块头位于 `src/plugins/bus/`；共享核心值类型 `<ark/bus.hpp>` 的源码位于 `src/core/bus.hpp`。HTTP 映射公开的 `src/plugins/http/http_server_module.hpp`，排除私有插件与具体类。CMake 在配置阶段按显式清单复制普通文件到各构建树的 `src/plugins/sdk-include/ark/<名称>/`；清理该受控目录中已移除的映射，MySQL、Redis、Utility、Net、Bus、HTTP 不复制私有装配头或工厂；Kernel 保留包括 `kernel_plugin.hpp` 在内的原有 38 个头，具体类型与装配可见性不变。通过 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net`、`ark::bus`、`ark::http`、`ark::kernel` 消费，逻辑包含路径保持不变，插件关闭时同样有效。仅手写 `-I <源码>/include` 的调用需要改用目标传递的包含目录。映射副本是生成的构建产物；应编辑功能目录中的共置源码头。
 
 核心头文件只有 `src/core/` 中的一份源码。`ark::core` 将显式公开清单映射到选定构建目录的 `src/core/public-include/ark/`，保留 `<ark/plugin_manager.hpp>` 等包含路径。修改源码头文件，不编辑生成副本。启动程序仍为 `app`／`app_d`，清单格式保持不变。
 
@@ -129,3 +128,16 @@ cmake --build http-sdk-build --target check-sdk --parallel 2
 旧文中的 `bin/`、`frame/`、`dep/` 目录不是当前源码布局。生成流程见[配置工具](../guides/tools_CN.md)，进程启动见[应用启动器](../guides/applications_CN.md)。协议公开头文件与兼容边界见 [Protobuf 消息](protobuf_CN.md)。
 
 Kernel 的原有 38 个头与 cpp 共置于 `src/plugins/kernel/`，通过 `ark::kernel` 保留全部 `<ark/kernel/...>` 路径，包括 `data_impl.hpp`、`data_list_impl.hpp` 和 `kernel_plugin.hpp`。此次只移动源码，创建宏、注册方式、类型可见性和生命周期均不变。消费检查及 Protobuf 条件见 [Kernel 参考](kernel_CN.md)。
+
+Consul、Etcd Client、Kafka、OSS SDK、Physic 的原有 22 个头也与实现共置于 `src/plugins/<name>/`。显式映射保留原有全部 `<ark/consul/...>`、`<ark/etcd_client/...>`、`<ark/kafka/...>`、`<ark/osssdk/...>`、`<ark/physic/...>` 路径，包括实现头和装配头。通过对应的 `ark::<name>` API target 消费；关闭运行时插件后仍可使用映射。CMake 不再从 `include/ark/` 发现插件头文件。
+
+`node --test tests/ci/plugin-layout.test.mjs` 在全部运行时插件选项关闭时，检查配置阶段的头文件映射、副本字节一致性、API 依赖与失效映射清理。该检查不编译可选驱动集成。Etcd Client 消费者在关闭 Protobuf 和运行时插件的情况下编译原有五个头：
+
+```sh
+cmake -S tests/consumer/etcd_client -B etcd-client-headers -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DASIO_STANDALONE=OFF
+cmake --build etcd-client-headers --target check-etcd-client-headers --parallel 2
+```
+
+头文件映射检查不代表 Consul、Kafka、OSS SDK 的运行时兼容性已经验证。Physic 与 `physics_scene` 仍依赖未受支持的旧版 PhysX 3 集成，保留明确的配置失败；此处没有宣称 PhysX 构建通过。
