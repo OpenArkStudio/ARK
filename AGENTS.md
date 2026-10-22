@@ -98,6 +98,10 @@ branch or worktree when the existing checkout contains uncommitted changes.
   second source tree. Keep the existing CMake and `check-sdk` machine identifiers.
   Do not turn interface-header mapping into a separate public SDK product or add
   packaging/installation work to source co-location.
+  Kernel source colocation preserves all existing `ark/kernel/...` headers,
+  including implementation/value templates and `kernel_plugin.hpp`; keep them
+  byte-identical during physical moves. Do not hide these types or replace
+  Kernel creation macros as part of colocation.
   Verify accepted source before claiming the new layout is available. Hot-update
   and Registry design discussions remain paused.
 

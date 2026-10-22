@@ -15,7 +15,7 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 | `src/proto/` | 协议定义与编解码实现 |
 | `src/server/` | 内置服务端应用 |
 | `include/ark/<name>/` | 尚未迁移的官方插件公开头文件 |
-| `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility/Net/Bus/HTTP 的公开头和私有装配也位于此处 |
+| `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility/Net/Bus/HTTP/Kernel 的公开头和私有装配也位于此处 |
 | `tests/` | 核心、网络与私有数据库回归测试 |
 | `tests/network/` | 网络与日志回归测试 |
 | `tests/consumer/` | 独立使用公共插件接口的示例项目 |
@@ -29,7 +29,7 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 使用 `<ark/plugin_manager.hpp>`、`<ark/net/tcp_client.hpp>` 等公开路径包含头文件，
 不需要把实现目录加入应用的包含路径。Protobuf 生成文件位于构建目录，由 `ark::proto` 提供。
 
-MySQL、Redis 的唯一公开接口源码分别是 `src/plugins/mysql/mysql_module.hpp`、`src/plugins/redis/redis_module.hpp`。Utility 的公开接口与保留的调度辅助头位于 `src/plugins/utility/`；Net 的公开接口、端点模板与传输辅助类型位于 `src/plugins/net/`。Net 仅将私有插件装配与具体服务管理器定义排除在公开映射之外。Bus 的两个公开模块头位于 `src/plugins/bus/`；共享核心值类型 `<ark/bus.hpp>` 仍位于 `include/ark/`。HTTP 映射公开的 `src/plugins/http/http_server_module.hpp`，排除私有插件与具体类。CMake 在配置阶段按显式清单复制普通文件到各构建树的 `src/plugins/sdk-include/ark/<名称>/`；清理该受控目录中已移除的映射，不复制私有插件头或工厂。通过 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net`、`ark::bus`、`ark::http` 消费，逻辑包含路径保持不变，插件关闭时同样有效。仅手写 `-I <源码>/include` 的调用需要改用目标传递的包含目录。映射副本是生成的构建产物；应编辑功能目录中的共置源码头。
+MySQL、Redis 的唯一公开接口源码分别是 `src/plugins/mysql/mysql_module.hpp`、`src/plugins/redis/redis_module.hpp`。Utility 的公开接口与保留的调度辅助头位于 `src/plugins/utility/`；Net 的公开接口、端点模板与传输辅助类型位于 `src/plugins/net/`。Net 仅将私有插件装配与具体服务管理器定义排除在公开映射之外。Bus 的两个公开模块头位于 `src/plugins/bus/`；共享核心值类型 `<ark/bus.hpp>` 仍位于 `include/ark/`。HTTP 映射公开的 `src/plugins/http/http_server_module.hpp`，排除私有插件与具体类。CMake 在配置阶段按显式清单复制普通文件到各构建树的 `src/plugins/sdk-include/ark/<名称>/`；清理该受控目录中已移除的映射，其他已迁移插件不复制私有装配头或工厂；Kernel 保留包括 `kernel_plugin.hpp` 在内的原有 38 个头，具体类型与装配可见性不变。通过 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net`、`ark::bus`、`ark::http`、`ark::kernel` 消费，逻辑包含路径保持不变，插件关闭时同样有效。仅手写 `-I <源码>/include` 的调用需要改用目标传递的包含目录。映射副本是生成的构建产物；应编辑功能目录中的共置源码头。
 
 ## CMake 目标
 
@@ -125,3 +125,5 @@ cmake --build http-sdk-build --target check-sdk --parallel 2
 运行包继续使用 `bin/`、`conf/` 和按需提供的 `resource/`；日志由配置写入运行目录的 `binlog/`。源码目录改名不改变业务 XML、资源格式或运行时查找规则。见[运行脚本迁移](../guides/applications_CN.md#迁移旧命令)。
 
 旧文中的 `bin/`、`frame/`、`dep/` 目录不是当前源码布局。生成流程见[配置工具](../guides/tools_CN.md)，进程启动见[应用启动器](../guides/applications_CN.md)。协议公开头文件与兼容边界见 [Protobuf 消息](protobuf_CN.md)。
+
+Kernel 的原有 38 个头与 cpp 共置于 `src/plugins/kernel/`，通过 `ark::kernel` 保留全部 `<ark/kernel/...>` 路径，包括 `data_impl.hpp`、`data_list_impl.hpp` 和 `kernel_plugin.hpp`。此次只移动源码，创建宏、注册方式、类型可见性和生命周期均不变。消费检查及 Protobuf 条件见 [Kernel 参考](kernel_CN.md)。

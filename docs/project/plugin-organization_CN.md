@@ -1,6 +1,6 @@
 # 官方插件与仓库组织
 
-核心与其他插件的公开接口仍位于 `include/ark/`，核心构建定义位于 `src/core/`。MySQL、Redis、Utility、Net、Bus 和 HTTP 将公开头、实现和私有装配共同放在 `src/plugins/<名称>/`，通过显式 CMake 映射保留逻辑包含路径。业务插件放在应用仓库，`arknet` 保持独立；该布局不扩展热更新或其他插件迁移。
+核心与其他插件的公开接口仍位于 `include/ark/`，核心构建定义位于 `src/core/`。MySQL、Redis、Utility、Net、Bus、HTTP 和 Kernel 将公开头、实现和私有装配共同放在 `src/plugins/<名称>/`，通过显式 CMake 映射保留逻辑包含路径。业务插件放在应用仓库，`arknet` 保持独立；该布局不扩展热更新或其他插件迁移。
 
 ## 现有实现
 
@@ -42,7 +42,7 @@ ark/
 
 上图列出主要目录。Consul、etcd、Kafka 等现有官方插件也按同一规则组织。Lua、Actor 的接入仍在规划中，上表列出的是它们的建议实现位置。
 
-MySQL、Redis、Utility、Net、Bus 和 HTTP 采用同目录布局，下面以数据库插件为例：
+MySQL、Redis、Utility、Net、Bus、HTTP 和 Kernel 采用同目录布局，下面以数据库插件为例：
 
 ```text
 src/plugins/mysql/
@@ -87,3 +87,5 @@ arknet 的单节点客户端范围为：MySQL 提供查询、参数化预处理�
 Utility 的四个模块公开接口与调度辅助头位于 `src/plugins/utility/`，由 `ark::utility` 显式映射。各模块实现类只在对应 cpp 中定义，通过私有工厂返回公开接口。插件采用 `plugin_base` 与显式的 `DllEntryPlugin`/`DllExitPlugin` 入口，只有 timer 模块参与管理器更新。接口与迁移方式见 [Utility 参考](../reference/utility_CN.md)。
 
 移除 `ark/utility/*_module_impl.hpp` 与 `ark/utility/utility_plugin.hpp` 是源码兼容性变更。使用公开模块接口和类型化查找，不再直接构造实现类。Utility 与使用方需要一起重新编译；本次不保证旧实现类二进制兼容。
+
+Kernel 的原有 38 个头与 cpp 共置于 `src/plugins/kernel/`，通过 `ark::kernel` 保留全部 `<ark/kernel/...>` 路径，包括 `data_impl.hpp`、`data_list_impl.hpp` 和 `kernel_plugin.hpp`。此次只移动源码，创建宏、注册方式、类型可见性和生命周期均不变。消费检查及 Protobuf 条件见 [Kernel 参考](../reference/kernel_CN.md)。

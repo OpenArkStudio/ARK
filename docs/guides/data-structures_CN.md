@@ -2,7 +2,7 @@
 
 单个类型化的值使用节点，结构相同的行使用表格，需要包含子实体时使用容器。三者都属于 Kernel 数据模型，定义与运行时值分别管理。本页使用当前 snake_case 接口，不依赖历史 AF 前缀的实现布局。
 
-Kernel 公开接口位于 `include/ark/kernel/`。配置工具生成 C++ 的流程见[配置工具](tools_CN.md)，协议消息见 [Protobuf](../reference/protobuf_CN.md)。
+Kernel 的头与 cpp 共置于 `src/plugins/kernel/`；`ark::kernel` 保留全部既有 `<ark/kernel/...>` 包含路径及值类型、模板定义。配置工具生成 C++ 的流程见[配置工具](tools_CN.md)，协议消息见 [Protobuf](../reference/protobuf_CN.md)。
 
 ![实体字段、表格、容器与元数据的关系](../assets/entity-data-model_CN.svg)
 

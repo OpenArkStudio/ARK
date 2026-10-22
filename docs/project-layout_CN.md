@@ -20,7 +20,7 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 | `src/proto/` | 协议定义与编解码实现 |
 | `src/server/` | 内置服务端应用 |
 | `include/ark/<name>/` | 共置范围之外的插件公开头文件 |
-| `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility/Net/Bus/HTTP 公开头和私有装配 |
+| `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility/Net/Bus/HTTP/Kernel 公开头和私有装配 |
 | `tests/` | 核心、网络与私有数据库回归测试 |
 | `tests/network/` | 网络与日志回归测试 |
 | `tests/consumer/` | 独立使用公共插件接口的示例项目 |
@@ -109,3 +109,5 @@ cmake -S tests/consumer/http -B http-sdk-build -G Ninja \
   -DASIO_STANDALONE=OFF
 cmake --build http-sdk-build --target check-sdk --parallel 2
 ```
+
+Kernel 的原有 38 个头与 cpp 共置于 `src/plugins/kernel/`，通过 `ark::kernel` 保留全部 `<ark/kernel/...>` 路径，包括 `data_impl.hpp`、`data_list_impl.hpp` 和 `kernel_plugin.hpp`。此次只移动源码，创建宏、注册方式、类型可见性和生命周期均不变。消费检查及 Protobuf 条件见 [Kernel 参考](reference/kernel_CN.md)。

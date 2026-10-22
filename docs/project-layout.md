@@ -22,7 +22,7 @@ build's artifacts into the runtime's `bin/` directory.
 | `src/proto/` | Protocol schemas and codec implementation |
 | `src/server/` | Built-in server applications |
 | `include/ark/<name>/` | Public headers for plugins outside the co-located set |
-| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility/Net/Bus/HTTP public headers and private assembly |
+| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility/Net/Bus/HTTP/Kernel public headers and private assembly |
 | `tests/` | Core, network and private database regressions |
 | `tests/network/` | Network and logging regressions |
 | `tests/consumer/` | An independent project consuming the public plugin interfaces |
@@ -119,3 +119,5 @@ cmake -S tests/consumer/http -B http-sdk-build -G Ninja \
   -DASIO_STANDALONE=OFF
 cmake --build http-sdk-build --target check-sdk --parallel 2
 ```
+
+Kernel co-locates its 38 existing headers with its cpp files in `src/plugins/kernel/`. `ark::kernel` preserves every `<ark/kernel/...>` path, including `data_impl.hpp`, `data_list_impl.hpp` and `kernel_plugin.hpp`. This source-only move keeps creation macros, registration, type visibility and lifecycle unchanged. See [Kernel reference](reference/kernel.md) for consumption checks and Protobuf requirements.

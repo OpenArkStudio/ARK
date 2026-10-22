@@ -2,7 +2,7 @@
 
 [简体中文](README_CN.md)
 
-Core and other plugin public headers remain under `include/ark/`. MySQL, Redis, Utility, Net, Bus and HTTP co-locate public headers, implementation and private assembly under `src/plugins/<name>/`; CMake maps only explicitly listed public headers, preserving the logical `<ark/mysql/...>`, `<ark/redis/...>`, `<ark/utility/...>`, `<ark/net/...>`, `<ark/bus/...>` and `<ark/http/...>` paths. Runtime plugins retain independent optional targets. Business plugins belong in application repositories.
+Core and other plugin public headers remain under `include/ark/`. MySQL, Redis, Utility, Net, Bus, HTTP and Kernel co-locate public headers, implementation and private assembly under `src/plugins/<name>/`; CMake maps only explicitly listed public headers, preserving the logical `<ark/mysql/...>`, `<ark/redis/...>`, `<ark/utility/...>`, `<ark/net/...>`, `<ark/bus/...>`, `<ark/http/...>` and `<ark/kernel/...>` paths. Runtime plugins retain independent optional targets. Business plugins belong in application repositories.
 
 | Plugin | Responsibility | Default build |
 | --- | --- | --- |
@@ -22,3 +22,5 @@ Use `ARK_BUILD_PLUGIN_<NAME>` to select a plugin. Optional integrations require 
 See [project layout and public plugin interfaces](../../docs/project-layout.md) for targets and build commands.
 
 [Utility](../../docs/reference/utility.md) documents the four module interfaces, owner-driven timers and the implementation-header migration.
+
+Kernel co-locates its 38 existing headers with its cpp files in `src/plugins/kernel/`. `ark::kernel` preserves every `<ark/kernel/...>` path, including `data_impl.hpp`, `data_list_impl.hpp` and `kernel_plugin.hpp`. This source-only move keeps creation macros, registration, type visibility and lifecycle unchanged. See [Kernel reference](../../docs/reference/kernel.md) for consumption checks and Protobuf requirements.

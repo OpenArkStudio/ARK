@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-核心与其他插件的公开头文件仍位于 `include/ark/`。MySQL、Redis、Utility、Net、Bus 和 HTTP 将公开头、实现与私有装配放在 `src/plugins/<名称>/` 同一目录；CMake 仅映射显式列出的公开头，保留 `<ark/mysql/...>`、`<ark/redis/...>`、`<ark/utility/...>`、`<ark/net/...>`、`<ark/bus/...>` 和 `<ark/http/...>` 逻辑包含路径。每个插件仍按独立 CMake target 构建，业务插件放在应用仓库。
+核心与其他插件的公开头文件仍位于 `include/ark/`。MySQL、Redis、Utility、Net、Bus、HTTP 和 Kernel 将公开头、实现与私有装配放在 `src/plugins/<名称>/` 同一目录；CMake 仅映射显式列出的公开头，保留 `<ark/mysql/...>`、`<ark/redis/...>`、`<ark/utility/...>`、`<ark/net/...>`、`<ark/bus/...>`、`<ark/http/...>` 和 `<ark/kernel/...>` 逻辑包含路径。每个插件仍按独立 CMake target 构建，业务插件放在应用仓库。
 
 | 插件 | 职责 | 默认构建 |
 | --- | --- | --- |
@@ -22,3 +22,5 @@
 CMake target 和构建命令见[项目布局与公共插件接口](../../docs/project-layout_CN.md)。
 
 [Utility 参考](../../docs/reference/utility_CN.md)说明四个模块接口、所属线程驱动的定时器与实现头迁移。
+
+Kernel 的原有 38 个头与 cpp 共置于 `src/plugins/kernel/`，通过 `ark::kernel` 保留全部 `<ark/kernel/...>` 路径，包括 `data_impl.hpp`、`data_list_impl.hpp` 和 `kernel_plugin.hpp`。此次只移动源码，创建宏、注册方式、类型可见性和生命周期均不变。消费检查及 Protobuf 条件见 [Kernel 参考](../../docs/reference/kernel_CN.md)。

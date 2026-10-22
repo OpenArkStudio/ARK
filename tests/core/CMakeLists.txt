@@ -7,7 +7,7 @@ target_link_libraries(ark_core_header_checks PRIVATE ark::core)
 add_executable(ark_core_tests main.cpp strings.cpp containers.cpp templates.cpp callbacks.cpp
     header_regressions.cpp cxx20_language.cpp concurrency.cpp plugin_manager_startup.cpp data_strings.cpp node_data_storage.cpp
     object_vectors.cpp plugin_construction.cpp module_factory.cpp)
-target_link_libraries(ark_core_tests PRIVATE ark::core ark::utility)
+target_link_libraries(ark_core_tests PRIVATE ark::core ark::kernel ark::utility)
 add_dependencies(ark_core_tests ark_core_header_checks)
 add_library(ark_construction_header_checks OBJECT headers/module_base.cpp headers/plugin_base.cpp)
 set_property(TARGET ark_construction_header_checks PROPERTY LINK_LIBRARIES ark::core)

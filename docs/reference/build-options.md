@@ -37,7 +37,7 @@ cmake -S . -B build -DARK_BUILD_APPLICATIONS=ON \
 cmake --build build --target ark_mysql_plugin ark_redis_plugin
 ```
 
-The MySQL/Redis/Utility/Net/Bus/HTTP public headers are copied from explicit lists at configuration time into each ark build tree's `src/plugins/sdk-include/ark/<name>/`. `ark::mysql`, `ark::redis`, `ark::utility`, `ark::net`, `ark::bus` and `ark::http` carry that include root even with runtime plugins disabled; private assembly headers and factories are excluded. Each public header has one co-located source; its generated include mapping belongs to the selected build tree, rather than a second source layout.
+The MySQL/Redis/Utility/Net/Bus/HTTP/Kernel public headers are copied from explicit lists at configuration time into each ark build tree's `src/plugins/sdk-include/ark/<name>/`. `ark::mysql`, `ark::redis`, `ark::utility`, `ark::net`, `ark::bus`, `ark::http` and `ark::kernel` carry that include root even with runtime plugins disabled; other migrated plugins exclude private assembly and factories. Kernel retains all 38 existing headers, including `kernel_plugin.hpp`, without changing registration or type visibility. Each public header has one co-located source; its generated include mapping belongs to the selected build tree, rather than a second source layout.
 
 Link a consumer to `ark::mysql` and/or `ark::redis` for the public headers and usage requirements. These public interface targets do not load a runtime library. Deploy the selected libraries with the launcher and add their stems to the application's manifest:
 

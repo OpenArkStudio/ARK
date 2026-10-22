@@ -171,9 +171,37 @@ The map module exposes entity lists and online counts. It does not provide a com
 
 ## API sources
 
-- [Kernel interface](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/kernel_module.hpp)
-- [Entity interface](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/entity.hpp)
-- [Metadata interface](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/class_meta_module.hpp)
-- [Configuration interface](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/config_module.hpp)
-- [Map interface](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/map_module.hpp)
+- [Kernel interface](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/kernel/kernel_module.hpp)
+- [Entity interface](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/kernel/entity.hpp)
+- [Metadata interface](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/kernel/class_meta_module.hpp)
+- [Configuration interface](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/kernel/config_module.hpp)
+- [Map interface](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/kernel/map_module.hpp)
 - [Data definitions and generation](../guides/data-structures.md)
+
+## Kernel source layout
+
+Kernel keeps all 38 existing headers beside its cpp files in `src/plugins/kernel/`.
+The explicit `ark::kernel` mapping preserves every `<ark/kernel/...>` include,
+including `data_impl.hpp`, `data_list_impl.hpp` and `kernel_plugin.hpp`, even when
+the runtime plugin is disabled. Value/template definitions remain available to
+business code. This source move does not change creation macros, registration,
+lifecycle or type visibility. Core headers remain under `include/ark/`.
+
+The independent `tests/consumer/kernel` project links only `ark::kernel`, compiles
+the 38 headers separately with Protobuf enabled, and runs value/template usage.
+The unchanged `container_meta.hpp` requires `ark/define.hpp` and `ark/enum.hpp`
+to be included first; the consumer supplies those existing prerequisites.
+With `ARK_BUILD_PROTO=OFF` it checks the other 35 headers; `kernel_module.hpp`,
+`kernel_module_impl.hpp` and `map_module_impl.hpp` retain their existing Protobuf
+requirement. Use `check-core`, `check-kernel-initialization` and
+`check-typed-examples` for data/node, initialization/configuration and application
+regressions respectively. `check-kernel-initialization` requires
+`ARK_BUILD_PROTO=ON`; `check-typed-examples` also requires the application, config
+and example builds with Kernel/Utility runtime targets enabled.
+
+```sh
+cmake -S tests/consumer/kernel -B kernel-headers-build -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DVCPKG_MANIFEST_FEATURES=application -DASIO_STANDALONE=OFF
+cmake --build kernel-headers-build --target check-kernel-headers --parallel 2
+```
