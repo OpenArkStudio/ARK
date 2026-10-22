@@ -75,7 +75,7 @@ include(cmake/ark_install.cmake)
     for (const name of ['mysql/mysql_module.hpp', 'kernel/kernel_plugin.hpp', 'physic/physic_module_impl.hpp', 'application_manifest.hpp']) {
       assert.ok(existsSync(join(relocated, 'include/ark', name)), name);
     }
-    for (const name of ['mysql/mysql_plugin.hpp', 'bus/bus_config_parser.hpp', 'http/http_plugin.hpp', 'configuration_reader.hpp']) {
+    for (const name of ['mysql/mysql_plugin.hpp', 'bus/bus_config_parser.hpp', 'http/http_plugin.hpp', 'net/http_client_module_impl.hpp', 'net/http_client_factory.hpp', 'configuration_reader.hpp']) {
       assert.equal(existsSync(join(relocated, 'include/ark', name)), false, name);
     }
     rmSync(producer, { recursive: true });

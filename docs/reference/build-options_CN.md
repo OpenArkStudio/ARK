@@ -63,3 +63,5 @@ config = ""
 ## 安装与归档
 
 `ARK_INSTALL` 在顶层项目中默认 `ON`，嵌入构建时默认 `OFF`；启用显式公开头安装、可迁移 CMake 导出、`check-install` 与 TGZ／ZIP CPack 归档。`ARK_USE_INSTALLED_ARKNET=ON` 发现单独安装的 arknet 包，优先于源码与版本覆盖；默认 `OFF`，保留源码依赖构建。具体操作见[安装与包消费](../get-started/installation_CN.md#安装并消费-cmake-包)。打包不会启用可选运行时插件，也不代表外部驱动已经验收。
+
+Net 的 18 个公开头不再包含 `http_client_module_impl.hpp`；使用 `<ark/net/http_client_module.hpp>` 并查找公开接口。此移除属于源码／ABI 兼容性变化，详见 [Net 迁移](network_CN.md#api-与私有创建)。私有工厂声明不安装。

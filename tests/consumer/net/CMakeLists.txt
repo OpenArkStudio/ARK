@@ -12,7 +12,6 @@ add_subdirectory("${ARK_SOURCE_DIR}" ark)
 # Compile each retained public header in isolation through only the Net API target.
 set(net_headers
     http_client_module.hpp
-    http_client_module_impl.hpp
     http_server.hpp
     net.hpp
     net_client_service.hpp

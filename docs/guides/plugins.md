@@ -207,3 +207,5 @@ Existing macros and plugins remain supported. Export the entry functions
 explicitly with the existing platform visibility macro. The plugin boundary
 still passes C++ types; this API does not promise a pure C ABI or cross-version
 ABI stability. Lifecycle phases, draining and library unload rules are unchanged.
+
+Net constructs its HTTP client through a private factory returning `std::unique_ptr<http_client_module>` and registers it with updates enabled. Applications consume `<ark/net/http_client_module.hpp>` and typed manager lookup; the old `http_client_module_impl.hpp` is removed from the public/install interfaces. Rebuild affected consumers together; see [Net migration](../reference/network.md#api-and-private-construction).

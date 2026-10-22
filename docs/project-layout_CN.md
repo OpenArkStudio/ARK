@@ -81,7 +81,7 @@ cmake --build sdk-build --target check-sdk
 该示例关闭应用和 Protobuf 构建，检查公开头文件路径、C++20 编译要求、模块继承和导出的 GUID 配置。
 增加 `-DARK_USE_GUID_32=ON` 可检查 32 位 GUID 配置。
 
-仅使用 Net 的消费者启用 Protobuf，保持运行时插件关闭；分别编译 19 个 Net 公开头，
+仅使用 Net 的消费者启用 Protobuf，保持运行时插件关闭；分别编译 18 个 Net 公开头，
 并确认私有管理器与插件头不可见：
 
 ```sh

@@ -87,3 +87,5 @@ cmake --build core-build --target check-business-runtime
 Applications CI 显式开启 `ARK_BUILD_PLUGIN_HTTP=ON` 并运行 `check-core`，因此既有源码检查与全矩阵均包含真实 HTTP 动态库回归。本地启用 HTTP 的原生验证已通过；本次变更的托管全矩阵仍待验收。永久 CI 策略测试检查配置到真实动态库回归的依赖链。
 
 Kernel 的 38 个既有头通过 `ark::kernel` 从 `src/plugins/kernel/` 映射；`check-core` 保留数据与节点回归，`check-kernel-initialization` 保留初始化与配置复制断言。独立工程 `tests/consumer/kernel` 在 Protobuf 开启/关闭时分别消费 38/35 个头，其中 `container_meta.hpp` 保留原有 `ark/define.hpp` 与 `ark/enum.hpp` 前置包含要求。详见 [Kernel 参考](../../docs/reference/kernel_CN.md)。
+
+Net 注册的 HTTP 客户端现在由私有接口工厂创建。`check-net-plugin` 还验证无需管理器更新即可完成的 future，以及 DSO 仍加载时通过 `pre_shut()` 取消未完成请求；在正常插件退出前消费这些 future，不证明 future 可跨任意卸载继续使用。`check-network` 经由相同私有工厂和公开客户端接口保留请求、超时、回调与停机覆盖。
