@@ -84,3 +84,22 @@ test('native acceptance covers every enabled server without enabling unsupported
   assert.match(source('src/server/simulate/CMakeLists.txt'), /message\(FATAL_ERROR/);
   assert.match(source('tests/core/CMakeLists.txt'), /add_dependencies\(check-core check-server-plugins\)/);
 });
+
+test('DSO export inspection stays in a core-only process separate from the real-factory host', () => {
+  const cmake = source('tests/server/CMakeLists.txt');
+  const construction = source('tests/server/construction.cpp');
+  const exports = source('tests/server/exports.cpp');
+  assert.match(cmake, /add_executable\(ark_server_exports_tests exports\.cpp\)/);
+  // Replace inherited aggregate linkage rather than appending core to ark::ark:
+  // the export host must not register static generated Protobuf descriptors.
+  assert.match(cmake, /set_property\(TARGET ark_server_exports_tests PROPERTY LINK_LIBRARIES ark::core\)/);
+  assert.match(cmake, /COMMAND \$<TARGET_FILE:ark_server_exports_tests> "\$<TARGET_FILE_DIR:ark_\$\{server\}_plugin>\/" "ark_\$\{server\}_plugin"\s+COMMAND \$<TARGET_FILE:\$\{test_target\}> "ark_\$\{server\}_plugin"/);
+  assert.doesNotMatch(construction, /dynamic_library|\.load\(|get_symbol\(/);
+  assert.doesNotMatch(exports, /server_test_types|ark\/proto|_module_factory|_module_impl/);
+  for (const entry of ['DllEntryPlugin', 'DllExitPlugin']) {
+    assert.ok(exports.includes(`get_symbol("${entry}")`));
+  }
+  // Keep the actual manager-loader path with the controlled Login factory.
+  assert.match(source('tests/server/entry.cpp'), /manager\.start\(/);
+  assert.match(source('tests/server/entry.cpp'), /manager\.stop\(/);
+});

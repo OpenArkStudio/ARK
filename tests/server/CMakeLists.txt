@@ -1,4 +1,10 @@
 # Copyright (c) 2026 OpenArkStudio. SPDX-License-Identifier: Apache-2.0
+# Keep this host free of the aggregate SDK and generated protocol objects. Each
+# DSO inspection runs in its own process, separate from the real-factory host,
+# so static AFProto descriptors cannot register twice in one process.
+add_executable(ark_server_exports_tests exports.cpp)
+set_property(TARGET ark_server_exports_tests PROPERTY LINK_LIBRARIES ark::core)
+
 add_custom_target(check-server-plugins)
 foreach(server game login proxy world master dir router)
     set(source "${PROJECT_SOURCE_DIR}/src/server/${server}")
@@ -12,8 +18,9 @@ foreach(server game login proxy world master dir router)
     target_include_directories(${test_target} PRIVATE "${source}" "${CMAKE_CURRENT_BINARY_DIR}/${server}")
     add_dependencies(${test_target} ark_${server}_plugin)
     add_custom_target(check-server-${server}
-        COMMAND $<TARGET_FILE:${test_target}> "$<TARGET_FILE_DIR:ark_${server}_plugin>/" "ark_${server}_plugin"
-        DEPENDS ${test_target} ark_${server}_plugin USES_TERMINAL VERBATIM)
+        COMMAND $<TARGET_FILE:ark_server_exports_tests> "$<TARGET_FILE_DIR:ark_${server}_plugin>/" "ark_${server}_plugin"
+        COMMAND $<TARGET_FILE:${test_target}> "ark_${server}_plugin"
+        DEPENDS ark_server_exports_tests ${test_target} ark_${server}_plugin USES_TERMINAL VERBATIM)
     add_dependencies(check-server-plugins check-server-${server})
 endforeach()
 
