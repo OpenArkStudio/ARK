@@ -1,5 +1,5 @@
 src/proto/cpp/
-include/ark/meta_define.hpp
+src/core/meta_define.hpp
 tests/catch.hpp
 tests/network/doctest.h
 src/plugins/utility/ctpl.h

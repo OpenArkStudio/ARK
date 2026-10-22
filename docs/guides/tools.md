@@ -74,7 +74,7 @@ The existing exporter is not a complete workbook validator. Do not rely on its `
 
 ## Update the checked-in generated header
 
-After reviewing a resource change, run the wrapper on a working branch. It exports the repository's `resources/` tree, formats `code/meta_define.hpp` with the project's clang-format rules and copies it to `include/ark/meta_define.hpp`. It overwrites those generated files.
+After reviewing a resource change, run the wrapper on a working branch. It exports the repository's `resources/` tree, formats `code/meta_define.hpp` with the project's clang-format rules and copies it to `src/core/meta_define.hpp`. It overwrites those generated files.
 
 On macOS/Linux, select the Python environment and the project's supported clang-format version:
 

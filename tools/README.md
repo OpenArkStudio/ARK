@@ -4,7 +4,7 @@ Usage and dependencies: [Configuration tools](../docs/guides/tools.md) · [配�
 
 `config_tool/` and `gen-config.*` export the `resources/` workbooks. The exporter
 requires Python 3 and openpyxl; the wrapper also needs clang-format and replaces
-`include/ark/meta_define.hpp`.
+`src/core/meta_define.hpp`.
 
 `plugin_and_module_tool/` retains historical scaffolding sources and an x86-64
 macOS binary. Its templates target the old SDK layout and are not supported for

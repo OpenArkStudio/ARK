@@ -10,9 +10,9 @@ Build artifacts belong to each CMake build directory: `cmake -S . -B out/release
 
 | Path | Contents |
 | --- | --- |
-| `include/ark/` | Public core and other plugin headers |
-| `src/core/` | Core CMake target and header-only usage requirements |
-| `application/` | Application entry point |
+| `include/ark/` | Remaining plugin headers and application-manifest declarations |
+| `src/core/` | Core headers, implementation and CMake usage requirements |
+| `src/application/` | Application entry point and shutdown request |
 | `src/proto/` | Protocol schemas and codec implementation |
 | `src/server/` | Built-in server applications |
 | `include/ark/<name>/` | Public headers for plugins outside the co-located set |
@@ -31,7 +31,9 @@ Include public headers as `<ark/plugin_manager.hpp>` or `<ark/net/tcp_client.hpp
 Do not add implementation directories to an application's include path. Generated
 Protobuf headers are placed under the build directory, exposed through `ark::proto`.
 
-The MySQL/Redis interfaces have one source each: `src/plugins/mysql/mysql_module.hpp` and `src/plugins/redis/redis_module.hpp`. Utility public interfaces and retained scheduler helpers live in `src/plugins/utility/`; Net public interfaces, endpoint templates and transport helpers live in `src/plugins/net/`. Net excludes only private plugin assembly and the concrete service-manager definition from its public mapping. Bus keeps its two public module headers in `src/plugins/bus/`; shared `<ark/bus.hpp>` core value types remain under `include/ark/`. HTTP maps its public `src/plugins/http/http_server_module.hpp`, excluding the private plugin and concrete class. At configuration time CMake copies ordinary files from explicit lists into each ark build tree's `src/plugins/sdk-include/ark/<name>/`, removing obsolete mappings only within those controlled directories. Other migrated plugins exclude private assembly and factories; Kernel retains all 38 existing headers, including `kernel_plugin.hpp`, without changing concrete-type or assembly visibility. Consume `ark::mysql`, `ark::redis`, `ark::utility`, `ark::net`, `ark::bus`, `ark::http` and `ark::kernel` to retain the logical include paths, including when runtime plugins are disabled. Commands using only handwritten `-I <source>/include` must adopt the target-provided include roots. The mapped copies are generated build artifacts; edit the co-located source headers.
+The MySQL/Redis interfaces have one source each: `src/plugins/mysql/mysql_module.hpp` and `src/plugins/redis/redis_module.hpp`. Utility public interfaces and retained scheduler helpers live in `src/plugins/utility/`; Net public interfaces, endpoint templates and transport helpers live in `src/plugins/net/`. Net excludes only private plugin assembly and the concrete service-manager definition from its public mapping. Bus keeps its two public module headers in `src/plugins/bus/`; shared `<ark/bus.hpp>` core value types live in `src/core/bus.hpp`. HTTP maps its public `src/plugins/http/http_server_module.hpp`, excluding the private plugin and concrete class. At configuration time CMake copies ordinary files from explicit lists into each ark build tree's `src/plugins/sdk-include/ark/<name>/`, removing obsolete mappings only within those controlled directories. Other migrated plugins exclude private assembly and factories; Kernel retains all 38 existing headers, including `kernel_plugin.hpp`, without changing concrete-type or assembly visibility. Consume `ark::mysql`, `ark::redis`, `ark::utility`, `ark::net`, `ark::bus`, `ark::http` and `ark::kernel` to retain the logical include paths, including when runtime plugins are disabled. Commands using only handwritten `-I <source>/include` must adopt the target-provided include roots. The mapped copies are generated build artifacts; edit the co-located source headers.
+
+Core has one source copy under `src/core/`. `ark::core` maps its explicit public headers into the selected build tree’s `src/core/public-include/ark/`, preserving `<ark/plugin_manager.hpp>` and nested include paths. Edit source headers rather than generated copies. The `app`/`app_d` executable and manifest format are unchanged.
 
 ## CMake targets
 
