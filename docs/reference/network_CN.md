@@ -33,7 +33,8 @@ IO 工作线程与传输操作。
 **头文件迁移：**移除 `<ark/net/net_service_manager_module_impl.hpp>`、
 `<ark/net/net_plugin.hpp>` 和 `<ark/net/http_client_module_impl.hpp>` 的包含。通过应用清单加载插件，再获取已注册的
 `net_service_manager_module`，不直接构造管理器实现。改用 CMake 目标传递的包含目录，
-不能仅使用 `-I <源码>/include`。
+不能仅使用 `-I <源码>/include`。安装后的消费者使用 `find_package(ark CONFIG REQUIRED COMPONENTS net)` 和 `ark::net`；独立 arknet 依赖及设置一致性要求见[安装说明](../get-started/installation_CN.md#安装并消费-cmake-包)。
+
 **源码／ABI 不兼容变更：** `http_client_module_impl` 及其旧公开头不再属于源码、构建或安装接口。
 包含 `<ark/net/http_client_module.hpp>`，通过插件管理器查找 `http_client_module`，
 不直接构造具体客户端。工厂属于 Net 内部实现，不是应用 API；Net 与消费者需要一起重建。

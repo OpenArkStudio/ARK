@@ -40,6 +40,8 @@ unchanged. arknet continues to own IO workers and transport operations.
 Load the plugin through the application manifest and obtain the registered
 `net_service_manager_module` instead of constructing the manager implementation.
 Use CMake's target-provided include roots instead of only `-I <source>/include`.
+Installed consumers use `find_package(ark CONFIG REQUIRED COMPONENTS net)` and `ark::net`; see [installation](../get-started/installation.md#install-and-consume-the-cmake-package) for the separate arknet dependency and matching dependency settings.
+
 **Breaking source/ABI change:** `http_client_module_impl` and its old public
 header are removed from the source/build/install interfaces. Include
 `<ark/net/http_client_module.hpp>` and resolve `http_client_module` from the plugin

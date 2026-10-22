@@ -1,6 +1,6 @@
 # Utility plugin
 
-`ark_utility_plugin` provides GUID, timer, schedule and compression modules. Link a consumer to `ark::utility` for public headers and usage requirements; select `ark_utility_plugin` in the application manifest to load its implementation. SDK linkage alone does not load modules.
+`ark_utility_plugin` provides GUID, timer, schedule and compression modules. Link a consumer to `ark::utility` for public headers and usage requirements; select `ark_utility_plugin` in the application manifest to load its implementation. A CMake target dependency alone does not load modules.
 
 ## Public interfaces
 
@@ -28,7 +28,7 @@ The plugin keeps installation order GUID, timer, schedule, compression and rever
 
 ## Source and build-tree SDK migration
 
-Public headers now have their single source in `src/plugins/utility/`. CMake copies seven explicitly listed public headers into the build tree's `src/plugins/sdk-include/ark/utility/`: the four module interfaces plus `scheduler.hpp`, `ctpl.h` and `ctpl_stl.h`. Consume `ark::utility` to retain all existing `<ark/utility/...>` public/helper include paths, including with runtime plugins disabled. Do not add the private plugin directory to consumer include paths. The upstream thread-pool headers retain their original bytes and formatting rules. No installed `find_package(ark)` package is introduced.
+Public headers now have their single source in `src/plugins/utility/`. CMake copies seven explicitly listed public headers into the build tree's `src/plugins/sdk-include/ark/utility/`: the four module interfaces plus `scheduler.hpp`, `ctpl.h` and `ctpl_stl.h`. Consume `ark::utility` to retain all existing `<ark/utility/...>` public/helper include paths, including with runtime plugins disabled. Do not add the private plugin directory to consumer include paths. The upstream thread-pool headers retain their original bytes and formatting rules. For installed consumption, use the [CMake package](../get-started/installation.md#install-and-consume-the-cmake-package) with `find_package(ark CONFIG REQUIRED COMPONENTS utility)` and the same `ark::utility` target. Installed public headers retain `<ark/utility/...>` paths; the runtime plugin still needs to be selected in the application manifest.
 
 **Breaking source change:** `ark/utility/{guid,timer,schedule,compress}_module_impl.hpp` and `ark/utility/utility_plugin.hpp` are removed from the SDK. Implementations are defined in their cpp files; the plugin type and interface-returning factories are private. Replace direct implementation construction with public interface lookup or an application-owned implementation. Handwritten `-I <ark-source>/include` consumers must use target-provided include roots. Rebuild the plugin and consumers together; unchanged public virtual functions and exported entry signatures do not establish compatibility with old implementation-class binaries.
 
