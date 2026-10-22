@@ -1,0 +1,25 @@
+cmake_minimum_required(VERSION 3.21)
+project(ark_bus_sdk_consumer LANGUAGES CXX)
+get_filename_component(ARK_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../.." ABSOLUTE)
+set(ARK_BUILD_APPLICATIONS OFF CACHE BOOL "Build applications" FORCE)
+set(ARK_BUILD_PROTO ON CACHE BOOL "Build protocol messages" FORCE)
+set(ARK_BUILD_NETWORK_TESTS OFF CACHE BOOL "Build network tests" FORCE)
+set(ARK_BUILD_CORE_TESTS OFF CACHE BOOL "Build core tests" FORCE)
+set(ARK_BUILD_TESTS OFF CACHE BOOL "Build legacy tests" FORCE)
+set(ARK_BUILD_EXAMPLES OFF CACHE BOOL "Build examples" FORCE)
+add_subdirectory("${ARK_SOURCE_DIR}" ark)
+
+# Compile each retained public header in isolation through only the Bus API target.
+set(bus_headers bus_module.hpp msg_module.hpp)
+set(header_checks)
+foreach(header IN LISTS bus_headers)
+    string(MAKE_C_IDENTIFIER "${header}" identifier)
+    set(source "${CMAKE_CURRENT_BINARY_DIR}/${identifier}.cpp")
+    file(WRITE "${source}" "#include <ark/bus/${header}>\n")
+    list(APPEND header_checks "${source}")
+endforeach()
+add_executable(ark_bus_sdk_consumer main.cpp ${header_checks})
+target_link_libraries(ark_bus_sdk_consumer PRIVATE ark::bus)
+add_custom_target(check-sdk
+    COMMAND $<TARGET_FILE:ark_bus_sdk_consumer>
+    DEPENDS ark_bus_sdk_consumer USES_TERMINAL)

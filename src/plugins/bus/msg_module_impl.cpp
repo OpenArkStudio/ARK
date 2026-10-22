@@ -18,10 +18,46 @@
  *
  */
 
-#include "ark/bus/msg_module_impl.hpp"
+#include "ark/bus/bus_module.hpp"
+#include "ark/bus/msg_module.hpp"
 #include "ark/misc.hpp"
+#include "ark/module_base.hpp"
+#include "ark/net/net_service_manager_module.hpp"
+#include "ark/plugin_manager.hpp"
+#include "bus_plugin.hpp"
 
 namespace ark {
+
+class msg_module_impl final : public module_base<msg_module>
+{
+public:
+    bool init() override;
+
+    virtual bool send_def_cs_msg_by_app_type(
+        const app_type app_type, const msg_id_t msg_id, const google::protobuf::Message& msg) override;
+    virtual bool send_def_ss_msg_by_app_type(
+        const app_type app_type, const msg_id_t msg_id, const google::protobuf::Message& msg) override;
+    virtual bool send_msg_by_app_type(
+        const app_type app_type, msg_header* header, const google::protobuf::Message& msg) override;
+    bool send_msg_by_bus_id(bus_id_t bus_id, msg_id_t msg_id, const google::protobuf::Message& msg,
+        const guid_t& guid = null_guid) override;
+    bool send_to_client(conv_id_t session_id, msg_id_t msg_id, const google::protobuf::Message& msg,
+        const guid_t& guid = null_guid) override;
+    bool send_to_client(conv_id_t session_id, msg_id_t msg_id, const std::string& msg_data, bool compressed = false,
+        const guid_t& guid = null_guid) override;
+    bool send_to_intra(conv_id_t session_id, msg_id_t msg_id, const google::protobuf::Message& msg,
+        const guid_t& guid = null_guid) override;
+
+protected:
+    bool send_msg(std::shared_ptr<net>& net_ptr, msg_header* header, const google::protobuf::Message& msg,
+        const conv_id_t session_id = 0);
+    bool send_msg(
+        std::shared_ptr<net>& net_ptr, msg_header* header, const std::string& msg_data, const conv_id_t session_id = 0);
+
+private:
+    net_service_manager_module* net_service_manager_module_;
+    bus_module* bus_module_;
+};
 
 bool msg_module_impl::init() {
     bus_module_ = find_module<bus_module>();
@@ -166,5 +202,13 @@ bool msg_module_impl::send_msg(
     header->set_message_length(msg_data.size());
     return net_ptr->send_msg(header, msg_data.data(), conv_id);
 }
+
+namespace detail {
+
+std::unique_ptr<msg_module> make_msg_module() {
+    return std::make_unique<msg_module_impl>();
+}
+
+} // namespace detail
 
 } // namespace ark

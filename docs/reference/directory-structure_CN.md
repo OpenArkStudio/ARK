@@ -1,4 +1,4 @@
-# 项目结构与 SDK
+# 项目结构与公共插件接口
 
 ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应用仓库。
 网络库继续维护在独立的 [arknet 仓库](https://github.com/OpenArkStudio/arknet)。
@@ -15,10 +15,10 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 | `src/proto/` | 协议定义与编解码实现 |
 | `src/server/` | 内置服务端应用 |
 | `include/ark/<name>/` | 尚未迁移的官方插件公开头文件 |
-| `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility/Net 的公开头和私有装配也位于此处 |
+| `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility/Net/Bus 的公开头和私有装配也位于此处 |
 | `tests/` | 核心、网络与私有数据库回归测试 |
 | `tests/network/` | 网络与日志回归测试 |
-| `tests/consumer/` | 独立使用公开 SDK 的示例项目 |
+| `tests/consumer/` | 独立使用公共插件接口的示例项目 |
 | `examples/` | 应用示例 |
 | `config/` | 应用清单、插件和日志配置样例 |
 | `resources/` | 业务数据、工作表与历史资源 |
@@ -29,7 +29,7 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 使用 `<ark/plugin_manager.hpp>`、`<ark/net/tcp_client.hpp>` 等公开路径包含头文件，
 不需要把实现目录加入应用的包含路径。Protobuf 生成文件位于构建目录，由 `ark::proto` 提供。
 
-MySQL、Redis 的唯一公开接口源码分别是 `src/plugins/mysql/mysql_module.hpp`、`src/plugins/redis/redis_module.hpp`。Utility 的公开接口与保留的调度辅助头位于 `src/plugins/utility/`；Net 的公开接口、端点模板与传输辅助类型位于 `src/plugins/net/`。Net 仅将私有插件装配与具体服务管理器定义排除在公开映射之外。CMake 在配置阶段按显式清单复制普通文件到各构建树的 `src/plugins/sdk-include/ark/<名称>/`；清理该受控目录中已移除的映射，不复制私有插件头或工厂。通过 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net` 消费，逻辑包含路径保持不变，插件关闭时同样有效。仅手写 `-I <源码>/include` 的调用需要改用目标传递的包含目录。当前没有正式 SDK 安装或导出包。
+MySQL、Redis 的唯一公开接口源码分别是 `src/plugins/mysql/mysql_module.hpp`、`src/plugins/redis/redis_module.hpp`。Utility 的公开接口与保留的调度辅助头位于 `src/plugins/utility/`；Net 的公开接口、端点模板与传输辅助类型位于 `src/plugins/net/`。Net 仅将私有插件装配与具体服务管理器定义排除在公开映射之外。Bus 的两个公开模块头位于 `src/plugins/bus/`；共享核心值类型 `<ark/bus.hpp>` 仍位于 `include/ark/`。CMake 在配置阶段按显式清单复制普通文件到各构建树的 `src/plugins/sdk-include/ark/<名称>/`；清理该受控目录中已移除的映射，不复制私有插件头或工厂。通过 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net`、`ark::bus` 消费，逻辑包含路径保持不变，插件关闭时同样有效。仅手写 `-I <源码>/include` 的调用需要改用目标传递的包含目录。
 
 ## CMake 目标
 
@@ -38,7 +38,7 @@ MySQL、Redis 的唯一公开接口源码分别是 `src/plugins/mysql/mysql_modu
 | `ark::core` | 核心头文件、C++20 要求与公共编译定义 |
 | `ark::net`、`ark::kernel`、`ark::utility` 等 | 插件头文件及其公开 API 依赖 |
 | `ark::proto` | 生成的协议消息及其编译库，需要 `ARK_BUILD_PROTO=ON` |
-| `ark::ark` | 多插件应用使用的聚合 SDK |
+| `ark::ark` | 多插件应用使用的聚合接口目标 |
 
 核心与插件 API 目标负责传递 CMake 编译要求，不负责加载运行时插件。
 设置 `ARK_BUILD_APPLICATIONS=ON` 后，通过 `ARK_BUILD_PLUGIN_<NAME>` 选择要编译的插件动态库。
@@ -61,10 +61,10 @@ target_link_libraries(my_service PRIVATE ark::core ark::net)
 - include 顺序为系统头文件、第三方头文件、ark 头文件。
 - 使用 clang-format 18 和仓库内的 `.clang-format`。第三方与生成文件不参与项目格式化。
 
-## 验证 SDK 使用方式
+## 验证公共头文件使用方式
 
 按[网络构建与回归测试](../networking_CN.md)安装依赖后，
-编译独立的 SDK 使用示例：
+编译独立的公共接口使用示例：
 
 ```sh
 cmake -S tests/consumer -B sdk-build -G Ninja \
@@ -89,6 +89,16 @@ cmake -S tests/consumer/net -B net-sdk-build -G Ninja \
 cmake --build net-sdk-build --target check-sdk --parallel 2
 ```
 
+仅使用 Bus 的消费者同样启用 Protobuf，分别编译两个映射的公开模块头，
+确认私有实现、装配与解析头不可见。共享核心值类型 `<ark/bus.hpp>` 保持原有源码路径。
+
+```sh
+cmake -S tests/consumer/bus -B bus-sdk-build -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DVCPKG_MANIFEST_FEATURES=application -DASIO_STANDALONE=OFF
+cmake --build bus-sdk-build --target check-sdk --parallel 2
+```
+
 ## 运行资源与生成数据
 
 源码资产与运行包分别组织。`build/` 只作为可选的 CMake 构建目录，不再保存受版本控制的运行文件。
@@ -105,4 +115,4 @@ cmake --build net-sdk-build --target check-sdk --parallel 2
 
 运行包继续使用 `bin/`、`conf/` 和按需提供的 `resource/`；日志由配置写入运行目录的 `binlog/`。源码目录改名不改变业务 XML、资源格式或运行时查找规则。见[运行脚本迁移](../guides/applications_CN.md#迁移旧命令)。
 
-旧文中的 `bin/`、`frame/`、`dep/` 目录不是当前 SDK 布局。生成流程见[配置工具](../guides/tools_CN.md)，进程启动见[应用启动器](../guides/applications_CN.md)。协议公开头文件与兼容边界见 [Protobuf 消息](protobuf_CN.md)。
+旧文中的 `bin/`、`frame/`、`dep/` 目录不是当前源码布局。生成流程见[配置工具](../guides/tools_CN.md)，进程启动见[应用启动器](../guides/applications_CN.md)。协议公开头文件与兼容边界见 [Protobuf 消息](protobuf_CN.md)。
