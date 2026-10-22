@@ -56,3 +56,5 @@ config = ""
 ```
 
 只保留应用所需的插件。这里的 `config` 为空：业务模块通过公开接口配置具名连接，不再使用旧版数据库 XML 文件。平台扩展名、Debug 后缀和公共接口兼容要求见[运行时选择动态库](../guides/plugins_CN.md#在运行时选择动态库)。在业务模块初始化时查找数据库模块，再通过[托管任务组](../guides/tasks_CN.md)启动操作。
+
+核心头文件位于 `src/core/`；`ark::core` 提供生成的 `src/core/public-include/` 包含根目录，保留 `<ark/...>` 引用。启动器源码位于 `src/application/`，输出仍为 `app` 和 `app_d`。

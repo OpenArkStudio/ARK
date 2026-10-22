@@ -127,7 +127,7 @@ for (const prefix of ["", "zh/"]) {
   const migrationStart = styleAlias.indexOf(prefix ? "## C++20 兼容层迁移" : "## C++20 compatibility migration");
   assert.ok(migrationStart >= 0, "missing accepted code-style migration boundary");
   const migrationTokens = [...styleAlias.slice(migrationStart).matchAll(/`([^`\n]+)`/g)].map(match => match[1]);
-  for (const token of new Set([...migrationTokens, "CMAKE_EXPORT_COMPILE_COMMANDS=ON", "application/main.cpp",
+  for (const token of new Set([...migrationTokens, "CMAKE_EXPORT_COMPILE_COMMANDS=ON", "src/application/main.cpp",
     "meta_define.hpp", "session_counter", "RAII"])) {
     assert.ok(codeStyleText.includes(token), `${prefix}canonical code-style HTML lost ${token}`);
     assert.ok(codeStyleMarkdown.includes(token), `${prefix}canonical code-style Markdown lost ${token}`);

@@ -42,10 +42,10 @@ test('source paths select actual module regressions and propagate plugin depende
   const cases = [
     ['tests/core/containers.cpp', ['applications']],
     ['tests/core/CMakeLists.txt', ['applications']],
-    ['application/main.cpp', ['applications']],
+    ['src/application/main.cpp', ['applications']],
     ['src/plugins/utility/timer_module.hpp', ['applications']],
-    ['application/shutdown_request.hpp', ['applications']],
-    ['application/CMakeLists.txt', ['applications']],
+    ['src/application/shutdown_request.hpp', ['applications']],
+    ['src/application/CMakeLists.txt', ['applications']],
     ['src/config/application_manifest.cpp', ['applications']],
     ['src/server/game/game_module_impl.cpp', ['applications']],
     ['src/proto/CMakeLists.txt', ['applications']],
@@ -87,7 +87,7 @@ test('source paths select actual module regressions and propagate plugin depende
 
 test('public core headers, build/dependency/CI inputs and unknown paths retain every source regression', () => {
   for (const file of ['include/ark/container/vector.hpp', 'include/ark/task.hpp', 'include/ark/hash/crc.hpp',
-    'src/core/CMakeLists.txt', 'CMakeLists.txt', 'cmake/utils.cmake', 'vcpkg.json', '.gitmodules',
+    'src/core/CMakeLists.txt', 'src/core/module.hpp', 'src/core/container/vector.hpp', 'CMakeLists.txt', 'cmake/utils.cmake', 'vcpkg.json', '.gitmodules',
     '3rdparty/spdlog', 'ports/asio/portfile.cmake', '.github/workflows/ci.yml',
     'config/timers.app.toml', 'resources/excel/item.xlsx', 'resources/photon/proto/protocol.proto',
     'tools/gen-config.sh', 'deployment/scripts/run.sh',

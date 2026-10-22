@@ -74,7 +74,7 @@ Write-Output $resourceDemo
 
 ## 更新仓库中的生成头文件
 
-资源变更经过检查后，在工作分支运行包装脚本。脚本导出仓库的 `resources/`，按项目 clang-format 规则格式化 `code/meta_define.hpp`，再复制到 `include/ark/meta_define.hpp`，会覆盖这些生成文件。
+资源变更经过检查后，在工作分支运行包装脚本。脚本导出仓库的 `resources/`，按项目 clang-format 规则格式化 `code/meta_define.hpp`，再复制到 `src/core/meta_define.hpp`，会覆盖这些生成文件。
 
 macOS/Linux 上选择 Python 环境和项目支持的 clang-format 版本：
 

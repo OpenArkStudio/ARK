@@ -93,7 +93,7 @@ MSVC 需要启用标准预处理器模式（`/Zc:preprocessor`）才能使用 `_
 cmake -S . -B style-build -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 cmake --build style-build
 ./scripts/clang_tidy.sh style-build
-./scripts/clang_tidy.sh style-build application/main.cpp
+./scripts/clang_tidy.sh style-build src/application/main.cpp
 ```
 
 clang-tidy 默认检查编译数据库中实际启用的源文件；检查可选插件前，需要启用对应

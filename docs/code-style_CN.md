@@ -33,7 +33,7 @@ ark 自有的 C++ 代码和协议定义使用统一的命名规则。
 cmake -S . -B style-build -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 cmake --build style-build
 ./scripts/clang_tidy.sh style-build
-./scripts/clang_tidy.sh style-build application/main.cpp
+./scripts/clang_tidy.sh style-build src/application/main.cpp
 ```
 
 可通过 `CLANG_TIDY` 指定可执行文件。默认检查编译数据库中实际启用的源文件；

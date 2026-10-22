@@ -56,3 +56,5 @@ config = ""
 ```
 
 Include only the providers the application needs. The empty `config` is intentional: consumers configure named connections through the public modules, rather than legacy database XML files. Follow [runtime library selection](../guides/plugins.md#select-libraries-at-runtime) for platform extensions, Debug suffixes and compatible public interface settings. Resolve the module during consumer initialization and start its operations through a [managed task group](../guides/tasks.md).
+
+Core headers live under `src/core/`; `ark::core` supplies the generated `src/core/public-include/` include root, retaining `<ark/...>`. The launcher source is `src/application/`, with unchanged `app` and `app_d` output names.
