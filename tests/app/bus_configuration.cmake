@@ -23,7 +23,7 @@ foreach(mode invalid_threads invalid_intranet unknown_setting xml_content missin
         set(configuration "<xml><applications/></xml>")
         set(expected "cannot parse TOML")
     elseif(mode STREQUAL "missing_file")
-        set(expected "cannot parse TOML")
+        set(expected "could not open configuration")
     endif()
     set(path "${configuration_directory}/${mode}.toml")
     if(NOT mode STREQUAL "missing_file")
