@@ -47,7 +47,7 @@ C++20 语言回归验证六种精确整数类型分类、限定符与引用处�
 cmake --build core-build --target check-logging
 ```
 
-## 公开任务 SDK
+## 公共任务接口
 
 `check-core` 包含 `check-task-sdk`：独立编译仅包含 `<ark/task.hpp>` 的文件，
 并运行使用 `ark::core` 的普通调用方。测试覆盖拥有型返回值、停止受理、显式取消

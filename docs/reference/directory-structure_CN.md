@@ -18,7 +18,7 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 | `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility/Net/Bus/HTTP 的公开头和私有装配也位于此处 |
 | `tests/` | 核心、网络与私有数据库回归测试 |
 | `tests/network/` | 网络与日志回归测试 |
-| `tests/consumer/` | 独立使用公共插件接口 的示例项目 |
+| `tests/consumer/` | 独立使用公共插件接口的示例项目 |
 | `examples/` | 应用示例 |
 | `config/` | 应用清单、插件和日志配置样例 |
 | `resources/` | 业务数据、工作表与历史资源 |
@@ -64,7 +64,7 @@ target_link_libraries(my_service PRIVATE ark::core ark::net)
 ## 验证公共接口头使用方式
 
 按[网络构建与回归测试](../networking_CN.md)安装依赖后，
-编译独立的 公共接口头使用示例：
+编译独立的公共接口头使用示例：
 
 ```sh
 cmake -S tests/consumer -B sdk-build -G Ninja \

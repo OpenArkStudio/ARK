@@ -24,8 +24,8 @@ existing boundaries.
 `<ark/bus/bus_module_impl.hpp>`, `<ark/bus/msg_module_impl.hpp>` and
 `<ark/bus/bus_plugin.hpp>`. Load the runtime plugin and use
 `manager.find_module<ark::bus_module>()` or `manager.find_module<ark::msg_module>()`.
-Use the target-provided SDK include roots rather than only `-I <source>/include`.
-No installed SDK package is added. Private parsing/assembly headers are excluded
+Use the target-provided public-header include roots rather than only `-I <source>/include`.
+Private parsing/assembly headers are excluded
 from the public mapping.
 
 The manifest configuration path is unchanged; it still resolves against the

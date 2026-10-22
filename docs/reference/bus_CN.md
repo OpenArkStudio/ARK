@@ -17,8 +17,7 @@ Net 与协议头依赖。共享地址和配置类型 `<ark/bus.hpp>` 仍位于 `
 **头文件迁移：**移除 `<ark/bus/bus_module_impl.hpp>`、`<ark/bus/msg_module_impl.hpp>` 与
 `<ark/bus/bus_plugin.hpp>` 的直接包含。加载运行时插件后，使用
 `manager.find_module<ark::bus_module>()` 或 `manager.find_module<ark::msg_module>()`。
-改用目标传递的 SDK 包含目录，不能仅依赖 `-I <源码>/include`。没有新增 SDK 安装包；
-私有解析与装配头不进入公开映射。
+改用目标传递的公开头文件包含目录，不能仅依赖 `-I <源码>/include`。私有解析与装配头不进入公开映射。
 
 清单中的配置路径保持不变，仍相对于选定的插件配置目录解析：
 
