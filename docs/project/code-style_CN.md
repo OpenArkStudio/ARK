@@ -56,6 +56,11 @@ private:
 
 ## 日志调用位置
 
+`ARK_FORMAT` 和 `ARK_FORMAT_FUNCTION` 使用标准 C++20 `__VA_OPT__` 展开零个或多个
+格式参数，继续支持动态格式串、`fmt::runtime` 格式化和字面量花括号。
+`ARK_FORMAT` 仍可用于表达式；`ARK_FORMAT_FUNCTION` 保留调用处的
+`[function:line]` 前缀及原有的语句结束分号。现有调用方式不变。
+
 `ARK_LOG_TRACE`、`ARK_LOG_DEBUG`、`ARK_LOG_INFO`、`ARK_LOG_WARN`、`ARK_LOG_ERROR`
 和 `ARK_LOG_CRITICAL` 保留原有格式串／参数调用方式与日志级别。宏通过 C++20
 `std::source_location` 捕获调用处的位置，通过 `__VA_OPT__` 展开可选格式参数。
