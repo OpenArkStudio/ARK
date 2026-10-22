@@ -49,7 +49,7 @@ src/plugins/mysql/
 ├── CMakeLists.txt
 ├── mysql_module.hpp    # Explicit public API, mapped as ark/mysql/mysql_module.hpp
 ├── mysql_module.cpp    # Hidden implementation class and one private factory
-├── mysql_plugin.hpp    # Private plugin type/factory declarations, excluded from public interfaces
+├── mysql_plugin.hpp    # Private plugin type/factory declarations, excluded from public-header mapping
 ├── mysql_plugin.cpp    # Registration and explicit dynamic-library entry points
 └── detail/             # Private native services, coroutine bridge and transactions
 tests/database/         # Protocol, DSO and explicit real-service checks

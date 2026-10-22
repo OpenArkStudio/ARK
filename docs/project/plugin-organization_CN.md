@@ -49,7 +49,7 @@ src/plugins/mysql/
 ├── CMakeLists.txt
 ├── mysql_module.hpp    # 显式公开接口；映射为 ark/mysql/mysql_module.hpp
 ├── mysql_module.cpp    # 隐藏实现类与单一私有工厂
-├── mysql_plugin.hpp    # 私有插件类型和工厂声明，不进入公开接口映射
+├── mysql_plugin.hpp    # 私有插件类型和工厂声明，不进入公开头映射
 ├── mysql_plugin.cpp    # 注册/注销与显式动态库入口
 └── detail/             # 私有原生服务、协程桥和事务状态
 tests/database/         # 协议、DSO 与显式真实服务检查
@@ -76,7 +76,7 @@ arknet 的单节点客户端范围为：MySQL 提供查询、参数化预处理�
 
 ## 接下来讨论
 
-1. 保持已统一的 snake_case 公开接口和目录结构；公开头文件与 CMake target 见[项目结构](../reference/directory-structure_CN.md)。
+1. 保持已统一的 snake_case 接口命名和目录结构；公开头文件与 CMake target 见[项目结构](../reference/directory-structure_CN.md)。
 2. MySQL、Redis 的部署验证应与公开协程接口和 arknet 原生拥有型结果保持一致。arknet 提供调用方驱动的执行器，ark 在模块线程中派发；部署新的服务配置前，运行显式真实服务验收模式。
 3. 分别确认 Lua、Actor 等官方插件的接口和依赖，按插件补齐编译、功能和异常路径验证。
 

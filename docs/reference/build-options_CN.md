@@ -12,7 +12,7 @@
 | `ARK_BUILD_PLUGIN_REDIS` | `OFF` | 构建原生 Redis 协程插件，TLS 连接池需要开启 SSL |
 | `ARK_BUILD_DATABASE_TESTS` | `OFF` | 构建原生数据库及公开插件回归，要求显式设置 `ARKNET_SOURCE_DIR` |
 | `ARK_BUILD_BENCHMARKS` | `OFF` | 构建独立 C++ 基准程序 |
-| `ARK_USE_GUID_32` | `OFF` | 使用 32 位 GUID 配置；公开接口目标向调用方传递该设置 |
+| `ARK_USE_GUID_32` | `OFF` | 使用 32 位 GUID 配置；公共接口目标向调用方传递该设置 |
 | `ARKNET_SOURCE_DIR` | 空 | 使用独立的本地 arknet 源码 |
 | `ARKNET_REVISION` | 仓库固定的 commit | 指定获取 arknet 时使用的版本；已有 CMake 缓存会保留原值 |
 | `ASIO_STANDALONE` | `OFF` | `OFF` 选择 Boost，`ON` 选择 Standalone Asio |
@@ -39,7 +39,7 @@ cmake --build build --target ark_mysql_plugin ark_redis_plugin
 
 MySQL、Redis、Utility、Net、Bus、Kernel 的公开头通过显式清单在配置阶段复制到各构建树的 `src/plugins/sdk-include/ark/<名称>/`。`ark::mysql`、`ark::redis`、`ark::utility`、`ark::net`、`ark::bus`、`ark::kernel` 传递该目录，插件关闭时仍可使用；其他已迁移插件的私有装配头和工厂不进入映射；Kernel 保留包括 `kernel_plugin.hpp` 在内的原有 38 个头，注册方式和类型可见性不变。源码目录与构建目录不能互相替代。
 
-业务插件链接 `ark::mysql` 和/或 `ark::redis`，以获取公开头文件和编译要求；公开接口目标不会加载运行时动态库。将所需动态库与启动器一起部署，并在应用清单中填写库名称：
+业务插件链接 `ark::mysql` 和/或 `ark::redis`，以获取公开头文件和编译要求；公共接口目标不会加载运行时动态库。将所需动态库与启动器一起部署，并在应用清单中填写库名称：
 
 ```toml
 [application]
@@ -55,4 +55,4 @@ name = "ark_redis_plugin"
 config = ""
 ```
 
-只保留应用所需的插件。这里的 `config` 为空：业务模块通过公开接口配置具名连接，不再使用旧版数据库 XML 文件。平台扩展名、Debug 后缀和 接口兼容要求见[运行时选择动态库](../guides/plugins_CN.md#在运行时选择动态库)。在业务模块初始化时查找数据库模块，再通过[托管任务组](../guides/tasks_CN.md)启动操作。
+只保留应用所需的插件。这里的 `config` 为空：业务模块通过公开接口配置具名连接，不再使用旧版数据库 XML 文件。平台扩展名、Debug 后缀和公共接口兼容要求见[运行时选择动态库](../guides/plugins_CN.md#在运行时选择动态库)。在业务模块初始化时查找数据库模块，再通过[托管任务组](../guides/tasks_CN.md)启动操作。

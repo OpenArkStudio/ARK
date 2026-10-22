@@ -19,7 +19,7 @@ Build artifacts belong to each CMake build directory: `cmake -S . -B out/release
 | `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility/Net/Bus/Kernel also keep public headers and private assembly here |
 | `tests/` | Core, network and private database regressions |
 | `tests/network/` | Network and logging regressions |
-| `tests/consumer/` | An independent project consuming the public interfaces |
+| `tests/consumer/` | An independent project consuming public plugin interfaces |
 | `examples/` | Application examples |
 | `config/` | Application manifest, plugin and logger configuration samples |
 | `resources/` | Business data, workbooks and legacy resources |
@@ -40,7 +40,7 @@ The MySQL/Redis interfaces have one source each: `src/plugins/mysql/mysql_module
 | `ark::core` | Core headers, C++20 requirements and shared compile definitions |
 | `ark::net`, `ark::kernel`, `ark::utility`, etc. | Headers and transitive public API dependencies of a plugin |
 | `ark::proto` | Generated protocol messages and their compiled library; requires `ARK_BUILD_PROTO=ON` |
-| `ark::ark` | Aggregate public interfaces for applications using multiple official plugins |
+| `ark::ark` | Aggregate interface target for applications using multiple official plugins |
 
 The core and plugin API targets carry CMake usage requirements. They do not load
 runtime plugins. Shared plugin libraries are built with `ARK_BUILD_APPLICATIONS=ON`
@@ -125,6 +125,6 @@ Source assets and staged runtimes have separate layouts. `build/` is only an opt
 
 Runtime packages still use `bin/`, `conf/` and optional `resource/`; logging configuration writes to the runtime's `binlog/`. Source moves do not change business XML, resource formats or runtime path resolution. See [helper migration](../guides/applications.md#migrate-old-helper-commands).
 
-The historical `bin/`, `frame/` and `dep/` tree is not the current source layout. See [configuration tools](../guides/tools.md) for generation and [application launcher](../guides/applications.md) for process startup. Public protocol headers and compatibility boundaries are documented in [Protobuf messages](protobuf.md).
+The historical `bin/`, `frame/` and `dep/` tree is not the current public interfaces layout. See [configuration tools](../guides/tools.md) for generation and [application launcher](../guides/applications.md) for process startup. Public protocol headers and compatibility boundaries are documented in [Protobuf messages](protobuf.md).
 
 Kernel co-locates its 38 existing headers with its cpp files in `src/plugins/kernel/`. `ark::kernel` preserves every `<ark/kernel/...>` path, including `data_impl.hpp`, `data_list_impl.hpp` and `kernel_plugin.hpp`. This source-only move keeps creation macros, registration, type visibility and lifecycle unchanged. See [Kernel reference](kernel.md) for consumption checks and Protobuf requirements.

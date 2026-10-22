@@ -1,4 +1,4 @@
-# 项目结构与公开接口
+# 项目结构与公共插件接口
 
 ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应用仓库。
 网络库继续维护在独立的 [arknet 仓库](https://github.com/OpenArkStudio/arknet)。
@@ -18,7 +18,7 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 | `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility/Net/Bus/Kernel 的公开头和私有装配也位于此处 |
 | `tests/` | 核心、网络与私有数据库回归测试 |
 | `tests/network/` | 网络与日志回归测试 |
-| `tests/consumer/` | 独立使用公开接口 的示例项目 |
+| `tests/consumer/` | 独立使用公共插件接口的示例项目 |
 | `examples/` | 应用示例 |
 | `config/` | 应用清单、插件和日志配置样例 |
 | `resources/` | 业务数据、工作表与历史资源 |
@@ -38,7 +38,7 @@ MySQL、Redis 的唯一公开接口源码分别是 `src/plugins/mysql/mysql_modu
 | `ark::core` | 核心头文件、C++20 要求与公共编译定义 |
 | `ark::net`、`ark::kernel`、`ark::utility` 等 | 插件头文件及其公开 API 依赖 |
 | `ark::proto` | 生成的协议消息及其编译库，需要 `ARK_BUILD_PROTO=ON` |
-| `ark::ark` | 多插件应用使用的聚合公开接口 |
+| `ark::ark` | 多插件应用使用的聚合接口目标 |
 
 核心与插件 API 目标负责传递 CMake 编译要求，不负责加载运行时插件。
 设置 `ARK_BUILD_APPLICATIONS=ON` 后，通过 `ARK_BUILD_PLUGIN_<NAME>` 选择要编译的插件动态库。
@@ -61,10 +61,10 @@ target_link_libraries(my_service PRIVATE ark::core ark::net)
 - include 顺序为系统头文件、第三方头文件、ark 头文件。
 - 使用 clang-format 18 和仓库内的 `.clang-format`。第三方与生成文件不参与项目格式化。
 
-## 验证公开头文件使用方式
+## 验证公共头文件使用方式
 
 按[网络构建与回归测试](../networking_CN.md)安装依赖后，
-编译独立的公开接口使用示例：
+编译独立的公共接口使用示例：
 
 ```sh
 cmake -S tests/consumer -B sdk-build -G Ninja \
@@ -115,6 +115,6 @@ cmake --build bus-sdk-build --target check-sdk --parallel 2
 
 运行包继续使用 `bin/`、`conf/` 和按需提供的 `resource/`；日志由配置写入运行目录的 `binlog/`。源码目录改名不改变业务 XML、资源格式或运行时查找规则。见[运行脚本迁移](../guides/applications_CN.md#迁移旧命令)。
 
-旧文中的 `bin/`、`frame/`、`dep/` 目录不是当前 源码布局。生成流程见[配置工具](../guides/tools_CN.md)，进程启动见[应用启动器](../guides/applications_CN.md)。协议公开头文件与兼容边界见 [Protobuf 消息](protobuf_CN.md)。
+旧文中的 `bin/`、`frame/`、`dep/` 目录不是当前源码布局。生成流程见[配置工具](../guides/tools_CN.md)，进程启动见[应用启动器](../guides/applications_CN.md)。协议公开头文件与兼容边界见 [Protobuf 消息](protobuf_CN.md)。
 
 Kernel 的原有 38 个头与 cpp 共置于 `src/plugins/kernel/`，通过 `ark::kernel` 保留全部 `<ark/kernel/...>` 路径，包括 `data_impl.hpp`、`data_list_impl.hpp` 和 `kernel_plugin.hpp`。此次只移动源码，创建宏、注册方式、类型可见性和生命周期均不变。消费检查及 Protobuf 条件见 [Kernel 参考](kernel_CN.md)。

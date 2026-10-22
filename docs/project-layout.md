@@ -25,7 +25,7 @@ build's artifacts into the runtime's `bin/` directory.
 | `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility/Net/Bus/Kernel public headers and private assembly |
 | `tests/` | Core, network and private database regressions |
 | `tests/network/` | Network and logging regressions |
-| `tests/consumer/` | An independent project consuming the public interfaces |
+| `tests/consumer/` | An independent project consuming public plugin interfaces |
 | `examples/` | Application examples |
 | `config/` | Application manifest, plugin and logger configuration samples |
 | `resources/` | Business data, workbooks and legacy resources |
@@ -44,7 +44,7 @@ Protobuf headers are placed under the build directory, exposed through `ark::pro
 | `ark::core` | Core headers, C++20 requirements and shared compile definitions |
 | `ark::net`, `ark::kernel`, `ark::utility`, etc. | Headers and transitive public API dependencies of a plugin |
 | `ark::proto` | Generated protocol messages and their compiled library; requires `ARK_BUILD_PROTO=ON` |
-| `ark::ark` | Aggregate public interfaces for applications using multiple official plugins |
+| `ark::ark` | Aggregate interface target for applications using multiple official plugins |
 
 The core and plugin API targets carry CMake usage requirements. They do not load
 runtime plugins. Shared plugin libraries are built with `ARK_BUILD_APPLICATIONS=ON`

@@ -90,14 +90,18 @@ branch or worktree when the existing checkout contains uncommitted changes.
   do not reintroduce a mandatory per-plugin include/src split. Keep public header
   mappings explicit and independent from physical paths. Concrete implementation
   types may live in cpp files when registration and tests no longer need their
-  definitions. Public-header staging/installation and creation-macro replacements
+  definitions. Public-header mapping and creation-macro replacements
   require the agreed design before implementation; do not silently change ABI,
-  lifecycle or ownership. Kernel source colocation preserves all existing
-  `ark/kernel/...` headers, including implementation/value templates and
-  `kernel_plugin.hpp`; keep them byte-identical during physical moves. Do not
-  hide these types or replace Kernel creation macros as part of colocation.
-  Retain independent plugin targets and optional builds.
-  Describe public plugin interfaces as interfaces, not a separate product.
+  lifecycle or ownership. Retain independent plugin targets and optional builds.
+  Public plugin/module hpp and cpp sources belong together by function. Generated
+  build-tree header mappings preserve logical `<ark/...>` paths; they are not a
+  second source tree. Keep the existing CMake and `check-sdk` machine identifiers.
+  Do not turn interface-header mapping into a separate public SDK product or add
+  packaging/installation work to source co-location.
+  Kernel source colocation preserves all existing `ark/kernel/...` headers,
+  including implementation/value templates and `kernel_plugin.hpp`; keep them
+  byte-identical during physical moves. Do not hide these types or replace
+  Kernel creation macros as part of colocation.
   Verify accepted source before claiming the new layout is available. Hot-update
   and Registry design discussions remain paused.
 
