@@ -157,3 +157,14 @@ and retain vcpkg compiler tracking and fatal configure/build/regression steps.
 See [CI dependency archive cache](../../docs/project/contributing.md#ci-dependency-archive-cache)
 for the ABI boundary, v1 cold transition and branch/ref visibility limits.
 These tests do not execute vcpkg ABI matching or validate hosted cache hits.
+
+
+Windows ABI diagnostic tests use synthetic records in the format checked against
+local installed Asio, rapidxml and Protobuf metadata. They cover exact-byte package
+ABI hashing, fixed field-value fingerprints, CRLF, malformed/duplicate records,
+missing metadata, the fixed installed paths, symbolic links and the 64 KiB limit.
+CLI tests ensure raw values, unknown names, absolute paths and inherited secrets
+never appear in output. Workflow tests retain Windows Applications-only placement
+and fatal configuration/build/test behavior. No vcpkg build or hosted cache
+acceptance is exercised by these tests. See
+[Windows ABI diagnostics](../../docs/project/contributing.md#windows-abi-diagnostics).
