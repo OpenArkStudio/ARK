@@ -40,13 +40,41 @@ std::string read_log(const std::filesystem::path& path) {
 
 } // namespace
 
-TEST_CASE("Logging preserves runtime formats source locations and literal braces") {
+TEST_CASE("Formatting macros preserve optional arguments dynamic formats and function locations") {
+    CHECK(ARK_FORMAT("plain") == "plain");
+    CHECK(ARK_FORMAT("{{literal}}") == "{literal}");
+    CHECK(ARK_FORMAT("{} + {} = {}", 2, 3, 5) == "2 + 3 = 5");
     const std::string format = "value={}";
     CHECK(ARK_FORMAT(format, 7) == "value=7");
-    CHECK(ARK_FORMAT("{{literal}}") == "{literal}");
-    const std::string with_function = ARK_FORMAT_FUNCTION(format, 7);
-    CHECK(with_function.ends_with("]value=7"));
+    const std::string empty_format = "{{dynamic}}";
+    CHECK(ARK_FORMAT(empty_format) == "{dynamic}");
+    const std::string multiple_format = "value={} text={}";
+    CHECK(ARK_FORMAT(multiple_format, 7, "{plain}") == "value=7 text={plain}");
 
+    const std::string function = __FUNCTION__;
+    const auto plain_line = __LINE__ + 1;
+    const std::string plain = ARK_FORMAT_FUNCTION("plain");
+    CHECK(plain == fmt::format("[{}:{}]plain", function, plain_line));
+    const auto multiple_line = __LINE__ + 1;
+    const std::string multiple = ARK_FORMAT_FUNCTION("{} + {} = {}", 2, 3, 5);
+    CHECK(multiple == fmt::format("[{}:{}]2 + 3 = 5", function, multiple_line));
+    const auto dynamic_line = __LINE__ + 1;
+    const std::string dynamic = ARK_FORMAT_FUNCTION(multiple_format, 7, "{plain}");
+    CHECK(dynamic == fmt::format("[{}:{}]value=7 text={{plain}}", function, dynamic_line));
+    const auto empty_line = __LINE__ + 1;
+    const std::string empty = ARK_FORMAT_FUNCTION(empty_format);
+    CHECK(empty == fmt::format("[{}:{}]{{dynamic}}", function, empty_line));
+
+    // Preserve the function macro's historical statement terminator.
+    std::string statement;
+    // clang-format off
+    const auto statement_line = __LINE__ + 1;
+    statement = ARK_FORMAT_FUNCTION("statement")
+    // clang-format on
+    CHECK(statement == fmt::format("[{}:{}]statement", function, statement_line));
+}
+
+TEST_CASE("Logging preserves runtime formats source locations and literal braces") {
     ark::logger logger;
     std::vector<std::pair<spdlog::level::level_enum, std::string>> messages;
     logger.set_log_func([&messages](spdlog::level::level_enum level, const std::string& content) {
