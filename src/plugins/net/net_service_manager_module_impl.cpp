@@ -18,11 +18,84 @@
  *
  */
 
+#include "ark/bus/bus_module.hpp"
+#include "ark/container/map.hpp"
+#include "ark/module_base.hpp"
+#include "ark/net/net_client_service.hpp"
 #include "ark/net/net_client_service_impl.hpp"
+#include "ark/net/net_server_service.hpp"
 #include "ark/net/net_server_service_impl.hpp"
-#include "ark/net/net_service_manager_module_impl.hpp"
+#include "ark/net/net_service_manager_module.hpp"
+#include "ark/plugin_manager.hpp"
+#include "ark/utility/timer_module.hpp"
+#include "net_plugin.hpp"
 
 namespace ark {
+
+class net_service_manager_module_impl final : public module_base<net_service_manager_module>
+{
+public:
+    bool init() override;
+    bool post_init() override;
+    bool update() override;
+    bool shut() override;
+
+    bool create_server(
+        const size_t silent_timeout, const msg_header& cs_req_header, const msg_header& ss_req_header) override;
+
+    std::shared_ptr<net_server_service> get_inter_net_server() override;
+    std::shared_ptr<net_server_service> get_intra_net_server() override;
+
+    //int CreateClusterClients(AFHeaderLen head_len = AFHeaderLen::SS_HEAD_LENGTH) override;
+    //int CreateClusterClient(AFHeaderLen head_len, bus_id_t bus_id, const std::string& url) override;
+
+    //AFINetClientService* GetNetClientService(const ARK_APP_TYPE& app_type) override;
+    //AFINetClientService* GetNetClientServiceByBusID(bus_id_t bus_id) override;
+
+    bool add_net_connection_bus(bus_id_t target_bus_id, std::shared_ptr<net> net_ptr) override;
+    bool remove_net_connection_bus(bus_id_t target_bus_id) override;
+    std::shared_ptr<net> get_net_connection_bus(bus_id_t src_bus, bus_id_t target_bus) override;
+
+    std::shared_ptr<net_client_service> get_client_service(const app_type app_type) override;
+
+    conv_id_t get_session_id(bus_id_t target_bus_id) override;
+    bool remove_session_id(conv_id_t session_id) override;
+
+    bool create_client_service(const bus_addr& bus_addr, proto_type proto, const std::string& ip, uint16_t port,
+        std::shared_ptr<const msg_header> head = std::shared_ptr<const msg_header>(new ss_msg_header)) override;
+
+protected:
+    //ananas::Future<std::pair<bool, std::string>> RegisterToConsul(bus_id_t bus_id);
+    //int DeregisterFromConsul(bus_id_t bus_id);
+
+    void health_check(uint64_t timer_id, const guid_t& entity_id);
+
+    bool check_connected_target_server(const bus_addr& bus_addr);
+    std::shared_ptr<connection_data> get_target_client_connection(const bus_addr& bus_addr);
+
+    void on_reg_server_call_back(const net_msg* msg, conv_id_t session_id);
+
+private:
+    // bus_id -> net_server_service - support multi-server in the same app
+    using server_service = shared_object_map<bus_id_t, net_server_service>;
+    server_service server_services_;
+
+    server_service intra_services_;
+
+    // target_app_type -> net_client_service
+    // the NetClientService have target multi-client info.
+    shared_object_map<app_type, net_client_service> client_services_;
+
+    // All net relations, for finding AFINet
+    // <self_bus, client_bus> -> AFINet
+    shared_object_map<std::pair<bus_id_t, bus_id_t>, net> net_bus_relations_;
+
+    //bus id <--> session id
+    std::map<bus_id_t, conv_id_t> bus_session_list_;
+
+    bus_module* bus_module_;
+    timer_module* timer_module_;
+};
 
 bool net_service_manager_module_impl::init() {
     bus_module_ = find_module<bus_module>();
@@ -399,5 +472,13 @@ void net_service_manager_module_impl::on_reg_server_call_back(const net_msg* msg
         iter->second = session_id;
     }
 }
+
+namespace detail {
+
+std::unique_ptr<net_service_manager_module> make_net_service_manager_module() {
+    return std::make_unique<net_service_manager_module_impl>();
+}
+
+} // namespace detail
 
 } // namespace ark

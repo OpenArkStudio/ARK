@@ -20,7 +20,7 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 | `src/proto/` | 协议定义与编解码实现 |
 | `src/server/` | 内置服务端应用 |
 | `include/ark/<name>/` | 共置范围之外的插件公开头文件 |
-| `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility 公开头和私有装配 |
+| `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility/Net 公开头和私有装配 |
 | `tests/` | 核心、网络与私有数据库回归测试 |
 | `tests/network/` | 网络与日志回归测试 |
 | `tests/consumer/` | 独立使用公开 SDK 的示例项目 |
@@ -80,3 +80,13 @@ cmake --build sdk-build --target check-sdk
 
 该示例关闭应用和 Protobuf 构建，检查公开头文件路径、C++20 编译要求、模块继承和导出的 GUID 配置。
 增加 `-DARK_USE_GUID_32=ON` 可检查 32 位 GUID 配置。
+
+仅使用 Net 的消费者启用 Protobuf，保持运行时插件关闭；分别编译 19 个 Net 公开头，
+并确认私有管理器与插件头不可见：
+
+```sh
+cmake -S tests/consumer/net -B net-sdk-build -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DVCPKG_MANIFEST_FEATURES=application -DASIO_STANDALONE=OFF
+cmake --build net-sdk-build --target check-sdk --parallel 2
+```

@@ -1,6 +1,6 @@
 # Official plugins and repository organization
 
-Core and other plugin public interfaces remain in `include/ark/`, with core build definitions in `src/core/`. MySQL, Redis and Utility co-locate interface headers, implementation and private assembly in `src/plugins/<name>/`, retaining logical include paths through explicit CMake mapping. Business plugins live with their applications and arknet remains independent; this layout does not expand hot update or migrate other plugins.
+Core and other plugin public interfaces remain in `include/ark/`, with core build definitions in `src/core/`. MySQL, Redis, Utility and Net co-locate interface headers, implementation and private assembly in `src/plugins/<name>/`, retaining logical include paths through explicit CMake mapping. Business plugins live with their applications and arknet remains independent; this layout does not expand hot update or migrate other plugins.
 
 ## Existing implementations
 
@@ -24,8 +24,9 @@ ark/
 │   ├── core/            # Header-only core target definitions
 │   ├── plugins/         # Official plugin implementations and CMake files
 │   │   ├── kernel/
-│   │   ├── net/
+│   │   ├── net/          # Public headers, transports and private creation
 │   │   ├── bus/
+│   │   ├── utility/
 │   │   ├── http/
 │   │   ├── mysql/
 │   │   └── redis/
@@ -41,7 +42,7 @@ ark/
 
 This shows the main directories. Existing Consul, etcd, Kafka and other official plugins follow the same convention. Lua and Actor integration remains planned; the table above identifies their proposed implementation directories.
 
-MySQL, Redis and Utility use a co-located layout; the database example is:
+MySQL, Redis, Utility and Net use a co-located layout; the database example is:
 
 ```text
 src/plugins/mysql/

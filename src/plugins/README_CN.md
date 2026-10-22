@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-核心与其他插件的公开头文件仍位于 `include/ark/`。MySQL、Redis 和 Utility 将公开头、实现与私有装配放在 `src/plugins/<名称>/` 同一目录；CMake 仅映射显式列出的公开头，保留 `<ark/mysql/...>`、`<ark/redis/...>` 和 `<ark/utility/...>` 逻辑包含路径。每个插件仍按独立 CMake target 构建，业务插件放在应用仓库。
+核心与其他插件的公开头文件仍位于 `include/ark/`。MySQL、Redis、Utility 和 Net 将公开头、实现与私有装配放在 `src/plugins/<名称>/` 同一目录；CMake 仅映射显式列出的公开头，保留 `<ark/mysql/...>`、`<ark/redis/...>`、`<ark/utility/...>` 和 `<ark/net/...>` 逻辑包含路径。每个插件仍按独立 CMake target 构建，业务插件放在应用仓库。
 
 | 插件 | 职责 | 默认构建 |
 | --- | --- | --- |

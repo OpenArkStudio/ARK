@@ -11,7 +11,55 @@
 
 `net` 定义启动、关闭、发送和 Update 操作。业务消息继续使用现有消息头；RUDP 使用 arknet 兼容的 ARQ 报文格式，默认关闭 FEC。
 
-构建命令和验证范围见[网络构建与测试](../networking_CN.md)。接口见 [ark::net](https://github.com/OpenArkStudio/ark/blob/main/include/ark/net/net.hpp)，协议能力见 [arknet 指南](https://openarkstudio.github.io/arknet/zh/features/)。
+构建命令和验证范围见[网络构建与测试](../networking_CN.md)。接口见 [ark::net](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/net/net.hpp)，协议能力见 [arknet 指南](https://openarkstudio.github.io/arknet/zh/features/)。
+
+## API 与私有创建
+
+Net 的全部源头文件与实现位于 `src/plugins/net/`。`ark::net` API 目标通过显式清单，
+将 19 个公开头映射到 `<ark/net/...>`，并传递公开依赖。包含协议消息的服务头需要
+`ARK_BUILD_PROTO=ON`；此时 `ark::net` 会传递 `ark::proto`。直接端点头仍可在关闭协议生成时使用。
+API 目标本身不会构建或加载运行时动态库。
+
+私有插件采用 `plugin_base`，工厂返回 `std::unique_ptr<net_service_manager_module>`，
+具体类型在 cpp 中继承 `module_base<net_service_manager_module>`。查找继续使用公开接口的
+RTTI 键，HTTP 客户端也按其公开接口键注册。两个模块仍参与更新；HTTP 先安装、最后卸载。
+库名 `ark_net_plugin` 与 `DllEntryPlugin`／`DllExitPlugin` 签名保持不变，arknet 继续拥有
+IO 工作线程与传输操作。
+
+**头文件迁移：**移除 `<ark/net/net_service_manager_module_impl.hpp>` 与
+`<ark/net/net_plugin.hpp>` 的包含。通过应用清单加载插件，再获取已注册的
+`net_service_manager_module`，不直接构造管理器实现。改用 CMake 目标传递的包含目录，
+不能仅使用 `-I <源码>/include`。没有新增 SDK 安装包。
+`http_client_module_impl.hpp`、`net_client_service_impl.hpp`、`net_server_service_impl.hpp`、
+端点类与回调模板继续公开，原有使用方无需更换这些类型。
+
+## 服务端与客户端服务示例
+
+进程需加载 Bus、Utility 和 Net，并提供自身的 Bus 配置。启动后显式创建监听；
+加载插件不会自动监听。两种角色均通过公开管理器接口使用：
+
+```cpp
+#include <ark/net/net_service_manager_module.hpp>
+#include <ark/plugin_manager.hpp>
+
+bool start_listeners(ark::plugin_manager& manager) {
+    return manager.find_module<ark::net_service_manager_module>()->create_server();
+}
+
+bool connect_tcp(ark::plugin_manager& manager, const ark::bus_addr& target,
+    const std::string& host, uint16_t port) {
+    return manager.find_module<ark::net_service_manager_module>()->create_client_service(
+        target, ark::proto_type::tcp, host, port);
+}
+```
+
+连接请求保持既有异步语义。继续在所属线程调用 `manager.update(timestamp)`，
+并在回调停止前保持接收者有效。进程身份与端点配置见 [Bus](bus_CN.md)。
+
+启用应用构建时，`check-core` 包含的 `check-net-plugin` 加载真实 Bus／Utility／Net 动态库，
+验证两个接口键、管理器线程上的 TCP 消息与 HTTP 回调、正常重复停服及监听释放。
+独立的 `tests/consumer/net` 工程仅链接 `ark::net`，分别编译各公开头，
+并拒绝两个私有头路径。既有 `check-network` 继续覆盖端点、拆包、重连与停服。
 
 ## 应用层初始收包缓冲
 

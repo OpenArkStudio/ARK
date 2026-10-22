@@ -2,7 +2,7 @@
 
 [简体中文](README_CN.md)
 
-Core and other plugin public headers remain under `include/ark/`. MySQL, Redis and Utility co-locate public headers, implementation and private assembly under `src/plugins/<name>/`; CMake maps only explicitly listed public headers, preserving the logical `<ark/mysql/...>`, `<ark/redis/...>` and `<ark/utility/...>` paths. Runtime plugins retain independent optional targets. Business plugins belong in application repositories.
+Core and other plugin public headers remain under `include/ark/`. MySQL, Redis, Utility and Net co-locate public headers, implementation and private assembly under `src/plugins/<name>/`; CMake maps only explicitly listed public headers, preserving the logical `<ark/mysql/...>`, `<ark/redis/...>`, `<ark/utility/...>` and `<ark/net/...>` paths. Runtime plugins retain independent optional targets. Business plugins belong in application repositories.
 
 | Plugin | Responsibility | Default build |
 | --- | --- | --- |

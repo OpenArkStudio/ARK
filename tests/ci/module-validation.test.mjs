@@ -56,6 +56,7 @@ test('source paths select actual module regressions and propagate plugin depende
     ['benchmarks/network_buffers.cpp', ['network']],
     ['src/plugins/net/rudp_client.cpp', ['network', 'applications']],
     ['include/ark/net/rudp_server.hpp', ['network', 'applications']],
+    ['src/plugins/net/rudp_server.hpp', ['network', 'applications']],
     ['include/ark/http/http_server_module.hpp', ['network', 'applications']],
     ['src/plugins/bus/msg_module_impl.cpp', ['network', 'applications']],
     ['tests/database/transactions_awaitable.cpp', ['database']],
