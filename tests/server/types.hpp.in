@@ -1,0 +1,16 @@
+// Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
+#pragma once
+
+// Exercise every retained source-consumer include category.
+#include "@server@/include/@server@_plugin.hpp"
+#include "@server@/include/@server@_net_module_impl.hpp"
+#include "@server@/interface/@server@_net_module.hpp"
+#include "@server@_module_factory.hpp"
+
+using server_plugin = ark::@server@_plugin;
+using server_module = ark::@server@_net_module;
+using server_implementation = ark::@server@_net_module_impl;
+
+inline std::unique_ptr<server_module> make_server_module() {
+    return ark::detail::make_@server@_net_module();
+}

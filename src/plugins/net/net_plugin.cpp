@@ -20,7 +20,7 @@
 
 #include <stdexcept>
 
-#include "ark/net/http_client_module_impl.hpp"
+#include "http_client_factory.hpp"
 #include "net_plugin.hpp"
 
 namespace ark {
@@ -35,7 +35,7 @@ ARK_EXPORT_FUNC void DllExitPlugin(plugin_manager* manager) {
 }
 
 void net_plugin::install() {
-    if (!register_module<http_client_module>(std::make_unique<http_client_module_impl>(), module_update::enabled))
+    if (!register_module(detail::make_http_client_module(), module_update::enabled))
     {
         throw std::runtime_error("net HTTP client module registration rejected");
     }

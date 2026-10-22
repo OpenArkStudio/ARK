@@ -28,7 +28,7 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 使用 `<ark/plugin_manager.hpp>`、`<ark/net/tcp_client.hpp>` 等公开路径包含头文件，
 不需要把实现目录加入应用的包含路径。Protobuf 生成文件位于构建目录，由 `ark::proto` 提供。
 
-MySQL、Redis 的唯一公开接口源码分别是 `src/plugins/mysql/mysql_module.hpp`、`src/plugins/redis/redis_module.hpp`。Utility 的公开接口与保留的调度辅助头位于 `src/plugins/utility/`；Net 的公开接口、端点模板与传输辅助类型位于 `src/plugins/net/`。Net 仅将私有插件装配与具体服务管理器定义排除在公开映射之外。Bus 的两个公开模块头位于 `src/plugins/bus/`；共享核心值类型 `<ark/bus.hpp>` 的源码位于 `src/core/bus.hpp`。HTTP 映射公开的 `src/plugins/http/http_server_module.hpp`，排除私有插件与具体类。CMake 在配置阶段按显式清单复制普通文件到各构建树生成的插件公开头映射；清理该受控目录中已移除的映射，MySQL、Redis、Utility、Net、Bus、HTTP 不复制私有装配头或工厂；Kernel 保留包括 `kernel_plugin.hpp` 在内的原有 38 个头，具体类型与装配可见性不变。通过 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net`、`ark::bus`、`ark::http`、`ark::kernel` 消费，逻辑包含路径保持不变，插件关闭时同样有效。仅手写 `-I <源码>/include` 的调用需要改用目标传递的包含目录。映射副本是生成的构建产物；应编辑功能目录中的共置源码头。
+MySQL、Redis 的唯一公开接口源码分别是 `src/plugins/mysql/mysql_module.hpp`、`src/plugins/redis/redis_module.hpp`。Utility 的公开接口与保留的调度辅助头位于 `src/plugins/utility/`；Net 的公开接口、端点模板与传输辅助类型位于 `src/plugins/net/`。Net 将私有插件装配与具体 HTTP 客户端／服务管理器定义排除在公开映射之外。Bus 的两个公开模块头位于 `src/plugins/bus/`；共享核心值类型 `<ark/bus.hpp>` 的源码位于 `src/core/bus.hpp`。HTTP 映射公开的 `src/plugins/http/http_server_module.hpp`，排除私有插件与具体类。CMake 在配置阶段按显式清单复制普通文件到各构建树生成的插件公开头映射；清理该受控目录中已移除的映射，MySQL、Redis、Utility、Net、Bus、HTTP 不复制私有装配头或工厂；Kernel 保留包括 `kernel_plugin.hpp` 在内的原有 38 个头，具体类型与装配可见性不变。通过 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net`、`ark::bus`、`ark::http`、`ark::kernel` 消费，逻辑包含路径保持不变，插件关闭时同样有效。仅手写 `-I <源码>/include` 的调用需要改用目标传递的包含目录。映射副本是生成的构建产物；应编辑功能目录中的共置源码头。
 
 核心头文件只有 `src/core/` 中的一份源码。`ark::core` 将显式公开清单映射到选定构建目录，保留 `<ark/plugin_manager.hpp>` 等包含路径。修改源码头文件，不编辑生成副本。启动程序仍为 `app`／`app_d`，清单格式保持不变。
 
@@ -82,7 +82,7 @@ cmake --build sdk-build --target check-sdk
 
 消费者还验证 MySQL/Redis/Utility 的公开头映射，并拒绝可见的实现或私有装配头。上述命令启用 SSL 和 vcpkg `database` feature 所需的 OpenSSL，同时检查两种接口；关闭 SSL 时仅编译 Redis 接口。这里验证选定构建树中的公共接口头消费。
 
-仅使用 Net 的消费者启用 Protobuf，保持运行时插件关闭；分别编译 19 个 Net 公开头，
+仅使用 Net 的消费者启用 Protobuf，保持运行时插件关闭；分别编译 18 个 Net 公开头，
 并确认私有管理器与插件头不可见：
 
 ```sh
@@ -147,3 +147,12 @@ cmake --build etcd-client-headers --target check-etcd-client-headers --parallel 
 ## 安装目录
 
 [安装](../get-started/installation_CN.md#安装并消费-cmake-包)后，逻辑 `<ark/...>` 头位于 `<prefix>/include/ark/`。CMake 包文件位于 GNUInstallDirs 库目录下的 `cmake/ark/`，选定启动程序与运行时插件位于 `bin/`，配置样例与许可证位于 `share/ark/`。安装消费者使用 `find_package(ark CONFIG REQUIRED)` 和 `ark::core`／`ark::<plugin>`；源码消费者使用 `add_subdirectory` 和相同 target，无需指定生成映射路径。安装导出不包含源码或构建目录；arknet 等依赖仍由外部提供。`tests/install/` 保存独立安装消费者与删除临时生产者后的迁移检查。
+
+
+## 内置服务端源码布局
+
+八组服务端源码将接口、实现与插件的 hpp/cpp 共置于 `src/server/<role>/`。实现类继承 `module_base<interface_type>`，私有工厂向 `plugin_base` 提供由接口类型持有的 `std::unique_ptr`。原有九个模块保留接口 RTTI 注册名，均不启用帧更新。每个动态库显式定义 `DllEntryPlugin` 与 `DllExitPlugin`。
+
+`login/interface/login_net_module.hpp`、`login/include/login_plugin.hpp` 等源码包含路径通过构建树中的 `src/server/compat-include/` 转发头保留，内部源码使用相邻头文件。转发清单保留原有全部 28 个头文件，包括实现与插件声明，但不包含新增的私有工厂头。该兼容映射独立于公开 `<ark/...>` 映射，不新增可安装的服务端 API。具体类的继承链变化后，C++ 消费方需要重新编译。
+
+设置 `ARK_BUILD_APPLICATIONS=ON` 后，CMake 编译 Game、Login、Proxy、World、Master、Dir、Router 七个服务动态库。Simulate 源码采用相同创建方式，但仍不参与默认构建，并保留未受支持的 PhysX 3／MessagePack 集成配置失败。源码共置不代表该集成已经通过验证。定向创建检查及其边界见[服务器架构](../concepts/server-architecture_CN.md#验证服务端创建方式)。

@@ -288,6 +288,10 @@ if(TARGET ark_http_plugin)
     add_dependencies(check-core check-http-plugin)
 endif()
 
+if(TARGET check-server-plugins)
+    add_dependencies(check-core check-server-plugins)
+endif()
+
 # Legacy HTTP demonstrations remain excluded from normal applications/examples.
 # Core validation uses the real sources/DSOs when their public prerequisites exist.
 set(ark_http_examples_default OFF)

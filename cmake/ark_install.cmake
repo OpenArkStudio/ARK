@@ -63,6 +63,7 @@ add_custom_target(check-install
         "-DARK_TEST_CONFIG=$<CONFIG>"
         "-DARK_TEST_PREFIX_PATH=${CMAKE_PREFIX_PATH}"
         "-DARK_TEST_TOOLCHAIN=${CMAKE_TOOLCHAIN_FILE}"
+        "-DARK_TEST_NET=$<NOT:$<BOOL:${ASIO_STANDALONE}>>"
         -P "${CMAKE_CURRENT_SOURCE_DIR}/tests/install/check_install.cmake"
     USES_TERMINAL VERBATIM)
 # Build selected outputs before staging the install tree.

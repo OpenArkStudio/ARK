@@ -99,6 +99,8 @@ Applications CI explicitly enables `ARK_BUILD_PLUGIN_HTTP=ON` and runs `check-co
 
 Kernel maps its 38 existing headers from `src/plugins/kernel/` through `ark::kernel`. `check-core` retains data/node regressions; `check-kernel-initialization` retains initialization/configuration-copy assertions. The independent `tests/consumer/kernel` project consumes 38/35 headers with Protobuf enabled/disabled; `container_meta.hpp` retains its existing `ark/define.hpp` and `ark/enum.hpp` include prerequisites. See [Kernel reference](../../docs/reference/kernel.md).
 
+The registered Net HTTP client now comes from a private interface factory. `check-net-plugin` additionally checks future completion without manager updates and pending-request cancellation through `pre_shut()` while the DSO remains loaded. It consumes those futures before normal plugin exit; no arbitrary post-unload future lifetime is established. `check-network` retains request/timeout/callback/shutdown coverage through the same private factory and public client interface.
+
 `ARK_BUILD_HTTP_EXAMPLE_TESTS` defaults to `ON` in core-test configurations with
 Boost.Asio and all three API targets (`ark::http`, `ark::net`, `ark::etcd_client`),
 and to `OFF` otherwise. Explicit `OFF` is respected. When selected, it adds

@@ -64,3 +64,5 @@ Core headers live under `src/core/`; `ark::core` supplies public header usage re
 ## Installation and archives
 
 `ARK_INSTALL` defaults to `ON` for the top-level project and `OFF` for embedded builds. It enables explicit public-header installation, relocatable CMake exports, `check-install` and TGZ/ZIP CPack archives. `ARK_USE_INSTALLED_ARKNET=ON` resolves a separately installed arknet package and takes precedence over the source/revision overrides. It defaults to `OFF`, preserving source dependency builds. See [installation and package consumption](../get-started/installation.md#install-and-consume-the-cmake-package). Packaging does not enable optional runtime plugins or validate their external drivers.
+
+Net's 18 public headers exclude `http_client_module_impl.hpp`; use `<ark/net/http_client_module.hpp>` and public interface lookup. This removal changes source/ABI compatibility; see [Net migration](network.md#api-and-private-construction). Private factory declarations are not installed.

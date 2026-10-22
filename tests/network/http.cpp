@@ -18,8 +18,8 @@
 #include <arknet/http/http_server.hpp>
 #include <arknet/http/request.hpp>
 
-#include "ark/net/http_client_module_impl.hpp"
 #include "http/http_plugin.hpp"
+#include "net/http_client_factory.hpp"
 
 namespace {
 
@@ -168,6 +168,19 @@ std::uint16_t http_port() {
 }
 } // namespace
 
+TEST_CASE("HTTP interface factories own independent request runtimes") {
+    http_peer peer;
+    REQUIRE(peer.start());
+    auto stopped = ark::detail::make_http_client_module();
+    auto active = ark::detail::make_http_client_module();
+    REQUIRE(stopped->pre_shut());
+    auto rejected = stopped->get("127.0.0.1", peer.port(), "/stopped");
+    CHECK_FALSE(await_http(rejected).first);
+    auto accepted = active->get("127.0.0.1", peer.port(), "/active");
+    CHECK(await_http(accepted).first);
+    CHECK(peer.count() == 1);
+}
+
 TEST_CASE("HTTP concurrent futures keep each request and response independent") {
     http_peer peer;
     peer.respond = [](const http_request& request, http_response& response) {
@@ -175,7 +188,8 @@ TEST_CASE("HTTP concurrent futures keep each request and response independent") 
             std::string(request.method_string()) + ":" + std::string(request.target()) + ":" + request.body();
     };
     REQUIRE(peer.start());
-    ark::http_client_module_impl client;
+    auto owned_client = ark::detail::make_http_client_module();
+    auto& client = *owned_client;
     std::vector<std::future<http_result>> futures;
     std::vector<std::string> expected;
     for (int index = 0; index < 48; ++index)
@@ -205,7 +219,8 @@ TEST_CASE("HTTP concurrent futures keep each request and response independent") 
 TEST_CASE("HTTP requests own binary bodies query parameters and headers") {
     http_peer peer;
     REQUIRE(peer.start());
-    ark::http_client_module_impl client;
+    auto owned_client = ark::detail::make_http_client_module();
+    auto& client = *owned_client;
     std::string body("first\0second", 12);
     const auto original_body = body;
     std::map<std::string, std::string> parameters{{"reserved", "a&= b"}, {"utf8", "\xe4\xb8\xad"}};
@@ -243,7 +258,8 @@ TEST_CASE("HTTP callbacks run once on the Update thread for both service overloa
     http_peer peer;
     REQUIRE(peer.start());
     http_callbacks callbacks;
-    ark::http_client_module_impl client;
+    auto owned_client = ark::detail::make_http_client_module();
+    auto& client = *owned_client;
     const std::string body = "callback-body";
     for (int index = 0; index < 12; ++index)
     {
@@ -282,7 +298,8 @@ TEST_CASE("HTTP preserves non-200 failure reasons and arbitrary request verbs") 
         response.body() = std::string(request.method_string()) + " error body";
     };
     REQUIRE(peer.start());
-    ark::http_client_module_impl client;
+    auto owned_client = ark::detail::make_http_client_module();
+    auto& client = *owned_client;
     auto missing = client.get("127.0.0.1", peer.port(), "/missing");
     auto put = client.async_request(arknet::http::verb::put, "127.0.0.1", peer.port(), "/put");
     auto remove = client.async_request(arknet::http::verb::delete_, "127.0.0.1", peer.port(), "/delete");
@@ -299,7 +316,8 @@ TEST_CASE("HTTP IO timeout completes futures and queues callback failure exactly
     http_peer peer(false);
     REQUIRE(peer.start());
     http_callbacks callbacks;
-    ark::http_client_module_impl client;
+    auto owned_client = ark::detail::make_http_client_module();
+    auto& client = *owned_client;
     const auto start = std::chrono::steady_clock::now();
     auto future = client.get("127.0.0.1", peer.port(), "/stall", nullptr, nullptr, 1, 1);
     client.post([&](http_result result) { callbacks.receive(std::move(result)); }, "127.0.0.1", peer.port(), "/stall",
@@ -323,7 +341,8 @@ TEST_CASE("HTTP shutdown cancels all pending requests and settles futures withou
     http_peer peer(false);
     REQUIRE(peer.start());
     http_callbacks callbacks;
-    ark::http_client_module_impl client;
+    auto owned_client = ark::detail::make_http_client_module();
+    auto& client = *owned_client;
     std::vector<std::future<http_result>> futures;
     for (int index = 0; index < 24; ++index)
     {
@@ -369,7 +388,7 @@ TEST_CASE("HTTP shutdown cancels all pending requests and settles futures withou
 
     std::future<http_result> destroyed;
     {
-        auto owned = std::make_unique<ark::http_client_module_impl>();
+        auto owned = ark::detail::make_http_client_module();
         destroyed = owned->get("127.0.0.1", peer.port(), "/destroyed");
         REQUIRE(wait_http([&] { return peer.count() == 33; }));
     }
@@ -380,7 +399,8 @@ TEST_CASE("HTTP shutdown cancels all pending requests and settles futures withou
 TEST_CASE("HTTP validates host headers target and timeout before network IO") {
     http_peer peer;
     REQUIRE(peer.start());
-    ark::http_client_module_impl client;
+    auto owned_client = ark::detail::make_http_client_module();
+    auto& client = *owned_client;
     const std::string invalid_header = "application/json\r\nInjected: yes";
     auto host = client.get("invalid/host", peer.port(), "/");
     auto header = client.post("127.0.0.1", peer.port(), "/", nullptr, nullptr, &invalid_header);
@@ -414,7 +434,8 @@ TEST_CASE("ARK HTTP server uses native routing and stops without signal delivery
             [](const auto& context, auto& response) { response.body() = context.request.body(); });
     REQUIRE(server.start_server());
     CHECK_FALSE(server.start_server("127.0.0.1", port, 2));
-    ark::http_client_module_impl client;
+    auto owned_client = ark::detail::make_http_client_module();
+    auto& client = *owned_client;
     auto get = client.get("127.0.0.1", port, "/users/42?active=1");
     const auto result = await_http(get);
     CHECK(result.first);

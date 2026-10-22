@@ -54,8 +54,9 @@ endforeach()
     const build = join(fixture, 'build');
     const staging = join(build, 'plugins/sdk-include/ark');
     const stale = join(staging, 'etcd_client/removed.hpp');
+    const removedHttpImplementation = join(staging, 'net/http_client_module_impl.hpp');
     const unmanaged = join(staging, 'unmanaged/keep.hpp');
-    for (const file of [stale, unmanaged]) {
+    for (const file of [stale, removedHttpImplementation, unmanaged]) {
       mkdirSync(dirname(file), { recursive: true });
       writeFileSync(file, 'obsolete or external mapping\n');
     }
@@ -68,6 +69,9 @@ endforeach()
     }
     assert.match(readFileSync(join(build, 'etcd_client.txt'), 'utf8'), /ark::net/);
     assert.match(readFileSync(join(build, 'physic.txt'), 'utf8'), /ark::utility/);
+    assert.equal(existsSync(join(staging, 'net/http_client_module_impl.hpp')), false);
+    assert.equal(existsSync(join(staging, 'net/http_client_factory.hpp')), false);
+    assert.ok(existsSync(join(staging, 'net/http_client_module.hpp')));
     assert.equal(existsSync(join(staging, 'kernel/kernel_factory.hpp')), false);
     assert.ok(existsSync(join(staging, 'kernel/kernel_plugin.hpp')));
     for (const [name, headers] of Object.entries(retainedHeaders)) {

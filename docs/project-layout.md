@@ -90,7 +90,7 @@ include paths, inherited C++20 settings, module overrides and exported GUID conf
 Use `-DARK_USE_GUID_32=ON` to check the 32-bit GUID configuration.
 
 The Net-only consumer enables Protobuf while keeping runtime plugins disabled.
-It compiles all 19 Net public headers independently and excludes the private
+It compiles all 18 Net public headers independently and excludes the private
 manager/plugin headers:
 
 ```sh
