@@ -20,12 +20,20 @@
 
 #pragma once
 
-#include "ark/module.hpp"
-#include "ark/plugin.hpp"
-#include "ark/plugin_manager.hpp"
+#include <memory>
+
+#include "ark/plugin_base.hpp"
+#include "redis_sample_module.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN(redis_sample_plugin)
+std::unique_ptr<redis_sample_module> make_redis_sample_module();
+
+class redis_sample_plugin final : public plugin_base<redis_sample_plugin>
+{
+public:
+    void install() override;
+    void uninstall() override;
+};
 
 } // namespace ark

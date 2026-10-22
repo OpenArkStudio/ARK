@@ -222,6 +222,19 @@ if(ARK_BUILD_PROTO)
     add_dependencies(check-core check-kernel-initialization)
 endif()
 
+if(ARK_BUILD_PROTO AND TARGET ark_kernel_plugin AND TARGET ark_utility_plugin)
+    add_executable(ark_kernel_plugin_tests ../app/kernel_plugin.cpp)
+    set_property(TARGET ark_kernel_plugin_tests PROPERTY LINK_LIBRARIES ark::kernel)
+    add_custom_target(check-kernel-plugin
+        COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:ark_kernel_plugin_tests>"
+            "-DPLUGIN_DIR=$<TARGET_FILE_DIR:ark_kernel_plugin>"
+            "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/kernel plugin runtime"
+            -P "${PROJECT_SOURCE_DIR}/tests/app/kernel_plugin.cmake"
+        DEPENDS ark_kernel_plugin_tests ark_kernel_plugin ark_utility_plugin
+        USES_TERMINAL VERBATIM)
+    add_dependencies(check-core check-kernel-plugin)
+endif()
+
 if(ARK_BUILD_CONFIG AND TARGET timers_plugin AND TARGET module_lifecycle_plugin AND TARGET entity_operations_plugin AND
         TARGET ark_utility_plugin AND TARGET ark_kernel_plugin)
     add_executable(ark_typed_examples_tests ../app/typed_examples.cpp)

@@ -194,3 +194,5 @@ module_update::enabled)` 启用 update；`disabled` 则不参与 update，即使
 
 原有宏和插件仍可使用。入口函数继续显式使用平台导出宏。插件边界仍传递 C++ 类型，
 不承诺纯 C ABI 或跨版本 ABI 稳定性。生命周期阶段、排空和动态库卸载规则保持不变。
+
+Kernel 同样使用类型化构造，并保留公开 `*_impl`、`kernel_plugin` 类型与头路径；私有工厂头不安装。公开类布局发生变化，Kernel 与消费者需要一起重建。[Kernel 迁移表](../reference/kernel_CN.md#kernel-类型化构造)记录保持不变的接口键、update 选择与注册顺序。

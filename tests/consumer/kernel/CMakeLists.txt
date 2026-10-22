@@ -10,7 +10,7 @@ set(ARK_BUILD_TESTS OFF CACHE BOOL "Build legacy tests" FORCE)
 set(ARK_BUILD_EXAMPLES OFF CACHE BOOL "Build examples" FORCE)
 add_subdirectory("${ARK_SOURCE_DIR}" ark)
 
-# Compile the unchanged Kernel headers through only their public interface target.
+# Compile every retained public Kernel header through its interface target.
 set(kernel_headers
     class_call_back_manager.hpp
     class_meta.hpp

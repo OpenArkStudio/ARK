@@ -88,4 +88,4 @@ Utility 的四个模块公开接口与调度辅助头位于 `src/plugins/utility
 
 移除 `ark/utility/*_module_impl.hpp` 与 `ark/utility/utility_plugin.hpp` 是源码兼容性变更。使用公开模块接口和类型化查找，不再直接构造实现类。Utility 与使用方需要一起重新编译；本次不保证旧实现类二进制兼容。
 
-Kernel 的原有 38 个头与 cpp 共置于 `src/plugins/kernel/`，通过 `ark::kernel` 保留全部 `<ark/kernel/...>` 路径，包括 `data_impl.hpp`、`data_list_impl.hpp` 和 `kernel_plugin.hpp`。此次只移动源码，创建宏、注册方式、类型可见性和生命周期均不变。消费检查及 Protobuf 条件见 [Kernel 参考](../reference/kernel_CN.md)。
+Kernel 的原有 38 个头与 cpp 共置于 `src/plugins/kernel/`，通过 `ark::kernel` 保留全部 `<ark/kernel/...>` 路径，包括 `data_impl.hpp`、`data_list_impl.hpp` 和 `kernel_plugin.hpp`。Kernel 使用类型化模块／插件基类、私有工厂与显式入口，同时保留公开实现类／插件类。受影响的消费者需要一起重建，类布局兼容边界见 [Kernel 构造](../reference/kernel_CN.md#kernel-类型化构造)。消费检查及 Protobuf 条件见 [Kernel 参考](../reference/kernel_CN.md)。

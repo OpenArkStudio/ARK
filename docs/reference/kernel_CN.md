@@ -183,8 +183,9 @@ private:
 Kernel 的原有 38 个头与 cpp 共同位于 `src/plugins/kernel/`。
 `ark::kernel` 的显式映射保留全部 `<ark/kernel/...>` 包含路径，
 包括 `data_impl.hpp`、`data_list_impl.hpp` 和 `kernel_plugin.hpp`，运行时插件关闭时同样可用。
-业务代码仍可使用原有值类型和模板定义。此次只移动源码，不改变创建宏、注册方式、
-生命周期或类型可见性。基础核心头仍位于 `include/ark/`。
+业务代码仍可使用原有值类型和模板定义。四个模块实现现在继承
+`module_base<原接口>`，`kernel_plugin` 继承 `plugin_base<kernel_plugin>`。
+核心源码头位于 `src/core/`。
 
 独立工程 `tests/consumer/kernel` 仅链接 `ark::kernel`，开启 Protobuf 时逐个编译
 38 个头，并运行值类型和模板消费检查。`container_meta.hpp` 保留原有的
@@ -201,3 +202,20 @@ cmake -S tests/consumer/kernel -B kernel-headers-build -G Ninja \
   -DVCPKG_MANIFEST_FEATURES=application -DASIO_STANDALONE=OFF
 cmake --build kernel-headers-build --target check-kernel-headers --parallel 2
 ```
+
+## Kernel 类型化构造
+
+**ABI／布局不兼容变更：** `class_meta_module_impl`、`config_module_impl`、`kernel_module_impl`、`map_module_impl` 现在继承 `module_base<原接口>`，`kernel_plugin` 继承 `plugin_base<kernel_plugin>`。原有公开类型、构造函数、方法和 38 个头路径继续保留。Kernel 与消费者必须一起重建；旧实现类／插件二进制不兼容变更后的类布局。此变更不引入跨编译器的插件 ABI。
+
+插件使用私有拥有型工厂与显式 `DllEntryPlugin`／`DllExitPlugin`。`kernel_factory.hpp` 仅保留在插件源码目录，不映射、不安装。工厂返回类型保留原接口 RTTI 注册键：
+
+| 注册接口 | 保留的实现类型 | update 注册 |
+| --- | --- | --- |
+| `class_meta_module` | `class_meta_module_impl` | `module_update::disabled`，继承默认 update |
+| `config_module` | `config_module_impl` | `module_update::disabled`，继承默认 update |
+| `kernel_module` | `kernel_module_impl` | `module_update::enabled`，保留原有覆写 |
+| `map_module` | `map_module_impl` | `module_update::disabled`，继承默认 update |
+
+安装按表格顺序执行，卸载按相反顺序执行。所有注册仍在生命周期初始化前完成，初始化阶段的容器遍历不保证依赖顺序。实体默认值、配置／结构加载阶段、Protobuf 消息及业务数据格式不变。
+
+开启 Protobuf 且存在 Kernel／Utility 运行时 target 时，`check-kernel-plugin` 成为 `check-core` 的依赖。独立 runner 仅链接公开 `ark::kernel`，加载两个真实 DSO，检查四个接口注册键与管理器归属、元数据／静态记录加载、地图／实体注册、公开生命周期回调、管理器更新、正常插件退出和重复 stop。不在卸载后检查注册表，也不证明任意热更新安全。公开头消费者还检查类型基类及原有 update 覆写；现有初始化和实体默认值回归继续保留。
