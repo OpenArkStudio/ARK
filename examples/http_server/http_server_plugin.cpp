@@ -18,19 +18,33 @@
  *
  */
 
-#include "http_server_module.hpp"
+#include <stdexcept>
+
 #include "http_server_plugin.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN_DLL_FUNCTION(http_server_plugin)
+ARK_EXPORT_FUNC void DllEntryPlugin(plugin_manager* manager, const std::string& plugin_name, logger* log) {
+    logger::init(log);
+    manager->register_plugin<http_server_plugin>(plugin_name);
+}
+
+ARK_EXPORT_FUNC void DllExitPlugin(plugin_manager* manager) {
+    manager->unregister_plugin<http_server_plugin>();
+}
 
 void http_server_plugin::install() {
-    ARK_REGISTER_MODULE(http_server_module, http_server_module);
+    if (!register_module(make_http_server_sample_module(), module_update::disabled))
+    {
+        throw std::runtime_error("http_server example module registration rejected");
+    }
 }
 
 void http_server_plugin::uninstall() {
-    ARK_DEREGISTER_MODULE(http_server_module, http_server_module);
+    if (!unregister_module<http_server_sample_module>())
+    {
+        throw std::runtime_error("http_server example module unregistration rejected");
+    }
 }
 
 } // namespace ark

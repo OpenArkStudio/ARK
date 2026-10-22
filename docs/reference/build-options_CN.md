@@ -9,6 +9,7 @@
 | `ARK_BUILD_TESTS` | `ON` | 构建原有测试程序 |
 | `ARK_BUILD_CORE_TESTS` | 与 `ARK_BUILD_TESTS` 一致 | 构建 C++20 核心与可选的 Protobuf 回归测试 |
 | `ARK_BUILD_EXAMPLES` | `ON` | 构建选中的示例 |
+| `ARK_BUILD_HTTP_EXAMPLE_TESTS` | 核心测试使用 Boost 且具备 HTTP／Net／Etcd Client API target 时为 `ON`，否则为 `OFF` | 通过独立服务替身编译并运行真实 HTTP 示例动态库；保留显式 `OFF` |
 | `ARK_BUILD_PLUGIN_MYSQL` | `OFF` | 构建原生 MySQL 协程插件，要求 `ARKNET_ENABLE_SSL=ON` |
 | `ARK_BUILD_PLUGIN_REDIS` | `OFF` | 构建原生 Redis 协程插件，TLS 连接池需要开启 SSL |
 | `ARK_BUILD_DATABASE_TESTS` | `OFF` | 构建原生数据库及公开插件回归，要求显式设置 `ARKNET_SOURCE_DIR` |
@@ -24,7 +25,7 @@
 
 官方插件选项采用 `ARK_BUILD_PLUGIN_<NAME>`。默认运行时插件为 `kernel`、`net`、`bus`、`utility` 和 `etcd_client`；启用 MySQL 或 Redis 构建选项可使用原生协程插件；本机协议测试与插件加载检查不能替代真实数据库部署验收。参见[项目结构](directory-structure_CN.md)、[协议生成](protobuf_CN.md)与[网络构建](../networking_CN.md)。
 
-开启 `ARK_BUILD_EXAMPLES` 时，[协程任务示例](../guides/tasks_CN.md)可以在关闭应用的情况下独立构建；其余现有插件示例仍要求开启应用构建。
+开启 `ARK_BUILD_EXAMPLES` 时，[协程任务示例](../guides/tasks_CN.md)可以在关闭应用的情况下独立构建；默认启用的应用插件示例仍要求开启应用构建。HTTP 示例创建测试可以随核心测试单独运行，详见 [HTTP 示例](http_CN.md#旧-http-示例的类型化创建)。
 
 数据库插件的配置与接口见 [MySQL](mysql_CN.md) 和 [Redis](redis_CN.md)。
 

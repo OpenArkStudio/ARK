@@ -20,22 +20,12 @@
 
 #pragma once
 
-#include "ark/etcd_client/etcd_client_module.hpp"
-#include "ark/net/http_client_module.hpp"
-#include "ark/plugin_manager.hpp"
+#include "ark/module.hpp"
 
 namespace ark {
 
-class http_client_sample_module final : public module
+class http_client_sample_module : public module
 {
-    ARK_DECLARE_MODULE_FUNCTIONS
-private:
-    http_client_module* http_client_;
-    std::shared_ptr<etcd_client> etcd_client_;
-
-public:
-    bool init() override;
-    bool post_init() override;
 };
 
 } // namespace ark

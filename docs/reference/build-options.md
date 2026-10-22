@@ -9,6 +9,7 @@
 | `ARK_BUILD_TESTS` | `ON` | Build legacy test programs |
 | `ARK_BUILD_CORE_TESTS` | Value of `ARK_BUILD_TESTS` | Build C++20 core and optional Protobuf regressions |
 | `ARK_BUILD_EXAMPLES` | `ON` | Build enabled examples |
+| `ARK_BUILD_HTTP_EXAMPLE_TESTS` | `ON` for core tests with Boost and HTTP/Net/Etcd Client API targets, otherwise `OFF` | Compile and run actual HTTP example DSOs with isolated service doubles; explicit `OFF` is respected |
 | `ARK_BUILD_PLUGIN_MYSQL` | `OFF` | Build the native MySQL coroutine plugin; requires `ARKNET_ENABLE_SSL=ON` |
 | `ARK_BUILD_PLUGIN_REDIS` | `OFF` | Build the native Redis coroutine plugin; enable SSL for TLS pools |
 | `ARK_BUILD_DATABASE_TESTS` | `OFF` | Build native database and public plugin regressions; requires an explicit `ARKNET_SOURCE_DIR` |
@@ -24,7 +25,7 @@ When upgrading arknet, use a new build directory or explicitly change the cached
 
 Official plugin options use `ARK_BUILD_PLUGIN_<NAME>`. The default runtime selection is `kernel`, `net`, `bus`, `utility` and `etcd_client`; enable the optional MySQL/Redis targets to build native coroutine plugins. Protocol and plugin-load tests do not replace real-server deployment acceptance. See [project layout](directory-structure.md), [protocol generation](protobuf.md) and [network builds](../networking.md).
 
-With `ARK_BUILD_EXAMPLES` enabled, the [coroutine task example](../guides/tasks.md) also builds with applications disabled. Existing plugin examples still require application builds.
+With `ARK_BUILD_EXAMPLES` enabled, the [coroutine task example](../guides/tasks.md) also builds with applications disabled. Enabled application plugin examples still require application builds. HTTP example construction tests can run separately with core tests; see [HTTP examples](http.md#legacy-http-example-construction).
 
 See [MySQL](mysql.md) and [Redis](redis.md) for plugin configuration and coroutine APIs.
 

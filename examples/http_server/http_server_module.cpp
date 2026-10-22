@@ -18,19 +18,37 @@
  *
  */
 
-#include "http_server_module.hpp"
+#include "ark/http/http_server_module.hpp"
+#include "ark/module_base.hpp"
+#include "http_server_plugin.hpp"
 
 namespace ark {
+namespace {
 
-bool http_server_module::init() {
-    http_server_module_ = find_module<http_server_module>();
+class http_server_sample_module_impl final : public module_base<http_server_sample_module>
+{
+public:
+    bool init() override;
+    bool post_init() override;
 
+private:
+    http_server_module* http_server_{};
+};
+
+bool http_server_sample_module_impl::init() {
+    http_server_ = find_module<http_server_module>();
+    return http_server_ != nullptr;
+}
+
+bool http_server_sample_module_impl::post_init() {
+    http_server_->start_server("0.0.0.0", 8080, 4);
     return true;
 }
 
-bool http_server_module::post_init() {
-    http_server_module_->start_server("0.0.0.0", 8080, 4);
-    return true;
+} // namespace
+
+std::unique_ptr<http_server_sample_module> make_http_server_sample_module() {
+    return std::make_unique<http_server_sample_module_impl>();
 }
 
 } // namespace ark

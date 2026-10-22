@@ -87,3 +87,11 @@ cmake --build core-build --target check-business-runtime
 Applications CI 显式开启 `ARK_BUILD_PLUGIN_HTTP=ON` 并运行 `check-core`，因此既有源码检查与全矩阵均包含真实 HTTP 动态库回归。本地启用 HTTP 的原生验证已通过；本次变更的托管全矩阵仍待验收。永久 CI 策略测试检查配置到真实动态库回归的依赖链。
 
 Kernel 的 38 个既有头通过 `ark::kernel` 从 `src/plugins/kernel/` 映射；`check-core` 保留数据与节点回归，`check-kernel-initialization` 保留初始化与配置复制断言。独立工程 `tests/consumer/kernel` 在 Protobuf 开启/关闭时分别消费 38/35 个头，其中 `container_meta.hpp` 保留原有 `ark/define.hpp` 与 `ark/enum.hpp` 前置包含要求。详见 [Kernel 参考](../../docs/reference/kernel_CN.md)。
+
+核心测试配置使用 Boost.Asio 且存在 `ark::http`、`ark::net`、`ark::etcd_client` 三个 API target 时，
+`ARK_BUILD_HTTP_EXAMPLE_TESTS` 默认 `ON`，否则默认 `OFF`；显式设置 `OFF` 仍然有效。
+选中后 `check-core` 包含 `check-http-examples`，编译真实旧 HTTP 示例模块及动态库入口。
+既有 Applications CI 通过该依赖运行测试，默认应用示例集合不变。
+测试通过独立的公开服务替身验证接口工厂／RTTI／配置、原有 POST／租约参数与超时默认值、
+所属线程 update 回调派发、监听参数、租约析构及重复停机／重新加载，不向外部 HTTP／etcd 发请求。
+保留的固定演示端点与真实传输验证边界见 [HTTP 示例](../../docs/reference/http_CN.md#旧-http-示例的类型化创建)。

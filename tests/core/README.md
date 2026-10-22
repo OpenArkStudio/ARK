@@ -98,3 +98,15 @@ With `ARK_BUILD_PLUGIN_HTTP=ON`, `check-http-plugin` loads the actual HTTP DSO a
 Applications CI explicitly enables `ARK_BUILD_PLUGIN_HTTP=ON` and runs `check-core`, so its existing source and full matrices include the real HTTP DSO fixture. Local HTTP-enabled native validation has passed; hosted full-matrix acceptance for this change remains pending. The permanent CI policy test guards this configuration-to-DSO dependency chain.
 
 Kernel maps its 38 existing headers from `src/plugins/kernel/` through `ark::kernel`. `check-core` retains data/node regressions; `check-kernel-initialization` retains initialization/configuration-copy assertions. The independent `tests/consumer/kernel` project consumes 38/35 headers with Protobuf enabled/disabled; `container_meta.hpp` retains its existing `ark/define.hpp` and `ark/enum.hpp` include prerequisites. See [Kernel reference](../../docs/reference/kernel.md).
+
+`ARK_BUILD_HTTP_EXAMPLE_TESTS` defaults to `ON` in core-test configurations with
+Boost.Asio and all three API targets (`ark::http`, `ark::net`, `ark::etcd_client`),
+and to `OFF` otherwise. Explicit `OFF` is respected. When selected, it adds
+`check-http-examples` to `check-core`, compiling the actual legacy HTTP example
+modules and their shared-library entries. Existing Applications CI exercises this
+dependency; the default application-example selection remains unchanged.
+The fixture checks interface factories/RTTI/configuration, original POST/lease
+arguments and timeout defaults, owner-update callback delivery, listener arguments,
+lease destruction and repeated stop/reload using isolated public service doubles.
+No external HTTP/etcd request is made. See [HTTP examples](../../docs/reference/http.md#legacy-http-example-construction)
+for the preserved fixed demonstration endpoints and the real-wire coverage boundary.

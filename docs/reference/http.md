@@ -106,3 +106,47 @@ factory. `tests/consumer/http` links only `ark::http`, compiles the public heade
 separately and rejects private header paths with apps/Protobuf disabled. See
 [directory structure](directory-structure.md) for the public-header consumer command, and
 [arknet HTTP](https://openarkstudio.github.io/arknet/features/) for routing APIs.
+
+## Legacy HTTP example construction
+
+`examples/http_server` and `examples/http_client` remain excluded from default
+example builds. Their adjacent sample interface headers support typed lookup;
+concrete classes are declared only in cpp and inherit `module_base` of the sample
+interface. Private factories return owned interfaces to `plugin_base`, which
+exports explicit `DllEntryPlugin` / `DllExitPlugin` entries and registers both
+samples with `module_update::disabled`, preserving their inherited update behavior.
+The server sample uses `http_server_sample_module` to avoid its old collision with
+the public `http_server_module` service. Library stems remain `http_server_plugin`
+and `http_client_sample_plugin`; installed public headers remain unchanged.
+Rebuild the example DSOs and their host together. Source code that instantiated
+an example implementation must instead load the plugin and look up its sample
+interface; the server sample lookup now uses `http_server_sample_module`.
+
+The server still requests `0.0.0.0:8080` with four IO threads and returns success
+from `post_init()` after calling `start_server()`, including when that call rejects
+the listener. The client still performs a future POST and a callback POST to
+`172.20.3.74:2379/v3/kv/put` with the original JSON body and HTTP timeout defaults
+(20 seconds IO, 5 seconds connect), then grants a 100-second lease through an etcd
+client using the existing 5/2-second timeout defaults. A null dependency or client
+result makes `init()` return `false` before dereferencing it; Debug builds retain
+the manager's assertions for missing module lookup. These
+fixed endpoints remain demonstrations that need an appropriate external setup.
+IO, transport and request completion belong to arknet; callbacks keep the public
+HTTP client's manager-update contract.
+
+Core-test configurations default `ARK_BUILD_HTTP_EXAMPLE_TESTS` to `ON` when
+Boost.Asio is selected and `ark::http`, `ark::net` and `ark::etcd_client` API
+targets exist; otherwise the default is `OFF`. Explicit `OFF` remains supported.
+Existing Applications CI satisfies those prerequisites and runs the fixture via
+`check-core`; the default application-example selection stays unchanged.
+For an isolated construction regression, configure with
+`-DASIO_STANDALONE=OFF -DARK_BUILD_CORE_TESTS=ON -DARK_BUILD_HTTP_EXAMPLE_TESTS=ON`,
+then run `cmake --build core-build --target check-http-examples --parallel 2`.
+The test target compiles both actual example modules and DSOs, calls their
+factories, loads their exported entries and verifies interface identity,
+configuration selection, POST/lease arguments and timeouts, owner-update callback
+delivery, listener arguments, lease-owner destruction, repeated stop and reload.
+Public service doubles make these checks deterministic without listening or
+contacting etcd. They establish example construction and call contracts; real HTTP
+wire coverage remains in `check-http-plugin` / `check-network`, and this fixture
+does not establish external etcd acceptance.

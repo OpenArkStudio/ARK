@@ -81,3 +81,33 @@ bool listen(ark::plugin_manager& manager) {
 既有 37 用例 `check-network` 通过私有工厂保留 HTTP 重复绑定、重启、公开响应助手与无效 TOML 断言。
 独立的 `tests/consumer/http` 仅链接 `ark::http`，在关闭应用／Protobuf 时分别编译公开头并拒绝私有头路径。
 公共接口头消费命令见[目录结构](directory-structure_CN.md)，路由 API 见 [arknet HTTP](https://openarkstudio.github.io/arknet/zh/features/)。
+
+## 旧 HTTP 示例的类型化创建
+
+`examples/http_server` 与 `examples/http_client` 默认仍不参与示例构建。相邻的示例接口头支持类型化查找；
+具体类仅在 cpp 中声明，继承对应示例接口的 `module_base`。私有工厂向 `plugin_base` 返回拥有型接口，
+插件显式导出 `DllEntryPlugin`／`DllExitPlugin`，两个示例均以 `module_update::disabled` 注册，
+保留继承的默认更新行为。服务端示例使用 `http_server_sample_module`，消除旧类名与公开服务
+`http_server_module` 的冲突。动态库名仍为 `http_server_plugin` 和 `http_client_sample_plugin`，
+已安装的公共头文件不变。
+示例动态库和宿主需要一起重新编译。原来直接创建示例实现类的代码应改为加载插件后查找示例接口；
+服务端示例改用 `http_server_sample_module` 查找。
+
+服务端仍以四个 IO 线程请求监听 `0.0.0.0:8080`；`post_init()` 调用 `start_server()` 后仍返回成功，
+包括监听启动被拒绝的情况。客户端仍向 `172.20.3.74:2379/v3/kv/put` 发送 future POST 和回调 POST，
+保留原 JSON 正文、HTTP 超时默认值（IO 20 秒、连接 5 秒），再通过 etcd 客户端申请 100 秒租约；
+etcd 客户端的超时默认值仍为 IO 5 秒、连接 2 秒。依赖或客户端返回空指针时，`init()` 会在解引用前
+返回 `false`；Debug 构建保留管理器对缺失模块查找的断言。这些固定端点仍是需要外部环境的演示配置。
+IO、传输和请求完成继续由 arknet 负责；
+回调遵循公开 HTTP 客户端由管理器 update 派发的约定。
+
+核心测试配置选择 Boost.Asio 且存在 `ark::http`、`ark::net`、`ark::etcd_client` API target 时，
+`ARK_BUILD_HTTP_EXAMPLE_TESTS` 默认 `ON`，否则默认 `OFF`；显式设置 `OFF` 仍然有效。
+既有 Applications CI 满足这些条件，通过 `check-core` 运行该测试；默认应用示例集合不变。
+如需独立验证示例创建，配置
+`-DASIO_STANDALONE=OFF -DARK_BUILD_CORE_TESTS=ON -DARK_BUILD_HTTP_EXAMPLE_TESTS=ON`，
+再运行 `cmake --build core-build --target check-http-examples --parallel 2`。
+该测试目标编译两个真实示例模块和动态库，调用工厂并加载导出入口，检查接口身份、配置选择、
+POST／租约参数与超时、所属线程 update 回调派发、监听参数、租约所有者析构、重复停机与重新加载。
+公开服务替身使测试可重复，无需监听端口或连接 etcd。这些检查验证示例创建与调用约定；
+真实 HTTP 传输仍由 `check-http-plugin`／`check-network` 覆盖，本测试不证明外部 etcd 验收通过。
