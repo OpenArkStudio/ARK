@@ -16,9 +16,9 @@ build's artifacts into the runtime's `bin/` directory.
 
 | Path | Contents |
 | --- | --- |
-| `include/ark/` | Public core headers |
-| `src/core/` | Core CMake target and header-only usage requirements |
-| `application/` | Application entry point |
+| `include/ark/` | Application-manifest declarations |
+| `src/core/` | Core headers, implementation and CMake usage requirements |
+| `src/application/` | Application entry point and shutdown request |
 | `src/proto/` | Protocol schemas and codec implementation |
 | `src/server/` | Built-in server applications |
 | `src/plugins/<name>/` | All official plugin headers, implementation and assembly |
@@ -35,6 +35,8 @@ build's artifacts into the runtime's `bin/` directory.
 Include public headers as `<ark/plugin_manager.hpp>` or `<ark/net/tcp_client.hpp>`.
 Do not add implementation directories to an application's include path. Generated
 Protobuf headers are placed under the build directory, exposed through `ark::proto`.
+
+Core has one source copy under `src/core/`. `ark::core` maps its explicit public headers into the selected build tree’s `src/core/public-include/ark/`, preserving `<ark/plugin_manager.hpp>` and nested include paths. Edit source headers rather than generated copies. The `app`/`app_d` executable and manifest format are unchanged.
 
 ## CMake targets
 

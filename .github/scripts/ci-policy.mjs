@@ -84,7 +84,7 @@ function modulesForPath(file) {
   if (/^(?:include\/ark\/|src\/plugins\/)(?:mysql|redis)\//.test(file) ||
       /^examples\/(?:mysql_sample|redis_sample)\//.test(file)) return ['applications', 'database'];
   if (/^src\/plugins\/detail\//.test(file)) return ['applications', 'database'];
-  if (/^(?:application\/|src\/(?:server|config|proto)\/|tests\/(?:core|app|consumer)\/|examples\/)/.test(file) ||
+  if (/^(?:application\/|src\/(?:application|server|config|proto)\/|tests\/(?:core|app|consumer)\/|examples\/)/.test(file) ||
       /^(?:include\/ark\/|src\/plugins\/)(?:kernel|utility|consul|etcd_client|kafka|osssdk|physic)\//.test(file)) {
     return ['applications'];
   }

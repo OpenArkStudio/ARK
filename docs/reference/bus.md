@@ -256,7 +256,7 @@ TODO: provide a standalone two-process example and tests covering connection set
 
 ## API sources
 
-- [Bus addresses and process configuration](https://github.com/OpenArkStudio/ark/blob/main/include/ark/bus.hpp)
+- [Bus addresses and process configuration](https://github.com/OpenArkStudio/ark/blob/main/src/core/bus.hpp)
 - [Bus interface](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/bus/bus_module.hpp)
 - [Message interface](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/bus/msg_module.hpp)
 - [Network service management interface](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/net/net_service_manager_module.hpp)

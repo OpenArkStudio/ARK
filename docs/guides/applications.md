@@ -165,4 +165,4 @@ their original `bin/rund.*` commands. Use the current commands above instead.
 | Plugin loads but the expected module is unavailable | Check registration, enabled targets and required plugins; see [Create a plugin](plugins.md) |
 | Kernel metadata or configuration is missing | Stage the generated `resource/meta/` and `resource/server/` files in the process working directory |
 
-The launcher implementation is in [main.cpp](https://github.com/OpenArkStudio/ark/blob/main/application/main.cpp).
+The launcher implementation is in [main.cpp](https://github.com/OpenArkStudio/ark/blob/main/src/application/main.cpp).
