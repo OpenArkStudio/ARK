@@ -1,6 +1,6 @@
 # Official plugins and repository organization
 
-Core and other plugin public interfaces remain in `include/ark/`, with core build definitions in `src/core/`. MySQL, Redis, Utility, Net and Bus co-locate interface headers, implementation and private assembly in `src/plugins/<name>/`, retaining logical include paths through explicit CMake mapping. Business plugins live with their applications and arknet remains independent; this layout does not expand hot update or migrate other plugins.
+Core and other plugin public interfaces remain in `include/ark/`, with core build definitions in `src/core/`. MySQL, Redis, Utility, Net, Bus, HTTP and Kernel co-locate interface headers, implementation and private assembly in `src/plugins/<name>/`, retaining logical include paths through explicit CMake mapping. Business plugins live with their applications and arknet remains independent; this layout does not expand hot update or migrate other plugins.
 
 ## Existing implementations
 
@@ -27,7 +27,7 @@ ark/
 │   │   ├── net/          # Public headers, transports and private creation
 │   │   ├── bus/          # Public module interfaces and private creation
 │   │   ├── utility/
-│   │   ├── http/
+│   │   ├── http/         # Public routing interface and private creation
 │   │   ├── mysql/
 │   │   └── redis/
 │   ├── proto/
@@ -42,14 +42,14 @@ ark/
 
 This shows the main directories. Existing Consul, etcd, Kafka and other official plugins follow the same convention. Lua and Actor integration remains planned; the table above identifies their proposed implementation directories.
 
-MySQL, Redis, Utility, Net and Bus use a co-located layout; the database example is:
+MySQL, Redis, Utility, Net, Bus, HTTP and Kernel use a co-located layout; the database example is:
 
 ```text
 src/plugins/mysql/
 ├── CMakeLists.txt
 ├── mysql_module.hpp    # Explicit public API, mapped as ark/mysql/mysql_module.hpp
 ├── mysql_module.cpp    # Hidden implementation class and one private factory
-├── mysql_plugin.hpp    # Private plugin type/factory declarations, excluded from public-header mapping
+├── mysql_plugin.hpp    # Private plugin type/factory declarations, excluded from public header mapping
 ├── mysql_plugin.cpp    # Registration and explicit dynamic-library entry points
 └── detail/             # Private native services, coroutine bridge and transactions
 tests/database/         # Protocol, DSO and explicit real-service checks
@@ -87,3 +87,5 @@ Resume hot-update discussions about state ownership, in-flight calls and compati
 Utility keeps its four public module interfaces and scheduler helper headers in `src/plugins/utility/`, mapped explicitly through `ark::utility`. Each module implementation is private to its cpp file and is constructed by a private factory returning its public interface. The plugin uses `plugin_base` and explicit `DllEntryPlugin`/`DllExitPlugin` entry points. Only the timer module participates in manager updates. See [Utility APIs and migration](../reference/utility.md).
 
 The removed `ark/utility/*_module_impl.hpp` and `ark/utility/utility_plugin.hpp` headers are a source compatibility change. Use the public module interfaces and typed lookup rather than constructing implementation classes. Rebuild Utility and consumers together; this does not promise compatibility with old implementation-class binaries.
+
+Kernel co-locates its 38 existing headers with its cpp files in `src/plugins/kernel/`. `ark::kernel` preserves every `<ark/kernel/...>` path, including `data_impl.hpp`, `data_list_impl.hpp` and `kernel_plugin.hpp`. This source-only move keeps creation macros, registration, type visibility and lifecycle unchanged. See [Kernel reference](../reference/kernel.md) for consumption checks and Protobuf requirements.

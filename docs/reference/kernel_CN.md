@@ -171,9 +171,33 @@ private:
 
 ## API 来源
 
-- [Kernel 接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/kernel_module.hpp)
-- [Entity 接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/entity.hpp)
-- [元数据接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/class_meta_module.hpp)
-- [配置接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/config_module.hpp)
-- [地图接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/kernel/map_module.hpp)
+- [Kernel 接口](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/kernel/kernel_module.hpp)
+- [Entity 接口](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/kernel/entity.hpp)
+- [元数据接口](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/kernel/class_meta_module.hpp)
+- [配置接口](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/kernel/config_module.hpp)
+- [地图接口](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/kernel/map_module.hpp)
 - [数据定义与生成](../guides/data-structures_CN.md)
+
+## Kernel 源码共置
+
+Kernel 的原有 38 个头与 cpp 共同位于 `src/plugins/kernel/`。
+`ark::kernel` 的显式映射保留全部 `<ark/kernel/...>` 包含路径，
+包括 `data_impl.hpp`、`data_list_impl.hpp` 和 `kernel_plugin.hpp`，运行时插件关闭时同样可用。
+业务代码仍可使用原有值类型和模板定义。此次只移动源码，不改变创建宏、注册方式、
+生命周期或类型可见性。基础核心头仍位于 `include/ark/`。
+
+独立工程 `tests/consumer/kernel` 仅链接 `ark::kernel`，开启 Protobuf 时逐个编译
+38 个头，并运行值类型和模板消费检查。`container_meta.hpp` 保留原有的
+`ark/define.hpp`、`ark/enum.hpp` 前置包含要求，消费者显式提供这两个头。`ARK_BUILD_PROTO=OFF` 时检查其余 35 个头；
+`kernel_module.hpp`、`kernel_module_impl.hpp`、`map_module_impl.hpp`
+仍要求 Protobuf。数据与节点、初始化与配置、应用回归分别使用 `check-core`、
+`check-kernel-initialization`、`check-typed-examples`。
+`check-kernel-initialization` 要求 `ARK_BUILD_PROTO=ON`；`check-typed-examples`
+还要求开启应用、配置、示例构建及 Kernel/Utility 运行时目标。
+
+```sh
+cmake -S tests/consumer/kernel -B kernel-headers-build -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DVCPKG_MANIFEST_FEATURES=application -DASIO_STANDALONE=OFF
+cmake --build kernel-headers-build --target check-kernel-headers --parallel 2
+```
