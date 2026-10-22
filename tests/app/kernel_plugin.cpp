@@ -56,9 +56,9 @@ int main(int argc, char* argv[]) {
     log.set_log_func([](spdlog::level::level_enum, const std::string&) {});
     entity_events events;
     ark::plugin_manager manager;
-    require(
-        manager.start(0, std::string(argv[1]) + "/", "conf/", {{"ark_kernel_plugin", ""}, {"ark_utility_plugin", ""}}),
-        "Kernel DSO startup failed: " + manager.get_startup_failure());
+    const bool started =
+        manager.start(0, std::string(argv[1]) + "/", "conf/", {{"ark_kernel_plugin", ""}, {"ark_utility_plugin", ""}});
+    require(started, "Kernel DSO startup failed: " + manager.get_startup_failure());
     auto* metadata = find_owned<ark::class_meta_module>(manager);
     auto* config = find_owned<ark::config_module>(manager);
     auto* kernel = find_owned<ark::kernel_module>(manager);
