@@ -20,12 +20,20 @@
 
 #pragma once
 
-#include "ark/module.hpp"
-#include "ark/plugin.hpp"
-#include "ark/plugin_manager.hpp"
+#include <memory>
+
+#include "ark/plugin_base.hpp"
+#include "entity_operations_module.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN(entity_operations_plugin)
+std::unique_ptr<entity_operations_module> make_entity_operations_module();
+
+class entity_operations_plugin final : public plugin_base<entity_operations_plugin>
+{
+public:
+    void install() override;
+    void uninstall() override;
+};
 
 } // namespace ark

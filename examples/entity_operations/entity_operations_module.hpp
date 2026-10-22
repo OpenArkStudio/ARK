@@ -22,13 +22,12 @@
 
 #include "ark/kernel/kernel_module.hpp"
 #include "ark/kernel/map_module.hpp"
-#include "ark/plugin_manager.hpp"
+#include "ark/module_base.hpp"
 
 namespace ark {
 
-class entity_operations_module final : public module
+class entity_operations_module final : public module_base<module>
 {
-    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     explicit entity_operations_module() = default;
 
@@ -57,9 +56,6 @@ protected:
 
     //------------inner interface----------------
     std::shared_ptr<entity> create_an_player_and_init();
-    void query_string_test(const guid_t& guid, size_t count, const uint32_t index);
-    void query_int_test(const guid_t& guid, size_t count, const uint32_t index);
-    void set_data_test(const guid_t& guid, size_t count, const uint32_t index);
     void custom_data_test(const guid_t& guid, size_t count, const uint32_t index);
 
     //------------callback----------------------

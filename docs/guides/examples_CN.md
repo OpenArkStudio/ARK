@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | `examples/timers`／`timers` | `timers_plugin` | Utility 定时器与模块生命周期；启用，参与 update |
 | `examples/module_lifecycle`／`module_lifecycle` | `module_lifecycle_plugin` | 生命周期与少量 data-list 演示；启用，无 update 覆写。回调演示代码仍被注释 |
-| `examples/entity_operations`／`entity_operations` | `entity_operations_plugin` | Kernel 实体、数据和表操作；启用，无 update 覆写。启动仍包含旧计时循环，不应用作轻量启动检查 |
+| `examples/entity_operations`／`entity_operations` | `entity_operations_plugin` | Kernel 实体、数据和表操作；启用，无 update 覆写。启动仅做有界功能演示；[旧计时负载](../../benchmarks/ENTITY_OPERATIONS_CN.md)只能通过显式基准命令运行 |
 | `examples/physics_scene`／`physics_scene` | `physics_scene_plugin` | 关闭，依赖不支持的旧 PhysX 3；保留源码与清单不代表集成可运行 |
 | `examples/http_server`／`http_server` | `http_server_plugin` | 关闭，保留 HTTP 服务示例，尚无运行验收 |
 
@@ -29,3 +29,7 @@
 不再生成旧 target、旧库别名或旧配置文件名。已有运行目录不会自动迁移；切换前应重新准备同次构建的可执行文件、插件集与配置。
 
 按字节保存的历史文档归档仍保留原始名称和命令，不作为当前命名指南。本页说明名称和支持边界，不代表新增运行或性能验收。
+
+## 运行实体操作示例
+
+在独立运行目录准备同次构建的产物、`config/entity_operations.app.toml`、`config/kernel.plugin.conf` 和 `config/log.conf`，并复制 `examples/entity_operations/resource`。使用 `--name=entity_operations --app_conf=conf/entity_operations.app.toml` 启动，详见[示例说明](../../examples/entity_operations/README_CN.md)。启动创建四个玩家并演示数据、表和自定义值，不执行计时循环；真实 DSO 回归使用相同清单与元数据。独立基准必须显式指定 `--iterations N`；八次迭代的 smoke 关闭计时，不构成性能证据。

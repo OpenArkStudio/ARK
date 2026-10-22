@@ -80,6 +80,8 @@ cmake --build core-build --target check-business-runtime
 
 启用 Bus、Net、Utility 与 Protobuf 时，`check-bus-plugin` 加载真实动态库，验证 Bus／消息接口键、配置查询、路由 Protobuf 消息头与正文、传输失败传播及正常重复停服。`check-core` 包含该目标。独立的 `tests/consumer/bus` 工程仅链接 `ark::bus`，分别编译两个公开模块头。既有解析／配置用例通过接口工厂保留原断言，仍支持关闭 Protobuf 的构建。
 
+同一 `check-typed-examples` 还通过仓库清单和示例元数据加载实体操作 DSO，验证四个 Player 实体、原有字段／自定义值与物品行、没有计时循环输出的有界启动、编译期模块／update 契约、bag 回调分发、四次销毁事件、更新及正常／重复停机。显式的 `check-entity-benchmark-smoke` 是独立可选 target，不作为 `check-core` 的依赖。
+
 启用 `ARK_BUILD_PLUGIN_HTTP=ON` 时，`check-http-plugin` 加载真实 HTTP 动态库并发送真实回环请求，覆盖所属线程停服期间的受控活动处理器退出与端点复用。可选 HTTP 目标存在时，`check-core` 包含该检查。独立的 `tests/consumer/http` 工程仅链接 `ark::http`，关闭应用与 Protobuf。
 
 Applications CI 显式开启 `ARK_BUILD_PLUGIN_HTTP=ON` 并运行 `check-core`，因此既有源码检查与全矩阵均包含真实 HTTP 动态库回归。本地启用 HTTP 的原生验证已通过；本次变更的托管全矩阵仍待验收。永久 CI 策略测试检查配置到真实动态库回归的依赖链。

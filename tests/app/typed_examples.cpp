@@ -8,19 +8,27 @@
 #include <typeinfo>
 
 #include <ark/application_manifest.hpp>
+#include <ark/kernel/data_list_impl.hpp>
+#include <ark/kernel/kernel_module.hpp>
+#include <ark/kernel/map_module.hpp>
+#include <ark/meta_define.hpp>
 #include <ark/plugin_manager.hpp>
 #include <ark/utility/compress_module.hpp>
 #include <ark/utility/guid_module.hpp>
 #include <ark/utility/schedule_module.hpp>
 #include <ark/utility/timer_module.hpp>
+#include "../../examples/entity_operations/entity_operations_module.hpp"
 #include "../../examples/module_lifecycle/module_lifecycle_module.hpp"
 #include "../../examples/timers/timers_module.hpp"
 
-// These reflect the old registration macro's update detection for both samples.
+// These preserve the old registration macro's update detection for all three examples.
 static_assert(!std::same_as<decltype(&ark::timers_module::update), decltype(&ark::module::update)>);
 static_assert(std::same_as<decltype(&ark::module_lifecycle_module::update), decltype(&ark::module::update)>);
 static_assert(std::derived_from<ark::timers_module, ark::module_base<ark::module>>);
 static_assert(std::derived_from<ark::module_lifecycle_module, ark::module_base<ark::module>>);
+
+static_assert(std::derived_from<ark::entity_operations_module, ark::module_base<ark::module>>);
+static_assert(std::same_as<decltype(&ark::entity_operations_module::update), decltype(&ark::module::update)>);
 
 namespace {
 
@@ -37,6 +45,19 @@ struct timer_receiver
     ark::guid_t entity_id{};
 };
 
+struct entity_receiver
+{
+    int on_event(const ark::guid_t&, const std::string&, ark::entity_event event, const ark::data_list&) {
+        if (event == ark::entity_event::entity_evt_destroy)
+        {
+            ++destroyed;
+        }
+        return 0;
+    }
+
+    unsigned destroyed{};
+};
+
 void require(bool condition, const std::string& message) {
     if (!condition)
     {
@@ -51,7 +72,7 @@ void require(bool condition, const std::string& message) {
 int main(int argc, char* argv[]) {
     require(argc == 4, "Expected source root, plugin directory and sample name");
     const std::string sample = argv[3];
-    require(sample == "timers" || sample == "module_lifecycle", "Unknown sample");
+    require(sample == "timers" || sample == "module_lifecycle" || sample == "entity_operations", "Unknown sample");
     const auto manifest =
         ark::load_application_manifest((std::filesystem::path(argv[1]) / "config" / (sample + ".app.toml")).string());
     std::ostringstream events;
@@ -59,11 +80,73 @@ int main(int argc, char* argv[]) {
     ark::logger log;
     ark::logger::init(&log);
     log.set_log_func([&events](spdlog::level::level_enum, const std::string& text) { events << text << '\n'; });
+    entity_receiver entity_events;
     ark::plugin_manager manager;
     try
     {
         const bool started = manager.start(0, std::string(argv[2]) + "/", "conf/", manifest.plugins);
         require(started, "Sample startup failed: " + manager.get_startup_failure());
+        if (sample == "entity_operations")
+        {
+            auto* kernel = manager.find_module<ark::kernel_module>();
+            auto* maps = manager.find_module<ark::map_module>();
+            require(
+                kernel && maps && maps->exist_map(1), "Entity example did not resolve Kernel/Map or create its map");
+            ark::data_list_impl ids;
+            require(maps->get_inst_entity_list(1, 0, ids) && ids.get_count() == 4,
+                "Entity example must create four players");
+            unsigned edited = 0;
+            unsigned table_demo = 0;
+            for (std::size_t i = 0; i < ids.get_count(); ++i)
+            {
+                auto player = kernel->get_entity(ids.int64(i));
+                require(
+                    player && player->get_string(ark::entity_meta_player::name()) == "Xiaoming", "Player name changed");
+                for (const auto& field : {ark::entity_meta_player::career(), ark::entity_meta_player::camp(),
+                         ark::entity_meta_player::last_map_id(), ark::entity_meta_player::level()})
+                {
+                    require(player->get_int32(field) == 1, "Player initialization changed: " + field);
+                }
+                const auto gender = player->get_int32(ark::entity_meta_player::gender_index());
+                require(gender == 1 || gender == 11, "Unexpected player gender");
+                edited += gender == 11;
+                require(player->get_custom_int32("test") == 111, "Custom data initialization changed");
+                auto* items = player->find_table(ark::entity_meta_player::items());
+                require(items && items->first() &&
+                            items->first()->get_int64(ark::entity_meta_item_bag::guid_index()) == 1111,
+                    "Initial item row GUID changed");
+                if (items->get_row_count() == 2)
+                {
+                    auto* row = items->first();
+                    row = items->next();
+                    require(row && row->get_int32(ark::entity_meta_item_bag::count_index()) == 22,
+                        "Table demonstration count changed");
+                    ++table_demo;
+                }
+                require(
+                    player->find_container(ark::entity_meta_player::bag_index()) != nullptr, "Bag metadata missing");
+            }
+            require(
+                edited == 1 && table_demo == 1, "Lightweight data/table demonstrations did not preserve final values");
+            const auto before_callback = events.str().size();
+            auto child = kernel->create_container_entity(
+                ids.int64(0), ark::entity_meta_player::bag_index(), ark::entity_meta_item_bag::self_name(), 0);
+            require(child != nullptr &&
+                        events.str().find("OnContainerCallBackEvent start", before_callback) != std::string::npos,
+                "Original bag callback did not receive a real container event");
+            const auto child_id = child->get_id();
+            child.reset();
+            require(kernel->destroy_entity(child_id), "Container fixture cleanup failed");
+            require(kernel->add_class_call_back(
+                        ark::entity_meta_player::self_name(), &entity_events, &entity_receiver::on_event),
+                "Shutdown entity observer registration failed");
+            require(
+                events.str().find("Entity data demonstration: name=Xiaoming gender=11 custom=111") != std::string::npos,
+                "Missing lightweight demonstration result");
+            require(events.str().find("query with [int key]") == std::string::npos &&
+                        events.str().find("set with [int key]") == std::string::npos,
+                "Startup must not run the timed workload");
+        }
         auto* guids = manager.find_module<ark::guid_module>();
         auto* timers = manager.find_module<ark::timer_module>();
         auto* schedules = manager.find_module<ark::schedule_module>();
@@ -103,6 +186,10 @@ int main(int argc, char* argv[]) {
             "Utility timer must fire once through owner-thread updates with original callback arguments");
         require(manager.stop(60), "Sample shutdown did not complete");
         require(manager.stop(61), "Repeated stop must not unregister Utility modules twice");
+        if (sample == "entity_operations")
+        {
+            require(entity_events.destroyed == 4, "Shutdown must destroy each demonstration player exactly once");
+        }
         require(manager.get_shutdown_state() == ark::plugin_manager::shutdown_state::stopped,
             "Sample resources were retained instead of stopped");
     }

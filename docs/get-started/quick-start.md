@@ -81,12 +81,12 @@ A failed plugin load or module startup callback stops later startup stages and u
 
 ## Read the typed sample construction
 
-`examples/timers` and `examples/module_lifecycle` use
+`examples/timers`, `examples/module_lifecycle` and `examples/entity_operations` use
 [`module_base<interface_type>`](../guides/modules.md#use-a-base-class-with-a-private-implementation)
 and [`plugin_base<derived_type>`](../guides/plugins.md#use-typed-registration-and-explicit-entries).
-The sample classes remain in their plugin's private, adjacent headers. They do
+The sample classes remain in their plugin's adjacent headers. They do
 not introduce a separate service interface: each inherits `module_base<module>`
-and registers under its capability-specific `timers_module` or `module_lifecycle_module` RTTI key.
+and registers under its capability-specific module RTTI key.
 
 `timers_plugin.hpp`, for example, declares a factory returning
 `std::unique_ptr<timers_module>`; `timers_module.cpp` defines it. The plugin
@@ -98,12 +98,13 @@ registration still requires explicit unregister/delete during `uninstall()`.
 | --- | --- | --- |
 | Timers | `module_update::enabled`, preserving its `update()` override | Utility plugin; no external business metadata |
 | `module_lifecycle` | `module_update::disabled`, preserving its inherited default `update()` | Kernel and Utility plugins; business metadata under `resource/meta/` |
+| `entity_operations` | `module_update::disabled`, preserving its inherited default `update()` | Kernel and Utility plugins; bundled small example metadata |
 
-Lifecycle and business bodies are retained; the capability names change module RTTI keys and manifest library stems.
+Timers and module_lifecycle retain their business bodies; entity operations now starts a lightweight data demonstration, with its old timed workload moved to an explicit benchmark. Capability names change module RTTI keys and manifest library stems.
 `module_lifecycle`'s metadata is external business data; this construction change does not
 generate or convert it. When applications, examples, configuration and core tests
 are enabled with the required Kernel/Utility plugins, run
 `cmake --build app-build --target check-typed-examples -j2` to load the actual
-Timers/`module_lifecycle` DSOs, execute five updates on the manager thread and verify ordered startup and
+Timers/module_lifecycle/entity_operations DSOs, execute five updates on the manager thread and verify ordered startup and
 shutdown. This test supplies a small test dataset for `module_lifecycle`; it does not
 validate an application's exported business dataset.

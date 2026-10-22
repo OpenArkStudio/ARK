@@ -81,11 +81,11 @@ macOS/Linux 使用 Ctrl+C 停止，Windows 在应用控制台输入 `exit`。Tim
 
 ## 阅读使用新基类的示例装配
 
-`examples/timers` 和 `examples/module_lifecycle` 使用
+`examples/timers`、`examples/module_lifecycle` 和 `examples/entity_operations` 使用
 [`module_base<interface_type>`](../guides/modules_CN.md#用基类隐藏具体实现)
 及 [`plugin_base<derived_type>`](../guides/plugins_CN.md#用类型化注册和显式入口)。
-示例类仍放在插件同目录的私有头文件中，不额外引入服务接口；两者均继承
-`module_base<module>`，以当前的 `timers_module` 或 `module_lifecycle_module` RTTI 键注册。
+示例类仍放在插件同目录的头文件中，不额外引入服务接口；三者均继承
+`module_base<module>`，以对应的能力模块 RTTI 键注册。
 
 以 `timers_plugin.hpp` 为例，它声明返回 `std::unique_ptr<timers_module>` 的工厂，
 由 `timers_module.cpp` 定义。插件注册工厂返回的对象，并显式导出
@@ -96,10 +96,11 @@ macOS/Linux 使用 Ctrl+C 停止，Windows 在应用控制台输入 `exit`。Tim
 | --- | --- | --- |
 | Timers | `module_update::enabled`，保留其 `update()` 覆写行为 | Utility 插件，无需外部业务元数据 |
 | `module_lifecycle` | `module_update::disabled`，保留其继承的默认 `update()` 行为 | Kernel、Utility 插件及 `resource/meta/` 下的业务元数据 |
+| `entity_operations` | `module_update::disabled`，保留其继承的默认 `update()` 行为 | Kernel、Utility 插件及附带的小型示例元数据 |
 
-生命周期和业务方法体保留；能力命名会改变模块 RTTI 注册键与配置中的动态库名称。`module_lifecycle` 的元数据属于外部
+timers 与 module_lifecycle 的业务方法体保留；实体示例改为轻量数据演示，旧计时负载移入显式基准。能力命名会改变模块 RTTI 注册键与配置中的动态库名称。`module_lifecycle` 的元数据属于外部
 业务数据，本次装配调整不生成或转换这些数据。启用应用、示例、配置和 core 测试，
 并启用所需 Kernel/Utility 插件后，执行
-`cmake --build app-build --target check-typed-examples -j2`，可加载两个示例的真实
+`cmake --build app-build --target check-typed-examples -j2`，可加载三个示例的真实
 动态库，在模块管理器所属线程更新五次，并检查启动、停服顺序。该测试为 `module_lifecycle` 提供小型
 测试元数据，不代表已验证应用导出的业务数据集。

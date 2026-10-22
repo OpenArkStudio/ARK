@@ -18,19 +18,33 @@
  *
  */
 
-#include "entity_operations_module.hpp"
+#include <stdexcept>
+
 #include "entity_operations_plugin.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN_DLL_FUNCTION(entity_operations_plugin)
+ARK_EXPORT_FUNC void DllEntryPlugin(plugin_manager* manager, const std::string& plugin_name, logger* log) {
+    logger::init(log);
+    manager->register_plugin<entity_operations_plugin>(plugin_name);
+}
+
+ARK_EXPORT_FUNC void DllExitPlugin(plugin_manager* manager) {
+    manager->unregister_plugin<entity_operations_plugin>();
+}
 
 void entity_operations_plugin::install() {
-    ARK_REGISTER_MODULE(entity_operations_module, entity_operations_module);
+    if (!register_module(make_entity_operations_module(), module_update::disabled))
+    {
+        throw std::runtime_error("entity_operations module registration rejected");
+    }
 }
 
 void entity_operations_plugin::uninstall() {
-    ARK_UNREGISTER_MODULE(entity_operations_module, entity_operations_module);
+    if (!unregister_module<entity_operations_module>())
+    {
+        throw std::runtime_error("entity_operations module unregistration rejected");
+    }
 }
 
 } // namespace ark
