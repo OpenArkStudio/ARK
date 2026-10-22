@@ -1,7 +1,13 @@
 include_guard(GLOBAL)
 
-# Discover the parser at the project root so sibling consumers can use its target.
-find_package(tomlplusplus 3.4 CONFIG QUIET)
+# The compiled reader can be configured on its own. Make a newly discovered
+# imported parser visible to sibling private consumers as well.
+if(NOT TARGET tomlplusplus::tomlplusplus)
+    find_package(tomlplusplus 3.4 CONFIG QUIET)
+    if(TARGET tomlplusplus::tomlplusplus)
+        set_property(TARGET tomlplusplus::tomlplusplus PROPERTY IMPORTED_GLOBAL TRUE)
+    endif()
+endif()
 if(NOT TARGET tomlplusplus::tomlplusplus)
     include(FetchContent)
     FetchContent_Declare(tomlplusplus

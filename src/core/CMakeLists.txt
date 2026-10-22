@@ -87,9 +87,8 @@ add_library(ark::core ALIAS ark_core)
 target_compile_features(ark_core INTERFACE cxx_std_20)
 target_include_directories(ark_core INTERFACE
     "$<BUILD_INTERFACE:${ark_core_include_dir}>"
-    "$<BUILD_INTERFACE:${ROOT_DIR}/include>"
     "${RAPIDXML_INCLUDE_DIR}")
-target_link_libraries(ark_core INTERFACE arknet::arknet spdlog::spdlog_header_only
+target_link_libraries(ark_core INTERFACE ark::config_headers arknet::arknet spdlog::spdlog_header_only
     readerwriterqueue::readerwriterqueue ${CMAKE_DL_LIBS})
 target_compile_definitions(ark_core INTERFACE
     $<$<BOOL:${ARK_USE_GUID_32}>:ARK_USE_GUID_32>

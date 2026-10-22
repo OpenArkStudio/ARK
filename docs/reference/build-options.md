@@ -3,6 +3,7 @@
 | Option | Default | Purpose |
 | --- | --- | --- |
 | `ARK_BUILD_APPLICATIONS` | `ON` | Build applications and the selected runtime plugins |
+| `ARK_BUILD_CONFIG` | `ON` for applications or core tests, otherwise `OFF` | Build the shared application/plugin configuration reader; network regressions also build it for HTTP |
 | `ARK_BUILD_PROTO` | Value of `ARK_BUILD_APPLICATIONS` | Generate and build protocol messages; applications require it |
 | `ARK_BUILD_NETWORK_TESTS` | `OFF` | Build focused C++ network/logging regressions |
 | `ARK_BUILD_TESTS` | `ON` | Build legacy test programs |

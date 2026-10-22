@@ -4,17 +4,17 @@
 #include <algorithm>
 #include <cstdint>
 #include <initializer_list>
-#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <string_view>
 
-#include <toml++/toml.hpp>
+#include "../../config/configuration_reader.hpp"
 
 namespace ark::plugin_config_detail {
 
 [[noreturn]] inline void fail(const std::string& path, std::string_view key, std::string_view reason) {
-    throw std::runtime_error(path + ": " + std::string(key) + ": " + std::string(reason));
+    throw std::runtime_error(
+        config_detail::diagnostic_path(path) + ": " + std::string(key) + ": " + std::string(reason));
 }
 
 inline void check_keys(const toml::table& table, const std::string& path, std::string_view section,
@@ -29,23 +29,13 @@ inline void check_keys(const toml::table& table, const std::string& path, std::s
 }
 
 inline toml::table read(const std::string& path, std::string_view section) {
-    try
+    auto document = config_detail::read_toml(path);
+    check_keys(document, path, "root", {section});
+    if (!document[section].is_table())
     {
-        auto document = toml::parse_file(path);
-        check_keys(document, path, "root", {section});
-        if (!document[section].is_table())
-        {
-            fail(path, section, "required table is missing");
-        }
-        return document;
+        fail(path, section, "required table is missing");
     }
-    catch (const toml::parse_error& error)
-    {
-        std::ostringstream message;
-        message << path << ':' << error.source().begin.line << ':' << error.source().begin.column
-                << ": cannot parse TOML configuration";
-        throw std::runtime_error(message.str());
-    }
+    return document;
 }
 
 inline std::string host(const toml::table& table, const std::string& path) {

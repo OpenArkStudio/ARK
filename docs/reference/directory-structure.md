@@ -10,9 +10,9 @@ Build artifacts belong to each CMake build directory: `cmake -S . -B out/release
 
 | Path | Contents |
 | --- | --- |
-| `include/ark/` | Application-manifest declarations |
 | `src/core/` | Core headers, implementation and CMake usage requirements |
 | `src/application/` | Application entry point and shutdown request |
+| `src/config/` | Application manifest declarations, shared compiled file/TOML reader and private diagnostics |
 | `src/proto/` | Protocol schemas and codec implementation |
 | `src/server/` | Built-in server applications |
 | `src/plugins/<name>/` | All official plugin headers, implementation and assembly |
@@ -40,6 +40,8 @@ Core has one source copy under `src/core/`. `ark::core` maps its explicit public
 | --- | --- |
 | `ark::core` | Core headers, C++20 requirements and shared compile definitions |
 | `ark::net`, `ark::kernel`, `ark::utility`, etc. | Headers and transitive public API dependencies of a plugin |
+| `ark::config_headers` | Application manifest declarations, available with the compiled reader disabled |
+| `ark::config` | Shared compiled configuration reader; no networking linkage |
 | `ark::proto` | Generated protocol messages and their compiled library; requires `ARK_BUILD_PROTO=ON` |
 | `ark::ark` | Aggregate public interface target for applications using multiple official plugins |
 

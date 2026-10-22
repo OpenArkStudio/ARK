@@ -79,7 +79,7 @@ set(ark_config_default OFF)
 if(ARK_BUILD_APPLICATIONS OR ARK_BUILD_CORE_TESTS)
     set(ark_config_default ON)
 endif()
-option(ARK_BUILD_CONFIG "Build the application manifest reader" ${ark_config_default})
+option(ARK_BUILD_CONFIG "Build the shared application and plugin configuration reader" ${ark_config_default})
 if(ARK_BUILD_APPLICATIONS AND NOT ARK_BUILD_CONFIG)
     message(FATAL_ERROR "ARK_BUILD_APPLICATIONS requires ARK_BUILD_CONFIG")
 endif()
@@ -199,13 +199,7 @@ else()
 endif()
 
 find_path(RAPIDXML_INCLUDE_DIR rapidxml.hpp PATH_SUFFIXES rapidxml REQUIRED)
-if(ARK_BUILD_CONFIG OR ARK_BUILD_NETWORK_TESTS)
-    include("${ROOT_DIR}/cmake/ark_toml.cmake")
-endif()
-
-if(ARK_BUILD_CONFIG)
-    add_subdirectory(src/config)
-endif()
+add_subdirectory(src/config)
 
 add_subdirectory(src/core)
 

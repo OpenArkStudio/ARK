@@ -104,6 +104,14 @@ branch or worktree when the existing checkout contains uncommitted changes.
   second source tree. Keep the existing CMake and `check-sdk` machine identifiers.
   Do not turn interface-header mapping into a separate public SDK product or add
   packaging/installation work to source co-location.
+  Keep application manifest declarations and the compiled file/TOML reader in
+  `src/config/`. Preserve `<ark/application_manifest.hpp>` through the always
+  available `ark::config_headers` mapping, including with `ARK_BUILD_CONFIG=OFF`.
+  Applications and Bus/HTTP/Consul share this reader; schema validation belongs
+  to the application or respective plugin. Keep toml++ private and MySQL/Redis
+  connection configuration programmatic. Configuration-only targets must not
+  acquire core, arknet or runtime dependencies; compiled configuration must be
+  position-independent for shared-library consumers.
   Kernel source colocation preserves all existing `ark/kernel/...` headers,
   including implementation/value templates and `kernel_plugin.hpp`; keep them
   byte-identical during physical moves. Do not hide these types or replace

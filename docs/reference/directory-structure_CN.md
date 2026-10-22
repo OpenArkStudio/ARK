@@ -9,9 +9,9 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 
 | 路径 | 内容 |
 | --- | --- |
-| `include/ark/` | 应用清单声明 |
 | `src/core/` | 核心头文件、实现与 CMake 使用要求 |
 | `src/application/` | 应用入口与停服请求 |
+| `src/config/` | 应用清单声明、共享的文件／TOML 读取实现与私有诊断 |
 | `src/proto/` | 协议定义与编解码实现 |
 | `src/server/` | 内置服务端应用 |
 | `src/plugins/<name>/` | 全部官方插件头文件、实现与装配 |
@@ -38,6 +38,8 @@ MySQL、Redis 的唯一公开接口源码分别是 `src/plugins/mysql/mysql_modu
 | --- | --- |
 | `ark::core` | 核心头文件、C++20 要求与公共编译定义 |
 | `ark::net`、`ark::kernel`、`ark::utility` 等 | 插件头文件及其公开 API 依赖 |
+| `ark::config_headers` | 应用清单声明，关闭编译读取器时仍可用 |
+| `ark::config` | 共享的配置读取实现，不链接网络库 |
 | `ark::proto` | 生成的协议消息及其编译库，需要 `ARK_BUILD_PROTO=ON` |
 | `ark::ark` | 多插件应用使用的公共接口聚合目标 |
 

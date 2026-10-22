@@ -16,7 +16,7 @@ add_executable(ark_network_tests
     ../../src/plugins/net/http_server.cpp
     ../../src/plugins/http/http_server_module_impl.cpp
     ../../src/plugins/http/http_plugin.cpp)
-target_link_libraries(ark_network_tests PRIVATE tomlplusplus::tomlplusplus)
+target_link_libraries(ark_network_tests PRIVATE ark::config tomlplusplus::tomlplusplus)
 target_include_directories(ark_network_tests PRIVATE "${PROJECT_SOURCE_DIR}/src/plugins")
 add_custom_target(check-network
     COMMAND $<TARGET_FILE:ark_network_tests>
