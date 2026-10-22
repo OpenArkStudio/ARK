@@ -6,14 +6,11 @@
 
 #include "../network/doctest.h"
 
-#include "ark/bus/bus_module_impl.hpp"
-#include "ark/bus/bus_plugin.hpp"
 #include "bus/bus_configuration.hpp"
+#include "bus/bus_plugin.hpp"
 
 namespace ark {
 // Only the module is linked here: the test does not install messaging/network services.
-std::string bus_plugin::plugin_conf_;
-
 void bus_plugin::install() {
 }
 
@@ -93,7 +90,8 @@ TEST_CASE("Bus module loads TOML and preserves local target and registry queries
     plugin.set_plugin_conf(file.write(configuration));
     ark::plugin_manager manager;
     manager.set_bus_id(ark::bus_addr(1, 1, 31, 1).bus_id);
-    ark::bus_module_impl module;
+    auto owned_module = ark::detail::make_bus_module();
+    auto& module = *owned_module;
     module.set_plugin_manager(&manager);
     REQUIRE(module.init());
     CHECK(module.get_app_type("game") == ark::app_type::ark_app_game);
@@ -276,7 +274,8 @@ TEST_CASE("Bus module retains bracketed IPv6 endpoint hosts without brackets for
     plugin.set_plugin_conf(file.write(text));
     ark::plugin_manager manager;
     manager.set_bus_id(ark::bus_addr(1, 1, 31, 1).bus_id);
-    ark::bus_module_impl module;
+    auto owned_module = ark::detail::make_bus_module();
+    auto& module = *owned_module;
     module.set_plugin_manager(&manager);
     REQUIRE(module.init());
     CHECK(module.get_self_proc().server_ep.get_ip() == "::1");

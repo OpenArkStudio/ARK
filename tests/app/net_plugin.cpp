@@ -1,0 +1,136 @@
+// Copyright (c) 2026 OpenArkStudio. Licensed under Apache-2.0. See LICENSE.
+#include <atomic>
+#include <chrono>
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <thread>
+#include <typeinfo>
+
+#include <arknet/arknet.hpp>
+
+#include <ark/net/http_client_module.hpp>
+#include <ark/net/net_service_manager_module.hpp>
+#include <ark/plugin_manager.hpp>
+
+namespace {
+using namespace std::chrono_literals;
+
+void require(bool condition, const std::string& message) {
+    if (!condition)
+    {
+        std::cerr << message << std::endl;
+        std::_Exit(1);
+    }
+}
+
+template<class predicate, class pump>
+void wait_for(predicate ready, pump update) {
+    const auto deadline = std::chrono::steady_clock::now() + 5s;
+    while (!ready() && std::chrono::steady_clock::now() < deadline)
+    {
+        update();
+        std::this_thread::sleep_for(1ms);
+    }
+    require(ready(), "Timed out waiting for owned loopback peer");
+}
+
+struct receiver
+{
+    void on_message(const ark::net_msg* message, ark::conv_id_t session) {
+        require(std::this_thread::get_id() == owner, "Net callback left the manager thread");
+        require(session != 0 && message->get_msg_id() == 45000, "Net callback arguments changed");
+        body.assign(message->get_msg_data(), message->get_msg_length());
+    }
+
+    const std::thread::id owner = std::this_thread::get_id();
+    std::string body;
+};
+} // namespace
+
+int main(int argc, char* argv[]) {
+    require(argc == 2, "Expected plugin directory");
+    asio::io_context context;
+    asio::ip::tcp::acceptor reservation(context, {asio::ip::make_address("127.0.0.1"), 0});
+    const auto port = reservation.local_endpoint().port();
+    reservation.close();
+    std::ofstream config("bus.toml");
+    config << "[bus]\nrelations = []\n[[bus.applications]]\nname = 'game'\ntype = 31\n[[bus.processes]]\n"
+              "bus_id = '1.1.31.1'\nserver_endpoint = 'tcp://127.0.0.1:"
+           << port
+           << "'\nintranet_endpoint = ''\nthreads = 1\nmax_connections = 10\n"
+              "[bus.registry]\nhost = '127.0.0.1'\nport = 0\nservice_name = 'test'\n"
+              "check_interval = '10s'\ncheck_timeout = '3s'\n";
+    config.close();
+    ark::logger log;
+    ark::logger::init(&log);
+    log.set_log_func([](spdlog::level::level_enum, const std::string& text) { std::cout << text << std::endl; });
+    ark::plugin_manager manager;
+    manager.set_bus_id(ark::bus_addr(1, 1, 31, 1).bus_id);
+    require(manager.start(0, std::string(argv[1]) + "/", "",
+                {{"ark_bus_plugin", "bus.toml"}, {"ark_net_plugin", ""}, {"ark_utility_plugin", ""}}),
+        "Net DSO startup failed: " + manager.get_startup_failure());
+    auto* network = manager.find_module<ark::net_service_manager_module>();
+    auto* http = manager.find_module<ark::http_client_module>();
+    require(network && http, "Net public interface lookup failed");
+    require(network->get_plugin_manager() == &manager && http->get_plugin_manager() == &manager,
+        "Net modules lost manager ownership");
+    require(network->get_name() == typeid(ark::net_service_manager_module).name() &&
+                http->get_name() == typeid(ark::http_client_module).name(),
+        "Net registration changed interface RTTI keys");
+    require(network->create_server(), "Net manager could not start its configured TCP listener");
+    auto server = network->get_inter_net_server();
+    require(server && !network->get_intra_net_server(), "Configured Net listener selection changed");
+    receiver received;
+    require(server->reg_msg_callback(45000, &received, &receiver::on_message), "Net message callback rejected");
+    std::weak_ptr<ark::net> endpoint = server->get_net();
+    arknet::tcp_client client;
+    client.set_auto_reconnect(false);
+    require(client.start("127.0.0.1", port), "Owned TCP peer failed to start");
+    ark::s_msg_header header;
+    header.set_message_id(45000);
+    header.set_message_length(4);
+    std::string frame;
+    header.serialize_to_string(frame);
+    frame += "test";
+    require(client.async_send(frame), "Owned TCP peer could not enqueue its frame");
+    require(received.body.empty(), "Net callback fired without a manager update");
+    int64_t tick{};
+    auto update = [&] { require(manager.update(++tick), "Net manager update failed"); };
+    wait_for([&] { return received.body == "test"; }, update);
+
+    arknet::http_server peer(1024, 1024 * 1024, 1);
+    std::atomic<bool> answered{};
+    peer.bind_recv([&](auto& session, arknet::http_request::request_type& request) {
+        arknet::http_request::response_type response(arknet::http::status::ok, request.version());
+        response.body() = "net-http";
+        response.prepare_payload();
+        session->async_send(std::move(response));
+        answered.store(true);
+    });
+    require(peer.start("127.0.0.1", 0), "Owned HTTP peer failed to start");
+    bool completed{};
+    http->post(
+        [&](std::pair<bool, std::string> result) {
+            require(std::this_thread::get_id() == received.owner, "HTTP callback left the manager thread");
+            require(result.first && result.second == "net-http", "HTTP DSO response changed");
+            completed = true;
+        },
+        "127.0.0.1", peer.get_listen_port(), "/net");
+    wait_for([&] { return answered.load(); }, [] {});
+    require(!completed, "HTTP callback fired without a manager update");
+    wait_for([&] { return completed; }, update);
+    client.stop();
+    peer.stop();
+    server.reset();
+    require(manager.stop(++tick), "Net DSO shutdown did not complete");
+    require(endpoint.expired(), "Net listener survived normal module unregistration");
+    require(manager.get_shutdown_state() == ark::plugin_manager::shutdown_state::stopped,
+        "Net resources were retained instead of normally stopped");
+    require(manager.stop(++tick), "Repeated Net shutdown failed");
+    asio::ip::tcp::acceptor rebound(context, {asio::ip::make_address("127.0.0.1"), port});
+    require(rebound.is_open(), "Net shutdown did not release its listener");
+    std::cout << "Net actual DSOs: interface RTTI lookup, manager-owned TCP/HTTP callbacks, listener release and "
+                 "normal repeated shutdown passed\n";
+}

@@ -12,7 +12,7 @@
 | `ARK_BUILD_PLUGIN_REDIS` | `OFF` | Build the native Redis coroutine plugin; enable SSL for TLS pools |
 | `ARK_BUILD_DATABASE_TESTS` | `OFF` | Build native database and public plugin regressions; requires an explicit `ARKNET_SOURCE_DIR` |
 | `ARK_BUILD_BENCHMARKS` | `OFF` | Build standalone C++ benchmark programs |
-| `ARK_USE_GUID_32` | `OFF` | Select the 32-bit GUID configuration; consumers inherit the setting through SDK targets |
+| `ARK_USE_GUID_32` | `OFF` | Select the 32-bit GUID configuration; consumers inherit the setting through interface targets |
 | `ARKNET_SOURCE_DIR` | Empty | Use an independent local arknet checkout |
 | `ARKNET_REVISION` | Repository-pinned commit | Select the fetched arknet revision; an existing CMake cache retains its value |
 | `ASIO_STANDALONE` | `OFF` | `OFF` selects Boost; `ON` selects Standalone Asio |
@@ -37,9 +37,9 @@ cmake -S . -B build -DARK_BUILD_APPLICATIONS=ON \
 cmake --build build --target ark_mysql_plugin ark_redis_plugin
 ```
 
-The MySQL/Redis interface headers are copied from explicit lists at configuration time into each ark build tree's `src/plugins/sdk-include/ark/<name>/`. `ark::mysql` and `ark::redis` carry that include root even with runtime plugins disabled; private assembly headers and factories are excluded. The source and generated include roots are distinct, and no installed `find_package(ark)` package is introduced.
+The MySQL/Redis/Utility/Net/Bus public headers are copied from explicit lists at configuration time into each ark build tree's `src/plugins/sdk-include/ark/<name>/`. `ark::mysql`, `ark::redis`, `ark::utility`, `ark::net` and `ark::bus` carry that include root even with runtime plugins disabled; private assembly headers and factories are excluded. The source and generated include roots are distinct.
 
-Link a consumer to `ark::mysql` and/or `ark::redis` for the public headers and usage requirements. These SDK targets do not load a runtime library. Deploy the selected libraries with the launcher and add their stems to the application's manifest:
+Link a consumer to `ark::mysql` and/or `ark::redis` for the public headers and usage requirements. These interface targets do not load a runtime library. Deploy the selected libraries with the launcher and add their stems to the application's manifest:
 
 ```toml
 [application]
@@ -55,4 +55,4 @@ name = "ark_redis_plugin"
 config = ""
 ```
 
-Include only the providers the application needs. The empty `config` is intentional: consumers configure named connections through the public modules, rather than legacy database XML files. Follow [runtime library selection](../guides/plugins.md#select-libraries-at-runtime) for platform extensions, Debug suffixes and compatible SDK settings. Resolve the module during consumer initialization and start its operations through a [managed task group](../guides/tasks.md).
+Include only the providers the application needs. The empty `config` is intentional: consumers configure named connections through the public modules, rather than legacy database XML files. Follow [runtime library selection](../guides/plugins.md#select-libraries-at-runtime) for platform extensions, Debug suffixes and compatible interface settings. Resolve the module during consumer initialization and start its operations through a [managed task group](../guides/tasks.md).

@@ -2,6 +2,40 @@
 
 Bus 为进程分配逻辑地址，读取应用类型、进程端点和连接关系。`bus_module` 提供配置查询，`msg_module` 根据应用类型、Bus ID 或 Session 发送消息；实际连接由 Net 插件管理。
 
+## API 与私有创建
+
+`bus_module.hpp` 与 `msg_module.hpp` 和实现共置于 `src/plugins/bus/`。
+CMake 通过显式映射，由 `ark::bus` 保留 `<ark/bus/bus_module.hpp>` 与
+`<ark/bus/msg_module.hpp>` 路径。消息接口需要 `ARK_BUILD_PROTO=ON`；API 目标会传递
+Net 与协议头依赖。共享地址和配置类型 `<ark/bus.hpp>` 仍位于 `include/ark/`，供核心与 Net 使用。
+
+两个具体模块定义均位于 cpp，继承 `module_base<接口>`。私有工厂返回公开接口，
+`plugin_base` 先注册 Bus 接口，再注册消息接口，并按逆序卸载。两个模块均不注册更新回调，
+与原有继承的默认更新行为一致。公开虚接口、RTTI 查找键、`ark_bus_plugin` 库名与
+`DllEntryPlugin`／`DllExitPlugin` 签名保持不变；Registry、IO 所有权与网络行为维持既有边界。
+
+**头文件迁移：**移除 `<ark/bus/bus_module_impl.hpp>`、`<ark/bus/msg_module_impl.hpp>` 与
+`<ark/bus/bus_plugin.hpp>` 的直接包含。加载运行时插件后，使用
+`manager.find_module<ark::bus_module>()` 或 `manager.find_module<ark::msg_module>()`。
+改用目标传递的公开头文件包含目录，不能仅依赖 `-I <源码>/include`。私有解析与装配头不进入公开映射。
+
+清单中的配置路径保持不变，仍相对于选定的插件配置目录解析：
+
+```toml
+[[plugins]]
+name = "ark_bus_plugin"
+config = "bus.plugin.toml"
+```
+
+应用还需按原有模块依赖加载 Net 与 Utility。该片段不规定跨插件初始化顺序，也不会启动监听。
+TOML 结构、必需字段、公开值类型的默认值、校验诊断、消息序列化与路由均保持不变。
+
+启用应用构建时，`check-core` 包含的 `check-bus-plugin` 加载真实 Bus／Net／Utility 动态库，
+验证两个公开接口键、TOML 查询、通过记录型 Net 连接传递的 Protobuf 消息头与正文、发送失败及正常重复停服。
+既有 Bus 配置测试通过私有接口工厂保留全部断言，也覆盖不启用 Protobuf 的配置构建。
+`tests/consumer/bus` 仅链接 `ark::bus`，分别编译两个公开模块头，并拒绝私有实现／配置头。
+消费者命令见[目录结构](directory-structure_CN.md)。
+
 ## 地址与职责
 
 Bus 地址使用 `channel.zone.app.instance` 四段形式，例如 `1.1.31.1`。四段各占 8 位，组合为 `bus_id_t`；它是进程标识，不是 IP 地址或监听端口。
@@ -208,7 +242,7 @@ TODO：提供独立的双进程示例与测试，覆盖连接建立、消息往�
 ## API 来源
 
 - [Bus 地址与进程配置](https://github.com/OpenArkStudio/ark/blob/main/include/ark/bus.hpp)
-- [Bus 接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/bus/bus_module.hpp)
-- [消息接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/bus/msg_module.hpp)
-- [网络服务管理接口](https://github.com/OpenArkStudio/ark/blob/main/include/ark/net/net_service_manager_module.hpp)
+- [Bus 接口](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/bus/bus_module.hpp)
+- [消息接口](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/bus/msg_module.hpp)
+- [网络服务管理接口](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/net/net_service_manager_module.hpp)
 - [网络构建与测试](../networking_CN.md)

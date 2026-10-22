@@ -2,6 +2,55 @@
 
 Bus gives processes logical addresses and loads application types, process endpoints and connection relationships. `bus_module` exposes configuration queries. `msg_module` sends messages by application type, Bus ID or session, while the Net plugin manages the underlying connections.
 
+## API and private construction
+
+`bus_module.hpp` and `msg_module.hpp` live beside their implementations in
+`src/plugins/bus/`. An explicit CMake mapping retains
+`<ark/bus/bus_module.hpp>` and `<ark/bus/msg_module.hpp>` through `ark::bus`.
+The message interface requires `ARK_BUILD_PROTO=ON`; the API target carries its
+Net and protocol-header dependencies. The shared address/configuration types in
+`<ark/bus.hpp>` remain in `include/ark/` for core and Net consumers.
+
+Both concrete module definitions live in cpp files and derive from
+`module_base<interface>`. Private factories return the public interfaces;
+`plugin_base` registers the Bus interface before the message interface and removes
+them in reverse order. Neither module registers an update callback, matching their
+inherited default update behavior. The public virtual interfaces, RTTI lookup
+keys, `ark_bus_plugin` library stem and `DllEntryPlugin`/`DllExitPlugin` signatures
+remain unchanged. Registry, IO ownership and network behavior retain their
+existing boundaries.
+
+**Header migration:** remove direct includes of
+`<ark/bus/bus_module_impl.hpp>`, `<ark/bus/msg_module_impl.hpp>` and
+`<ark/bus/bus_plugin.hpp>`. Load the runtime plugin and use
+`manager.find_module<ark::bus_module>()` or `manager.find_module<ark::msg_module>()`.
+Use the target-provided public-header include roots rather than only `-I <source>/include`.
+Private parsing/assembly headers are excluded
+from the public mapping.
+
+The manifest configuration path is unchanged; it still resolves against the
+selected plugin configuration directory:
+
+```toml
+[[plugins]]
+name = "ark_bus_plugin"
+config = "bus.plugin.toml"
+```
+
+The application must also load Net and Utility as required by the existing module
+dependencies. This snippet does not establish cross-plugin initialization order
+or start a listener. The TOML schema, required fields, defaults of public value
+types, validation diagnostics and message serialization/routing are unchanged.
+
+`check-bus-plugin`, included in application-enabled `check-core`, loads actual
+Bus/Net/Utility DSOs and verifies both public interface keys, TOML queries,
+Protobuf headers/body through a recorded Net connection, send failures and normal
+repeated shutdown. Existing Bus configuration tests retain all assertions through
+the private interface factory, including configuration-only builds without
+Protobuf. `tests/consumer/bus` links only `ark::bus`, compiles each public module
+header separately and rejects private implementation/configuration headers.
+See [directory structure](directory-structure.md) for the consumer command.
+
 ## Addresses and responsibilities
 
 A Bus address has four components, `channel.zone.app.instance`, such as `1.1.31.1`. Each occupies 8 bits in the combined `bus_id_t`. It identifies a process, rather than an IP address or listening port.
@@ -208,7 +257,7 @@ TODO: provide a standalone two-process example and tests covering connection set
 ## API sources
 
 - [Bus addresses and process configuration](https://github.com/OpenArkStudio/ark/blob/main/include/ark/bus.hpp)
-- [Bus interface](https://github.com/OpenArkStudio/ark/blob/main/include/ark/bus/bus_module.hpp)
-- [Message interface](https://github.com/OpenArkStudio/ark/blob/main/include/ark/bus/msg_module.hpp)
-- [Network service management interface](https://github.com/OpenArkStudio/ark/blob/main/include/ark/net/net_service_manager_module.hpp)
+- [Bus interface](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/bus/bus_module.hpp)
+- [Message interface](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/bus/msg_module.hpp)
+- [Network service management interface](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/net/net_service_manager_module.hpp)
 - [Network build and tests](../networking.md)

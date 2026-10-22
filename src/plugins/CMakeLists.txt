@@ -44,7 +44,32 @@ set(ark_utility_public_headers
     "${CMAKE_CURRENT_SOURCE_DIR}/utility/ctpl.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/utility/ctpl_stl.h"
 )
-set(ark_colocated_plugin_names mysql redis utility)
+set(ark_net_public_headers
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/http_client_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/http_client_module_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/http_server.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/net.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/net_client_service.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/net_client_service_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/net_define.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/net_event.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/net_msg.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/net_server_service.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/net_server_service_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/net_service_manager_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/net_session.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/rudp_client.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/rudp_server.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/tcp_client.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/tcp_server.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/websocket_client.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/net/websocket_server.hpp"
+)
+set(ark_bus_public_headers
+    "${CMAKE_CURRENT_SOURCE_DIR}/bus/bus_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/bus/msg_module.hpp"
+)
+set(ark_colocated_plugin_names mysql redis utility net bus)
 set(ark_plugin_sdk_include_dir "${CMAKE_CURRENT_BINARY_DIR}/sdk-include")
 foreach(plugin_name IN LISTS ark_colocated_plugin_names)
     set(staged_headers)

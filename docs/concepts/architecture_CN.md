@@ -46,8 +46,8 @@ ark::timer_module* find_timers(ark::plugin_manager& manager) {
 
 ## 头文件路径与 CMake 目标
 
-核心及大部分插件的公开头文件位于 `include/ark/`，例如 `include/ark/kernel/entity.hpp` 对应 `<ark/kernel/entity.hpp>`。MySQL、Redis 和 Utility 将公开头文件与实现共置于 `src/plugins/<name>/`；CMake 仅将显式列出的公开头文件映射到构建树的 `src/plugins/sdk-include/ark/<name>/`。业务代码依赖 `ark::mysql`、`ark::redis` 或 `ark::utility`，继续使用 `<ark/...>` 逻辑路径，不会获得私有装配头。核心目标定义位于 `src/core/`，各插件仍保留独立可选目标，`ark::ark` 汇总可用 API 目标。
+核心及大部分插件的公开头文件位于 `include/ark/`，例如 `include/ark/kernel/entity.hpp` 对应 `<ark/kernel/entity.hpp>`。MySQL、Redis、Utility、Net 和 Bus 将公开头文件与实现共置于 `src/plugins/<name>/`；CMake 仅将显式列出的公开头文件映射到构建树的 `src/plugins/sdk-include/ark/<name>/`。业务代码依赖 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net` 或 `ark::bus`，继续使用 `<ark/...>` 逻辑路径，不会获得私有装配头。核心目标定义位于 `src/core/`，各插件仍保留独立可选目标，`ark::ark` 汇总可用 API 目标。
 
 `ark/` 是文件系统中的头文件前缀，不会自动创建 C++ 命名空间；命名空间由各头文件显式声明的 `namespace ark` 决定。依赖 API 接口目标只传递编译要求，不会选择或加载插件动态库。
 
-部分实现头文件仍与公开接口混放在 `include/` 目录中。将 `*_impl` 类型视为实现细节，不能把当前路径理解为已完成公开接口与实现的隔离。图示按职责组织，不限定物理目录布局。当前路径与目标见[目录结构](../reference/directory-structure_CN.md)。
+部分实现头文件仍与公开接口混放在 `include/` 目录中。Net 保留 [API 指南](../reference/network_CN.md)列出的公开 HTTP 客户端与传输辅助类型，服务管理器实现保持私有。其他插件的 `*_impl` 类型应视为实现细节，不能把当前路径理解为已完成公开接口与实现的隔离。图示按职责组织，不限定物理目录布局。当前路径与目标见[目录结构](../reference/directory-structure_CN.md)。

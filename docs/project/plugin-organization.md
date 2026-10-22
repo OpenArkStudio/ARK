@@ -1,6 +1,6 @@
 # Official plugins and repository organization
 
-Core and other plugin public interfaces remain in `include/ark/`, with core build definitions in `src/core/`. MySQL, Redis and Utility co-locate interface headers, implementation and private assembly in `src/plugins/<name>/`, retaining logical include paths through explicit CMake mapping. Business plugins live with their applications and arknet remains independent; this layout does not expand hot update or migrate other plugins.
+Core and other plugin public interfaces remain in `include/ark/`, with core build definitions in `src/core/`. MySQL, Redis, Utility, Net and Bus co-locate interface headers, implementation and private assembly in `src/plugins/<name>/`, retaining logical include paths through explicit CMake mapping. Business plugins live with their applications and arknet remains independent; this layout does not expand hot update or migrate other plugins.
 
 ## Existing implementations
 
@@ -24,8 +24,9 @@ ark/
 │   ├── core/            # Header-only core target definitions
 │   ├── plugins/         # Official plugin implementations and CMake files
 │   │   ├── kernel/
-│   │   ├── net/
-│   │   ├── bus/
+│   │   ├── net/          # Public headers, transports and private creation
+│   │   ├── bus/          # Public module interfaces and private creation
+│   │   ├── utility/
 │   │   ├── http/
 │   │   ├── mysql/
 │   │   └── redis/
@@ -41,14 +42,14 @@ ark/
 
 This shows the main directories. Existing Consul, etcd, Kafka and other official plugins follow the same convention. Lua and Actor integration remains planned; the table above identifies their proposed implementation directories.
 
-MySQL, Redis and Utility use a co-located layout; the database example is:
+MySQL, Redis, Utility, Net and Bus use a co-located layout; the database example is:
 
 ```text
 src/plugins/mysql/
 ├── CMakeLists.txt
 ├── mysql_module.hpp    # Explicit public API, mapped as ark/mysql/mysql_module.hpp
 ├── mysql_module.cpp    # Hidden implementation class and one private factory
-├── mysql_plugin.hpp    # Private plugin type/factory declarations, excluded from SDK
+├── mysql_plugin.hpp    # Private plugin type/factory declarations, excluded from public-header mapping
 ├── mysql_plugin.cpp    # Registration and explicit dynamic-library entry points
 └── detail/             # Private native services, coroutine bridge and transactions
 tests/database/         # Protocol, DSO and explicit real-service checks
@@ -75,7 +76,7 @@ The arknet single-node scope includes MySQL queries, parameterized prepared stat
 
 ## Decisions to discuss next
 
-1. Keep the unified snake_case SDK and directory layout; see [Project layout](../reference/directory-structure.md) for public headers and CMake targets.
+1. Keep the unified snake_case public interfaces and directory layout; see [Project layout](../reference/directory-structure.md) for public headers and CMake targets.
 2. Keep MySQL and Redis deployment validation aligned with the public coroutine APIs and native owning results. arknet provides the caller-driven executor; ark pumps it on the module thread. Use the explicit real-service acceptance modes before deploying a new server configuration.
 3. Confirm interfaces and dependencies for Lua, Actor and other official plugins; add compilation, functional and failure-path verification per plugin.
 
@@ -85,4 +86,4 @@ Resume hot-update discussions about state ownership, in-flight calls and compati
 
 Utility keeps its four public module interfaces and scheduler helper headers in `src/plugins/utility/`, mapped explicitly through `ark::utility`. Each module implementation is private to its cpp file and is constructed by a private factory returning its public interface. The plugin uses `plugin_base` and explicit `DllEntryPlugin`/`DllExitPlugin` entry points. Only the timer module participates in manager updates. See [Utility APIs and migration](../reference/utility.md).
 
-The removed `ark/utility/*_module_impl.hpp` and `ark/utility/utility_plugin.hpp` headers are a source compatibility change. Use the public module interfaces and typed lookup rather than constructing implementation classes. Rebuild Utility and consumers together; this does not promise compatibility with old implementation-class binaries or introduce an installed SDK package.
+The removed `ark/utility/*_module_impl.hpp` and `ark/utility/utility_plugin.hpp` headers are a source compatibility change. Use the public module interfaces and typed lookup rather than constructing implementation classes. Rebuild Utility and consumers together; this does not promise compatibility with old implementation-class binaries.

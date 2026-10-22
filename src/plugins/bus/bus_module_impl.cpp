@@ -18,14 +18,48 @@
  *
  */
 
-#include "ark/bus/bus_module_impl.hpp"
-#include "ark/bus/bus_plugin.hpp"
+#include "ark/bus/bus_module.hpp"
 #include "ark/define.hpp"
 #include "ark/enum.hpp"
+#include "ark/module_base.hpp"
 #include "ark/plugin_manager.hpp"
 #include "bus_configuration.hpp"
+#include "bus_plugin.hpp"
 
 namespace ark {
+
+class bus_module_impl final : public module_base<bus_module>
+{
+public:
+    bool init() override;
+
+    const std::string get_app_whole_name(bus_id_t bus_id) override;
+    const std::string& get_app_name(const ark::app_type& app_type) override;
+    app_type get_app_type(const std::string& name) override;
+
+    const proc_config& get_self_proc() override;
+
+    app_type get_self_app_type() override;
+    int get_self_bus_id() override;
+    const std::string get_self_bus_name() override;
+
+    int combine_bus_id(const app_type app_type, const uint8_t inst_id) override;
+
+    //uint16_t CalcProcPort(bus_id_t bus_id) override;
+
+    const reg_center& get_reg_center() override {
+        return app_config_.reg_center;
+    }
+
+    bool get_target_bus_relations(std::vector<app_type>& target_list) override;
+
+    bool get_other_proc(bus_id_t bus_id, proc_config& proc) const override;
+
+    int get_other_proc(const app_type app_type, std::vector<const proc_config*>& proc_list) const override;
+
+private:
+    app_config app_config_;
+};
 
 bool bus_module_impl::init() {
     app_config_ = bus_config_detail::load(bus_plugin::get_plugin_conf(), get_self_bus_id());
@@ -133,5 +167,13 @@ int bus_module_impl::get_other_proc(const app_type app_type, std::vector<const p
 
     return proc_list.size();
 }
+
+namespace detail {
+
+std::unique_ptr<bus_module> make_bus_module() {
+    return std::make_unique<bus_module_impl>();
+}
+
+} // namespace detail
 
 } // namespace ark
