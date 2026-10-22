@@ -37,7 +37,7 @@ unchanged. arknet continues to own IO workers and transport operations.
 Load the plugin through the application manifest and obtain the registered
 `net_service_manager_module` instead of constructing the manager implementation.
 Use CMake's target-provided include roots instead of only `-I <source>/include`.
-There is no new installed SDK package. `http_client_module_impl.hpp`,
+Installed consumers use `find_package(ark CONFIG REQUIRED COMPONENTS net)` and `ark::net`; see [installation](../get-started/installation.md#install-and-consume-the-cmake-package) for the separate arknet dependency and matching dependency settings. `http_client_module_impl.hpp`,
 `net_client_service_impl.hpp`, `net_server_service_impl.hpp`, endpoint classes
 and callback templates remain public; their existing users need no type change.
 
