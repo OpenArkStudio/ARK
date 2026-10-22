@@ -104,3 +104,7 @@ timers 与 module_lifecycle 的业务方法体保留；实体示例改为轻量�
 `cmake --build app-build --target check-typed-examples -j2`，可加载三个示例的真实
 动态库，在模块管理器所属线程更新五次，并检查启动、停服顺序。该测试为 `module_lifecycle` 提供小型
 测试元数据，不代表已验证应用导出的业务数据集。
+
+## 使用安装产物
+
+完成[安装](installation_CN.md#安装并消费-cmake-包)后，将复制命令中的 `app-build/bin/` 替换为所选前缀下的 `bin/`，从 `<prefix>/share/ark/config/` 复制配置样例。安装目录本身不是 Timers 的工作目录：仍须按上文准备 `run/timers/conf/`，并在 `run/timers/` 下启动。迁移后的包仍需兼容的外部运行时库。安装消费者检查验证 CMake 与链接消费，不代表应用部署已经验收。

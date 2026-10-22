@@ -36,6 +36,13 @@ function(BUILD_SERVER_MACRO project_name)
         ARCHIVE_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
         RUNTIME_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
         LIBRARY_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR})
+    if(ARK_INSTALL)
+        set_property(GLOBAL APPEND PROPERTY ARK_INSTALL_RUNTIME_TARGETS ${project_name})
+        install(TARGETS ${project_name}
+            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+            LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}"
+            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+    endif()
 endfunction(BUILD_SERVER_MACRO)
 
 #---------------------------------------------------------------------------------------

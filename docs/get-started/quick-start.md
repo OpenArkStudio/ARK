@@ -108,3 +108,7 @@ are enabled with the required Kernel/Utility plugins, run
 Timers/module_lifecycle/entity_operations DSOs, execute five updates on the manager thread and verify ordered startup and
 shutdown. This test supplies a small test dataset for `module_lifecycle`; it does not
 validate an application's exported business dataset.
+
+## Use installed outputs
+
+After [installing](installation.md#install-and-consume-the-cmake-package), replace `app-build/bin/` in the copy commands with the selected prefix's `bin/`, and copy configuration samples from `<prefix>/share/ark/config/`. The install tree itself is not the Timers working directory: prepare `run/timers/conf/` as above, then launch from `run/timers/`. A relocated package still needs compatible external runtime libraries. Installed-consumer checks verify CMake/link consumption; they do not establish application deployment acceptance.

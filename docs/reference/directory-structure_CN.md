@@ -28,9 +28,9 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 使用 `<ark/plugin_manager.hpp>`、`<ark/net/tcp_client.hpp>` 等公开路径包含头文件，
 不需要把实现目录加入应用的包含路径。Protobuf 生成文件位于构建目录，由 `ark::proto` 提供。
 
-MySQL、Redis 的唯一公开接口源码分别是 `src/plugins/mysql/mysql_module.hpp`、`src/plugins/redis/redis_module.hpp`。Utility 的公开接口与保留的调度辅助头位于 `src/plugins/utility/`；Net 的公开接口、端点模板与传输辅助类型位于 `src/plugins/net/`。Net 仅将私有插件装配与具体服务管理器定义排除在公开映射之外。Bus 的两个公开模块头位于 `src/plugins/bus/`；共享核心值类型 `<ark/bus.hpp>` 的源码位于 `src/core/bus.hpp`。HTTP 映射公开的 `src/plugins/http/http_server_module.hpp`，排除私有插件与具体类。CMake 在配置阶段按显式清单复制普通文件到各构建树的 `src/plugins/sdk-include/ark/<名称>/`；清理该受控目录中已移除的映射，MySQL、Redis、Utility、Net、Bus、HTTP 不复制私有装配头或工厂；Kernel 保留包括 `kernel_plugin.hpp` 在内的原有 38 个头，具体类型与装配可见性不变。通过 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net`、`ark::bus`、`ark::http`、`ark::kernel` 消费，逻辑包含路径保持不变，插件关闭时同样有效。仅手写 `-I <源码>/include` 的调用需要改用目标传递的包含目录。映射副本是生成的构建产物；应编辑功能目录中的共置源码头。
+MySQL、Redis 的唯一公开接口源码分别是 `src/plugins/mysql/mysql_module.hpp`、`src/plugins/redis/redis_module.hpp`。Utility 的公开接口与保留的调度辅助头位于 `src/plugins/utility/`；Net 的公开接口、端点模板与传输辅助类型位于 `src/plugins/net/`。Net 仅将私有插件装配与具体服务管理器定义排除在公开映射之外。Bus 的两个公开模块头位于 `src/plugins/bus/`；共享核心值类型 `<ark/bus.hpp>` 的源码位于 `src/core/bus.hpp`。HTTP 映射公开的 `src/plugins/http/http_server_module.hpp`，排除私有插件与具体类。CMake 在配置阶段按显式清单复制普通文件到各构建树生成的插件公开头映射；清理该受控目录中已移除的映射，MySQL、Redis、Utility、Net、Bus、HTTP 不复制私有装配头或工厂；Kernel 保留包括 `kernel_plugin.hpp` 在内的原有 38 个头，具体类型与装配可见性不变。通过 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net`、`ark::bus`、`ark::http`、`ark::kernel` 消费，逻辑包含路径保持不变，插件关闭时同样有效。仅手写 `-I <源码>/include` 的调用需要改用目标传递的包含目录。映射副本是生成的构建产物；应编辑功能目录中的共置源码头。
 
-核心头文件只有 `src/core/` 中的一份源码。`ark::core` 将显式公开清单映射到选定构建目录的 `src/core/public-include/ark/`，保留 `<ark/plugin_manager.hpp>` 等包含路径。修改源码头文件，不编辑生成副本。启动程序仍为 `app`／`app_d`，清单格式保持不变。
+核心头文件只有 `src/core/` 中的一份源码。`ark::core` 将显式公开清单映射到选定构建目录，保留 `<ark/plugin_manager.hpp>` 等包含路径。修改源码头文件，不编辑生成副本。启动程序仍为 `app`／`app_d`，清单格式保持不变。
 
 ## CMake 目标
 
@@ -143,3 +143,7 @@ cmake --build etcd-client-headers --target check-etcd-client-headers --parallel 
 ```
 
 头文件映射检查不代表 Consul、Kafka、OSS SDK 的运行时兼容性已经验证。Physic 与 `physics_scene` 仍依赖未受支持的旧版 PhysX 3 集成，保留明确的配置失败；此处没有宣称 PhysX 构建通过。
+
+## 安装目录
+
+[安装](../get-started/installation_CN.md#安装并消费-cmake-包)后，逻辑 `<ark/...>` 头位于 `<prefix>/include/ark/`。CMake 包文件位于 GNUInstallDirs 库目录下的 `cmake/ark/`，选定启动程序与运行时插件位于 `bin/`，配置样例与许可证位于 `share/ark/`。安装消费者使用 `find_package(ark CONFIG REQUIRED)` 和 `ark::core`／`ark::<plugin>`；源码消费者使用 `add_subdirectory` 和相同 target，无需指定生成映射路径。安装导出不包含源码或构建目录；arknet 等依赖仍由外部提供。`tests/install/` 保存独立安装消费者与删除临时生产者后的迁移检查。

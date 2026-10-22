@@ -1,0 +1,53 @@
+cmake_minimum_required(VERSION 3.21)
+# cmake -DARK_SOURCE_DIR=/path/to/ark -DARK_TEST_WORK=/tmp/ark-install-test
+#   '-DARK_TEST_PREFIX_PATH=/path/to/dependencies' -P tests/install/run_isolated.cmake
+# Dependencies, including arknet, must already be installed independently.
+if(NOT ARK_SOURCE_DIR OR NOT ARK_TEST_WORK)
+    message(FATAL_ERROR "Set ARK_SOURCE_DIR and a disposable ARK_TEST_WORK directory")
+endif()
+if(EXISTS "${ARK_TEST_WORK}")
+    message(FATAL_ERROR "ARK_TEST_WORK must not already exist")
+endif()
+get_filename_component(ARK_SOURCE_DIR "${ARK_SOURCE_DIR}" REALPATH)
+get_filename_component(ARK_TEST_WORK "${ARK_TEST_WORK}" ABSOLUTE)
+string(FIND "${ARK_TEST_WORK}/" "${ARK_SOURCE_DIR}/" nested)
+if(nested EQUAL 0)
+    message(FATAL_ERROR "ARK_TEST_WORK must be outside the source checkout")
+endif()
+set(producer_source "${ARK_TEST_WORK}/producer-source")
+set(producer_build "${ARK_TEST_WORK}/producer-build")
+file(MAKE_DIRECTORY "${producer_source}")
+foreach(entry IN ITEMS CMakeLists.txt VERSION cmake src config tests LICENSE README.md README_CN.md)
+    file(COPY "${ARK_SOURCE_DIR}/${entry}" DESTINATION "${producer_source}")
+endforeach()
+function(ark_isolated_run)
+    execute_process(COMMAND ${ARGV} RESULT_VARIABLE result)
+    if(NOT result EQUAL 0)
+        message(FATAL_ERROR "Isolated install command failed (${result}): ${ARGV}")
+    endif()
+endfunction()
+file(WRITE "${ARK_TEST_WORK}/producer-cache.cmake"
+    "set(CMAKE_PREFIX_PATH [==[${ARK_TEST_PREFIX_PATH}]==] CACHE STRING \"\" FORCE)\n")
+set(extra_args)
+if(ARK_TEST_TOOLCHAIN)
+    list(APPEND extra_args "-DCMAKE_TOOLCHAIN_FILE=${ARK_TEST_TOOLCHAIN}")
+endif()
+if(NOT DEFINED ARK_TEST_BUILD_CONFIG)
+    set(ARK_TEST_BUILD_CONFIG ON)
+endif()
+ark_isolated_run("${CMAKE_COMMAND}" -S "${producer_source}" -B "${producer_build}"
+    -C "${ARK_TEST_WORK}/producer-cache.cmake" ${extra_args}
+    -DARK_INSTALL=ON -DARK_USE_INSTALLED_ARKNET=ON
+    -DARK_BUILD_APPLICATIONS=OFF -DARK_BUILD_PROTO=OFF -DARK_BUILD_EXAMPLES=OFF
+    -DARK_BUILD_TESTS=OFF -DARK_BUILD_CORE_TESTS=OFF "-DARK_BUILD_CONFIG=${ARK_TEST_BUILD_CONFIG}")
+file(WRITE "${producer_source}/.ark-disposable-install-producer" "disposable\n")
+file(WRITE "${producer_build}/.ark-disposable-install-producer" "disposable\n")
+ark_isolated_run("${CMAKE_COMMAND}" --build "${producer_build}" --config Release --parallel 2)
+# Copy this script before deleting the disposable producer tree during the check.
+file(COPY "${ARK_SOURCE_DIR}/tests/install/check_install.cmake" DESTINATION "${ARK_TEST_WORK}")
+set(ARK_BUILD_DIR "${producer_build}")
+set(ARK_SOURCE_DIR "${producer_source}")
+set(ARK_TEST_WORK "${ARK_TEST_WORK}/verification")
+set(ARK_TEST_CONFIG Release)
+set(ARK_REMOVE_DISPOSABLE_PRODUCER ON)
+include("${ARK_TEST_WORK}/../check_install.cmake")

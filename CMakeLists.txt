@@ -113,6 +113,9 @@ ark_extract_version()
 #---------------------------------------------------------------------------------------
 project(ark VERSION ${ARK_VERSION} LANGUAGES CXX C)
 message(STATUS "Build ark: v${ARK_VERSION}")
+include(GNUInstallDirs)
+option(ARK_INSTALL "Install ark public headers, selected binaries and CMake package" ${PROJECT_IS_TOP_LEVEL})
+option(ARK_USE_INSTALLED_ARKNET "Resolve arknet with find_package instead of building its source" OFF)
 
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
 set(BIN_OUTPUT_DIR "${PROJECT_BINARY_DIR}/bin")
@@ -187,18 +190,26 @@ endif()
 set(ARKNET_BUILD_TESTS OFF CACHE BOOL "Build arknet tests" FORCE)
 set(ARKNET_BUILD_EXAMPLES OFF CACHE BOOL "Build arknet examples" FORCE)
 set(ARKNET_BUILD_BENCHMARKS OFF CACHE BOOL "Build arknet benchmarks" FORCE)
-if(ARKNET_SOURCE_DIR)
-    add_subdirectory("${ARKNET_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/arknet")
+if(ARK_USE_INSTALLED_ARKNET)
+    find_package(arknet 0.2.2 CONFIG REQUIRED)
+elseif(ARKNET_SOURCE_DIR)
+    # arknet owns its installation/package; do not bundle a development checkout.
+    add_subdirectory("${ARKNET_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/arknet" EXCLUDE_FROM_ALL)
 else()
     include(FetchContent)
     FetchContent_Declare(arknet
         GIT_REPOSITORY https://github.com/OpenArkStudio/arknet.git
         GIT_TAG ${ARKNET_REVISION}
         GIT_SHALLOW FALSE)
-    FetchContent_MakeAvailable(arknet)
+    FetchContent_GetProperties(arknet)
+    if(NOT arknet_POPULATED)
+        FetchContent_Populate(arknet)
+        add_subdirectory("${arknet_SOURCE_DIR}" "${arknet_BINARY_DIR}" EXCLUDE_FROM_ALL)
+    endif()
 endif()
 
-find_path(RAPIDXML_INCLUDE_DIR rapidxml.hpp PATH_SUFFIXES rapidxml REQUIRED)
+find_package(RapidXML REQUIRED)
+set(RAPIDXML_INCLUDE_DIR "${RapidXML_INCLUDE_DIR}")
 add_subdirectory(src/config)
 
 add_subdirectory(src/core)
@@ -296,4 +307,8 @@ endif()
 
 if(ARK_BUILD_DATABASE_TESTS)
     add_subdirectory(tests/database)
+endif()
+
+if(ARK_INSTALL)
+    include(cmake/ark_install.cmake)
 endif()

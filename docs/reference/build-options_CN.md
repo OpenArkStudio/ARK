@@ -38,7 +38,7 @@ cmake -S . -B build -DARK_BUILD_APPLICATIONS=ON \
 cmake --build build --target ark_mysql_plugin ark_redis_plugin
 ```
 
-全部官方插件的公开头通过显式清单在配置阶段复制到各构建树的 `src/plugins/sdk-include/ark/<名称>/`。各 `ark::<name>` API target 传递该目录，插件关闭时仍可使用。MySQL、Redis、Utility、Net、Bus、HTTP 的私有装配头和工厂不进入映射；Kernel 保留包括 `kernel_plugin.hpp` 在内的原有 38 个头；Consul、Etcd Client、Kafka、OSS SDK、Physic 保留包括实现头与装配头在内的原有 22 个公开头。注册方式、类型可见性和可选插件策略不变；头文件映射不代表可选驱动集成已经验证。每个公共头仅有一份共置源码；生成的头文件映射属于选定构建树，不构成第二棵源码目录。
+全部官方插件的公开头通过显式清单在配置阶段复制到各构建树生成的插件公开头映射。各 `ark::<name>` API target 传递该目录，插件关闭时仍可使用。MySQL、Redis、Utility、Net、Bus、HTTP 的私有装配头和工厂不进入映射；Kernel 保留包括 `kernel_plugin.hpp` 在内的原有 38 个头；Consul、Etcd Client、Kafka、OSS SDK、Physic 保留包括实现头与装配头在内的原有 22 个公开头。注册方式、类型可见性和可选插件策略不变；头文件映射不代表可选驱动集成已经验证。每个公共头仅有一份共置源码；生成的头文件映射属于选定构建树，不构成第二棵源码目录。
 
 业务插件链接 `ark::mysql` 和/或 `ark::redis`，以获取公开头文件和编译要求；公共接口目标不会加载运行时动态库。将所需动态库与启动器一起部署，并在应用清单中填写库名称：
 
@@ -58,4 +58,8 @@ config = ""
 
 只保留应用所需的插件。这里的 `config` 为空：业务模块通过公开接口配置具名连接，不再使用旧版数据库 XML 文件。平台扩展名、Debug 后缀和公共接口兼容要求见[运行时选择动态库](../guides/plugins_CN.md#在运行时选择动态库)。在业务模块初始化时查找数据库模块，再通过[托管任务组](../guides/tasks_CN.md)启动操作。
 
-核心头文件位于 `src/core/`；`ark::core` 提供生成的 `src/core/public-include/` 包含根目录，保留 `<ark/...>` 引用。启动器源码位于 `src/application/`，输出仍为 `app` 和 `app_d`。
+核心头文件位于 `src/core/`；`ark::core` 传递公开头的包含目录，保留 `<ark/...>` 引用。启动器源码位于 `src/application/`，输出仍为 `app` 和 `app_d`。
+
+## 安装与归档
+
+`ARK_INSTALL` 在顶层项目中默认 `ON`，嵌入构建时默认 `OFF`；启用显式公开头安装、可迁移 CMake 导出、`check-install` 与 TGZ／ZIP CPack 归档。`ARK_USE_INSTALLED_ARKNET=ON` 发现单独安装的 arknet 包，优先于源码与版本覆盖；默认 `OFF`，保留源码依赖构建。具体操作见[安装与包消费](../get-started/installation_CN.md#安装并消费-cmake-包)。打包不会启用可选运行时插件，也不代表外部驱动已经验收。
