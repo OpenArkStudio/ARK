@@ -1,4 +1,4 @@
-# Project layout and SDK
+# Project layout and public plugin interfaces
 
 English | [简体中文](project-layout_CN.md)
 
@@ -22,10 +22,10 @@ build's artifacts into the runtime's `bin/` directory.
 | `src/proto/` | Protocol schemas and codec implementation |
 | `src/server/` | Built-in server applications |
 | `include/ark/<name>/` | Public headers for plugins outside the co-located set |
-| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility/Net/Bus public headers and private assembly |
+| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility/Net/Bus/HTTP public headers and private assembly |
 | `tests/` | Core, network and private database regressions |
 | `tests/network/` | Network and logging regressions |
-| `tests/consumer/` | An independent project consuming the public SDK |
+| `tests/consumer/` | An independent project consuming the public plugin interfaces |
 | `examples/` | Application examples |
 | `config/` | Application manifest, plugin and logger configuration samples |
 | `resources/` | Business data, workbooks and legacy resources |
@@ -44,7 +44,7 @@ Protobuf headers are placed under the build directory, exposed through `ark::pro
 | `ark::core` | Core headers, C++20 requirements and shared compile definitions |
 | `ark::net`, `ark::kernel`, `ark::utility`, etc. | Headers and transitive public API dependencies of a plugin |
 | `ark::proto` | Generated protocol messages and their compiled library; requires `ARK_BUILD_PROTO=ON` |
-| `ark::ark` | Aggregate SDK for applications using multiple official plugins |
+| `ark::ark` | Aggregate public interface target for applications using multiple official plugins |
 
 The core and plugin API targets carry CMake usage requirements. They do not load
 runtime plugins. Shared plugin libraries are built with `ARK_BUILD_APPLICATIONS=ON`
@@ -73,7 +73,7 @@ the directory migration alone does not validate those integrations.
 See [Code style](code-style.md) for the complete naming conventions, local checks
 and protocol migration details.
 
-## Verify SDK consumption
+## Verify public-header consumption
 
 Install the dependencies described in
 [Network builds and regression tests](networking.md), then build the independent consumer:
@@ -109,4 +109,13 @@ cmake -S tests/consumer/bus -B bus-sdk-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
   -DVCPKG_MANIFEST_FEATURES=application -DASIO_STANDALONE=OFF
 cmake --build bus-sdk-build --target check-sdk --parallel 2
+```
+
+The HTTP-only consumer needs no Protobuf or runtime plugin. It compiles the mapped public module and router API while excluding private assembly/parser headers.
+
+```sh
+cmake -S tests/consumer/http -B http-sdk-build -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DASIO_STANDALONE=OFF
+cmake --build http-sdk-build --target check-sdk --parallel 2
 ```

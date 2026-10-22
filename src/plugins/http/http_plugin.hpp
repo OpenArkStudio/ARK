@@ -21,39 +21,21 @@
 #pragma once
 
 #include <memory>
-#include <string>
-
-#include <arknet/http/http_server.hpp>
 
 #include "ark/http/http_server_module.hpp"
-#include "ark/plugin_manager.hpp"
+#include "ark/plugin_base.hpp"
 
 namespace ark {
 
-class http_server_module_impl final : public http_server_module
+class http_plugin final : public plugin_base<http_plugin>
 {
-    ARK_DECLARE_MODULE_FUNCTIONS
 public:
-    bool init() override;
-    bool pre_shut() override;
-
-    bool start_server() override;
-    bool start_server(std::string const& ip, uint16_t port = 8080, uint8_t thread_num = 1) override;
-
-    arknet::http_router& get_router() override {
-        return router_;
-    }
-
-protected:
-    bool load_config();
-    std::string http_ip_{"0.0.0.0"};
-    uint16_t http_port_{9090};
-    uint8_t http_thread_num_{1};
-
-private:
-    arknet::http_router router_;
-    std::unique_ptr<arknet::http_server> server_;
-    std::string listen_key_;
+    void install() override;
+    void uninstall() override;
 };
+
+namespace detail {
+std::unique_ptr<http_server_module> make_http_server_module();
+} // namespace detail
 
 } // namespace ark

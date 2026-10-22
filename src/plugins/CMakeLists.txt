@@ -69,7 +69,8 @@ set(ark_bus_public_headers
     "${CMAKE_CURRENT_SOURCE_DIR}/bus/bus_module.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/bus/msg_module.hpp"
 )
-set(ark_colocated_plugin_names mysql redis utility net bus)
+set(ark_http_public_headers "${CMAKE_CURRENT_SOURCE_DIR}/http/http_server_module.hpp")
+set(ark_colocated_plugin_names mysql redis utility net bus http)
 set(ark_plugin_sdk_include_dir "${CMAKE_CURRENT_BINARY_DIR}/sdk-include")
 foreach(plugin_name IN LISTS ark_colocated_plugin_names)
     set(staged_headers)

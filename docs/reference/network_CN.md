@@ -13,6 +13,8 @@
 
 构建命令和验证范围见[网络构建与测试](../networking_CN.md)。接口见 [ark::net](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/net/net.hpp)，协议能力见 [arknet 指南](https://openarkstudio.github.io/arknet/zh/features/)。
 
+可选的[HTTP 服务端插件](http_CN.md)公开 `http_server_module`，其路由处理器在 arknet IO 工作线程上运行。
+
 ## API 与私有创建
 
 Net 的全部源头文件与实现位于 `src/plugins/net/`。`ark::net` API 目标通过显式清单，

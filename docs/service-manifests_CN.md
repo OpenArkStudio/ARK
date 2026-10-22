@@ -61,6 +61,8 @@ threads = 4
 
 `host` 为非空地址或域名。`port` 为 0–65535 的整数；服务启动时，零表示申请可用端口。`threads` 为 1–255 的整数，与现有服务接口一致。
 
+HTTP 插件在初始化时解析这些字段；通过[公开 HTTP 接口](reference/http_CN.md)显式启动监听。路由处理器在 arknet IO 工作线程执行，所属线程的 `pre_shut()` 停止监听。
+
 `ark_consul_plugin` 读取 `consul.plugin.toml`：
 
 ```toml

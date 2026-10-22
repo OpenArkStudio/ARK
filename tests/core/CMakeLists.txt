@@ -256,3 +256,16 @@ if(ARK_BUILD_PROTO AND TARGET ark_bus_plugin AND TARGET ark_net_plugin AND TARGE
         USES_TERMINAL VERBATIM)
     add_dependencies(check-core check-bus-plugin)
 endif()
+
+if(TARGET ark_http_plugin)
+    add_executable(ark_http_plugin_tests ../app/http_plugin.cpp)
+    set_property(TARGET ark_http_plugin_tests PROPERTY LINK_LIBRARIES ark::http)
+    add_custom_target(check-http-plugin
+        COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:ark_http_plugin_tests>"
+            "-DPLUGIN_DIR=$<TARGET_FILE_DIR:ark_http_plugin>"
+            "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/http plugin runtime"
+            -P "${PROJECT_SOURCE_DIR}/tests/app/http_plugin.cmake"
+        DEPENDS ark_http_plugin_tests ark_http_plugin
+        USES_TERMINAL VERBATIM)
+    add_dependencies(check-core check-http-plugin)
+endif()

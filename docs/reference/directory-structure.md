@@ -1,4 +1,4 @@
-# Project layout and SDK
+# Project layout and public plugin interfaces
 
 ark uses C++20. Core headers and official plugins live in this repository;
 application-specific business plugins live with their application. The network
@@ -16,10 +16,10 @@ Build artifacts belong to each CMake build directory: `cmake -S . -B out/release
 | `src/proto/` | Protocol schemas and codec implementation |
 | `src/server/` | Built-in server applications |
 | `include/ark/<name>/` | Public headers for plugins outside the co-located set |
-| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility/Net/Bus also keep public headers and private assembly here |
+| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility/Net/Bus/HTTP also keep public headers and private assembly here |
 | `tests/` | Core, network and private database regressions |
 | `tests/network/` | Network and logging regressions |
-| `tests/consumer/` | An independent project consuming the public SDK |
+| `tests/consumer/` | An independent project consuming the public plugin interfaces |
 | `examples/` | Application examples |
 | `config/` | Application manifest, plugin and logger configuration samples |
 | `resources/` | Business data, workbooks and legacy resources |
@@ -31,7 +31,7 @@ Include public headers as `<ark/plugin_manager.hpp>` or `<ark/net/tcp_client.hpp
 Do not add implementation directories to an application's include path. Generated
 Protobuf headers are placed under the build directory, exposed through `ark::proto`.
 
-The MySQL/Redis interfaces have one source each: `src/plugins/mysql/mysql_module.hpp` and `src/plugins/redis/redis_module.hpp`. Utility public interfaces and retained scheduler helpers live in `src/plugins/utility/`; Net public interfaces, endpoint templates and transport helpers live in `src/plugins/net/`. Net excludes only private plugin assembly and the concrete service-manager definition from its public mapping. Bus keeps its two public module headers in `src/plugins/bus/`; shared `<ark/bus.hpp>` core value types remain under `include/ark/`. At configuration time CMake copies ordinary files from explicit lists into each ark build tree's `src/plugins/sdk-include/ark/<name>/`, removing obsolete mappings only within those controlled directories. Private plugin headers and factories are excluded. Consume `ark::mysql`, `ark::redis`, `ark::utility`, `ark::net` and `ark::bus` to retain the logical include paths, including when runtime plugins are disabled. Commands using only handwritten `-I <source>/include` must adopt the target-provided include roots. No formal SDK installation or export package is supplied.
+The MySQL/Redis interfaces have one source each: `src/plugins/mysql/mysql_module.hpp` and `src/plugins/redis/redis_module.hpp`. Utility public interfaces and retained scheduler helpers live in `src/plugins/utility/`; Net public interfaces, endpoint templates and transport helpers live in `src/plugins/net/`. Net excludes only private plugin assembly and the concrete service-manager definition from its public mapping. Bus keeps its two public module headers in `src/plugins/bus/`; shared `<ark/bus.hpp>` core value types remain under `include/ark/`. HTTP maps its public `src/plugins/http/http_server_module.hpp`, excluding the private plugin and concrete class. At configuration time CMake copies ordinary files from explicit lists into each ark build tree's `src/plugins/sdk-include/ark/<name>/`, removing obsolete mappings only within those controlled directories. Private plugin headers and factories are excluded. Consume `ark::mysql`, `ark::redis`, `ark::utility`, `ark::net`, `ark::bus` and `ark::http` to retain the logical include paths, including when runtime plugins are disabled. Commands using only handwritten `-I <source>/include` must adopt the target-provided include roots. The mapped copies are generated build artifacts; edit the co-located source headers.
 
 ## CMake targets
 
@@ -40,7 +40,7 @@ The MySQL/Redis interfaces have one source each: `src/plugins/mysql/mysql_module
 | `ark::core` | Core headers, C++20 requirements and shared compile definitions |
 | `ark::net`, `ark::kernel`, `ark::utility`, etc. | Headers and transitive public API dependencies of a plugin |
 | `ark::proto` | Generated protocol messages and their compiled library; requires `ARK_BUILD_PROTO=ON` |
-| `ark::ark` | Aggregate SDK for applications using multiple official plugins |
+| `ark::ark` | Aggregate public interface target for applications using multiple official plugins |
 
 The core and plugin API targets carry CMake usage requirements. They do not load
 runtime plugins. Shared plugin libraries are built with `ARK_BUILD_APPLICATIONS=ON`
@@ -68,7 +68,7 @@ the directory migration alone does not validate those integrations.
 
 See [Code style](../project/code-style.md) for complete naming conventions, local checks and protocol migration details.
 
-## Verify SDK consumption
+## Verify public-header consumption
 
 Install the dependencies described in
 [Network builds and regression tests](../networking.md), then build the independent consumer:
@@ -85,7 +85,7 @@ The consumer builds with applications and Protobuf disabled. It verifies public
 include paths, inherited C++20 settings, module overrides and exported GUID configuration.
 Use `-DARK_USE_GUID_32=ON` to check the 32-bit GUID configuration.
 
-The consumer also checks MySQL/Redis/Utility public-header mapping and rejects visible implementation or private assembly headers. The command enables SSL and the vcpkg `database` feature's OpenSSL dependency to check both interfaces; with SSL disabled, only Redis is compiled. This is build-tree consumption, not installed-package acceptance.
+The consumer also checks MySQL/Redis/Utility public-header mapping and rejects visible implementation or private assembly headers. The command enables SSL and the vcpkg `database` feature's OpenSSL dependency to check both interfaces; with SSL disabled, only Redis is compiled. This checks public-header consumption from the selected build tree.
 
 The Net-only consumer enables Protobuf while keeping runtime plugins disabled.
 It compiles all 19 Net public headers independently and excludes the private
@@ -109,6 +109,15 @@ cmake -S tests/consumer/bus -B bus-sdk-build -G Ninja \
 cmake --build bus-sdk-build --target check-sdk --parallel 2
 ```
 
+The HTTP-only consumer needs no Protobuf or runtime plugin. It compiles the mapped public module and router API while excluding private assembly/parser headers.
+
+```sh
+cmake -S tests/consumer/http -B http-sdk-build -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DASIO_STANDALONE=OFF
+cmake --build http-sdk-build --target check-sdk --parallel 2
+```
+
 ## Runtime resources and generated data
 
 Source assets and staged runtimes have separate layouts. `build/` is only an optional CMake build directory; it no longer contains tracked runtime files.
@@ -125,4 +134,4 @@ Source assets and staged runtimes have separate layouts. `build/` is only an opt
 
 Runtime packages still use `bin/`, `conf/` and optional `resource/`; logging configuration writes to the runtime's `binlog/`. Source moves do not change business XML, resource formats or runtime path resolution. See [helper migration](../guides/applications.md#migrate-old-helper-commands).
 
-The historical `bin/`, `frame/` and `dep/` tree is not the current SDK layout. See [configuration tools](../guides/tools.md) for generation and [application launcher](../guides/applications.md) for process startup. Public protocol headers and compatibility boundaries are documented in [Protobuf messages](protobuf.md).
+The historical `bin/`, `frame/` and `dep/` tree is not the current source layout. See [configuration tools](../guides/tools.md) for generation and [application launcher](../guides/applications.md) for process startup. Public protocol headers and compatibility boundaries are documented in [Protobuf messages](protobuf.md).
