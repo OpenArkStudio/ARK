@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 #include "mysql_sample_module.hpp"
+#include "mysql_sample_plugin.hpp"
 
 namespace ark {
 namespace {
@@ -23,6 +24,10 @@ task<> run_mysql_sample(mysql_module& database) {
 }
 
 } // namespace
+
+std::unique_ptr<mysql_sample_module> make_mysql_sample_module() {
+    return std::make_unique<mysql_sample_module>();
+}
 
 bool mysql_sample_module::init() {
     mysql_module_ptr_ = find_module<mysql_module>();

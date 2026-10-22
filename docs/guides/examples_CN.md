@@ -7,6 +7,8 @@
 | `examples/timers`／`timers` | `timers_plugin` | Utility 定时器与模块生命周期；启用，参与 update |
 | `examples/module_lifecycle`／`module_lifecycle` | `module_lifecycle_plugin` | 生命周期与少量 data-list 演示；启用，无 update 覆写。回调演示代码仍被注释 |
 | `examples/entity_operations`／`entity_operations` | `entity_operations_plugin` | Kernel 实体、数据和表操作；启用，无 update 覆写。启动仅做有界功能演示；[旧计时负载](../../benchmarks/ENTITY_OPERATIONS_CN.md)只能通过显式基准命令运行 |
+| `examples/mysql_sample`／`mysql_sample` | `mysql_sample_plugin` | 原生 MySQL 协程示例；应用示例列表中仍关闭，开启 SSL 的数据库测试检查其装配 |
+| `examples/redis_sample`／`redis_sample` | `redis_sample_plugin` | 原生 Redis 协程示例；应用示例列表中仍关闭，数据库测试检查其装配 |
 | `examples/physics_scene`／`physics_scene` | `physics_scene_plugin` | 关闭，依赖不支持的旧 PhysX 3；保留源码与清单不代表集成可运行 |
 | `examples/http_server`／`http_server` | `http_server_plugin` | 关闭，保留 HTTP 服务示例，尚无运行验收 |
 
@@ -33,3 +35,9 @@
 ## 运行实体操作示例
 
 在独立运行目录准备同次构建的产物、`config/entity_operations.app.toml`、`config/kernel.plugin.conf` 和 `config/log.conf`，并复制 `examples/entity_operations/resource`。使用 `--name=entity_operations --app_conf=conf/entity_operations.app.toml` 启动，详见[示例说明](../../examples/entity_operations/README_CN.md)。启动创建四个玩家并演示数据、表和自定义值，不执行计时循环；真实 DSO 回归使用相同清单与元数据。独立基准必须显式指定 `--iterations N`；八次迭代的 smoke 关闭计时，不构成性能证据。
+
+## 数据库示例装配
+
+MySQL／Redis 示例使用 `module_base<module>`、`plugin_base<derived_type>`、插件私有的拥有型工厂，以及显式 `DllEntryPlugin`／`DllExitPlugin` 入口。两者均保留具体示例模块的 RTTI 注册键、继承的默认 `update()` 和 `module_update::disabled` 注册。hpp/cpp 继续共置，协程操作、连接名称与配置不变，不启用其他保留的旧示例。
+
+[数据库回归](../../tests/database/README_CN.md#示例插件装配)将模块与插件源文件一起编译为真实 DSO，检查入口、注册、数据库接口查找和退出。本地 provider 在配置阶段返回 false，不启动协程或网络操作。这些装配检查不运行示例业务流程，也不代表真实服务部署已经验收。

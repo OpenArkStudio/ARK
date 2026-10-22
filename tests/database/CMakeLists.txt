@@ -63,8 +63,33 @@ set_property(TARGET ark_database_public_plugin_service_tests PROPERTY LINK_LIBRA
 target_compile_definitions(ark_database_public_plugin_service_tests PRIVATE
     ARK_DATABASE_PLUGIN_DIR="$<TARGET_FILE_DIR:ark_database_redis_plugin>/")
 add_dependencies(ark_database_public_plugin_service_tests ark_database_redis_plugin)
-add_library(ark_database_redis_sample_check OBJECT "${ROOT_DIR}/examples/redis_sample/redis_sample_module.cpp")
-target_link_libraries(ark_database_redis_sample_check PRIVATE ark::redis arknet::arknet)
+# Compile and load each sample's real module and plugin assembly with a local
+# provider that rejects configuration before coroutine or network work.
+function(ark_database_sample_check database)
+    set(sample "${database}_sample")
+    set(library "ark_database_${database}_sample_check")
+    set(runner "ark_database_${database}_sample_tests")
+    add_library(${library} SHARED
+        "${ROOT_DIR}/examples/${sample}/${sample}_module.cpp"
+        "${ROOT_DIR}/examples/${sample}/${sample}_plugin.cpp")
+    target_link_libraries(${library} PRIVATE ark::${database} arknet::arknet)
+    set_target_properties(${library} PROPERTIES PREFIX ""
+        CXX_VISIBILITY_PRESET hidden VISIBILITY_INLINES_HIDDEN YES)
+    ark_database_test(${runner} sample_plugin.cpp)
+    target_link_libraries(${runner} PRIVATE ark::${database} arknet::arknet)
+    target_compile_definitions(${runner} PRIVATE
+        ARK_DATABASE_SAMPLE_NAME="${sample}"
+        ARK_DATABASE_SAMPLE_DIR="$<TARGET_FILE_DIR:${library}>/"
+        ARK_DATABASE_SAMPLE_LIBRARY="${library}")
+    if(database STREQUAL "mysql")
+        target_compile_definitions(${runner} PRIVATE ARK_DATABASE_SAMPLE_MYSQL)
+    endif()
+    add_dependencies(${runner} ${library})
+endfunction()
+ark_database_sample_check(redis)
+add_custom_target(check-database-samples
+    COMMAND $<TARGET_FILE:ark_database_redis_sample_tests>
+    DEPENDS ark_database_redis_sample_tests USES_TERMINAL)
 add_custom_target(check-database
     COMMAND $<TARGET_FILE:ark_database_queue_tests>
     COMMAND $<TARGET_FILE:ark_database_redis_stop_tests>
@@ -83,7 +108,7 @@ add_custom_target(check-database
 
 # Compile real-service acceptance in ordinary CI without running any server work.
 add_dependencies(check-database ark_database_redis_sample_check ark_database_public_service_tests
-    ark_database_public_failure_service_tests ark_database_public_plugin_service_tests)
+    ark_database_public_failure_service_tests ark_database_public_plugin_service_tests check-database-samples)
 
 if(ARKNET_ENABLE_SSL)
     target_link_libraries(ark_database_public_failure_service_tests PRIVATE ark::mysql)
@@ -115,8 +140,11 @@ if(ARKNET_ENABLE_SSL)
     add_dependencies(ark_database_public_mysql_plugin_tests ark_database_mysql_plugin)
     add_dependencies(ark_database_public_plugin_service_tests ark_database_mysql_plugin)
     target_link_libraries(ark_database_public_plugin_service_tests PRIVATE ark::mysql)
-    add_library(ark_database_mysql_sample_check OBJECT "${ROOT_DIR}/examples/mysql_sample/mysql_sample_module.cpp")
-    target_link_libraries(ark_database_mysql_sample_check PRIVATE ark::mysql arknet::arknet)
+    ark_database_sample_check(mysql)
+    add_custom_target(check-database-samples-mysql
+        COMMAND $<TARGET_FILE:ark_database_mysql_sample_tests>
+        DEPENDS ark_database_mysql_sample_tests USES_TERMINAL)
+    add_dependencies(check-database-samples check-database-samples-mysql)
     add_custom_target(check-database-public-mysql
         COMMAND $<TARGET_FILE:ark_database_public_mysql_tests>
         COMMAND $<TARGET_FILE:ark_database_public_mysql_plugin_tests>

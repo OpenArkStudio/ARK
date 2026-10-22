@@ -20,12 +20,20 @@
 
 #pragma once
 
-#include "ark/module.hpp"
-#include "ark/plugin.hpp"
-#include "ark/plugin_manager.hpp"
+#include <memory>
+
+#include "ark/plugin_base.hpp"
+#include "mysql_sample_module.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN(mysql_sample_plugin)
+std::unique_ptr<mysql_sample_module> make_mysql_sample_module();
+
+class mysql_sample_plugin final : public plugin_base<mysql_sample_plugin>
+{
+public:
+    void install() override;
+    void uninstall() override;
+};
 
 } // namespace ark
