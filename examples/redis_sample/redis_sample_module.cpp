@@ -2,8 +2,13 @@
 #include <stdexcept>
 
 #include "redis_sample_module.hpp"
+#include "redis_sample_plugin.hpp"
 
 namespace ark {
+
+std::unique_ptr<redis_sample_module> make_redis_sample_module() {
+    return std::make_unique<redis_sample_module>();
+}
 
 bool redis_sample_module::init() {
     redis_module_ = find_module<redis_module>();
