@@ -123,3 +123,20 @@ endforeach()
     rmSync(work, { recursive: true, force: true });
   }
 });
+
+test('install verification rejects an existing work directory without changing it', () => {
+  const work = mkdtempSync(join(tmpdir(), 'ark-install-existing-'));
+  try {
+    const sentinel = join(work, 'keep.txt');
+    writeFileSync(sentinel, 'preserve existing user files\n');
+    for (const script of ['check_install.cmake', 'run_isolated.cmake']) {
+      assert.throws(() => run([
+        `-DARK_BUILD_DIR=${work}/build`, `-DARK_SOURCE_DIR=${root}`, `-DARK_TEST_WORK=${work}`,
+        '-P', join(root, 'tests/install', script),
+      ]), error => error.stderr.toString().includes('ARK_TEST_WORK must not already exist'));
+      assert.equal(readFileSync(sentinel, 'utf8'), 'preserve existing user files\n');
+    }
+  } finally {
+    rmSync(work, { recursive: true, force: true });
+  }
+});
