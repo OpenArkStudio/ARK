@@ -1,6 +1,6 @@
 # 实体访问基准
 
-这个可选 C++ 程序保留旧实体示例的十二个热循环：字符串读取、整数读取和写入，分别直接按索引／名称访问，以及先经 Kernel 查找后访问。程序加载真实 Kernel／Utility 插件，但不加载 `entity_operations_plugin`，也不运行示例启动。测量模式保留旧 `system_clock` 毫秒耗时方式，不衡量服务容量或生产负载。
+这个可选 C++ 程序保留旧实体示例的十二个热循环：字符串读取、整数读取和写入，分别直接按索引／名称访问，以及先经 Kernel 查找后访问。程序加载真实 Kernel／Utility 插件，但不加载 `entity_operations_plugin`，也不运行示例启动。测量模式使用单调的 `steady_clock` 计算毫秒间隔，不衡量服务容量或生产负载。
 
 按安装说明准备依赖，开启 applications、configuration、Protobuf、Kernel／Utility 插件及 `ARK_BUILD_BENCHMARKS=ON`。
 可执行文件不加入默认构建，也不是应用启动或 `check-core` 的依赖。

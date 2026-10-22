@@ -1,6 +1,6 @@
 # Entity access benchmark
 
-This optional C++ executable retains the former entity example's twelve hot loops: string reads, integer reads and writes, each directly by index/name and after a Kernel lookup. It loads real Kernel/Utility plugins but never loads `entity_operations_plugin` or runs the example's startup. Measurement mode keeps the legacy `system_clock` elapsed-millisecond protocol; it does not measure server capacity or production workload behavior.
+This optional C++ executable retains the former entity example's twelve hot loops: string reads, integer reads and writes, each directly by index/name and after a Kernel lookup. It loads real Kernel/Utility plugins but never loads `entity_operations_plugin` or runs the example's startup. Measurement mode uses monotonic `steady_clock` intervals in milliseconds; it does not measure server capacity or production workload behavior.
 
 Enable applications, configuration, Protobuf and the Kernel/Utility plugins alongside `ARK_BUILD_BENCHMARKS=ON`, with the dependencies in the installation guide. The executable is excluded from the default build and is not a dependency of application startup or `check-core`.
 

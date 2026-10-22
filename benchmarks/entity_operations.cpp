@@ -30,7 +30,7 @@ public:
 
 private:
     auto now() const {
-        return timed_ ? std::chrono::system_clock::now().time_since_epoch() : std::chrono::system_clock::duration{};
+        return timed_ ? std::chrono::steady_clock::now().time_since_epoch() : std::chrono::steady_clock::duration{};
     }
 
     kernel_module* kernel_module_;
