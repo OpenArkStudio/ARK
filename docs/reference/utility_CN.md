@@ -28,7 +28,7 @@ const auto entity = guids->create_guid();
 
 ## 源码与构建树 SDK 迁移
 
-公开头文件的唯一源码现在位于 `src/plugins/utility/`。CMake 将显式列出的七个公开头复制到构建树的 `src/plugins/sdk-include/ark/utility/`：四个模块接口，以及 `scheduler.hpp`、`ctpl.h`、`ctpl_stl.h`。通过 `ark::utility` 消费，保留现有 `<ark/utility/...>` 公开接口与辅助头路径，关闭运行时插件时同样有效。不要把私有插件目录加入使用方的包含路径。上游线程池头文件保留原字节和格式规则。本次没有新增 `find_package(ark)` 安装包。
+公开头文件的唯一源码现在位于 `src/plugins/utility/`。CMake 将显式列出的七个公开头复制到构建树的 `src/plugins/sdk-include/ark/utility/`：四个模块接口，以及 `scheduler.hpp`、`ctpl.h`、`ctpl_stl.h`。通过 `ark::utility` 消费，保留现有 `<ark/utility/...>` 公开接口与辅助头路径，关闭运行时插件时同样有效。不要把私有插件目录加入使用方的包含路径。上游线程池头文件保留原字节和格式规则。安装后的消费方式见 [CMake 包安装说明](../get-started/installation_CN.md#安装并消费-cmake-包)：使用 `find_package(ark CONFIG REQUIRED COMPONENTS utility)` 和相同的 `ark::utility` 目标。安装头保留 `<ark/utility/...>` 路径；运行时插件仍需在应用清单中选择。
 
 **源码不兼容变更：** SDK 移除 `ark/utility/{guid,timer,schedule,compress}_module_impl.hpp` 和 `ark/utility/utility_plugin.hpp`。实现类定义在各自 cpp 文件中，插件类型及返回接口的工厂属于私有装配。将直接构造实现类的代码改为公开接口查找，或应用自行维护实现。仅手写 `-I <ark-source>/include` 的调用需改用目标传递的包含目录。插件和使用方应一起重新编译；公开虚函数及动态入口签名保持不变，不代表兼容旧实现类二进制。
 

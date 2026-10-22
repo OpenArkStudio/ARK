@@ -17,7 +17,7 @@ if(ark_FIND_COMPONENTS)
 endif()
 include("${CMAKE_CURRENT_LIST_DIR}/arkConfigHeaderTargets.cmake")
 if(_ark_need_core)
-    find_dependency(arknet 0.2.2 CONFIG)
+    find_dependency(arknet 0.2.3 CONFIG)
     # Keep the installed dependency's feature contract compatible with this build.
     if(NOT "${ARKNET_USE_BOOST_ASIO}" STREQUAL "@ARKNET_USE_BOOST_ASIO@" OR
        NOT "${ARKNET_ENABLE_SSL}" STREQUAL "@ARKNET_ENABLE_SSL@")

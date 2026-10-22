@@ -4,7 +4,7 @@
 迁移时，将 `connect`、`set`、`get` 以及命令专用包装替换为命名连接配置和
 `co_await command` / `pipeline`。插件不提供阻塞兼容层，应用需要重新编译。
 
-公开接口的唯一源码是 `src/plugins/redis/redis_module.hpp`，与实现和私有插件装配文件同目录。链接 `ark::redis` 获取配置期复制到构建树的 `ark/redis/redis_module.hpp`；即使不构建运行时插件，该映射仍有效。不要仅依赖手写 `-I <源码>/include`。实现类已隐藏到 `.cpp`，原 `redis_module_impl.hpp` 和插件装配头不再是公开 SDK。宿主、插件和相关消费者需要一起重新构建；本次不提供安装包或旧二进制兼容承诺。
+公开接口的唯一源码是 `src/plugins/redis/redis_module.hpp`，与实现和私有插件装配文件同目录。链接 `ark::redis` 获取配置期复制到构建树的 `ark/redis/redis_module.hpp`；即使不构建运行时插件，该映射仍有效。不要仅依赖手写 `-I <源码>/include`。实现类已隐藏到 `.cpp`，原 `redis_module_impl.hpp` 和插件装配头属于私有实现。宿主、插件和相关消费者需要一起重新构建；安装后的消费方式使用 `find_package(ark CONFIG REQUIRED COMPONENTS redis)` 和相同的 `ark::redis` 目标。依赖与可迁移包的说明见[安装指南](../get-started/installation_CN.md#安装并消费-cmake-包)。安装不承诺旧二进制兼容，也不会自动加载运行时模块。
 
 ```cpp
 // 业务模块成员：ark::redis_module* redis_{}; ark::task_group* tasks_{};
