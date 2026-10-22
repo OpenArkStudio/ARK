@@ -41,6 +41,26 @@ for (const [name, configureName, buildDirectory, checks] of profiles) {
     assert.match(save.step, /^          key: \$\{\{ steps\.vcpkg-cache\.outputs\.key \}\}$/m);
   });
 
+  test(`${name} restores exact archives with one compatible prefix and saves only the exact key`, () => {
+    const steps = jobSteps(name);
+    const prepare = onlyStep(steps, step => step.includes('id: vcpkg-cache\n'), 'cache identity');
+    const restore = onlyStep(steps, step => step.includes('uses: actions/cache/restore@v4\n'), 'archive restore');
+    const save = onlyStep(steps, step => step.includes('uses: actions/cache/save@v4\n'), 'archive save');
+    const toolchain = onlyStep(steps, step => step.includes('uses: lukka/run-vcpkg@v11\n'), 'vcpkg action');
+    assert.ok(prepare.index < restore.index && restore.index < toolchain.index);
+    assert.match(restore.step, /^        if: steps\.vcpkg-cache\.outputs\.enabled == 'true'$/m);
+    assert.match(restore.step, /^        continue-on-error: true$/m);
+    assert.match(restore.step, /^          path: \$\{\{ steps\.vcpkg-cache\.outputs\.directory \}\}$/m);
+    assert.match(restore.step, /^          key: \$\{\{ steps\.vcpkg-cache\.outputs\.key \}\}$/m);
+    assert.match(restore.step, /^          restore-keys: \$\{\{ steps\.vcpkg-cache\.outputs\.restore-key \}\}$/m);
+    assert.equal((restore.step.match(/restore-keys:/g) ?? []).length, 1);
+    assert.doesNotMatch(save.step, /restore-keys:/);
+    assert.equal(steps.filter(step => step.includes('uses: actions/cache')).length, 2);
+    for (const { step } of [prepare, toolchain]) {
+      assert.doesNotMatch(step, /VCPKG_DISABLE_COMPILER_TRACKING|VCPKG_ENV_PASSTHROUGH_UNTRACKED|--editable/);
+    }
+  });
+
   test(`${name} still requires configure, compilation and every regression command`, () => {
     const steps = jobSteps(name);
     const configure = onlyStep(steps, step => step.startsWith(`      - name: ${configureName}\n`), 'configure step');

@@ -121,6 +121,7 @@ jobs:
         with:
           path: ${{ steps.vcpkg-cache.outputs.directory }}
           key: ${{ steps.vcpkg-cache.outputs.key }}
+          restore-keys: ${{ steps.vcpkg-cache.outputs.restore-key }}
       - uses: lukka/get-cmake@latest
       - uses: lukka/run-vcpkg@v11
         with:
@@ -186,6 +187,7 @@ jobs:
         with:
           path: ${{ steps.vcpkg-cache.outputs.directory }}
           key: ${{ steps.vcpkg-cache.outputs.key }}
+          restore-keys: ${{ steps.vcpkg-cache.outputs.restore-key }}
       - uses: lukka/get-cmake@latest
       - uses: lukka/run-vcpkg@v11
         with:
@@ -256,6 +258,7 @@ jobs:
         with:
           path: ${{ steps.vcpkg-cache.outputs.directory }}
           key: ${{ steps.vcpkg-cache.outputs.key }}
+          restore-keys: ${{ steps.vcpkg-cache.outputs.restore-key }}
       - uses: lukka/get-cmake@latest
       - uses: lukka/run-vcpkg@v11
         with:
