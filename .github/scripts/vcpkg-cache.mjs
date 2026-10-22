@@ -3,7 +3,7 @@ import { appendFileSync, lstatSync, mkdirSync, readFileSync, readdirSync } from 
 import { posix, resolve, win32 } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const cold = reason => ({ enabled: false, reason, directory: '', key: '', binarySources: 'clear' });
+const cold = reason => ({ enabled: false, reason, directory: '', key: '', restoreKey: '', binarySources: 'clear' });
 const lineValue = value => typeof value === 'string' && value.trim() !== '' && !/[\x00-\x1f\x7f]/.test(value);
 
 function dependencyFiles(root) {
@@ -54,15 +54,19 @@ export function cachePlan({ root, env }) {
     'VCPKG_DEFAULT_TRIPLET', 'VCPKG_DEFAULT_HOST_TRIPLET', 'VCPKG_TARGET_TRIPLET', 'VCPKG_HOST_TRIPLET']
     .map(name => [name, env[name] ?? '']));
   const identity = {
-    schema: 1, os: env.RUNNER_OS, arch: env.RUNNER_ARCH,
-    image: [env.ImageOS, env.ImageVersion], revision: env.VCPKG_CACHE_REVISION,
+    schema: 2, os: env.RUNNER_OS, arch: env.RUNNER_ARCH,
+    imageOS: env.ImageOS, revision: env.VCPKG_CACHE_REVISION,
     features, defaults: env.VCPKG_CACHE_DEFAULT_FEATURES, profile: env.VCPKG_CACHE_PROFILE,
     compiler, dependencies,
   };
   const digest = createHash('sha256').update(JSON.stringify(identity)).digest('hex');
+  const imageDigest = createHash('sha256').update(env.ImageVersion).digest('hex');
+  // Restore only archives from the same dependency/build family. vcpkg still selects
+  // each package by its full ABI hash; an image roll never authorizes an ABI bypass.
+  const restoreKey = `ark-vcpkg-files-v2-${env.RUNNER_OS}-${env.RUNNER_ARCH}-${digest}-`;
   return {
     enabled: true, reason: '', directory,
-    key: `ark-vcpkg-files-v1-${env.RUNNER_OS}-${env.RUNNER_ARCH}-${digest}`,
+    key: `${restoreKey}${imageDigest}`, restoreKey,
     binarySources: `clear;files,${directory},readwrite`,
   };
 }
@@ -82,7 +86,7 @@ export function prepareCache({ root, env }) {
   // run-vcpkg preserves an existing nonempty value. Always export clear on fallback to suppress x-gha.
   appendFileSync(env.GITHUB_ENV, `VCPKG_BINARY_SOURCES=${plan.binarySources}\n`, 'utf8');
   appendFileSync(env.GITHUB_OUTPUT,
-    `enabled=${plan.enabled}\ndirectory=${plan.directory}\nkey=${plan.key}\n`, 'utf8');
+    `enabled=${plan.enabled}\ndirectory=${plan.directory}\nkey=${plan.key}\nrestore-key=${plan.restoreKey}\n`, 'utf8');
   return plan;
 }
 
