@@ -230,3 +230,16 @@ if(ARK_BUILD_CONFIG AND TARGET sample1_plugin AND TARGET sample2_plugin AND
         USES_TERMINAL VERBATIM)
     add_dependencies(check-core check-typed-examples)
 endif()
+
+if(ARK_BUILD_PROTO AND TARGET ark_bus_plugin AND TARGET ark_net_plugin AND TARGET ark_utility_plugin)
+    add_executable(ark_net_plugin_tests ../app/net_plugin.cpp)
+    set_property(TARGET ark_net_plugin_tests PROPERTY LINK_LIBRARIES ark::net)
+    add_custom_target(check-net-plugin
+        COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:ark_net_plugin_tests>"
+            "-DPLUGIN_DIR=$<TARGET_FILE_DIR:ark_net_plugin>"
+            "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/net plugin runtime"
+            -P "${PROJECT_SOURCE_DIR}/tests/app/net_plugin.cmake"
+        DEPENDS ark_net_plugin_tests ark_net_plugin ark_bus_plugin ark_utility_plugin
+        USES_TERMINAL VERBATIM)
+    add_dependencies(check-core check-net-plugin)
+endif()

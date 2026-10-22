@@ -22,7 +22,7 @@ build's artifacts into the runtime's `bin/` directory.
 | `src/proto/` | Protocol schemas and codec implementation |
 | `src/server/` | Built-in server applications |
 | `include/ark/<name>/` | Public headers for plugins outside the co-located set |
-| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility public headers and private assembly |
+| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility/Net public headers and private assembly |
 | `tests/` | Core, network and private database regressions |
 | `tests/network/` | Network and logging regressions |
 | `tests/consumer/` | An independent project consuming the public SDK |
@@ -88,3 +88,14 @@ cmake --build sdk-build --target check-sdk
 The consumer builds with applications and Protobuf disabled. It verifies public
 include paths, inherited C++20 settings, module overrides and exported GUID configuration.
 Use `-DARK_USE_GUID_32=ON` to check the 32-bit GUID configuration.
+
+The Net-only consumer enables Protobuf while keeping runtime plugins disabled.
+It compiles all 19 Net public headers independently and excludes the private
+manager/plugin headers:
+
+```sh
+cmake -S tests/consumer/net -B net-sdk-build -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DVCPKG_MANIFEST_FEATURES=application -DASIO_STANDALONE=OFF
+cmake --build net-sdk-build --target check-sdk --parallel 2
+```

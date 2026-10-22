@@ -18,22 +18,42 @@
  *
  */
 
+#include <stdexcept>
+
 #include "ark/net/http_client_module_impl.hpp"
-#include "ark/net/net_plugin.hpp"
-#include "ark/net/net_service_manager_module_impl.hpp"
+#include "net_plugin.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN_DLL_FUNCTION(net_plugin)
+ARK_EXPORT_FUNC void DllEntryPlugin(plugin_manager* manager, const std::string& name, logger* log) {
+    logger::init(log);
+    manager->register_plugin<net_plugin>(name);
+}
+
+ARK_EXPORT_FUNC void DllExitPlugin(plugin_manager* manager) {
+    manager->unregister_plugin<net_plugin>();
+}
 
 void net_plugin::install() {
-    ARK_REGISTER_MODULE(http_client_module, http_client_module_impl);
-    ARK_REGISTER_MODULE(net_service_manager_module, net_service_manager_module_impl);
+    if (!register_module<http_client_module>(std::make_unique<http_client_module_impl>(), module_update::enabled))
+    {
+        throw std::runtime_error("net HTTP client module registration rejected");
+    }
+    if (!register_module(detail::make_net_service_manager_module(), module_update::enabled))
+    {
+        throw std::runtime_error("net service manager module registration rejected");
+    }
 }
 
 void net_plugin::uninstall() {
-    ARK_UNREGISTER_MODULE(net_service_manager_module, net_service_manager_module_impl);
-    ARK_UNREGISTER_MODULE(http_client_module, http_client_module_impl);
+    if (!unregister_module<net_service_manager_module>())
+    {
+        throw std::runtime_error("net service manager module unregistration rejected");
+    }
+    if (!unregister_module<http_client_module>())
+    {
+        throw std::runtime_error("net HTTP client module unregistration rejected");
+    }
 }
 
 } // namespace ark

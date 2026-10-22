@@ -20,11 +20,22 @@
 
 #pragma once
 
-#include "ark/plugin.hpp"
-#include "ark/plugin_manager.hpp"
+#include <memory>
+
+#include "ark/net/net_service_manager_module.hpp"
+#include "ark/plugin_base.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN(net_plugin)
+class net_plugin final : public plugin_base<net_plugin>
+{
+public:
+    void install() override;
+    void uninstall() override;
+};
+
+namespace detail {
+std::unique_ptr<net_service_manager_module> make_net_service_manager_module();
+} // namespace detail
 
 } // namespace ark
