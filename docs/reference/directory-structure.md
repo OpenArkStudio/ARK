@@ -10,13 +10,12 @@ Build artifacts belong to each CMake build directory: `cmake -S . -B out/release
 
 | Path | Contents |
 | --- | --- |
-| `include/ark/` | Public core and other plugin headers |
+| `include/ark/` | Public core headers |
 | `src/core/` | Core CMake target and header-only usage requirements |
 | `application/` | Application entry point |
 | `src/proto/` | Protocol schemas and codec implementation |
 | `src/server/` | Built-in server applications |
-| `include/ark/<name>/` | Public headers for plugins outside the co-located set |
-| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility/Net/Bus/HTTP/Kernel also keep public headers and private assembly here |
+| `src/plugins/<name>/` | All official plugin headers, implementation and assembly |
 | `tests/` | Core, network and private database regressions |
 | `tests/network/` | Network and logging regressions |
 | `tests/consumer/` | An independent project consuming the public plugin interfaces |
@@ -31,7 +30,7 @@ Include public headers as `<ark/plugin_manager.hpp>` or `<ark/net/tcp_client.hpp
 Do not add implementation directories to an application's include path. Generated
 Protobuf headers are placed under the build directory, exposed through `ark::proto`.
 
-The MySQL/Redis interfaces have one source each: `src/plugins/mysql/mysql_module.hpp` and `src/plugins/redis/redis_module.hpp`. Utility public interfaces and retained scheduler helpers live in `src/plugins/utility/`; Net public interfaces, endpoint templates and transport helpers live in `src/plugins/net/`. Net excludes only private plugin assembly and the concrete service-manager definition from its public mapping. Bus keeps its two public module headers in `src/plugins/bus/`; shared `<ark/bus.hpp>` core value types remain under `include/ark/`. HTTP maps its public `src/plugins/http/http_server_module.hpp`, excluding the private plugin and concrete class. At configuration time CMake copies ordinary files from explicit lists into each ark build tree's `src/plugins/sdk-include/ark/<name>/`, removing obsolete mappings only within those controlled directories. Other migrated plugins exclude private assembly and factories; Kernel retains all 38 existing headers, including `kernel_plugin.hpp`, without changing concrete-type or assembly visibility. Consume `ark::mysql`, `ark::redis`, `ark::utility`, `ark::net`, `ark::bus`, `ark::http` and `ark::kernel` to retain the logical include paths, including when runtime plugins are disabled. Commands using only handwritten `-I <source>/include` must adopt the target-provided include roots. The mapped copies are generated build artifacts; edit the co-located source headers.
+The MySQL/Redis interfaces have one source each: `src/plugins/mysql/mysql_module.hpp` and `src/plugins/redis/redis_module.hpp`. Utility public interfaces and retained scheduler helpers live in `src/plugins/utility/`; Net public interfaces, endpoint templates and transport helpers live in `src/plugins/net/`. Net excludes only private plugin assembly and the concrete service-manager definition from its public mapping. Bus keeps its two public module headers in `src/plugins/bus/`; shared `<ark/bus.hpp>` core value types remain under `include/ark/`. HTTP maps its public `src/plugins/http/http_server_module.hpp`, excluding the private plugin and concrete class. At configuration time CMake copies ordinary files from explicit lists into each ark build tree's `src/plugins/sdk-include/ark/<name>/`, removing obsolete mappings only within those controlled directories. MySQL, Redis, Utility, Net, Bus and HTTP keep their private assembly and factories outside the public mapping. Kernel retains all 38 existing headers, including `kernel_plugin.hpp`, without changing concrete-type or assembly visibility. Consume `ark::mysql`, `ark::redis`, `ark::utility`, `ark::net`, `ark::bus`, `ark::http` and `ark::kernel` to retain the logical include paths, including when runtime plugins are disabled. Commands using only handwritten `-I <source>/include` must adopt the target-provided include roots. The mapped copies are generated build artifacts; edit the co-located source headers.
 
 ## CMake targets
 
@@ -137,3 +136,16 @@ Runtime packages still use `bin/`, `conf/` and optional `resource/`; logging con
 The historical `bin/`, `frame/` and `dep/` tree is not the current source layout. See [configuration tools](../guides/tools.md) for generation and [application launcher](../guides/applications.md) for process startup. Public protocol headers and compatibility boundaries are documented in [Protobuf messages](protobuf.md).
 
 Kernel co-locates its 38 existing headers with its cpp files in `src/plugins/kernel/`. `ark::kernel` preserves every `<ark/kernel/...>` path, including `data_impl.hpp`, `data_list_impl.hpp` and `kernel_plugin.hpp`. This source-only move keeps creation macros, registration, type visibility and lifecycle unchanged. See [Kernel reference](kernel.md) for consumption checks and Protobuf requirements.
+
+Consul, Etcd Client, Kafka, OSS SDK and Physic also co-locate their 22 existing headers in `src/plugins/<name>/`. Explicit mappings preserve every previous `<ark/consul/...>`, `<ark/etcd_client/...>`, `<ark/kafka/...>`, `<ark/osssdk/...>` and `<ark/physic/...>` path, including implementation and assembly headers. Consume the matching `ark::<name>` API target; mapping remains available with runtime plugins disabled. CMake no longer discovers plugin headers under `include/ark/`.
+
+`node --test tests/ci/plugin-layout.test.mjs` checks configure-only mapping with every runtime plugin option off, byte equality of mapped copies, API dependencies and stale-mapping cleanup. It does not compile optional driver integrations. The Etcd Client consumer compiles its five retained headers without Protobuf or runtime plugins:
+
+```sh
+cmake -S tests/consumer/etcd_client -B etcd-client-headers -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DASIO_STANDALONE=OFF
+cmake --build etcd-client-headers --target check-etcd-client-headers --parallel 2
+```
+
+Header mapping does not establish Consul, Kafka or OSS SDK runtime compatibility. Physic and `physics_scene` still require the unsupported legacy PhysX 3 integration and retain their explicit configuration failure; no passing PhysX build is claimed.

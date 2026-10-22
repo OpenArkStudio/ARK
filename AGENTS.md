@@ -104,6 +104,12 @@ branch or worktree when the existing checkout contains uncommitted changes.
   including implementation/value templates and `kernel_plugin.hpp`; keep them
   byte-identical during physical moves. Do not hide these types or replace
   Kernel creation macros as part of colocation.
+  All official plugin families now use explicit public-header mappings from
+  `src/plugins/<name>/`; do not restore header discovery under `include/ark/`.
+  Consul, Etcd Client, Kafka, OSS SDK and Physic retain every existing public
+  header, including implementation and assembly headers, byte-for-byte during
+  physical moves. Their layout does not validate optional driver integrations;
+  retain the explicit unsupported PhysX 3 build failure.
   Verify accepted source before claiming the new layout is available. Hot-update
   and Registry design discussions remain paused.
 

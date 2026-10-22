@@ -11,7 +11,7 @@ ark_style_files() {
         while IFS= read -r -d '' style_file; do
             case "$style_file" in
                 tests/catch.hpp|tests/network/doctest.h|\
-                include/ark/physic/wave_front.hpp|\
+                src/plugins/physic/wave_front.hpp|\
                 src/plugins/physic/wave_front.cpp|\
                 src/plugins/utility/ctpl.h|\
                 src/plugins/utility/ctpl_stl.h) continue ;;
