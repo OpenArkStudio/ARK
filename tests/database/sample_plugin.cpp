@@ -132,6 +132,5 @@ int main() {
         "Sample exit did not reach the stopped state");
     manager.remove_module(provider_key);
     require(manager.stop(2), "Repeated sample stop failed");
-    std::cout << ARK_DATABASE_SAMPLE_NAME
-              << ": actual entry, module init, rejected configuration and exit passed\n";
+    std::cout << ARK_DATABASE_SAMPLE_NAME << ": actual entry, module init, rejected configuration and exit passed\n";
 }
