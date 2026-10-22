@@ -32,14 +32,13 @@
 #include "ark/kernel/map_module.hpp"
 #include "ark/kernel/node_manager.hpp"
 #include "ark/kernel/table_manager.hpp"
-#include "ark/plugin_manager.hpp"
+#include "ark/module_base.hpp"
 #include "ark/utility/guid_module.hpp"
 
 namespace ark {
 
-class kernel_module_impl final : public kernel_module
+class kernel_module_impl final : public module_base<kernel_module>
 {
-    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     explicit kernel_module_impl();
     ~kernel_module_impl() override;

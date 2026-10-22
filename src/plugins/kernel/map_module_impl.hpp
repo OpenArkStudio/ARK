@@ -23,13 +23,12 @@
 #include "ark/kernel/entity.hpp"
 #include "ark/kernel/kernel_module.hpp"
 #include "ark/kernel/map_module.hpp"
-#include "ark/plugin_manager.hpp"
+#include "ark/module_base.hpp"
 
 namespace ark {
 
-class map_module_impl final : public map_module
+class map_module_impl final : public module_base<map_module>
 {
-    ARK_DECLARE_MODULE_FUNCTIONS
 public:
     bool init() override;
     bool shut() override;
