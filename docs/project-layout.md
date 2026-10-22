@@ -120,7 +120,7 @@ cmake -S tests/consumer/http -B http-sdk-build -G Ninja \
 cmake --build http-sdk-build --target check-sdk --parallel 2
 ```
 
-Kernel co-locates its 38 existing headers with its cpp files in `src/plugins/kernel/`. `ark::kernel` preserves every `<ark/kernel/...>` path, including `data_impl.hpp`, `data_list_impl.hpp` and `kernel_plugin.hpp`. This source-only move keeps creation macros, registration, type visibility and lifecycle unchanged. See [Kernel reference](reference/kernel.md) for consumption checks and Protobuf requirements.
+Kernel co-locates its 38 existing headers with its cpp files in `src/plugins/kernel/`. `ark::kernel` preserves every `<ark/kernel/...>` path, including `data_impl.hpp`, `data_list_impl.hpp` and `kernel_plugin.hpp`. Typed construction retains the public types and registration keys; rebuild Kernel and consumers together as described in the [construction migration](reference/kernel.md#typed-kernel-construction). See [Kernel reference](reference/kernel.md) for consumption checks and Protobuf requirements.
 
 Consul, Etcd Client, Kafka, OSS SDK and Physic also co-locate their 22 existing headers in `src/plugins/<name>/`. Explicit mappings preserve every previous `<ark/consul/...>`, `<ark/etcd_client/...>`, `<ark/kafka/...>`, `<ark/osssdk/...>` and `<ark/physic/...>` path, including implementation and assembly headers. Consume the matching `ark::<name>` API target; mapping remains available with runtime plugins disabled. CMake no longer discovers plugin headers under `include/ark/`.
 

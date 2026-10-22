@@ -56,6 +56,12 @@ private:
 
 ## Logging source locations
 
+`ARK_FORMAT` and `ARK_FORMAT_FUNCTION` use standard C++20 `__VA_OPT__` for zero
+or multiple formatting arguments, including dynamic format strings. They retain
+`fmt::runtime` formatting and literal-brace handling. `ARK_FORMAT` remains an
+expression; `ARK_FORMAT_FUNCTION` retains its `[function:line]` caller prefix
+and historical trailing statement terminator. Existing call forms are unchanged.
+
 `ARK_LOG_TRACE`, `ARK_LOG_DEBUG`, `ARK_LOG_INFO`, `ARK_LOG_WARN`, `ARK_LOG_ERROR`
 and `ARK_LOG_CRITICAL` retain their format/argument call forms and log levels.
 They use C++20 `std::source_location` at the macro caller and `__VA_OPT__` for

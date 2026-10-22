@@ -18,28 +18,58 @@
  *
  */
 
-#include "ark/kernel/class_meta_module_impl.hpp"
-#include "ark/kernel/config_module_impl.hpp"
-#include "ark/kernel/kernel_module_impl.hpp"
+#include <stdexcept>
+
 #include "ark/kernel/kernel_plugin.hpp"
-#include "ark/kernel/map_module_impl.hpp"
+#include "kernel_factory.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN_DLL_FUNCTION(kernel_plugin)
+ARK_EXPORT_FUNC void DllEntryPlugin(plugin_manager* manager, const std::string& name, logger* log) {
+    logger::init(log);
+    manager->register_plugin<kernel_plugin>(name);
+}
+
+ARK_EXPORT_FUNC void DllExitPlugin(plugin_manager* manager) {
+    manager->unregister_plugin<kernel_plugin>();
+}
 
 void kernel_plugin::install() {
-    ARK_REGISTER_MODULE(class_meta_module, class_meta_module_impl);
-    ARK_REGISTER_MODULE(config_module, config_module_impl);
-    ARK_REGISTER_MODULE(kernel_module, kernel_module_impl);
-    ARK_REGISTER_MODULE(map_module, map_module_impl);
+    if (!register_module(detail::make_class_meta_module(), module_update::disabled))
+    {
+        throw std::runtime_error("kernel class_meta_module registration rejected");
+    }
+    if (!register_module(detail::make_config_module(), module_update::disabled))
+    {
+        throw std::runtime_error("kernel config_module registration rejected");
+    }
+    if (!register_module(detail::make_kernel_module(), module_update::enabled))
+    {
+        throw std::runtime_error("kernel kernel_module registration rejected");
+    }
+    if (!register_module(detail::make_map_module(), module_update::disabled))
+    {
+        throw std::runtime_error("kernel map_module registration rejected");
+    }
 }
 
 void kernel_plugin::uninstall() {
-    ARK_UNREGISTER_MODULE(map_module, map_module_impl);
-    ARK_UNREGISTER_MODULE(kernel_module, kernel_module_impl);
-    ARK_UNREGISTER_MODULE(config_module, config_module_impl);
-    ARK_UNREGISTER_MODULE(class_meta_module, class_meta_module_impl);
+    if (!unregister_module<map_module>())
+    {
+        throw std::runtime_error("kernel map_module unregistration rejected");
+    }
+    if (!unregister_module<kernel_module>())
+    {
+        throw std::runtime_error("kernel kernel_module unregistration rejected");
+    }
+    if (!unregister_module<config_module>())
+    {
+        throw std::runtime_error("kernel config_module unregistration rejected");
+    }
+    if (!unregister_module<class_meta_module>())
+    {
+        throw std::runtime_error("kernel class_meta_module unregistration rejected");
+    }
 }
 
 } // namespace ark

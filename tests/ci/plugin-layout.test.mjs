@@ -72,6 +72,8 @@ endforeach()
     assert.equal(existsSync(join(staging, 'net/http_client_module_impl.hpp')), false);
     assert.equal(existsSync(join(staging, 'net/http_client_factory.hpp')), false);
     assert.ok(existsSync(join(staging, 'net/http_client_module.hpp')));
+    assert.equal(existsSync(join(staging, 'kernel/kernel_factory.hpp')), false);
+    assert.ok(existsSync(join(staging, 'kernel/kernel_plugin.hpp')));
     for (const [name, headers] of Object.entries(retainedHeaders)) {
       assert.equal(existsSync(join(root, 'include/ark', name)), false);
       assert.deepEqual(readdirSync(join(staging, name)).sort(), [...headers].sort());

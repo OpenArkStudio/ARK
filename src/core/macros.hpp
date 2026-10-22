@@ -323,9 +323,9 @@ typedef struct HINSTANCE__* library_instance;
 
 #define IS_FLOAT_EQUAL(type, lhs, rhs) (std::abs(lhs - rhs) < std::numeric_limits<type>::epsilon())
 
-#define ARK_FORMAT(my_fmt, ...) fmt::format(fmt::runtime((my_fmt)), ##__VA_ARGS__)
+#define ARK_FORMAT(my_fmt, ...) fmt::format(fmt::runtime((my_fmt)) __VA_OPT__(, ) __VA_ARGS__)
 #define ARK_FORMAT_FUNCTION(my_fmt, ...)                                                                               \
-    fmt::format(fmt::runtime(std::string("[{}:{}]") + (my_fmt)), ARK_FUNCTION_LINE, ##__VA_ARGS__);
+    fmt::format(fmt::runtime(std::string("[{}:{}]") + (my_fmt)), ARK_FUNCTION_LINE __VA_OPT__(, ) __VA_ARGS__);
 
 #define GET_CLASS_NAME(class_name) (typeid(class_name).name())
 //////////////////////////////////////////////////////////////////////////

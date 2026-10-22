@@ -20,14 +20,13 @@
 
 #pragma once
 
+#include "ark/module_base.hpp"
 #include "ark/mysql/mysql_module.hpp"
-#include "ark/plugin_manager.hpp"
 
 namespace ark {
 
-class mysql_sample_module final : public module
+class mysql_sample_module final : public module_base<module>
 {
-    ARK_DECLARE_MODULE_FUNCTIONS
 private:
     mysql_module* mysql_module_ptr_;
 
