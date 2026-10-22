@@ -95,3 +95,5 @@ Kernel 的 38 个既有头通过 `ark::kernel` 从 `src/plugins/kernel/` 映射�
 测试通过独立的公开服务替身验证接口工厂／RTTI／配置、原有 POST／租约参数与超时默认值、
 所属线程 update 回调派发、监听参数、租约析构及重复停机／重新加载，不向外部 HTTP／etcd 发请求。
 保留的固定演示端点与真实传输验证边界见 [HTTP 示例](../../docs/reference/http_CN.md#旧-http-示例的类型化创建)。
+
+开启 Protobuf 且存在 Kernel／Utility 运行时 target 时，`check-kernel-plugin` 通过独立公开接口 runner 加载真实 DSO，检查原有四个接口键与管理器指针、元数据／静态记录加载、地图／实体注册和回调、管理器更新、停机销毁与重复 stop。它与现有直接初始化／实体默认值测试一起纳入 `check-core`；不在卸载后检查注册表，也不证明任意热更新安全。Kernel 公开头消费者检查全部保留类型的基类和 update 声明。

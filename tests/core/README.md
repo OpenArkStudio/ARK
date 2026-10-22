@@ -110,3 +110,5 @@ arguments and timeout defaults, owner-update callback delivery, listener argumen
 lease destruction and repeated stop/reload using isolated public service doubles.
 No external HTTP/etcd request is made. See [HTTP examples](../../docs/reference/http.md#legacy-http-example-construction)
 for the preserved fixed demonstration endpoints and the real-wire coverage boundary.
+
+With Protobuf and the Kernel/Utility runtime targets enabled, `check-kernel-plugin` loads their actual DSOs through an independent public-interface runner. It checks the four original interface keys and manager pointers, metadata/static record loading, map/entity registration and callbacks, manager updates, shutdown destruction and repeated stop. It is part of `check-core`, alongside the existing direct initialization/entity-default tests; no post-unload registry inspection or arbitrary hot-update safety is claimed. The Kernel public-header consumer checks all retained types and their typed bases/update declarations.
