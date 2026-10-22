@@ -70,8 +70,10 @@ branch or worktree when the existing checkout contains uncommitted changes.
   edit generated protobuf output; change the schema or generation source.
 - Use lowercase `snake_case` for plugin CMake targets and shared-library stems,
   including official, server and sample plugins (`ark_mysql_plugin`,
-  `sample1_plugin`). Keep application manifests, launch scripts and documentation
+  `timers_plugin`). Keep application manifests, launch scripts and documentation
   aligned with the generated names; retain platform extensions and Debug `_d`.
+  Name bundled examples by capability and keep their directories, C++ types,
+  targets and application manifests aligned; do not introduce numbered sample names.
 - Keep standalone launcher programs in the top-level `application/` directory;
   do not recreate `src/app/`. Retain the current `app` CMake target and the
   `app`/`app_d` executable names.

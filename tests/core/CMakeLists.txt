@@ -169,15 +169,15 @@ if(ARK_BUILD_CONFIG)
             USES_TERMINAL)
         add_dependencies(check-core check-app-manifest-failures)
 
-        if(TARGET ark_utility_plugin AND TARGET sample1_plugin)
+        if(TARGET ark_utility_plugin AND TARGET timers_plugin)
             add_custom_target(check-app-presets
                 COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:app>"
                     "-DUTILITY_PLUGIN=$<TARGET_FILE:ark_utility_plugin>"
-                    "-DSAMPLE_PLUGIN=$<TARGET_FILE:sample1_plugin>"
+                    "-DSAMPLE_PLUGIN=$<TARGET_FILE:timers_plugin>"
                     "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"
                     "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/preset runtime 'quoted' #"
                     -P "${PROJECT_SOURCE_DIR}/tests/app/application_presets.cmake"
-                DEPENDS app ark_utility_plugin sample1_plugin USES_TERMINAL VERBATIM)
+                DEPENDS app ark_utility_plugin timers_plugin USES_TERMINAL VERBATIM)
             if(UNIX)
                 add_executable(ark_app_preset_stop_tests ../app/application_preset_stop.cpp)
                 set_property(TARGET ark_app_preset_stop_tests PROPERTY LINK_LIBRARIES Threads::Threads)
@@ -217,16 +217,16 @@ if(ARK_BUILD_PROTO)
     add_dependencies(check-core check-kernel-initialization)
 endif()
 
-if(ARK_BUILD_CONFIG AND TARGET sample1_plugin AND TARGET sample2_plugin AND
+if(ARK_BUILD_CONFIG AND TARGET timers_plugin AND TARGET module_lifecycle_plugin AND
         TARGET ark_utility_plugin AND TARGET ark_kernel_plugin)
     add_executable(ark_typed_examples_tests ../app/typed_examples.cpp)
     set_property(TARGET ark_typed_examples_tests PROPERTY LINK_LIBRARIES ark::core ark::config ark::utility)
     add_custom_target(check-typed-examples
         COMMAND ${CMAKE_COMMAND} "-DPROGRAM=$<TARGET_FILE:ark_typed_examples_tests>"
-            "-DPLUGIN_DIR=$<TARGET_FILE_DIR:sample1_plugin>" "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"
+            "-DPLUGIN_DIR=$<TARGET_FILE_DIR:timers_plugin>" "-DSOURCE_ROOT=${PROJECT_SOURCE_DIR}"
             "-DRUNTIME_DIR=${CMAKE_CURRENT_BINARY_DIR}/typed examples runtime"
             -P "${PROJECT_SOURCE_DIR}/tests/app/typed_examples.cmake"
-        DEPENDS ark_typed_examples_tests sample1_plugin sample2_plugin ark_utility_plugin ark_kernel_plugin
+        DEPENDS ark_typed_examples_tests timers_plugin module_lifecycle_plugin ark_utility_plugin ark_kernel_plugin
         USES_TERMINAL VERBATIM)
     add_dependencies(check-core check-typed-examples)
 endif()

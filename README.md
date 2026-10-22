@@ -38,11 +38,11 @@ Configure `app-build/` using the [installation guide](docs/get-started/installat
 cmake --build app-build --config Release --parallel 2
 ```
 
-Follow the [quick start](docs/get-started/quick-start.md) to prepare the runtime binaries and configuration. On macOS/Linux, start Sample1 from `run/sample1/`:
+Follow the [quick start](docs/get-started/quick-start.md) to prepare the runtime binaries and configuration. On macOS/Linux, start Timers from `run/timers/`:
 
 ```sh
-./bin/app --busid=1.0.1.1 --name=sample1 \
-  --app_conf=conf/sample1.app.toml --log_conf=conf/log.conf
+./bin/app --busid=1.0.1.1 --name=timers \
+  --app_conf=conf/timers.app.toml --log_conf=conf/log.conf
 ```
 
 The [legacy Unity client](https://github.com/OpenArkStudio/ArkClient-Unity3D) has not been verified against the current ark server.

@@ -1,6 +1,6 @@
 # Quick start
 
-Run Sample1 to check that the application can load plugins and enter the module lifecycle. It uses `ark_utility_plugin` and `sample1_plugin`; it does not require Consul, a database service or Excel configuration generation.
+Run Timers to check that the application can load plugins and enter the module lifecycle. It uses `ark_utility_plugin` and `timers_plugin`; it does not require Consul, a database service or Excel configuration generation.
 
 ## Build the application and plugins
 
@@ -13,58 +13,58 @@ Create a separate runtime directory with the binaries, application manifest and 
 On macOS/Linux:
 
 ```sh
-mkdir -p run/sample1/bin run/sample1/conf
-cp -R app-build/bin/. run/sample1/bin/
-cp config/sample1.app.toml config/log.conf run/sample1/conf/
+mkdir -p run/timers/bin run/timers/conf
+cp -R app-build/bin/. run/timers/bin/
+cp config/timers.app.toml config/log.conf run/timers/conf/
 ```
 
 On Windows, in PowerShell:
 
 ```powershell
-New-Item -ItemType Directory -Path run/sample1/bin, run/sample1/conf -Force | Out-Null
-Copy-Item app-build/bin/* run/sample1/bin/ -Recurse -Force
-Copy-Item config/sample1.app.toml, config/log.conf run/sample1/conf/
+New-Item -ItemType Directory -Path run/timers/bin, run/timers/conf -Force | Out-Null
+Copy-Item app-build/bin/* run/timers/bin/ -Recurse -Force
+Copy-Item config/timers.app.toml, config/log.conf run/timers/conf/
 ```
 
 The required runtime files are:
 
 ```text
-run/sample1/
-├── bin/       app + ark_utility_plugin + sample1_plugin from the same build
+run/timers/
+├── bin/       app + ark_utility_plugin + timers_plugin from the same build
 └── conf/
-    ├── sample1.app.toml
+    ├── timers.app.toml
     └── log.conf
 ```
 
-The copy commands also stage the build's other artifacts. Only the two libraries named by `sample1.app.toml` are selected by this sample. No separate `sample1.conf` or `resource/` directory is required for it.
+The copy commands also stage the build's other artifacts. Only the two libraries named by `timers.app.toml` are selected by this sample. No separate `timers.conf` or `resource/` directory is required for it.
 
-## Start Sample1
+## Start Timers
 
-Run from `run/sample1/`: the manifest's `bin/` and `conf/` paths are relative to the working directory.
+Run from `run/timers/`: the manifest's `bin/` and `conf/` paths are relative to the working directory.
 
 On macOS/Linux:
 
 ```sh
-cd run/sample1
-./bin/app --busid=1.0.1.1 --name=sample1 \
-  --app_conf=conf/sample1.app.toml --log_conf=conf/log.conf
+cd run/timers
+./bin/app --busid=1.0.1.1 --name=timers \
+  --app_conf=conf/timers.app.toml --log_conf=conf/log.conf
 ```
 
 On Windows:
 
 ```powershell
-cd run/sample1
-.\bin\app.exe --busid=1.0.1.1 --name=sample1 `
-  --app_conf=conf/sample1.app.toml --log_conf=conf/log.conf
+cd run/timers
+.\bin\app.exe --busid=1.0.1.1 --name=timers `
+  --app_conf=conf/timers.app.toml --log_conf=conf/log.conf
 ```
 
 Debug builds use `app_d` or `app_d.exe` and plugin filenames with `_d` before the platform suffix. Use the complete Debug output in its own runtime directory; the XML plugin names stay unchanged.
 
 ## Check the result
 
-The console should show a `sample1_module` log with `PostInit`. The sample registers a timer that emits `timer log` at ten-second intervals, five times. The supplied logger settings also write beneath `binlog/` in the runtime directory.
+The console should show a `timers_module` log with `PostInit`. The sample registers a timer that emits `timer log` at ten-second intervals, five times. The supplied logger settings also write beneath `binlog/` in the runtime directory.
 
-Stop with Ctrl+C on macOS/Linux, or enter `exit` in the Windows application console. Sample1 should log `PreShut`, then `Shut`.
+Stop with Ctrl+C on macOS/Linux, or enter `exit` in the Windows application console. Timers should log `PreShut`, then `Shut`.
 
 <Aside type="caution" title="Handle startup failures">
 
@@ -81,29 +81,29 @@ A failed plugin load or module startup callback stops later startup stages and u
 
 ## Read the typed sample construction
 
-`examples/sample1` and `examples/sample2` use
+`examples/timers` and `examples/module_lifecycle` use
 [`module_base<interface_type>`](../guides/modules.md#use-a-base-class-with-a-private-implementation)
 and [`plugin_base<derived_type>`](../guides/plugins.md#use-typed-registration-and-explicit-entries).
 The sample classes remain in their plugin's private, adjacent headers. They do
 not introduce a separate service interface: each inherits `module_base<module>`
-and retains its existing `sample1_module` or `sample2_module` lookup identity.
+and registers under its capability-specific `timers_module` or `module_lifecycle_module` RTTI key.
 
-Each `sampleN_plugin.hpp` declares a factory returning
-`std::unique_ptr<sampleN_module>`; `sampleN_module.cpp` defines it. The plugin
+`timers_plugin.hpp`, for example, declares a factory returning
+`std::unique_ptr<timers_module>`; `timers_module.cpp` defines it. The plugin
 registers that owned result and explicitly exports `DllEntryPlugin` /
 `DllExitPlugin`, including the existing logger initialization. Successful
 registration still requires explicit unregister/delete during `uninstall()`.
 
 | Sample | Update registration | Runtime dependencies |
 | --- | --- | --- |
-| Sample1 | `module_update::enabled`, preserving its `update()` override | Utility plugin; no external business metadata |
-| Sample2 | `module_update::disabled`, preserving its inherited default `update()` | Kernel and Utility plugins; business metadata under `resource/meta/` |
+| Timers | `module_update::enabled`, preserving its `update()` override | Utility plugin; no external business metadata |
+| `module_lifecycle` | `module_update::disabled`, preserving its inherited default `update()` | Kernel and Utility plugins; business metadata under `resource/meta/` |
 
-The lifecycle/business method bodies and manifest library names are unchanged.
-Sample2's metadata is external business data; this construction change does not
+Lifecycle and business bodies are retained; the capability names change module RTTI keys and manifest library stems.
+`module_lifecycle`'s metadata is external business data; this construction change does not
 generate or convert it. When applications, examples, configuration and core tests
 are enabled with the required Kernel/Utility plugins, run
 `cmake --build app-build --target check-typed-examples -j2` to load the actual
-Sample1/Sample2 DSOs, execute five updates on the manager thread and verify ordered startup and
-shutdown. This test supplies a small test dataset for Sample2; it does not
+Timers/`module_lifecycle` DSOs, execute five updates on the manager thread and verify ordered startup and
+shutdown. This test supplies a small test dataset for `module_lifecycle`; it does not
 validate an application's exported business dataset.

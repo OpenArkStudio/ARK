@@ -1,0 +1,27 @@
+# Examples by capability
+
+The bundled examples use capability names. Configure with applications and examples enabled; this naming change does not change the enabled set or update participation.
+
+| Directory / application name | Plugin stem | Purpose and supported status |
+| --- | --- | --- |
+| `examples/timers` / `timers` | `timers_plugin` | Utility timers and module lifecycle; enabled, participates in updates |
+| `examples/module_lifecycle` / `module_lifecycle` | `module_lifecycle_plugin` | Lifecycle and a small data-list demonstration; enabled, no update override. The callback demonstration remains commented out |
+| `examples/entity_operations` / `entity_operations` | `entity_operations_plugin` | Kernel entity/data/table operations; enabled, no update override. Startup still includes the old timed loops; do not use it as a lightweight startup check |
+| `examples/physics_scene` / `physics_scene` | `physics_scene_plugin` | Disabled; requires unsupported legacy PhysX 3. The checked-in sources and manifest do not establish a runnable integration |
+| `examples/http_server` / `http_server` | `http_server_plugin` | Disabled; retained HTTP server example, without runtime acceptance |
+
+hpp/cpp files remain adjacent in each directory. Start with the [timers quick start](../get-started/quick-start.md). The generic launcher helpers select `conf/<name>.app.toml`, so use the capability name for both the process and application manifest. Kernel examples still require their business metadata.
+
+## Migrate numbered example names
+
+| Old directory, application and identifier prefix | New prefix |
+| --- | --- |
+| `sample1` | `timers` |
+| `sample2` | `module_lifecycle` |
+| `sample3` | `entity_operations` |
+| `sample4` | `physics_scene` |
+| `sample5` | `http_server` |
+
+Rebuild modules and their consumers together: the C++ module/plugin type names and RTTI registration keys change. Replace old library stems such as `sample1_plugin` with `timers_plugin`, including platform extensions and Debug `_d`. Replace staged `conf/sample1.app.toml` with `conf/timers.app.toml` and update `--name`, `--app_conf`, launcher arguments and deployment ConfigMaps consistently for every row. The old targets, library aliases and configuration filenames are not emitted. An existing runtime directory is not migrated automatically; stage a fresh matching executable, plugin set and configuration before switching it over.
+
+The byte-preserved historical documentation archive retains original names and commands. It is not the current naming guide. This page records names and supported status, not new runtime or performance acceptance.

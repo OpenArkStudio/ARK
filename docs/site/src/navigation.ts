@@ -98,6 +98,11 @@ const tree: Entry[] = [
         "Application launcher",
         "应用启动器"
       ],
+      [
+        "guides/examples",
+        "Examples by capability",
+        "按能力命名的示例"
+      ],
       {
         "en": "Service configuration",
         "zh": "服务配置",

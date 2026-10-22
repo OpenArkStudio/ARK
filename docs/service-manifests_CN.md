@@ -4,7 +4,7 @@
 
 ## TOML 格式
 
-仓库中的 [sample1.app.toml](../config/sample1.app.toml) 采用 TOML 1.0 语法；迁移前的 XML 清单保留在解析器回归测试中：
+仓库中的 [timers.app.toml](../config/timers.app.toml) 采用 TOML 1.0 语法；迁移前的 XML 清单保留在解析器回归测试中：
 
 ```toml
 [application]
@@ -16,7 +16,7 @@ name = "ark_utility_plugin"
 config = ""
 
 [[plugins]]
-name = "sample1_plugin"
+name = "timers_plugin"
 ```
 
 | 字段 | 类型及默认值 | 含义 |
@@ -25,7 +25,7 @@ name = "sample1_plugin"
 | `application.plugin_library_dir` | 字符串，`""` | 插件库名称前的路径前缀。 |
 | `application.plugin_config_dir` | 字符串，`""` | 插件配置文件名的路径前缀。 |
 | `plugins` | 表数组，空 | 省略或在顶层设置 `plugins = []` 均表示不加载插件。 |
-| `plugins[].name` | 非空字符串，必填 | 唯一的动态库名称，例如 `sample1_plugin`，不含扩展名；平台后缀及 Debug 的 `_d` 后缀仍由加载器补充。 |
+| `plugins[].name` | 非空字符串，必填 | 唯一的动态库名称，例如 `timers_plugin`，不含扩展名；平台后缀及 Debug 的 `_d` 后缀仍由加载器补充。 |
 | `plugins[].config` | 字符串，`""` | 配置文件名；省略或设置 `""` 均保留原有的空配置语义。 |
 
 类型错误、未知字段、重复或空插件名、无效 TOML / UTF-8 和嵌入的 NUL 字符都会在插件启动前被拒绝。错误信息包含清单路径及可用的行列位置，不输出配置值。
@@ -34,16 +34,16 @@ name = "sample1_plugin"
 
 `[[plugins]]` 的书写顺序**不定义模块初始化顺序**，插件管理器仍接收无序映射。本次格式支持不引入依赖排序或运行时重新加载机制。
 
-## 运行 sample1
+## 运行 timers
 
-按[应用构建说明](networking_CN.md)构建 `app`、`ark_utility_plugin` 和 `sample1_plugin`。假设构建目录为 `out`，从仓库根目录执行：
+按[应用构建说明](networking_CN.md)构建 `app`、`ark_utility_plugin` 和 `timers_plugin`。假设构建目录为 `out`，从仓库根目录执行：
 
 ```sh
-mkdir -p run/sample1/bin run/sample1/conf
-cp -R out/bin/. run/sample1/bin/
-cp config/sample1.app.toml config/log.conf run/sample1/conf/
-cd run/sample1
-./bin/app --busid=1.0.0.1 --name=sample1 -a conf/sample1.app.toml
+mkdir -p run/timers/bin run/timers/conf
+cp -R out/bin/. run/timers/bin/
+cp config/timers.app.toml config/log.conf run/timers/conf/
+cd run/timers
+./bin/app --busid=1.0.0.1 --name=timers -a conf/timers.app.toml
 ```
 
 Debug 构建使用 `app_d`。Bus、HTTP 和 Consul 的运行参数使用 TOML，应用清单只指定这些文件的路径。Bus 字段见[运行配置](reference/bus_CN.md#配置进程与连接关系)，HTTP／Consul 示例见下文。日志仍读取 XML 格式的 `conf/log.conf`；Kernel 和业务导出数据保留 XML 格式。
@@ -81,7 +81,7 @@ Consul 目标端口必须为 1–65535。未知表或字段、缺失字段、类
 <xml>
     <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
         <plugin name="ark_utility_plugin" conf=""/>
-        <plugin name="sample1_plugin"/>
+        <plugin name="timers_plugin"/>
     </plugins>
 </xml>
 ```
@@ -95,7 +95,7 @@ Consul 目标端口必须为 1–65535。未知表或字段、缺失字段、类
 ```cpp
 #include <ark/application_manifest.hpp>
 
-auto manifest = ark::load_application_manifest("conf/sample1.app.toml");
+auto manifest = ark::load_application_manifest("conf/timers.app.toml");
 ```
 
 ```cmake

@@ -11,10 +11,10 @@
 
 DOCTEST_TEST_CASE("application manifest paths accept TOML and retain legacy XML suffixes") {
     ark::plugin_manager manager;
-    manager.set_app_conf("conf/sample1.app.toml");
-    DOCTEST_CHECK(manager.get_app_conf() == "conf/sample1.app.toml");
-    manager.set_app_conf("conf/sample1.app.conf");
-    DOCTEST_CHECK(manager.get_app_conf() == "conf/sample1.app.conf");
+    manager.set_app_conf("conf/timers.app.toml");
+    DOCTEST_CHECK(manager.get_app_conf() == "conf/timers.app.toml");
+    manager.set_app_conf("conf/timers.app.conf");
+    DOCTEST_CHECK(manager.get_app_conf() == "conf/timers.app.conf");
 }
 
 namespace {

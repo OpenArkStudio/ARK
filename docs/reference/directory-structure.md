@@ -20,7 +20,7 @@ Build artifacts belong to each CMake build directory: `cmake -S . -B out/release
 | `tests/` | Core, network and private database regressions |
 | `tests/network/` | Network and logging regressions |
 | `tests/consumer/` | An independent project consuming public plugin interfaces |
-| `examples/` | Application examples |
+| `examples/` | [Capability examples](../guides/examples.md); hpp/cpp files stay adjacent |
 | `config/` | Application manifest, plugin and logger configuration samples |
 | `resources/` | Business data, workbooks and legacy resources |
 | `tools/` | Offline configuration tools and retained legacy tools |

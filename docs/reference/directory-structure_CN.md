@@ -19,7 +19,7 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 | `tests/` | 核心、网络与私有数据库回归测试 |
 | `tests/network/` | 网络与日志回归测试 |
 | `tests/consumer/` | 独立使用公共插件接口的示例项目 |
-| `examples/` | 应用示例 |
+| `examples/` | [能力示例](../guides/examples_CN.md)，hpp/cpp 继续并排存放 |
 | `config/` | 应用清单、插件和日志配置样例 |
 | `resources/` | 业务数据、工作表与历史资源 |
 | `tools/` | 离线配置工具与保留的历史工具 |

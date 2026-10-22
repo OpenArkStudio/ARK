@@ -513,7 +513,7 @@ data:
     [[plugins]]
     name = "ark_net_plugin"
     config = ""
-  sample1.app.toml: |-
+  timers.app.toml: |-
     [application]
     plugin_library_dir = "bin/"
     plugin_config_dir = "conf/"
@@ -523,25 +523,9 @@ data:
     config = ""
 
     [[plugins]]
-    name = "sample1_plugin"
+    name = "timers_plugin"
     config = ""
-  sample2.app.toml: |-
-    [application]
-    plugin_library_dir = "bin/"
-    plugin_config_dir = "conf/"
-
-    [[plugins]]
-    name = "ark_kernel_plugin"
-    config = "kernel.plugin.conf"
-
-    [[plugins]]
-    name = "ark_utility_plugin"
-    config = ""
-
-    [[plugins]]
-    name = "sample2_plugin"
-    config = ""
-  sample3.app.toml: |-
+  module_lifecycle.app.toml: |-
     [application]
     plugin_library_dir = "bin/"
     plugin_config_dir = "conf/"
@@ -555,9 +539,25 @@ data:
     config = ""
 
     [[plugins]]
-    name = "sample3_plugin"
+    name = "module_lifecycle_plugin"
     config = ""
-  sample4.app.toml: |-
+  entity_operations.app.toml: |-
+    [application]
+    plugin_library_dir = "bin/"
+    plugin_config_dir = "conf/"
+
+    [[plugins]]
+    name = "ark_kernel_plugin"
+    config = "kernel.plugin.conf"
+
+    [[plugins]]
+    name = "ark_utility_plugin"
+    config = ""
+
+    [[plugins]]
+    name = "entity_operations_plugin"
+    config = ""
+  physics_scene.app.toml: |-
     [application]
     plugin_library_dir = "bin/"
     plugin_config_dir = "conf/"
@@ -571,9 +571,9 @@ data:
     config = ""
 
     [[plugins]]
-    name = "sample4_plugin"
+    name = "physics_scene_plugin"
     config = ""
-  sample5.app.toml: |-
+  http_server.app.toml: |-
     [application]
     plugin_library_dir = "bin/"
     plugin_config_dir = "conf/"
@@ -587,7 +587,7 @@ data:
     config = "http.plugin.toml"
 
     [[plugins]]
-    name = "sample5_plugin"
+    name = "http_server_plugin"
     config = ""
   simulate.app.toml: |-
     [application]

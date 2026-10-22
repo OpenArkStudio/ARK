@@ -59,7 +59,7 @@ int fixture(const std::string& mode, int identity) {
     }
     if (mode != "not_ready")
     {
-        std::cout << "sample1_module, PostInit" << std::endl;
+        std::cout << "timers_module, PostInit" << std::endl;
     }
     if (mode == "ready_early_failure")
     {

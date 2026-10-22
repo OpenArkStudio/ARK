@@ -1,6 +1,6 @@
 # Application launcher
 
-The `app` executable selects a process identity, reads a TOML or XML application manifest and loads its plugin libraries. Start with the runnable [Sample1 quick start](../get-started/quick-start.md); this page explains configuration paths, library names and startup checks.
+The `app` executable selects a process identity, reads a TOML or XML application manifest and loads its plugin libraries. Start with the runnable [Timers quick start](../get-started/quick-start.md); this page explains configuration paths, library names and startup checks.
 
 ## Command-line arguments
 
@@ -13,8 +13,8 @@ The `app` executable selects a process identity, reads a TOML or XML application
 | `--help` / `-h` | No | Print the launcher's argument reference |
 
 ```sh
-./bin/app --busid=1.0.1.1 --name=sample1 \
-  --app_conf=conf/sample1.app.toml --log_conf=conf/log.conf
+./bin/app --busid=1.0.1.1 --name=timers \
+  --app_conf=conf/timers.app.toml --log_conf=conf/log.conf
 ```
 
 `busid`, `name` and `app_conf` must be supplied explicitly. The [Bus reference](../reference/bus.md) describes the address fields. Use the executable's `--help` output for additional platform-specific flags.
@@ -27,9 +27,9 @@ Relative paths resolve from the process working directory. Moving the executable
 
 | Input | How it is selected | Example from the runtime directory |
 | --- | --- | --- |
-| Application manifest | `--app_conf` | `conf/sample1.app.toml` |
+| Application manifest | `--app_conf` | `conf/timers.app.toml` |
 | Logger settings | `--log_conf`, or its default | `conf/log.conf` |
-| Plugin libraries | TOML `plugin_library_dir` or XML `plugin_lib_dir`, plus the library filename | `bin/sample1_plugin.dylib` on macOS Release |
+| Plugin libraries | TOML `plugin_library_dir` or XML `plugin_lib_dir`, plus the library filename | `bin/timers_plugin.dylib` on macOS Release |
 | Per-plugin settings | TOML `plugin_config_dir` + `config`, or XML `plugin_conf_dir` + `conf` | `conf/my-plugin.conf` when the filename is `my-plugin.conf` |
 | Kernel metadata and configuration | The Kernel's `resource/` directory | `resource/meta/entity_class.config`, `resource/server/item.config` |
 
@@ -37,7 +37,7 @@ The launcher passes the per-plugin path to the plugin manager; each module decid
 
 ## Select plugins
 
-Built-in application presets use TOML. The checked-in [sample1.app.toml](https://github.com/OpenArkStudio/ark/blob/main/config/sample1.app.toml) contains:
+Built-in application presets use TOML. The checked-in [timers.app.toml](https://github.com/OpenArkStudio/ark/blob/main/config/timers.app.toml) contains:
 
 ```toml
 [application]
@@ -48,15 +48,15 @@ plugin_config_dir = "conf/"
 name = "ark_utility_plugin"
 
 [[plugins]]
-name = "sample1_plugin"
+name = "timers_plugin"
 ```
 
-Pass `--app_conf=conf/sample1.app.toml` to select it. The application table is required; directory fields are optional strings. Each plugin requires a unique, nonempty `name`; its optional `config` string selects a per-plugin file. See [Application manifests](../service-manifests.md) for validation rules and format boundaries. Bus, HTTP and Consul plugin settings use TOML; see the [Bus reference](../reference/bus.md#configure-processes-and-relationships) for its fields. Logger settings, Kernel metadata and exported business data retain their XML formats.
+Pass `--app_conf=conf/timers.app.toml` to select it. The application table is required; directory fields are optional strings. Each plugin requires a unique, nonempty `name`; its optional `config` string selects a per-plugin file. See [Application manifests](../service-manifests.md) for validation rules and format boundaries. Bus, HTTP and Consul plugin settings use TOML; see the [Bus reference](../reference/bus.md#configure-processes-and-relationships) for its fields. Logger settings, Kernel metadata and exported business data retain their XML formats.
 
 ### Plugin library names
 
 Plugin targets and library stems use lowercase `snake_case`: `ark_utility_plugin`,
-`ark_mysql_plugin` and `sample1_plugin`. Manifest names must match these stems;
+`ark_mysql_plugin` and `timers_plugin`. Manifest names must match these stems;
 the loader adds the platform extension and the Debug `_d` suffix automatically.
 Update existing manifests and build commands that use `AFUtilityPlugin`,
 `AFMysqlPlugin` or `Sample1Plugin`; the old library filenames are no longer emitted.
@@ -69,7 +69,7 @@ The launcher still accepts user-maintained legacy XML manifests, for example:
 <xml>
     <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
         <plugin name="ark_utility_plugin" conf="" />
-        <plugin name="sample1_plugin" conf="" />
+        <plugin name="timers_plugin" conf="" />
     </plugins>
 </xml>
 ```
@@ -77,21 +77,21 @@ The launcher still accepts user-maintained legacy XML manifests, for example:
 - Keep the outer `xml` element: the launcher looks for its `plugins` child.
 - Keep the trailing separator in directory prefixes such as `bin/` and `conf/`; the current loader concatenates strings.
 - Use the library stem in `name`, without a platform suffix or a `lib` prefix. The loader appends `.dll`, `.so` or `.dylib`; Debug builds also append `_d` before the suffix.
-- An empty `conf` value supplies no per-plugin filename. Sample1 does not need a separate `sample1.conf` file.
+- An empty `conf` value supplies no per-plugin filename. Timers does not need a separate `timers.conf` file.
 
 Copy the executable and selected plugin libraries from the same build. Keep Debug and Release artifacts in separate runtime directories. The plugin list is not a dependency-order contract: modules should resolve their dependencies through the [module API](modules.md), rather than rely on entry order.
 
 ## Check startup and stop the process
 
-For Sample1, look for a log entry containing `sample1_module` and `PostInit`. This identifies entry into the sample's post-initialization callback, which registers its timer.
+For Timers, look for a log entry containing `timers_module` and `PostInit`. This identifies entry into the sample's post-initialization callback, which registers its timer.
 
 On macOS/Linux, Ctrl+C or `SIGTERM` requests shutdown through the application's main loop. On Windows, enter `exit` in the application console. The launcher first stops managed top-level task admission and continues module updates plus the shared owner-thread poll until accepted tasks finish. Their services and bridges remain available so those tasks can complete later awaits.
 
-After task completion and the active callback stack returns, the manager waits for every module to report `ready_to_shut()`, then synchronously invokes shutdown hooks and unloading. A module must use its owner-frame readiness check to stop/drain native work and confirm native thread exit before allowing unload. When all hooks succeed, Sample1 logs `PreShut` and then `Shut`, and the launcher exits. A hook may block; the handler-count budget is not a shutdown-duration bound.
+After task completion and the active callback stack returns, the manager waits for every module to report `ready_to_shut()`, then synchronously invokes shutdown hooks and unloading. A module must use its owner-frame readiness check to stop/drain native work and confirm native thread exit before allowing unload. When all hooks succeed, Timers logs `PreShut` and then `Shut`, and the launcher exits. A hook may block; the handler-count budget is not a shutdown-duration bound.
 
 If a shutdown hook returns `false` or throws, the launcher reports its phase, module and available exception details once, keeps the process/resources alive, and does not continue unloading. `plugin_manager::update()` returning `false` or throwing during drain also locks the launcher into retention; owner updates continue where possible, but later completion cannot resume unloading.
 
-`--shutdown_timeout_ms=N` configures a non-negative int64 wait in milliseconds; the default `0` waits indefinitely. A positive limit uses a monotonic clock and reports elapsed time, pending managed-task count and the waiting phase once. On expiry the process and resources stay alive, owner updates continue, and unloading remains disabled even if work completes later. This is a cooperative owner-loop wait limit: it cannot interrupt a blocking user `update()`, readiness check, shutdown hook or unload call. It is not a hard process-stop deadline, cancellation policy or successful shutdown. This managed-task drain does not prove that arbitrary callbacks, native pool workers or background cleanup have finished; see [module task integration](tasks.md#shared-business-executor-for-modules). Sample1's logs alone are not a readiness or shutdown guarantee for every plugin combination.
+`--shutdown_timeout_ms=N` configures a non-negative int64 wait in milliseconds; the default `0` waits indefinitely. A positive limit uses a monotonic clock and reports elapsed time, pending managed-task count and the waiting phase once. On expiry the process and resources stay alive, owner updates continue, and unloading remains disabled even if work completes later. This is a cooperative owner-loop wait limit: it cannot interrupt a blocking user `update()`, readiness check, shutdown hook or unload call. It is not a hard process-stop deadline, cancellation policy or successful shutdown. This managed-task drain does not prove that arbitrary callbacks, native pool workers or background cleanup have finished; see [module task integration](tasks.md#shared-business-executor-for-modules). Timers's logs alone are not a readiness or shutdown guarantee for every plugin combination.
 
 <Aside type="caution" title="Do not use process survival as the readiness check">
 
@@ -115,14 +115,14 @@ is relative to the caller's working directory. The helper selects `bin/app`
 also becomes the application's `--name` value. Use the executable directly for
 legacy XML manifests, a custom manifest path, a different process name or other launcher flags.
 
-After preparing the [Sample1 runtime](../get-started/quick-start.md), run from
+After preparing the [Timers runtime](../get-started/quick-start.md), run from
 the repository root:
 
 ```sh
-sh deployment/scripts/run.sh Release sample1 1.0.1.1 run/sample1
+sh deployment/scripts/run.sh Release timers 1.0.1.1 run/timers
 ```
 
-On Windows, use `deployment\scripts\run.bat Release sample1 1.0.1.1 run\sample1`.
+On Windows, use `deployment\scripts\run.bat Release timers 1.0.1.1 run\timers`.
 Check the application's initialization log before using it; the helper's path
 checks do not validate plugins, business configuration or readiness.
 
@@ -139,7 +139,7 @@ There is no process-name wildcard or machine-wide stop command.
 
 - Replace `rund.sh` / `rund.bat` with `run.sh Debug ...` / `run.bat Debug ...`.
 - Replace `sample1.sh`, `mysql_sample.sh` and `sample5http_test.sh` with
-  `run.sh Debug <name> <busid>`, using `sample1`, `mysql_sample` or `sample5`. The name
+  `run.sh Debug <name> <busid>`, using `timers`, `mysql_sample` or `http_server`. The name
   mapping does not enable omitted example targets. MySQL/Redis examples remain
   disabled in the default build; their manifests do not provide database
   connection options. Configure the public database modules explicitly.

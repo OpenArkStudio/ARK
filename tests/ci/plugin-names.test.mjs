@@ -30,7 +30,22 @@ test('official, server and example shared plugin targets use snake_case library 
     assert.match(name, /^[a-z][a-z0-9]*(_[a-z0-9]+)*$/, file);
   }
   const names = new Set(declarations.map(entry => entry.name));
-  for (const expected of ['ark_mysql_plugin', 'ark_redis_plugin', 'ark_utility_plugin', 'sample1_plugin']) {
+  for (const expected of ['ark_mysql_plugin', 'ark_redis_plugin', 'ark_utility_plugin', 'timers_plugin']) {
     assert.ok(names.has(expected), `Missing declared target ${expected}`);
   }
+});
+
+test('capability examples preserve the enabled set and retain disabled examples without numbered paths', () => {
+  const names = ['timers', 'module_lifecycle', 'entity_operations', 'physics_scene', 'http_server'];
+  for (const entry of readdirSync(resolve(root, 'examples'))) assert.doesNotMatch(entry, /^sample[1-5]$/);
+  const cmake = readFileSync(resolve(root, 'examples/CMakeLists.txt'), 'utf8');
+  for (const [index, name] of names.entries()) {
+    assert.match(cmake, new RegExp(`^${index < 3 ? '' : '#'}add_subdirectory\\(${name}\\)$`, 'm'));
+    const header = readFileSync(resolve(root, `examples/${name}/${name}_module.hpp`), 'utf8');
+    assert.match(header, new RegExp(`class ${name}_module final`));
+    const manifest = readFileSync(resolve(root, `config/${name}.app.toml`), 'utf8');
+    assert.ok(manifest.includes(`name = "${name}_plugin"`));
+  }
+  const physics = readFileSync(resolve(root, 'examples/physics_scene/CMakeLists.txt'), 'utf8');
+  assert.match(physics, /FATAL_ERROR[\s\S]*unsupported legacy PhysX 3/);
 });
