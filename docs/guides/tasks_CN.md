@@ -64,7 +64,7 @@ runtime 和任务组必须在同一线程构造、操作和销毁。`manual_runt
 
 每个管理器拥有一个网络库提供的 `manual_runtime`。在模块注册后的初始化阶段调用 `manager.create_task_group(module, maximum)`，之后用 `manager.get_tasks(module)` 提交业务任务。组上限必须大于零；未注册模块、重复创建或关闭开始后创建都会拒绝。一个模块指针只能注册一次，组引用在其他模块注册时保持稳定。
 
-私有数据库桥接使用 `manager.get_task_runtime()`，从而与业务任务使用同一执行器。模块的 `update()` 先调用 `service.update()` 和 `bridge.dispatch()`；随后 `manager.update(timestamp, maximum_handlers = 64)` 统一轮询一次。多个组共用该 handler 上限。模块不再自行调用组或 runtime 的 `poll()`，handler 上限也不表示单帧耗时上限。公开数据库插件尚未切换到这些私有桥接接口。
+私有数据库桥接使用 `manager.get_task_runtime()`，从而与业务任务使用同一执行器。模块的 `update()` 先调用 `service.update()` 和 `bridge.dispatch()`；随后 `manager.update(timestamp, maximum_handlers = 64)` 统一轮询一次。多个组共用该 handler 上限。模块不再自行调用组或 runtime 的 `poll()`，handler 上限也不表示单帧耗时上限。公开 MySQL 与 Redis 插件在内部使用这些桥接接口。
 
 `manager.stop(timestamp)` 先停止所有模块组受理顶层业务任务，仍有任务或正在执行更新/完成回调时，不等待它们完成，直接返回 `false`。已受理协程可以继续发起后续操作，因此此时不能关闭其 service 或 bridge 的准入。任务完成且外层回调返回后，再次调用 `stop()` 才同步执行 `pre_shut()`、`shut()` 和卸载。用户钩子可能阻塞，因此该接口不保证停机耗时上限。
 
@@ -81,7 +81,7 @@ runtime 和任务组必须在同一线程构造、操作和销毁。`manual_runt
 
 <Aside type="caution" title="任务完成不等于 IO 资源已释放">
 
-此排空检查只覆盖管理器组中受理的顶层业务任务。模块尚未统一定义停止接收新请求的阶段；还需等待外部回调返回、连接池线程退出和后台清理完成，才能安全卸载相关代码。任务数归零不证明这些条件已满足，也不代表本轮已经迁移公开数据库插件。不要让未受组管理的工作引用即将销毁的模块。
+此排空检查只覆盖管理器组中受理的顶层业务任务。模块尚未统一定义停止接收新请求的阶段；还需等待外部回调返回、连接池线程退出和后台清理完成，才能安全卸载相关代码。任务数归零不证明这些条件已满足。不要让未受组管理的工作引用即将销毁的模块。
 
 </Aside>
 
@@ -124,4 +124,5 @@ runtime 和任务组必须在同一线程构造、操作和销毁。`manual_runt
 
 - [创建模块](modules_CN.md)：生命周期回调与借用的模块接口。
 - [创建插件](plugins_CN.md)：插件注册、构建与运行时选择。
-- [数据库协程测试](../../tests/database/COROUTINES_CN.md)：内部原生操作桥接、所属线程更新顺序与显式测试清理；公开数据库插件迁移仍是独立工作。
+- [数据库协程测试](../../tests/database/COROUTINES_CN.md)：内部原生操作桥接、所属线程更新顺序与显式测试清理。
+- [MySQL](../reference/mysql_CN.md) 与 [Redis](../reference/redis_CN.md)：公开插件配置、共享业务执行器与原生连接池退役。

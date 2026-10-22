@@ -64,7 +64,7 @@ Construct, operate and destroy the runtime and group on the same thread. `manual
 
 Each manager owns one library-provided `manual_runtime`. After registering a module, call `manager.create_task_group(module, maximum)` during initialization, then submit work through `manager.get_tasks(module)`. Capacity must be positive; unknown modules, duplicate groups and creation after shutdown begins are rejected. A module pointer can be registered only once. Group references remain stable when other modules register.
 
-Private database bridges use `manager.get_task_runtime()` to share that exact executor. A module's `update()` calls `service.update()` and `bridge.dispatch()` first; `manager.update(timestamp, maximum_handlers = 64)` then polls the runtime once. All groups share the handler budget. Modules must not also poll their group or runtime; a handler budget is not a frame-time limit. Published database plugins have not switched to these private bridges.
+Private database bridges use `manager.get_task_runtime()` to share that exact executor. A module's `update()` calls `service.update()` and `bridge.dispatch()` first; `manager.update(timestamp, maximum_handlers = 64)` then polls the runtime once. All groups share the handler budget. Modules must not also poll their group or runtime; a handler budget is not a frame-time limit. The public MySQL and Redis plugins use these bridges internally.
 
 `manager.stop(timestamp)` stops top-level business-task admission in every managed group and returns `false` without waiting while tasks or an active update/completion stack remain. Accepted coroutines may submit later operations, so keep their services and bridges accepting. Only another `stop()` after task completion and stack unwinding enters shutdown hooks. It then executes `pre_shut()`, `shut()` and unloading synchronously; user hooks may block, so this API does not bound shutdown duration.
 
@@ -81,7 +81,7 @@ Use the manager and its groups on their constructing thread. Do not mutate modul
 
 <Aside type="caution" title="Task completion does not release native IO resources">
 
-This drain check covers only top-level business tasks accepted by managed groups. Modules do not yet define a common phase for stopping incoming requests. External callbacks must return, connection-pool workers must exit and background cleanup must complete before their code can be safely unloaded. A zero task count does not prove those conditions or activate the public native database plugins. Unmanaged work must not reference a module being destroyed.
+This drain check covers only top-level business tasks accepted by managed groups. Modules do not yet define a common phase for stopping incoming requests. External callbacks must return, connection-pool workers must exit and background cleanup must complete before their code can be safely unloaded. A zero task count does not prove those conditions. Unmanaged work must not reference a module being destroyed.
 
 </Aside>
 
@@ -122,6 +122,7 @@ All plugins must be rebuilt against the same updated manager headers; this chang
 
 - [Create a module](modules.md): lifecycle callbacks and borrowed module interfaces.
 - [Create a plugin](plugins.md): plugin registration, build and runtime selection.
-- [Database coroutine tests](../../tests/database/COROUTINES.md): private native-operation bridges, owner update order and explicit test teardown; public database plugins are still separate work.
+- [Database coroutine tests](../../tests/database/COROUTINES.md): private native-operation bridges, owner update order and explicit test teardown.
+- [MySQL](../reference/mysql.md) and [Redis](../reference/redis.md): public plugin configuration, shared business executor and native pool retirement.
 
 Code deriving directly from the scheduler helper base should use `ark::scheduler_task`. `ark::task<T>` denotes an Asio coroutine; `ark::scheduler` scheduling calls keep their existing signatures.
