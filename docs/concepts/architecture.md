@@ -17,7 +17,7 @@ ark composes one application process from plugin libraries. Each plugin register
 
 ## Calls within a process
 
-A plugin's `install()` calls `ARK_REGISTER_MODULE(interface_type, implementation_type)`. The manager records that interface, and application code obtains it through typed lookup:
+A plugin's `install()` registers an interface through `plugin_base::register_module()` or the retained `ARK_REGISTER_MODULE(interface_type, implementation_type)` macro. The manager records that interface, and application code obtains it through typed lookup:
 
 ```cpp
 #include "ark/plugin_manager.hpp"
@@ -46,7 +46,7 @@ The source of these rules is [plugin_manager.hpp](https://github.com/OpenArkStud
 
 ## Header paths and CMake targets
 
-Core and most plugin public headers live under `include/ark/`; for example, `include/ark/kernel/entity.hpp` is included as `<ark/kernel/entity.hpp>`. The MySQL/Redis pilot co-locates its public headers and implementation in `src/plugins/<name>/`; CMake maps only explicitly listed public headers into the build tree's `src/plugins/sdk-include/ark/<name>/`. Consume `ark::mysql` or `ark::redis` to retain logical `<ark/...>` include paths without exposing private assembly headers. Core target definitions live in `src/core/`. `ark::core` supplies core headers; individual plugin targets remain optional, and `ark::ark` aggregates available API targets.
+Core and most plugin public headers live under `include/ark/`; for example, `include/ark/kernel/entity.hpp` is included as `<ark/kernel/entity.hpp>`. MySQL, Redis and Utility co-locate their public headers and implementation in `src/plugins/<name>/`; CMake maps only explicitly listed public headers into the build tree's `src/plugins/sdk-include/ark/<name>/`. Consume `ark::mysql`, `ark::redis` or `ark::utility` to retain logical `<ark/...>` include paths without exposing private assembly headers. Core target definitions live in `src/core/`. `ark::core` supplies core headers; individual plugin targets remain optional, and `ark::ark` aggregates available API targets.
 
 `ark/` is a filesystem include prefix. It does not automatically create the C++ namespace: each header explicitly declares `namespace ark`. Linking an API interface target propagates compilation requirements; it does not select or load a plugin shared library.
 

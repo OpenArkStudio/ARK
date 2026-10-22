@@ -13,8 +13,8 @@ ark_style_files() {
                 tests/catch.hpp|tests/network/doctest.h|\
                 include/ark/physic/wave_front.hpp|\
                 src/plugins/physic/wave_front.cpp|\
-                include/ark/utility/ctpl.h|\
-                include/ark/utility/ctpl_stl.h) continue ;;
+                src/plugins/utility/ctpl.h|\
+                src/plugins/utility/ctpl_stl.h) continue ;;
             esac
             case "$style_file" in
                 *.hpp|*.h|*.cpp|*.cc|*.c|*.proto)

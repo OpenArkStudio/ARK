@@ -18,9 +18,27 @@
  *
  */
 
-#include "ark/utility/schedule_module_impl.hpp"
+#include "ark/module_base.hpp"
+#include "ark/utility/schedule_module.hpp"
+#include "ark/utility/scheduler.hpp"
+#include "utility_plugin.hpp"
 
 namespace ark {
+
+class schedule_module_impl final : public module_base<schedule_module>
+{
+public:
+    bool init() override;
+
+protected:
+    void add_interval_schedule(const std::chrono::system_clock::duration interval, scheduler_functor&& cb) override;
+
+    void add_at_schedule(const std::string& target_time, scheduler_functor&& cb) override;
+    void add_cron_schedule(const std::string& cron_expression, scheduler_functor&& cb) override;
+
+private:
+    std::shared_ptr<scheduler> scheduler_{nullptr};
+};
 
 bool schedule_module_impl::init() {
     scheduler_ = std::make_shared<scheduler>(16);
@@ -39,5 +57,11 @@ void schedule_module_impl::add_interval_schedule(
 void schedule_module_impl::add_at_schedule(const std::string& target_time, scheduler_functor&& cb) {
     scheduler_->at(target_time, std::move(cb));
 }
+
+namespace detail {
+std::unique_ptr<schedule_module> make_schedule_module() {
+    return std::make_unique<schedule_module_impl>();
+}
+} // namespace detail
 
 } // namespace ark

@@ -31,11 +31,20 @@ function(BUILD_PLUGIN_MACRO project_name)
 endfunction()
 
 # Public plugin APIs can be consumed without building their shared libraries.
-# These two plugins keep their source headers beside their implementation.
+# These plugins keep their source headers beside their implementation.
 # Only this explicit list enters the build-tree SDK; plugin assembly stays private.
 set(ark_mysql_public_headers "${CMAKE_CURRENT_SOURCE_DIR}/mysql/mysql_module.hpp")
 set(ark_redis_public_headers "${CMAKE_CURRENT_SOURCE_DIR}/redis/redis_module.hpp")
-set(ark_colocated_plugin_names mysql redis)
+set(ark_utility_public_headers
+    "${CMAKE_CURRENT_SOURCE_DIR}/utility/guid_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/utility/timer_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/utility/schedule_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/utility/compress_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/utility/scheduler.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/utility/ctpl.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/utility/ctpl_stl.h"
+)
+set(ark_colocated_plugin_names mysql redis utility)
 set(ark_plugin_sdk_include_dir "${CMAKE_CURRENT_BINARY_DIR}/sdk-include")
 foreach(plugin_name IN LISTS ark_colocated_plugin_names)
     set(staged_headers)
@@ -46,7 +55,7 @@ foreach(plugin_name IN LISTS ark_colocated_plugin_names)
         configure_file("${header}" "${staged_header}" COPYONLY)
         list(APPEND staged_headers "${staged_header}")
     endforeach()
-    # These two managed directories are owned by the explicit mapping. This
+    # These managed directories are owned by the explicit mapping. This
     # also removes the last staged header when a plugin's list becomes empty.
     file(GLOB_RECURSE old_headers LIST_DIRECTORIES FALSE "${staging_dir}/*")
     foreach(header IN LISTS old_headers)

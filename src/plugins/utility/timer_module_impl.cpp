@@ -18,9 +18,31 @@
  *
  */
 
-#include "ark/utility/timer_module_impl.hpp"
+#include "ark/module_base.hpp"
+#include "ark/time/timer.hpp"
+#include "ark/utility/timer_module.hpp"
+#include "utility_plugin.hpp"
 
 namespace ark {
+
+class timer_module_impl final : public module_base<timer_module>
+{
+public:
+    bool init() override;
+    bool update() override;
+    bool pre_shut() override;
+
+    bool remove_timer(const uint64_t timer_id) override;
+
+protected:
+    uint64_t add_single_timer(const guid_t& entity_id, const std::chrono::milliseconds interval, const uint32_t count,
+        timer_functor&& cb) override;
+    uint64_t add_forever_timer(
+        const guid_t& entity_id, const std::chrono::milliseconds interval, timer_functor&& cb) override;
+
+private:
+    std::shared_ptr<time_wheel_manager> timer_manager_{nullptr};
+};
 
 bool timer_module_impl::init() {
     timer_manager_ = std::make_shared<time_wheel_manager>();
@@ -52,5 +74,11 @@ uint64_t timer_module_impl::add_forever_timer(
     const guid_t& entity_id, const std::chrono::milliseconds interval, timer_functor&& cb) {
     return timer_manager_->add_timer(entity_id, 0, interval, std::move(cb));
 }
+
+namespace detail {
+std::unique_ptr<timer_module> make_timer_module() {
+    return std::make_unique<timer_module_impl>();
+}
+} // namespace detail
 
 } // namespace ark

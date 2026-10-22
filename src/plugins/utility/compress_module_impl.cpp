@@ -19,11 +19,48 @@
  */
 
 // #include "base/AFLZ4.hpp"
+#include "ark/compress/zlib.hpp"
+#include "ark/compress/zstd.hpp"
 #include "ark/define.hpp"
 #include "ark/logger.hpp"
-#include "ark/utility/compress_module_impl.hpp"
+#include "ark/module_base.hpp"
+#include "ark/utility/compress_module.hpp"
+#include "utility_plugin.hpp"
 
 namespace ark {
+
+class compress_module_impl final : public module_base<compress_module>
+{
+
+private:
+    std::unique_ptr<zstd_compress> zstd_{nullptr};
+
+public:
+    bool init() override;
+
+    bool compress(IN const compress_type type, IN const char* in_data, IN std::size_t in_size,
+        OUT std::string& compressed_buff, IN uint8_t compress_level = 1) override;
+
+    bool decompress(IN const compress_type type, IN const char* in_data, IN std::size_t in_size,
+        OUT std::string& decompressed_buff) override;
+
+protected:
+    bool load_config();
+
+    bool z_std_normal_compress(IN const char* in_data, IN std::size_t in_size, OUT std::string& compressed_buff,
+        IN uint8_t compress_level = 1);
+
+    bool z_std_normal_decompress(IN const char* in_data, IN std::size_t in_size, OUT std::string& decompressed_buff);
+
+    // bool LZ4Compress(IN const char* in_data, IN std::size_t in_size, OUT std::string& compressed_buff,
+    //     IN uint8_t compress_level = 1) override;
+    // bool LZ4NormalDecompress(
+    //     IN const char* in_data, IN std::size_t in_size, OUT std::string& decompressed_buff) override;
+
+    bool zlib_compress(IN const char* in_data, IN std::size_t in_size, OUT std::string& compressed_buff,
+        IN uint8_t compress_level = 1);
+    bool zlib_normal_decompress(IN const char* in_data, IN std::size_t in_size, OUT std::string& decompressed_buff);
+};
 
 bool compress_module_impl::init() {
     zstd_ = std::make_unique<zstd_compress>();
@@ -114,5 +151,11 @@ bool compress_module_impl::load_config() {
     // TODO: load zstd dicts and other args
     return true;
 }
+
+namespace detail {
+std::unique_ptr<compress_module> make_compress_module() {
+    return std::make_unique<compress_module_impl>();
+}
+} // namespace detail
 
 } // namespace ark

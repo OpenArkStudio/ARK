@@ -20,27 +20,29 @@
 
 #pragma once
 
-#include "ark/plugin_manager.hpp"
-#include "ark/uid_generator.hpp"
+#include <memory>
+
+#include "ark/plugin_base.hpp"
+#include "ark/utility/compress_module.hpp"
 #include "ark/utility/guid_module.hpp"
+#include "ark/utility/schedule_module.hpp"
+#include "ark/utility/timer_module.hpp"
 
 namespace ark {
 
-class guid_module_impl final : public guid_module
+class utility_plugin final : public plugin_base<utility_plugin>
 {
-    ARK_DECLARE_MODULE_FUNCTIONS
 public:
-    bool init() override;
-
-    guid_t create_guid() override;
-    std::string parse_uid(const guid_t& id) override;
-
-private:
-#ifdef ARK_THREAD_SAFE
-    std::unique_ptr<uid_generator_thread_safe> uid_generator_{nullptr};
-#else
-    std::unique_ptr<uid_generator> uid_generator_{nullptr};
-#endif // ARK_THREAD_SAFE
+    void install() override;
+    void uninstall() override;
 };
+
+// Plugin-private factories return public interfaces; this header is not staged in the SDK.
+namespace detail {
+std::unique_ptr<guid_module> make_guid_module();
+std::unique_ptr<timer_module> make_timer_module();
+std::unique_ptr<schedule_module> make_schedule_module();
+std::unique_ptr<compress_module> make_compress_module();
+} // namespace detail
 
 } // namespace ark

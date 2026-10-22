@@ -18,28 +18,57 @@
  *
  */
 
-#include "ark/utility/compress_module_impl.hpp"
-#include "ark/utility/guid_module_impl.hpp"
-#include "ark/utility/schedule_module_impl.hpp"
-#include "ark/utility/timer_module_impl.hpp"
-#include "ark/utility/utility_plugin.hpp"
+#include <stdexcept>
+
+#include "utility_plugin.hpp"
 
 namespace ark {
 
-ARK_DECLARE_PLUGIN_DLL_FUNCTION(utility_plugin)
+ARK_EXPORT_FUNC void DllEntryPlugin(plugin_manager* manager, const std::string& name, logger* log) {
+    logger::init(log);
+    manager->register_plugin<utility_plugin>(name);
+}
+
+ARK_EXPORT_FUNC void DllExitPlugin(plugin_manager* manager) {
+    manager->unregister_plugin<utility_plugin>();
+}
 
 void utility_plugin::install() {
-    ARK_REGISTER_MODULE(guid_module, guid_module_impl);
-    ARK_REGISTER_MODULE(timer_module, timer_module_impl);
-    ARK_REGISTER_MODULE(schedule_module, schedule_module_impl);
-    ARK_REGISTER_MODULE(compress_module, compress_module_impl);
+    if (!register_module(detail::make_guid_module(), module_update::disabled))
+    {
+        throw std::runtime_error("utility guid module registration rejected");
+    }
+    if (!register_module(detail::make_timer_module(), module_update::enabled))
+    {
+        throw std::runtime_error("utility timer module registration rejected");
+    }
+    if (!register_module(detail::make_schedule_module(), module_update::disabled))
+    {
+        throw std::runtime_error("utility schedule module registration rejected");
+    }
+    if (!register_module(detail::make_compress_module(), module_update::disabled))
+    {
+        throw std::runtime_error("utility compress module registration rejected");
+    }
 }
 
 void utility_plugin::uninstall() {
-    ARK_UNREGISTER_MODULE(compress_module, compress_module_impl);
-    ARK_UNREGISTER_MODULE(schedule_module, schedule_module_impl);
-    ARK_UNREGISTER_MODULE(timer_module, timer_module_impl);
-    ARK_UNREGISTER_MODULE(guid_module, guid_module_impl);
+    if (!unregister_module<compress_module>())
+    {
+        throw std::runtime_error("utility compress module unregistration rejected");
+    }
+    if (!unregister_module<schedule_module>())
+    {
+        throw std::runtime_error("utility schedule module unregistration rejected");
+    }
+    if (!unregister_module<timer_module>())
+    {
+        throw std::runtime_error("utility timer module unregistration rejected");
+    }
+    if (!unregister_module<guid_module>())
+    {
+        throw std::runtime_error("utility guid module unregistration rejected");
+    }
 }
 
 } // namespace ark

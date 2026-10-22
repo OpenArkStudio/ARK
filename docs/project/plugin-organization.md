@@ -1,6 +1,6 @@
 # Official plugins and repository organization
 
-Core and other plugin public interfaces remain in `include/ark/`, with core build definitions in `src/core/`. The MySQL/Redis pilot co-locates interface headers, implementation and private assembly in `src/plugins/<name>/`, retaining logical include paths through explicit CMake mapping. Business plugins live with their applications and arknet remains independent; this pilot does not expand hot update or migrate other plugins.
+Core and other plugin public interfaces remain in `include/ark/`, with core build definitions in `src/core/`. MySQL, Redis and Utility co-locate interface headers, implementation and private assembly in `src/plugins/<name>/`, retaining logical include paths through explicit CMake mapping. Business plugins live with their applications and arknet remains independent; this layout does not expand hot update or migrate other plugins.
 
 ## Existing implementations
 
@@ -41,7 +41,7 @@ ark/
 
 This shows the main directories. Existing Consul, etcd, Kafka and other official plugins follow the same convention. Lua and Actor integration remains planned; the table above identifies their proposed implementation directories.
 
-The MySQL/Redis pilot uses this co-located layout:
+MySQL, Redis and Utility use a co-located layout; the database example is:
 
 ```text
 src/plugins/mysql/
@@ -80,3 +80,9 @@ The arknet single-node scope includes MySQL queries, parameterized prepared stat
 3. Confirm interfaces and dependencies for Lua, Actor and other official plugins; add compilation, functional and failure-path verification per plugin.
 
 Resume hot-update discussions about state ownership, in-flight calls and compatibility after the current modernization.
+
+## Utility construction and compatibility
+
+Utility keeps its four public module interfaces and scheduler helper headers in `src/plugins/utility/`, mapped explicitly through `ark::utility`. Each module implementation is private to its cpp file and is constructed by a private factory returning its public interface. The plugin uses `plugin_base` and explicit `DllEntryPlugin`/`DllExitPlugin` entry points. Only the timer module participates in manager updates. See [Utility APIs and migration](../reference/utility.md).
+
+The removed `ark/utility/*_module_impl.hpp` and `ark/utility/utility_plugin.hpp` headers are a source compatibility change. Use the public module interfaces and typed lookup rather than constructing implementation classes. Rebuild Utility and consumers together; this does not promise compatibility with old implementation-class binaries or introduce an installed SDK package.

@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-核心与其他插件的公开头文件仍位于 `include/ark/`。MySQL、Redis 试点将公开接口头、实现与私有装配放在 `src/plugins/<名称>/` 同一目录；CMake 仅映射显式列出的接口头，保留 `<ark/mysql/mysql_module.hpp>`、`<ark/redis/redis_module.hpp>` 包含路径。每个插件仍按独立 CMake target 构建，业务插件放在应用仓库。
+核心与其他插件的公开头文件仍位于 `include/ark/`。MySQL、Redis 和 Utility 将公开头、实现与私有装配放在 `src/plugins/<名称>/` 同一目录；CMake 仅映射显式列出的公开头，保留 `<ark/mysql/...>`、`<ark/redis/...>` 和 `<ark/utility/...>` 逻辑包含路径。每个插件仍按独立 CMake target 构建，业务插件放在应用仓库。
 
 | 插件 | 职责 | 默认构建 |
 | --- | --- | --- |
@@ -20,3 +20,5 @@
 使用 `ARK_BUILD_PLUGIN_<名称大写>` 选择插件。可选插件需要各自的依赖和验证。[MySQL](../../docs/reference/mysql_CN.md) 提供查询、预处理语句和事务；[Redis](../../docs/reference/redis_CN.md) 提供命令和有序流水线。两者均通过具名配置和管理器托管的协程任务使用。构建与运行时选择见[数据库插件启用方式](../../docs/reference/build-options_CN.md#原生数据库插件)。Lua、Actor 的整合仍在规划中。
 
 CMake target 和构建命令见[项目布局与 SDK](../../docs/project-layout_CN.md)。
+
+[Utility 参考](../../docs/reference/utility_CN.md)说明四个模块接口、所属线程驱动的定时器与实现头迁移。
