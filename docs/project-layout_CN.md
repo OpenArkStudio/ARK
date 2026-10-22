@@ -20,7 +20,7 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 | `src/proto/` | 协议定义与编解码实现 |
 | `src/server/` | 内置服务端应用 |
 | `include/ark/<name>/` | 共置范围之外的插件公开头文件 |
-| `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility/Net 公开头和私有装配 |
+| `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility/Net/Bus 公开头和私有装配 |
 | `tests/` | 核心、网络与私有数据库回归测试 |
 | `tests/network/` | 网络与日志回归测试 |
 | `tests/consumer/` | 独立使用公开 SDK 的示例项目 |
@@ -89,4 +89,14 @@ cmake -S tests/consumer/net -B net-sdk-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
   -DVCPKG_MANIFEST_FEATURES=application -DASIO_STANDALONE=OFF
 cmake --build net-sdk-build --target check-sdk --parallel 2
+```
+
+仅使用 Bus 的消费者同样启用 Protobuf，分别编译两个映射的公开模块头，
+确认私有实现、装配与解析头不可见。共享核心值类型 `<ark/bus.hpp>` 保持原有源码路径。
+
+```sh
+cmake -S tests/consumer/bus -B bus-sdk-build -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DVCPKG_MANIFEST_FEATURES=application -DASIO_STANDALONE=OFF
+cmake --build bus-sdk-build --target check-sdk --parallel 2
 ```

@@ -77,3 +77,5 @@ cmake --build core-build --target check-business-runtime
 开启应用、示例、Kernel 和 Utility 后，`check-typed-examples` 加载真实 Utility DSO，验证四个接口、接口 RTTI 注册键、GUID 生成与解析、zlib/Zstandard 二进制往返、由管理器时间戳推进的定时器，以及正常和重复停机。`check-app-presets` 同样加载仓库 Sample1 运行包；两者均为 `check-core` 的依赖。task/scheduler 包含顺序检查通过 `ark::utility` 获取映射后的 scheduler 头，独立的 task-only 公开接口检查仍只依赖 `ark::core`。
 
 启用 Net、Bus、Utility 与 Protobuf 时，`check-net-plugin` 加载真实动态库，验证两个 Net 接口及 RTTI 键、管理器线程上的 TCP／HTTP 回调、重复停服与监听端口释放。该目标也是 `check-core` 的依赖，无需外部服务。独立的 `tests/consumer/net` 工程仅链接 `ark::net`，逐个编译保留的公开头。
+
+启用 Bus、Net、Utility 与 Protobuf 时，`check-bus-plugin` 加载真实动态库，验证 Bus／消息接口键、配置查询、路由 Protobuf 消息头与正文、传输失败传播及正常重复停服。`check-core` 包含该目标。独立的 `tests/consumer/bus` 工程仅链接 `ark::bus`，分别编译两个公开模块头。既有解析／配置用例通过接口工厂保留原断言，仍支持关闭 Protobuf 的构建。

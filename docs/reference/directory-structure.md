@@ -16,7 +16,7 @@ Build artifacts belong to each CMake build directory: `cmake -S . -B out/release
 | `src/proto/` | Protocol schemas and codec implementation |
 | `src/server/` | Built-in server applications |
 | `include/ark/<name>/` | Public headers for plugins outside the co-located set |
-| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility/Net also keep public headers and private assembly here |
+| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility/Net/Bus also keep public headers and private assembly here |
 | `tests/` | Core, network and private database regressions |
 | `tests/network/` | Network and logging regressions |
 | `tests/consumer/` | An independent project consuming the public SDK |
@@ -31,7 +31,7 @@ Include public headers as `<ark/plugin_manager.hpp>` or `<ark/net/tcp_client.hpp
 Do not add implementation directories to an application's include path. Generated
 Protobuf headers are placed under the build directory, exposed through `ark::proto`.
 
-The MySQL/Redis interfaces have one source each: `src/plugins/mysql/mysql_module.hpp` and `src/plugins/redis/redis_module.hpp`. Utility public interfaces and retained scheduler helpers live in `src/plugins/utility/`; Net public interfaces, endpoint templates and transport helpers live in `src/plugins/net/`. Net excludes only private plugin assembly and the concrete service-manager definition from its public mapping. At configuration time CMake copies ordinary files from explicit lists into each ark build tree's `src/plugins/sdk-include/ark/<name>/`, removing obsolete mappings only within those controlled directories. Private plugin headers and factories are excluded. Consume `ark::mysql`, `ark::redis`, `ark::utility` and `ark::net` to retain the logical include paths, including when runtime plugins are disabled. Commands using only handwritten `-I <source>/include` must adopt the target-provided include roots. No formal SDK installation or export package is supplied.
+The MySQL/Redis interfaces have one source each: `src/plugins/mysql/mysql_module.hpp` and `src/plugins/redis/redis_module.hpp`. Utility public interfaces and retained scheduler helpers live in `src/plugins/utility/`; Net public interfaces, endpoint templates and transport helpers live in `src/plugins/net/`. Net excludes only private plugin assembly and the concrete service-manager definition from its public mapping. Bus keeps its two public module headers in `src/plugins/bus/`; shared `<ark/bus.hpp>` core value types remain under `include/ark/`. At configuration time CMake copies ordinary files from explicit lists into each ark build tree's `src/plugins/sdk-include/ark/<name>/`, removing obsolete mappings only within those controlled directories. Private plugin headers and factories are excluded. Consume `ark::mysql`, `ark::redis`, `ark::utility`, `ark::net` and `ark::bus` to retain the logical include paths, including when runtime plugins are disabled. Commands using only handwritten `-I <source>/include` must adopt the target-provided include roots. No formal SDK installation or export package is supplied.
 
 ## CMake targets
 
@@ -96,6 +96,17 @@ cmake -S tests/consumer/net -B net-sdk-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
   -DVCPKG_MANIFEST_FEATURES=application -DASIO_STANDALONE=OFF
 cmake --build net-sdk-build --target check-sdk --parallel 2
+```
+
+The Bus-only consumer also enables Protobuf and compiles the two mapped public
+module headers independently, without exposing private implementation, assembly
+or parser headers. Shared `<ark/bus.hpp>` core value types keep their source path.
+
+```sh
+cmake -S tests/consumer/bus -B bus-sdk-build -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DVCPKG_MANIFEST_FEATURES=application -DASIO_STANDALONE=OFF
+cmake --build bus-sdk-build --target check-sdk --parallel 2
 ```
 
 ## Runtime resources and generated data

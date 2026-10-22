@@ -22,7 +22,7 @@ build's artifacts into the runtime's `bin/` directory.
 | `src/proto/` | Protocol schemas and codec implementation |
 | `src/server/` | Built-in server applications |
 | `include/ark/<name>/` | Public headers for plugins outside the co-located set |
-| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility/Net public headers and private assembly |
+| `src/plugins/<name>/` | Implementation; MySQL/Redis/Utility/Net/Bus public headers and private assembly |
 | `tests/` | Core, network and private database regressions |
 | `tests/network/` | Network and logging regressions |
 | `tests/consumer/` | An independent project consuming the public SDK |
@@ -98,4 +98,15 @@ cmake -S tests/consumer/net -B net-sdk-build -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
   -DVCPKG_MANIFEST_FEATURES=application -DASIO_STANDALONE=OFF
 cmake --build net-sdk-build --target check-sdk --parallel 2
+```
+
+The Bus-only consumer also enables Protobuf and compiles the two mapped public
+module headers independently, without exposing private implementation, assembly
+or parser headers. Shared `<ark/bus.hpp>` core value types keep their source path.
+
+```sh
+cmake -S tests/consumer/bus -B bus-sdk-build -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DVCPKG_MANIFEST_FEATURES=application -DASIO_STANDALONE=OFF
+cmake --build bus-sdk-build --target check-sdk --parallel 2
 ```

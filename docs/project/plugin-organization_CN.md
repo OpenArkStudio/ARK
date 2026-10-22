@@ -1,6 +1,6 @@
 # 官方插件与仓库组织
 
-核心与其他插件的公开接口仍位于 `include/ark/`，核心构建定义位于 `src/core/`。MySQL、Redis、Utility 和 Net 将公开头、实现和私有装配共同放在 `src/plugins/<名称>/`，通过显式 CMake 映射保留逻辑包含路径。业务插件放在应用仓库，`arknet` 保持独立；该布局不扩展热更新或其他插件迁移。
+核心与其他插件的公开接口仍位于 `include/ark/`，核心构建定义位于 `src/core/`。MySQL、Redis、Utility、Net 和 Bus 将公开头、实现和私有装配共同放在 `src/plugins/<名称>/`，通过显式 CMake 映射保留逻辑包含路径。业务插件放在应用仓库，`arknet` 保持独立；该布局不扩展热更新或其他插件迁移。
 
 ## 现有实现
 
@@ -25,7 +25,7 @@ ark/
 │   ├── plugins/         # 官方插件实现与 CMake 文件
 │   │   ├── kernel/
 │   │   ├── net/          # 公开头、传输实现与私有创建
-│   │   ├── bus/
+│   │   ├── bus/          # 公开模块接口与私有创建
 │   │   ├── utility/
 │   │   ├── http/
 │   │   ├── mysql/
@@ -42,7 +42,7 @@ ark/
 
 上图列出主要目录。Consul、etcd、Kafka 等现有官方插件也按同一规则组织。Lua、Actor 的接入仍在规划中，上表列出的是它们的建议实现位置。
 
-MySQL、Redis、Utility 和 Net 采用同目录布局，下面以数据库插件为例：
+MySQL、Redis、Utility、Net 和 Bus 采用同目录布局，下面以数据库插件为例：
 
 ```text
 src/plugins/mysql/
