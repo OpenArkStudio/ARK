@@ -1,3 +1,5 @@
+include(compat_headers.cmake)
+
 function(BUILD_SERVER_MACRO project_name)
     ark_validate_plugin_name("${project_name}")
     if(UNIX AND (NOT APPLE))
@@ -6,25 +8,26 @@ function(BUILD_SERVER_MACRO project_name)
         set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
     endif(UNIX AND (NOT APPLE))
 
-    file(GLOB_RECURSE PLUGIN_SRC *.h *.hpp *.cpp *.cc *.c)
+    file(GLOB_RECURSE PLUGIN_SRC CONFIGURE_DEPENDS *.h *.hpp *.cpp *.cc *.c)
     add_library(${project_name} SHARED ${PLUGIN_SRC})
+    target_link_libraries(${project_name} PRIVATE ark_server_compat_headers)
 
     add_dependencies(${project_name} AFProto)
 
     if(WIN32)
         add_definitions(-D_USRDLL)
 
-        target_link_libraries(${project_name}
+        target_link_libraries(${project_name} PRIVATE
             debug AFProto_d.lib
             optimized AFProto.lib
             ${PROTOBUF_LIBRARIES})
     elseif(APPLE)
-        target_link_libraries(${project_name}
+        target_link_libraries(${project_name} PRIVATE
             debug ${BIN_OUTPUT_DIR}/AFProto_d.a
             optimized ${BIN_OUTPUT_DIR}/AFProto.a
             ${PROTOBUF_LIBRARIES})
     else()
-        target_link_libraries(${project_name}
+        target_link_libraries(${project_name} PRIVATE
             debug :AFProto_d.a
             optimized :AFProto.a
             ${PROTOBUF_LIBRARIES})
@@ -57,3 +60,7 @@ add_subdirectory(master)
 add_subdirectory(dir)
 add_subdirectory(router)
 #add_subdirectory(simulate)
+
+if(ARK_BUILD_CORE_TESTS)
+    add_subdirectory("${PROJECT_SOURCE_DIR}/tests/server" "${CMAKE_CURRENT_BINARY_DIR}/tests")
+endif()
