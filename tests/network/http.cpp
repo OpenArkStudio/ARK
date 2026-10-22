@@ -18,9 +18,8 @@
 #include <arknet/http/http_server.hpp>
 #include <arknet/http/request.hpp>
 
-#include "ark/http/http_plugin.hpp"
-#include "ark/http/http_server_module_impl.hpp"
 #include "ark/net/http_client_module_impl.hpp"
+#include "http/http_plugin.hpp"
 
 namespace {
 
@@ -402,7 +401,8 @@ TEST_CASE("HTTP validates host headers target and timeout before network IO") {
 TEST_CASE("ARK HTTP server uses native routing and stops without signal delivery") {
     const auto port = http_port();
     http_plugin_configuration config("[http]\nhost='127.0.0.1'\nport=" + std::to_string(port) + "\nthreads=2\n");
-    ark::http_server_module_impl server;
+    auto owned_server = ark::detail::make_http_server_module();
+    auto& server = *owned_server;
     REQUIRE(server.init());
     server.get_router()
         .add(arknet::http::verb::get, "/users/:id",
@@ -440,7 +440,8 @@ TEST_CASE("ARK HTTP server uses native routing and stops without signal delivery
     CHECK(response[arknet::http::field::content_length] == "5");
     CHECK(response.keep_alive());
 
-    ark::http_server_module_impl duplicate;
+    auto owned_duplicate = ark::detail::make_http_server_module();
+    auto& duplicate = *owned_duplicate;
     CHECK_FALSE(duplicate.start_server("127.0.0.1", port, 1));
     CHECK(duplicate.pre_shut());
     CHECK(server.pre_shut());
@@ -452,6 +453,7 @@ TEST_CASE("ARK HTTP server uses native routing and stops without signal delivery
 
 TEST_CASE("ARK HTTP module rejects a mistyped TOML setting during initialization") {
     http_plugin_configuration config("[http]\nhost='127.0.0.1'\nport=9090\nthread=4\n");
-    ark::http_server_module_impl server;
+    auto owned_server = ark::detail::make_http_server_module();
+    auto& server = *owned_server;
     CHECK_THROWS_AS(server.init(), std::runtime_error);
 }

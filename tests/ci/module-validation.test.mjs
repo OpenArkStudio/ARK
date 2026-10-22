@@ -60,6 +60,7 @@ test('source paths select actual module regressions and propagate plugin depende
     ['include/ark/http/http_server_module.hpp', ['network', 'applications']],
     ['src/plugins/bus/msg_module_impl.cpp', ['network', 'applications']],
     ['src/plugins/bus/bus_module.hpp', ['network', 'applications']],
+    ['src/plugins/http/http_server_module.hpp', ['network', 'applications']],
     ['tests/database/transactions_awaitable.cpp', ['database']],
     ['tests/database/CMakeLists.txt', ['database']],
     ['benchmarks/database.cpp', ['database']],
@@ -227,6 +228,22 @@ test('workflow source jobs reuse Linux Boost and full acceptance retains exactly
   assert.match(jobBlock('applications'), /run: cmake --build ci-build --target check-core/);
   assert.match(jobBlock('database'), /run: cmake --build ci-database --target check-database\n/);
   assert.match(jobBlock('database'), /run: cmake --build ci-database --target check-database-benchmark/);
+});
+
+test('Applications CI reaches the actual HTTP DSO lifecycle through check-core', () => {
+  const applications = jobBlock('applications');
+  const configure = applications.match(/      - name: Configure applications[\s\S]*?(?=\n      - )/)?.[0];
+  assert.ok(configure, 'Applications must configure the native runtime');
+  assert.match(configure, /(?:^|\s)-DARK_BUILD_PLUGIN_HTTP=ON(?:\s|$)/);
+  assert.match(applications, /run: cmake --build ci-build --target check-core(?:\s|$)/);
+  const core = readFileSync(new URL('../core/CMakeLists.txt', import.meta.url), 'utf8').replaceAll('\r\n', '\n');
+  const http = core.match(/if\(TARGET ark_http_plugin\)\n([\s\S]*?)\nendif\(\)/)?.[1];
+  assert.ok(http, 'the optional HTTP target must expose its real-DSO check');
+  assert.match(http, /add_custom_target\(check-http-plugin\b/);
+  assert.match(http, /-DPROGRAM=\$<TARGET_FILE:ark_http_plugin_tests>/);
+  assert.match(http, /-DPLUGIN_DIR=\$<TARGET_FILE_DIR:ark_http_plugin>/);
+  assert.match(http, /DEPENDS\s+ark_http_plugin_tests\s+ark_http_plugin\b/);
+  assert.match(http, /add_dependencies\(check-core\s+check-http-plugin\)/);
 });
 
 test('validation is fatal and required alongside event-aware module results', () => {

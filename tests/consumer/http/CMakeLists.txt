@@ -1,0 +1,25 @@
+cmake_minimum_required(VERSION 3.21)
+project(ark_http_sdk_consumer LANGUAGES CXX)
+get_filename_component(ARK_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../.." ABSOLUTE)
+set(ARK_BUILD_APPLICATIONS OFF CACHE BOOL "Build applications" FORCE)
+set(ARK_BUILD_PROTO OFF CACHE BOOL "Build protocol messages" FORCE)
+set(ARK_BUILD_NETWORK_TESTS OFF CACHE BOOL "Build network tests" FORCE)
+set(ARK_BUILD_CORE_TESTS OFF CACHE BOOL "Build core tests" FORCE)
+set(ARK_BUILD_TESTS OFF CACHE BOOL "Build legacy tests" FORCE)
+set(ARK_BUILD_EXAMPLES OFF CACHE BOOL "Build examples" FORCE)
+add_subdirectory("${ARK_SOURCE_DIR}" ark)
+
+# Compile each retained public header in isolation through only the HTTP API target.
+set(http_headers http_server_module.hpp)
+set(header_checks)
+foreach(header IN LISTS http_headers)
+    string(MAKE_C_IDENTIFIER "${header}" identifier)
+    set(source "${CMAKE_CURRENT_BINARY_DIR}/${identifier}.cpp")
+    file(WRITE "${source}" "#include <ark/http/${header}>\n")
+    list(APPEND header_checks "${source}")
+endforeach()
+add_executable(ark_http_sdk_consumer main.cpp ${header_checks})
+target_link_libraries(ark_http_sdk_consumer PRIVATE ark::http)
+add_custom_target(check-sdk
+    COMMAND $<TARGET_FILE:ark_http_sdk_consumer>
+    DEPENDS ark_http_sdk_consumer USES_TERMINAL)

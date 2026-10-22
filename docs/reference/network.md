@@ -13,6 +13,8 @@ The network plugin integrates the independent arknet library with ark's message 
 
 See [network builds and tests](../networking.md), [ark::net](https://github.com/OpenArkStudio/ark/blob/main/src/plugins/net/net.hpp) and the [arknet protocol guides](https://openarkstudio.github.io/arknet/features/).
 
+The optional routed [HTTP server plugin](http.md) exposes `http_server_module`; its route handlers run on arknet IO workers.
+
 ## API and private construction
 
 All Net source headers and implementations live in `src/plugins/net/`. The

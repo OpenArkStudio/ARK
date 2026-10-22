@@ -11,6 +11,7 @@ ark composes one application process from plugin libraries. Each plugin register
 | Module | A focused interface, its state and lifecycle work | Concurrent access safety for arbitrary business state |
 | Kernel plugin | Metadata, static configuration, runtime entities and their events | Automatic persistence or client synchronization merely from declaring a field |
 | Network plugin | ark message headers, session identifiers and delivery to the application update thread | Transport algorithms or a separate thread per connection |
+| HTTP plugin | HTTP routing and listener shutdown through arknet | Automatic dispatch of route handlers to the application update thread |
 | arknet | IO contexts, worker execution and transport operations | Ownership of ark's business entities or application lifecycle |
 
 [Application composition](application-architecture.md), [data-driven design](data-driven.md) and [reference server topology](server-architecture.md) describe these boundaries at different scales. The server topology is a deployment reference, not a prerequisite for using modules.
@@ -46,7 +47,9 @@ The source of these rules is [plugin_manager.hpp](https://github.com/OpenArkStud
 
 ## Header paths and CMake targets
 
-Core and unmigrated plugin headers live under `include/ark/`; Kernel keeps `src/plugins/kernel/entity.hpp` beside its implementation and retains `<ark/kernel/entity.hpp>`. MySQL, Redis, Utility, Net, Bus and Kernel co-locate their public headers and implementation in `src/plugins/<name>/`; CMake maps only explicitly listed public headers into the build tree's `src/plugins/sdk-include/ark/<name>/`. Consume `ark::mysql`, `ark::redis`, `ark::utility`, `ark::net`, `ark::bus` or `ark::kernel` to retain logical `<ark/...>` include paths through explicit mappings. Kernel retains its existing assembly header and concrete value/template types; this move changes no registration or visibility. Core target definitions live in `src/core/`. `ark::core` supplies core headers; individual plugin targets remain optional, and `ark::ark` aggregates available API targets.
+Core and unmigrated plugin headers live under `include/ark/`; Kernel keeps `src/plugins/kernel/entity.hpp` beside its implementation and retains `<ark/kernel/entity.hpp>`. MySQL, Redis, Utility, Net, Bus, HTTP and Kernel co-locate their public headers and implementation in `src/plugins/<name>/`; CMake maps only explicitly listed public headers into the build tree's `src/plugins/sdk-include/ark/<name>/`. Consume `ark::mysql`, `ark::redis`, `ark::utility`, `ark::net`, `ark::bus`, `ark::http` or `ark::kernel` to retain logical `<ark/...>` include paths through explicit mappings. Kernel retains its existing assembly header and concrete value/template types; this move changes no registration or visibility. Core target definitions live in `src/core/`. `ark::core` supplies core headers; individual plugin targets remain optional, and `ark::ark` aggregates available API targets.
+
+Public plugin/module hpp and cpp files share their functional source directory. Header mapping creates only a generated include view in the selected build tree; it does not define another source layer.
 
 `ark/` is a filesystem include prefix. It does not automatically create the C++ namespace: each header explicitly declares `namespace ark`. Linking an API interface target propagates compilation requirements; it does not select or load a plugin shared library.
 

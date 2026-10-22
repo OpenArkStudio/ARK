@@ -11,6 +11,7 @@ ark 在一个应用进程中组合多个插件库。插件注册模块，模块�
 | 模块 | 专项接口、状态与生命周期工作 | 任意业务状态的并发访问安全 |
 | Kernel 插件 | 元数据、静态配置、运行时实体及其事件 | 仅声明字段就自动持久化或同步到客户端 |
 | 网络插件 | ark 消息头、会话标识，以及向应用更新线程交付消息 | 传输算法或每连接独立线程 |
+| HTTP 插件 | 通过 arknet 执行 HTTP 路由与监听关闭 | 自动将路由处理派发到应用更新线程 |
 | arknet | IO context、工作线程执行与传输操作 | ark 业务实体或应用生命周期的管理 |
 
 [应用组合](application-architecture_CN.md)、[数据驱动](data-driven_CN.md)和[参考服务拓扑](server-architecture_CN.md)分别说明不同层次的关系。服务拓扑是部署参考，使用模块并不要求先部署整套服务。
@@ -46,7 +47,9 @@ ark::timer_module* find_timers(ark::plugin_manager& manager) {
 
 ## 头文件路径与 CMake 目标
 
-核心及尚未迁移插件的公开头文件位于 `include/ark/`；Kernel 的 `src/plugins/kernel/entity.hpp` 与实现共置，仍使用 `<ark/kernel/entity.hpp>`。MySQL、Redis、Utility、Net、Bus 和 Kernel 将公开头文件与实现共置于 `src/plugins/<name>/`；CMake 仅将显式列出的公开头文件映射到构建树的 `src/plugins/sdk-include/ark/<name>/`。业务代码依赖 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net`、`ark::bus` 或 `ark::kernel`，继续使用 `<ark/...>` 逻辑路径，通过显式映射取头。Kernel 保留既有装配头、具体值类型和模板；此次移动不改变注册或可见性。核心目标定义位于 `src/core/`，各插件仍保留独立可选目标，`ark::ark` 汇总可用 API 目标。
+核心及尚未迁移插件的公开头文件位于 `include/ark/`；Kernel 的 `src/plugins/kernel/entity.hpp` 与实现共置，仍使用 `<ark/kernel/entity.hpp>`。MySQL、Redis、Utility、Net、Bus、HTTP 和 Kernel 将公开头文件与实现共置于 `src/plugins/<name>/`；CMake 仅将显式列出的公开头文件映射到构建树的 `src/plugins/sdk-include/ark/<name>/`。业务代码依赖 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net`、`ark::bus`、`ark::http` 或 `ark::kernel`，继续使用 `<ark/...>` 逻辑路径，通过显式映射取头。Kernel 保留既有装配头、具体值类型和模板；此次移动不改变注册或可见性。核心目标定义位于 `src/core/`，各插件仍保留独立可选目标，`ark::ark` 汇总可用 API 目标。
+
+公共插件／模块的 hpp 与 cpp 按功能目录共置。头文件映射只在选定构建树中生成包含视图，不形成另一层源码。
 
 `ark/` 是文件系统中的头文件前缀，不会自动创建 C++ 命名空间；命名空间由各头文件显式声明的 `namespace ark` 决定。依赖 API 接口目标只传递编译要求，不会选择或加载插件动态库。
 

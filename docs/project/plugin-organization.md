@@ -1,6 +1,6 @@
 # Official plugins and repository organization
 
-Core and other plugin public interfaces remain in `include/ark/`, with core build definitions in `src/core/`. MySQL, Redis, Utility, Net, Bus and Kernel co-locate interface headers, implementation and private assembly in `src/plugins/<name>/`, retaining logical include paths through explicit CMake mapping. Business plugins live with their applications and arknet remains independent; this layout does not expand hot update or migrate other plugins.
+Core and other plugin public interfaces remain in `include/ark/`, with core build definitions in `src/core/`. MySQL, Redis, Utility, Net, Bus, HTTP and Kernel co-locate interface headers, implementation and private assembly in `src/plugins/<name>/`, retaining logical include paths through explicit CMake mapping. Business plugins live with their applications and arknet remains independent; this layout does not expand hot update or migrate other plugins.
 
 ## Existing implementations
 
@@ -27,7 +27,7 @@ ark/
 │   │   ├── net/          # Public headers, transports and private creation
 │   │   ├── bus/          # Public module interfaces and private creation
 │   │   ├── utility/
-│   │   ├── http/
+│   │   ├── http/         # Public routing interface and private creation
 │   │   ├── mysql/
 │   │   └── redis/
 │   ├── proto/
@@ -42,14 +42,14 @@ ark/
 
 This shows the main directories. Existing Consul, etcd, Kafka and other official plugins follow the same convention. Lua and Actor integration remains planned; the table above identifies their proposed implementation directories.
 
-MySQL, Redis, Utility, Net, Bus and Kernel use a co-located layout; the database example is:
+MySQL, Redis, Utility, Net, Bus, HTTP and Kernel use a co-located layout; the database example is:
 
 ```text
 src/plugins/mysql/
 ├── CMakeLists.txt
 ├── mysql_module.hpp    # Explicit public API, mapped as ark/mysql/mysql_module.hpp
 ├── mysql_module.cpp    # Hidden implementation class and one private factory
-├── mysql_plugin.hpp    # Private plugin type/factory declarations, excluded from public-header mapping
+├── mysql_plugin.hpp    # Private plugin type/factory declarations, excluded from public header mapping
 ├── mysql_plugin.cpp    # Registration and explicit dynamic-library entry points
 └── detail/             # Private native services, coroutine bridge and transactions
 tests/database/         # Protocol, DSO and explicit real-service checks

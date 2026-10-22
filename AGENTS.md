@@ -54,8 +54,8 @@ branch or worktree when the existing checkout contains uncommitted changes.
   the reason and resume its acceptance checks; do not leave it indefinitely red.
 - Use the repository's change-scope policy: documentation-only changes run the
   relevant documentation/link checks. Source PRs run the affected native modules
-  on Linux Boost and clang-format 18; shared SDK, build, dependency, CI and unknown
-  paths require every source module when the changed range is known. Unavailable,
+  on Linux Boost and clang-format 18; shared public interfaces, build, dependency,
+  CI and unknown paths require every source module when the changed range is known. Unavailable,
   malformed or empty ranges fall back to the full matrix. Code merge-queue
   candidates and manual runs retain the full cross-platform and sanitizer matrix.
   Source checks admit a PR to the queue;
