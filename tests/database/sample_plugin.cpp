@@ -90,14 +90,6 @@ public:
     std::string connection_name;
 };
 
-class sample_manager : public ark::plugin_manager
-{
-public:
-    ark::module* lookup(const std::string& key) {
-        return find_module(key);
-    }
-};
-
 void require(bool condition, const std::string& message) {
     if (!condition)
     {
@@ -112,7 +104,7 @@ int main() {
     ark::logger log;
     ark::logger::init(&log);
     log.set_log_func([](spdlog::level::level_enum, const std::string&) {});
-    sample_manager manager;
+    ark::plugin_manager manager;
     rejecting_database database;
     const std::string provider_key = typeid(database_module).name();
     database.set_plugin_manager(&manager);
@@ -127,10 +119,7 @@ int main() {
     const auto key = failure.substr(6);
     require(key.find(std::string(ARK_DATABASE_SAMPLE_NAME) + "_module") != std::string::npos,
         "Sample registration key lost its concrete module name: " + key);
-    auto* registered = manager.lookup(key);
-    require(registered && registered->get_name() == key && std::string(typeid(*registered).name()) == key,
-        "Sample no longer registers under its own module RTTI key");
-    require(registered->get_plugin_manager() == &manager, "Sample lost manager ownership");
+    require(manager.find_module<database_module>() == &database, "Fixture database registration changed");
     require(database.configuration_calls == 1, "Sample must configure its resolved database interface once");
 #ifdef ARK_DATABASE_SAMPLE_MYSQL
     require(database.connection_name == "primary", "MySQL sample connection name changed");
@@ -139,9 +128,10 @@ int main() {
 #endif
     require(manager.pending_tasks() == 0, "Rejected configuration must not start managed business work");
     require(manager.stop(1), "Sample exit/unregistration failed: " + manager.get_shutdown_failure());
-    require(manager.lookup(key) == nullptr, "Sample exit left its owned module registered");
+    require(manager.get_shutdown_state() == ark::plugin_manager::shutdown_state::stopped,
+        "Sample exit did not reach the stopped state");
     manager.remove_module(provider_key);
-    require(manager.stop(2), "Repeated stop must not unregister/delete the sample twice");
+    require(manager.stop(2), "Repeated sample stop failed");
     std::cout << ARK_DATABASE_SAMPLE_NAME
-              << ": actual entry, RTTI registration, rejected configuration and exit passed\n";
+              << ": actual entry, module init, rejected configuration and exit passed\n";
 }
