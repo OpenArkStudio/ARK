@@ -1,1 +1,0 @@
-BUILD_PLUGIN_MACRO("sample3_plugin")

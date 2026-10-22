@@ -41,11 +41,11 @@ arknet is also acquired at the revision in the root CMake file, or supplied with
 
 ## Optional legacy integrations
 
-The physic plugin and sample4 depend on PhysX 3 and have no validated SDK
+The physic plugin and physics_scene depend on PhysX 3 and have no validated SDK
 integration in this build. They fail with an explicit diagnostic if selected;
 they do not silently substitute modern PhysX packages. The legacy simulate server
 also lacks a validated PhysX 3/MessagePack integration and remains disabled.
-The unused BeastHttp include directory has been removed from the disabled sample5;
+The unused BeastHttp include directory has been removed from the disabled http_server;
 this does not establish that example's runtime acceptance.
 
 The old cpp-bredis submodule had no active references and has been removed. The

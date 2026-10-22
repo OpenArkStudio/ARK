@@ -43,11 +43,11 @@ function(BUILD_PLUGIN_MACRO project_name)
 endfunction(BUILD_PLUGIN_MACRO project_name)
 
 ###################################################################################################
-add_subdirectory(sample1)
-add_subdirectory(sample2)
-add_subdirectory(sample3)
-#add_subdirectory(sample4)
-#add_subdirectory(sample5)
+add_subdirectory(timers)
+add_subdirectory(module_lifecycle)
+add_subdirectory(entity_operations)
+#add_subdirectory(physics_scene)
+#add_subdirectory(http_server)
 #add_subdirectory(redis_sample)
 
 #add_subdirectory(http_client)

@@ -1,6 +1,6 @@
 # Configuration tools
 
-The Excel generator converts the resource workbooks into XML metadata, configuration data and C++/C# definitions. It is an offline authoring step; launching Sample1 and running the C++ network tests do not require it.
+The Excel generator converts the resource workbooks into XML metadata, configuration data and C++/C# definitions. It is an offline authoring step; launching Timers and running the C++ network tests do not require it.
 
 ## Requirements and command
 

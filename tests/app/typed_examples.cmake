@@ -5,11 +5,11 @@ foreach(argument PROGRAM PLUGIN_DIR SOURCE_ROOT RUNTIME_DIR)
         message(FATAL_ERROR "${argument} is required")
     endif()
 endforeach()
-foreach(sample sample1 sample2)
+foreach(sample timers module_lifecycle)
     set(directory "${RUNTIME_DIR}/${sample}")
     file(MAKE_DIRECTORY "${directory}/conf" "${directory}/resource/meta")
     file(COPY "${SOURCE_ROOT}/config/kernel.plugin.conf" DESTINATION "${directory}/conf")
-    # Sample2 needs external business metadata. Reuse the minimal schema shape
+    # ModuleLifecycle needs external business metadata. Reuse the minimal schema shape
     # from the kernel initialization regression, without changing exported data.
     file(WRITE "${directory}/resource/meta/config_class.config"
         "<xml><config id=\"attribute\" meta=\"meta/attribute.config\" res=\"meta/attribute.data\"/></xml>")

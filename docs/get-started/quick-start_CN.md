@@ -1,6 +1,6 @@
 # 快速开始
 
-运行 Sample1，确认应用能够加载插件并进入模块生命周期。它只使用 `ark_utility_plugin` 和 `sample1_plugin`，不需要 Consul、数据库服务或 Excel 配置生成步骤。
+运行 Timers，确认应用能够加载插件并进入模块生命周期。它只使用 `ark_utility_plugin` 和 `timers_plugin`，不需要 Consul、数据库服务或 Excel 配置生成步骤。
 
 ## 编译应用和插件
 
@@ -13,58 +13,58 @@
 macOS/Linux：
 
 ```sh
-mkdir -p run/sample1/bin run/sample1/conf
-cp -R app-build/bin/. run/sample1/bin/
-cp config/sample1.app.toml config/log.conf run/sample1/conf/
+mkdir -p run/timers/bin run/timers/conf
+cp -R app-build/bin/. run/timers/bin/
+cp config/timers.app.toml config/log.conf run/timers/conf/
 ```
 
 Windows PowerShell：
 
 ```powershell
-New-Item -ItemType Directory -Path run/sample1/bin, run/sample1/conf -Force | Out-Null
-Copy-Item app-build/bin/* run/sample1/bin/ -Recurse -Force
-Copy-Item config/sample1.app.toml, config/log.conf run/sample1/conf/
+New-Item -ItemType Directory -Path run/timers/bin, run/timers/conf -Force | Out-Null
+Copy-Item app-build/bin/* run/timers/bin/ -Recurse -Force
+Copy-Item config/timers.app.toml, config/log.conf run/timers/conf/
 ```
 
 运行所需的文件如下：
 
 ```text
-run/sample1/
-├── bin/       同一次构建的 app、ark_utility_plugin 和 sample1_plugin
+run/timers/
+├── bin/       同一次构建的 app、ark_utility_plugin 和 timers_plugin
 └── conf/
-    ├── sample1.app.toml
+    ├── timers.app.toml
     └── log.conf
 ```
 
-复制命令还会带入同次构建的其他产物，但 `sample1.app.toml` 只选择上述两个动态库。此示例不需要单独的 `sample1.conf` 或 `resource/` 目录。
+复制命令还会带入同次构建的其他产物，但 `timers.app.toml` 只选择上述两个动态库。此示例不需要单独的 `timers.conf` 或 `resource/` 目录。
 
-## 启动 Sample1
+## 启动 Timers
 
-进入 `run/sample1/` 后启动。应用配置中的 `bin/` 和 `conf/` 都相对于这个工作目录。
+进入 `run/timers/` 后启动。应用配置中的 `bin/` 和 `conf/` 都相对于这个工作目录。
 
 macOS/Linux：
 
 ```sh
-cd run/sample1
-./bin/app --busid=1.0.1.1 --name=sample1 \
-  --app_conf=conf/sample1.app.toml --log_conf=conf/log.conf
+cd run/timers
+./bin/app --busid=1.0.1.1 --name=timers \
+  --app_conf=conf/timers.app.toml --log_conf=conf/log.conf
 ```
 
 Windows：
 
 ```powershell
-cd run/sample1
-.\bin\app.exe --busid=1.0.1.1 --name=sample1 `
-  --app_conf=conf/sample1.app.toml --log_conf=conf/log.conf
+cd run/timers
+.\bin\app.exe --busid=1.0.1.1 --name=timers `
+  --app_conf=conf/timers.app.toml --log_conf=conf/log.conf
 ```
 
 Debug 程序名为 `app_d` 或 `app_d.exe`，插件文件在平台后缀前带有 `_d`。将整套 Debug 产物放入独立运行目录，XML 中的插件名称保持不变。
 
 ## 确认运行结果
 
-控制台应出现包含 `sample1_module` 和 `PostInit` 的日志。示例注册的定时器每十秒输出一次 `timer log`，共五次。附带的日志配置还会在运行目录的 `binlog/` 下写入文件。
+控制台应出现包含 `timers_module` 和 `PostInit` 的日志。示例注册的定时器每十秒输出一次 `timer log`，共五次。附带的日志配置还会在运行目录的 `binlog/` 下写入文件。
 
-macOS/Linux 使用 Ctrl+C 停止，Windows 在应用控制台输入 `exit`。Sample1 应依次输出 `PreShut`、`Shut`。
+macOS/Linux 使用 Ctrl+C 停止，Windows 在应用控制台输入 `exit`。Timers 应依次输出 `PreShut`、`Shut`。
 
 <Aside type="caution" title="处理启动失败">
 
@@ -81,25 +81,25 @@ macOS/Linux 使用 Ctrl+C 停止，Windows 在应用控制台输入 `exit`。Sam
 
 ## 阅读使用新基类的示例装配
 
-`examples/sample1` 和 `examples/sample2` 使用
+`examples/timers` 和 `examples/module_lifecycle` 使用
 [`module_base<interface_type>`](../guides/modules_CN.md#用基类隐藏具体实现)
 及 [`plugin_base<derived_type>`](../guides/plugins_CN.md#用类型化注册和显式入口)。
 示例类仍放在插件同目录的私有头文件中，不额外引入服务接口；两者均继承
-`module_base<module>`，保留原有 `sample1_module` 或 `sample2_module` 查找标识。
+`module_base<module>`，以当前的 `timers_module` 或 `module_lifecycle_module` RTTI 键注册。
 
-各自的 `sampleN_plugin.hpp` 声明返回 `std::unique_ptr<sampleN_module>` 的工厂，
-由 `sampleN_module.cpp` 定义。插件注册工厂返回的对象，并显式导出
+以 `timers_plugin.hpp` 为例，它声明返回 `std::unique_ptr<timers_module>` 的工厂，
+由 `timers_module.cpp` 定义。插件注册工厂返回的对象，并显式导出
 `DllEntryPlugin` / `DllExitPlugin`，保留原有 logger 初始化。注册成功后仍需在
 `uninstall()` 中显式注销并删除模块。
 
 | 示例 | update 注册 | 运行依赖 |
 | --- | --- | --- |
-| Sample1 | `module_update::enabled`，保留其 `update()` 覆写行为 | Utility 插件，无需外部业务元数据 |
-| Sample2 | `module_update::disabled`，保留其继承的默认 `update()` 行为 | Kernel、Utility 插件及 `resource/meta/` 下的业务元数据 |
+| Timers | `module_update::enabled`，保留其 `update()` 覆写行为 | Utility 插件，无需外部业务元数据 |
+| `module_lifecycle` | `module_update::disabled`，保留其继承的默认 `update()` 行为 | Kernel、Utility 插件及 `resource/meta/` 下的业务元数据 |
 
-生命周期和业务方法体、配置中的动态库名称均保持不变。Sample2 的元数据属于外部
+生命周期和业务方法体保留；能力命名会改变模块 RTTI 注册键与配置中的动态库名称。`module_lifecycle` 的元数据属于外部
 业务数据，本次装配调整不生成或转换这些数据。启用应用、示例、配置和 core 测试，
 并启用所需 Kernel/Utility 插件后，执行
 `cmake --build app-build --target check-typed-examples -j2`，可加载两个示例的真实
-动态库，在模块管理器所属线程更新五次，并检查启动、停服顺序。该测试为 Sample2 提供小型
+动态库，在模块管理器所属线程更新五次，并检查启动、停服顺序。该测试为 `module_lifecycle` 提供小型
 测试元数据，不代表已验证应用导出的业务数据集。

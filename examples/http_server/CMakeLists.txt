@@ -1,0 +1,1 @@
+BUILD_PLUGIN_MACRO(http_server_plugin)

@@ -52,7 +52,7 @@ test('CI configures the default etcd package feature and caches exactly those fe
 });
 
 test('unsupported PhysX and simulate integrations fail explicitly instead of searching absent bundled SDKs', () => {
-  for (const path of ['src/plugins/physic/CMakeLists.txt', 'src/server/simulate/CMakeLists.txt', 'examples/sample4/CMakeLists.txt']) {
+  for (const path of ['src/plugins/physic/CMakeLists.txt', 'src/server/simulate/CMakeLists.txt', 'examples/physics_scene/CMakeLists.txt']) {
     const source = read(path);
     assert.match(source, /message\(FATAL_ERROR/);
     assert.match(source, /PhysX 3/);

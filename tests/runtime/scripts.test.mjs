@@ -14,7 +14,7 @@ function fixture(t) {
   t.after(() => rmSync(dir, { recursive: true, force: true }));
   mkdirSync(join(dir, 'bin'));
   mkdirSync(join(dir, 'conf'));
-  writeFileSync(join(dir, 'conf/sample1.app.toml'), '[application]\n');
+  writeFileSync(join(dir, 'conf/timers.app.toml'), '[application]\n');
   writeFileSync(join(dir, 'conf/log.conf'), '<xml/>');
   const binary = '#!/bin/sh\nprintf "%s\\n" "$PWD" "$LC_ALL" "$0" "$@"\nexit 17\n';
   for (const name of ['app', 'app_d']) {
@@ -26,7 +26,7 @@ function fixture(t) {
 for (const [configuration, binary] of [['Release', 'app'], ['Debug', 'app_d']]) {
   test(`${configuration} selects one application in the explicit runtime directory`, (t) => {
     const dir = fixture(t);
-    const result = spawnSync('sh', [run, configuration, 'sample1', '1.0.1.1', dir], {
+    const result = spawnSync('sh', [run, configuration, 'timers', '1.0.1.1', dir], {
       cwd: tmpdir(), encoding: 'utf8',
     });
     assert.equal(result.status, 17, result.stderr);
@@ -35,7 +35,7 @@ for (const [configuration, binary] of [['Release', 'app'], ['Debug', 'app_d']]) 
     assert.equal(locale, 'C');
     assert.equal(realpathSync(resolve(cwd, executable)), realpathSync(join(dir, 'bin', binary)));
     assert.deepEqual(args, [
-      '--busid=1.0.1.1', '--name=sample1', '--app_conf=conf/sample1.app.toml',
+      '--busid=1.0.1.1', '--name=timers', '--app_conf=conf/timers.app.toml',
       '--log_conf=conf/log.conf',
     ]);
   });
@@ -44,37 +44,37 @@ for (const [configuration, binary] of [['Release', 'app'], ['Debug', 'app_d']]) 
 test('default runtime is the script directory and ignores the caller working directory', (t) => {
   const dir = fixture(t);
   writeFileSync(join(dir, 'run.sh'), readFileSync(run));
-  const result = spawnSync('sh', [join(dir, 'run.sh'), 'Release', 'sample1', '1.0.1.1'], {
+  const result = spawnSync('sh', [join(dir, 'run.sh'), 'Release', 'timers', '1.0.1.1'], {
     cwd: tmpdir(), encoding: 'utf8',
   });
   assert.equal(result.status, 17, result.stderr);
-  assert.match(result.stdout, /--app_conf=conf\/sample1\.app\.toml/);
+  assert.match(result.stdout, /--app_conf=conf\/timers\.app\.toml/);
 });
 
 test('missing configuration or executable fails before launching', (t) => {
   const dir = fixture(t);
   rmSync(join(dir, 'conf/log.conf'));
-  let result = spawnSync('sh', [run, 'Release', 'sample1', '1.0.1.1', dir], { encoding: 'utf8' });
+  let result = spawnSync('sh', [run, 'Release', 'timers', '1.0.1.1', dir], { encoding: 'utf8' });
   assert.equal(result.status, 1);
   assert.match(result.stderr, /Missing configuration/);
   rmSync(join(dir, 'bin/app'));
-  result = spawnSync('sh', [run, 'Release', 'sample1', '1.0.1.1', dir], { encoding: 'utf8' });
+  result = spawnSync('sh', [run, 'Release', 'timers', '1.0.1.1', dir], { encoding: 'utf8' });
   assert.equal(result.status, 1);
   assert.match(result.stderr, /Missing executable/);
 });
 
 test('launch helper requires the renamed TOML preset without implicit XML fallback', (t) => {
   const dir = fixture(t);
-  rmSync(join(dir, 'conf/sample1.app.toml'));
-  writeFileSync(join(dir, 'conf/sample1.app.conf'), '<xml><plugins/></xml>');
-  const result = spawnSync('sh', [run, 'Release', 'sample1', '1.0.1.1', dir], { encoding: 'utf8' });
+  rmSync(join(dir, 'conf/timers.app.toml'));
+  writeFileSync(join(dir, 'conf/timers.app.conf'), '<xml><plugins/></xml>');
+  const result = spawnSync('sh', [run, 'Release', 'timers', '1.0.1.1', dir], { encoding: 'utf8' });
   assert.equal(result.status, 1);
-  assert.match(result.stderr, /Missing configuration: conf\/sample1\.app\.toml/);
+  assert.match(result.stderr, /Missing configuration: conf\/timers\.app\.toml/);
   assert.equal(result.stdout, '');
 });
 
 test('invalid arguments are rejected before starting or stopping a process', () => {
-  for (const args of [[], ['Other', 'sample1', '1.0.1.1'], ['Release', '../sample1', '1.0.1.1']]) {
+  for (const args of [[], ['Other', 'timers', '1.0.1.1'], ['Release', '../timers', '1.0.1.1']]) {
     assert.equal(spawnSync('sh', [run, ...args]).status, 2);
   }
   for (const args of [[], ['0'], ['1'], ['-1'], ['00123'], ['all'], ['123', '456']]) {

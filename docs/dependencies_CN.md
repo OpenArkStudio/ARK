@@ -35,10 +35,10 @@ arknet 仍由根 CMake 文件固定提交；本地开发可以通过 `ARKNET_SOU
 
 ## 可选的旧版集成
 
-physic 插件与 sample4 依赖 PhysX 3，当前构建没有已验证的 SDK 集成。
+physic 插件与 physics_scene 依赖 PhysX 3，当前构建没有已验证的 SDK 集成。
 选择它们时会明确报错，不会静默替换成现代 PhysX 包。
 旧版 simulate 服务器也缺少已验证的 PhysX 3/MessagePack 集成，继续保持禁用。
-已从默认禁用的 sample5 删除未使用的 BeastHttp 头文件目录；这不代表该示例已经通过运行验收。
+已从默认禁用的 http_server 删除未使用的 BeastHttp 头文件目录；这不代表该示例已经通过运行验收。
 
 原 cpp-bredis 子模块没有活动引用，已移除；原生 Redis 客户端由 arknet 提供。
 已移除内置源码中的许可声明保留在[第三方许可声明](reference/third-party-notices_CN.md)中，

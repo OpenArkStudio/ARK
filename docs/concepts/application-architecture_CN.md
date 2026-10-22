@@ -6,7 +6,7 @@ ark 应用是由选定插件库组成的进程。一个插件可以注册多个�
 
 ## 从清单到模块
 
-启动器接收 `--busid`、`--name` 与 `--app_conf`。应用清单选择动态库名称，以及可选的插件配置文件名。仓库提供的 `config/sample1.app.toml` 为：
+启动器接收 `--busid`、`--name` 与 `--app_conf`。应用清单选择动态库名称，以及可选的插件配置文件名。仓库提供的 `config/timers.app.toml` 为：
 
 ```toml
 [application]
@@ -18,15 +18,15 @@ name = "ark_utility_plugin"
 config = ""
 
 [[plugins]]
-name = "sample1_plugin"
+name = "timers_plugin"
 config = ""
 ```
 
 仓库中的应用清单采用 TOML（保留的外部 Freebird 示例除外）。小写 `.toml` 后缀选择 TOML，原有 `*.app.conf` 入口使用 XML。完整字段与校验规则见[应用清单](../service-manifests_CN.md)；插件专属配置和业务资源格式保持不变。
 
-加载器依次加载库并调用导出的插件入口。`sample1_plugin::install()` 注册 `sample1_module`，Utility 插件提供定时器等服务。模块通过 `find_module<timer_module>()` 获取这些服务，不需要再创建一份 Utility 插件。
+加载器依次加载库并调用导出的插件入口。`timers_plugin::install()` 注册 `timers_module`，Utility 插件提供定时器等服务。模块通过 `find_module<timer_module>()` 获取这些服务，不需要再创建一份 Utility 插件。
 
-清单名称是运行时库名。现有 `ark_utility_plugin`、`sample1_plugin` 不等同于 C++ 类名拼写，必须与构建产物匹配。Debug 库使用配置的 `_d` 后缀。空 `config` 不提供配置文件名，加载器本身不解析插件专属内容。
+清单名称是运行时库名。现有 `ark_utility_plugin`、`timers_plugin` 不等同于 C++ 类名拼写，必须与构建产物匹配。Debug 库使用配置的 `_d` 后缀。空 `config` 不提供配置文件名，加载器本身不解析插件专属内容。
 
 ## 路径与运行入口
 
@@ -35,10 +35,10 @@ config = ""
 按照[安装说明](../get-started/installation_CN.md)构建并准备运行目录后，在 `build/` 中执行：
 
 ```sh
-./bin/app --busid=1.0.1.1 --name=sample1 --app_conf=conf/sample1.app.toml
+./bin/app --busid=1.0.1.1 --name=timers --app_conf=conf/timers.app.toml
 ```
 
-示例在 `init()` 获取定时器和 Guid 模块，在 `post_init()` 注册定时器。更新与关闭方法展示模块生命周期。实现见 [sample1_module.cpp](https://github.com/OpenArkStudio/ark/blob/main/examples/sample1/sample1_module.cpp)，运行目录准备见[快速开始](../get-started/quick-start_CN.md)。
+示例在 `init()` 获取定时器和 Guid 模块，在 `post_init()` 注册定时器。更新与关闭方法展示模块生命周期。实现见 [timers_module.cpp](https://github.com/OpenArkStudio/ark/blob/main/examples/timers/timers_module.cpp)，运行目录准备见[快速开始](../get-started/quick-start_CN.md)。
 
 ## 选择插件组合
 

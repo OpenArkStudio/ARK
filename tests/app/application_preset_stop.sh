@@ -76,7 +76,7 @@ fi
 while IFS= read -r line; do
     printf '%s\n' "$line"
     case "$line" in
-        *sample1_module*PostInit*) kill -TERM "$child" 2>/dev/null || : ;;
+        *timers_module*PostInit*) kill -TERM "$child" 2>/dev/null || : ;;
     esac
 done <"$pipe"
 if wait "$child"; then

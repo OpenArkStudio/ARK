@@ -38,11 +38,11 @@
 cmake --build app-build --config Release --parallel 2
 ```
 
-按[快速开始](docs/get-started/quick-start_CN.md)准备运行所需的二进制文件和配置。在 macOS/Linux 上，从 `run/sample1/` 启动 Sample1：
+按[快速开始](docs/get-started/quick-start_CN.md)准备运行所需的二进制文件和配置。在 macOS/Linux 上，从 `run/timers/` 启动 Timers：
 
 ```sh
-./bin/app --busid=1.0.1.1 --name=sample1 \
-  --app_conf=conf/sample1.app.toml --log_conf=conf/log.conf
+./bin/app --busid=1.0.1.1 --name=timers \
+  --app_conf=conf/timers.app.toml --log_conf=conf/log.conf
 ```
 
 [原 Unity 客户端](https://github.com/OpenArkStudio/ArkClient-Unity3D)尚未与当前 ark 服务端完成兼容性验证。

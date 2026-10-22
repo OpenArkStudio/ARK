@@ -4,7 +4,7 @@ An application manifest selects plugin libraries and their configuration files. 
 
 ## TOML format
 
-The shipped [sample1.app.toml](../config/sample1.app.toml) uses TOML 1.0 syntax. Its original XML manifest is retained in parser regression fixtures:
+The shipped [timers.app.toml](../config/timers.app.toml) uses TOML 1.0 syntax. Its original XML manifest is retained in parser regression fixtures:
 
 ```toml
 [application]
@@ -16,7 +16,7 @@ name = "ark_utility_plugin"
 config = ""
 
 [[plugins]]
-name = "sample1_plugin"
+name = "timers_plugin"
 ```
 
 | Field | Type and default | Meaning |
@@ -25,7 +25,7 @@ name = "sample1_plugin"
 | `application.plugin_library_dir` | String, `""` | Prefix for plugin library names. |
 | `application.plugin_config_dir` | String, `""` | Prefix for plugin configuration names. |
 | `plugins` | Array of tables, empty | Omission and a top-level `plugins = []` both select no plugins. |
-| `plugins[].name` | Required nonempty string | Unique library stem, such as `sample1_plugin`; platform extensions and the Debug `_d` suffix remain automatic. |
+| `plugins[].name` | Required nonempty string | Unique library stem, such as `timers_plugin`; platform extensions and the Debug `_d` suffix remain automatic. |
 | `plugins[].config` | String, `""` | Configuration filename; omission and `""` retain empty-configuration behavior. |
 
 Unknown fields, incorrect types, duplicate or empty plugin names, invalid TOML/UTF-8 and embedded NUL characters are rejected before plugin startup. Diagnostics contain the path and available line/column, without printing configuration values.
@@ -34,16 +34,16 @@ Directory strings are preserved exactly. Relative paths use the process working 
 
 The order of `[[plugins]]` entries does **not** define module initialization order: the manager still consumes an unordered map. This format introduces no dependency ordering or live reload mechanism.
 
-## Run sample1
+## Run timers
 
-Follow the [application build instructions](networking.md) to build `app`, `ark_utility_plugin` and `sample1_plugin`. For a build directory named `out`, stage a separate runtime from the repository root:
+Follow the [application build instructions](networking.md) to build `app`, `ark_utility_plugin` and `timers_plugin`. For a build directory named `out`, stage a separate runtime from the repository root:
 
 ```sh
-mkdir -p run/sample1/bin run/sample1/conf
-cp -R out/bin/. run/sample1/bin/
-cp config/sample1.app.toml config/log.conf run/sample1/conf/
-cd run/sample1
-./bin/app --busid=1.0.0.1 --name=sample1 -a conf/sample1.app.toml
+mkdir -p run/timers/bin run/timers/conf
+cp -R out/bin/. run/timers/bin/
+cp config/timers.app.toml config/log.conf run/timers/conf/
+cd run/timers
+./bin/app --busid=1.0.0.1 --name=timers -a conf/timers.app.toml
 ```
 
 Debug builds use `app_d`. Bus, HTTP and Consul runtime settings use TOML; the application manifest only selects their paths. See the [Bus settings](reference/bus.md#configure-processes-and-relationships) and the HTTP/Consul examples below. Logging still reads the XML `conf/log.conf`; Kernel and exported business data retain their XML formats.
@@ -83,7 +83,7 @@ The existing wrapper and attributes remain valid:
 <xml>
     <plugins plugin_lib_dir="bin/" plugin_conf_dir="conf/">
         <plugin name="ark_utility_plugin" conf=""/>
-        <plugin name="sample1_plugin"/>
+        <plugin name="timers_plugin"/>
     </plugins>
 </xml>
 ```
@@ -97,7 +97,7 @@ The application loader requires a root containing a `plugins` child; a direct `<
 ```cpp
 #include <ark/application_manifest.hpp>
 
-auto manifest = ark::load_application_manifest("conf/sample1.app.toml");
+auto manifest = ark::load_application_manifest("conf/timers.app.toml");
 ```
 
 ```cmake

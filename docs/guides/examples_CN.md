@@ -1,0 +1,31 @@
+# 按能力命名的示例
+
+内置示例使用能力名称。构建时开启 applications 和 examples；此次命名调整不改变启用集合或 update 参与方式。
+
+| 目录／应用名 | 插件库名 | 用途与支持状态 |
+| --- | --- | --- |
+| `examples/timers`／`timers` | `timers_plugin` | Utility 定时器与模块生命周期；启用，参与 update |
+| `examples/module_lifecycle`／`module_lifecycle` | `module_lifecycle_plugin` | 生命周期与少量 data-list 演示；启用，无 update 覆写。回调演示代码仍被注释 |
+| `examples/entity_operations`／`entity_operations` | `entity_operations_plugin` | Kernel 实体、数据和表操作；启用，无 update 覆写。启动仍包含旧计时循环，不应用作轻量启动检查 |
+| `examples/physics_scene`／`physics_scene` | `physics_scene_plugin` | 关闭，依赖不支持的旧 PhysX 3；保留源码与清单不代表集成可运行 |
+| `examples/http_server`／`http_server` | `http_server_plugin` | 关闭，保留 HTTP 服务示例，尚无运行验收 |
+
+每个目录中的 hpp/cpp 继续并排存放。可从 [timers 快速开始](../get-started/quick-start_CN.md)入手。
+通用启动脚本选择 `conf/<name>.app.toml`，因此进程名称和应用清单都应使用能力名称。Kernel 示例仍需要业务元数据。
+
+## 迁移编号示例名称
+
+| 原目录、应用名和标识符前缀 | 新前缀 |
+| --- | --- |
+| `sample1` | `timers` |
+| `sample2` | `module_lifecycle` |
+| `sample3` | `entity_operations` |
+| `sample4` | `physics_scene` |
+| `sample5` | `http_server` |
+
+模块和消费者必须一起重新构建：C++ 模块／插件类型名和 RTTI 注册键均会变化。
+将 `sample1_plugin` 等旧库名替换为 `timers_plugin`，保留对应平台扩展名和 Debug `_d`。
+将已部署的 `conf/sample1.app.toml` 换为 `conf/timers.app.toml`，并按上表逐项同步 `--name`、`--app_conf`、启动脚本参数和部署 ConfigMap。
+不再生成旧 target、旧库别名或旧配置文件名。已有运行目录不会自动迁移；切换前应重新准备同次构建的可执行文件、插件集与配置。
+
+按字节保存的历史文档归档仍保留原始名称和命令，不作为当前命名指南。本页说明名称和支持边界，不代表新增运行或性能验收。

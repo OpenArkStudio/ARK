@@ -13,14 +13,14 @@
 #include <ark/utility/guid_module.hpp>
 #include <ark/utility/schedule_module.hpp>
 #include <ark/utility/timer_module.hpp>
-#include "../../examples/sample1/sample1_module.hpp"
-#include "../../examples/sample2/sample2_module.hpp"
+#include "../../examples/module_lifecycle/module_lifecycle_module.hpp"
+#include "../../examples/timers/timers_module.hpp"
 
 // These reflect the old registration macro's update detection for both samples.
-static_assert(!std::same_as<decltype(&ark::sample1_module::update), decltype(&ark::module::update)>);
-static_assert(std::same_as<decltype(&ark::sample2_module::update), decltype(&ark::module::update)>);
-static_assert(std::derived_from<ark::sample1_module, ark::module_base<ark::module>>);
-static_assert(std::derived_from<ark::sample2_module, ark::module_base<ark::module>>);
+static_assert(!std::same_as<decltype(&ark::timers_module::update), decltype(&ark::module::update)>);
+static_assert(std::same_as<decltype(&ark::module_lifecycle_module::update), decltype(&ark::module::update)>);
+static_assert(std::derived_from<ark::timers_module, ark::module_base<ark::module>>);
+static_assert(std::derived_from<ark::module_lifecycle_module, ark::module_base<ark::module>>);
 
 namespace {
 
@@ -51,7 +51,7 @@ void require(bool condition, const std::string& message) {
 int main(int argc, char* argv[]) {
     require(argc == 4, "Expected source root, plugin directory and sample name");
     const std::string sample = argv[3];
-    require(sample == "sample1" || sample == "sample2", "Unknown sample");
+    require(sample == "timers" || sample == "module_lifecycle", "Unknown sample");
     const auto manifest =
         ark::load_application_manifest((std::filesystem::path(argv[1]) / "config" / (sample + ".app.toml")).string());
     std::ostringstream events;
@@ -115,7 +115,7 @@ int main(int argc, char* argv[]) {
     const auto output = events.str();
     std::cout << output;
     std::size_t previous{};
-    for (const std::string event : {sample == "sample1" ? "init" : "Init", "PostInit", "PreShut", "Shut"})
+    for (const std::string event : {sample == "timers" ? "init" : "Init", "PostInit", "PreShut", "Shut"})
     {
         auto position = output.find(sample + "_module", previous);
         while (position != std::string::npos)
