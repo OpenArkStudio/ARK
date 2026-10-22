@@ -16,7 +16,6 @@ build's artifacts into the runtime's `bin/` directory.
 
 | Path | Contents |
 | --- | --- |
-| `include/ark/` | Application-manifest declarations |
 | `src/core/` | Core headers, implementation and CMake usage requirements |
 | `src/application/` | Application entry point and shutdown request |
 | `src/proto/` | Protocol schemas and codec implementation |

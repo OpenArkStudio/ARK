@@ -1,6 +1,6 @@
 # Official plugins and repository organization
 
-Core headers and build definitions live in `src/core/`, with the launcher in `src/application/`. Other plugin interfaces and manifest declarations remain in `include/ark/`. MySQL, Redis, Utility, Net, Bus, HTTP and Kernel co-locate interface headers, implementation and private assembly in `src/plugins/<name>/`, retaining logical include paths through explicit CMake mapping. Business plugins live with their applications and arknet remains independent; this layout does not expand hot update or migrate other plugins.
+Core headers and build definitions live in `src/core/`, with the launcher in `src/application/`. Application manifests and shared configuration reading live in `src/config/`. All official plugins co-locate interface headers, implementation and private assembly in `src/plugins/<name>/`, retaining logical include paths through explicit CMake mapping. Business plugins live with their applications and arknet remains independent; this layout preserves plugin lifecycle and hot-update behavior.
 
 ## Existing implementations
 
@@ -18,9 +18,9 @@ These repositories use different generations of interfaces and build systems. Co
 
 ```text
 ark/
-├── include/ark/         # Remaining plugin and manifest declarations
 ├── src/
 │   ├── core/            # Core source and target definitions
+│   ├── config/          # Application manifests and shared file/TOML reading
 │   ├── application/     # Application launcher
 │   ├── plugins/         # Official plugin implementations and CMake files
 │   │   ├── kernel/
