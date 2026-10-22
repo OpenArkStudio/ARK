@@ -12,13 +12,7 @@ function(BUILD_PLUGIN_MACRO project_name)
     endif()
     file(GLOB_RECURSE PLUGIN_SRC CONFIGURE_DEPENDS *.h *.hpp *.cpp *.cc *.c)
     get_filename_component(plugin_name "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
-    if(plugin_name IN_LIST ark_colocated_plugin_names)
-        set(PLUGIN_HEADERS ${ark_${plugin_name}_public_headers})
-    else()
-        file(GLOB_RECURSE PLUGIN_HEADERS CONFIGURE_DEPENDS
-            "${ROOT_DIR}/include/ark/${plugin_name}/*.h"
-            "${ROOT_DIR}/include/ark/${plugin_name}/*.hpp")
-    endif()
+    set(PLUGIN_HEADERS ${ark_${plugin_name}_public_headers})
     add_library(${project_name} SHARED ${PLUGIN_SRC} ${PLUGIN_HEADERS})
     set_target_properties(${project_name} PROPERTIES
         PREFIX ""
@@ -31,10 +25,11 @@ function(BUILD_PLUGIN_MACRO project_name)
 endfunction()
 
 # Public plugin APIs can be consumed without building their shared libraries.
-# These plugins keep their source headers beside their implementation.
+# All plugins keep their source headers beside their implementation.
 # Explicit mappings preserve logical public paths independently of source layout.
-# Kernel retains every existing header and type, including its assembly header.
-# Other migrated plugins keep private assembly outside the public-header mapping.
+# Kernel and the remaining legacy integrations retain every existing public
+# header, including implementation and assembly headers. Earlier interface
+# migrations keep their private assembly outside the public-header mapping.
 set(ark_mysql_public_headers "${CMAKE_CURRENT_SOURCE_DIR}/mysql/mysql_module.hpp")
 set(ark_redis_public_headers "${CMAKE_CURRENT_SOURCE_DIR}/redis/redis_module.hpp")
 set(ark_utility_public_headers
@@ -112,7 +107,39 @@ set(ark_kernel_public_headers
     "${CMAKE_CURRENT_SOURCE_DIR}/kernel/table_manager.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/kernel/table_meta.hpp"
 )
-set(ark_colocated_plugin_names mysql redis utility net bus http kernel)
+set(ark_consul_public_headers
+    "${CMAKE_CURRENT_SOURCE_DIR}/consul/consul_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/consul/consul_module_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/consul/consul_plugin.hpp"
+)
+set(ark_etcd_client_public_headers
+    "${CMAKE_CURRENT_SOURCE_DIR}/etcd_client/etcd_client.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/etcd_client/etcd_client_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/etcd_client/etcd_client_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/etcd_client/etcd_client_module_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/etcd_client/etcd_client_plugin.hpp"
+)
+set(ark_kafka_public_headers
+    "${CMAKE_CURRENT_SOURCE_DIR}/kafka/kafka.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kafka/kafka_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kafka/kafka_module_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kafka/kafka_plugin.hpp"
+)
+set(ark_osssdk_public_headers
+    "${CMAKE_CURRENT_SOURCE_DIR}/osssdk/oss_sdk_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/osssdk/oss_sdk_module_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/osssdk/oss_sdk_plugin.hpp"
+)
+set(ark_physic_public_headers
+    "${CMAKE_CURRENT_SOURCE_DIR}/physic/physic_config_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/physic/physic_config_module_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/physic/physic_define.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/physic/physic_module.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/physic/physic_module_impl.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/physic/physic_plugin.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/physic/wave_front.hpp"
+)
+set(ark_colocated_plugin_names mysql redis utility net bus http kernel consul etcd_client kafka osssdk physic)
 set(ark_plugin_sdk_include_dir "${CMAKE_CURRENT_BINARY_DIR}/sdk-include")
 foreach(plugin_name IN LISTS ark_colocated_plugin_names)
     set(staged_headers)
@@ -140,12 +167,11 @@ foreach(plugin_dir IN LISTS plugin_entries)
         list(APPEND ark_plugin_names "${plugin_name}")
         add_library(ark_${plugin_name}_api INTERFACE)
         add_library(ark::${plugin_name} ALIAS ark_${plugin_name}_api)
-        target_include_directories(ark_${plugin_name}_api INTERFACE
-            "$<BUILD_INTERFACE:${ROOT_DIR}/include>")
-        if(plugin_name IN_LIST ark_colocated_plugin_names)
-            target_include_directories(ark_${plugin_name}_api BEFORE INTERFACE
-                "$<BUILD_INTERFACE:${ark_plugin_sdk_include_dir}>")
+        if(NOT plugin_name IN_LIST ark_colocated_plugin_names)
+            message(FATAL_ERROR "Plugin ${plugin_name} needs an explicit public-header mapping")
         endif()
+        target_include_directories(ark_${plugin_name}_api INTERFACE
+            "$<BUILD_INTERFACE:${ark_plugin_sdk_include_dir}>")
         target_link_libraries(ark_${plugin_name}_api INTERFACE ark::core)
         target_link_libraries(ark_sdk INTERFACE ark::${plugin_name})
     endif()
@@ -153,11 +179,7 @@ endforeach()
 
 # Propagate API header dependencies, separately from runtime library selection.
 foreach(plugin_name IN LISTS ark_plugin_names)
-    if(plugin_name IN_LIST ark_colocated_plugin_names)
-        set(api_headers ${ark_${plugin_name}_public_headers})
-    else()
-        file(GLOB_RECURSE api_headers CONFIGURE_DEPENDS "${ROOT_DIR}/include/ark/${plugin_name}/*.hpp" "${ROOT_DIR}/include/ark/${plugin_name}/*.h")
-    endif()
+    set(api_headers ${ark_${plugin_name}_public_headers})
     set(api_dependencies)
     foreach(header IN LISTS api_headers)
         file(STRINGS "${header}" includes REGEX "#[ \t]*include[ \t]*[<\"]ark/")

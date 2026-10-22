@@ -14,13 +14,12 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 
 | 路径 | 内容 |
 | --- | --- |
-| `include/ark/` | 其余插件头文件与应用清单声明 |
+| `include/ark/` | 应用清单声明 |
 | `src/core/` | 核心头文件、实现与 CMake 使用要求 |
 | `src/application/` | 应用入口与停服请求 |
 | `src/proto/` | 协议定义与编解码实现 |
 | `src/server/` | 内置服务端应用 |
-| `include/ark/<name>/` | 共置范围之外的插件公开头文件 |
-| `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility/Net/Bus/HTTP/Kernel 公开头和私有装配 |
+| `src/plugins/<name>/` | 全部官方插件头文件、实现与装配 |
 | `tests/` | 核心、网络与私有数据库回归测试 |
 | `tests/network/` | 网络与日志回归测试 |
 | `tests/consumer/` | 独立使用公共插件接口的示例项目 |
@@ -113,3 +112,16 @@ cmake --build http-sdk-build --target check-sdk --parallel 2
 ```
 
 Kernel 的原有 38 个头与 cpp 共置于 `src/plugins/kernel/`，通过 `ark::kernel` 保留全部 `<ark/kernel/...>` 路径，包括 `data_impl.hpp`、`data_list_impl.hpp` 和 `kernel_plugin.hpp`。此次只移动源码，创建宏、注册方式、类型可见性和生命周期均不变。消费检查及 Protobuf 条件见 [Kernel 参考](reference/kernel_CN.md)。
+
+Consul、Etcd Client、Kafka、OSS SDK、Physic 的原有 22 个头也与实现共置于 `src/plugins/<name>/`。显式映射保留原有全部 `<ark/consul/...>`、`<ark/etcd_client/...>`、`<ark/kafka/...>`、`<ark/osssdk/...>`、`<ark/physic/...>` 路径，包括实现头和装配头。通过对应的 `ark::<name>` API target 消费；关闭运行时插件后仍可使用映射。CMake 不再从 `include/ark/` 发现插件头文件。
+
+`node --test tests/ci/plugin-layout.test.mjs` 在全部运行时插件选项关闭时，检查配置阶段的头文件映射、副本字节一致性、API 依赖与失效映射清理。该检查不编译可选驱动集成。Etcd Client 消费者在关闭 Protobuf 和运行时插件的情况下编译原有五个头：
+
+```sh
+cmake -S tests/consumer/etcd_client -B etcd-client-headers -G Ninja \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+  -DASIO_STANDALONE=OFF
+cmake --build etcd-client-headers --target check-etcd-client-headers --parallel 2
+```
+
+头文件映射检查不代表 Consul、Kafka、OSS SDK 的运行时兼容性已经验证。Physic 与 `physics_scene` 仍依赖未受支持的旧版 PhysX 3 集成，保留明确的配置失败；此处没有宣称 PhysX 构建通过。
