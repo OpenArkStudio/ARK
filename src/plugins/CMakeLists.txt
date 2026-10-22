@@ -32,7 +32,8 @@ endfunction()
 
 # Public plugin APIs can be consumed without building their shared libraries.
 # These plugins keep their source headers beside their implementation.
-# Only this explicit list enters the build-tree SDK; plugin assembly stays private.
+# Only this explicit list enters the build-tree public-header mapping;
+# plugin assembly stays private.
 set(ark_mysql_public_headers "${CMAKE_CURRENT_SOURCE_DIR}/mysql/mysql_module.hpp")
 set(ark_redis_public_headers "${CMAKE_CURRENT_SOURCE_DIR}/redis/redis_module.hpp")
 set(ark_utility_public_headers
