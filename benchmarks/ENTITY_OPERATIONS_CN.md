@@ -26,3 +26,5 @@ cmake --build app-build --target check-entity-benchmark-smoke -j2
 ```
 
 本次分离不发布基准测量或提速结论。编译和 smoke 通过不能证明性能；后续报告必须注明机器、操作系统、工具链、依赖、源码／二进制版本、显式次数及单位。未经单独授权，原始测量数据保留在本地。
+
+现有 Applications CI 任务显式启用基准程序构建，并通过独立步骤执行此功能检查，不运行测量模式。`check-core` 仍不依赖可选基准。

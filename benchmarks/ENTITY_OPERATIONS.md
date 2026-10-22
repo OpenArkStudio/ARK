@@ -23,3 +23,5 @@ cmake --build app-build --target check-entity-benchmark-smoke -j2
 ```
 
 No benchmark measurement or speedup result is published with this extraction. Compiling and passing the smoke do not establish performance. Any later report must identify machine, OS, toolchain, dependency and source/binary revisions, explicit iteration count and units; retain raw measurements locally until separately authorized for publication.
+
+The existing Applications CI job explicitly enables benchmark builds and runs this smoke as a separate step. It does not execute measurement mode; `check-core` remains independent of the optional benchmark.
