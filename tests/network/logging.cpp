@@ -70,8 +70,8 @@ TEST_CASE("Formatting macros preserve optional arguments dynamic formats and fun
     // clang-format off
     const auto statement_line = __LINE__ + 1;
     statement = ARK_FORMAT_FUNCTION("statement")
-    // clang-format on
     CHECK(statement == fmt::format("[{}:{}]statement", function, statement_line));
+    // clang-format on
 }
 
 TEST_CASE("Logging preserves runtime formats source locations and literal braces") {
