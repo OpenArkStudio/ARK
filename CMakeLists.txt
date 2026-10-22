@@ -250,7 +250,7 @@ endif()
 add_subdirectory(src/plugins)
 link_libraries(ark::ark)
 if(ARK_BUILD_APPLICATIONS)
-    add_subdirectory(application)
+    add_subdirectory(src/application)
     add_subdirectory(src/server)
 endif()
 

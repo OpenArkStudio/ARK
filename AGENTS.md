@@ -74,8 +74,10 @@ branch or worktree when the existing checkout contains uncommitted changes.
   aligned with the generated names; retain platform extensions and Debug `_d`.
   Name bundled examples by capability and keep their directories, C++ types,
   targets and application manifests aligned; do not introduce numbered sample names.
-- Keep standalone launcher programs in the top-level `application/` directory;
-  do not recreate `src/app/`. Retain the current `app` CMake target and the
+- Keep production code in `src/`: core headers and implementation in `src/core/`,
+  configuration in `src/config/`, plugin sources in `src/plugins/<name>/` and the
+  launcher in `src/application/`. Co-locate hpp/cpp by function. Do not recreate
+  a top-level application source directory or split source headers into include/. Retain the current `app` CMake target and the
   `app`/`app_d` executable names.
 - Follow `.clang-format` and the repository formatting scripts with clang-format
   18. Keep function opening braces on the declaration line, expand short function
@@ -90,7 +92,9 @@ branch or worktree when the existing checkout contains uncommitted changes.
   in application repositories. The approved next plugin layout co-locates public
   headers, private declarations and implementation files inside each plugin;
   do not reintroduce a mandatory per-plugin include/src split. Keep public header
-  mappings explicit and independent from physical paths. Concrete implementation
+  mappings explicit and independent from physical paths. Public includes retain the
+  `<ark/...>` project prefix; moving source must not expose `<core/...>` or
+  `<plugins/...>` paths to consumers. Concrete implementation
   types may live in cpp files when registration and tests no longer need their
   definitions. Public-header mapping and creation-macro replacements
   require the agreed design before implementation; do not silently change ABI,
@@ -112,6 +116,12 @@ branch or worktree when the existing checkout contains uncommitted changes.
   including implementation/value templates and `kernel_plugin.hpp`; keep them
   byte-identical during physical moves. Do not hide these types or replace
   Kernel creation macros as part of colocation.
+  All official plugin families now use explicit public-header mappings from
+  `src/plugins/<name>/`; do not restore header discovery under `include/ark/`.
+  Consul, Etcd Client, Kafka, OSS SDK and Physic retain every existing public
+  header, including implementation and assembly headers, byte-for-byte during
+  physical moves. Their layout does not validate optional driver integrations;
+  retain the explicit unsupported PhysX 3 build failure.
   Verify accepted source before claiming the new layout is available. Hot-update
   and Registry design discussions remain paused.
 

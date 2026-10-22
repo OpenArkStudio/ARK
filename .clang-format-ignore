@@ -1,8 +1,8 @@
 src/proto/cpp/
-include/ark/meta_define.hpp
+src/core/meta_define.hpp
 tests/catch.hpp
 tests/network/doctest.h
 src/plugins/utility/ctpl.h
 src/plugins/utility/ctpl_stl.h
 src/plugins/physic/wave_front.cpp
-include/ark/physic/wave_front.hpp
+src/plugins/physic/wave_front.hpp

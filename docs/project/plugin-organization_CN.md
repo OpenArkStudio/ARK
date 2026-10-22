@@ -1,6 +1,6 @@
 # 官方插件与仓库组织
 
-核心与其他插件的公开接口仍位于 `include/ark/`，核心构建定义位于 `src/core/`。MySQL、Redis、Utility、Net、Bus、HTTP 和 Kernel 将公开头、实现和私有装配共同放在 `src/plugins/<名称>/`，通过显式 CMake 映射保留逻辑包含路径。业务插件放在应用仓库，`arknet` 保持独立；该布局不扩展热更新或其他插件迁移。
+核心源码与构建定义位于 `src/core/`，启动器位于 `src/application/`；其余插件和清单声明仍位于 `include/ark/`。MySQL、Redis、Utility、Net、Bus、HTTP 和 Kernel 将公开头、实现和私有装配共同放在 `src/plugins/<名称>/`，通过显式 CMake 映射保留逻辑包含路径。业务插件放在应用仓库，`arknet` 保持独立；该布局不扩展热更新或其他插件迁移。
 
 ## 现有实现
 
@@ -18,10 +18,10 @@
 
 ```text
 ark/
-├── application/         # 应用启动器
-├── include/ark/         # 核心与插件公开接口
+├── include/ark/         # 其余插件与清单声明
 ├── src/
-│   ├── core/            # header-only 核心 target 定义
+│   ├── core/            # 核心源码与 target 定义
+│   ├── application/     # 应用启动器
 │   ├── plugins/         # 官方插件实现与 CMake 文件
 │   │   ├── kernel/
 │   │   ├── net/          # 公开头、传输实现与私有创建

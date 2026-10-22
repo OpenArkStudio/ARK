@@ -7,11 +7,11 @@ ark_style_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)
 
 ark_style_files() {
     git -C "$ark_style_root" ls-files -z --cached --others --exclude-standard -- \
-        include src application examples tests benchmarks resources/photon/proto |
+        include src examples tests benchmarks resources/photon/proto |
         while IFS= read -r -d '' style_file; do
             case "$style_file" in
                 tests/catch.hpp|tests/network/doctest.h|\
-                include/ark/physic/wave_front.hpp|\
+                src/plugins/physic/wave_front.hpp|\
                 src/plugins/physic/wave_front.cpp|\
                 src/plugins/utility/ctpl.h|\
                 src/plugins/utility/ctpl_stl.h) continue ;;

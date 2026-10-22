@@ -43,11 +43,11 @@ ark::timer_module* find_timers(ark::plugin_manager& manager) {
 - 启动失败会立即向上传递；框架不提供部分启动插件的事务式回滚。
 - 生命周期阶段不代表任意业务任务已经排空。兼容热替换与插件卸载协调仍是独立设计事项。
 
-对应实现见 [plugin_manager.hpp](https://github.com/OpenArkStudio/ark/blob/main/include/ark/plugin_manager.hpp) 和[启动器](https://github.com/OpenArkStudio/ark/blob/main/application/main.cpp)。
+对应实现见 [plugin_manager.hpp](https://github.com/OpenArkStudio/ark/blob/main/src/core/plugin_manager.hpp) 和[启动器](https://github.com/OpenArkStudio/ark/blob/main/src/application/main.cpp)。
 
 ## 头文件路径与 CMake 目标
 
-核心及尚未迁移插件的公开头文件位于 `include/ark/`；Kernel 的 `src/plugins/kernel/entity.hpp` 与实现共置，仍使用 `<ark/kernel/entity.hpp>`。MySQL、Redis、Utility、Net、Bus、HTTP 和 Kernel 将公开头文件与实现共置于 `src/plugins/<name>/`；CMake 仅将显式列出的公开头文件映射到构建树的 `src/plugins/sdk-include/ark/<name>/`。业务代码依赖 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net`、`ark::bus`、`ark::http` 或 `ark::kernel`，继续使用 `<ark/...>` 逻辑路径，通过显式映射取头。Kernel 保留既有装配头、具体值类型和模板；此次移动不改变注册或可见性。核心目标定义位于 `src/core/`，各插件仍保留独立可选目标，`ark::ark` 汇总可用 API 目标。
+核心头文件位于 `src/core/`，启动器位于 `src/application/`；其余插件和清单头文件仍位于 `include/ark/`。Kernel 的 `src/plugins/kernel/entity.hpp` 与实现共置，仍使用 `<ark/kernel/entity.hpp>`。MySQL、Redis、Utility、Net、Bus、HTTP 和 Kernel 将公开头文件与实现共置于 `src/plugins/<name>/`；CMake 仅将显式列出的公开头文件映射到构建树的 `src/plugins/sdk-include/ark/<name>/`。业务代码依赖 `ark::mysql`、`ark::redis`、`ark::utility`、`ark::net`、`ark::bus`、`ark::http` 或 `ark::kernel`，继续使用 `<ark/...>` 逻辑路径，通过显式映射取头。Kernel 保留既有装配头、具体值类型和模板；此次移动不改变注册或可见性。核心目标定义位于 `src/core/`，各插件仍保留独立可选目标，`ark::ark` 汇总可用 API 目标。
 
 公共插件／模块的 hpp 与 cpp 按功能目录共置。头文件映射只在选定构建树中生成包含视图，不形成另一层源码。
 

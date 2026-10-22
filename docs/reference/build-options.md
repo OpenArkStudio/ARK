@@ -38,7 +38,7 @@ cmake -S . -B build -DARK_BUILD_APPLICATIONS=ON \
 cmake --build build --target ark_mysql_plugin ark_redis_plugin
 ```
 
-The MySQL/Redis/Utility/Net/Bus/HTTP/Kernel public headers are copied from explicit lists at configuration time into each ark build tree's `src/plugins/sdk-include/ark/<name>/`. `ark::mysql`, `ark::redis`, `ark::utility`, `ark::net`, `ark::bus`, `ark::http` and `ark::kernel` carry that include root even with runtime plugins disabled; other migrated plugins exclude private assembly and factories. Kernel retains all 38 existing headers, including `kernel_plugin.hpp`, without changing registration or type visibility. Each public header has one co-located source; its generated include mapping belongs to the selected build tree, rather than a second source layout.
+All official plugin public headers are copied from explicit lists at configuration time into each ark build tree's `src/plugins/sdk-include/ark/<name>/`. Each `ark::<name>` API target carries that include root even with runtime plugins disabled. MySQL, Redis, Utility, Net, Bus and HTTP exclude private assembly and factories. Kernel retains all 38 existing headers, including `kernel_plugin.hpp`; Consul, Etcd Client, Kafka, OSS SDK and Physic retain all 22 existing public headers, including implementation and assembly headers. Registration, type visibility and optional plugin policies are unchanged; header mapping does not validate optional driver integrations. Each public header has one co-located source; its generated include mapping belongs to the selected build tree, rather than a second source layout.
 
 Link a consumer to `ark::mysql` and/or `ark::redis` for the public headers and usage requirements. These public interface targets do not load a runtime library. Deploy the selected libraries with the launcher and add their stems to the application's manifest:
 
@@ -57,3 +57,5 @@ config = ""
 ```
 
 Include only the providers the application needs. The empty `config` is intentional: consumers configure named connections through the public modules, rather than legacy database XML files. Follow [runtime library selection](../guides/plugins.md#select-libraries-at-runtime) for platform extensions, Debug suffixes and compatible public interface settings. Resolve the module during consumer initialization and start its operations through a [managed task group](../guides/tasks.md).
+
+Core headers live under `src/core/`; `ark::core` supplies the generated `src/core/public-include/` include root, retaining `<ark/...>`. The launcher source is `src/application/`, with unchanged `app` and `app_d` output names.
