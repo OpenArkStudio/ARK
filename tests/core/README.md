@@ -55,7 +55,7 @@ in a dot keep that basename. All test writes use temporary directories.
 cmake --build core-build --target check-logging
 ```
 
-## Public task SDK
+## Public task interface
 
 `check-task-sdk` is included in `check-core`. It compiles `<ark/task.hpp>`
 without an earlier include and runs an ordinary `ark::core` consumer. Cases

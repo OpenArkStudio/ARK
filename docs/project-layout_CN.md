@@ -1,4 +1,4 @@
-# 项目结构与 SDK
+# 项目结构与公共插件接口
 
 [English](project-layout.md) | 简体中文
 
@@ -23,7 +23,7 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 | `src/plugins/<name>/` | 插件实现；MySQL/Redis/Utility/Net/Bus 公开头和私有装配 |
 | `tests/` | 核心、网络与私有数据库回归测试 |
 | `tests/network/` | 网络与日志回归测试 |
-| `tests/consumer/` | 独立使用公开 SDK 的示例项目 |
+| `tests/consumer/` | 独立使用公共插件接口的示例项目 |
 | `examples/` | 应用示例 |
 | `config/` | 应用清单、插件和日志配置样例 |
 | `resources/` | 业务数据、工作表与历史资源 |
@@ -41,7 +41,7 @@ ark 使用 C++20。核心与官方插件放在本仓库，业务插件放在应�
 | `ark::core` | 核心头文件、C++20 要求与公共编译定义 |
 | `ark::net`、`ark::kernel`、`ark::utility` 等 | 插件头文件及其公开 API 依赖 |
 | `ark::proto` | 生成的协议消息及其编译库，需要 `ARK_BUILD_PROTO=ON` |
-| `ark::ark` | 多插件应用使用的聚合 SDK |
+| `ark::ark` | 多插件应用使用的聚合接口目标 |
 
 核心与插件 API 目标负责传递 CMake 编译要求，不负责加载运行时插件。
 设置 `ARK_BUILD_APPLICATIONS=ON` 后，通过 `ARK_BUILD_PLUGIN_<NAME>` 选择要编译的插件动态库。
@@ -66,10 +66,10 @@ target_link_libraries(my_service PRIVATE ark::core ark::net)
 
 详细命名规则、本地检查方式和协议迁移说明见[代码风格](code-style_CN.md)。
 
-## 验证 SDK 使用方式
+## 验证公共头文件使用方式
 
 按[网络构建与回归测试](networking_CN.md)安装依赖后，
-编译独立的 SDK 使用示例：
+编译独立的公共接口使用示例：
 
 ```sh
 cmake -S tests/consumer -B sdk-build -G Ninja \

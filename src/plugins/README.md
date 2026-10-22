@@ -19,6 +19,6 @@ Core and other plugin public headers remain under `include/ark/`. MySQL, Redis, 
 
 Use `ARK_BUILD_PLUGIN_<NAME>` to select a plugin. Optional integrations require their own dependencies and verification. [MySQL](../../docs/reference/mysql.md) provides queries, prepared statements and transactions; [Redis](../../docs/reference/redis.md) provides commands and ordered pipelines. Both use named configuration and manager-owned coroutine tasks. See [database plugin activation](../../docs/reference/build-options.md#native-database-plugins) for build and runtime selection. Lua and Actor integrations remain planned work.
 
-See [project layout and SDK](../../docs/project-layout.md) for targets and build commands.
+See [project layout and public interfaces](../../docs/project-layout.md) for targets and build commands.
 
 [Utility](../../docs/reference/utility.md) documents the four module interfaces, owner-driven timers and the implementation-header migration.
