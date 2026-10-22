@@ -92,7 +92,7 @@ Consul 目标端口必须为 1–65535。未知表或字段、缺失字段、类
 
 ## C++ 和构建集成
 
-`ark::config` 是静态 CMake 目标，公开头文件仅依赖 C++ 标准库。公开读取函数 `load_application_manifest()` 对 `.toml` 后缀使用 TOML，对其他路径使用 XML；应用的 `-a` 参数仍保留前述清单路径限制。
+`src/config/` 维护应用清单声明与编译后的共享配置读取器。`ark::config` 是启用位置无关代码的静态 CMake 目标，可供动态插件链接，公开头文件仅依赖 C++ 标准库。应用和 Bus／HTTP／Consul 插件共享文件读取、TOML 语法与编码解析，以及隐藏配置值的定位诊断。应用清单的结构校验保留在 `application_manifest.cpp`，各插件继续负责字段和取值范围校验。MySQL 和 Redis 继续通过接口配置连接，不新增文件格式。公开读取函数 `load_application_manifest()` 对 `.toml` 后缀使用 TOML，对其他路径使用 XML；应用的 `-a` 参数仍保留前述清单路径限制。
 
 ```cpp
 #include <ark/application_manifest.hpp>
@@ -104,9 +104,22 @@ auto manifest = ark::load_application_manifest("conf/timers.app.toml");
 target_link_libraries(my_loader PRIVATE ark::config)
 ```
 
-构建应用或核心测试时，`ARK_BUILD_CONFIG` 默认为 `ON`，其他情况下默认为 `OFF`；应用构建要求启用此选项。目标内部使用 MIT 许可的 [toml++](https://github.com/marzer/tomlplusplus)：CMake 优先查找已安装的 3.4 或更新版本的 `tomlplusplus` 包，否则获取固定提交 `30172438cee64926dc41fdd9c11fb3ba5b2ba9de` 对应的 v3.4.0。此目标不会向 `ark::core` / `ark::ark` 的使用者传播解析器头文件和宏。XML 继续使用已有的 RapidXML 依赖。
+CMake 将源码 `src/config/application_manifest.hpp` 映射到构建树的 `src/config/public-include/ark/application_manifest.hpp`。仅使用声明时链接 `ark::config_headers`；即使 `ARK_BUILD_CONFIG=OFF`，`ark::core` 也会传递这个轻量目标。声明映射不会引入解析器或网络依赖。手写 `-I <源码>/include` 的调用需要改用目标传递的包含目录。
 
-运行 `cmake --build out --target check-application-manifest` 可执行原生回归；`ARK_BUILD_CONFIG=ON` 时，`check-core` 也会运行这些测试。
+构建应用或核心测试时，`ARK_BUILD_CONFIG` 默认为 `ON`，其他情况下默认为 `OFF`；应用构建要求启用此选项。网络回归使用 HTTP 实现，因此即使应用与 `ARK_BUILD_CONFIG` 关闭，也会创建 `ark::config`。目标内部使用 MIT 许可的 [toml++](https://github.com/marzer/tomlplusplus)：CMake 优先查找已安装的 3.4 或更新版本的 `tomlplusplus` 包，否则获取固定提交 `30172438cee64926dc41fdd9c11fb3ba5b2ba9de` 对应的 v3.4.0。此目标不会向 `ark::core` / `ark::ark` 的使用者传播解析器头文件和宏。XML 继续使用已有的 RapidXML 依赖。
+
+运行 `cmake --build out --target check-application-manifest check-plugin-configuration check-bus-configuration` 可执行原生回归；`ARK_BUILD_CONFIG=ON` 时，`check-core` 也会运行这些测试。
+
+独立配置消费工程不配置 arknet、核心或运行时目标，验证应用与插件配置的成功和失败路径，并通过动态库调用两种读取器：
+
+```sh
+cmake -S tests/consumer/config -B config-build -G Ninja
+cmake --build config-build --target check-config
+cmake -S tests/consumer/config -B config-headers-build -G Ninja -DARK_BUILD_CONFIG=OFF
+cmake --build config-headers-build --target check-config-headers
+```
+
+仅声明构建不查找 toml++ 或 RapidXML；编译读取器时，需要与 `ark::config` 相同的解析器和 RapidXML 依赖。这两种独立配置构建都不需要网络依赖。
 
 ## 内置应用清单迁移
 

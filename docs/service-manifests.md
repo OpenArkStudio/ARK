@@ -92,7 +92,7 @@ The application loader requires a root containing a `plugins` child; a direct `<
 
 ## C++ and build integration
 
-`ark::config` is a static CMake target with a standard-library-only public header. The public `load_application_manifest()` reader selects TOML for a `.toml` suffix and XML for other paths; the application's `-a` argument retains the manifest path restrictions described above.
+`src/config/` owns the application manifest declarations and the compiled configuration reader. `ark::config` is a position-independent static CMake target with a standard-library-only public header, so a shared plugin can link it. The application and the Bus/HTTP/Consul plugins share file reading, TOML syntax/encoding parsing and sanitized positional diagnostics. Application schema validation stays in `application_manifest.cpp`; each plugin retains its own field and range validation. MySQL and Redis retain their programmatic connection configuration and have no new file schema. The public `load_application_manifest()` reader selects TOML for a `.toml` suffix and XML for other paths; the application's `-a` argument retains the manifest path restrictions described above.
 
 ```cpp
 #include <ark/application_manifest.hpp>
@@ -104,9 +104,22 @@ auto manifest = ark::load_application_manifest("conf/timers.app.toml");
 target_link_libraries(my_loader PRIVATE ark::config)
 ```
 
-`ARK_BUILD_CONFIG` defaults to `ON` for application or core-test builds, otherwise `OFF`. Applications require it. The target privately uses [toml++](https://github.com/marzer/tomlplusplus) (MIT): CMake prefers an installed `tomlplusplus` 3.4+ package, otherwise fetches v3.4.0 at `30172438cee64926dc41fdd9c11fb3ba5b2ba9de`. The target does not propagate parser headers or macros to `ark::core` / `ark::ark` consumers. RapidXML remains the XML dependency.
+CMake maps the source `src/config/application_manifest.hpp` to the build tree's `src/config/public-include/ark/application_manifest.hpp`. Link `ark::config_headers` for declarations only; `ark::core` also carries this lightweight target even with `ARK_BUILD_CONFIG=OFF`. This mapping does not load parser or networking dependencies. Use the target-provided include roots instead of a handwritten `-I <source>/include`.
 
-Run `cmake --build out --target check-application-manifest` for native regressions. `check-core` includes them when `ARK_BUILD_CONFIG=ON`.
+`ARK_BUILD_CONFIG` defaults to `ON` for application or core-test builds, otherwise `OFF`. Applications require it. Network regression builds also create `ark::config` for the HTTP implementation, including when applications and `ARK_BUILD_CONFIG` are off. The target privately uses [toml++](https://github.com/marzer/tomlplusplus) (MIT): CMake prefers an installed `tomlplusplus` 3.4+ package, otherwise fetches v3.4.0 at `30172438cee64926dc41fdd9c11fb3ba5b2ba9de`. The target does not propagate parser headers or macros to `ark::core` / `ark::ark` consumers. RapidXML remains the XML dependency.
+
+Run `cmake --build out --target check-application-manifest check-plugin-configuration check-bus-configuration` for native regressions. `check-core` includes them when `ARK_BUILD_CONFIG=ON`.
+
+The independent configuration consumer configures no arknet, core or runtime targets. It exercises application and plugin success/failure cases and reads both through a shared-library consumer:
+
+```sh
+cmake -S tests/consumer/config -B config-build -G Ninja
+cmake --build config-build --target check-config
+cmake -S tests/consumer/config -B config-headers-build -G Ninja -DARK_BUILD_CONFIG=OFF
+cmake --build config-headers-build --target check-config-headers
+```
+
+The declaration-only build does not discover toml++ or RapidXML. The compiled build requires the same parser and RapidXML dependencies as `ark::config`. Neither configuration-only consumer requires network dependencies.
 
 ## Built-in application preset migration
 

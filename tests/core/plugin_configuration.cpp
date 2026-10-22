@@ -91,4 +91,32 @@ TEST_CASE("Plugin configuration diagnostics identify the file and invalid field"
     }
     std::filesystem::remove(path);
     CHECK_THROWS_AS(ark::plugin_config_detail::load_http(path), std::runtime_error);
+    CHECK_THROWS_AS(ark::plugin_config_detail::load_consul(path), std::runtime_error);
+}
+
+TEST_CASE("Shared plugin reader rejects malformed encoding NUL paths and directories") {
+    configuration_file file;
+    std::string invalid_utf8 = "[http]\nhost='";
+    invalid_utf8 += static_cast<char>(0xff);
+    invalid_utf8 += "'\nport=9090\nthreads=1\n";
+    std::string raw_nul = "[http]\n";
+    raw_nul += '\0';
+    raw_nul += "SECRET_SENTINEL";
+    for (const auto& contents : {std::string("[http\nsecret='SECRET_SENTINEL'\n"), invalid_utf8, raw_nul})
+    {
+        const auto path = file.write(contents);
+        try
+        {
+            static_cast<void>(ark::plugin_config_detail::load_http(path));
+            FAIL("invalid configuration accepted");
+        }
+        catch (const std::runtime_error& error)
+        {
+            CHECK(std::string(error.what()).find(path + ":") != std::string::npos);
+            CHECK(std::string(error.what()).find("SECRET_SENTINEL") == std::string::npos);
+        }
+    }
+    CHECK_THROWS_AS(
+        ark::plugin_config_detail::load_http(std::filesystem::temp_directory_path().string()), std::runtime_error);
+    CHECK_THROWS_AS(ark::plugin_config_detail::load_consul(std::string("missing\0.toml", 13)), std::runtime_error);
 }
