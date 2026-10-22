@@ -71,6 +71,8 @@ bool connect_tcp(ark::plugin_manager& manager, const ark::bus_addr& target,
 仍加载时消费，不代表 future 可以跨任意动态库卸载继续使用。
 独立的 `tests/consumer/net` 工程仅链接 `ark::net`，分别编译各公开头，
 并拒绝已移除实现及私有工厂／装配头路径。既有 `check-network` 继续覆盖端点、拆包、重连与停服。
+使用 Boost 时，`check-install` 还通过迁移后的 `ark::net` 安装包编译公开 HTTP 客户端接口，
+并拒绝安装目录中出现实现头文件。
 
 ## 应用层初始收包缓冲
 

@@ -86,6 +86,8 @@ this does not establish their validity across arbitrary library unloading. The
 independent `tests/consumer/net` project links only `ark::net`, compiles each
 public header separately and rejects the removed implementation and private factory/assembly paths. Existing
 `check-network` endpoint, framing, reconnect and shutdown cases remain applicable.
+With Boost, `check-install` also compiles the public HTTP client interface through
+the relocated `ark::net` package and rejects implementation headers in the install tree.
 
 ## Initial application receive buffer
 
