@@ -41,6 +41,24 @@ arknet uses [0.2.3](https://github.com/OpenArkStudio/arknet/releases/tag/v0.2.3)
 
 For local development, supply `ARKNET_SOURCE_DIR`. Existing build directories retain their cached `ARKNET_REVISION`; follow the [installation instructions](get-started/installation.md#upgrade-arknet) to update it explicitly, or use a fresh build directory. Existing performance and database reports continue to describe their stated tested revisions.
 
+## Windows Debug compression dependencies
+
+The LZ4 finder accepts `lz4` and `lz4d` basenames and searches each configured
+directory before moving to the next. This preserves the toolchain's configuration
+preference: a Debug `debug/lib/lz4d.lib` takes precedence over a later release
+`lib/lz4.lib`; Release still prefers its release directory. Zstandard discovery
+and the compiler settings are unchanged.
+
+If a Windows compression regression exits with `0xc0000135` before doctest starts,
+inspect `LZ4_LIBRARY` in `CMakeCache.txt` and the selected import library's DLL
+dependencies. A release LZ4 import library selected in Debug can require a DLL
+outside the configured `debug/bin` runtime directory. After updating this finder,
+clear the cached selection with `cmake -U LZ4_LIBRARY -S . -B <build-dir>` and repeat
+the original configure options, or use a fresh build directory. The CI runtime
+helper continues to export only the matching configuration directory; do not mix
+release DLLs into the Debug runtime path. Finder fixtures verify search selection
+without compiling fake libraries; Windows execution remains a separate check.
+
 ## Optional legacy integrations
 
 The physic plugin and physics_scene depend on PhysX 3 and have no validated SDK
