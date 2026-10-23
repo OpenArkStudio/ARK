@@ -27,6 +27,8 @@ Initialize Protobuf as described for application builds.
 
 The C++20 language regressions check the exact six built-in integer classifications, qualifier and reference handling, constant values, exception contracts and fixed UID allocation outputs. The standalone array-map header check also rejects reintroduced legacy language macros.
 
+The random-generator regressions include the public header first and twice. They preserve fixed raw/signed/unsigned sequences, final seeds and draw counts, and check half-open signed ranges at `INT_MIN`/`INT_MAX`, mixed-sign and adjacent endpoints, reversed endpoints and equal endpoints. Equal endpoints return their value without consuming a draw. These cases are part of `ark_core_tests` and `check-core`; a build with `-fsanitize=undefined -fno-sanitize-recover=all` also checks the range arithmetic with UndefinedBehaviorSanitizer. See [random-helper behavior](../../docs/reference/utility.md#core-random-helper).
+
 With `ARK_BUILD_CONFIG=ON` (the default for core tests),
 `check-application-manifest` checks TOML/XML equivalence, defaults, strict fields,
 invalid input, diagnostics and owning results. It is also part of `check-core`.
