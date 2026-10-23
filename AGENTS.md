@@ -89,6 +89,10 @@ branch or worktree when the existing checkout contains uncommitted changes.
 - The formatter selects Git-tracked files. Stage intended new C++ files before
   running it, or format those paths explicitly. Run the complete check again
   after committing so newly tracked tests and headers cannot escape validation.
+- Keep optional compiler caching separate from vcpkg archives. Preserve compiler
+  flags, matrix coverage and failure propagation; use an empty launcher when cache
+  setup is unavailable. Windows Debug remains uncached without changing `/Zi`.
+  Record hosted cold/warm cache evidence before claiming a speed improvement.
 - CI policy tests: `node --test tests/ci/*.test.mjs`. Nimbus documentation:
   `npm ci --prefix docs/site` followed by `npm run check --prefix docs/site`.
 - Keep official plugins in the ark repository and application business plugins
@@ -209,7 +213,7 @@ branch or worktree when the existing checkout contains uncommitted changes.
   succeeded for the intended source revision and inspect affected published pages.
   A local preview, merged PR and deployed site are distinct evidence states.
 - Use the full names AddressSanitizer, UndefinedBehaviorSanitizer and
-  ThreadSanitizer in explanatory prose. Preserve command flags, paths, workflow
+  ThreadSanitizer in explanatory prose and human-readable job/step display names. Preserve command flags, paths, workflow
   identifiers and machine-readable fields. Call Asio/Beast dependencies rather
   than backends; capitalize Standalone Asio in prose.
 - Prefer SVG or Mermaid for editable diagrams and charts. Show labeled units and
