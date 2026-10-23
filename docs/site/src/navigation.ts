@@ -136,6 +136,11 @@ const tree: Entry[] = [
     },
     "children": [
       [
+        "reference/xxtea",
+        "XXTEA helper",
+        "XXTEA 工具"
+      ],
+      [
         "reference/object-vectors",
         "Object vectors",
         "对象指针容器"

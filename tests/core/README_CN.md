@@ -99,3 +99,5 @@ Net 注册的 HTTP 客户端现在由私有接口工厂创建。`check-net-plugi
 保留的固定演示端点与真实传输验证边界见 [HTTP 示例](../../docs/reference/http_CN.md#旧-http-示例的类型化创建)。
 
 开启 Protobuf 且存在 Kernel／Utility 运行时 target 时，`check-kernel-plugin` 通过独立公开接口 runner 加载真实 DSO，检查原有四个接口键与管理器指针、元数据／静态记录加载、地图／实体注册和回调、管理器更新、停机销毁与重复 stop。它与现有直接初始化／实体默认值测试一起纳入 `check-core`；不在卸载后检查注册表，也不证明任意热更新安全。Kernel 公开头消费者检查全部保留类型的基类和 update 声明。
+
+XXTEA 用例覆盖精确长度分配的短密钥、16 字节与内嵌零字节密钥、二进制往返及输出追加，参见[密钥约定](../../docs/reference/xxtea_CN.md)。
