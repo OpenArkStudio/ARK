@@ -25,15 +25,6 @@
 #define MX (((z >> 5) ^ (y << 2)) + ((y >> 3) ^ (z << 4))) ^ ((sum ^ y) + (key[(p & 3) ^ e] ^ z))
 #define DELTA 0x9e3779b9
 
-#define FIXED_KEY                                                                                                      \
-    size_t i;                                                                                                          \
-    uint8_t fixed_key[16];                                                                                             \
-    memcpy(fixed_key, key, 16);                                                                                        \
-    for (i = 0; (i < 16) && (fixed_key[i] != 0); ++i)                                                                  \
-        ;                                                                                                              \
-    for (++i; i < 16; ++i)                                                                                             \
-        fixed_key[i] = 0;
-
 namespace ark {
 
 class xxtea
@@ -90,8 +81,8 @@ public:
      * Caller is responsible for freeing the returned buffer.
      */
     static void* xxtea_encrypt(const void* data, size_t len, const void* key, size_t* out_len) {
-        FIXED_KEY
-        return xxtea_ubyte_encrypt((const uint8_t*)data, len, fixed_key, out_len);
+        const auto fixed_key = normalize_key(key);
+        return xxtea_ubyte_encrypt((const uint8_t*)data, len, fixed_key.data(), out_len);
     }
 
     /**
@@ -105,11 +96,21 @@ public:
      * Caller is responsible for freeing the returned buffer.
      */
     static void* xxtea_decrypt(const void* data, size_t len, const void* key, size_t* out_len) {
-        FIXED_KEY
-        return xxtea_ubyte_decrypt((const uint8_t*)data, len, fixed_key, out_len);
+        const auto fixed_key = normalize_key(key);
+        return xxtea_ubyte_decrypt((const uint8_t*)data, len, fixed_key.data(), out_len);
     }
 
 protected:
+    static std::array<uint8_t, 16> normalize_key(const void* key) {
+        std::array<uint8_t, 16> result{};
+        const auto* bytes = static_cast<const uint8_t*>(key);
+        for (size_t index = 0; index < result.size() && bytes[index] != 0; ++index)
+        {
+            result[index] = bytes[index];
+        }
+        return result;
+    }
+
     static uint32_t* xxtea_to_uint_array(const uint8_t* data, size_t len, int inc_len, size_t* out_len) {
         uint32_t* out;
         size_t n;
