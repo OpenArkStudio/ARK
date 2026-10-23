@@ -122,12 +122,43 @@ jobs:
           path: ${{ steps.vcpkg-cache.outputs.directory }}
           key: ${{ steps.vcpkg-cache.outputs.key }}
           restore-keys: ${{ steps.vcpkg-cache.outputs.restore-key }}
+      - name: Install compiler cache
+        id: sccache-setup
+        if: runner.os != 'Windows'
+        continue-on-error: true
+        uses: Mozilla-Actions/sccache-action@v0.0.11
+        with:
+          version: v0.16.0
+          disable_annotations: true
+      - name: Prepare compiler launcher
+        id: compiler-cache
+        env:
+          COMPILER_CACHE_IDENTITY: ${{ steps.vcpkg-cache.outputs.key }}
+          SCCACHE_SETUP_OUTCOME: ${{ steps.sccache-setup.outcome }}
+        run: node .github/scripts/compiler-cache.mjs --prepare
+      - name: Restore compiler cache
+        id: compiler-restore
+        if: steps.compiler-cache.outputs.enabled == 'true'
+        continue-on-error: true
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ steps.compiler-cache.outputs.directory }}
+          key: ${{ steps.compiler-cache.outputs.archive_key }}
+          restore-keys: ${{ steps.compiler-cache.outputs.restore_keys }}
+      - name: Start compiler cache after archive restore
+        id: compiler-start
+        if: steps.compiler-cache.outputs.enabled == 'true'
+        env:
+          COMPILER_CACHE_IDENTITY: ${{ steps.vcpkg-cache.outputs.key }}
+          SCCACHE_SETUP_OUTCOME: ${{ steps.sccache-setup.outcome }}
+          SCCACHE_RESTORE_OUTCOME: ${{ steps.compiler-restore.outcome }}
+        run: node .github/scripts/compiler-cache.mjs
       - uses: lukka/get-cmake@latest
       - uses: lukka/run-vcpkg@v11
         with:
           vcpkgGitCommitId: 0699a19d0c6386247ce50d4dedbb8217d484d536
           vcpkgJsonGlob: vcpkg.json
-      - name: Configure TSan address space
+      - name: Configure ThreadSanitizer address space
         if: matrix.sanitizer == 'thread'
         run: sudo sysctl -w vm.mmap_rnd_bits=28
       - name: Configure network regressions
@@ -137,6 +168,8 @@ jobs:
           "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
           -DVCPKG_MANIFEST_FEATURES=boost
           -DCMAKE_BUILD_TYPE=Debug
+          "-DCMAKE_C_COMPILER_LAUNCHER=$env:ARK_COMPILER_LAUNCHER"
+          "-DCMAKE_CXX_COMPILER_LAUNCHER=$env:ARK_COMPILER_LAUNCHER"
           -DARK_BUILD_APPLICATIONS=OFF
           -DARK_BUILD_NETWORK_TESTS=ON
           -DASIO_STANDALONE=OFF
@@ -155,6 +188,21 @@ jobs:
           UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
           TSAN_OPTIONS: halt_on_error=1:second_deadlock_stack=1
         run: cmake --build ci-build --target check-network
+      - name: Report native cache statistics
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        env:
+          VCPKG_ARCHIVE_DIRECTORY: ${{ steps.vcpkg-cache.outputs.directory }}
+          VCPKG_ARCHIVE_HIT: ${{ steps.vcpkg-restore.outputs.cache-hit }}
+          COMPILER_ARCHIVE_HIT: ${{ steps.compiler-restore.outputs.cache-hit }}
+        run: node .github/scripts/cache-stats.mjs
+      - name: Save compiler cache
+        if: ${{ success() && steps.compiler-start.outputs.enabled == 'true' && steps.compiler-restore.outputs.cache-hit != 'true' }}
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ steps.compiler-cache.outputs.directory }}
+          key: ${{ steps.compiler-cache.outputs.archive_key }}
   applications:
     name: Applications - ${{ matrix.os }} - C++20
     needs: scope
@@ -188,6 +236,37 @@ jobs:
           path: ${{ steps.vcpkg-cache.outputs.directory }}
           key: ${{ steps.vcpkg-cache.outputs.key }}
           restore-keys: ${{ steps.vcpkg-cache.outputs.restore-key }}
+      - name: Install compiler cache
+        id: sccache-setup
+        if: runner.os != 'Windows'
+        continue-on-error: true
+        uses: Mozilla-Actions/sccache-action@v0.0.11
+        with:
+          version: v0.16.0
+          disable_annotations: true
+      - name: Prepare compiler launcher
+        id: compiler-cache
+        env:
+          COMPILER_CACHE_IDENTITY: ${{ steps.vcpkg-cache.outputs.key }}
+          SCCACHE_SETUP_OUTCOME: ${{ steps.sccache-setup.outcome }}
+        run: node .github/scripts/compiler-cache.mjs --prepare
+      - name: Restore compiler cache
+        id: compiler-restore
+        if: steps.compiler-cache.outputs.enabled == 'true'
+        continue-on-error: true
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ steps.compiler-cache.outputs.directory }}
+          key: ${{ steps.compiler-cache.outputs.archive_key }}
+          restore-keys: ${{ steps.compiler-cache.outputs.restore_keys }}
+      - name: Start compiler cache after archive restore
+        id: compiler-start
+        if: steps.compiler-cache.outputs.enabled == 'true'
+        env:
+          COMPILER_CACHE_IDENTITY: ${{ steps.vcpkg-cache.outputs.key }}
+          SCCACHE_SETUP_OUTCOME: ${{ steps.sccache-setup.outcome }}
+          SCCACHE_RESTORE_OUTCOME: ${{ steps.compiler-restore.outcome }}
+        run: node .github/scripts/compiler-cache.mjs
       - uses: lukka/get-cmake@latest
       - uses: lukka/run-vcpkg@v11
         with:
@@ -200,6 +279,8 @@ jobs:
           "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
           "-DVCPKG_MANIFEST_FEATURES=application;boost;etcd-client"
           -DCMAKE_BUILD_TYPE=Debug
+          "-DCMAKE_C_COMPILER_LAUNCHER=$env:ARK_COMPILER_LAUNCHER"
+          "-DCMAKE_CXX_COMPILER_LAUNCHER=$env:ARK_COMPILER_LAUNCHER"
           ${{ runner.os == 'Windows' && '-DVCPKG_APPLOCAL_DEPS=OFF' || '' }}
           -DARK_BUILD_APPLICATIONS=ON
           -DARK_BUILD_BENCHMARKS=ON
@@ -229,6 +310,21 @@ jobs:
       - name: Check entity benchmark CLI without measurements
         run: cmake --build ci-build --target check-entity-benchmark-smoke
 
+      - name: Report native cache statistics
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        env:
+          VCPKG_ARCHIVE_DIRECTORY: ${{ steps.vcpkg-cache.outputs.directory }}
+          VCPKG_ARCHIVE_HIT: ${{ steps.vcpkg-restore.outputs.cache-hit }}
+          COMPILER_ARCHIVE_HIT: ${{ steps.compiler-restore.outputs.cache-hit }}
+        run: node .github/scripts/cache-stats.mjs
+      - name: Save compiler cache
+        if: ${{ success() && steps.compiler-start.outputs.enabled == 'true' && steps.compiler-restore.outputs.cache-hit != 'true' }}
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ steps.compiler-cache.outputs.directory }}
+          key: ${{ steps.compiler-cache.outputs.archive_key }}
   database:
     name: Database - ${{ matrix.os }} - ${{ matrix.asio }}
     needs: scope
@@ -268,6 +364,37 @@ jobs:
           path: ${{ steps.vcpkg-cache.outputs.directory }}
           key: ${{ steps.vcpkg-cache.outputs.key }}
           restore-keys: ${{ steps.vcpkg-cache.outputs.restore-key }}
+      - name: Install compiler cache
+        id: sccache-setup
+        if: runner.os != 'Windows'
+        continue-on-error: true
+        uses: Mozilla-Actions/sccache-action@v0.0.11
+        with:
+          version: v0.16.0
+          disable_annotations: true
+      - name: Prepare compiler launcher
+        id: compiler-cache
+        env:
+          COMPILER_CACHE_IDENTITY: ${{ steps.vcpkg-cache.outputs.key }}
+          SCCACHE_SETUP_OUTCOME: ${{ steps.sccache-setup.outcome }}
+        run: node .github/scripts/compiler-cache.mjs --prepare
+      - name: Restore compiler cache
+        id: compiler-restore
+        if: steps.compiler-cache.outputs.enabled == 'true'
+        continue-on-error: true
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ steps.compiler-cache.outputs.directory }}
+          key: ${{ steps.compiler-cache.outputs.archive_key }}
+          restore-keys: ${{ steps.compiler-cache.outputs.restore_keys }}
+      - name: Start compiler cache after archive restore
+        id: compiler-start
+        if: steps.compiler-cache.outputs.enabled == 'true'
+        env:
+          COMPILER_CACHE_IDENTITY: ${{ steps.vcpkg-cache.outputs.key }}
+          SCCACHE_SETUP_OUTCOME: ${{ steps.sccache-setup.outcome }}
+          SCCACHE_RESTORE_OUTCOME: ${{ steps.compiler-restore.outcome }}
+        run: node .github/scripts/compiler-cache.mjs
       - uses: lukka/get-cmake@latest
       - uses: lukka/run-vcpkg@v11
         with:
@@ -281,6 +408,8 @@ jobs:
           -DVCPKG_MANIFEST_NO_DEFAULT_FEATURES=ON
           "-DVCPKG_MANIFEST_FEATURES=${{ matrix.features }}"
           -DCMAKE_BUILD_TYPE=Debug
+          "-DCMAKE_C_COMPILER_LAUNCHER=$env:ARK_COMPILER_LAUNCHER"
+          "-DCMAKE_CXX_COMPILER_LAUNCHER=$env:ARK_COMPILER_LAUNCHER"
           -DARK_BUILD_APPLICATIONS=OFF
           -DARK_BUILD_PROTO=OFF
           -DARK_BUILD_TESTS=OFF
@@ -304,6 +433,21 @@ jobs:
         run: cmake --build ci-database --target check-database
       - name: Run local database benchmark self-tests
         run: cmake --build ci-database --target check-database-benchmark
+      - name: Report native cache statistics
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        env:
+          VCPKG_ARCHIVE_DIRECTORY: ${{ steps.vcpkg-cache.outputs.directory }}
+          VCPKG_ARCHIVE_HIT: ${{ steps.vcpkg-restore.outputs.cache-hit }}
+          COMPILER_ARCHIVE_HIT: ${{ steps.compiler-restore.outputs.cache-hit }}
+        run: node .github/scripts/cache-stats.mjs
+      - name: Save compiler cache
+        if: ${{ success() && steps.compiler-start.outputs.enabled == 'true' && steps.compiler-restore.outputs.cache-hit != 'true' }}
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ steps.compiler-cache.outputs.directory }}
+          key: ${{ steps.compiler-cache.outputs.archive_key }}
   required:
     name: ${{ github.event_name == 'pull_request' && toJSON(github.event.pull_request.draft) == 'true' && 'CI - draft preview' || 'CI - required' }}
     if: always()
