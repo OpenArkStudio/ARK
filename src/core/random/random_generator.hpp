@@ -128,10 +128,10 @@ public:
             // max_range = iMinSwap;
         }
 
-        int range = max_range - min_range;
-        int rand_result = random((uint32_t)range);
+        int64_t range = static_cast<int64_t>(max_range) - min_range;
+        uint32_t rand_result = random(static_cast<uint32_t>(range));
 
-        return rand_result + min_range;
+        return static_cast<int>(static_cast<int64_t>(min_range) + rand_result);
     }
 
     int get_random_count() {
