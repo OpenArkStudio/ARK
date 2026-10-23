@@ -39,7 +39,7 @@ branch or worktree when the existing checkout contains uncommitted changes.
 
 ## Verification and delivery
 
-- Follow the root scheduler and PR creation order defined below when runner
+- Follow the root scheduler and per-repository PR order below when runner
   capacity is shared. Prepare newer work locally and defer hosted admission;
   do not repeatedly push newer branches ahead of the backlog. Preserve active
   acceptance runs. A cancelled scheduling run still needs fresh successful checks
@@ -162,14 +162,19 @@ branch or worktree when the existing checkout contains uncommitted changes.
 - Use `gh` CLI for GitHub operations; do not replace it with direct REST/GraphQL
   requests or `gh api`. Normal Git fetch/push commands remain appropriate.
 - The root agent alone observes CI and controls PR readiness and queue admission.
-  Order admission by PR creation time: finish the oldest unfinished PR before
-  admitting newer ones. A newer PR becoming green first is not permission to
-  overtake an older PR. Account for shared runner capacity across ark and arknet.
-- Continue independent implementation and local validation in parallel. Publish
-  focused modules without starting newer native matrices ahead of the backlog.
-  Use drafts only when the deployed workflow actually defers draft native jobs;
-  otherwise retain a reviewable local branch until admission is available.
-- Do not enable automatic merge for held PRs. Release them in creation order;
+  Order queue admission by PR creation time within each repository, retaining
+  explicit user-approved priority exceptions. A newer PR becoming green first
+  does not permit it to overtake an older unfinished PR in the same repository.
+  Independent repositories may advance in parallel.
+- Before admitting new source/native work or requesting a new merge candidate,
+  verify that every older active candidate has started all of its native jobs.
+  A waiting or missing native job is not a start; completion is not required.
+  Unadmitted work in another repository does not block an eligible repository.
+- Continue independent implementation and local validation in parallel. Use drafts
+  only when the deployed workflow actually defers draft native jobs; otherwise
+  retain a reviewable local branch until admission is available.
+- Do not enable automatic merge for held PRs. Release them in creation order
+  within each repository, retaining explicit user-approved priority exceptions;
   after required checks pass, squash through the protected merge queue promptly.
   Do not repeatedly ask for already-authorized merges or bypass any check.
 - When a draft-preview workflow is deployed, require its fresh `ready_for_review`
@@ -178,10 +183,9 @@ branch or worktree when the existing checkout contains uncommitted changes.
   SHA do not establish fresh admission. Verify the hosted behavior before claiming it works.
 - Give jobs unique, descriptive names. Consolidate compatible jobs/steps to reduce
   setup time without dropping required platforms, protocols or verification.
-- Preserve active acceptance runs. If correcting scheduling requires cancellation,
-  record its reason and arrange fresh acceptance; cancellation never counts as
-  a successful test. GitHub Actions concurrency groups do not by themselves
-  enforce PR-creation order.
+- Preserve active acceptance runs. Do not cancel older runs to admit newer work.
+  Cancellation never counts as a successful test. GitHub Actions concurrency
+  groups do not by themselves enforce PR-creation order.
 - Keep one observer per PR batch. Batch status reads, back off unchanged polling,
   and let scripts collect logs and exit codes. Read summaries and relevant failure
   excerpts, not entire repeated logs. Communicate completion, failures, interface
