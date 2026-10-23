@@ -22,7 +22,7 @@ export function isDocumentationPath(file) {
   if (cppPath.test(file) || /^CMake(?:Lists\.txt|(?:User)?Presets\.json|Cache\.txt)$/i.test(name) || /\.cmake$/i.test(file) ||
       dependencyName.test(name) || file.split('/').includes('.github') || /^action\.ya?ml$/i.test(name) ||
       /^\.clang-(?:format|tidy)$/.test(name)) return false;
-  if (file === 'README.md' || file === 'README_CN.md' || pluginIndexPaths.has(file) || testGuidePaths.has(file)) return true;
+  if (file === 'AGENTS.md' || file === 'README.md' || file === 'README_CN.md' || pluginIndexPaths.has(file) || testGuidePaths.has(file)) return true;
   return file.startsWith('docs/') && (docPath.test(file) || name === 'LICENSE' || name === '.gitignore');
 }
 
@@ -98,7 +98,7 @@ export function selectScope({ eventName, files, site, enumerationFailed = false 
   const scopedEvent = eventName === 'pull_request' || eventName === 'merge_group';
   const docsOnly = scopedEvent && nonempty && site.available && paths.every(isDocumentationPath);
   const readme = paths.some(file => file === 'README.md' || file === 'README_CN.md');
-  const docsTouched = readme || paths.some(file => file.startsWith('docs/') || pluginIndexPaths.has(file) || testGuidePaths.has(file));
+  const docsTouched = readme || paths.some(file => file === 'AGENTS.md' || file.startsWith('docs/') || pluginIndexPaths.has(file) || testGuidePaths.has(file));
   const ciTouched = paths.some(file => file.startsWith('.github/') || file.startsWith('tests/ci/'));
   const siteReferenced = site.present || paths.some(file => file.startsWith('docs/site/'));
   const docs = siteReferenced && (eventName !== 'pull_request' || !known || docsTouched || ciTouched);

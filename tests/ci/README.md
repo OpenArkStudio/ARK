@@ -96,6 +96,14 @@ their own refs. Independent groups do not enforce PR creation order. The require
 gate still rejects failed, cancelled or missing results. Manual cancellation can
 still prevent the `always()` summary from completing. See [GitHub concurrency rules](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#concurrency).
 
+The exact root `AGENTS.md` path also qualifies as documentation. A known,
+nonempty range confined to that file and other recognized documentation selects
+Nimbus and the final required gate on both PRs and merge-group candidates, with
+native jobs explicitly skipped when the site is available. This does not extend
+the root README link check or exempt nested `AGENTS.md` files, similarly named
+code, mixed source changes or uncertain ranges. Manual runs retain the full
+native matrix. This CI policy change itself still requires native acceptance.
+
 Within `src/`, only the exact plugin index paths `src/plugins/README.md` and
 `src/plugins/README_CN.md` additionally qualify as documentation. Changes confined
 to these indexes select the Nimbus check on PRs and documentation-only queue
