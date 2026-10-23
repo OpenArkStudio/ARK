@@ -20,6 +20,10 @@
 
 #pragma once
 
+#include <limits>
+#include <string>
+#include <vector>
+
 #include <lz4.h>
 
 #include "ark/macros.hpp"
@@ -33,30 +37,44 @@ class lz4_compress
 public:
     static bool compress(
         IN const char* in_data, IN std::size_t in_size, IN int c_level, OUT std::string& compress_buff) {
-        static char pre_buffer[PRE_ALLOCATED_LZ4_BUFF_SIZE] = {0};
-        memset(pre_buffer, 0, sizeof(pre_buffer));
-
-        const int pre_buff_size = LZ4_compressBound(in_size);
-        if (pre_buff_size >= PRE_ALLOCATED_LZ4_BUFF_SIZE)
+        if (in_size > static_cast<std::size_t>((std::numeric_limits<int>::max)()))
         {
             return false;
         }
 
-        const int compressed_size = LZ4_compress_fast(in_data, pre_buffer, in_size, pre_buff_size, c_level);
-        ARK_ASSERT_RET_VAL(compressed_size > 0, false);
+        const int source_size = static_cast<int>(in_size);
+        const int pre_buff_size = LZ4_compressBound(source_size);
+        if (pre_buff_size <= 0 || pre_buff_size >= PRE_ALLOCATED_LZ4_BUFF_SIZE)
+        {
+            return false;
+        }
 
-        compress_buff.append(pre_buffer, compressed_size);
+        std::vector<char> pre_buffer(pre_buff_size);
+        const int compressed_size = LZ4_compress_fast(in_data, pre_buffer.data(), source_size, pre_buff_size, c_level);
+        if (compressed_size <= 0)
+        {
+            return false;
+        }
+
+        compress_buff.append(pre_buffer.data(), compressed_size);
         return true;
     }
 
     static bool decompress(IN const char* in_data, IN std::size_t in_size, OUT std::string& decompress_buff) {
-        static char pre_buffer[PRE_ALLOCATED_LZ4_BUFF_SIZE] = {0};
-        memset(pre_buffer, 0, sizeof(pre_buffer));
+        if (in_size > static_cast<std::size_t>((std::numeric_limits<int>::max)()))
+        {
+            return false;
+        }
 
-        int const decompressed_size = LZ4_decompress_safe(in_data, pre_buffer, in_size, PRE_ALLOCATED_LZ4_BUFF_SIZE);
-        ARK_ASSERT_RET_VAL(decompressed_size > 0, false);
+        std::vector<char> pre_buffer(PRE_ALLOCATED_LZ4_BUFF_SIZE);
+        int const decompressed_size = LZ4_decompress_safe(
+            in_data, pre_buffer.data(), static_cast<int>(in_size), static_cast<int>(pre_buffer.size()));
+        if (decompressed_size <= 0)
+        {
+            return false;
+        }
 
-        decompress_buff.append(pre_buffer, decompressed_size);
+        decompress_buff.append(pre_buffer.data(), decompressed_size);
         return true;
     }
 };

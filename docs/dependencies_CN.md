@@ -11,6 +11,7 @@
 | Boost 网络 | `boost`（默认） | `boost-asio`、`boost-beast` |
 | 应用清单读取 | `config`（默认） | `tomlplusplus` → `tomlplusplus::tomlplusplus` |
 | 应用 | `application` | `args` → `taywee::args`、Protobuf、zlib、Zstandard |
+| 压缩回归 | `compression-tests` | zlib、Zstandard、LZ4；`ARK_BUILD_COMPRESSION_TESTS=ON` |
 | etcd 客户端插件 | `etcd-client` | `nlohmann-json` → `nlohmann_json::nlohmann_json` |
 | 原生数据库开发 | `database` | OpenSSL |
 

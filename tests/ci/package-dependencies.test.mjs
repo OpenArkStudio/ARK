@@ -44,11 +44,29 @@ function applicationFeatures(workflow) {
 test('CI configures the default etcd package feature and caches exactly those features', () => {
   const workflow = read('.github/workflows/ci.yml');
   applicationFeatures(workflow);
-  assert.throws(() => applicationFeatures(workflow.replace('VCPKG_CACHE_FEATURES: \'application;boost;etcd-client\'',
+  assert.throws(() => applicationFeatures(workflow.replace('VCPKG_CACHE_FEATURES: \'application;boost;compression-tests;etcd-client\'',
     'VCPKG_CACHE_FEATURES: \'application;boost\'')), /cache metadata/);
-  assert.throws(() => applicationFeatures(workflow.replaceAll('application;boost;etcd-client', 'application;boost')), /requires its package feature/);
+  assert.throws(() => applicationFeatures(workflow.replaceAll('application;boost;compression-tests;etcd-client', 'application;boost')), /requires its package feature/);
   assert.doesNotMatch(workflow, /git submodule|Initialize pinned dependencies/);
   assert.equal(existsSync(new URL('../../.gitmodules', import.meta.url)), false);
+});
+
+test('compression checks are opt-in and Applications CI runs all three codecs through check-core', () => {
+  const features = manifest.features;
+  assert.deepEqual(dependencies(features['compression-tests'].dependencies).sort(), ['lz4', 'zlib', 'zstd']);
+  assert.ok(!dependencies(features.application.dependencies).includes('lz4'));
+  assert.ok(!dependencies(manifest.dependencies).includes('lz4'));
+  assert.ok(!manifest['default-features'].includes('compression-tests'));
+  const root = read('CMakeLists.txt');
+  assert.match(root, /option\(ARK_BUILD_COMPRESSION_TESTS[^\n]* OFF\)/);
+  assert.match(root, /if\(ARK_BUILD_COMPRESSION_TESTS\)[\s\S]*add_subdirectory\(tests\/compression\)[\s\S]*add_dependencies\(check-core check-compression\)/);
+  const checks = read('tests/compression/CMakeLists.txt');
+  for (const dependency of ['ZLIB', 'Zstd', 'LZ4']) assert.match(checks, new RegExp(`find_package\\(${dependency} REQUIRED\\)`));
+  assert.match(checks, /add_custom_target\(check-compression\s+COMMAND \$<TARGET_FILE:ark_compression_tests>/);
+  const applications = read('.github/workflows/ci.yml').split('  applications:\n')[1].split('\n  database:')[0];
+  assert.match(applications, /-DVCPKG_MANIFEST_FEATURES=[^\n]*compression-tests/);
+  assert.match(applications, /-DARK_BUILD_COMPRESSION_TESTS=ON/);
+  assert.match(applications, /run: cmake --build ci-build --target check-core/);
 });
 
 test('unsupported PhysX and simulate integrations fail explicitly instead of searching absent bundled SDKs', () => {

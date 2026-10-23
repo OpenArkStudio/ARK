@@ -26,6 +26,32 @@ Pointers are borrowed from the loaded plugin. Keep the owning plugin alive while
 
 The plugin keeps installation order GUID, timer, schedule, compression and reverses that order during uninstallation. Timer `pre_shut()` still shuts down its time wheel. GUID layout, compression levels/algorithms and scheduler behavior are unchanged. The library stem remains `ark_utility_plugin`, with the existing platform extension and Debug `_d` postfix.
 
+## Compression buffers and concurrency
+
+The core helpers `<ark/compress/zlib.hpp>`, `<ark/compress/zstd.hpp>` and
+`<ark/compress/lz4.hpp>` use an owned heap buffer for each call. Successful calls
+append to the supplied output string; rejected input leaves it unchanged. Callers
+must supply a readable input range and synchronize any shared output string.
+The existing compression policy requires the codec's worst-case output bound to
+be strictly below 1 MiB. Decompression accepts at most 1 MiB of output, including
+exactly 1 MiB. Zstandard requires a known frame content size and rejects larger,
+unknown-size or invalid frames before decoding. Invalid compressed data returns
+`false`. LZ4's existing empty-block decompression result remains `false`.
+
+zlib, LZ4 and Zstandard normal calls have no shared writable output buffer.
+Zstandard dictionary calls still mutate their instance's cached contexts: use a
+separate `zstd_compress` instance per thread, or externally serialize dictionary
+initialization, dictionary calls and destruction. Dictionary initialization,
+ownership and copy behavior retain their existing contract. This change does not
+establish same-instance dictionary concurrency or plugin unload safety.
+
+Enable `ARK_BUILD_COMPRESSION_TESTS=ON` and the vcpkg `compression-tests` feature
+to run `cmake --build <build-dir> --target check-compression`. The target is also
+part of `check-core` when enabled; Applications CI enables it explicitly. It
+checks the mapped public headers, capacity boundaries, malformed frames, append
+behavior and parallel round trips with separate dictionary instances. LZ4 remains
+a direct core helper; the Utility module still selects zlib or Zstandard.
+
 ## Source and build-tree SDK migration
 
 Public headers now have their single source in `src/plugins/utility/`. CMake copies seven explicitly listed public headers into the build tree's `src/plugins/sdk-include/ark/utility/`: the four module interfaces plus `scheduler.hpp`, `ctpl.h` and `ctpl_stl.h`. Consume `ark::utility` to retain all existing `<ark/utility/...>` public/helper include paths, including with runtime plugins disabled. Do not add the private plugin directory to consumer include paths. The upstream thread-pool headers retain their original bytes and formatting rules. For installed consumption, use the [CMake package](../get-started/installation.md#install-and-consume-the-cmake-package) with `find_package(ark CONFIG REQUIRED COMPONENTS utility)` and the same `ark::utility` target. Installed public headers retain `<ark/utility/...>` paths; the runtime plugin still needs to be selected in the application manifest.

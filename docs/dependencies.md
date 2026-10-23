@@ -12,6 +12,7 @@ source tree or dependency submodule initialization.
 | Boost networking | `boost` (default) | `boost-asio`, `boost-beast` |
 | Manifest reader | `config` (default) | `tomlplusplus` → `tomlplusplus::tomlplusplus` |
 | Applications | `application` | `args` → `taywee::args`, Protobuf, zlib, Zstandard |
+| Compression regressions | `compression-tests` | zlib, Zstandard, LZ4; `ARK_BUILD_COMPRESSION_TESTS=ON` |
 | etcd client plugin | `etcd-client` | `nlohmann-json` → `nlohmann_json::nlohmann_json` |
 | Native database development | `database` | OpenSSL |
 
