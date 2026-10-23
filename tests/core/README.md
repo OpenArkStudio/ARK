@@ -57,6 +57,23 @@ in a dot keep that basename. All test writes use temporary directories.
 cmake --build core-build --target check-logging
 ```
 
+## Compression helpers
+
+`ARK_BUILD_COMPRESSION_TESTS=ON` adds `check-compression` to `check-core` and
+also supports running it independently. Install the vcpkg `compression-tests`
+feature for zlib, Zstandard and LZ4; the option defaults to `OFF` so core-only
+builds keep their existing dependency requirements. Applications CI explicitly
+enables it. Tests compile each mapped `<ark/compress/...>` header independently
+and cover binary/empty inputs, append semantics, strict compression bounds,
+exactly 1 MiB decompression, oversized/unknown/corrupt frames, integer-size
+rejection and concurrent round trips. Dictionary workers use separate instances.
+See [Utility compression](../../docs/reference/utility.md#compression-buffers-and-concurrency)
+for the caller-owned output and dictionary-context synchronization requirements.
+
+```sh
+cmake --build core-build --target check-compression --parallel 2
+```
+
 ## Public task interface
 
 `check-task-sdk` is included in `check-core`. It compiles `<ark/task.hpp>`
