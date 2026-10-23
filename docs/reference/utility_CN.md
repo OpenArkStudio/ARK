@@ -32,6 +32,14 @@ const auto entity = guids->create_guid();
 
 **源码不兼容变更：** SDK 移除 `ark/utility/{guid,timer,schedule,compress}_module_impl.hpp` 和 `ark/utility/utility_plugin.hpp`。实现类定义在各自 cpp 文件中，插件类型及返回接口的工厂属于私有装配。将直接构造实现类的代码改为公开接口查找，或应用自行维护实现。仅手写 `-I <ark-source>/include` 的调用需改用目标传递的包含目录。插件和使用方应一起重新编译；公开虚函数及动态入口签名保持不变，不代表兼容旧实现类二进制。
 
+## Core 随机数工具
+
+`<ark/random/random_generator.hpp>` 通过 `ark::core` 提供 `ark::random_generator`，无需加载 Utility 插件。有符号 `random(int, int)` 重载接受任意两个 `int` 端点，包括 `INT_MIN` 和 `INT_MAX`，范围计算不会溢出。端点不同时，先按大小排序，再返回 `[lower, upper)` 内的值。端点相同时，直接返回该值，不推进生成器状态。
+
+范围选择保留现有的取模映射、种子序列和生成次数。端点不同的每次调用消耗一个随机数；使用相同种子并交换端点，得到相同序列。无符号重载的行为保持不变。
+
 ## 验证
 
 `check-typed-examples` 与 timers、module_lifecycle、entity_operations 一起加载真实 Utility DSO，验证四个接口的 RTTI 注册键与管理器归属、GUID 生成与解析、zlib/Zstandard 二进制往返、由所属线程时间推进触发的定时器，以及正常和重复停机。`check-app-presets` 使用仓库启动器预设；应用、示例、Kernel、Utility 开启时，`check-core` 包含这两组检查。独立 `tests/consumer` 项目的 `check-sdk` 在关闭运行时插件时编译公开接口与辅助头路径，并拒绝可见的实现或装配头。这些检查验证正确性，不代表性能或任意回调生命周期验收。
+
+`check-core` 还包含随机数头文件的独立编译，以及极值、异号、逆序和相等端点的确定性随机范围回归。构建命令见[核心回归](../../tests/core/README_CN.md)。
