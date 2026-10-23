@@ -48,7 +48,7 @@ runs that cannot access each other's entries.
 Missing identity, unsupported dependency layout or archive paths keep persistence
 disabled with `VCPKG_BINARY_SOURCES=clear`. Cache-service failures retain ordinary
 source configuration, compilation and regressions. The cache covers archives only,
-not installed trees or project object files. Local Node tests validate the
+not installed trees. Project object caching is configured separately below. Local Node tests validate the
 lookup boundaries, exports and workflow wiring; hosted cache reuse and any timing
 improvement require separate CI evidence.
 
@@ -82,3 +82,52 @@ runs to narrow an ABI difference; equal reported fields do not establish equal
 unreported inputs. This report is neither a cache-hit verdict nor a performance
 measurement. In the investigated Windows pair, all 74 package ABIs differed;
 the particular input causing that difference remains unproven.
+
+
+## CI compiler object cache
+
+Linux and macOS native jobs optionally use `Mozilla-Actions/sccache-action@v0.0.11`
+with sccache `v0.16.0`. Preparation verifies the exact executable version before
+exporting both C and C++ CMake compiler launchers. The compiler remains selected
+by CMake; all platforms, dependency profiles, sanitizer flags, build targets,
+parallelism, regressions and timeouts retain their existing settings. Windows
+Debug jobs compile directly: their existing `/Zi` shared PDB configuration is not
+changed to force compiler-cache hits.
+
+The compiler archive has its own namespace, separate from the vcpkg archive.
+Its compatibility prefix uses the complete existing dependency key, including
+its exact image version, manifest/overlay fingerprint, compiler environment and
+module/sanitizer/dependency profile. The source commit is only an immutable
+snapshot suffix. There is no run ID or source commit in the compatibility prefix
+or `SCCACHE_C_CUSTOM_CACHE_BUSTER`, so another commit with the same identity can
+restore objects. There is no cross-image or cross-profile compiler restore.
+sccache still validates compiler identity, compile arguments and source/header
+inputs for every invocation; an archive restore alone does not establish an
+object hit or bypass compilation validation.
+
+Each job sets `SCCACHE_CACHE_SIZE=512M` under the runner temporary directory.
+The full matrix has nine eligible Linux/macOS jobs, giving nine such local cache
+budgets per source snapshot; Windows adds no compiler cache. Actions stores
+immutable snapshots, which may overlap across commits and refs, so this is not a
+repository-wide storage cap. Compression, metadata, dependency archives and cache
+service retention are separate. Actions branch/ref visibility still applies;
+queue refs cannot read each other's entries merely because their keys match.
+
+Installation, version validation, cache restoration or server startup failures
+leave an empty launcher and normal compilation. Cache service I/O failures use
+`SCCACHE_IGNORE_SERVER_IO_ERROR=1`. Compiler and test failures still fail the job;
+the workflow never retries a compiler failure without the launcher. Only successful
+jobs save new compiler snapshots. A best-effort job summary reports dependency
+archive availability, compiler archive exact hits and sccache statistics. Prefix
+restoration and object hits are different observations.
+
+Run `node --test tests/ci/*.test.mjs` for the cache identity/fallback and workflow
+contracts. The permanent CMake/Ninja fixture compiles C and C++ through a launcher
+path containing spaces and checks that intentional compiler errors propagate
+with and without a launcher. It uses a transparent fixture launcher, not sccache,
+and does not prove hosted cache hits. Hosted acceptance must compare a cold job
+and a subsequent job with the same identity, record the source revisions,
+archive lookup, sccache hits/misses and setup/configure/build/test durations,
+and retain all required regressions. No build-time improvement is claimed before
+that evidence is available. Native CI also needs separate Linux/macOS acceptance;
+Windows remains uncached.
