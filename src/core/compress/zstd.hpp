@@ -20,8 +20,11 @@
 
 #pragma once
 
+#include <map>
+#include <string>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <vector>
 
 #include <zstd.h>
 
@@ -71,8 +74,10 @@ public:
     /// simple compress and decompress
     bool normal_compress(
         IN const char* in_data, IN std::size_t in_size, IN uint8_t compress_level, OUT std::string& compressed_buff) {
-        static char pre_buffer[PRE_ALLOCATED_ZSTD_BUFF_SIZE] = {0};
-        memset(pre_buffer, 0, sizeof(pre_buffer));
+        if (in_size >= PRE_ALLOCATED_ZSTD_BUFF_SIZE)
+        {
+            return false;
+        }
 
         size_t const pre_buff_size = ZSTD_compressBound(in_size); // calc needed size
         if (pre_buff_size >= PRE_ALLOCATED_ZSTD_BUFF_SIZE)
@@ -80,32 +85,41 @@ public:
             return false;
         }
 
-        std::size_t const compressed_size = ZSTD_compress(pre_buffer, pre_buff_size, in_data, in_size, compress_level);
-        ARK_ASSERT_RET_VAL(!ZSTD_isError(compressed_size), false);
+        std::vector<char> pre_buffer(pre_buff_size);
+        std::size_t const compressed_size =
+            ZSTD_compress(pre_buffer.data(), pre_buff_size, in_data, in_size, compress_level);
+        if (ZSTD_isError(compressed_size))
+        {
+            return false;
+        }
 
-        compressed_buff.append(pre_buffer, compressed_size);
+        compressed_buff.append(pre_buffer.data(), compressed_size);
 
         return true;
     }
 
     bool normal_decompress(IN const char* in_data, IN std::size_t in_size, OUT std::string& decompressed_buff) {
-        static char pre_buffer[PRE_ALLOCATED_ZSTD_BUFF_SIZE] = {0};
-        memset(pre_buffer, 0, sizeof(pre_buffer));
-
         unsigned long long const r_size = ZSTD_getFrameContentSize(in_data, in_size);
-        ARK_ASSERT_RET_VAL(r_size != ZSTD_CONTENTSIZE_ERROR, false);
-        ARK_ASSERT_RET_VAL(r_size != ZSTD_CONTENTSIZE_UNKNOWN, false);
+        if (r_size == ZSTD_CONTENTSIZE_ERROR || r_size == ZSTD_CONTENTSIZE_UNKNOWN ||
+            r_size > PRE_ALLOCATED_ZSTD_BUFF_SIZE)
+        {
+            return false;
+        }
 
-        size_t const decompressed_size = ZSTD_decompress(pre_buffer, r_size, in_data, in_size);
-        ARK_ASSERT_RET_VAL(!ZSTD_isError(decompressed_size), false);
+        std::vector<char> pre_buffer(PRE_ALLOCATED_ZSTD_BUFF_SIZE);
+        size_t const decompressed_size =
+            ZSTD_decompress(pre_buffer.data(), static_cast<size_t>(r_size), in_data, in_size);
         // When zstd knows the content size, it will error if it doesn't match.
-        ARK_ASSERT_RET_VAL(decompressed_size == r_size, false);
+        if (ZSTD_isError(decompressed_size) || decompressed_size != r_size)
+        {
+            return false;
+        }
 
-        decompressed_buff.append(pre_buffer, decompressed_size);
+        decompressed_buff.append(pre_buffer.data(), decompressed_size);
         return true;
     }
 
-    /// dict compress and decompress
+    /// Dictionary calls mutate cached contexts. Use one instance per thread or external synchronization.
     /**
      * Create zstd compress dict and decompress dict from dict file
      */
@@ -133,8 +147,10 @@ public:
 
     bool dict_compress(
         IN uint16_t dict_type, IN const char* in_data, IN std::size_t in_size, OUT std::string& compressed_buff) {
-        static char pre_buffer[PRE_ALLOCATED_ZSTD_BUFF_SIZE] = {0};
-        memset(pre_buffer, 0, sizeof(pre_buffer));
+        if (in_size >= PRE_ALLOCATED_ZSTD_BUFF_SIZE)
+        {
+            return false;
+        }
 
         size_t const pre_buff_size = ZSTD_compressBound(in_size);
         if (pre_buff_size >= PRE_ALLOCATED_ZSTD_BUFF_SIZE)
@@ -152,22 +168,26 @@ public:
         auto iter = compress_dicts_.find(dict_type);
         ARK_ASSERT_RET_VAL(iter != compress_dicts_.end(), false);
 
+        std::vector<char> pre_buffer(pre_buff_size);
         std::size_t const compressed_size =
-            ZSTD_compress_usingCDict(compress_ctx_, pre_buffer, pre_buff_size, in_data, in_size, iter->second);
-        ARK_ASSERT_RET_VAL(!ZSTD_isError(compressed_size), false);
+            ZSTD_compress_usingCDict(compress_ctx_, pre_buffer.data(), pre_buff_size, in_data, in_size, iter->second);
+        if (ZSTD_isError(compressed_size))
+        {
+            return false;
+        }
 
-        compressed_buff.append(pre_buffer, compressed_size);
+        compressed_buff.append(pre_buffer.data(), compressed_size);
         return true;
     }
 
     bool dict_decompress(
         IN uint16_t dict_type, IN const char* in_data, IN std::size_t in_size, OUT std::string& decompressed_buff) {
-        static char pre_buffer[PRE_ALLOCATED_ZSTD_BUFF_SIZE] = {0};
-        memset(pre_buffer, 0, sizeof(pre_buffer));
-
         unsigned long long const r_size = ZSTD_getFrameContentSize(in_data, in_size);
-        ARK_ASSERT_RET_VAL(r_size != ZSTD_CONTENTSIZE_ERROR, false);
-        ARK_ASSERT_RET_VAL(r_size != ZSTD_CONTENTSIZE_UNKNOWN, false);
+        if (r_size == ZSTD_CONTENTSIZE_ERROR || r_size == ZSTD_CONTENTSIZE_UNKNOWN ||
+            r_size > PRE_ALLOCATED_ZSTD_BUFF_SIZE)
+        {
+            return false;
+        }
 
         auto iter = decompress_dicts_.find(dict_type);
         ARK_ASSERT_RET_VAL(iter != decompress_dicts_.end(), false);
@@ -175,7 +195,10 @@ public:
 
         unsigned const expected_dict_id = ZSTD_getDictID_fromDDict(iter->second);
         unsigned const actual_dict_id = ZSTD_getDictID_fromFrame(in_data, in_size);
-        ARK_ASSERT_RET_VAL(actual_dict_id == expected_dict_id, false);
+        if (actual_dict_id != expected_dict_id)
+        {
+            return false;
+        }
 
         if (decompress_ctx_ == nullptr)
         {
@@ -184,13 +207,16 @@ public:
 
         ARK_ASSERT_RET_VAL(decompress_ctx_ != nullptr, false);
 
-        std::size_t decompressed_size =
-            ZSTD_decompress_usingDDict(decompress_ctx_, pre_buffer, r_size, in_data, in_size, iter->second);
-        ARK_ASSERT_RET_VAL(!ZSTD_isError(decompressed_size), false);
+        std::vector<char> pre_buffer(PRE_ALLOCATED_ZSTD_BUFF_SIZE);
+        std::size_t decompressed_size = ZSTD_decompress_usingDDict(
+            decompress_ctx_, pre_buffer.data(), static_cast<size_t>(r_size), in_data, in_size, iter->second);
         // When zstd knows the content size, it will error if it doesn't match.
-        ARK_ASSERT_RET_VAL(decompressed_size == r_size, false);
+        if (ZSTD_isError(decompressed_size) || decompressed_size != r_size)
+        {
+            return false;
+        }
 
-        decompressed_buff.append(pre_buffer, decompressed_size);
+        decompressed_buff.append(pre_buffer.data(), decompressed_size);
         return true;
     }
 
