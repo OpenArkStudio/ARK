@@ -36,6 +36,19 @@ arknet 使用 [0.2.3](https://github.com/OpenArkStudio/arknet/releases/tag/v0.2.
 
 本地开发可以通过 `ARKNET_SOURCE_DIR` 提供源码。已有构建目录会保留缓存中的 `ARKNET_REVISION`，升级时请按[安装说明](get-started/installation_CN.md#升级-arknet)显式更新缓存，或使用新的构建目录。既有性能与数据库报告仍对应各自列出的测试版本。
 
+## Windows Debug 压缩依赖
+
+LZ4 finder 支持 `lz4` 和 `lz4d` 名称，先检查每个已配置目录中的候选名称，再移到下一个目录。
+这保留工具链的配置优先级：Debug 的 `debug/lib/lz4d.lib` 优先于后续 Release 目录中的
+`lib/lz4.lib`；Release 仍优先查找自己的目录。Zstandard 查找方式和编译器设置保持不变。
+
+Windows 压缩回归如果在 doctest 启动前以 `0xc0000135` 退出，应检查 `CMakeCache.txt` 中的
+`LZ4_LIBRARY`，以及所选导入库依赖的 DLL。Debug 如果选中 Release LZ4 导入库，可能需要
+配置的 `debug/bin` 运行目录之外的 DLL。更新 finder 后，使用
+`cmake -U LZ4_LIBRARY -S . -B <build-dir>` 清除缓存选择，并重复原配置参数，或使用新的构建目录。
+CI 运行时辅助脚本仍只导出匹配配置的目录，不向 Debug 运行路径混入 Release DLL。
+finder fixture 只验证查找选择，不编译模拟库；Windows 实际运行仍需单独验收。
+
 ## 可选的旧版集成
 
 physic 插件与 physics_scene 依赖 PhysX 3，当前构建没有已验证的 SDK 集成。
