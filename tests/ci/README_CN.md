@@ -66,6 +66,12 @@ README 徽章展示合并候选的工作流状态。
 required gate 仍拒绝失败、取消或缺失的结果。手动取消仍可能使 `always()` 汇总无法完成。
 详见 [GitHub 并发规则](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#concurrency)。
 
+根目录的精确路径 `AGENTS.md` 也归为文档。范围已知且非空、文档站可用时，
+仅修改该文件和其他已识别文档的 PR 与合并候选均要求 Nimbus 检查和最终必需门禁，
+并明确跳过原生任务。这不会扩展根 README 链接检查，也不会豁免嵌套的 `AGENTS.md`、
+名称相近的代码、混合源码变更或不确定范围。手动运行仍保留完整原生矩阵。
+本次 CI 策略变更自身仍须完成原生验收。
+
 `src/` 下仅将两个精确的插件索引路径 `src/plugins/README.md` 与 `src/plugins/README_CN.md` 归为文档。
 文档站可用时，只修改这两个索引的 PR 与纯文档合并候选会选择 Nimbus 检查。
 这不会将根 README 链接检查扩展到插件索引；Nimbus 验证生成的文档站，不直接检查索引文件。

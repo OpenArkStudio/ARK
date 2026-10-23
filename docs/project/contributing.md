@@ -15,6 +15,19 @@ npm run check --prefix docs/site
 The site provides language switching, search, code highlighting and plain Markdown endpoints for AI readers. Pull requests run the documentation checks without publishing. After a change is merged into `main`, the documentation workflow builds and publishes GitHub Pages; maintainers can also trigger it manually. Node.js 22.12+ is needed for the documentation build; it is not needed to compile ark or its C++ tests.
 
 
+## CI documentation scope
+
+The exact root `AGENTS.md` file is documentation. When the changed range is known,
+nonempty and confined to recognized documentation, and the Nimbus site is available,
+both source PRs and merge-group candidates require the documentation checks and
+`CI - required`, while native jobs are explicitly skipped. Nimbus checks the site;
+root README link checks run only when a root README changes.
+
+Nested unknown `AGENTS.md` paths, similarly named code, mixed source changes,
+unavailable ranges or an unavailable site retain native checks. Manual runs keep
+the full native matrix. Changes to the CI policy itself still require native
+acceptance; this documentation exception does not change that requirement.
+
 ## CI dependency archive cache
 
 CI restores vcpkg package archives from the runner temporary directory with

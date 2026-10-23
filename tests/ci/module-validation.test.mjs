@@ -30,7 +30,8 @@ test('actual workflow output bindings provide complete plans to the required gat
   const outputs = [...jobBlock('scope').matchAll(/^      (\w+): \$\{\{ steps\.scope\.outputs\.(\w+) \}\}$/gm)];
   assert.ok(outputs.length > 0);
   for (const scope of [plan(['tests/network/rudp.cpp']), plan(['include/ark/core/module.hpp']),
-    plan(['README.md']), plan(['tests/database/redis_service.cpp'], 'merge_group'),
+    plan(['README.md']), plan(['AGENTS.md']), plan(['AGENTS.md'], 'merge_group'),
+    plan(['tests/database/redis_service.cpp'], 'merge_group'),
     plan(['README.md'], 'merge_group'), plan([], 'workflow_dispatch'), plan([], 'pull_request')]) {
     const needs = results(scope);
     needs.scope.outputs = Object.fromEntries(outputs.map(([, name, source]) => [name, String(scope[source])]));
@@ -113,7 +114,7 @@ test('public core headers, build/dependency/CI inputs and unknown paths retain e
     '3rdparty/spdlog', 'ports/asio/portfile.cmake', '.github/workflows/ci.yml',
     'config/timers.app.toml', 'resources/excel/item.xlsx', 'resources/photon/proto/protocol.proto',
     'tools/gen-config.sh', 'deployment/scripts/run.sh',
-    '.github/scripts/ci-policy.mjs', 'tests/ci/module-validation.test.mjs', 'AGENTS.md', '.clang-format',
+    '.github/scripts/ci-policy.mjs', 'tests/ci/module-validation.test.mjs', 'src/AGENTS.md', '.clang-format',
     'application/unknown.bin', 'application/build.cmake', 'applications/main.cpp', 'src/app/main.cpp',
     'src/plugins/new_plugin/new_module.cpp', 'src/plugins/net/unknown.bin', 'scripts/new-check.sh',
     'docs/example.cpp', 'docs/site/package-lock.json', 'docs/unknown.bin', 'LICENSE']) {

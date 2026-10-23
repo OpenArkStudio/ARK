@@ -64,6 +64,99 @@ test('only recognized documentation paths qualify for the lightweight plan', () 
   assert.equal(decision(['README.md', 'docs/guide.md']).docs_check, true);
 });
 
+test('root AGENTS.md requires documentation and the final gate without native work at both scoped stages', () => {
+  assert.equal(isDocumentationPath('AGENTS.md'), true);
+  for (const eventName of ['pull_request', 'merge_group']) {
+    for (const files of [['AGENTS.md'], ['AGENTS.md', 'docs/guide.md']]) {
+      const scope = decision(files, { eventName });
+      assert.equal(scope.validation_stage, 'documentation');
+      assert.equal(scope.reason, 'documentation-only');
+      assert.equal(scope.docs_check, true);
+      assert.equal(scope.readme_check, false);
+      for (const key of ['native_check', 'format_check', 'network_check', 'applications_check', 'database_check']) {
+        assert.equal(scope[key], false, `${eventName}/${key}`);
+      }
+      validateGate(results(scope));
+      for (const outcome of ['skipped', 'failure', 'cancelled', undefined]) {
+        const invalid = results(scope);
+        invalid.validation.outputs.documentation_outcome = outcome;
+        assert.throws(() => validateGate(invalid), `${eventName}/${outcome}`);
+      }
+      for (const result of ['skipped', 'failure', 'cancelled', undefined]) {
+        const invalid = results(scope);
+        invalid.validation.result = result;
+        assert.throws(() => validateGate(invalid), `${eventName}/validation/${result}`);
+      }
+    }
+    assert.equal(decision(['AGENTS.md', 'README.md'], { eventName }).readme_check, true);
+  }
+});
+
+test('an exact root AGENTS.md Git change selects documentation through the real PR and merge-group classifier', t => {
+  const repo = repository(t);
+  const base = addSite(repo);
+  repo.write('AGENTS.md', '# Contributor and agent instructions\n');
+  const head = repo.commit();
+  assert.deepEqual(changedPaths({ root: repo.root, base, head }), ['AGENTS.md']);
+  for (const eventName of ['pull_request', 'merge_group']) {
+    const payload = eventName === 'pull_request' ? { pull_request: { base: { sha: base }, head: { sha: head } } } :
+      { merge_group: { base_sha: base, head_sha: head } };
+    const { plan: scope, output } = classifyEvent(repo, eventName, payload);
+    assert.equal(scope.validation_stage, 'documentation');
+    assert.equal(scope.docs_check, true);
+    assert.equal(scope.readme_check, false);
+    for (const key of ['native_check', 'format_check', 'network_check', 'applications_check', 'database_check']) {
+      assert.equal(scope[key], false, `${eventName}/${key}`);
+      assert.match(output, new RegExp(`^${key}=false$`, 'm'));
+    }
+    validateGate(results(scope));
+  }
+});
+
+test('AGENTS neighbors and nested unknown paths cannot inherit the root documentation exception', () => {
+  const paths = ['agents.md', 'AGENTS.MD', 'AGENTS_CN.md', 'AGENTS.md.bak', 'AGENTS.md.js',
+    'AGENTS.cpp', 'AGENTS.md.hpp', 'nested/AGENTS.md', 'src/AGENTS.md', 'tests/AGENTS.md',
+    'src/plugins/net/AGENTS.md', '.github/AGENTS.md', 'docs/AGENTS.cpp', './AGENTS.md',
+    'nested/../AGENTS.md', 'nested//AGENTS.md', 'nested\\AGENTS.md'];
+  for (const file of paths) {
+    assert.equal(isDocumentationPath(file), false, file);
+    for (const eventName of ['pull_request', 'merge_group']) {
+      const scope = decision(['AGENTS.md', file], { eventName });
+      assert.equal(scope.native_check, true, `${eventName}/${file}`);
+      assert.equal(scope.format_check, true);
+      assert.equal(scope.docs_check, true);
+      for (const job of ['network', 'applications', 'database']) assert.equal(scope[`${job}_check`], true);
+      validateGate(results(scope));
+    }
+  }
+});
+
+test('AGENTS mixed with code keeps source module selection and every merge-candidate native module', () => {
+  for (const eventName of ['pull_request', 'merge_group']) {
+    const scope = decision(['AGENTS.md', 'tests/core/containers.cpp'], { eventName });
+    assert.equal(scope.native_check, true);
+    assert.equal(scope.docs_check, true);
+    assert.equal(scope.format_check, true);
+    assert.equal(scope.validation_stage, eventName === 'pull_request' ? 'modules' : 'full');
+    for (const job of ['network', 'applications', 'database']) {
+      assert.equal(scope[`${job}_check`], eventName !== 'pull_request' || job === 'applications');
+    }
+    validateGate(results(scope));
+  }
+});
+
+test('AGENTS never exempts manual events, unavailable sites or uncertain changed paths from native checks', () => {
+  for (const extra of [{ eventName: 'workflow_dispatch' }, { enumerationFailed: true },
+    { site: { present: true, available: false } }, { site: { present: false, available: false } }]) {
+    const scope = decision(['AGENTS.md'], extra);
+    assert.equal(scope.native_check, true);
+    assert.equal(scope.validation_stage, 'full');
+    for (const job of ['network', 'applications', 'database']) assert.equal(scope[`${job}_check`], true);
+    if (extra.site?.present) assert.equal(scope.docs_check, true);
+    validateGate(results(scope));
+  }
+});
+
 test('only the two exact plugin indexes select documentation and keep root README checks separate', () => {
   const indexes = ['src/plugins/README.md', 'src/plugins/README_CN.md'];
   for (const eventName of ['pull_request', 'merge_group']) {
