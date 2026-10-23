@@ -47,6 +47,20 @@ C++20 语言回归验证六种精确整数类型分类、限定符与引用处�
 cmake --build core-build --target check-logging
 ```
 
+## 压缩辅助函数
+
+`ARK_BUILD_COMPRESSION_TESTS=ON` 将 `check-compression` 加入 `check-core`，也支持单独
+运行此目标。通过 vcpkg 的 `compression-tests` feature 安装 zlib、Zstandard 和 LZ4。
+该选项默认为 `OFF`，保留仅构建核心时的既有依赖要求；Applications CI 会显式开启。
+检查会独立编译每个映射后的 `<ark/compress/...>` 头，覆盖二进制和空输入、追加语义、
+严格的压缩大小边界、恰好 1 MiB 的解压、超限或未知大小帧、损坏帧、整数长度拒绝和
+并发往返。字典工作线程使用独立实例。调用方输出字符串和字典上下文的同步要求见
+[Utility 压缩说明](../../docs/reference/utility_CN.md#压缩缓冲区与并发)。
+
+```sh
+cmake --build core-build --target check-compression --parallel 2
+```
+
 ## 公共任务接口
 
 `check-core` 包含 `check-task-sdk`：独立编译仅包含 `<ark/task.hpp>` 的文件，

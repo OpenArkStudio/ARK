@@ -175,7 +175,7 @@ jobs:
         id: vcpkg-cache
         env:
           VCPKG_CACHE_REVISION: 0699a19d0c6386247ce50d4dedbb8217d484d536
-          VCPKG_CACHE_FEATURES: 'application;boost;etcd-client'
+          VCPKG_CACHE_FEATURES: 'application;boost;compression-tests;etcd-client'
           VCPKG_CACHE_DEFAULT_FEATURES: 'true'
           VCPKG_CACHE_PROFILE: applications
         run: node .github/scripts/vcpkg-cache.mjs
@@ -198,7 +198,7 @@ jobs:
         run: >-
           cmake -S . -B ci-build -G Ninja
           "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
-          "-DVCPKG_MANIFEST_FEATURES=application;boost;etcd-client"
+          "-DVCPKG_MANIFEST_FEATURES=application;boost;compression-tests;etcd-client"
           -DCMAKE_BUILD_TYPE=Debug
           ${{ runner.os == 'Windows' && '-DVCPKG_APPLOCAL_DEPS=OFF' || '' }}
           -DARK_BUILD_APPLICATIONS=ON
@@ -207,6 +207,7 @@ jobs:
           -DARK_BUILD_PROTO=ON
           -DARK_BUILD_TESTS=ON
           -DARK_BUILD_CORE_TESTS=ON
+          -DARK_BUILD_COMPRESSION_TESTS=ON
           -DARK_BUILD_EXAMPLES=ON
           -DASIO_STANDALONE=OFF
       - name: Save vcpkg package archives

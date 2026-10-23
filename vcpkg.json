@@ -11,6 +11,14 @@
     "readerwriterqueue"
   ],
   "features": {
+    "compression-tests": {
+      "description": "Build focused compression regression tests",
+      "dependencies": [
+        "lz4",
+        "zlib",
+        "zstd"
+      ]
+    },
     "database": {
       "description": "Build native database development tests with OpenSSL authentication and TLS",
       "dependencies": [

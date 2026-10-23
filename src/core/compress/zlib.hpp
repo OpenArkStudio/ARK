@@ -20,6 +20,10 @@
 
 #pragma once
 
+#include <limits>
+#include <string>
+#include <vector>
+
 #include <zlib.h>
 
 #include "ark/macros.hpp"
@@ -37,37 +41,45 @@ class zlib_compress final
 public:
     static bool compress(
         IN const char* in_data, IN std::size_t in_size, IN uint8_t compress_level, OUT std::string& compress_buff) {
-        static unsigned char pre_buffer[PRE_ALLOCATED_ZLIB_BUFF_SIZE] = {0};
-        memset(pre_buffer, 0, sizeof(pre_buffer));
+        if (in_size >= PRE_ALLOCATED_ZLIB_BUFF_SIZE || in_size > (std::numeric_limits<uLong>::max)())
+        {
+            return false;
+        }
 
-        unsigned long pre_buff_size = compressBound(in_size); // calc needed size
+        uLongf pre_buff_size = compressBound(static_cast<uLong>(in_size)); // calc needed size
         if (pre_buff_size >= PRE_ALLOCATED_ZLIB_BUFF_SIZE)
         {
             return false;
         }
 
-        int ret = compress2(pre_buffer, &pre_buff_size, (unsigned char*)in_data, in_size, compress_level);
+        std::vector<unsigned char> pre_buffer(pre_buff_size);
+        int ret = compress2(pre_buffer.data(), &pre_buff_size, reinterpret_cast<const Bytef*>(in_data),
+            static_cast<uLong>(in_size), compress_level);
         if (ret != Z_OK)
         {
             return false;
         }
 
-        compress_buff.append((char*)pre_buffer, pre_buff_size);
+        compress_buff.append(reinterpret_cast<const char*>(pre_buffer.data()), pre_buff_size);
         return true;
     }
 
     static bool decompress(IN const char* in_data, IN std::size_t in_size, OUT std::string& decompress_buff) {
-        static unsigned char pre_buffer[PRE_ALLOCATED_ZLIB_BUFF_SIZE] = {0};
-        memset(pre_buffer, 0, sizeof(pre_buffer));
+        if (in_size > (std::numeric_limits<uLong>::max)())
+        {
+            return false;
+        }
 
-        unsigned long pre_buff_size = PRE_ALLOCATED_ZLIB_BUFF_SIZE;
-        int ret = uncompress2(pre_buffer, &pre_buff_size, (unsigned char*)in_data, (uLong*)&in_size);
+        std::vector<unsigned char> pre_buffer(PRE_ALLOCATED_ZLIB_BUFF_SIZE);
+        uLongf pre_buff_size = static_cast<uLongf>(pre_buffer.size());
+        uLong source_size = static_cast<uLong>(in_size);
+        int ret = uncompress2(pre_buffer.data(), &pre_buff_size, reinterpret_cast<const Bytef*>(in_data), &source_size);
         if (ret != Z_OK)
         {
             return false;
         }
 
-        decompress_buff.append((char*)pre_buffer, pre_buff_size);
+        decompress_buff.append(reinterpret_cast<const char*>(pre_buffer.data()), pre_buff_size);
         return true;
     }
 };

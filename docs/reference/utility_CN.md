@@ -26,6 +26,26 @@ const auto entity = guids->create_guid();
 
 插件按 GUID、timer、schedule、compress 顺序安装模块，卸载顺序相反。timer 的 `pre_shut()` 仍关闭时间轮。GUID 布局、压缩级别与算法、scheduler 行为不变。动态库主体名称仍为 `ark_utility_plugin`，保留平台扩展名和 Debug `_d` 后缀。
 
+## 压缩缓冲区与并发
+
+核心辅助头 `<ark/compress/zlib.hpp>`、`<ark/compress/zstd.hpp>` 和
+`<ark/compress/lz4.hpp>` 为每次调用分配独立的堆缓冲区。成功时向输出字符串追加结果；
+拒绝输入时保留输出字符串。调用方须提供可读的输入范围，并同步对共享输出字符串的访问。
+压缩保留既有限制：算法计算的最坏输出大小必须严格小于 1 MiB。解压输出最大为
+1 MiB，包含恰好 1 MiB 的情况。Zstandard 要求帧声明已知内容大小；大小超限、未知或
+无效的帧在解码前被拒绝。无效压缩数据返回 `false`。LZ4 对空块解压仍返回 `false`。
+
+zlib、LZ4 和 Zstandard 普通调用不再共享可写输出缓冲区。Zstandard 字典调用仍会修改
+实例缓存的上下文；每个线程须使用独立的 `zstd_compress` 实例，或由调用方串行执行
+字典初始化、字典调用和析构。字典初始化、所有权和复制行为保留既有约定。
+本次修改不建立同一实例的字典并发保证，也不建立插件卸载安全保证。
+
+启用 `ARK_BUILD_COMPRESSION_TESTS=ON` 和 vcpkg 的 `compression-tests` feature 后，
+执行 `cmake --build <build-dir> --target check-compression`。启用时，`check-core` 也包含
+此目标；Applications CI 会显式开启。检查覆盖映射后的公开头、容量边界、损坏帧、追加
+语义，以及使用独立字典实例的并行往返。LZ4 仍通过核心辅助头直接使用；Utility 模块
+继续只选择 zlib 或 Zstandard。
+
 ## 源码与构建树 SDK 迁移
 
 公开头文件的唯一源码现在位于 `src/plugins/utility/`。CMake 将显式列出的七个公开头复制到构建树的 `src/plugins/sdk-include/ark/utility/`：四个模块接口，以及 `scheduler.hpp`、`ctpl.h`、`ctpl_stl.h`。通过 `ark::utility` 消费，保留现有 `<ark/utility/...>` 公开接口与辅助头路径，关闭运行时插件时同样有效。不要把私有插件目录加入使用方的包含路径。上游线程池头文件保留原字节和格式规则。安装后的消费方式见 [CMake 包安装说明](../get-started/installation_CN.md#安装并消费-cmake-包)：使用 `find_package(ark CONFIG REQUIRED COMPONENTS utility)` 和相同的 `ark::utility` 目标。安装头保留 `<ark/utility/...>` 路径；运行时插件仍需在应用清单中选择。
